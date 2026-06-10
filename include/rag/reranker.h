@@ -47,6 +47,15 @@ struct CrossEncoderConfig {
     /// Enable GPU inference when an ONNX model is loaded.
     bool use_gpu = false;
 
+    /// Require model checksum verification before accepting loadModel().
+    /// When enabled, loadModel() expects either expected_model_checksum or
+    /// "<model_path>.sha256" to be present and matching.
+    bool require_model_checksum = false;
+
+    /// Optional expected checksum for the model file (hex FNV-1a 64-bit).
+    /// If set, it takes precedence over a ".sha256" sidecar file.
+    std::string expected_model_checksum;
+
     /// Cache re-ranking scores for (query, document-id) pairs to avoid
     /// re-scoring identical inputs within the same reranker instance.
     bool enable_score_cache = true;
@@ -170,6 +179,11 @@ public:
 
     /**
      * @brief Load (or replace) the ONNX cross-encoder model
+     *
+     * Performs path and file safety validation (exists, regular file, extension,
+     * bounded size, writable-permission checks) and optional checksum
+     * verification before the model is accepted.
+     *
      * @param model_path Path to the ONNX model file
      * @return           true if loading succeeded
      */

@@ -25,8 +25,10 @@
 #include "utils/logger.h"
 
 #include <chrono>
+#include <cstdio>
 #include <cstring>
 #include <limits>
+#include <string_view>
 #ifdef _WIN32
 #  include <winsock2.h>   // ntohl / ntohs / htonl / htons
 #else
@@ -34,6 +36,29 @@
 #endif
 
 namespace themis::network {
+
+namespace {
+
+uint64_t fnv1a64(std::string_view value) {
+    uint64_t hash = 1469598103934665603ULL;
+    for (unsigned char ch : value) {
+        hash ^= static_cast<uint64_t>(ch);
+        hash *= 1099511628211ULL;
+    }
+    return hash;
+}
+
+std::string anonymizeIpForLog(std::string_view ip) {
+    if (ip.empty()) {
+        return "peer#unknown";
+    }
+    char buffer[32];
+    std::snprintf(buffer, sizeof(buffer), "peer#%016llx",
+                  static_cast<unsigned long long>(fnv1a64(ip)));
+    return std::string(buffer);
+}
+
+}  // namespace
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Construction / Destruction
@@ -61,7 +86,10 @@ void UDPServer::start() {
     }
 
     udp::endpoint endpoint(net::ip::make_address(config_.host), config_.port);
-    socket_ = std::make_unique<udp::socket>(*io_ctx_, endpoint);
+    {
+        std::lock_guard<std::mutex> lock(socket_mutex_);
+        socket_ = std::make_unique<udp::socket>(*io_ctx_, endpoint);
+    }
     running_.store(true, std::memory_order_release);
 
     THEMIS_INFO("[UDPServer] listening on {}:{}", config_.host, config_.port);
@@ -100,18 +128,26 @@ void UDPServer::stop() {
     }
 
     // Shut down I/O
-    if (socket_) {
-        boost::system::error_code ec;
-        socket_->close(ec);
+    {
+        std::lock_guard<std::mutex> lock(socket_mutex_);
+        if (socket_) {
+            boost::system::error_code ec;
+            socket_->cancel(ec);
+            socket_->close(ec);
+        }
     }
-    io_ctx_->stop();
+    if (io_ctx_) {
+        io_ctx_->stop();
+    }
 
     for (auto& t : io_threads_) {
         if (t.joinable()) t.join();
     }
     io_threads_.clear();
 
-    io_ctx_->restart();
+    if (io_ctx_) {
+        io_ctx_->restart();
+    }
     THEMIS_INFO("[UDPServer] stopped");
 }
 
@@ -120,7 +156,16 @@ void UDPServer::stop() {
 // ─────────────────────────────────────────────────────────────────────────────
 
 void UDPServer::doReceive() {
-    socket_->async_receive_from(
+    udp::socket* socket = nullptr;
+    {
+        std::lock_guard<std::mutex> lock(socket_mutex_);
+        socket = socket_.get();
+    }
+    if (!socket) {
+        return;
+    }
+
+    socket->async_receive_from(
         net::buffer(recv_buf_),
         sender_endpoint_,
         [this](const boost::system::error_code& ec, std::size_t bytes) {
@@ -165,7 +210,7 @@ void UDPServer::handleDatagram(udp::endpoint sender, std::vector<uint8_t> data) 
             ++stats_.packets_dropped;
             ++stats_.rate_limit_drops;
         }
-        THEMIS_WARN("[UDPServer] rate-limited source {}", ip);
+        THEMIS_WARN("[UDPServer] rate-limited source {}", anonymizeIpForLog(ip));
 
         // Send RATE_LIMITED ACK if we can read a seq_num
         if (data.size() >= kUdpServerHeaderSize) {
@@ -183,7 +228,7 @@ void UDPServer::handleDatagram(udp::endpoint sender, std::vector<uint8_t> data) 
             ++stats_.packets_dropped;
             ++stats_.parse_errors;
         }
-        THEMIS_WARN("[UDPServer] malformed packet from {}", ip);
+        THEMIS_WARN("[UDPServer] malformed packet from {}", anonymizeIpForLog(ip));
         return;
     }
 
@@ -207,7 +252,8 @@ void UDPServer::handleDatagram(udp::endpoint sender, std::vector<uint8_t> data) 
             ++stats_.packets_dropped;
             ++stats_.duplicate_drops;
         }
-        THEMIS_DEBUG("[UDPServer] duplicate seq={} from {}", seq_num, ip);
+        THEMIS_DEBUG("[UDPServer] duplicate seq={} from {}",
+                     seq_num, anonymizeIpForLog(ip));
 
         // Inform the client (if ACK was requested) that this is a duplicate
         if ((flags & kUdpServerFlagAckRequested) || config_.enable_acks) {
@@ -310,13 +356,19 @@ void UDPServer::sendAck(const udp::endpoint& dest,
                          UdpServerStatus      status) {
     auto ack = buildAck(seq_num, status);
     boost::system::error_code ec;
-    socket_->send_to(net::buffer(ack), dest, 0, ec);
+    {
+        std::lock_guard<std::mutex> lock(socket_mutex_);
+        if (!socket_ || !socket_->is_open()) {
+            return;
+        }
+        socket_->send_to(net::buffer(ack), dest, 0, ec);
+    }
     if (!ec) {
         std::lock_guard<std::mutex> lk(stats_mutex_);
         ++stats_.acks_sent;
     } else {
         THEMIS_ERROR("[UDPServer] ACK send error to {}: {}",
-                     dest.address().to_string(), ec.message());
+                     anonymizeIpForLog(dest.address().to_string()), ec.message());
     }
 }
 

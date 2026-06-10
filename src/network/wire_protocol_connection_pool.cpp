@@ -21,14 +21,38 @@
 // ThemisDB Wire Protocol Connection Pool Implementation
 
 #include "network/wire_protocol_connection_pool.h"
+#include "utils/logger.h"
 #include <iostream>
 #include <sstream>
 #include <algorithm>
 #include <cmath>
+#include <string_view>
 #include <openssl/x509v3.h>
 #include <openssl/ssl.h>
 
 namespace themis::network {
+
+namespace {
+
+uint64_t fnv1a64(std::string_view value) {
+    uint64_t hash = 1469598103934665603ULL;
+    for (unsigned char ch : value) {
+        hash ^= static_cast<uint64_t>(ch);
+        hash *= 1099511628211ULL;
+    }
+    return hash;
+}
+
+std::string anonymizeTargetForLog(std::string_view target) {
+    if (target.empty()) {
+        return "target#unknown";
+    }
+    std::ostringstream oss;
+    oss << "target#" << std::hex << fnv1a64(target);
+    return oss.str();
+}
+
+} // namespace
 
 // =============================================================================
 // AdaptivePoolingStrategy Implementation
@@ -260,17 +284,23 @@ std::shared_ptr<SocketWrapper> WireProtocolConnectionPool::createConnection(cons
         timer.expires_after(config_.connect_timeout);
         
         bool timed_out = false;
+        bool connect_completed = false;
         timer.async_wait([&](const boost::system::error_code& error) {
-            if (!error) {
+            if (!error && !connect_completed) {
                 timed_out = true;
-                plain_socket->close(ec);
+                boost::system::error_code close_ec;
+                plain_socket->cancel(close_ec);
+                plain_socket->close(close_ec);
             }
         });
         
         // Attempt async connect
         net::async_connect(*plain_socket, endpoints,
-            [&ec](const boost::system::error_code& error, const tcp::endpoint&) {
+            [&](const boost::system::error_code& error, const tcp::endpoint&) {
+                connect_completed = true;
                 ec = error;
+                boost::system::error_code timer_ec;
+                timer.cancel(timer_ec);
             });
         
         // Run until connect completes or timeout
@@ -315,18 +345,23 @@ std::shared_ptr<SocketWrapper> WireProtocolConnectionPool::createConnection(cons
             timer.expires_after(config_.connect_timeout);
             
             timed_out = false;
+            bool handshake_completed = false;
             timer.async_wait([&](const boost::system::error_code& error) {
-                if (!error) {
+                if (!error && !handshake_completed) {
                     timed_out = true;
                     boost::system::error_code shutdown_ec;
+                    ssl_stream->lowest_layer().cancel(shutdown_ec);
                     ssl_stream->lowest_layer().close(shutdown_ec);
                 }
             });
             
             ec.clear();
             ssl_stream->async_handshake(ssl::stream_base::client,
-                [&ec](const boost::system::error_code& error) {
+                [&](const boost::system::error_code& error) {
+                    handshake_completed = true;
                     ec = error;
+                    boost::system::error_code timer_ec;
+                    timer.cancel(timer_ec);
                 });
             
             local_io.run();
@@ -426,9 +461,17 @@ WireProtocolConnectionPool::acquireConnection(const std::string& target) {
                 return ConnectionHandle(socket, this, target);
                 
             } catch ([[maybe_unused]] const std::exception& e) {
+                const auto now = std::chrono::steady_clock::now();
+                if (now >= deadline) {
+                    acquire_timeouts_.fetch_add(1, std::memory_order_relaxed);
+                    throw std::runtime_error("Timeout acquiring connection for " + target);
+                }
+                const auto remaining = deadline - now;
+                const auto backoff = std::min(
+                    std::chrono::duration_cast<std::chrono::milliseconds>(remaining),
+                    std::chrono::milliseconds(100));
+                std::this_thread::sleep_for(backoff);
                 lock.lock();
-                // Add backoff before retry to avoid tight loop under outage
-                std::this_thread::sleep_for(std::chrono::milliseconds(100));
             }
         }
         
@@ -512,8 +555,8 @@ void WireProtocolConnectionPool::warmup(const std::string& target) {
             
         } catch (const std::exception& e) {
             // Log error but continue warmup
-            std::cerr << "[WireProtocolConnectionPool] Warmup failed for " << target 
-                      << ": " << e.what() << std::endl;
+            THEMIS_WARN("[WireProtocolConnectionPool] Warmup failed for {}: {}",
+                        anonymizeTargetForLog(target), e.what());
         }
     }
 }
@@ -626,8 +669,8 @@ void WireProtocolConnectionPool::adaptPoolSize() {
                 pool->cv.notify_one();
             } catch (const std::exception& e) {
                 // Log but continue — scale-up failure is non-fatal
-                std::cerr << "[AdaptivePool] scale-up failed for " << target
-                          << ": " << e.what() << "\n";
+                THEMIS_WARN("[AdaptivePool] scale-up failed for {}: {}",
+                            anonymizeTargetForLog(target), e.what());
             }
         }
 

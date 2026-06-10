@@ -82,6 +82,25 @@ constexpr std::size_t kMaxBpmnHistoryEvents = 10000;
 constexpr uint32_t kMaxWireFrameSizeMb =
     static_cast<uint32_t>(std::numeric_limits<uint32_t>::max() / (1024u * 1024u));
 
+uint64_t fnv1a64(std::string_view value) {
+    uint64_t hash = 1469598103934665603ULL;
+    for (unsigned char ch : value) {
+        hash ^= static_cast<uint64_t>(ch);
+        hash *= 1099511628211ULL;
+    }
+    return hash;
+}
+
+std::string anonymizePeerForLog(std::string_view value) {
+    if (value.empty()) {
+        return "peer#unknown";
+    }
+    char buffer[32];
+    std::snprintf(buffer, sizeof(buffer), "peer#%016llx",
+                  static_cast<unsigned long long>(fnv1a64(value)));
+    return std::string(buffer);
+}
+
 bool hasControlCharacters(std::string_view value) {
     return std::any_of(value.begin(), value.end(), [](unsigned char ch) {
         return ch < 0x20 || ch == 0x7F;
@@ -335,26 +354,30 @@ void WireProtocolServer::start() {
 
     if (config_.require_auth && config_.auth_token.empty()) {
         std::cerr << "[WireProtocol] Invalid configuration: require_auth is enabled but "
-                     "auth_token is empty. Server will not start." << std::endl;
+                     "the configured authentication secret is empty. Server will not start."
+                  << std::endl;
         return;
     }
 
     if (config_.require_auth && isBlankString(config_.auth_token)) {
         std::cerr << "[WireProtocol] Invalid configuration: require_auth is enabled but "
-                     "auth_token is whitespace-only. Server will not start." << std::endl;
+                     "the configured authentication secret is whitespace-only. "
+                     "Server will not start." << std::endl;
         return;
     }
 
     if (config_.require_auth && hasControlCharacters(config_.auth_token)) {
         std::cerr << "[WireProtocol] Invalid configuration: require_auth is enabled but "
-                     "auth_token contains control characters. Server will not start." << std::endl;
+                     "the configured authentication secret contains control characters. "
+                     "Server will not start." << std::endl;
         return;
     }
 
     if (config_.require_auth &&
         json{{"token", config_.auth_token}}.dump().size() > kMaxAuthPayloadBytes) {
-        std::cerr << "[WireProtocol] Invalid configuration: auth_token length exceeds AUTH "
-                     "payload limit after JSON serialization. Server will not start." << std::endl;
+        std::cerr << "[WireProtocol] Invalid configuration: configured authentication secret "
+                     "length exceeds AUTH payload limit after JSON serialization. "
+                     "Server will not start." << std::endl;
         return;
     }
 
@@ -470,10 +493,15 @@ void WireProtocolServer::start() {
 }
 
 void WireProtocolServer::stop() {
-    running_.store(false, std::memory_order_release);
-    
+    const bool was_running = running_.exchange(false, std::memory_order_acq_rel);
+    if (!was_running && io_threads_.empty()) {
+        return;
+    }
+
     if (acceptor_ && acceptor_->is_open()) {
-        acceptor_->close();
+        boost::system::error_code ec;
+        acceptor_->cancel(ec);
+        acceptor_->close(ec);
     }
 
     if (io_context_) {
@@ -483,6 +511,7 @@ void WireProtocolServer::stop() {
     for (auto& t : io_threads_) {
         if (t.joinable()) t.join();
     }
+    io_threads_.clear();
 
     if (worker_pool_) {
         worker_pool_->wait();
@@ -611,6 +640,9 @@ void WireProtocolServer::unregisterConnection(const std::string& remote_ip) {
         auto it = connections_per_ip_.find(remote_ip);
         if (it != connections_per_ip_.end() && it->second > 0) {
             it->second--;
+            if (it->second == 0) {
+                connections_per_ip_.erase(it);
+            }
             was_registered = true;
         }
     }
@@ -670,7 +702,7 @@ void WireProtocolServer::handleAccept(std::shared_ptr<Session> session, const bo
                 std::cerr << "[WireProtocol] Backpressure: connection limit reached ("
                           << active_connection_count_.load(std::memory_order_relaxed)
                           << "/" << config_.max_connections
-                          << "). New connections from " << remote_ip
+                          << "). New connections from " << anonymizePeerForLog(remote_ip)
                           << " are being rejected until load decreases.\n";
             }
 
@@ -687,7 +719,7 @@ void WireProtocolServer::handleAccept(std::shared_ptr<Session> session, const bo
             session->socket_.close(close_ec);
 
             std::cerr << "[WireProtocol] Backpressure: rate limit exceeded for "
-                      << remote_ip << ". Connection rejected.\n";
+                      << anonymizePeerForLog(remote_ip) << ". Connection rejected.\n";
 
             {
                 std::lock_guard<std::mutex> lock(stats_mutex_);
@@ -750,8 +782,15 @@ void WireProtocolServer::Session::start() {
 }
 
 void WireProtocolServer::Session::close() {
+    if (closed_.exchange(true, std::memory_order_acq_rel)) {
+        return;
+    }
+
+    cancelTimeout();
     try {
         if (socket_.is_open()) {
+            boost::system::error_code ec;
+            socket_.shutdown(tcp::socket::shutdown_both, ec);
             socket_.close();
         }
     } catch (...) {
@@ -760,11 +799,12 @@ void WireProtocolServer::Session::close() {
     // Deregister from per-tenant QoS manager
     server_->qos_manager_.unregisterConnection(session_id_);
 
-    server_->unregisterConnection(client_ip_);
+    const std::string session_ip = client_ip_;
+    server_->unregisterConnection(session_ip);
 
     {
         std::lock_guard<std::mutex> lock(server_->connections_mutex_);
-        server_->active_sessions_.erase(client_ip_);
+        server_->active_sessions_.erase(session_ip);
     }
 }
 
@@ -1390,8 +1430,8 @@ void WireProtocolServer::Session::handleAuthRequest() {
             // WPS-3 fix: auth_token is empty but require_auth=true — this is a
             // misconfiguration (missing secret env-var). Reject all connections with a
             // configuration error rather than silently accepting any non-empty token.
-            spdlog::error("[SEC/WPS-3] require_auth=true but auth_token is empty — "
-                          "all connections rejected. Set the auth_token configuration "
+            spdlog::error("[SEC/WPS-3] require_auth=true but configured authentication "
+                          "secret is empty — all connections rejected. Set the auth token "
                           "parameter or disable require_auth for development use.");
             accepted = false;
         }
@@ -3675,5 +3715,3 @@ void WireProtocolServer::Session::handleBpmnQueryInstance() {
 }
 
 } // namespace themis::network
-
-

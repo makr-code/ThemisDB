@@ -127,7 +127,7 @@ public:
         std::shared_ptr<ingestion::IGraphWriter>      graph_writer  = nullptr
     );
 
-    ~RAGIngestionBridge();
+    ~RAGIngestionBridge() noexcept;
 
     // Non-copyable, movable
     RAGIngestionBridge(const RAGIngestionBridge&) = delete;
