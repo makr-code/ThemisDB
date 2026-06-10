@@ -1,3 +1,14 @@
+/**
+ * @file arrow_user_registration_plugin.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=0, M=7, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
  * ThemisDB | File: arrow_user_registration_plugin.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
  * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 257
@@ -11,11 +22,23 @@
 #include "security/user_registration_plugin.h"
 #include "utils/logger.h"
 #include <openssl/evp.h>
+#include <memory>
 #include <sstream>
 #include <iomanip>
 
 namespace themis {
 namespace security {
+
+namespace {
+
+// ── RAII Wrappers for OpenSSL objects ─────────────────────────────────────────
+struct EVP_MD_CTX_Deleter {
+    void operator()(EVP_MD_CTX* p) const { if (p) EVP_MD_CTX_free(p); }
+};
+
+using EVP_MD_CTX_ptr = std::unique_ptr<EVP_MD_CTX, EVP_MD_CTX_Deleter>;
+
+} // anonymous namespace
 
 ArrowUserRegistrationPlugin::ArrowUserRegistrationPlugin(const Config& config)
     : config_(config)
@@ -239,11 +262,10 @@ std::string ArrowUserRegistrationPlugin::hashPassword(const std::string& passwor
     unsigned char hash[EVP_MAX_MD_SIZE];
     unsigned int  hash_len = 0;
 
-    EVP_MD_CTX* mdctx = EVP_MD_CTX_new();
-    EVP_DigestInit_ex(mdctx, EVP_sha256(), nullptr);
-    EVP_DigestUpdate(mdctx, password.c_str(), password.length());
-    EVP_DigestFinal_ex(mdctx, hash, &hash_len);
-    EVP_MD_CTX_free(mdctx);
+    EVP_MD_CTX_ptr mdctx(EVP_MD_CTX_new());
+    EVP_DigestInit_ex(mdctx.get(), EVP_sha256(), nullptr);
+    EVP_DigestUpdate(mdctx.get(), password.c_str(), password.length());
+    EVP_DigestFinal_ex(mdctx.get(), hash, &hash_len);
 
     std::stringstream ss;
     for (unsigned int i = 0; i < hash_len; i++) {

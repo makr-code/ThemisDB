@@ -1,0 +1,703 @@
+{
+  "generated_from": "ai_working/gap_scan_results.json",
+  "policy": {
+    "themis_core": [
+      "src/",
+      "include/",
+      "tools/",
+      "scripts/",
+      "cmake/",
+      "docs/",
+      "examples/"
+    ],
+    "themis_tests": [
+      "tests/"
+    ],
+    "themis_benchmarks": [
+      "benchmarks/"
+    ],
+    "third_party": [
+      "all other paths"
+    ]
+  },
+  "issues": {
+    "5232": {
+      "kind": "cross",
+      "scanners": [
+        "Uniform::security",
+        "Uniform::data_leak",
+        "Uniform::encryption_leak",
+        "Uniform::e2e_encryption",
+        "Uniform::key_failure",
+        "Uniform::attack_vectors",
+        "Uniform::military_hardening"
+      ],
+      "scope_counts": {
+        "themis_core": 5115
+      },
+      "themis_relevant_total": 5115,
+      "top_types": [
+        [
+          "no_key_rotation",
+          1193
+        ],
+        [
+          "no_transit_encryption",
+          790
+        ],
+        [
+          "null_dereference",
+          561
+        ]
+      ]
+    },
+    "5233": {
+      "kind": "cross",
+      "scanners": [
+        "Uniform::phase1_memory_safety",
+        "Uniform::uninitialized"
+      ],
+      "scope_counts": {
+        "themis_benchmarks": 40,
+        "themis_core": 1113,
+        "themis_tests": 50
+      },
+      "themis_relevant_total": 1203,
+      "top_types": [
+        [
+          "pointer_arithmetic_unbounded",
+          589
+        ],
+        [
+          "delete_without_nullptr",
+          271
+        ],
+        [
+          "uninitialized_member_field",
+          106
+        ]
+      ]
+    },
+    "5234": {
+      "kind": "cross",
+      "scanners": [
+        "Uniform::reliability"
+      ],
+      "scope_counts": {
+        "themis_core": 621
+      },
+      "themis_relevant_total": 621,
+      "top_types": [
+        [
+          "uncaught_exception",
+          353
+        ],
+        [
+          "no_timeout",
+          259
+        ],
+        [
+          "no_retry_logic",
+          9
+        ]
+      ]
+    },
+    "5235": {
+      "kind": "cross",
+      "scanners": [
+        "Uniform::phase1_thread_safety",
+        "Uniform::concurrency"
+      ],
+      "scope_counts": {
+        "themis_benchmarks": 203,
+        "themis_core": 2044,
+        "themis_tests": 2530
+      },
+      "themis_relevant_total": 4777,
+      "top_types": [
+        [
+          "primitive_no_volatile",
+          2731
+        ],
+        [
+          "data_race",
+          946
+        ],
+        [
+          "thread_join_no_timeout",
+          853
+        ]
+      ]
+    },
+    "5236": {
+      "kind": "cross",
+      "scanners": [
+        "Uniform::phase1_raii",
+        "Uniform::raii"
+      ],
+      "scope_counts": {
+        "themis_benchmarks": 6,
+        "themis_core": 1633,
+        "themis_tests": 231
+      },
+      "themis_relevant_total": 1870,
+      "top_types": [
+        [
+          "manual_cleanup",
+          573
+        ],
+        [
+          "db_connection_leak",
+          543
+        ],
+        [
+          "explicit_delete",
+          528
+        ]
+      ]
+    },
+    "5237": {
+      "kind": "cross",
+      "scanners": [
+        "Uniform::container"
+      ],
+      "scope_counts": {
+        "themis_core": 2197
+      },
+      "themis_relevant_total": 2197,
+      "top_types": [
+        [
+          "copy_overhead",
+          847
+        ],
+        [
+          "uninitialized_access",
+          571
+        ],
+        [
+          "range_temporary",
+          330
+        ]
+      ]
+    },
+    "5238": {
+      "kind": "cross",
+      "scanners": [
+        "Uniform::platform"
+      ],
+      "scope_counts": {
+        "themis_core": 799
+      },
+      "themis_relevant_total": 799,
+      "top_types": [
+        [
+          "hardcoded_path",
+          561
+        ],
+        [
+          "size_assumption",
+          168
+        ],
+        [
+          "posix_only_api",
+          37
+        ]
+      ]
+    },
+    "5239": {
+      "kind": "cross",
+      "scanners": [
+        "Uniform::performance",
+        "Uniform::performance_patterns"
+      ],
+      "scope_counts": {
+        "themis_core": 2220,
+        "themis_tests": 463,
+        "themis_benchmarks": 62
+      },
+      "themis_relevant_total": 2745,
+      "top_types": [
+        [
+          "string_concat_loop",
+          1063
+        ],
+        [
+          "unnecessary_copy",
+          463
+        ],
+        [
+          "map_vs_unordered_map",
+          391
+        ]
+      ]
+    },
+    "5240": {
+      "kind": "cross",
+      "scanners": [
+        "Uniform::type_conversion"
+      ],
+      "scope_counts": {
+        "themis_benchmarks": 38,
+        "themis_core": 153,
+        "themis_tests": 47
+      },
+      "themis_relevant_total": 238,
+      "top_types": [
+        [
+          "multiplication_overflow",
+          70
+        ],
+        [
+          "arithmetic_overflow",
+          66
+        ],
+        [
+          "shift_overflow",
+          41
+        ]
+      ]
+    },
+    "5241": {
+      "kind": "cross",
+      "scanners": [
+        "Uniform::input_validation"
+      ],
+      "scope_counts": {
+        "themis_benchmarks": 5,
+        "themis_core": 118,
+        "themis_tests": 27
+      },
+      "themis_relevant_total": 150,
+      "top_types": [
+        [
+          "unchecked_array_index",
+          116
+        ],
+        [
+          "unchecked_memcpy",
+          21
+        ],
+        [
+          "user_controlled_size",
+          12
+        ]
+      ]
+    },
+    "5242": {
+      "kind": "cross",
+      "scanners": [
+        "Uniform::exception_safety"
+      ],
+      "scope_counts": {
+        "themis_benchmarks": 72,
+        "themis_core": 1526,
+        "themis_tests": 1161
+      },
+      "themis_relevant_total": 2759,
+      "top_types": [
+        [
+          "resource_leaked_in_exception",
+          2578
+        ],
+        [
+          "missing_move_constructor_defaulted",
+          109
+        ],
+        [
+          "exception_in_destructor",
+          66
+        ]
+      ]
+    },
+    "5243": {
+      "kind": "cross",
+      "scanners": [
+        "Uniform::uninitialized"
+      ],
+      "scope_counts": {
+        "themis_benchmarks": 14,
+        "themis_tests": 47,
+        "themis_core": 124
+      },
+      "themis_relevant_total": 185,
+      "top_types": [
+        [
+          "uninitialized_member_field",
+          106
+        ],
+        [
+          "uninitialized_array",
+          54
+        ],
+        [
+          "pointer_without_null_check",
+          14
+        ]
+      ]
+    },
+    "5244": {
+      "kind": "cross",
+      "scanners": [
+        "Uniform::virtual_oop"
+      ],
+      "scope_counts": {
+        "themis_tests": 21,
+        "themis_core": 42
+      },
+      "themis_relevant_total": 63,
+      "top_types": [
+        [
+          "missing_override_keyword",
+          45
+        ],
+        [
+          "pure_virtual_unimplemented",
+          14
+        ],
+        [
+          "virtual_call_in_ctor_dtor",
+          3
+        ]
+      ]
+    },
+    "5230": {
+      "kind": "module",
+      "module": "content",
+      "scope_counts": {
+        "themis_core": 786
+      },
+      "themis_relevant_total": 786,
+      "top_types": [
+        [
+          "pointer_arithmetic_unbounded",
+          196
+        ],
+        [
+          "missing_doxygen_return",
+          71
+        ],
+        [
+          "missing_doxygen_param",
+          56
+        ]
+      ]
+    },
+    "5245": {
+      "kind": "module",
+      "module": "llm",
+      "scope_counts": {
+        "themis_tests": 160,
+        "themis_core": 3741,
+        "themis_benchmarks": 13
+      },
+      "themis_relevant_total": 3914,
+      "top_types": [
+        [
+          "missing_doxygen_comment",
+          569
+        ],
+        [
+          "data_race",
+          330
+        ],
+        [
+          "missing_doxygen_return",
+          259
+        ]
+      ]
+    },
+    "5246": {
+      "kind": "module",
+      "module": "server",
+      "scope_counts": {
+        "themis_core": 3221
+      },
+      "themis_relevant_total": 3221,
+      "top_types": [
+        [
+          "hardcoded_path",
+          259
+        ],
+        [
+          "missing_doxygen_param",
+          257
+        ],
+        [
+          "missing_doxygen_comment",
+          230
+        ]
+      ]
+    },
+    "5247": {
+      "kind": "module",
+      "module": "query",
+      "scope_counts": {
+        "themis_core": 1825,
+        "themis_tests": 10
+      },
+      "themis_relevant_total": 1835,
+      "top_types": [
+        [
+          "missing_doxygen_comment",
+          473
+        ],
+        [
+          "missing_doxygen_param",
+          97
+        ],
+        [
+          "missing_doxygen_return",
+          89
+        ]
+      ]
+    },
+    "5248": {
+      "kind": "module",
+      "module": "sharding",
+      "scope_counts": {
+        "themis_core": 2409
+      },
+      "themis_relevant_total": 2409,
+      "top_types": [
+        [
+          "missing_doxygen_comment",
+          306
+        ],
+        [
+          "missing_doxygen_brief",
+          257
+        ],
+        [
+          "missing_doxygen_return",
+          219
+        ]
+      ]
+    },
+    "5249": {
+      "kind": "module",
+      "module": "index",
+      "scope_counts": {
+        "themis_core": 1718,
+        "themis_tests": 24
+      },
+      "themis_relevant_total": 1742,
+      "top_types": [
+        [
+          "missing_doxygen_comment",
+          231
+        ],
+        [
+          "missing_doxygen_return",
+          179
+        ],
+        [
+          "missing_doxygen_param",
+          149
+        ]
+      ]
+    },
+    "5250": {
+      "kind": "module",
+      "module": "storage",
+      "scope_counts": {
+        "themis_core": 1819,
+        "themis_tests": 31
+      },
+      "themis_relevant_total": 1850,
+      "top_types": [
+        [
+          "missing_doxygen_return",
+          231
+        ],
+        [
+          "missing_doxygen_brief",
+          193
+        ],
+        [
+          "missing_doxygen_param",
+          171
+        ]
+      ]
+    },
+    "5251": {
+      "kind": "module",
+      "module": "analytics",
+      "scope_counts": {
+        "themis_core": 1234,
+        "themis_tests": 160
+      },
+      "themis_relevant_total": 1394,
+      "top_types": [
+        [
+          "missing_doxygen_brief",
+          157
+        ],
+        [
+          "missing_doxygen_comment",
+          140
+        ],
+        [
+          "missing_doxygen_return",
+          117
+        ]
+      ]
+    },
+    "5252": {
+      "kind": "module",
+      "module": "rag",
+      "scope_counts": {
+        "themis_core": 909,
+        "themis_tests": 4
+      },
+      "themis_relevant_total": 913,
+      "top_types": [
+        [
+          "missing_doxygen_return",
+          107
+        ],
+        [
+          "hardcoded_output",
+          83
+        ],
+        [
+          "missing_doxygen_param",
+          59
+        ]
+      ]
+    },
+    "5253": {
+      "kind": "module",
+      "module": "security",
+      "scope_counts": {
+        "themis_core": 1134,
+        "themis_tests": 91
+      },
+      "themis_relevant_total": 1225,
+      "top_types": [
+        [
+          "resource_leaked_in_exception",
+          138
+        ],
+        [
+          "missing_doxygen_comment",
+          116
+        ],
+        [
+          "missing_doxygen_brief",
+          96
+        ]
+      ]
+    },
+    "5363": {
+      "kind": "legacy",
+      "scanners": [
+        "Uniform::legacy_duplication"
+      ],
+      "scope_counts": {
+        "themis_core": 661,
+        "themis_tests": 196,
+        "themis_benchmarks": 29
+      },
+      "themis_relevant_total": 886,
+      "top_types": [
+        [
+          "legacy_or_compat_path",
+          775
+        ],
+        [
+          "duplicate_qualified_signature",
+          111
+        ]
+      ]
+    },
+    "5364": {
+      "kind": "legacy",
+      "scanners": [
+        "Uniform::legacy_duplication"
+      ],
+      "scope_counts": {
+        "themis_core": 661,
+        "themis_tests": 196,
+        "themis_benchmarks": 29
+      },
+      "themis_relevant_total": 886,
+      "top_types": [
+        [
+          "legacy_or_compat_path",
+          775
+        ],
+        [
+          "duplicate_qualified_signature",
+          111
+        ]
+      ]
+    },
+    "5365": {
+      "kind": "legacy",
+      "scanners": [
+        "Uniform::legacy_duplication"
+      ],
+      "scope_counts": {
+        "themis_core": 661,
+        "themis_tests": 196,
+        "themis_benchmarks": 29
+      },
+      "themis_relevant_total": 886,
+      "top_types": [
+        [
+          "legacy_or_compat_path",
+          775
+        ],
+        [
+          "duplicate_qualified_signature",
+          111
+        ]
+      ]
+    },
+    "5366": {
+      "kind": "legacy",
+      "scanners": [
+        "Uniform::legacy_duplication"
+      ],
+      "scope_counts": {
+        "themis_core": 661,
+        "themis_tests": 196,
+        "themis_benchmarks": 29
+      },
+      "themis_relevant_total": 886,
+      "top_types": [
+        [
+          "legacy_or_compat_path",
+          775
+        ],
+        [
+          "duplicate_qualified_signature",
+          111
+        ]
+      ]
+    },
+    "5172": {
+      "kind": "meta",
+      "scope_counts": {
+        "themis_benchmarks": 1079,
+        "themis_core": 38582,
+        "themis_tests": 6808
+      },
+      "themis_relevant_total": 46469,
+      "top_types": [
+        [
+          "missing_doxygen_comment",
+          3987
+        ],
+        [
+          "missing_doxygen_return",
+          3275
+        ],
+        [
+          "docs_broken_markdown_link",
+          2766
+        ]
+      ]
+    }
+  }
+}

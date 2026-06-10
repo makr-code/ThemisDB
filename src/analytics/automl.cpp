@@ -1,3 +1,14 @@
+/**
+ * @file automl.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=5, H=11, M=34, L=1
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
  * ThemisDB | File: automl.cpp | Version: 0.0.15 | Last Modified: 2026-05-31 12:49:01
  * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 2346
@@ -67,6 +78,7 @@
 #include <sstream>
 #include <stdexcept>
 #include <string>
+#include <mutex>
 #include <unordered_map>
 
 namespace themisdb {
@@ -1501,6 +1513,7 @@ std::vector<ModelAlgorithm> defaultAlgorithms(AutoMLTask task) {
 // ============================================================================
 
 struct AutoMLModel::Impl {
+    mutable std::recursive_mutex access_mutex;
     AutoMLTask task     = AutoMLTask::CLASSIFICATION;
     ModelAlgorithm algo = ModelAlgorithm::DECISION_TREE;
     std::string name_str;
@@ -1550,6 +1563,7 @@ AutoMLModel::AutoMLModel(AutoMLModel &&) noexcept            = default;
 AutoMLModel &AutoMLModel::operator=(AutoMLModel &&) noexcept = default;
 
 std::vector<std::string> AutoMLModel::predict(const std::vector<DataPoint> &data) const {
+    std::lock_guard<std::recursive_mutex> lk(impl_->access_mutex);
     std::vector<std::string> out;
     out.reserve(data.size());
     for (const auto &p : data) {
@@ -1559,6 +1573,7 @@ std::vector<std::string> AutoMLModel::predict(const std::vector<DataPoint> &data
 }
 
 std::string AutoMLModel::predictOne(const DataPoint &p) const {
+    std::lock_guard<std::recursive_mutex> lk(impl_->access_mutex);
     auto row = impl_->prepareRow(p);
     if (impl_->task == AutoMLTask::CLASSIFICATION) {
         int cls = impl_->model->predictOneCls(row);
@@ -1568,6 +1583,7 @@ std::string AutoMLModel::predictOne(const DataPoint &p) const {
 }
 
 std::vector<std::map<std::string, double>> AutoMLModel::predictProba(const std::vector<DataPoint> &data) const {
+    std::lock_guard<std::recursive_mutex> lk(impl_->access_mutex);
     std::vector<std::map<std::string, double>> out;
     out.reserve(data.size());
     for (const auto &p : data) {
@@ -1583,6 +1599,7 @@ std::vector<std::map<std::string, double>> AutoMLModel::predictProba(const std::
 }
 
 std::vector<ModelExplanation> AutoMLModel::explain(const std::vector<DataPoint> &data) const {
+    std::lock_guard<std::recursive_mutex> lk(impl_->access_mutex);
     std::vector<ModelExplanation> out;
     out.reserve(data.size());
     for (const auto &p : data) {
@@ -1592,6 +1609,7 @@ std::vector<ModelExplanation> AutoMLModel::explain(const std::vector<DataPoint> 
 }
 
 ModelExplanation AutoMLModel::explainOne(const DataPoint &point) const {
+    std::lock_guard<std::recursive_mutex> lk(impl_->access_mutex);
     ModelExplanation exp;
     exp.id = point.id;
 
@@ -1654,23 +1672,29 @@ ModelExplanation AutoMLModel::explainOne(const DataPoint &point) const {
 }
 
 AutoMLTask AutoMLModel::task() const noexcept {
+    std::lock_guard<std::recursive_mutex> lk(impl_->access_mutex);
     return impl_->task;
 }
 ModelAlgorithm AutoMLModel::algorithm() const noexcept {
+    std::lock_guard<std::recursive_mutex> lk(impl_->access_mutex);
     return impl_->algo;
 }
 std::string AutoMLModel::name() const noexcept {
+    std::lock_guard<std::recursive_mutex> lk(impl_->access_mutex);
     return impl_->name_str;
 }
 EvalMetrics AutoMLModel::metrics() const noexcept {
+    std::lock_guard<std::recursive_mutex> lk(impl_->access_mutex);
     return impl_->metrics_val;
 }
 
 std::vector<CandidateModelInfo> AutoMLModel::candidateModels() const {
+    std::lock_guard<std::recursive_mutex> lk(impl_->access_mutex);
     return impl_->candidates;
 }
 
 std::map<std::string, double> AutoMLModel::featureImportance() const {
+    std::lock_guard<std::recursive_mutex> lk(impl_->access_mutex);
     return impl_->feat_importance;
 }
 
@@ -1873,6 +1897,7 @@ std::string AutoMLModel::exportONNX(const std::string &path) const {
 }
 
 std::string AutoMLModel::serialize() const {
+    std::lock_guard<std::recursive_mutex> lk(impl_->access_mutex);
     // Minimal serialisation: stores metadata only (not the full model weights)
     std::ostringstream ss;
     ss << "task=" << static_cast<int>(impl_->task) << "\n";

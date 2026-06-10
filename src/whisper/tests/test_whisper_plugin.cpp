@@ -1,38 +1,12 @@
-/*
- * ThemisDB | File: test_whisper_plugin.cpp | Version: 0.0.10 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 96/100 | Lines: 1020
- * Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=1, M=3, L=0
- * PR History (last 5): none
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file test_whisper_plugin.cpp
- * @brief Unit tests for the Whisper audio transcription plugin
- *
- * Test suite: WhisperPluginFocusedTests
- * Coverage:
- *   Group A (3)  – WhisperConfig: fromJson defaults, custom values, clamping
- *   Group B (3)  – WhisperConfig: toJson round-trip, all keys present, float round-trip
- *   Group C (3)  – WavAudioChunkReader: canRead .wav, rejects .mp3, bad data throws
- *   Group D (3)  – InMemoryWhisperTranscriber: initialize, transcribe, detectLanguage
- *   Group E (3)  – WhisperPlugin (injection ctor): initialize, transcribe, detectLanguage
- *   Group F (3)  – WhisperPlugin: transcribeFile delegates reader + transcriber
- *   Group G (3)  – WhisperPlugin: provenance fields always set
- *   Group H (3)  – WhisperPlugin: getStatistics JSON keys
- *   Group I (3)  – WhisperPlugin: error paths (uninit, reader throws, empty PCM)
- *   Group J (3)  – WhisperPlugin: double-init, getModelId, error_count
- *   Group K (3)  – Thread-safety: concurrent transcribe, atomic counters, detectLanguage
- *   Group L (3)  – FfmpegAudioChunkReader + CompositeAudioChunkReader routing
- *   Group M (3)  – Language-detection confidence threshold (disabled, pass, suppress)
- *   Group N (5)  – Additional config/WAV edge cases (beam_size clamp, threshold round-trip,
- *                   threshold clamp, stereo 16-bit PCM decode, toJson key presence)
- *   Group O (5)  – Streaming transcription (transcribeStream): single-token fallback,
- *                   multi-token stream, callback exception, uninit guard, provenance
- *   Group P (3)  – VAD: EnergyThresholdVad all-silence, all-speech, mixed
- *   Group Q (3)  – VAD integration: WhisperPlugin with injected VAD (skip silent, pass speech,
- *                   null VAD no-op)
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.10
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 96/100
+ * @note Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=0, M=3, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include <gtest/gtest.h>

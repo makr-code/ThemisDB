@@ -1,55 +1,12 @@
-/*
- * ThemisDB | File: wasm_handler_registry.h | Version: 0.0.13
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
-#pragma once
-
 /**
  * @file wasm_handler_registry.h
- * @brief WebAssembly Handler Registry for edge computing use cases.
- *
- * Provides a per-tenant registry of WASM modules that are loaded on demand
- * and invoked in isolated WASI sandboxes.  Each registered handler:
- *
- *   - stores a validated `.wasm` binary in memory,
- *   - is associated with a tenant and a unique function ID,
- *   - runs inside a `WasmPluginSandbox` with configurable CPU time and
- *     memory caps,
- *   - is exposed through a set of HTTP endpoints that follow the existing
- *     serverless-function API surface.
- *
- * ## HTTP endpoints
- *
- * | Verb   | Path                                      | Action                         |
- * |--------|-------------------------------------------|--------------------------------|
- * | POST   | /api/v1/functions/{id}/wasm               | Upload / register WASM binary  |
- * | GET    | /api/v1/functions/wasm                    | List all registered handlers   |
- * | GET    | /api/v1/functions/{id}/wasm               | Get handler metadata           |
- * | DELETE | /api/v1/functions/{id}/wasm               | Remove a registered handler    |
- * | POST   | /api/v1/functions/{id}/wasm/invoke        | Invoke handler with payload    |
- *
- * ## Error codes
- *
- * | Condition                      | HTTP status | Notes                          |
- * |--------------------------------|-------------|--------------------------------|
- * | Invalid .wasm binary at upload | 400         | magic bytes or version mismatch|
- * | Function ID not found          | 404         |                                |
- * | CPU time limit exceeded        | 504         | grpc-status: DEADLINE_EXCEEDED |
- * | Memory overflow / sandbox kill | 500         |                                |
- *
- * ## Thread safety
- *
- * All public methods are protected by an internal shared mutex.  Concurrent
- * reads (list, get) use a shared lock; writes (register, delete) use an
- * exclusive lock.  Invocation acquires a shared lock only for the metadata
- * lookup; the sandbox call itself runs outside the lock.
- *
- * Copyright (c) 2026 ThemisDB Team
- * SPDX-License-Identifier: Apache-2.0
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.13
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include "themis/base/wasm_plugin_sandbox.h"

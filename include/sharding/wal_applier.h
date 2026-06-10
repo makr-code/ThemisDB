@@ -1,3 +1,14 @@
+/**
+ * @file wal_applier.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
  * ThemisDB | File: wal_applier.h | Version: 0.0.47
  * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
@@ -39,10 +50,9 @@ namespace themis::sharding {
  */
 using ApplyHandler = std::function<bool(const WALEntry&)>;
 
-/**
- * WAL Applier Configuration
- */
+/** @brief Runtime configuration for replica-side WAL apply behavior. */
 struct WALApplierConfig {
+    /** @brief Replica identifier used for diagnostics/metrics labeling. */
     std::string replica_id;
     /**
      * @brief Enforce fail-closed LSN ordering.
@@ -54,6 +64,7 @@ struct WALApplierConfig {
      * Duplicate, stale, and out-of-order entries are rejected.
      */
     bool strict_mode = true;
+    /** @brief Enable conflict accounting hooks during apply. */
     bool enable_conflict_detection = true;
     /// Maximum number of times `applyEntry()` attempts the apply handler.
     size_t max_apply_retries = 3;
@@ -62,25 +73,31 @@ struct WALApplierConfig {
     uint32_t retry_initial_delay_ms = 100;
 };
 
-/**
- * WAL Applier Statistics
- */
+/** @brief Aggregated counters and current LSN state for apply pipeline. */
 struct WALApplierStats {
+    /** @brief Total WAL entries successfully applied. */
     uint64_t total_entries_applied = 0;
+    /** @brief Total payload bytes successfully applied. */
     uint64_t total_bytes_applied = 0;
+    /** @brief Number of conflict-detection events observed. */
     uint64_t conflicts_detected = 0;
+    /** @brief Number of entries that failed all apply retries. */
     uint64_t apply_failures = 0;
+    /** @brief Number of strict-sequencing LSN mismatches detected. */
     uint64_t lsn_mismatches = 0;
+    /** @brief Latest replica LSN cursor after successful apply. */
     LSN current_replica_lsn;
 };
 
-/**
- * Apply Result
- */
+/** @brief Result payload returned by one batch-apply invocation. */
 struct ApplyResult {
+    /** @brief True when all entries in the batch were applied successfully. */
     bool success = false;
+    /** @brief Number of entries applied before failure/termination. */
     size_t entries_applied = 0;
+    /** @brief Human-readable error list collected during processing. */
     std::vector<std::string> errors;
+    /** @brief LSN of the last successfully applied entry in this batch. */
     LSN last_applied_lsn;
 };
 
@@ -91,12 +108,18 @@ struct ApplyResult {
  */
 class WALApplier {
 public:
+    /**
+     * @brief Construct WAL applier with replica-side apply policy.
+     * @param config WAL apply configuration.
+     */
     explicit WALApplier(const WALApplierConfig& config);
+
+    /** @brief Destructor for WAL applier instance. */
     ~WALApplier();
     
     /**
-     * Set apply handler
-     * This function is called for each entry to apply to storage
+     * @brief Install entry apply handler used for storage mutation.
+     * @param handler Callback invoked per WAL entry.
      */
     void setApplyHandler(ApplyHandler handler);
     
@@ -108,24 +131,16 @@ public:
      */
     ApplyResult applyBatch(const std::vector<WALEntry>& entries);
     
-    /**
-     * Get current replica LSN
-     */
+    /** @brief Return current replica LSN cursor. */
     LSN getCurrentLSN() const;
     
-    /**
-     * Set current replica LSN (for initialization)
-     */
+    /** @brief Set current replica LSN (e.g. bootstrap/recovery initialization). */
     void setCurrentLSN(const LSN& lsn);
     
-    /**
-     * Get statistics
-     */
+    /** @brief Return WAL applier statistics snapshot. */
     WALApplierStats getStatistics() const;
     
-    /**
-     * Reset statistics
-     */
+    /** @brief Reset statistics counters while preserving current replica LSN. */
     void resetStatistics();
 
 private:
@@ -139,19 +154,13 @@ private:
     mutable std::mutex stats_mutex_;
     WALApplierStats stats_;
     
-    /**
-     * Apply single entry
-     */
+    /** @brief Apply one WAL entry with retry policy. */
     bool applyEntry(const WALEntry& entry);
     
-    /**
-     * Validate LSN sequence
-     */
+    /** @brief Validate expected-to-actual LSN sequence continuity. */
     bool validateLSN(const LSN& expected, const LSN& actual);
     
-    /**
-     * Handle conflict
-     */
+    /** @brief Handle conflict-detection accounting/decision for one entry. */
     bool handleConflict(const WALEntry& entry);
 };
 

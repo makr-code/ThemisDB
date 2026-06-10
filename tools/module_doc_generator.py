@@ -1,25 +1,27 @@
 #!/usr/bin/env python3
 """
-Module Gap Documentation Generator
+Module Gap Documentation Generator (New Style)
 
-Generates module-local developer notes from the v3 aggregate gap scan.
+Primary input format:
+- ai_working/gap_scan_results.json (uniform scanner output with top-level "gaps")
+
+Fallback input format:
+- ai_working/gap_scan_v3_aggregate.json (legacy module aggregate)
 
 Outputs:
 - ai_working/module_gaps/<module>_GAPS.md
-- src/<module>/MODULE_GAPS.md
-
-The generated documentation is complete per module and includes the full
-scanner findings grouped by file. Only modules under src/ are emitted, which
-implicitly excludes external git submodules outside the source tree.
+- src/<module>/MODULE_GAPS.md (optional mirror)
 """
 
 from __future__ import annotations
 
+import argparse
 import json
+from collections import Counter, defaultdict
 from dataclasses import dataclass
 from datetime import datetime
 from pathlib import Path
-from typing import Dict, Iterable, List, Tuple
+from typing import Any, Dict, Iterable, List, Literal
 
 
 SEVERITY_ORDER = {
@@ -32,6 +34,11 @@ SEVERITY_ORDER = {
     "N/A": 6,
 }
 
+EXTRA_CODE_SCOPES = {"include", "tests", "benchmarks", "internal"}
+CORE_RELATIVE_HINTS = {"concerns", "adapters"}
+UNSCOPED_BUCKET = "_unscoped"
+IGNORED_SRC_SCOPE_NAMES = {"ai_working"}
+
 
 @dataclass(frozen=True)
 class ModuleSummary:
@@ -42,7 +49,7 @@ class ModuleSummary:
     medium: int
     low: int
     by_category: Dict[str, int]
-    by_file: Dict[str, List[Dict]]
+    by_file: Dict[str, List[Dict[str, Any]]]
 
     @property
     def actionable(self) -> int:
@@ -54,37 +61,140 @@ class ModuleSummary:
 
 
 class ModuleDocumentationGenerator:
-    """Generate complete v3-based developer notes for src modules."""
+    """Generate module-local gap documentation from scanner artifacts."""
 
     def __init__(self, repo_root: str):
         self.repo_root = Path(repo_root).resolve()
-        self.src_dir = self.repo_root / 'src'
-        self.scan_results: Dict[str, Dict] = {}
+        self.src_dir = self.repo_root / "src"
         self.src_modules = self._discover_src_modules()
+        self.doc_scopes: List[str] = list(self.src_modules)
+        self.scan_results: Dict[str, Dict[str, Any]] = {}
+        self.input_source: str = "unknown"
 
     def _discover_src_modules(self) -> List[str]:
         if not self.src_dir.exists():
             return []
         modules: List[str] = []
         for entry in sorted(self.src_dir.iterdir()):
-            if not entry.is_dir():
-                continue
-            if entry.name.startswith('_'):
-                continue
-            modules.append(entry.name)
+            if (
+                entry.is_dir()
+                and not entry.name.startswith("_")
+                and entry.name not in IGNORED_SRC_SCOPE_NAMES
+            ):
+                modules.append(entry.name)
         return modules
 
-    def load_scan_results(self, scan_dir: str | Path) -> bool:
-        """Load v3 aggregate scan results and keep only src modules."""
-        scan_path = Path(scan_dir)
-        aggregate_path = scan_path / 'gap_scan_v3_aggregate.json'
+    @staticmethod
+    def _normalize_path(path: str) -> str:
+        return str(path).replace("\\", "/")
 
-        if not aggregate_path.exists():
-            print(f"[FAIL] Aggregate scan file not found: {aggregate_path}")
+    def _module_from_path(self, file_path: str) -> str | None:
+        normalized = self._normalize_path(file_path)
+        normalized = normalized.lstrip("./")
+        parts = [part for part in normalized.split("/") if part]
+        if not parts:
+            return None
+
+        if parts[0] == "src" and len(parts) >= 2:
+            module = parts[1]
+            if module in self.src_modules:
+                return module
+
+        # Some scanners emit paths relative to src/ (e.g. core/..., security/...).
+        if parts[0] in self.src_modules:
+            return parts[0]
+
+        if parts[0] in EXTRA_CODE_SCOPES:
+            return parts[0]
+
+        # Scans started at src/core may emit paths like concerns/... or adapters/...
+        # Keep these with core instead of creating artificial pseudo-modules.
+        if parts[0] in CORE_RELATIVE_HINTS and "core" in self.src_modules:
+            return "core"
+
+        if normalized.startswith("src/"):
+            nested = normalized.split("/", 2)
+            if len(nested) >= 2:
+                module = nested[1]
+                if module in self.src_modules:
+                    return module
+
+        return UNSCOPED_BUCKET
+
+    def _summarize_from_grouped_findings(
+        self,
+        grouped: Dict[str, List[Dict[str, Any]]],
+    ) -> Dict[str, Dict[str, Any]]:
+        module_payload: Dict[str, Dict[str, Any]] = {}
+        scopes = sorted(set(self.src_modules) | set(grouped.keys()))
+        self.doc_scopes = scopes
+        for module in scopes:
+            findings = grouped.get(module, [])
+            by_file: Dict[str, List[Dict[str, Any]]] = defaultdict(list)
+            by_category: Counter[str] = Counter()
+            sev_counter: Counter[str] = Counter()
+
+            for finding in findings:
+                file_path = self._normalize_path(str(finding.get("file", "")))
+                by_file[file_path].append(finding)
+
+                cat = str(
+                    finding.get("category")
+                    or finding.get("type")
+                    or finding.get("pattern")
+                    or "uncategorized"
+                )
+                by_category[cat] += 1
+
+                sev = str(finding.get("severity", "INFO")).upper()
+                sev_counter[sev] += 1
+
+            module_payload[module] = {
+                "total": len(findings),
+                "severity_critical": sev_counter.get("CRITICAL", 0),
+                "severity_high": sev_counter.get("HIGH", 0),
+                "severity_medium": sev_counter.get("MEDIUM", 0),
+                "severity_low": sev_counter.get("LOW", 0),
+                "by_category": dict(by_category),
+                "by_file": dict(by_file),
+            }
+        return module_payload
+
+    def _load_uniform_gaps(self, scan_path: Path) -> bool:
+        results_path = scan_path / "gap_scan_results.json"
+        if not results_path.exists():
             return False
 
         try:
-            data = json.loads(aggregate_path.read_text(encoding='utf-8'))
+            data = json.loads(results_path.read_text(encoding="utf-8"))
+        except Exception as exc:
+            print(f"[FAIL] Could not parse {results_path}: {exc}")
+            return False
+
+        gaps = data.get("gaps")
+        if not isinstance(gaps, list):
+            print(f"[FAIL] Unexpected format in {results_path}: missing top-level gaps[]")
+            return False
+
+        grouped: Dict[str, List[Dict[str, Any]]] = defaultdict(list)
+        for finding in gaps:
+            if not isinstance(finding, dict):
+                continue
+            module = self._module_from_path(str(finding.get("file", "")))
+            if module:
+                grouped[module].append(finding)
+
+        self.scan_results = self._summarize_from_grouped_findings(grouped)
+        self.input_source = str(results_path.relative_to(self.repo_root))
+        return True
+
+    def _load_legacy_aggregate(self, scan_path: Path) -> bool:
+        aggregate_path = scan_path / "gap_scan_v3_aggregate.json"
+        if not aggregate_path.exists():
+            return False
+
+        try:
+            data = json.loads(aggregate_path.read_text(encoding="utf-8"))
         except Exception as exc:
             print(f"[FAIL] Could not parse {aggregate_path}: {exc}")
             return False
@@ -93,197 +203,230 @@ class ModuleDocumentationGenerator:
             print(f"[FAIL] Unexpected aggregate format in: {aggregate_path}")
             return False
 
-        src_modules = set(self.src_modules)
+        src_set = set(self.src_modules)
         self.scan_results = {
             module: payload
             for module, payload in data.items()
-            if module in src_modules and isinstance(payload, dict)
+            if module in src_set and isinstance(payload, dict)
         }
+        self.doc_scopes = sorted(set(self.src_modules) | set(self.scan_results.keys()))
+        self.input_source = str(aggregate_path.relative_to(self.repo_root))
         return bool(self.scan_results)
+
+    def _artifact_candidates(self, scan_path: Path) -> Dict[str, Path]:
+        return {
+            "uniform": scan_path / "gap_scan_results.json",
+            "legacy": scan_path / "gap_scan_v3_aggregate.json",
+        }
+
+    def _latest_available_source(self, scan_path: Path) -> str | None:
+        candidates = self._artifact_candidates(scan_path)
+        existing: List[tuple[str, float]] = []
+        for source, path in candidates.items():
+            if path.exists() and path.is_file():
+                try:
+                    existing.append((source, path.stat().st_mtime))
+                except Exception:
+                    continue
+        if not existing:
+            return None
+        existing.sort(key=lambda item: item[1], reverse=True)
+        return existing[0][0]
+
+    def load_scan_results(
+        self,
+        scan_dir: str | Path,
+        source_preference: Literal["latest", "auto", "uniform", "legacy"] = "latest",
+    ) -> bool:
+        scan_path = Path(scan_dir)
+        if not scan_path.is_absolute():
+            scan_path = self.repo_root / scan_path
+
+        pref = source_preference.lower().strip()
+        if pref == "latest":
+            latest = self._latest_available_source(scan_path)
+            if latest == "uniform":
+                return self._load_uniform_gaps(scan_path)
+            if latest == "legacy":
+                return self._load_legacy_aggregate(scan_path)
+            return False
+        if pref == "uniform":
+            return self._load_uniform_gaps(scan_path)
+        if pref == "legacy":
+            return self._load_legacy_aggregate(scan_path)
+
+        if self._load_uniform_gaps(scan_path):
+            return True
+        return self._load_legacy_aggregate(scan_path)
 
     def _summarize_module(self, module_name: str) -> ModuleSummary:
         payload = self.scan_results.get(module_name, {})
         return ModuleSummary(
             name=module_name,
-            total=int(payload.get('total', 0) or 0),
-            critical=int(payload.get('severity_critical', 0) or 0),
-            high=int(payload.get('severity_high', 0) or 0),
-            medium=int(payload.get('severity_medium', 0) or 0),
-            low=int(payload.get('severity_low', 0) or 0),
-            by_category=dict(payload.get('by_category', {}) or {}),
-            by_file=dict(payload.get('by_file', {}) or {}),
+            total=int(payload.get("total", 0) or 0),
+            critical=int(payload.get("severity_critical", 0) or 0),
+            high=int(payload.get("severity_high", 0) or 0),
+            medium=int(payload.get("severity_medium", 0) or 0),
+            low=int(payload.get("severity_low", 0) or 0),
+            by_category=dict(payload.get("by_category", {}) or {}),
+            by_file=dict(payload.get("by_file", {}) or {}),
         )
 
-    def _health_status(self, summary: ModuleSummary) -> str:
+    @staticmethod
+    def _health_status(summary: ModuleSummary) -> str:
         if summary.total == 0:
-            return 'No Findings'
+            return "No Findings"
         if summary.critical > 0:
-            return 'Critical Findings Present'
+            return "Critical Findings Present"
         if summary.high > 0:
-            return 'High-Priority Findings Present'
-        return 'Findings Present'
+            return "High-Priority Findings Present"
+        return "Findings Present"
 
-    def _normalize_path(self, file_path: str) -> str:
-        return file_path.replace('\\', '/')
-
-    def _sort_findings(self, findings: Iterable[Dict]) -> List[Dict]:
+    def _sort_findings(self, findings: Iterable[Dict[str, Any]]) -> List[Dict[str, Any]]:
         return sorted(
             findings,
             key=lambda item: (
-                SEVERITY_ORDER.get(str(item.get('severity', 'INFO')).upper(), 99),
-                int(item.get('line', 0) or 0),
-                str(item.get('category') or item.get('type') or item.get('pattern') or ''),
+                SEVERITY_ORDER.get(str(item.get("severity", "INFO")).upper(), 99),
+                int(item.get("line", 0) or 0),
+                str(item.get("category") or item.get("type") or item.get("pattern") or ""),
             ),
         )
 
-    def _sort_files(self, by_file: Dict[str, List[Dict]]) -> List[Tuple[str, List[Dict]]]:
-        return sorted(
-            by_file.items(),
-            key=lambda entry: (-len(entry[1]), self._normalize_path(entry[0])),
-        )
+    def _sort_files(self, by_file: Dict[str, List[Dict[str, Any]]]) -> List[tuple[str, List[Dict[str, Any]]]]:
+        return sorted(by_file.items(), key=lambda entry: (-len(entry[1]), self._normalize_path(entry[0])))
 
-    def _format_category_table(self, by_category: Dict[str, int]) -> str:
-        if not by_category:
-            return 'No category findings recorded.\n'
+    def _format_finding(self, finding: Dict[str, Any]) -> str:
+        severity = str(finding.get("severity", "INFO")).upper()
+        line = int(finding.get("line", 0) or 0)
+        category = str(finding.get("category") or finding.get("type") or "uncategorized")
+        pattern = str(finding.get("pattern") or "")
+        desc = str(finding.get("description") or "").strip()
+        remediation = str(finding.get("remediation") or "").strip()
+        context = str(finding.get("context") or finding.get("snippet") or "").strip()
+        scanner = str(finding.get("scanner") or "").strip()
 
-        lines = [
-            '| Category | Count |',
-            '|---|---:|',
-        ]
-        for category, count in sorted(by_category.items(), key=lambda item: (-item[1], item[0])):
-            lines.append(f'| {category} | {count} |')
-        return '\n'.join(lines) + '\n'
-
-    def _format_file_overview(self, summary: ModuleSummary) -> str:
-        if not summary.by_file:
-            return 'No file-level findings recorded.\n'
-
-        lines = [
-            '| File | Findings | Critical | High | Medium | Low |',
-            '|---|---:|---:|---:|---:|---:|',
-        ]
-        for file_path, findings in self._sort_files(summary.by_file):
-            critical = sum(1 for item in findings if str(item.get('severity', '')).upper() == 'CRITICAL')
-            high = sum(1 for item in findings if str(item.get('severity', '')).upper() == 'HIGH')
-            medium = sum(1 for item in findings if str(item.get('severity', '')).upper() == 'MEDIUM')
-            low = sum(1 for item in findings if str(item.get('severity', '')).upper() == 'LOW')
-            lines.append(
-                f'| {self._normalize_path(file_path)} | {len(findings)} | {critical} | {high} | {medium} | {low} |'
-            )
-        return '\n'.join(lines) + '\n'
-
-    def _format_finding(self, finding: Dict) -> str:
-        severity = str(finding.get('severity', 'INFO')).upper()
-        line = int(finding.get('line', 0) or 0)
-        category = str(finding.get('category') or finding.get('type') or 'uncategorized')
-        pattern = str(finding.get('pattern') or '')
-        description = str(finding.get('description') or '').strip()
-        remediation = str(finding.get('remediation') or '').strip()
-        snippet = str(finding.get('context') or finding.get('snippet') or '').strip()
-        confidence = finding.get('confidence_band')
-        confidence_score = finding.get('confidence_score')
-
-        header = f'- Line {line}: severity={severity}; category={category}'
+        head = f"- Line {line}: severity={severity}; category={category}"
         if pattern:
-            header += f'; pattern={pattern}'
-
-        lines = [header]
-        if description:
-            lines.append(f'  Description: {description}')
+            head += f"; pattern={pattern}"
+        lines = [head]
+        if desc:
+            lines.append(f"  Description: {desc}")
         if remediation:
-            lines.append(f'  Remediation: {remediation}')
-        if snippet:
-            lines.append(f'  Context: {snippet}')
-        if confidence is not None or confidence_score is not None:
-            band_text = str(confidence) if confidence is not None else 'n/a'
-            score_text = f'{confidence_score}' if confidence_score is not None else 'n/a'
-            lines.append(f'  Confidence: band={band_text}; score={score_text}')
-        return '\n'.join(lines)
-
-    def _format_full_findings(self, summary: ModuleSummary) -> str:
-        if not summary.by_file:
-            return '## Full Scanner Findings\n\nNo findings recorded for this module.\n'
-
-        sections = ['## Full Scanner Findings', '']
-        for file_path, findings in self._sort_files(summary.by_file):
-            sections.append(f'### {self._normalize_path(file_path)}')
-            sections.append(f'Total findings: {len(findings)}')
-            sections.append('')
-            for finding in self._sort_findings(findings):
-                sections.append(self._format_finding(finding))
-            sections.append('')
-        return '\n'.join(sections).rstrip() + '\n'
+            lines.append(f"  Remediation: {remediation}")
+        if scanner:
+            lines.append(f"  Scanner: {scanner}")
+        if context:
+            lines.append(f"  Context: {context}")
+        return "\n".join(lines)
 
     def _generate_doc_content(self, summary: ModuleSummary) -> str:
-        generated = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-        parts = [
-            f'# {summary.name} Module - Developer Gap Note',
-            '',
-            '> Auto-generated from ai_working/gap_scan_v3_aggregate.json.',
-            '> This file is overwritten on each regeneration.',
-            '',
-            '## Scan Snapshot',
-            '',
-            f'- Module: {summary.name}',
-            f'- Generated: {generated}',
-            f'- Status: {self._health_status(summary)}',
-            f'- Total Findings: {summary.total}',
-            f'- Actionable Findings (Critical + High): {summary.actionable}',
-            f'- Affected Files: {summary.affected_files}',
-            '',
-            '## Severity Summary',
-            '',
-            '| Severity | Count |',
-            '|---|---:|',
-            f'| Critical | {summary.critical} |',
-            f'| High | {summary.high} |',
-            f'| Medium | {summary.medium} |',
-            f'| Low | {summary.low} |',
-            '',
-            '## Category Summary',
-            '',
-            self._format_category_table(summary.by_category).rstrip(),
-            '',
-            '## File Overview',
-            '',
-            self._format_file_overview(summary).rstrip(),
-            '',
-            self._format_full_findings(summary).rstrip(),
-            '',
-            '## Update Workflow',
-            '',
-            '- Refresh scan artifacts with: python tools/gap_scanner_v3.py',
-            '- Regenerate all module notes with: python tools/module_doc_generator.py . ai_working ai_working/module_gaps',
-            '- The generator mirrors each archive document directly into src/<module>/MODULE_GAPS.md.',
-            '',
-            'Format: THEMIS_MODULE_GAPS_V3',
+        generated = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        out: List[str] = [
+            f"# {summary.name} Module - Developer Gap Note",
+            "",
+            f"> Auto-generated from {self.input_source}.",
+            "> This file is overwritten on each regeneration.",
+            "",
+            "## Scan Snapshot",
+            "",
+            f"- Module: {summary.name}",
+            f"- Generated: {generated}",
+            f"- Status: {self._health_status(summary)}",
+            f"- Total Findings: {summary.total}",
+            f"- Actionable Findings (Critical + High): {summary.actionable}",
+            f"- Affected Files: {summary.affected_files}",
+            "",
+            "## Severity Summary",
+            "",
+            "| Severity | Count |",
+            "|---|---:|",
+            f"| Critical | {summary.critical} |",
+            f"| High | {summary.high} |",
+            f"| Medium | {summary.medium} |",
+            f"| Low | {summary.low} |",
+            "",
+            "## Category Summary",
+            "",
+            "| Category | Count |",
+            "|---|---:|",
         ]
-        return '\n'.join(parts).rstrip() + '\n'
 
-    def _write_doc_pair(self, module_name: str, content: str, output_dir: str | Path | None) -> bool:
-        archive_dir = Path(output_dir) if output_dir else self.repo_root / 'ai_working' / 'module_gaps'
-        archive_dir.mkdir(parents=True, exist_ok=True)
+        for category, count in sorted(summary.by_category.items(), key=lambda item: (-item[1], item[0])):
+            out.append(f"| {category} | {count} |")
 
-        archive_path = archive_dir / f'{module_name}_GAPS.md'
-        module_path = self.src_dir / module_name / 'MODULE_GAPS.md'
-        module_path.parent.mkdir(parents=True, exist_ok=True)
+        if not summary.by_category:
+            out.append("| none | 0 |")
 
-        archive_path.write_text(content, encoding='utf-8')
-        module_path.write_text(content, encoding='utf-8')
+        out.extend([
+            "",
+            "## File Overview",
+            "",
+            "| File | Findings | Critical | High | Medium | Low |",
+            "|---|---:|---:|---:|---:|---:|",
+        ])
+
+        for file_path, findings in self._sort_files(summary.by_file):
+            sev_counter = Counter(str(item.get("severity", "INFO")).upper() for item in findings)
+            out.append(
+                f"| {self._normalize_path(file_path)} | {len(findings)} | "
+                f"{sev_counter.get('CRITICAL', 0)} | {sev_counter.get('HIGH', 0)} | "
+                f"{sev_counter.get('MEDIUM', 0)} | {sev_counter.get('LOW', 0)} |"
+            )
+
+        if not summary.by_file:
+            out.append("| none | 0 | 0 | 0 | 0 | 0 |")
+
+        out.extend(["", "## Full Scanner Findings", ""])
+
+        if not summary.by_file:
+            out.append("No findings recorded for this module.")
+        else:
+            for file_path, findings in self._sort_files(summary.by_file):
+                out.append(f"### {self._normalize_path(file_path)}")
+                out.append(f"Total findings: {len(findings)}")
+                out.append("")
+                for finding in self._sort_findings(findings):
+                    out.append(self._format_finding(finding))
+                out.append("")
+
+        out.extend([
+            "## Update Workflow",
+            "",
+            "- Refresh scanner artifacts with: python tools/gs3_orchestrator.py ./src --output ai_working/gap_scan_results.json",
+            "- Regenerate docs with: python tools/module_doc_generator.py . ai_working ai_working/module_gaps",
+            "- Add --no-mirror when you only want archive docs in ai_working/module_gaps.",
+            "",
+            "Format: THEMIS_MODULE_GAPS_V4",
+        ])
+
+        return "\n".join(out).rstrip() + "\n"
+
+    def _write_doc_pair(self, module_name: str, content: str, output_dir: Path, mirror: bool) -> bool:
+        output_dir.mkdir(parents=True, exist_ok=True)
+        archive_path = output_dir / f"{module_name}_GAPS.md"
+        archive_path.write_text(content, encoding="utf-8")
+
+        if mirror:
+            module_path = self.src_dir / module_name / "MODULE_GAPS.md"
+            module_path.parent.mkdir(parents=True, exist_ok=True)
+            module_path.write_text(content, encoding="utf-8")
         return True
 
-    def generate_module_docs(self, module_name: str, output_dir: str | Path | None = None) -> bool:
-        if module_name not in self.src_modules:
+    def generate_module_docs(self, module_name: str, output_dir: str | Path | None = None, mirror: bool = True) -> bool:
+        if module_name not in self.doc_scopes:
             return False
         summary = self._summarize_module(module_name)
         content = self._generate_doc_content(summary)
-        return self._write_doc_pair(module_name, content, output_dir)
+        archive_dir = Path(output_dir) if output_dir else (self.repo_root / "ai_working" / "module_gaps")
+        if not archive_dir.is_absolute():
+            archive_dir = self.repo_root / archive_dir
+        return self._write_doc_pair(module_name, content, archive_dir, mirror=mirror and module_name in self.src_modules)
 
-    def generate_all_module_docs(self, output_dir: str | Path | None = None) -> Dict[str, bool]:
+    def generate_all_module_docs(self, output_dir: str | Path | None = None, mirror: bool = True) -> Dict[str, bool]:
         results: Dict[str, bool] = {}
-        for module_name in self.src_modules:
+        for module_name in self.doc_scopes:
             try:
-                success = self.generate_module_docs(module_name, output_dir)
+                success = self.generate_module_docs(module_name, output_dir=output_dir, mirror=mirror)
             except Exception:
                 success = False
             results[module_name] = success
@@ -291,61 +434,75 @@ class ModuleDocumentationGenerator:
         return results
 
     def generate_module_index(self, output_dir: str | Path) -> bool:
-        output_path = Path(output_dir)
-        output_path.mkdir(parents=True, exist_ok=True)
+        out_dir = Path(output_dir)
+        if not out_dir.is_absolute():
+            out_dir = self.repo_root / out_dir
+        out_dir.mkdir(parents=True, exist_ok=True)
 
-        modules_sorted = sorted(
-            (self._summarize_module(module_name) for module_name in self.src_modules),
-            key=lambda item: (-item.total, item.name),
-        )
+        summaries = [self._summarize_module(m) for m in self.doc_scopes]
+        summaries.sort(key=lambda item: (-item.total, item.name))
 
         lines = [
-            '# Module Gap Documentation Index',
-            '',
-            f'Updated: {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}',
-            '',
-            'The archive docs in this directory are mirrored into src/<module>/MODULE_GAPS.md.',
-            '',
-            '| Module | Total | Critical | High | Medium | Low | Affected Files |',
-            '|---|---:|---:|---:|---:|---:|---:|',
+            "# Module Gap Documentation Index",
+            "",
+            f"Updated: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}",
+            f"Source: {self.input_source}",
+            "",
+            "| Module | Total | Critical | High | Medium | Low | Affected Files |",
+            "|---|---:|---:|---:|---:|---:|---:|",
         ]
 
-        for summary in modules_sorted:
+        for summary in summaries:
             lines.append(
-                f'| [{summary.name}]({summary.name}_GAPS.md) | {summary.total} | {summary.critical} | {summary.high} | '
-                f'{summary.medium} | {summary.low} | {summary.affected_files} |'
+                f"| [{summary.name}]({summary.name}_GAPS.md) | {summary.total} | {summary.critical} | "
+                f"{summary.high} | {summary.medium} | {summary.low} | {summary.affected_files} |"
             )
 
-        (output_path / 'MODULE_GAPS_INDEX.md').write_text('\n'.join(lines) + '\n', encoding='utf-8')
+        (out_dir / "MODULE_GAPS_INDEX.md").write_text("\n".join(lines) + "\n", encoding="utf-8")
         return True
 
 
-if __name__ == '__main__':
-    import sys
+def _parse_args() -> argparse.Namespace:
+    parser = argparse.ArgumentParser(description="Generate gap docs for src modules and other code scopes from scan artifacts")
+    parser.add_argument("repo_root", nargs="?", default=".", help="Repository root")
+    parser.add_argument("scan_dir", nargs="?", default="ai_working", help="Directory with scan artifacts")
+    parser.add_argument("output_dir", nargs="?", default="ai_working/module_gaps", help="Archive output dir")
+    parser.add_argument("--module", help="Generate docs for one module only")
+    parser.add_argument("--no-mirror", action="store_true", help="Do not mirror files into src/<module>/MODULE_GAPS.md")
+    parser.add_argument(
+        "--source-format",
+        choices=["latest", "auto", "uniform", "legacy"],
+        default="latest",
+        help="Input source preference: latest (default), auto, uniform (gap_scan_results.json), or legacy (gap_scan_v3_aggregate.json)",
+    )
+    return parser.parse_args()
 
-    repo_root = sys.argv[1] if len(sys.argv) > 1 else '.'
-    scan_dir = sys.argv[2] if len(sys.argv) > 2 else 'ai_working'
-    output_dir = sys.argv[3] if len(sys.argv) > 3 else 'ai_working/module_gaps'
 
-    print('[INFO] Module Gap Documentation Generator')
-    print('=' * 60)
+if __name__ == "__main__":
+    args = _parse_args()
+    generator = ModuleDocumentationGenerator(args.repo_root)
 
-    gen = ModuleDocumentationGenerator(repo_root)
+    print("[INFO] Module Gap Documentation Generator (New Style)")
+    print("=" * 70)
 
-    if not gen.load_scan_results(scan_dir):
-        print('[FAIL] No v3 scan results found')
+    if not generator.load_scan_results(args.scan_dir, source_preference=args.source_format):
+        print("[FAIL] No compatible scan artifacts found")
         raise SystemExit(1)
 
-    print(f"\n[OK] Loaded {len(gen.scan_results)} modules from v3 aggregate\n")
+    print(f"[OK] Loaded scanner data from: {generator.input_source}")
+    print(f"[OK] Discovered src modules: {len(generator.src_modules)}")
+    print(f"[OK] Discovered documentation scopes: {len(generator.doc_scopes)}")
 
-    print('[...] Generating complete module documentation...')
-    results = gen.generate_all_module_docs(output_dir)
-    success_count = sum(1 for value in results.values() if value)
-    print(f"\n[OK] Generated {success_count}/{len(results)} module docs")
+    mirror = not args.no_mirror
+    if args.module:
+        success = generator.generate_module_docs(args.module, output_dir=args.output_dir, mirror=mirror)
+        print(f"[{'OK' if success else 'FAIL'}] Module: {args.module}")
+    else:
+        results = generator.generate_all_module_docs(output_dir=args.output_dir, mirror=mirror)
+        ok_count = sum(1 for value in results.values() if value)
+        print(f"[OK] Generated {ok_count}/{len(results)} module docs")
 
-    print('\n[...] Generating module index...')
-    if gen.generate_module_index(output_dir):
-        print(f"[OK] Index created: {Path(output_dir) / 'MODULE_GAPS_INDEX.md'}")
+    if generator.generate_module_index(args.output_dir):
+        print(f"[OK] Index: {Path(args.output_dir) / 'MODULE_GAPS_INDEX.md'}")
 
-    print('\n' + '=' * 60)
-    print(f'[INFO] Output directory: {output_dir}/')
+    print("=" * 70)

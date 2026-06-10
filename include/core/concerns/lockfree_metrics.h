@@ -1,10 +1,12 @@
-/*
- * ThemisDB | File: lockfree_metrics.h | Version: 0.0.13 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 334
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * PR History (last 5): #4152 feat(core): Lock-Free Metri... (2026-03-13)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
+/**
+ * @file lockfree_metrics.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.1
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once
@@ -66,6 +68,8 @@ public:
     /**
      * @param flush_interval  How often the background flush thread drains
      *                        per-thread ring buffers into global aggregates.
+     *                        A zero duration disables periodic flushing and
+     *                        leaves only explicit flush()/shutdown() drains.
      */
     explicit LockFreeMetrics(
         std::chrono::milliseconds flush_interval = DEFAULT_FLUSH_INTERVAL);
@@ -82,6 +86,16 @@ public:
     // IMetrics – counters
     // -----------------------------------------------------------------------
 
+    /**
+     * @brief Increment a counter by the supplied amount.
+     *
+     * First use for a metric name incurs a short internal lock to create the
+     * counter entry; subsequent increments are lock-free atomic updates.
+     *
+     * @param name   Metric name.
+     * @param value  Amount to add; may be negative for corrections.
+     * @param labels Optional label set used to disambiguate series.
+     */
     void incrementCounter(const std::string& name, int64_t value = 1,
                           const Labels& labels = {}) override;
 
@@ -89,12 +103,24 @@ public:
     // IMetrics – gauges
     // -----------------------------------------------------------------------
 
+    /**
+     * @brief Set a gauge to an absolute value.
+     *
+     * Gauge updates are atomic and do not block the hot path after the entry
+     * has been created.
+     */
     void setGauge(const std::string& name, double value,
                   const Labels& labels = {}) override;
 
+    /**
+     * @brief Increase a gauge by the supplied delta.
+     */
     void incrementGauge(const std::string& name, double delta,
                         const Labels& labels = {}) override;
 
+    /**
+     * @brief Decrease a gauge by the supplied delta.
+     */
     void decrementGauge(const std::string& name, double delta,
                         const Labels& labels = {}) override;
 
@@ -102,6 +128,12 @@ public:
     // IMetrics – histograms
     // -----------------------------------------------------------------------
 
+    /**
+     * @brief Record a histogram observation.
+     *
+     * Observations are buffered in a per-thread ring until the background
+     * flush thread drains them into shared aggregates.
+     */
     void observeHistogram(const std::string& name, double value,
                           const Labels& labels = {}) override;
 
@@ -109,12 +141,24 @@ public:
     // IMetrics – convenience helpers
     // -----------------------------------------------------------------------
 
+    /**
+     * @brief Record an operation latency in milliseconds.
+     *
+     * The value is stored in the histogram series named
+     * `<operation>_latency_ms`.
+     */
     void recordLatency(const std::string& operation, double latencyMs,
                        const Labels& labels = {}) override;
 
+    /**
+     * @brief Increment the `<operation>_errors_total` counter.
+     */
     void recordError(const std::string& operation,
                      const Labels& labels = {}) override;
 
+    /**
+     * @brief Increment the `<operation>_success_total` counter.
+     */
     void recordSuccess(const std::string& operation,
                        const Labels& labels = {}) override;
 
@@ -122,8 +166,18 @@ public:
     // IMetrics – export and reset
     // -----------------------------------------------------------------------
 
+    /**
+     * @brief Export the current metrics snapshot in Prometheus text format.
+     *
+     * The method synchronously drains pending histogram observations before
+     * serialising counters, gauges, and aggregates so the returned snapshot
+     * reflects the most recent producer-thread activity.
+     */
     std::string exportMetrics() const override;
 
+    /**
+     * @brief Clear all metric series and reset in-memory counters.
+     */
     void reset() override;
 
     // -----------------------------------------------------------------------
@@ -132,15 +186,28 @@ public:
 
     /**
      * @brief Synchronously drain all thread-local ring buffers into the
-     *        global histogram aggregates.
+        *        global histogram aggregates.
+        *
+        * Useful before scraping or shutdown to avoid losing observations that
+        * are still sitting in producer-thread buffers.
      */
     void flush() noexcept override;
 
     /**
      * @brief Stop the background flush thread and perform a final flush.
+        *
+        * After shutdown, histogram observations may be dropped if producers keep
+        * calling observeHistogram() on the dead instance.
      */
     void shutdown() noexcept override;
 
+        /**
+        * @brief Probe whether the metrics subsystem is healthy.
+        *
+        * Returns healthy when the background flush thread is running, or when
+        * the instance has been cleanly shut down and is no longer accepting
+        * writes.
+        */
     ProbeResult isHealthy() const override;
 
     // -----------------------------------------------------------------------
@@ -150,6 +217,9 @@ public:
     /**
      * @brief Total histogram observations dropped because a thread's ring
      *        buffer was full at the time of the call.
+     *
+     * A rising value usually indicates the flush interval is too slow for the
+     * current observation rate or the ring capacity is too small.
      */
     uint64_t droppedObservations() const noexcept {
         return dropped_observations_.load(std::memory_order_relaxed);

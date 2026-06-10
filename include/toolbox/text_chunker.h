@@ -1,34 +1,12 @@
-/*
- * ThemisDB | File: text_chunker.h | Version: 0.1.0
- * Maturity: 🟢 PRODUCTION-READY | Score: 97/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
-#pragma once
-
 /**
  * @file text_chunker.h
- * @brief Toolbox façade for document splitting.
- *
- * `TextChunker` is a thin, dependency-decoupling wrapper around
- * `rag::DocumentSplitter`.  Consumers in `training/`, `aql/`, `search/` and
- * other modules can call `themis::toolbox::chunkText()` or use
- * `TextChunker` directly without importing `rag/` internals.
- *
- * ## Free function (simplest usage)
- * @code
- * auto chunks = themis::toolbox::chunkText("Long article …", 512, 64);
- * @endcode
- *
- * ## Class usage (custom config)
- * @code
- * themis::toolbox::TextChunker chunker;
- * chunker.setConfig({.chunk_size = 256, .overlap = 32,
- *                    .strategy = rag::SplitStrategy::Fixed});
- * auto chunks = chunker.chunk("…", "doc-001");
- * @endcode
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.1.0
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 97/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include "rag/document_splitter.h"
@@ -136,6 +114,8 @@ private:
  * @param overlap    Token overlap between consecutive chunks (default: 64).
  * @return Ordered vector of chunk text strings.
  */
+
+#pragma once
 std::vector<std::string> chunkText(
     const std::string& text,
     std::size_t        chunk_size = 512,

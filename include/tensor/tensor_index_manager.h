@@ -1,35 +1,12 @@
-/*
- * ThemisDB | File: tensor_index_manager.h | Version: 1.0.0
- * Maturity: 🟢 PRODUCTION-READY | Score: 88/100
- * Gap Summary: total=6; TODO=1, Stub=3, Unimpl=0, Mock=1, Sim=1, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
- * @file tensor/tensor_index_manager.h
- * @brief TensorIndexManager — lifecycle and routing for all TT-based indexes.
- *
- * ## Role in the SOC Architecture
- *
- * `TensorIndexManager` is the module-level registry for the `src/tensor/`
- * module, analogous to `IndexManager` in `src/index/`.  It:
- *
- *  1. Owns all `ITensorIndex` instances for the process lifetime.
- *  2. Routes incoming vectors to the correct index based on collection/field.
- *  3. Delegates storage to `TensorNetworkStorageEngine` (RocksDB-backed).
- *  4. Provides the `TensorRouter` decision boundary (HNSW vs. TT vs. HYBRID).
- *  5. Exports per-index statistics to the `TensorRagCostModel`.
- *
- * ## Multi-tenancy
- *
- * Each index is namespaced by `tenant_id`; key format:
- *   `__ttmgr__:<tenant_id>:<collection>:<field>`
- *
- * ## Thread safety
- *
- * All public methods are thread-safe.  Reads (search, stats) use a
- * shared_mutex; writes (create, drop) acquire exclusive ownership.
+ * @file tensor_index_manager.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 1.0.0
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 94/100
+ * @note Gap Summary: total=5; TODO=1, Stub=3, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once

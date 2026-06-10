@@ -1,37 +1,12 @@
-/*
- * ThemisDB | File: tt_quantizer.h | Version: 1.0.0
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file tt_quantizer.h
- * @brief Post-TT-decomposition quantisation of TT-core tensors.
- *
- * Applies INT8 or NF4 (Normal Float 4-bit) quantisation to the individual
- * TT-cores produced by `TensorTrainDecomposer`.  This yields a second-stage
- * compression on top of the TT rank reduction.
- *
- * ### INT8 (channel-wise)
- * Per-core scaling: scale_k = max(|G_k|) / 127.  Quantised value:
- *   q = clamp(round(v / scale_k), -128, 127).
- * Dequantisation: v ≈ q · scale_k.
- * Storage cost: 1 byte/element + 4 bytes/core for scale → ~4× vs float32.
- *
- * ### NF4 (Dettmers et al., 2023 — QLoRA)
- * Uses a 16-element lookup table derived from the quantiles of a unit normal
- * distribution, mapped to [−1, 1].  Optimal for weights drawn from N(0, σ²)
- * (validated for LLM attention weight matrices).
- * Two NF4 values are packed per byte → ~8× vs float32.
- *
- * ### References
- * - Dettmers, T., Pagnoni, A., Holtzman, A., & Zettlemoyer, L. (2023).
- *   QLoRA: Efficient Finetuning of Quantized LLMs. NeurIPS 2023.
- *   arXiv:2305.14314
- * - Khoromskij, B. N. (2011). O(d log n)-quantics approximation of n^d tensors.
- *   Constructive Approximation, 34(2), 257–280.
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 1.0.0
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once

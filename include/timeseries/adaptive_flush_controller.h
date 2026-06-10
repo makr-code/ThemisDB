@@ -1,54 +1,12 @@
-/*
- * ThemisDB | File: adaptive_flush_controller.h | Version: 0.0.10
- * Maturity: 🟢 PRODUCTION-READY | Score: 94/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file adaptive_flush_controller.h
- * @brief AdaptiveFlushController — buffered, asynchronous timeseries writer.
- *
- * AdaptiveFlushController buffers incoming TSStore::DataPoint writes and
- * flushes them asynchronously in batches, with two flush triggers:
- *
- *  1. **Watermark trigger** – when the buffer reaches `watermark_ratio`
- *     (default 80 %) of `buffer_capacity` a flush is initiated immediately.
- *  2. **Timeout trigger**  – if no watermark flush has occurred within
- *     `flush_interval` (default 100 ms) a periodic flush is triggered.
- *
- * Additionally:
- *  - **Backpressure** – producers that call add() or addBatch() are blocked
- *    (or return ERR_API_RESOURCE_EXHAUSTED) when the buffer is at or above
- *    the watermark threshold (80 % default).
- *  - **Overdue flush alerting** – if any data has been held in the buffer for
- *    longer than `flush_interval * overdue_flush_multiplier` (default 2×) a
- *    WARN log is emitted and the overdue counter is incremented.
- *
- * ## Public API
- * ```cpp
- * AdaptiveFlushControllerConfig cfg;
- * cfg.buffer_capacity  = 10000;
- * cfg.flush_interval   = std::chrono::milliseconds{100};
- * cfg.watermark_ratio  = 0.80;
- *
- * AdaptiveFlushController afc(tsstore, cfg);
- * afc.start();
- *
- * afc.add(point);                        // single-point add
- * afc.addBatch({p1, p2, p3});            // batch add
- * afc.flush();                           // manual flush
- * auto stats = afc.getStats();           // statistics snapshot
- * bool bp     = afc.isBackpressured();   // check backpressure
- *
- * afc.stop();   // flush remaining points and stop background thread
- * ```
- *
- * @note Thread Safety: all public methods are thread-safe.
- *
- * Copyright (c) 2025 VCC-URN Project
- * SPDX-License-Identifier: Apache-2.0
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.10
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 94/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once

@@ -1,3 +1,14 @@
+/**
+ * @file distributed_saga.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=5; TODO=2, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=10, H=4, M=21, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
  * ThemisDB | File: distributed_saga.cpp | Version: 0.0.15 | Last Modified: 2026-06-01 21:46:31
  * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 93/100 | Lines: 1047
@@ -534,15 +545,20 @@ DistributedSagaStatus DistributedSagaCoordinator::executeStep(
             // QW-39: Verify distributed consensus for write durability
             // After local step succeeds, check that write was replicated to quorum
             if (config_.enable_consensus_verification) {
-                bool consensus_ok = verifyStepConsensus(step.name, step.node_id);
-                record.consensus_reached = consensus_ok;
+                std::string consensus_failure_detail;
+                bool consensus_ok = verifyStepConsensus(
+                    step.name,
+                    step.node_id,
+                    record,
+                    &consensus_failure_detail);
                 record.consensus_timestamp_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
                     std::chrono::system_clock::now().time_since_epoch()).count();
                 
                 if (!consensus_ok) {
                     // Consensus verification failed: treat as step failure for retry
-                    last_status = DistributedSagaStatus::Error(
-                        "consensus verification failed for step '" + step.name + "'");
+                    last_status = DistributedSagaStatus::Error(consensus_failure_detail.empty()
+                        ? ("consensus verification failed for step '" + step.name + "'")
+                        : consensus_failure_detail);
                     THEMIS_WARN("DSAGA: step '{}' failed consensus verification (attempt {})",
                                 step.name, attempt + 1);
                     // Continue to retry loop (attempt will increment)
@@ -681,33 +697,75 @@ DistributedSagaStatus DistributedSagaCoordinator::compensateStep(
 
 bool DistributedSagaCoordinator::verifyStepConsensus(
     const std::string& step_name,
-    const std::string& node_id)
+    const std::string& node_id,
+    StepRecord& record,
+    std::string* failure_detail)
 {
-    // Query replication state for the step's write from remote nodes
-    // This is a fail-closed guard: if we cannot verify quorum consensus,
-    // we treat the step as failed and retry
-    
     if (!config_.enable_consensus_verification) {
-        return true;  // Consensus verification disabled
+        record.consensus_reached = false;
+        record.quorum_size = 0;
+        record.ack_count = 0;
+        return true;
     }
-    
-    // Placeholder: actual implementation would query ReplicationManager
-    // or distributed consensus protocol (e.g., Percolator, MVCC) for:
-    // - How many replicas have persisted this step's write
-    // - Whether quorum (>= ceil(n/2) + 1 nodes) has acknowledged
-    // 
-    // For now, assume consensus is reached (production would integrate
-    // with actual replication layer)
-    
+
+    {
+        std::lock_guard<std::mutex> lk(metrics_mutex_);
+        ++metrics_.consensus_checks_total;
+    }
+
     THEMIS_DEBUG("DSAGA: verifying consensus for step '{}' on node '{}'",
                  step_name, node_id);
-    
-    // TODO: Integrate with ReplicationManager::getReplicationState()
-    // or DistributedTransactionCoordinator::verifyQuorumConsensus()
-    // For this implementation, we optimistically assume consensus reached
-    // after local write succeeds (conservative: log warning if consensus uncertain)
-    
-    return true;  // Consensus verified (or disabled)
+
+    if (config_.consensus_verifier) {
+        ConsensusVerificationResult result;
+        try {
+            result = config_.consensus_verifier(step_name, node_id);
+        } catch (const std::exception& e) {
+            result.verified = false;
+            result.detail = std::string("consensus verifier exception: ") + e.what();
+        } catch (...) {
+            result.verified = false;
+            result.detail = "consensus verifier unknown exception";
+        }
+
+        record.quorum_size = std::max(0, result.quorum_size);
+        record.ack_count = std::max(0, result.ack_count);
+        if (record.quorum_size > 0 && record.ack_count > record.quorum_size) {
+            record.ack_count = record.quorum_size;
+        }
+
+        const bool quorum_reached =
+            (record.quorum_size > 0 && record.ack_count >= record.quorum_size);
+        record.consensus_reached = result.verified && quorum_reached;
+
+        if (!record.consensus_reached) {
+            {
+                std::lock_guard<std::mutex> lk(metrics_mutex_);
+                ++metrics_.consensus_checks_failed;
+            }
+            if (failure_detail) {
+                if (!result.detail.empty()) {
+                    *failure_detail = result.detail;
+                } else {
+                    *failure_detail = "consensus verification failed for step '" +
+                                      step_name + "' (acks=" + std::to_string(record.ack_count) +
+                                      ", quorum=" + std::to_string(record.quorum_size) + ")";
+                }
+            }
+        }
+
+        return record.consensus_reached;
+    }
+
+    // Backward-compatible single-node fallback: if no external verifier is
+    // configured, treat local durability as quorum (1/1).
+    record.quorum_size = 1;
+    record.ack_count = 1;
+    record.consensus_reached = true;
+    if (failure_detail) {
+        failure_detail->clear();
+    }
+    return true;
 }
 
 // ─────────────────────────────────────────────────────────────────────────────

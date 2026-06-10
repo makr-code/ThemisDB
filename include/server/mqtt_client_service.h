@@ -1,33 +1,12 @@
-/*
- * ThemisDB | File: mqtt_client_service.h | Version: 0.0.12
- * Maturity: 🟢 PRODUCTION-READY | Score: 93/100
- * Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file mqtt_client_service.h
- * @brief ThemisDB MQTT Client Service — bidirectional MQTT integration.
- *
- * Provides:
- *   - MqttClientConfig   — configuration for connecting to an external MQTT broker.
- *   - MqttClientStats    — atomic performance counters.
- *   - IMqttMessageHandler — callback interface for inbound topic messages.
- *   - MqttCDCTransport   — ICDCTransport bridge: publishes Changefeed events as
- *                          MQTT messages to an external broker.
- *   - MqttClientService  — bidirectional MQTT client:
- *       • connects to an external broker (TCP, optional TLS),
- *       • subscribes to topic filters and dispatches messages to a handler,
- *       • publishes messages and CDC events outbound,
- *       • registers itself with RPCServiceRegistry for service discovery,
- *       • reconnects automatically with exponential back-off.
- *
- * All classes are guarded by THEMIS_ENABLE_MQTT.  When the feature flag is
- * absent every class is replaced by a no-op stub that compiles to zero overhead.
- *
- * Copyright (c) 2026 ThemisDB Project
- * SPDX-License-Identifier: Apache-2.0
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.12
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 93/100
+ * @note Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once

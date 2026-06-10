@@ -1,3 +1,14 @@
+/**
+ * @file behavioral_anomaly_detector.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 1.0.0
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
  * ThemisDB | File: behavioral_anomaly_detector.cpp | Version: 1.0.0 | Last Modified: 2026-05-31 12:17:24
  * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 212
@@ -29,6 +40,20 @@ BehavioralAnomalyDetector::BehavioralAnomalyDetector(const Config& config)
 // ============================================================================
 
 ThreatScore BehavioralAnomalyDetector::scoreEvent(const AccessEvent& event) {
+    // Input validation: basic sanity checks
+    if (event.session_id.empty()) {
+        THEMIS_WARN("BehavioralAnomalyDetector: scoreEvent called with empty session_id");
+        return {ThreatLevel::LOW, 0.0, "Empty session_id"};
+    }
+    if (event.user_id.empty()) {
+        THEMIS_WARN("BehavioralAnomalyDetector: scoreEvent called with empty user_id");
+        return {ThreatLevel::LOW, 0.0, "Empty user_id"};
+    }
+    if (event.action.empty()) {
+        THEMIS_WARN("BehavioralAnomalyDetector: scoreEvent called with empty action");
+        return {ThreatLevel::LOW, 0.0, "Empty action"};
+    }
+    
     std::lock_guard<std::mutex> lock(mutex_);
 
     auto& state = sessions_[event.session_id];
@@ -84,7 +109,10 @@ size_t BehavioralAnomalyDetector::sessionEventCount(
 
 ThreatScore BehavioralAnomalyDetector::checkBurstRate(
     const SessionState& state, const AccessEvent& event) const {
-    if (config_.burst_rate_threshold <= 0.0) return {};
+    // Early exit: burst rate check disabled if threshold <= 0 (config-based disable)
+    if (config_.burst_rate_threshold <= 0.0) {
+        return {};  // Returns empty ThreatScore (LOW level, 0.0 score, no explanation)
+    }
 
     auto window_start = event.timestamp - config_.burst_window;
     size_t count = 0;
@@ -93,7 +121,10 @@ ThreatScore BehavioralAnomalyDetector::checkBurstRate(
     }
 
     double window_s = static_cast<double>(config_.burst_window.count());
-    if (window_s <= 0.0) return {};
+    // Sanity check: if window is invalid, skip this heuristic
+    if (window_s <= 0.0) {
+        return {};  // Returns empty ThreatScore (misconfiguration guard)
+    }
 
     double rate = static_cast<double>(count) / window_s;
     if (rate > config_.burst_rate_threshold) {
@@ -107,8 +138,10 @@ ThreatScore BehavioralAnomalyDetector::checkBurstRate(
 
 ThreatScore BehavioralAnomalyDetector::checkOffHours(
     const AccessEvent& event) const {
-    // Off-hours detection disabled when start == end
-    if (config_.work_hours_start_utc == config_.work_hours_end_utc) return {};
+    // Off-hours detection disabled when start == end (config-based disable)
+    if (config_.work_hours_start_utc == config_.work_hours_end_utc) {
+        return {};  // Returns empty ThreatScore when feature is disabled
+    }
 
     // Extract UTC hour from event timestamp
     auto tt = std::chrono::system_clock::to_time_t(event.timestamp);
@@ -140,7 +173,8 @@ ThreatScore BehavioralAnomalyDetector::checkPrivilegeEscalation(
     bool is_privileged = std::find(config_.privileged_actions.begin(),
                                     config_.privileged_actions.end(),
                                     event.action) != config_.privileged_actions.end();
-    if (!is_privileged) return {};
+    // Early exit: action is not privileged, no escalation risk
+    if (!is_privileged) return {};  // Not a privileged action, skip this check
 
     // Check if the resource was accessed before in this session
     bool resource_seen = false;
@@ -159,13 +193,15 @@ ThreatScore BehavioralAnomalyDetector::checkPrivilegeEscalation(
             << "' on previously-unaccessed resource '" << event.resource << "'";
         return {ThreatLevel::HIGH, levelToScore(ThreatLevel::HIGH), oss.str()};
     }
-    return {};
+    return {};  // Resource has been seen before, no escalation threat
 }
 
 ThreatScore BehavioralAnomalyDetector::checkUnusualResource(
     const SessionState& state, const AccessEvent& event) const {
-    // Only flag as unusual if the session has been previously flagged
-    if (state.peak_level == ThreatLevel::LOW) return {};
+    // Only flag as unusual if the session has been previously flagged (elevated threat state)
+    if (state.peak_level == ThreatLevel::LOW) {
+        return {};  // Session has no history of anomalies, skip this check
+    }
 
     // If the resource has not been seen before in this session, flag it
     size_t event_count = state.events.size();

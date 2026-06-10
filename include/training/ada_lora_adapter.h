@@ -1,48 +1,24 @@
-/*
- * ThemisDB | File: ada_lora_adapter.h | Version: 0.0.12
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
+/**
+ * @file ada_lora_adapter.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.12
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
-
-// SPDX-License-Identifier: Apache-2.0
-// Copyright (c) 2026 ThemisDB Contributors
 
 #pragma once
 
 #include <cstddef>
 #include <memory>
-#include <stdexcept>
 #include <string>
+#include <utility>
 #include <vector>
-#include <unordered_map>
 
 namespace themis {
 namespace training {
-
-/**
- * @file ada_lora_adapter.h
- * @brief AdaLoRA: Adaptive Budget Allocation via Singular Value Decomposition
- *
- * AdaLoRA (Zhang et al., 2023, arXiv:2303.10512) adaptively reallocates the
- * parameter budget among weight matrices during fine-tuning based on their
- * estimated importance, rather than using a fixed rank for all layers.
- *
- * This implementation approximates importance as the squared Frobenius norm of
- * the incremental weight matrix ΔW = (B @ A) × scaling.  Layers with higher
- * importance retain more rank; low-importance rank components are masked out
- * (pruned) during training.
- *
- * Key design points:
- *  - Each layer has an effective rank in [0, max_rank].
- *  - `updateImportance()` recomputes importance scores from the current weights.
- *  - `reallocateRanks(target_budget)` redistributes the global rank budget.
- *  - The forward pass applies only the active (non-pruned) rank components.
- *  - Pimpl pattern for ABI stability.
- *
- * Thread-safety: NOT guaranteed. Callers must provide external synchronisation.
- */
 
 /**
  * @brief Per-layer rank allocation and importance score snapshot.

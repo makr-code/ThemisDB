@@ -1,41 +1,22 @@
-/*
- * ThemisDB | File: speculative_decoder.h | Version: 0.0.15 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 205
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * PR History (last 5): #5144 research: revise DB_NATIVE_... (2026-05-14) | #3177 [llm] Speculative decoding ... (2026-03-12)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 #pragma once
-
-#include <vector>
-#include <random>
-#include <atomic>
-#include <mutex>
-#include <cstdint>
 
 /**
  * @file speculative_decoder.h
- * @brief Speculative decoding acceptance/rejection loop for latency reduction.
- *
- * Implements the draft-model verification algorithm from:
- *   Leviathan et al., "Fast Inference from Transformers via Speculative Decoding",
- *   ICML 2023 (https://arxiv.org/abs/2211.17192).
- *
- * Algorithm:
- *   1. A small draft model proposes K candidate tokens with probabilities q(t|ctx).
- *   2. The target model evaluates positions 1…K+1 in a single forward pass,
- *      producing probabilities p(t|ctx).
- *   3. For each draft token t̃ᵢ (i = 1..K):
- *      - Draw r ~ Uniform(0,1).
- *      - If r ≤ p(t̃ᵢ)/q(t̃ᵢ): accept t̃ᵢ and advance context.
- *      - Otherwise: resample a correction token from the adjusted distribution
- *        p'(t) = normalize(max(0, p(t) − q(t))) and stop.
- *   4. If all K draft tokens were accepted: sample one additional token from p.
- *
- * Consumer: InferenceEngineEnhanced (draft-model path).
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
+
+#include <algorithm>
+#include <cstdint>
+#include <mutex>
+#include <random>
+#include <string>
+#include <vector>
 
 namespace themis {
 namespace llm {

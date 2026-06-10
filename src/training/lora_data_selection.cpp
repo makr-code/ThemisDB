@@ -1,3 +1,14 @@
+/**
+ * @file lora_data_selection.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.39
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=4; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=1, Debt=0, C=6, H=11, M=16, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
  * ThemisDB | File: lora_data_selection.cpp | Version: 0.0.39 | Last Modified: 2026-06-01 08:11:44
  * Author: makr | Maturity: 🟢 PRODUCTION-READY | Score: 96/100 | Lines: 1302

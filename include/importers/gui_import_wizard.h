@@ -1,46 +1,12 @@
-/*
- * ThemisDB | File: gui_import_wizard.h | Version: 0.0.13 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 275
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * PR History (last 5): none
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
-#pragma once
-
 /**
  * @file gui_import_wizard.h
- * @brief Web-UI driven import wizard for guided multi-source data ingestion.
- *
- * ImportWizard orchestrates a multi-step guided import flow that can be
- * driven by either a REST API (web UI) or programmatically:
- *
- * ## Wizard Steps
- * 1. **SOURCE**     – Select data source type (PostgreSQL, MySQL, S3, flat-file, …)
- * 2. **CONNECT**    – Enter connection details; validate connectivity.
- * 3. **PREVIEW**    – Display a sample of the source data (schema + first 20 rows).
- * 4. **MAP**        – Map source columns → ThemisDB field names / types.
- * 5. **OPTIONS**    – Set conflict-resolution strategy, batch size, dry-run flag.
- * 6. **CONFIRM**    – Show summary; user confirms before import starts.
- * 7. **IMPORT**     – Execute import with streaming progress updates.
- * 8. **DONE**       – Final summary: rows imported, errors, duration.
- *
- * ## REST API (served by ImporterApiHandler in the server module)
- * | Method | Path                               | Action                          |
- * |--------|------------------------------------|----------------------------------|
- * | POST   | /api/v1/import/wizard/session      | Create session → session_id      |
- * | GET    | /api/v1/import/wizard/{id}/state   | Get current step + state JSON    |
- * | PUT    | /api/v1/import/wizard/{id}/step    | Advance/update step with payload |
- * | POST   | /api/v1/import/wizard/{id}/run     | Start actual import              |
- * | GET    | /api/v1/import/wizard/{id}/progress| Streaming import progress        |
- * | DELETE | /api/v1/import/wizard/{id}         | Cancel / delete session          |
- *
- * @note Thread Safety: ImportWizard sessions are NOT thread-safe per instance.
- *   The server layer must ensure one goroutine/thread per session.
- *
- * Copyright (c) 2025 VCC-URN Project
- * SPDX-License-Identifier: Apache-2.0
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.13
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include "importers/importer_interface.h"

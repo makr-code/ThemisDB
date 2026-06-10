@@ -1,42 +1,12 @@
-/*
- * ThemisDB | File: distributed_gateway.h | Version: 0.0.13
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
-#pragma once
-
 /**
  * @file distributed_gateway.h
- * @brief Distributed API Gateway with Raft-based configuration synchronisation.
- *
- * Implements a multi-node gateway cluster (3 or 5 nodes) where routing
- * rules and rate-limit configuration are replicated through Raft log entries.
- *
- * Key properties:
- *  - Leader-failover in ≤ 500 ms.
- *  - Config propagation across 5 LAN nodes in ≤ 100 ms.
- *  - Session affinity for WebSocket/SSE connections via a consistent-hash ring.
- *  - Quorum-loss resilience: gateway continues with last-known config and emits
- *    a CRITICAL-level alert; config writes are rejected until quorum is restored.
- *  - Split-brain safety: config mutations are refused when the node is not the
- *    Raft leader.
- *
- * Architecture:
- * ```
- *  Client → Load Balancer → [GatewayNode A]
- *                         → [GatewayNode B]  ← Raft cluster
- *                         → [GatewayNode C]
- *                               ↓
- *                         (config replicated via Raft log)
- *                               ↓
- *                         Backend services / shards
- * ```
- *
- * Copyright (c) 2025 VCC-URN Project
- * SPDX-License-Identifier: Apache-2.0
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.13
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include "server/api_gateway.h"

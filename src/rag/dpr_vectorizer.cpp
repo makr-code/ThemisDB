@@ -1,21 +1,12 @@
-/*
- * ThemisDB | File: dpr_vectorizer.cpp | Version: 0.0.1 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 516
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=28, H=25, M=5, L=0
- * PR History (last 5): none
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
-/*
+/**
  * @file dpr_vectorizer.cpp
- * @brief Dense Passage Retrieval (DPR) bi-encoder vectorizer implementation
- * 
- * Phase 2 Production Implementation:
- *  - Real ONNX model loading for query and passage encoders
- *  - Tokenization pipeline using LlamaTokenizer
- *  - Batch processing with GPU acceleration support
- *  - L2 normalization for cosine similarity
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.1
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=28, H=25, M=3, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include "rag/dpr_vectorizer.h"

@@ -1,34 +1,12 @@
-/*
- * ThemisDB | File: cai_ethics_integration.h | Version: 0.0.1 | Last Modified: 2026-06-01 11:42:53
- * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 180
- * Gap Summary: total=0; TODO=0, Stub=0, Unimpl=0, Mock=0, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * PR History (last 5): none
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file cai_ethics_integration.h
- * @brief CAI Safety Module — Constitutional AI + EthicsEvaluator integration
- *
- * Bridges the ConstitutionalReasoningEngine (CAI self-critique / revision loop)
- * with the multi-dimensional EthicsEvaluator for Wave C C1 acceptance-gate
- * scoring.
- *
- * Design:
- *  - CAIEthicsIntegration wraps a ConstitutionalReasoningEngine and an
- *    EthicsEvaluator.
- *  - evaluate() runs the CAI critique-revision cycle (≤ 2 rounds by default)
- *    and then scores the result through the EthicsEvaluator's five dimensions.
- *  - The returned CAIEvaluationResult exposes both the CAI metrics and the
- *    ethics scores so callers can enforce acceptance criteria from issue #5040:
- *      · safety score alignment ≥ 0.80
- *      · false-positive rate ≤ 10 %
- *      · latency overhead ≤ 2.0 s per response
- *
- * References:
- *  - Bai et al. (2022) arXiv:2212.08073 — Constitutional AI
- *  - Wave C issue: #5040
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.1
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once

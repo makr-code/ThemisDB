@@ -1,55 +1,12 @@
-/*
- * ThemisDB | File: arrow_flight.h | Version: 0.0.15 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 357
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * PR History (last 5): #2987 [analytics] Implement Arrow... (2026-03-12)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
-#pragma once
-
 /**
  * @file arrow_flight.h
- * @brief Arrow Flight RPC support for remote analytics.
- *
- * Provides a client/server abstraction for transporting Apache Arrow
- * RecordBatches between ThemisDB nodes and external analytics tools.
- *
- * Two transport modes are available:
- *
- *  1. **In-process** (always available, no external dependencies):
- *     Client and server share a process-local registry keyed by endpoint
- *     name.  Useful for unit tests, single-node deployments, and as a
- *     fallback when the Arrow Flight library is absent.
- *
- *  2. **Native Arrow Flight** (requires compile-time flag
- *     `THEMIS_HAS_ARROW_FLIGHT` and the `arrow_flight` vcpkg component):
- *     Uses the real gRPC-based Arrow Flight protocol, enabling zero-copy
- *     data exchange with Pandas, DuckDB, Spark, and other Flight-capable
- *     clients.
- *
- * Typical server-side usage:
- * @code
- *   #include "analytics/arrow_flight.h"
- *
- *   auto server = themisdb::analytics::ArrowFlightServer::create();
- *   server->registerDataset("sales", []() { return buildSalesBatch(); });
- *   server->start({"0.0.0.0", 8815});
- *   // ... run queries ...
- *   server->stop();
- * @endcode
- *
- * Typical client-side usage:
- * @code
- *   auto client = themisdb::analytics::ArrowFlightClient::connect({"localhost", 8815});
- *   auto info = client->listFlights();
- *   auto batch = client->doGet(info[0].descriptor);
- *   client->doPut(batch, {"my_dataset"});
- * @endcode
- *
- * Copyright (c) 2025 VCC-URN Project
- * SPDX-License-Identifier: Apache-2.0
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include "analytics/arrow_export.h"

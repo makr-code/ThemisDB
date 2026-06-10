@@ -1,23 +1,12 @@
-/*
- * ThemisDB | File: kafka_importer_logger_stub.cpp | Version: 0.0.13
- * Maturity: 🟢 PRODUCTION-READY | Score: 93/100
- * Gap Summary: total=6; TODO=1, Stub=4, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file kafka_importer_logger_stub.cpp
- * @brief Minimal no-op stub for Logger static members used by kafka_importer.cpp
- *        when building test_kafka_importer_focused as a standalone binary.
- *
- * kafka_importer.cpp uses the THEMIS_INFO / THEMIS_WARN macros which expand to
- * Logger::info / Logger::warn.  These template methods (in logger_impl.h) check
- * `if (logger_)` before forwarding to spdlog.  Keeping logger_ null here makes
- * every log call a safe no-op – exactly what unit tests need.
- *
- * This stub intentionally avoids including pii_redacting_sink.h and the full
- * PII-detection chain so the focused test binary remains standalone.
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.13
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 92/100
+ * @note Gap Summary: total=6; TODO=1, Stub=4, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 // This TU defines Logger static members for a focused test binary.

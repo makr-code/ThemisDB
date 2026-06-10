@@ -1,28 +1,12 @@
-/*
- * ThemisDB | File: fips_crypto_mode.cpp | Version: 0.0.15 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 248
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=3, H=2, M=0, L=0
- * PR History (last 5): #3389 feat(security): implement F... (2026-03-12)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file fips_crypto_mode.cpp
- * @brief Implementation of FipsCryptoMode — FIPS 140-2/3 validated cryptography mode.
- *
- * Uses the OpenSSL 3.x provider API:
- *   - OSSL_PROVIDER_load()                to load the "fips" provider module
- *   - EVP_default_properties_enable_fips() to restrict all EVP operations to
- *                                          FIPS-approved implementations
- *   - EVP_default_properties_is_fips_enabled() to query active state
- *   - OSSL_PROVIDER_self_test()           to trigger provider self-tests
- *   - OPENSSL_cleanse()                   for secure zeroization
- *
- * Graceful degradation: if the FIPS provider shared object is not installed
- * (OSSL_PROVIDER_load returns nullptr), enable() returns false and all
- * subsequent operations continue in non-FIPS mode.  The system FIPS policy
- * is not violated because the validation gate sits in FipsCryptoMode itself.
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=2, H=2, M=0, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include "security/fips_crypto_mode.h"
@@ -109,11 +93,9 @@ FipsCryptoMode& FipsCryptoMode::instance() {
     return inst;
 }
 
-FipsCryptoMode::FipsCryptoMode() : impl_(new Impl()) {}
+FipsCryptoMode::FipsCryptoMode() : impl_(std::make_unique<Impl>()) {}
 
-FipsCryptoMode::~FipsCryptoMode() {
-    delete impl_;
-}
+FipsCryptoMode::~FipsCryptoMode() = default;
 
 // ---------------------------------------------------------------------------
 // enable / disable

@@ -1,3 +1,14 @@
+/**
+ * @file shard_rpc_client.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 82/100
+ * @note Gap Summary: total=9; TODO=1, Stub=1, Unimpl=1, Mock=1, Sim=3, Debt=2, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
  * ThemisDB | File: shard_rpc_client.h | Version: 0.0.47
  * Maturity: 🟢 PRODUCTION-READY | Score: 92/100
@@ -79,6 +90,7 @@ struct ShardRpcRetryPolicy {
  */
 class ShardRPCClient {
 public:
+    /** @brief Runtime configuration for shard RPC transport, retries and TLS. */
     struct Config {
         std::string endpoint;           // Shard endpoint (e.g., "shard1:50051" for gRPC)
         std::string shard_id;           // Local shard identifier used for metric labels
@@ -107,7 +119,9 @@ public:
         PrometheusMetrics*  prometheus_metrics  = nullptr;
     };
     
+    /** @brief Construct RPC client using provided transport/runtime configuration. */
     explicit ShardRPCClient(const Config& config);
+    /** @brief Destroy client and release internal connection/circuit-breaker state. */
     ~ShardRPCClient();
     
     // Disable copy, allow move

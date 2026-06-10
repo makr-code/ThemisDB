@@ -1,24 +1,12 @@
-/*
- * ThemisDB | File: ingestion_coordinator.cpp | Version: 0.0.15 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 96/100 | Lines: 731
- * Gap Summary: total=6; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=3, Debt=0, C=3, H=15, M=11, L=0
- * PR History (last 5): #4309 Add distributed ingestion c... (2026-03-19) | #4302 feat(ingestion): close Issu... (2026-03-17)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file ingestion_coordinator.cpp
- * @brief Distributed ingestion coordinator implementation.
- *
- * Implements:
- *   - InProcessLeaderElection  — TTL-based in-process leader lease
- *   - ConsistentHashRing       — FNV-1a virtual-node hash ring
- *   - InProcessWorkerNode      — local worker backed by IngestionManager
- *   - IngestionCoordinator     — orchestrator: partitions, dispatches, aggregates
- *
- * @author ThemisDB Team
- * @date February 2026
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 96/100
+ * @note Gap Summary: total=6; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=3, Debt=0, C=2, H=3, M=10, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include "ingestion/ingestion_coordinator.h"

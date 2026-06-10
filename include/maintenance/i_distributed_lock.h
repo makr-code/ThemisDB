@@ -1,36 +1,12 @@
-/*
- * ThemisDB | File: i_distributed_lock.h | Version: 0.0.9 | Last Modified: 2026-05-31 12:49:01
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 93/100 | Lines: 170
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * PR History (last 5): #4649 docs(maintenance): reality-... (2026-04-15) | #4630 feat(maintenance): Distribu... (2026-04-13)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file i_distributed_lock.h
- * @brief IDistributedLock — pluggable distributed lock interface for the
- *        maintenance orchestrator.
- *
- * In a multi-node cluster, each node independently schedules and fires
- * maintenance jobs.  Two nodes may trigger the same schedule concurrently,
- * causing compaction storms or double maintenance.
- *
- * The DatabaseMaintenanceOrchestrator uses an IDistributedLock to elect a
- * single maintenance leader per schedule.  Before firing a scheduled job the
- * orchestrator calls `tryAcquire(schedule_id, ttl_ms)`.  Only the node that
- * successfully acquires the lock runs the job; all others log a DEBUG-level
- * skip message and set the job state to SKIPPED.
- *
- * ### Implementations
- * - `InProcessDistributedLock` — single-process TTL-based lock (unit tests,
- *   single-node deployments).
- * - In production: inject a Raft-backed implementation that forwards acquire /
- *   release calls to `src/replication/raft_v2.cpp` or a dedicated distributed
- *   lock service.
- *
- * ### Thread Safety
- * All implementations must be fully thread-safe.
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.9
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 94/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once

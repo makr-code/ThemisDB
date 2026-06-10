@@ -1,3 +1,14 @@
+/**
+ * @file shard_rpc_server.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
  * ThemisDB | File: shard_rpc_server.h | Version: 0.0.47
  * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
@@ -39,6 +50,7 @@ public:
     /**
      * @brief Configuration for the RPC server
      */
+    /** @brief Runtime configuration for shard RPC server endpoint and TLS policy. */
     struct Config {
         std::string listen_address;     // Address to listen on (e.g., "0.0.0.0:50051")
         
@@ -112,12 +124,14 @@ public:
      * @brief Create a new ShardRPCServer
      * @param listen_address Address to listen on (e.g., "0.0.0.0:50051")
      */
+    /** @brief Construct server using listen address only (default TLS config). */
     explicit ShardRPCServer(const std::string& listen_address);
     
     /**
      * @brief Create a new ShardRPCServer with configuration
      * @param config Server configuration including mTLS settings
      */
+    /** @brief Construct server using explicit runtime configuration. */
     explicit ShardRPCServer(const Config& config);
     
     ~ShardRPCServer();

@@ -1,29 +1,12 @@
-/*
- * ThemisDB | File: maintenance_schedule_store.h | Version: 0.0.13 | Last Modified: 2026-05-31 12:49:01
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 97/100 | Lines: 117
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * PR History (last 5): #3901 feat(maintenance): Schedule... (2026-03-12)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file maintenance_schedule_store.h
- * @brief MaintenanceScheduleStore — durable RocksDB-backed persistence for
- *        MaintenanceScheduleEntry objects.
- *
- * Wraps the existing IStorageEngine API and maps each schedule to a single
- * key-value pair:
- *
- *   Key:   "maint_sched::<id>"   (UTF-8)
- *   Value: JSON serialisation of MaintenanceScheduleEntry  (UTF-8)
- *
- * The store is write-through: every mutation (save / remove) is committed
- * synchronously before the caller's mutex is released.
- *
- * Corrupt or unparseable JSON values encountered during loadAll() are
- * skipped with a WARN-level log entry; all remaining valid entries are
- * loaded normally.
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.13
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 97/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once

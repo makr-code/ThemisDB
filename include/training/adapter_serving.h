@@ -1,28 +1,15 @@
-/*
- * ThemisDB | File: adapter_serving.h | Version: 0.0.10
- * Maturity: 🟢 PRODUCTION-READY | Score: 96/100
- * Gap Summary: total=4; TODO=1, Stub=1, Unimpl=0, Mock=2, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
-// SPDX-License-Identifier: Apache-2.0
-// Copyright (c) 2026 ThemisDB Contributors
-
-#pragma once
-
 /**
  * @file adapter_serving.h
- * @brief Adapter serving integration for the training module.
- *
- * Defines the abstract interface between the training module and the LLM
- * inference layer so that trained LoRA adapters can be deployed and
- * traffic-split without a hard compile-time dependency on llm headers.
- *
- * Key types:
- *  - ILLMRouter          – pure-virtual interface the LLM layer implements
- *  - DeployResult        – result of a deploy or rollback operation
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.10
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 96/100
+ * @note Gap Summary: total=4; TODO=1, Stub=1, Unimpl=0, Mock=2, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
+
+#pragma once
 
 #include <string>
 

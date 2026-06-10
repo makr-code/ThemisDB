@@ -1,3 +1,14 @@
+/**
+ * @file raft_consensus.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=4, M=4, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
  * ThemisDB | File: raft_consensus.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
  * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 456
@@ -17,6 +28,7 @@
 namespace themisdb {
 namespace sharding {
 
+/** @brief Construct Raft consensus engine and initialize replica tracking state. */
 RaftConsensus::RaftConsensus(const Config& config)
     : config_(config), raft_state_(config.raft_config) {
     initializeReplicaStates();
@@ -24,10 +36,12 @@ RaftConsensus::RaftConsensus(const Config& config)
     partition_status_.has_quorum = true;
 }
 
+/** @brief Stop background workers during destruction. */
 RaftConsensus::~RaftConsensus() {
     stop();
 }
 
+/** @brief Start background heartbeat, election, and optional partition threads. */
 void RaftConsensus::start() {
     if (running_.exchange(true)) {
         return;  // Already running
@@ -42,6 +56,7 @@ void RaftConsensus::start() {
     }
 }
 
+/** @brief Stop worker threads and wait for their termination. */
 void RaftConsensus::stop() {
     if (!running_.exchange(false)) {
         return;  // Already stopped
@@ -62,6 +77,11 @@ void RaftConsensus::stop() {
     }
 }
 
+/**
+ * @brief Append and replicate a proposed command from the leader.
+ * @param command Serialized command payload.
+ * @return Future resolved with true once quorum replication succeeds.
+ */
 std::future<bool> RaftConsensus::propose(const std::string& command) {
     auto promise = std::make_shared<std::promise<bool>>();
     auto future = promise->get_future();
@@ -150,31 +170,38 @@ std::future<bool> RaftConsensus::propose(const std::string& command) {
     return future;
 }
 
+/** @brief Return whether underlying Raft state is currently leader. */
 bool RaftConsensus::isLeader() const {
     return raft_state_.isLeader();
 }
 
+/** @brief Return whether current healthy replica set satisfies quorum. */
 bool RaftConsensus::hasQuorum() const {
     return checkQuorum();
 }
 
+/** @brief Return latest partition-detection status snapshot. */
 PartitionStatus RaftConsensus::getPartitionStatus() const {
     std::lock_guard<std::mutex> lock(partition_mutex_);
     return partition_status_;
 }
 
+/** @brief Return whether writes are blocked due to minority partition mode. */
 bool RaftConsensus::isReadOnly() const {
     return read_only_mode_.load();
 }
 
+/** @brief Return currently known leader identifier. */
 std::string RaftConsensus::getLeaderId() const {
     return raft_state_.getLeaderId();
 }
 
+/** @brief Return current Raft term. */
 uint64_t RaftConsensus::getCurrentTerm() const {
     return raft_state_.getCurrentTerm();
 }
 
+/** @brief Return copy of tracked replica replication and health states. */
 std::vector<ReplicaState> RaftConsensus::getReplicaStates() const {
     std::lock_guard<std::mutex> lock(replica_mutex_);
     std::vector<ReplicaState> states;
@@ -185,6 +212,7 @@ std::vector<ReplicaState> RaftConsensus::getReplicaStates() const {
     return states;
 }
 
+/** @brief Register transport callback for follower log replication. */
 void RaftConsensus::setReplicationCallback(ReplicationCallback callback) {
     // RAFT-2: Protect the write side under the same mutex used by propose()
     // to read the callback, preventing a data race on std::function.
@@ -192,11 +220,13 @@ void RaftConsensus::setReplicationCallback(ReplicationCallback callback) {
     replication_callback_ = std::move(callback);
 }
 
+/** @brief Register transport callback for follower heartbeats. */
 void RaftConsensus::setHeartbeatCallback(HeartbeatCallback callback) {
     std::lock_guard<std::mutex> lock(replica_mutex_);
     heartbeat_callback_ = callback;
 }
 
+/** @brief Process leader heartbeat and refresh follower election timeout. */
 void RaftConsensus::receiveHeartbeat(const Heartbeat& heartbeat) {
     // Update leader info
     if (heartbeat.term >= raft_state_.getCurrentTerm()) {
@@ -210,6 +240,7 @@ void RaftConsensus::receiveHeartbeat(const Heartbeat& heartbeat) {
     }
 }
 
+/** @brief Update follower replication progress and health from AppendEntries response. */
 void RaftConsensus::receiveAppendEntriesResponse(const std::string& node_id,
                                                  const AppendEntriesResponse& response) {
     std::lock_guard<std::mutex> lock(replica_mutex_);
@@ -227,6 +258,7 @@ void RaftConsensus::receiveAppendEntriesResponse(const std::string& node_id,
     }
 }
 
+/** @brief Worker loop that periodically sends leader heartbeats. */
 void RaftConsensus::heartbeatLoop() {
     while (running_) {
         if (isLeader()) {
@@ -239,6 +271,7 @@ void RaftConsensus::heartbeatLoop() {
     }
 }
 
+/** @brief Worker loop that starts elections after timeout on followers. */
 void RaftConsensus::electionLoop() {
     while (running_) {
         if (raft_state_.isFollower() && raft_state_.isElectionTimeout()) {
@@ -256,6 +289,7 @@ void RaftConsensus::electionLoop() {
     }
 }
 
+/** @brief Worker loop that periodically recomputes partition status. */
 void RaftConsensus::partitionDetectionLoop() {
     while (running_) {
         auto status = detectPartition();
@@ -278,6 +312,7 @@ void RaftConsensus::partitionDetectionLoop() {
     }
 }
 
+/** @brief Build and send heartbeat payloads to all known followers. */
 void RaftConsensus::sendHeartbeats() {
     HeartbeatCallback heartbeat_cb;
     Heartbeat hb;
@@ -313,6 +348,7 @@ void RaftConsensus::sendHeartbeats() {
     }
 }
 
+/** @brief Replicate one log entry to one follower and update replica health. */
 bool RaftConsensus::replicateToFollower(const std::string& node_id,
                                         const LogEntry& entry,
                                         const ReplicationCallback& callback) {
@@ -325,6 +361,7 @@ bool RaftConsensus::replicateToFollower(const std::string& node_id,
     return success;
 }
 
+/** @brief Compute current partition status from tracked replica health. */
 PartitionStatus RaftConsensus::detectPartition() {
     PartitionStatus status;
     status.is_partitioned = false;
@@ -365,6 +402,7 @@ PartitionStatus RaftConsensus::detectPartition() {
     return status;
 }
 
+/** @brief Update health state for a replica after one contact attempt. */
 void RaftConsensus::updateReplicaHealth(const std::string& node_id, bool success) {
     std::lock_guard<std::mutex> lock(replica_mutex_);
     auto it = replica_states_.find(node_id);
@@ -375,6 +413,7 @@ void RaftConsensus::updateReplicaHealth(const std::string& node_id, bool success
     updateReplicaHealthLocked(it->second, success, std::chrono::steady_clock::now());
 }
 
+/** @brief Return whether local node plus healthy peers still form quorum. */
 bool RaftConsensus::checkQuorum() const {
     std::lock_guard<std::mutex> lock(replica_mutex_);
     
@@ -389,6 +428,7 @@ bool RaftConsensus::checkQuorum() const {
     return static_cast<size_t>(healthy_count) >= raft_state_.getQuorumSize();
 }
 
+/** @brief Update one replica health record under held replica mutex. */
 void RaftConsensus::updateReplicaHealthLocked(ReplicaState& state,
                                               bool success,
                                               std::chrono::steady_clock::time_point now) {
@@ -411,6 +451,7 @@ void RaftConsensus::updateReplicaHealthLocked(ReplicaState& state,
     }
 }
 
+/** @brief Initialize replica tracking records for configured cluster peers. */
 void RaftConsensus::initializeReplicaStates() {
     std::lock_guard<std::mutex> lock(replica_mutex_);
     
@@ -431,6 +472,7 @@ void RaftConsensus::initializeReplicaStates() {
     }
 }
 
+/** @brief Add a replica to replication and health tracking tables. */
 void RaftConsensus::addReplicaNode(const std::string& node_id) {
     std::lock_guard<std::mutex> lock(replica_mutex_);
     if (replica_states_.find(node_id) == replica_states_.end()) {
@@ -445,11 +487,13 @@ void RaftConsensus::addReplicaNode(const std::string& node_id) {
     }
 }
 
+/** @brief Remove a replica from replication and health tracking tables. */
 void RaftConsensus::removeReplicaNode(const std::string& node_id) {
     std::lock_guard<std::mutex> lock(replica_mutex_);
     replica_states_.erase(node_id);
 }
 
+/** @brief Update stored endpoint string for an already tracked peer. */
 void RaftConsensus::updatePeerAddress(const std::string& node_id,
                                        const std::string& new_endpoint) {
     std::lock_guard<std::mutex> lock(replica_mutex_);

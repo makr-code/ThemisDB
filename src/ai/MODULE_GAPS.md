@@ -1,155 +1,267 @@
 # ai Module - Developer Gap Note
 
-> Auto-generated from ai_working/gap_scan_v3_aggregate.json.
+> Auto-generated from ai_working\gap_scan_results.json.
 > This file is overwritten on each regeneration.
 
 ## Scan Snapshot
 
 - Module: ai
-- Generated: 2026-06-02 12:40:50
-- Status: Critical Findings Present
-- Total Findings: 24
-- Actionable Findings (Critical + High): 18
-- Affected Files: 2
+- Generated: 2026-06-04 08:50:21
+- Status: High-Priority Findings Present
+- Total Findings: 19
+- Actionable Findings (Critical + High): 12
+- Affected Files: 4
 
 ## Severity Summary
 
 | Severity | Count |
 |---|---:|
-| Critical | 2 |
-| High | 16 |
-| Medium | 6 |
-| Low | 0 |
+| Critical | 0 |
+| High | 12 |
+| Medium | 3 |
+| Low | 4 |
 
 ## Category Summary
 
 | Category | Count |
 |---|---:|
-| llm_ai_safety | 8 |
-| memory | 6 |
-| performance_patterns | 4 |
-| audit_logging | 2 |
-| determinism | 2 |
-| container | 1 |
-| reliability | 1 |
+| pointer_arithmetic_unbounded | 8 |
+| hardcoded_output | 2 |
+| module_doc_linkset_drift | 2 |
+| unordered_container_iter | 2 |
+| unvalidated_llm_output | 2 |
+| no_retry_logic | 1 |
+| primitive_no_volatile | 1 |
+| range_temporary | 1 |
 
 ## File Overview
 
 | File | Findings | Critical | High | Medium | Low |
 |---|---:|---:|---:|---:|---:|
-| src/ai/ai_plugin_generator.cpp | 12 | 1 | 8 | 3 | 0 |
-| src/ai/cai_ethics_integration.cpp | 12 | 1 | 8 | 3 | 0 |
+| ai/cai_ethics_integration.cpp | 9 | 0 | 8 | 0 | 1 |
+| ai/ai_plugin_generator.cpp | 8 | 0 | 4 | 3 | 1 |
+| ai/FUTURE_ENHANCEMENTS.md | 1 | 0 | 0 | 0 | 1 |
+| ai/PRODUCTION_REQUIREMENTS.md | 1 | 0 | 0 | 0 | 1 |
 
 ## Full Scanner Findings
 
-### src/ai/ai_plugin_generator.cpp
-Total findings: 12
+### ai/cai_ethics_integration.cpp
+Total findings: 9
 
-- Line 5: severity=CRITICAL; category=llm_ai_safety; pattern=prompt_injection
-  Description: User input in prompt without sanitization (injection risk)
-  Context: * PR History (last 5): #5409 ai: complete Q4-2026 harden... (2026-06-01) | #5205 fix(llm): harden LoRA input... (2026-05-23) | #4827 refactor: flatten plugin/ h... (2026-05-04)
-  Confidence: band=very_high; score=0.99
-- Line 5: severity=HIGH; category=llm_ai_safety; pattern=unsanitized_llm_input
-  Description: User input passed to LLM without normalization/sanitization
-  Context: * PR History (last 5): #5409 ai: complete Q4-2026 harden... (2026-06-01) | #5205 fix(llm): harden LoRA input... (2026-05-23) | #4827 refactor: flatten plugin/ h... (2026-05-04)
-  Confidence: band=very_high; score=0.9
-- Line 232: severity=HIGH; category=audit_logging; pattern=hardcoded_output
-  Description: Hardcoded std::cout/printf instead of structured logging
-  Context: // 1. Validate inputs first.
-  Confidence: band=very_high; score=0.9
-- Line 232: severity=HIGH; category=llm_ai_safety; pattern=unsanitized_llm_input
-  Description: User input passed to LLM without normalization/sanitization
-  Context: // 1. Validate inputs first.
-  Confidence: band=very_high; score=0.9
+- Line 280: severity=HIGH; category=pointer_arithmetic_unbounded
+  Description: Pointer/array access without bounds validation
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::phase1_memory_safety
+  Context: decision.argument_chain_ids = argument_chain_ids;
+
+    decision.confidence         = static_cast<double>(cai_result.revised_score);
+
+    decision.consensus_level    = cai_result.violated_principles.empty() ? 1.0 : 0.0;
+
+    decision.metadata["query"]  = query;
+
+    decision.metadata["evaluation_framework"] = "constitutional_ai";
+
+    decision.metadata["formalized_principles"] = joinValues(formalized_principles);
+
+    decision.metadata["formalized_domains"] = joinValues(formalized_domains);
+- Line 281: severity=HIGH; category=pointer_arithmetic_unbounded
+  Description: Pointer/array access without bounds validation
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::phase1_memory_safety
+  Context: decision.confidence         = static_cast<double>(cai_result.revised_score);
+
+    decision.consensus_level    = cai_result.violated_principles.empty() ? 1.0 : 0.0;
+
+    decision.metadata["query"]  = query;
+
+    decision.metadata["evaluation_framework"] = "constitutional_ai";
+
+    decision.metadata["formalized_principles"] = joinValues(formalized_principles);
+
+    decision.metadata["formalized_domains"] = joinValues(formalized_domains);
+
+    return decision;
+- Line 282: severity=HIGH; category=pointer_arithmetic_unbounded
+  Description: Pointer/array access without bounds validation
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::phase1_memory_safety
+  Context: decision.consensus_level    = cai_result.violated_principles.empty() ? 1.0 : 0.0;
+
+    decision.metadata["query"]  = query;
+
+    decision.metadata["evaluation_framework"] = "constitutional_ai";
+
+    decision.metadata["formalized_principles"] = joinValues(formalized_principles);
+
+    decision.metadata["formalized_domains"] = joinValues(formalized_domains);
+
+    return decision;
+
+}
+- Line 283: severity=HIGH; category=pointer_arithmetic_unbounded
+  Description: Pointer/array access without bounds validation
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::phase1_memory_safety
+  Context: decision.metadata["query"]  = query;
+
+    decision.metadata["evaluation_framework"] = "constitutional_ai";
+
+    decision.metadata["formalized_principles"] = joinValues(formalized_principles);
+
+    decision.metadata["formalized_domains"] = joinValues(formalized_domains);
+
+    return decision;
+
+}
+- Line 302: severity=HIGH; category=pointer_arithmetic_unbounded
+  Description: Pointer/array access without bounds validation
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::phase1_memory_safety
+  Context: arg.content          = "Principle applied: " + pid;
+
+        arg.strength         = plugins::ethics::ArgumentStrength::STRONG;
+
+        arg.principle_basis  = {pid};
+
+        arg.metadata["constitutional_principle_id"] = pid;
+
+        arg.metadata["ethics_domain"] = arg.philosophy_school;
+
+        args.push_back(std::move(arg));
+
+    }
+- Line 303: severity=HIGH; category=pointer_arithmetic_unbounded
+  Description: Pointer/array access without bounds validation
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::phase1_memory_safety
+  Context: arg.strength         = plugins::ethics::ArgumentStrength::STRONG;
+
+        arg.principle_basis  = {pid};
+
+        arg.metadata["constitutional_principle_id"] = pid;
+
+        arg.metadata["ethics_domain"] = arg.philosophy_school;
+
+        args.push_back(std::move(arg));
+
+    }
+- Line 315: severity=HIGH; category=pointer_arithmetic_unbounded
+  Description: Pointer/array access without bounds validation
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::phase1_memory_safety
+  Context: arg.content          = "Principle violated: " + pid;
+
+        arg.strength         = plugins::ethics::ArgumentStrength::MODERATE;
+
+        arg.principle_basis  = {pid};
+
+        arg.metadata["constitutional_principle_id"] = pid;
+
+        arg.metadata["ethics_domain"] = arg.philosophy_school;
+
+        args.push_back(std::move(arg));
+
+    }
+- Line 316: severity=HIGH; category=pointer_arithmetic_unbounded
+  Description: Pointer/array access without bounds validation
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::phase1_memory_safety
+  Context: arg.strength         = plugins::ethics::ArgumentStrength::MODERATE;
+
+        arg.principle_basis  = {pid};
+
+        arg.metadata["constitutional_principle_id"] = pid;
+
+        arg.metadata["ethics_domain"] = arg.philosophy_school;
+
+        args.push_back(std::move(arg));
+
+    }
+- Line 180: severity=LOW; category=hardcoded_output
+  Description: Hardcoded stdout output instead of structured logging
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::audit_logging
+  Context: // --- 2. Build EthicsEvaluator inputs from CAI result ---
+
+### ai/ai_plugin_generator.cpp
+Total findings: 8
+
 - Line 266: severity=HIGH; category=no_retry_logic
-  Description: http_call without retry logic — transient failures will propagate
-  Remediation: Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)
-  Context: const std::string request_body = request.dump();
+  Description: RPC/network call without retry logic — transient failures will propagate
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::phase1_error_handling
+  Context: request["security_level"] = static_cast<int>(prompt.security_level);
+
+    request["generate_tests"] = prompt.generate_tests;
+
+    request["generate_docs"] = prompt.generate_docs;
+
+    const std::string request_body = request.dump();
+
+    if (request_body.size() > config_.max_request_body_bytes) {
+
+        ++stat_validation_errors_;
+
+        return tl::unexpected(
 - Line 299: severity=HIGH; category=range_temporary
   Description: Range-for on temporary container — references may be invalid
-  Remediation: Store container in variable first: auto c = func(); for (auto x : c) { ... }
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::container
   Context: std::this_thread::sleep_for(std::chrono::milliseconds(100 * (1 << attempt)));
-- Line 378: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
+- Line 411: severity=HIGH; category=unvalidated_llm_output
   Description: LLM output used without validation (hallucination/bias risk)
-  Context: generated.manifest.description = generated.manifest.description.substr(0, kMaxDescLen);
-  Confidence: band=very_high; score=0.9
-- Line 411: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
-  Description: LLM output used without validation (hallucination/bias risk)
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::llm_ai_safety
   Context: auto safety_result = config_.c1_cai_eval_fn(generated.implementation_code, safe_description);
-  Confidence: band=very_high; score=0.9
-- Line 450: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
+- Line 450: severity=HIGH; category=unvalidated_llm_output
   Description: LLM output used without validation (hallucination/bias risk)
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::llm_ai_safety
   Context: auto sandbox_result = config_.sandbox_verify_fn(generated);
-  Confidence: band=very_high; score=0.9
-- Line 196: severity=MEDIUM; category=determinism; pattern=unordered_container_iter
+- Line 196: severity=MEDIUM; category=unordered_container_iter
   Description: Non-deterministic unordered_map/set iteration order
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::determinism
   Context: std::unordered_set<std::string> unique_capabilities;
-  Confidence: band=medium; score=0.66
-- Line 211: severity=MEDIUM; category=determinism; pattern=unordered_container_iter
+- Line 211: severity=MEDIUM; category=unordered_container_iter
   Description: Non-deterministic unordered_map/set iteration order
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::determinism
   Context: std::unordered_set<std::string> unique_dependencies;
-  Confidence: band=medium; score=0.66
-- Line 388: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: generated.build_dependencies.push_back(std::move(dep_str));
-  Confidence: band=high; score=0.74
+- Line 289: severity=MEDIUM; category=primitive_no_volatile
+  Description: Primitive shared across threads without volatile
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::phase1_thread_safety
+  Context: for (int attempt = 0; attempt < kMaxRetries; ++attempt) {
+- Line 232: severity=LOW; category=hardcoded_output
+  Description: Hardcoded stdout output instead of structured logging
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::audit_logging
+  Context: // 1. Validate inputs first.
 
-### src/ai/cai_ethics_integration.cpp
-Total findings: 12
+### ai/FUTURE_ENHANCEMENTS.md
+Total findings: 1
 
-- Line 180: severity=CRITICAL; category=llm_ai_safety; pattern=prompt_injection
-  Description: User input in prompt without sanitization (injection risk)
-  Context: // --- 2. Build EthicsEvaluator inputs from CAI result ---
-  Confidence: band=very_high; score=0.99
-- Line 180: severity=HIGH; category=audit_logging; pattern=hardcoded_output
-  Description: Hardcoded std::cout/printf instead of structured logging
-  Context: // --- 2. Build EthicsEvaluator inputs from CAI result ---
-  Confidence: band=very_high; score=0.9
-- Line 180: severity=HIGH; category=llm_ai_safety; pattern=unsanitized_llm_input
-  Description: User input passed to LLM without normalization/sanitization
-  Context: // --- 2. Build EthicsEvaluator inputs from CAI result ---
-  Confidence: band=very_high; score=0.9
-- Line 280: severity=HIGH; category=pointer_arithmetic
-  Description: Pointer/array access without bounds validation
-  Remediation: Add bounds check before dereferencing
-  Context: decision.metadata["query"]  = query;
-- Line 281: severity=HIGH; category=pointer_arithmetic
-  Description: Pointer/array access without bounds validation
-  Remediation: Add bounds check before dereferencing
-  Context: decision.metadata["evaluation_framework"] = "constitutional_ai";
-- Line 282: severity=HIGH; category=pointer_arithmetic
-  Description: Pointer/array access without bounds validation
-  Remediation: Add bounds check before dereferencing
-  Context: decision.metadata["formalized_principles"] = joinValues(formalized_principles);
-- Line 283: severity=HIGH; category=pointer_arithmetic
-  Description: Pointer/array access without bounds validation
-  Remediation: Add bounds check before dereferencing
-  Context: decision.metadata["formalized_domains"] = joinValues(formalized_domains);
-- Line 315: severity=HIGH; category=pointer_arithmetic
-  Description: Pointer/array access without bounds validation
-  Remediation: Add bounds check before dereferencing
-  Context: arg.metadata["constitutional_principle_id"] = pid;
-- Line 316: severity=HIGH; category=pointer_arithmetic
-  Description: Pointer/array access without bounds validation
-  Remediation: Add bounds check before dereferencing
-  Context: arg.metadata["ethics_domain"] = arg.philosophy_school;
-- Line 115: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: chain_ids.push_back("constitutional_chain:" + domain);
-  Confidence: band=high; score=0.74
-- Line 303: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: args.push_back(std::move(arg));
-  Confidence: band=high; score=0.74
-- Line 316: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: args.push_back(std::move(arg));
-  Confidence: band=high; score=0.74
+- Line 1: severity=LOW; category=module_doc_linkset_drift
+  Description: Module doc 'FUTURE_ENHANCEMENTS.md' is missing expected cross-links: ARCHITECTURE.md
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::themis_doc_freshness_rules
+  Context: Refresh the top-level <!-- Links: ... --> metadata to match the current module doc set
+
+### ai/PRODUCTION_REQUIREMENTS.md
+Total findings: 1
+
+- Line 1: severity=LOW; category=module_doc_linkset_drift
+  Description: Module doc 'PRODUCTION_REQUIREMENTS.md' is missing expected cross-links: FUTURE_ENHANCEMENTS.md, README.md, ROADMAP.md
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::themis_doc_freshness_rules
+  Context: Refresh the top-level <!-- Links: ... --> metadata to match the current module doc set
 
 ## Update Workflow
 
-- Refresh scan artifacts with: python tools/gap_scanner_v3.py
-- Regenerate all module notes with: python tools/module_doc_generator.py . ai_working ai_working/module_gaps
-- The generator mirrors each archive document directly into src/<module>/MODULE_GAPS.md.
+- Refresh scanner artifacts with: python tools/gs3_orchestrator.py ./src --output ai_working/gap_scan_results.json
+- Regenerate docs with: python tools/module_doc_generator.py . ai_working ai_working/module_gaps
+- Add --no-mirror when you only want archive docs in ai_working/module_gaps.
 
-Format: THEMIS_MODULE_GAPS_V3
+Format: THEMIS_MODULE_GAPS_V4

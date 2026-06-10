@@ -1,37 +1,12 @@
-/*
- * ThemisDB | File: search_highlighter.h | Version: 0.0.13
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
-#pragma once
-
 /**
  * @file search_highlighter.h
- * @brief Search result highlight and snippet generation.
- *
- * Provides term-level highlighting and best-passage snippet extraction
- * for full-text search results.  Designed to complement BM25 and vector
- * hybrid search by making matched terms visible to end-users.
- *
- * v2.1.0  Features (Issue #2457):
- * - highlight()      – Wrap matched terms in <mark> tags inside a document.
- * - snippet()        – Extract the best passage containing the most matches.
- * - tokenize()       – Case-folding, unicode-aware tokeniser (static helper).
- * - applyHighlight() – Low-level term→offset applicator (static helper).
- * - bestWindowOffset()– Sliding-window scorer for optimal snippet position
- *                       (static helper).
- *
- * @note Thread Safety: SearchHighlighter instances are stateless after
- *   construction; all public methods are safe to call concurrently.
- *
- * @note Exception Safety: highlight() and snippet() are noexcept; invalid
- *   inputs produce empty output rather than throwing.
- *
- * Copyright (c) 2025 VCC-URN Project
- * SPDX-License-Identifier: Apache-2.0
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.13
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include <string>

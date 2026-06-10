@@ -1,71 +1,12 @@
-/*
- * ThemisDB | File: adalora_tt_bridge.h | Version: 1.0.0
- * Maturity: 🟢 PRODUCTION-READY | Score: 88/100
- * Gap Summary: total=11; TODO=1, Stub=7, Unimpl=0, Mock=1, Sim=2, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file adalora_tt_bridge.h
- * @brief Zero-Copy Bridge: AdaLoRA Adapters ↔ ThemisDB Tensor-Train Storage
- *
- * ## Mathematical Foundation
- *
- * AdaLoRA (Zhang et al. 2023) and TT-decomposition (Oseledets 2011) are
- * **mathematically equivalent** for 2D weight matrices.  Both represent the
- * weight delta ΔW ∈ ℝ^{d × k} as a low-rank product:
- *
- * ```
- * AdaLoRA:    ΔW = P · Λ · Q^T          P ∈ ℝ^{d×r}, Λ diag, Q ∈ ℝ^{k×r}
- * TT (d=2):   ΔW = G₀ ×₂ G₁            G₀ ∈ ℝ^{1×d×r}, G₁ ∈ ℝ^{r×k×1}
- * ```
- *
- * Bijective mapping (no loss, no approximation):
- * ```
- * G₀[0, :, i] = P[:, i] · √λᵢ
- * G₁[i, :, 0] = Q[:, i] · √λᵢ
- * ```
- *
- * This bridge exploits the equivalence to enable:
- *
- * 1. **Zero-copy adapter serving** — AdaLoRA checkpoints stored in ThemisDB's
- *    `TensorNetworkStorageEngine`; `GgmlTensorBridge::mapAdapter()` injects
- *    them into llama.cpp without any deserialization or matrix reconstruction.
- *
- * 2. **Adapter deduplication** — `TensorFingerprintGraph` detects shared
- *    singular vectors across related adapters (≥40% storage reduction in
- *    domain-specific adapter collections, see ADALORA_TT_BRIDGE_RESEARCH.md).
- *
- * 3. **Unified rank control** — TT-rounding (global SVD-optimal) serves as
- *    a higher-quality alternative to AdaLoRA's greedy singular-value pruning.
- *
- * 4. **Live adapter switching in FLARE** — mid-generation adapter swap via
- *    `GgmlTensorBridge::mapAdapter()` in ≤ 15 ms (vs 300–2000 ms cold load).
- *
- * ## STUB/SIMULATION NOTE:
- * Purpose: Phase 1 specification. No .cpp file yet (Q2 2027).
- * Activation: Build with THEMIS_ENABLE_ADALORA_TT_BRIDGE=ON.
- * Production Delta: Requires QR-orthogonalisation + sign normalisation in
- *   exportToTT() to preserve AdaLoRA's orthogonality constraint.
- * Removal Plan: Not removed — permanent bridge component.
- *
- * ## Performance Summary (see ADALORA_TT_BRIDGE_RESEARCH.md §3.1)
- *
- * | Metric | Without Bridge | With Bridge |
- * |--------|---------------|-------------|
- * | Adapter hot-load (7B, r=64) | 77–320 ms | 2–11 ms |
- * | Storage for 100 related adapters | 100% | ~50% (dedup) |
- * | FLARE adapter-switch latency | 300–2000 ms | 5–15 ms |
- * | Rank-pruning quality | Greedy (AdaLoRA) | SVD-global (TT) |
- *
- * ## References
- *
- * - Zhang et al. (2023) AdaLoRA. ICLR 2023. arXiv:2303.10512
- * - Oseledets (2011) TT-SVD. SIAM J. Sci. Comput. DOI:10.1137/090752142
- * - `research/ADALORA_TT_BRIDGE_RESEARCH.md` — full derivation
- * - `include/storage/ggml_tensor_bridge.h` — mmap inject interface
- * - `include/training/ada_lora_adapter.h` — AdaLoRA weight format
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 1.0.0
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 88/100
+ * @note Gap Summary: total=11; TODO=1, Stub=7, Unimpl=0, Mock=1, Sim=2, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once

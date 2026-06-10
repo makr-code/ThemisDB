@@ -1,3 +1,14 @@
+/**
+ * @file tensor_network_storage_engine.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 1.0.0
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=1, M=4, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
  * ThemisDB | File: tensor_network_storage_engine.cpp | Version: 1.0.0 | Last Modified: 2026-05-31 12:17:24
  * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 421
@@ -193,14 +204,44 @@ std::string TensorNetworkStorageEngine::makeCoreKey(const TensorFieldKey& k,
 // ============================================================================
 
 std::size_t TensorNetworkStorageEngine::currentVersion(const TensorFieldKey& k) const {
+    {
+        std::lock_guard<std::mutex> lk(version_cache_mutex_);
+        auto it = version_cache_.find(k);
+        if (it != version_cache_.end()) {
+            return it->second;
+        }
+    }
+
+    // Cache miss: recover the latest known version from persisted keys.
+    // This makes reads resilient across process restarts where the in-memory
+    // cache starts empty.
+    std::size_t recovered_version = 0;
+    const auto keys = backend_->listKeys(makePrefix(k));
+    for (const auto& key : keys) {
+        const auto parsed_version = tryParseVersionSuffix(key);
+        if (parsed_version) {
+            recovered_version = std::max(recovered_version, *parsed_version);
+        }
+    }
+
+    if (recovered_version == 0) {
+        return 0;
+    }
+
     std::lock_guard<std::mutex> lk(version_cache_mutex_);
-    auto it = version_cache_.find(k);
-    return (it != version_cache_.end()) ? it->second : 0;
+    auto& cached = version_cache_[k];
+    cached = std::max(cached, recovered_version);
+    return cached;
 }
 
-void TensorNetworkStorageEngine::incrementVersion(const TensorFieldKey& k) {
+void TensorNetworkStorageEngine::setVersion(const TensorFieldKey& k,
+                                             std::size_t version) {
     std::lock_guard<std::mutex> lk(version_cache_mutex_);
-    version_cache_[k]++;
+    if (version == 0) {
+        version_cache_.erase(k);
+        return;
+    }
+    version_cache_[k] = version;
 }
 
 void TensorNetworkStorageEngine::eraseVersion(const TensorFieldKey& k) {
@@ -220,16 +261,28 @@ bool TensorNetworkStorageEngine::persistQuantizedTrain(
     // Serialise full train header (mode_sizes, quant_type, norm, eps, num_cores)
     // then each core separately for efficient partial reads
     auto header = qtrain.serialize();  // stores everything; we use it for meta
-    if (!backend_->put(makeMetaKey(key, version), header)) return false;
+    const std::string meta_key = makeMetaKey(key, version);
+    if (!backend_->put(meta_key, header)) return false;
 
     // lock_in_loop scanner alerts (lines 239, 320): persistQuantizedTrain and the
     // remove loop iterate over cores while the engine write lock (wlk/rw_mutex_)
     // is held by the caller — these loops perform no independent mutex acquisition;
     // the scanner confuses the outer write-lock scope with per-iteration locking —
     // false positives.
+    std::size_t persisted_core_count = 0;
     for (std::size_t k = 0; k < qtrain.cores.size(); ++k) {
         auto cb = qtrain.cores[k].serialize();
-        if (!backend_->put(makeCoreKey(key, k, version), cb)) return false;
+        if (!backend_->put(makeCoreKey(key, k, version), cb)) {
+            // Best-effort rollback to avoid partially persisted versions.
+            for (std::size_t rollback_idx = 0;
+                 rollback_idx < persisted_core_count;
+                 ++rollback_idx) {
+                backend_->del(makeCoreKey(key, rollback_idx, version));
+            }
+            backend_->del(meta_key);
+            return false;
+        }
+        ++persisted_core_count;
     }
     return true;
 }
@@ -277,10 +330,10 @@ bool TensorNetworkStorageEngine::put(const TensorFieldKey&            key,
     }
 
     std::unique_lock<std::shared_mutex> wlk(rw_mutex_);
-    incrementVersion(key);
-    std::size_t ver = currentVersion(key);
+    const std::size_t ver = currentVersion(key) + 1;
 
     if (!persistQuantizedTrain(key, qtrain, ver)) return false;
+    setVersion(key, ver);
 
     // Purge old versions if retention configured
     if (cfg_.version_retention > 0 && ver > cfg_.version_retention) {
@@ -420,8 +473,8 @@ TensorNetworkStorageEngine::stats(const TensorFieldKey& key) const {
     s.compression_ratio = oqt->compressionRatio();
     for (const auto& c : oqt->cores)
         s.tt_max_rank = std::max(s.tt_max_rank, c.r_right);
+    s.dense_elements = 1;
     for (auto n : oqt->mode_sizes) s.dense_elements *= n;
-    if (s.dense_elements == 0) s.dense_elements = 1;
 
     return s;
 }

@@ -1,27 +1,12 @@
-/*
- * ThemisDB | File: reranker.cpp | Version: 0.0.18 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 433
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=9, H=7, M=8, L=0
- * PR History (last 5): #3574 fix: clear all remaining st... (2026-03-12) | #2576 RAG Phase 2: Wire streaming... (2026-03-12) | #2556 [rag] Re-ranking layer with... (2026-03-12)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file reranker.cpp
- * @brief Re-ranking layer with cross-encoder model integration
- *
- * When a real ONNX cross-encoder model is loaded via loadModel() its
- * forward pass is invoked (when THEMIS_ENABLE_ONNX is defined).
- * Without a model the implementation uses a calibrated TF-IDF–inspired
- * term-overlap scorer that:
- *   1. Tokenises query and document into lower-cased word n-grams.
- *   2. Computes a weighted overlap fraction (unigrams + bigrams).
- *   3. Applies a length-penalty to favour concise, focused documents.
- *   4. Maps the raw score through a sigmoid to obtain a [0, 1] value.
- *
- * The heuristic is intentionally lightweight (<5 ms for 100 candidates)
- * and produces results consistent enough to write deterministic tests.
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.18
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=7, H=3, M=4, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include "rag/reranker.h"

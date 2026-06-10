@@ -1,3 +1,14 @@
+/**
+ * @file metadata_snapshot.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 84/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=2, M=1, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
  * ThemisDB | File: metadata_snapshot.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
  * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 99/100 | Lines: 258
@@ -24,6 +35,7 @@
 namespace themisdb {
 namespace sharding {
 
+/** @brief Compute SHA-256 checksum for serialized snapshot payload. */
 std::string MetadataSnapshot::calculateChecksum() const {
     // Serialize snapshot to JSON string (excluding checksum field)
     nlohmann::json j = toJson();
@@ -42,6 +54,7 @@ std::string MetadataSnapshot::calculateChecksum() const {
     return ss.str();
 }
 
+/** @brief Construct snapshot manager and ensure snapshot directory exists. */
 MetadataSnapshotManager::MetadataSnapshotManager(
     const std::string& snapshot_directory,
     size_t max_snapshots
@@ -55,6 +68,7 @@ MetadataSnapshotManager::MetadataSnapshotManager(
     }
 }
 
+/** @brief Create snapshot file, persist JSON, and trigger retention cleanup. */
 std::optional<uint64_t> MetadataSnapshotManager::createSnapshot(
     const std::string& shard_id,
     const LSN& last_lsn,
@@ -117,6 +131,7 @@ std::optional<uint64_t> MetadataSnapshotManager::createSnapshot(
     }
 }
 
+/** @brief Load newest snapshot if available. */
 std::optional<MetadataSnapshot> MetadataSnapshotManager::loadLatestSnapshot() {
     std::lock_guard<std::mutex> lock(snapshot_mutex_);
     
@@ -131,6 +146,7 @@ std::optional<MetadataSnapshot> MetadataSnapshotManager::loadLatestSnapshot() {
     return loadSnapshot(latest_id);
 }
 
+/** @brief Load snapshot by id and validate checksum integrity. */
 std::optional<MetadataSnapshot> MetadataSnapshotManager::loadSnapshot(uint64_t snapshot_id) {
     try {
         std::string snapshot_path = getSnapshotPath(snapshot_id);
@@ -174,6 +190,7 @@ std::optional<MetadataSnapshot> MetadataSnapshotManager::loadSnapshot(uint64_t s
     }
 }
 
+/** @brief Enumerate snapshot files and return IDs sorted newest-first. */
 std::vector<uint64_t> MetadataSnapshotManager::listSnapshots() const {
     std::vector<uint64_t> snapshot_ids;
     
@@ -214,6 +231,7 @@ std::vector<uint64_t> MetadataSnapshotManager::listSnapshots() const {
     return snapshot_ids;
 }
 
+/** @brief Enforce snapshot retention by deleting oldest surplus snapshots. */
 void MetadataSnapshotManager::cleanupOldSnapshots() {
     try {
         auto snapshots = listSnapshots();
@@ -232,6 +250,7 @@ void MetadataSnapshotManager::cleanupOldSnapshots() {
     }
 }
 
+/** @brief Delete one snapshot file from disk when present. */
 bool MetadataSnapshotManager::deleteSnapshot(uint64_t snapshot_id) {
     try {
         std::string snapshot_path = getSnapshotPath(snapshot_id);
@@ -249,6 +268,7 @@ bool MetadataSnapshotManager::deleteSnapshot(uint64_t snapshot_id) {
     }
 }
 
+/** @brief Build full file path for snapshot id. */
 std::string MetadataSnapshotManager::getSnapshotPath(uint64_t snapshot_id) const {
     return snapshot_directory_ + "/metadata_snapshot_" + std::to_string(snapshot_id) + ".json";
 }

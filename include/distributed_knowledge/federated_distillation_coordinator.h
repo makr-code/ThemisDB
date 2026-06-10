@@ -1,57 +1,14 @@
-/*
- * ThemisDB | File: federated_distillation_coordinator.h | Version: 0.0.1 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 96/100 | Lines: 468
- * Gap Summary: total=4; TODO=1, Stub=1, Unimpl=0, Mock=2, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * PR History (last 5): #4959 [Docs][distributed_knowledg... (2026-05-11) | #4753 feat(projects): InMemoryPro... (2026-04-21)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
-// SPDX-License-Identifier: MIT
-// Copyright 2026 ThemisDB — Licensed under MIT License
 #pragma once
 
 /**
  * @file federated_distillation_coordinator.h
- * @brief Federated Distillation Coordinator — teacher-student knowledge transfer
- *        across institution/tenant boundaries without raw data exchange.
- *
- * ## Protocol
- *
- * ```
- * Teacher node
- *   └─ infer(query) → raw_logits
- *   └─ temperature_scale(raw_logits, T) → soft_label
- *   └─ submitSoftLabels(round, [{query_id, soft_label}])
- *           ↓
- * FederatedDistillationCoordinator
- *   └─ applyDPNoise(labels, ε, δ)          — Gaussian mechanism
- *   └─ checkPolicyGate()                   — cross-border / governance
- *   └─ broadcastSoftLabels(round, labels) →
- *           ↓
- * Student node(s)
- *   └─ receiveSoftLabels(labels) → distillation_loss += KL(student || teacher)
- *   └─ train() → LoRA adapter update
- * ```
- *
- * ## Design Constraints
- *   - Raw training samples / cleartext query text never leave the teacher node.
- *   - Only temperature-scaled logit distributions (soft labels) are shared.
- *   - Gaussian DP noise is applied *before* broadcasting; ε is tracked per round.
- *   - A configurable `PolicyGate` callback can block distribution for any shard.
- *   - Rollback is triggered automatically when utility falls below threshold.
- *
- * ## Scientific references
- *   Hinton, G., Vinyals, O., Dean, J. (2015). "Distilling the Knowledge in a
- *   Neural Network." NIPS Workshop.
- *   Anil, R., et al. (2018). "Large-Scale Distributed Neural Network Training
- *   Through Online Distillation." ICLR 2018.
- *   Dwork, C., et al. (2014). "The Algorithmic Foundations of Differential
- *   Privacy." Foundations and Trends in Theoretical Computer Science.
- *
- * @see include/distributed_knowledge/lora_federation_coordinator.h — gradient path
- * @see include/training/adapter_serving.h — rollback/deploy lifecycle
- * @see include/training/incremental_lora_trainer.h — student trainer interface
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.1
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 96/100
+ * @note Gap Summary: total=4; TODO=1, Stub=1, Unimpl=0, Mock=2, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include <cstddef>

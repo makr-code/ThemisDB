@@ -1,41 +1,12 @@
-/*
- * ThemisDB | File: tensor_train_decomposer.h | Version: 1.0.0
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file tensor_train_decomposer.h
- * @brief Tensor-Train (TT) decomposition engine for ThemisDB storage.
- *
- * Implements the TT-SVD algorithm (Oseledets, SIAM J. Sci. Comput. 2011,
- * DOI:10.1137/090752142) to represent dense multi-dimensional tensors as
- * chains of 3-D core tensors:
- *
- *   T(i₁,…,id) ≈ G₁(i₁) · G₂(i₂) · … · Gd(id)
- *
- * where Gk ∈ ℝ^{r_{k-1} × n_k × r_k} and r = (r₀,…,rd) are the TT-ranks
- * (r₀ = r_d = 1).  Storage cost is O(d·n·r²) vs O(n^d) for the full tensor.
- *
- * ### Accuracy guarantee
- * The truncated SVD at each step ensures
- *   ‖T - T_approx‖_F ≤ ε · ‖T‖_F
- * when `eps` is supplied (Theorem 2.1 in Oseledets 2011).
- *
- * ### Thread safety
- * `TensorTrainDecomposer` is stateless and safe for concurrent use after
- * construction.  Individual `TTTrain` objects are NOT thread-safe.
- *
- * ### References
- * - Oseledets, I. V. (2011). Tensor-Train Decomposition.
- *   SIAM Journal on Scientific Computing, 33(5), 2295–2317.
- * - Holtz, S., Rohwedder, T., & Schneider, R. (2012). The alternating linear
- *   scheme for tensor optimization in the TT-format. SIAM J. Sci. Comput.,
- *   34(2), A683–A713.
- * - Kossaifi, J. et al. (2019). TensorLy: Tensor Learning in Python.
- *   Journal of Machine Learning Research, 20(26), 1–6.
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 1.0.0
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once

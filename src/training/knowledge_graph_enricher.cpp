@@ -1,3 +1,14 @@
+/**
+ * @file knowledge_graph_enricher.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=5; TODO=1, Stub=3, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=0, M=4, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
  * ThemisDB | File: knowledge_graph_enricher.cpp | Version: 0.0.47 | Last Modified: 2026-06-01 08:11:44
  * Author: makr | Maturity: 🟢 PRODUCTION-READY | Score: 93/100 | Lines: 663
@@ -546,6 +557,7 @@ private:
         // Phase 6: AQL update (graph_aql::UPDATE_SAMPLE_CONTEXT)
         // Compute a quality score based on how much context was found
         double quality = computeContextQuality(context);
+        static_cast<void>(quality);
         // In production: execute UPDATE_SAMPLE_CONTEXT binding @context, @quality_score
     }
 

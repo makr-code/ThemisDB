@@ -1,21 +1,11 @@
-"""
-ThemisDB Gap Scanner V3 — Unified Pipeline Architecture (Flat Structure)
+"""ThemisDB Gap Scanner package.
 
-File naming convention (flat structure in tools/scanners/):
-  gs3_step00_<focus>.py    (Tier 0: Baseline, ultra-fast keyword matching)
-  gs3_step01_<focus>.py    (Tier 1: Basic code quality, Phase 1-4)
-  gs3_step02_<focus>.py    (Tier 2: Specialized patterns)
-  gs3_step03_<focus>.py    (Tier 3: Hardening & Security, Phase 11)
-  gs3_step04_<focus>.py    (Tier 4: Semantic & FP Filters, Wave 5-6)
-
-Legacy imports (backwards compatibility):
-  LegacyGapScanner: Original gap_scanner.py
-  ContextualGapScanner: gap_scanner_v2.py with context
-  UnifiedGapScanner: gap_scanner_v3.py orchestrator (broken, deprecated)
+Uniform default scanner: gs3_step00_uniform_full.py
 """
 
 import sys
 from pathlib import Path
+from typing import Dict, List
 
 _REPO_ROOT = Path(__file__).resolve().parents[2]
 _TOOLS_DIR = _REPO_ROOT / "tools"
@@ -45,9 +35,73 @@ except ImportError:
     ContextualGapScanner = None
 
 try:
-    from tools.gap_scanner_v3 import UnifiedGapScannerV3 as UnifiedGapScanner
+    from tools.gap_scanner_v3 import UnifiedGapScannerV3 as LegacyUnifiedGapScannerV3
 except ImportError:
-    UnifiedGapScanner = None
+    LegacyUnifiedGapScannerV3 = None
+
+
+class UnifiedGapScanner:
+    """Backward-compatible wrapper around the uniform scanner pipeline."""
+
+    def __init__(self, repo_root: str = '.', output_dir: str = 'ai_working'):
+        self.repo_root = Path(repo_root)
+        self.output_dir = Path(output_dir)
+        self.output_dir.mkdir(parents=True, exist_ok=True)
+
+    def run_complete_scan(self) -> Dict[str, Dict]:
+        from tools.scanners.gs3_step00_uniform_full import UniformFullScanner
+
+        registry = ScannerRegistry()
+        registry.register(UniformFullScanner())
+        pipeline = GapScannerPipeline(registry)
+
+        scan_root = self.repo_root
+        if not (scan_root / 'src').exists():
+            scan_root = self.repo_root / 'src'
+
+        gaps = pipeline.execute(str(scan_root), verbose=False)
+        pipeline.export_json(self.output_dir / 'gap_scan_results.json')
+        return self._aggregate_by_module(gaps)
+
+    def _aggregate_by_module(self, gaps: List[Gap]) -> Dict[str, Dict]:
+        modules: Dict[str, Dict] = {}
+        for gap in gaps:
+            module = self._module_from_file(gap.file)
+            if module not in modules:
+                modules[module] = {
+                    'total': 0,
+                    'severity_critical': 0,
+                    'severity_high': 0,
+                    'severity_medium': 0,
+                    'gaps_by_file': {},
+                }
+
+            modules[module]['total'] += 1
+            sev = str(gap.severity).upper()
+            if sev == 'CRITICAL':
+                modules[module]['severity_critical'] += 1
+            elif sev == 'HIGH':
+                modules[module]['severity_high'] += 1
+            elif sev == 'MEDIUM':
+                modules[module]['severity_medium'] += 1
+
+            file_key = gap.file
+            if file_key not in modules[module]['gaps_by_file']:
+                modules[module]['gaps_by_file'][file_key] = []
+            modules[module]['gaps_by_file'][file_key].append(gap.to_dict())
+
+        return modules
+
+    def _module_from_file(self, file_path: str) -> str:
+        normalized = str(file_path).replace('\\', '/').lstrip('./')
+        parts = Path(normalized).parts
+        if not parts:
+            return 'unknown'
+        if parts[0] == 'src' and len(parts) > 1:
+            return parts[1]
+        if parts[0] in {'include', 'tests', 'benchmarks', 'internal'}:
+            return parts[0]
+        return parts[0]
 
 __all__ = [
     # New OOP architecture
@@ -61,4 +115,5 @@ __all__ = [
     "LegacyGapScanner",
     "ContextualGapScanner",
     "UnifiedGapScanner",
+    "LegacyUnifiedGapScannerV3",
 ]

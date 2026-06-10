@@ -1,3 +1,14 @@
+/**
+ * @file health_monitor.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=4; TODO=1, Stub=1, Unimpl=0, Mock=2, Sim=0, Debt=0, C=0, H=7, M=3, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
  * ThemisDB | File: health_monitor.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
  * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 95/100 | Lines: 415
@@ -13,6 +24,9 @@
 
 namespace themis::sharding {
 
+/**
+ * @brief Construct monitor with internally created HTTP client pool.
+ */
 HealthMonitor::HealthMonitor(const HealthMonitorConfig& config,
                              std::shared_ptr<MultiPrimaryCoordinator> primary_coordinator,
                              std::shared_ptr<ReplicaTopology> topology)
@@ -33,6 +47,9 @@ HealthMonitor::HealthMonitor(const HealthMonitorConfig& config,
     http_pool_ = std::make_shared<utils::HTTPClientPool>(pool_config);
 }
 
+/**
+ * @brief Construct monitor with caller-provided HTTP client pool.
+ */
 HealthMonitor::HealthMonitor(const HealthMonitorConfig& config,
                              std::shared_ptr<MultiPrimaryCoordinator> primary_coordinator,
                              std::shared_ptr<ReplicaTopology> topology,
@@ -44,6 +61,9 @@ HealthMonitor::HealthMonitor(const HealthMonitorConfig& config,
       last_failover_time_(std::chrono::steady_clock::time_point::min()) {
 }
 
+/**
+ * @brief Construct monitor with custom HTTP pool and thread pool manager.
+ */
 HealthMonitor::HealthMonitor(const HealthMonitorConfig& config,
                              std::shared_ptr<MultiPrimaryCoordinator> primary_coordinator,
                              std::shared_ptr<ReplicaTopology> topology,
@@ -57,10 +77,12 @@ HealthMonitor::HealthMonitor(const HealthMonitorConfig& config,
       last_failover_time_(std::chrono::steady_clock::time_point::min()) {
 }
 
+/** @brief Destructor; ensures monitoring loop is stopped. */
 HealthMonitor::~HealthMonitor() {
     stop();
 }
 
+/** @brief Start monitoring loop using thread pool when available. */
 void HealthMonitor::start() {
     if (running_.exchange(true)) {
         return;  // Already running
@@ -83,6 +105,7 @@ void HealthMonitor::start() {
     }
 }
 
+/** @brief Stop monitoring loop and join fallback thread when needed. */
 void HealthMonitor::stop() {
     if (!running_.exchange(false)) {
         return;  // Already stopped
@@ -93,6 +116,12 @@ void HealthMonitor::stop() {
     }
 }
 
+/**
+ * @brief Perform synchronous health check against node endpoint.
+ * @param node_id Node identifier.
+ * @param endpoint HTTP health endpoint.
+ * @return Health-check result including status and response time.
+ */
 HealthCheckResult HealthMonitor::checkNodeHealth(const std::string& node_id, 
                                                  const std::string& endpoint) {
     total_health_checks_++;
@@ -124,11 +153,17 @@ HealthCheckResult HealthMonitor::checkNodeHealth(const std::string& node_id,
     return result;
 }
 
+/** @brief Return status snapshots for all tracked nodes. */
 std::map<std::string, HealthCheckResult> HealthMonitor::getAllHealthStatuses() const {
     std::lock_guard<std::mutex> lock(mutex_);
     return health_statuses_;
 }
 
+/**
+ * @brief Return health snapshot for a single node.
+ * @param node_id Node identifier.
+ * @return Optional status snapshot.
+ */
 std::optional<HealthCheckResult> HealthMonitor::getHealthStatus(const std::string& node_id) const {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -140,6 +175,12 @@ std::optional<HealthCheckResult> HealthMonitor::getHealthStatus(const std::strin
     return std::nullopt;
 }
 
+/**
+ * @brief Trigger manual failover and record event on success.
+ * @param failed_node_id Failed source node.
+ * @param promote_node_id Target node for promotion.
+ * @return true when promotion succeeds.
+ */
 bool HealthMonitor::triggerManualFailover(const std::string& failed_node_id,
                                           const std::string& promote_node_id) {
     manual_failovers_++;
@@ -164,11 +205,17 @@ bool HealthMonitor::triggerManualFailover(const std::string& failed_node_id,
     return promoted;
 }
 
+/** @brief Enable/disable automatic failover policy. */
 void HealthMonitor::setAutoFailoverEnabled(bool enabled) {
     std::lock_guard<std::mutex> lock(mutex_);
     config_.auto_failover_enabled = enabled;
 }
 
+/**
+ * @brief Return most recent failover events up to max_events.
+ * @param max_events Maximum number of events.
+ * @return Failover event tail.
+ */
 std::vector<FailoverEvent> HealthMonitor::getFailoverHistory(size_t max_events) const {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -179,6 +226,7 @@ std::vector<FailoverEvent> HealthMonitor::getFailoverHistory(size_t max_events) 
     );
 }
 
+/** @brief Return monitor statistics snapshot. */
 HealthMonitor::Statistics HealthMonitor::getStatistics() const {
     Statistics stats;
     stats.total_health_checks = total_health_checks_.load();
@@ -192,6 +240,7 @@ HealthMonitor::Statistics HealthMonitor::getStatistics() const {
 
 // Private methods
 
+/** @brief Periodic monitoring loop body. */
 void HealthMonitor::monitoringLoop() {
     while (running_) {
         performHealthChecks();
@@ -199,6 +248,7 @@ void HealthMonitor::monitoringLoop() {
     }
 }
 
+/** @brief Execute one monitoring iteration across primaries and replicas. */
 void HealthMonitor::performHealthChecks() {
     // Check all active primaries
     auto primaries = primary_coordinator_->getActivePrimaries();
@@ -288,6 +338,7 @@ void HealthMonitor::performHealthChecks() {
     }
 }
 
+/** @brief Process node DOWN transition and optionally trigger auto-failover. */
 void HealthMonitor::handleNodeFailure(const std::string& node_id) {
     if (!shouldTriggerFailover(node_id)) {
         return;  // Failover cooldown or disabled
@@ -318,6 +369,7 @@ void HealthMonitor::handleNodeFailure(const std::string& node_id) {
     }
 }
 
+/** @brief Return whether automatic failover may execute now. */
 bool HealthMonitor::shouldTriggerFailover([[maybe_unused]] const std::string& node_id) const {
     if (!config_.auto_failover_enabled) {
         return false;
@@ -334,6 +386,7 @@ bool HealthMonitor::shouldTriggerFailover([[maybe_unused]] const std::string& no
     return true;
 }
 
+/** @brief Select first healthy standby node eligible for promotion. */
 std::optional<std::string> HealthMonitor::selectStandbyForPromotion() const {
     // Get all primaries
     auto all_primaries = primary_coordinator_->getActivePrimaries();
@@ -359,6 +412,7 @@ std::optional<std::string> HealthMonitor::selectStandbyForPromotion() const {
     return candidates[0];
 }
 
+/** @brief Record failover event and enforce bounded in-memory history size. */
 void HealthMonitor::recordFailoverEvent(const FailoverEvent& event) {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -371,6 +425,7 @@ void HealthMonitor::recordFailoverEvent(const FailoverEvent& event) {
     }
 }
 
+/** @brief Perform HTTP-based liveness check for one endpoint. */
 bool HealthMonitor::performHealthCheck(const std::string& endpoint) {
     if (!http_pool_) {
         return false;  // No HTTP pool available

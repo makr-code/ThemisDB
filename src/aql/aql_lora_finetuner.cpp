@@ -1,32 +1,12 @@
-/*
- * ThemisDB | File: aql_lora_finetuner.cpp | Version: 0.0.15 | Last Modified: 2026-05-31 12:49:01
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 739
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=4, M=20, L=0
- * PR History (last 5): #2698 feat(aql): Fine-tuned local... (2026-03-12)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file aql_lora_finetuner.cpp
- * @brief Implementation of the AQL-specific LoRA adapter fine-tuner.
- *
- * This module implements the complete pipeline for creating a LoRA adapter
- * that is specialised for ThemisDB's AQL (Advanced Query Language):
- *
- *  1. AQLDatasetBuilder – constructs a training corpus of (NL, AQL) pairs
- *     that cover all major AQL categories supported by ThemisDB.
- *  2. AQLLoRAFinetuner – drives LoRATrainingService with the dataset and
- *     registers the resulting adapter.
- *
- * Built-in training samples cover:
- *  - Relational queries (FOR/FILTER/SORT/LIMIT/RETURN)
- *  - Graph traversal (OUTBOUND/INBOUND/ANY, shortest path)
- *  - Vector similarity (SIMILARITY function, HNSW)
- *  - Geo-spatial (ST_* functions)
- *  - Timeseries (window functions, continuous aggregation)
- *  - LLM extensions (INFER, RAG, EMBED, MODEL, LORA)
- *  - DDL (CREATE/DROP COLLECTION, CREATE/DROP INDEX)
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=4, M=16, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include "aql/aql_lora_finetuner.h"

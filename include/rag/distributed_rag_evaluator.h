@@ -1,37 +1,12 @@
-/*
- * ThemisDB | File: distributed_rag_evaluator.h | Version: 0.0.13
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file distributed_rag_evaluator.h
- * @brief Distributed RAG evaluation across multiple judge models (Issue: #2245)
- *
- * Provides DistributedRAGEvaluator, which distributes evaluation of RAG outputs
- * across a pool of judge instances (potentially backed by different models) using
- * a thread pool.  Results are aggregated via configurable strategies (mean,
- * weighted average, or majority voting).
- *
- * Architecture:
- * @code
- *   EvaluationInput ──► DistributedRAGEvaluator
- *                              │
- *             ┌────────────────┼────────────────┐
- *             ▼                ▼                ▼
- *          Judge 0          Judge 1          Judge N
- *             │                │                │
- *             └────────────────┴────────────────┘
- *                              │
- *                     AggregationStrategy
- *                              │
- *                     EvaluationResult
- * @endcode
- *
- * Thread safety: DistributedRAGEvaluator is thread-safe for concurrent
- * `evaluate()` / `batchEvaluate()` calls after construction.
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.13
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once

@@ -1,53 +1,12 @@
-/*
- * ThemisDB | File: codec_tags.h | Version: 1.0.0
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file codec_tags.h
- * @brief Canonical wire-format tag bytes for ThemisDB compression codecs.
- *
- * Two independent compression subsystems previously defined the same tag bytes
- * locally, risking byte-value drift if one side changed:
- *
- *   - `storage/compression_strategy.cpp` (full pipeline: DataType, level,
- *     adaptive selection, GPU variants)
- *   - `performance/advanced_cache_manager.cpp` (LRU cache compression; uses a
- *     single leading tag byte to identify the algorithm at decompress time)
- *
- * This header is the **single source of truth** for the leading tag byte in
- * any ThemisDB framed payload.  Both subsystems must include this header
- * instead of defining their own magic constants.
- *
- * ### Wire format
- *
- * Every compressed payload starts with exactly **one tag byte** followed by
- * algorithm-specific framing:
- *
- * ```
- * +--------+---------------------------+---------------------+
- * | Tag    | Extra header (optional)   | Compressed payload  |
- * +--------+---------------------------+---------------------+
- * | 1 byte | Algorithm-specific        | Variable length     |
- * +--------+---------------------------+---------------------+
- * ```
- *
- * | Tag constant        | Value  | Algorithm     | Extra header        |
- * |---------------------|--------|---------------|---------------------|
- * | `kTagPassthrough`   | `0x00` | No compression | None               |
- * | `kTagLZ4`           | `0x01` | LZ4 HC        | 4-byte LE orig size |
- * | `kTagSnappy`        | `0x02` | Snappy        | None                |
- * | `kTagZstd`          | `0x03` | Zstd (lvl 3)  | 4-byte LE orig size |
- *
- * ### Allocation of future tag values
- *
- * Values `0x04`–`0x7F` are reserved for future standard codecs.
- * Values `0x80`–`0xFF` are reserved for experimental / vendor-specific use.
- * New tags MUST be registered here before use; do not add magic bytes
- * in individual compilation units.
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 1.0.0
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once

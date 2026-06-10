@@ -1,34 +1,12 @@
-/*
- * ThemisDB | File: decompress_step.cpp | Version: 1.4.0 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 97/100 | Lines: 237
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=2, M=5, L=0
- * PR History (last 5): none
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file decompress_step.cpp
- * @brief `builtin.decompress` — ZIP / tar / gzip unpack via fork/execvp.
- *
- * Detects archive type from `ctx.manifest.mime_type` (or by file extension),
- * creates a temporary output directory, invokes `unzip` or `tar` from the
- * system PATH, and populates `ctx.extracted_file_paths` with the unpacked
- * paths so that the WorkflowEngine can recursively ingest them.
- *
- * Supported MIME types / extensions:
- *  - application/zip       → `unzip -o <file> -d <dir>`
- *  - application/gzip      → `tar -xzf <file> -C <dir>`
- *  - application/x-gzip    → (same as gzip)
- *  - application/x-tar     → `tar -xf  <file> -C <dir>`
- *  - application/x-bzip2   → `tar -xjf <file> -C <dir>`
- *  - application/x-xz      → `tar -xJf <file> -C <dir>`
- *
- * Config keys (all optional):
- *  - `output_dir`   string  Base directory for extracted files.
- *                           Defaults to a mkdtemp() temp dir under /tmp.
- *  - `max_depth`    number  Maximum unpack depth (≥ 1, default 1).
- *                           Stored as `ctx.extra["decompress.depth"]`.
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 1.4.0
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=2, M=4, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include "ingestion/ingestion_step.h"

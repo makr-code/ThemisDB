@@ -1,40 +1,12 @@
-/*
- * ThemisDB | File: encoder_interface.h | Version: 0.0.1
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
-/*
- * @file tensor/encoder_interface.h
- * @brief Abstract encoder interfaces for text and image inputs used by UTRConverter.
- *
- * ## Overview
- *
- * This header defines the unified encoder interface that allows pluggable
- * text and image encoding backends to replace the built-in lexical fallback
- * implementations in `UTRConverter::fromDocument()` and
- * `UTRConverter::fromImage()`.
- *
- * ### Usage
- *
- * 1. Implement `ITextEncoder` or `IImageEncoder` in your backend plugin.
- * 2. Register the encoder via `UTRConverter::setTextEncoder()` or
- *    `UTRConverter::setImageEncoder()`.
- * 3. `UTRConverter` will prefer the registered encoder over the built-in
- *    lexical fallback.  If `isAvailable()` returns false the converter falls
- *    back to the next lower tier (EmbedFn bridge → built-in lexical encoder).
- *
- * ### Quality Tiers
- *
- * `EncoderQuality` reports the semantic richness of an encoder's output:
- * - `SEMANTIC`  — learned model (transformer, quantised BERT, etc.)
- * - `LEXICAL`   — statistical features (TF-IDF, n-gram projections)
- * - `HASH`      — hash-projection fallback (deterministic, no learned weights)
- *
- * Callers can inspect the active quality tier via the encoder's `quality()`
- * accessor to detect and log degraded operation.
+/**
+ * @file encoder_interface.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.1
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once

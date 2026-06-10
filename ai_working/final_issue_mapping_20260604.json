@@ -1,0 +1,337 @@
+{
+  "total_gaps": 253903,
+  "internal_gaps": 46469,
+  "severity": {
+    "HIGH": 172530,
+    "CRITICAL": 34463,
+    "MEDIUM": 36982,
+    "LOW": 9928
+  },
+  "top_types": [
+    [
+      "shared_state_no_sync",
+      92039
+    ],
+    [
+      "resource_leaked_in_exception",
+      21608
+    ],
+    [
+      "pointer_arithmetic_unbounded",
+      14850
+    ],
+    [
+      "array_bounds_violation",
+      12153
+    ],
+    [
+      "explicit_delete",
+      8011
+    ],
+    [
+      "primitive_no_volatile",
+      7991
+    ],
+    [
+      "delete_without_nullptr",
+      6879
+    ],
+    [
+      "unchecked_array_index",
+      4902
+    ],
+    [
+      "blocking_no_timeout",
+      4477
+    ],
+    [
+      "missing_doxygen_comment",
+      3987
+    ]
+  ],
+  "cross_issue_counts": {
+    "5232": {
+      "global": 5115,
+      "internal": 5115,
+      "scanners": [
+        "Uniform::security",
+        "Uniform::data_leak",
+        "Uniform::encryption_leak",
+        "Uniform::e2e_encryption",
+        "Uniform::key_failure",
+        "Uniform::attack_vectors",
+        "Uniform::military_hardening"
+      ]
+    },
+    "5233": {
+      "global": 49893,
+      "internal": 1203,
+      "scanners": [
+        "Uniform::phase1_memory_safety",
+        "Uniform::uninitialized"
+      ]
+    },
+    "5234": {
+      "global": 621,
+      "internal": 621,
+      "scanners": [
+        "Uniform::reliability"
+      ]
+    },
+    "5235": {
+      "global": 103049,
+      "internal": 4777,
+      "scanners": [
+        "Uniform::phase1_thread_safety",
+        "Uniform::concurrency"
+      ]
+    },
+    "5236": {
+      "global": 11707,
+      "internal": 1870,
+      "scanners": [
+        "Uniform::phase1_raii",
+        "Uniform::raii"
+      ]
+    },
+    "5237": {
+      "global": 2197,
+      "internal": 2197,
+      "scanners": [
+        "Uniform::container"
+      ]
+    },
+    "5238": {
+      "global": 799,
+      "internal": 799,
+      "scanners": [
+        "Uniform::platform"
+      ]
+    },
+    "5239": {
+      "global": 2745,
+      "internal": 2745,
+      "scanners": [
+        "Uniform::performance",
+        "Uniform::performance_patterns"
+      ]
+    },
+    "5240": {
+      "global": 7221,
+      "internal": 238,
+      "scanners": [
+        "Uniform::type_conversion"
+      ]
+    },
+    "5241": {
+      "global": 8152,
+      "internal": 150,
+      "scanners": [
+        "Uniform::input_validation"
+      ]
+    },
+    "5242": {
+      "global": 26694,
+      "internal": 2759,
+      "scanners": [
+        "Uniform::exception_safety"
+      ]
+    },
+    "5243": {
+      "global": 9237,
+      "internal": 185,
+      "scanners": [
+        "Uniform::uninitialized"
+      ]
+    },
+    "5244": {
+      "global": 4658,
+      "internal": 63,
+      "scanners": [
+        "Uniform::virtual_oop"
+      ]
+    }
+  },
+  "module_issue_counts": {
+    "5230": {
+      "module": "content",
+      "internal": 786,
+      "top_types": [
+        [
+          "pointer_arithmetic_unbounded",
+          196
+        ],
+        [
+          "missing_doxygen_return",
+          71
+        ],
+        [
+          "missing_doxygen_param",
+          56
+        ]
+      ]
+    },
+    "5245": {
+      "module": "llm",
+      "internal": 3896,
+      "top_types": [
+        [
+          "missing_doxygen_comment",
+          569
+        ],
+        [
+          "data_race",
+          330
+        ],
+        [
+          "missing_doxygen_return",
+          259
+        ]
+      ]
+    },
+    "5246": {
+      "module": "server",
+      "internal": 3221,
+      "top_types": [
+        [
+          "hardcoded_path",
+          259
+        ],
+        [
+          "missing_doxygen_param",
+          257
+        ],
+        [
+          "missing_doxygen_comment",
+          230
+        ]
+      ]
+    },
+    "5247": {
+      "module": "query",
+      "internal": 1834,
+      "top_types": [
+        [
+          "missing_doxygen_comment",
+          473
+        ],
+        [
+          "missing_doxygen_param",
+          97
+        ],
+        [
+          "missing_doxygen_return",
+          89
+        ]
+      ]
+    },
+    "5248": {
+      "module": "sharding",
+      "internal": 2409,
+      "top_types": [
+        [
+          "missing_doxygen_comment",
+          306
+        ],
+        [
+          "missing_doxygen_brief",
+          257
+        ],
+        [
+          "missing_doxygen_return",
+          219
+        ]
+      ]
+    },
+    "5249": {
+      "module": "index",
+      "internal": 1742,
+      "top_types": [
+        [
+          "missing_doxygen_comment",
+          231
+        ],
+        [
+          "missing_doxygen_return",
+          179
+        ],
+        [
+          "missing_doxygen_param",
+          149
+        ]
+      ]
+    },
+    "5250": {
+      "module": "storage",
+      "internal": 1826,
+      "top_types": [
+        [
+          "missing_doxygen_return",
+          231
+        ],
+        [
+          "missing_doxygen_brief",
+          193
+        ],
+        [
+          "missing_doxygen_param",
+          171
+        ]
+      ]
+    },
+    "5251": {
+      "module": "analytics",
+      "internal": 1394,
+      "top_types": [
+        [
+          "missing_doxygen_brief",
+          157
+        ],
+        [
+          "missing_doxygen_comment",
+          140
+        ],
+        [
+          "missing_doxygen_return",
+          117
+        ]
+      ]
+    },
+    "5252": {
+      "module": "rag",
+      "internal": 912,
+      "top_types": [
+        [
+          "missing_doxygen_return",
+          107
+        ],
+        [
+          "hardcoded_output",
+          83
+        ],
+        [
+          "missing_doxygen_param",
+          59
+        ]
+      ]
+    },
+    "5253": {
+      "module": "security",
+      "internal": 1202,
+      "top_types": [
+        [
+          "resource_leaked_in_exception",
+          121
+        ],
+        [
+          "missing_doxygen_comment",
+          116
+        ],
+        [
+          "missing_doxygen_brief",
+          96
+        ]
+      ]
+    }
+  }
+}

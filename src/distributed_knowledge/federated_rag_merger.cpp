@@ -1,24 +1,12 @@
-/*
- * ThemisDB | File: federated_rag_merger.cpp | Version: 0.0.1 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 293
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=25, H=54, M=11, L=0
- * PR History (last 5): none
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
-// Copyright 2026 ThemisDB — Licensed under MIT License
-
 /**
  * @file federated_rag_merger.cpp
- * @brief Ebene C — Cross-Shard RAG result merge implementation.
- *
- * Implements Reciprocal Rank Fusion (RRF), score-weighted merge, and
- * round-robin interleaving.
- *
- * RRF formula per Cormack et al. (2009):
- *   score(d, Q) = Σ_q∈Q  1 / (k + rank(d, q))
- * where k = rrf_constant (default 60) and rank is 1-based.
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.1
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 93/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=7, H=21, M=4, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include "distributed_knowledge/federated_rag_merger.h"

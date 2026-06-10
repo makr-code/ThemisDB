@@ -1,3 +1,14 @@
+/**
+ * @file http_server.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=5; TODO=2, Stub=1, Unimpl=0, Mock=1, Sim=1, Debt=0, C=48, H=69, M=113, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
  * ThemisDB | File: http_server.cpp | Version: 0.0.47 | Last Modified: 2026-06-01 12:09:23
  * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 92/100 | Lines: 13747
@@ -73,6 +84,7 @@
 // Sprint A features - include BEFORE http_server.h to have complete types
 #include "llm/llm_interaction_store.h"
 #include "llm/llm_plugin_manager.h"
+#include "llm/context_window_budget.h"
 #include "prompt_engineering/prompt_manager.h"
 #include "cdc/changefeed.h"
 #include "cdc/consumer_group.h"
@@ -226,6 +238,9 @@ namespace server {
 // HttpServer Implementation
 // ============================================================================
 
+/**
+ * @brief Construct server with base sharding dependencies.
+ */
 HttpServer::HttpServer(
     const Config& config,
     std::shared_ptr<RocksDBWrapper> storage,
@@ -251,6 +266,9 @@ HttpServer::HttpServer(
         nullptr)
 {}
 
+/**
+ * @brief Construct server with extended sharding and topology dependencies.
+ */
 HttpServer::HttpServer(
     const Config& config,
     std::shared_ptr<RocksDBWrapper> storage,
@@ -745,7 +763,7 @@ HttpServer::HttpServer(
     THEMIS_INFO("API Key Management Handler initialized");
     // Initialize Session Management Handler
     session_manager_ = std::make_shared<themis::auth::SessionManager>();
-    session_api_ = std::make_unique<themis::server::SessionApiHandler>(auth_, session_manager_);
+    session_api_ = std::make_unique<themis::server::SessionApiHandler>(auth_, session_manager_, audit_logger_);
     THEMIS_INFO("Session Management Handler initialized");
     // Initialize PKI API Handler using a SigningService backed by the KeyProvider
     try {
@@ -976,8 +994,8 @@ HttpServer::HttpServer(
         try {
             ranger_client_ = std::make_unique<themis::server::RangerClient>(std::move(rcfg));
             THEMIS_INFO("Ranger client configured for {}", *base);
-        } catch (...) {
-            THEMIS_WARN("Failed to initialize Ranger client; integration disabled");
+        } catch (const std::exception& ex) {
+            THEMIS_WARN("Failed to initialize Ranger client: {}; integration disabled", ex.what());
         }
     }
 
@@ -1603,7 +1621,9 @@ HttpServer::HttpServer(
                     entry["type"]   = type_str;
                     entry["ip"]     = ev.ip;
                     entry["detail"] = ev.detail;
-                    try { audit->logEvent(entry); } catch (...) {}
+                    try { audit->logEvent(entry); } catch (const std::exception& ex) {
+                        THEMIS_ERROR("Failed to log rate limiter anomaly: {}", ex.what());
+                    }
                 }
             });
         THEMIS_INFO("RateLimiter anomaly callback wired");
@@ -1998,10 +2018,17 @@ HttpServer::HttpServer(
     }
 }
 
+/** @brief Destructor triggers graceful shutdown via stop(). */
 HttpServer::~HttpServer() {
     stop();
 }
 
+/**
+ * @brief Start HTTP server accept loop, worker threads, and auxiliary services.
+ *
+ * Opens/binds/listens the TCP acceptor, starts io_context workers, and starts
+ * optional health and HTTP/3 services when configured.
+ */
 void HttpServer::start() {
     if (running_) {
         THEMIS_WARN("Server already running");
@@ -2080,6 +2107,13 @@ void HttpServer::start() {
     THEMIS_INFO("HTTP Server started successfully");
 }
 
+/**
+ * @brief Gracefully stop server components and join worker threads.
+ *
+ * Stops acceptor/services, drains in-flight requests until timeout, flushes
+ * component state, stops io_context, joins workers, and finally shuts down
+ * concerns context when present.
+ */
 void HttpServer::stop() {
     if (!running_) {
         return;
@@ -2216,6 +2250,9 @@ void HttpServer::stop() {
     }
 }
 
+/**
+ * @brief Block until all worker threads have terminated.
+ */
 void HttpServer::wait() {
     for (auto& thread : threads_) {
         if (thread.joinable()) {
@@ -2224,6 +2261,10 @@ void HttpServer::wait() {
     }
 }
 
+/**
+ * @brief Reload TLS certificate/key pair for newly accepted sessions.
+ * @return true on successful context rebuild and swap.
+ */
 bool HttpServer::reloadTls() {
     if (!config_.enable_tls) {
         THEMIS_WARN("TLS hot-reload requested but TLS is not enabled - ignoring");
@@ -4729,50 +4770,76 @@ http::response<http::string_body> HttpServer::routeRequest(
 
     http::response<http::string_body> response;
 
+    auto ensure_handler_ready = [&](const char* handler_name, const void* handler_ptr) {
+        if (handler_ptr != nullptr) {
+            return true;
+        }
+        THEMIS_ERROR("HTTP route aborted: {} not initialized", handler_name);
+        response = makeErrorResponse(
+            http::status::service_unavailable,
+            std::string(handler_name) + " not initialized",
+            req);
+        return false;
+    };
+
     try {
         switch (classifyRoute(req)) {
             case Route::Health:
-               {
-                   std::lock_guard<std::mutex> lock(api_handlers_mutex_);
-                   response = monitoring_api_->handleHealthCheck(req);
-               }
+                if (monitoring_api_) {
+                    response = monitoring_api_->handleHealthCheck(req);
+                } else {
+                    response = makeErrorResponse(http::status::service_unavailable,
+                        "Monitoring API handler not initialized", req);
+                }
             break;
         case Route::HealthLive:
-           {
-               std::lock_guard<std::mutex> lock(api_handlers_mutex_);
-               response = monitoring_api_->handleLiveness(req);
-           }
+            if (monitoring_api_) {
+                response = monitoring_api_->handleLiveness(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable,
+                    "Monitoring API handler not initialized", req);
+            }
             break;
         case Route::HealthReady:
-           {
-               std::lock_guard<std::mutex> lock(api_handlers_mutex_);
-               response = monitoring_api_->handleReadiness(req);
-           }
+            if (monitoring_api_) {
+                response = monitoring_api_->handleReadiness(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable,
+                    "Monitoring API handler not initialized", req);
+            }
             break;
         case Route::OpenApi:
-           {
-               std::lock_guard<std::mutex> lock(api_handlers_mutex_);
-               response = monitoring_api_->handleOpenApi(req);
-           }
-           break;
+            if (monitoring_api_) {
+                response = monitoring_api_->handleOpenApi(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable,
+                    "Monitoring API handler not initialized", req);
+            }
+            break;
         case Route::Version:
-           {
-               std::lock_guard<std::mutex> lock(api_handlers_mutex_);
-               response = monitoring_api_->handleVersion(req);
-           }
-           break;
+            if (monitoring_api_) {
+                response = monitoring_api_->handleVersion(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable,
+                    "Monitoring API handler not initialized", req);
+            }
+            break;
         case Route::Stats:
-           {
-               std::lock_guard<std::mutex> lock(api_handlers_mutex_);
-               response = monitoring_api_->handleStats(req);
-           }
-           break;
+            if (monitoring_api_) {
+                response = monitoring_api_->handleStats(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable,
+                    "Monitoring API handler not initialized", req);
+            }
+            break;
         case Route::CapabilitiesGet:
-           {
-               std::lock_guard<std::mutex> lock(api_handlers_mutex_);
-               response = monitoring_api_->handleCapabilities(req);
-           }
-           break;
+            if (monitoring_api_) {
+                response = monitoring_api_->handleCapabilities(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable,
+                    "Monitoring API handler not initialized", req);
+            }
+            break;
         case Route::Metrics: {
             // HS-3: Restrict metrics to localhost or valid bearer token.
             {
@@ -4797,11 +4864,13 @@ http::response<http::string_body> HttpServer::routeRequest(
                 }
             }
             // Delegate to MonitoringApiHandler for Prometheus metrics export
-           {
-               std::lock_guard<std::mutex> lock(api_handlers_mutex_);
-               response = monitoring_api_->handleMetrics(req);
-           }
-           break;
+            if (monitoring_api_) {
+                response = monitoring_api_->handleMetrics(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable,
+                    "Monitoring API handler not initialized", req);
+            }
+            break;
         }
         case Route::MetricsHtml: {
             // W1-S11: Same localhost-or-metrics-token restriction as the Prometheus /metrics
@@ -4825,9 +4894,11 @@ http::response<http::string_body> HttpServer::routeRequest(
                     "Metrics HTML endpoint requires local access or valid THEMIS_METRICS_TOKEN", req);
                 break;
             }
-            {
-                std::lock_guard<std::mutex> lock(api_handlers_mutex_);
+            if (monitoring_api_) {
                 response = monitoring_api_->handleMetricsHtml(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable,
+                    "Monitoring API handler not initialized", req);
             }
             break;
         }
@@ -4853,9 +4924,11 @@ http::response<http::string_body> HttpServer::routeRequest(
                     "Plugin metrics endpoint requires local access or valid THEMIS_METRICS_TOKEN", req);
                 break;
             }
-            {
-                std::lock_guard<std::mutex> lock(api_handlers_mutex_);
+            if (monitoring_api_) {
                 response = monitoring_api_->handlePluginMetrics(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable,
+                    "Monitoring API handler not initialized", req);
             }
             break;
         }
@@ -4866,55 +4939,66 @@ http::response<http::string_body> HttpServer::routeRequest(
                 response = *auth_err;
                 break;
             }
-           {
-               std::lock_guard<std::mutex> lock(api_handlers_mutex_);
-               response = monitoring_api_->handleObservabilityAlerts(req);
-           }
-           break;
-        case Route::ObservabilityAlertSilencePost:
-           // W1-S11: Silencing alerts is a write operation — require monitoring write.
-           if (auto auth_err = requireAccess(req, "monitoring:write", "monitoring.alerts.silence",
-                                             "/api/v1/observability/alerts/silence")) {
-               response = *auth_err;
-               break;
-           }
-           {
-               std::lock_guard<std::mutex> lock(api_handlers_mutex_);
-               response = monitoring_api_->handleObservabilityAlertSilence(req);
-           }
-           break;
-        case Route::ObservabilityHealthGet:
-           // W1-S11: Observability health exposes internal service config (endpoint URLs,
-           // connection state) — require monitoring read.
-           if (auto auth_err = requireAccess(req, "monitoring:read", "monitoring.health.read",
-                                             "/api/v1/observability/health")) {
-               response = *auth_err;
-               break;
-           }
-           {
-               std::lock_guard<std::mutex> lock(api_handlers_mutex_);
-               response = monitoring_api_->handleObservabilityHealth(req);
+            if (monitoring_api_) {
+                response = monitoring_api_->handleObservabilityAlerts(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable,
+                    "Monitoring API handler not initialized", req);
             }
-           break;
+            break;
+        case Route::ObservabilityAlertSilencePost:
+            // W1-S11: Silencing alerts is a write operation — require monitoring write.
+            if (auto auth_err = requireAccess(req, "monitoring:write", "monitoring.alerts.silence",
+                                              "/api/v1/observability/alerts/silence")) {
+                response = *auth_err;
+                break;
+            }
+            if (monitoring_api_) {
+                response = monitoring_api_->handleObservabilityAlertSilence(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable,
+                    "Monitoring API handler not initialized", req);
+            }
+            break;
+        case Route::ObservabilityHealthGet:
+            // W1-S11: Observability health exposes internal service config (endpoint URLs,
+            // connection state) — require monitoring read.
+            if (auto auth_err = requireAccess(req, "monitoring:read", "monitoring.health.read",
+                                              "/api/v1/observability/health")) {
+                response = *auth_err;
+                break;
+            }
+            if (monitoring_api_) {
+                response = monitoring_api_->handleObservabilityHealth(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable,
+                    "Monitoring API handler not initialized", req);
+            }
+            break;
         case Route::LicenseStatusGet:
-           // W1-S11: License status exposes organization name, edition, and masked license key —
-           // require monitoring read access.
-           if (auto auth_err = requireAccess(req, "monitoring:read", "monitoring.license.read",
-                                             "/api/v1/license/status")) {
-               response = *auth_err;
-               break;
-           }
-           {
-               std::lock_guard<std::mutex> lock(api_handlers_mutex_);
-               response = monitoring_api_->handleLicenseStatus(req);
-           }
-           break;
+            // W1-S11: License status exposes organization name, edition, and masked license key —
+            // require monitoring read access.
+            if (auto auth_err = requireAccess(req, "monitoring:read", "monitoring.license.read",
+                                              "/api/v1/license/status")) {
+                response = *auth_err;
+                break;
+            }
+            if (monitoring_api_) {
+                response = monitoring_api_->handleLicenseStatus(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable,
+                    "Monitoring API handler not initialized", req);
+            }
+            break;
         case Route::WalApplyPost:
             // HS-2 fix: require admin privilege at the routing layer.
             // WALApiHandler::handleApply() also validates X-WAL-Auth / X-WAL-HMAC
             // when those secrets are configured, providing defense-in-depth.
             if (auto auth_err = requireAccess(req, "admin", "admin", "/api/v1/wal/apply")) {
                 response = *auth_err;
+                break;
+            }
+            if (!ensure_handler_ready("WAL API handler", wal_api_.get())) {
                 break;
             }
             response = wal_api_->handleApply(req);
@@ -4928,6 +5012,9 @@ http::response<http::string_body> HttpServer::routeRequest(
                 response = *auth_err;
                 break;
             }
+            if (!ensure_handler_ready("Admin API handler", admin_api_.get())) {
+                break;
+            }
             response = admin_api_->handleBackup(req);
             break;
         case Route::AdminRestorePost:
@@ -4936,31 +5023,58 @@ http::response<http::string_body> HttpServer::routeRequest(
                 response = *auth_err;
                 break;
             }
+            if (!ensure_handler_ready("Admin API handler", admin_api_.get())) {
+                break;
+            }
             response = admin_api_->handleRestore(req);
             break;
         case Route::EntitiesGet:
+            if (!ensure_handler_ready("Entity API handler", entity_api_.get())) {
+                break;
+            }
             response = entity_api_->handleGet(req);
             break;
         case Route::EntitiesPut:
+            if (!ensure_handler_ready("Entity API handler", entity_api_.get())) {
+                break;
+            }
             response = entity_api_->handlePut(req);
             break;
         case Route::EntitiesDelete:
+            if (!ensure_handler_ready("Entity API handler", entity_api_.get())) {
+                break;
+            }
             response = entity_api_->handleDelete(req);
             break;
         case Route::EntitiesPost:
+            if (!ensure_handler_ready("Entity API handler", entity_api_.get())) {
+                break;
+            }
             response = entity_api_->handlePut(req);
             break;
         case Route::EntitiesBatchPost:
+            if (!ensure_handler_ready("Entity API handler", entity_api_.get())) {
+                break;
+            }
             response = entity_api_->handleBatch(req);
             break;
         case Route::V2DocumentsBulkPost:
+            if (!ensure_handler_ready("Entity API handler", entity_api_.get())) {
+                break;
+            }
             response = entity_api_->handleBulkNdjson(req);
             break;
         case Route::QueryPost:
+            if (!ensure_handler_ready("Query API handler", query_api_.get())) {
+                break;
+            }
             response = query_api_->handleQuery(req);
             recordContinuousLearningQueryTelemetry(req, response, start, false);
             break;
         case Route::QueryAqlPost: {
+            if (!ensure_handler_ready("Query API handler", query_api_.get())) {
+                break;
+            }
             // AQL payload validation before handling
             if (validator_) {
                 try {
@@ -4980,38 +5094,68 @@ http::response<http::string_body> HttpServer::routeRequest(
             break;
         }
         case Route::QueryStreamSseGet:
+            if (!ensure_handler_ready("Query API handler", query_api_.get())) {
+                break;
+            }
             response = query_api_->handleQueryStreamSse(req);
             break;
         case Route::IndexCreatePost:
+            if (!ensure_handler_ready("Index API handler", index_api_.get())) {
+                break;
+            }
             response = index_api_->handleCreate(req);
             break;
         case Route::IndexDropPost:
+            if (!ensure_handler_ready("Index API handler", index_api_.get())) {
+                break;
+            }
             response = index_api_->handleDrop(req);
             break;
         case Route::IndexStatsGet:
+            if (!ensure_handler_ready("Index API handler", index_api_.get())) {
+                break;
+            }
             response = index_api_->handleStats(req);
             break;
         case Route::IndexRebuildPost:
+            if (!ensure_handler_ready("Index API handler", index_api_.get())) {
+                break;
+            }
             response = index_api_->handleRebuild(req);
             break;
         case Route::IndexReindexPost:
+            if (!ensure_handler_ready("Index API handler", index_api_.get())) {
+                break;
+            }
             response = index_api_->handleReindex(req);
             break;
             
         // G5: Spatial Index Management handlers
         case Route::SpatialIndexCreatePost:
+            if (!ensure_handler_ready("Spatial API handler", spatial_api_.get())) {
+                break;
+            }
             response = spatial_api_->handleIndexCreate(req);
             applyGovernanceHeaders(req, response);
             break;
         case Route::SpatialIndexRebuildPost:
+            if (!ensure_handler_ready("Spatial API handler", spatial_api_.get())) {
+                break;
+            }
             response = spatial_api_->handleIndexRebuild(req);
             applyGovernanceHeaders(req, response);
             break;
         case Route::SpatialIndexStatsGet:
+            if (!ensure_handler_ready("Spatial API handler", spatial_api_.get())) {
+                break;
+            }
             response = spatial_api_->handleIndexStats(req);
             applyGovernanceHeaders(req, response);
             break;
         case Route::SpatialIndexMetricsGet:
+            if (!ensure_handler_ready("Spatial API handler", spatial_api_.get())) {
+                break;
+            }
             response = spatial_api_->handleMetrics(req);
             applyGovernanceHeaders(req, response);
             break;
@@ -9855,25 +9999,8 @@ std::optional<http::response<http::string_body>> HttpServer::requireAccess(
             res.prepare_payload();
             return res;
         }
-        // Log Authorization header presence for this DELETE request
-        try {
-            std::string auth_hdr = std::string(auth_header);
-            auto mask = [](const std::string& s) {
-                if (s.size() <= 8) return s;
-                return s.substr(0,4) + "..." + s.substr(s.size()-4);
-            };
-            THEMIS_INFO("handlePiiDeleteByUuid: Authorization header='{}'", mask(auth_hdr));
-        } catch (...) {}
+        // Authorization header presence validated
         auto token = themis::AuthMiddleware::extractBearerToken(std::string_view(auth_header.data(), auth_header.size()));
-        // Log presence of Authorization header for debugging (mask token)
-        try {
-            std::string auth_hdr = std::string(auth_header);
-            auto mask = [](const std::string& s) {
-                if (s.size() <= 8) return s;
-                return s.substr(0,4) + "..." + s.substr(s.size()-4);
-            };
-            THEMIS_INFO("PII DELETE: Authorization header present: '{}'", mask(auth_hdr));
-        } catch (...) {}
         if (!token) {
             http::response<http::string_body> res{http::status::unauthorized, req.version()};
             res.set(http::field::www_authenticate, "Bearer realm=\"themis\"");
@@ -9884,31 +10011,30 @@ std::optional<http::response<http::string_body>> HttpServer::requireAccess(
             res.prepare_payload();
             return res;
         }
-            // Diagnostic: validate token to see which user_id (if any) is associated
-            try {
-                auto vres = auth_->validateToken(*token);
-                THEMIS_INFO("requireAccess: validateToken -> authorized={} user_id='{}' reason='{}'", vres.authorized, vres.user_id, vres.reason);
-                if (audit_logger_) {
-                    nlohmann::json entry;
-                    entry["event"]      = "token_validation";
-                    entry["function"]   = "requireAccess";
-                    entry["user_id"]    = vres.user_id;
-                    entry["authorized"] = vres.authorized;
-                    entry["reason"]     = vres.reason;
-                    try { audit_logger_->logEvent(entry); } catch (...) {}
-                }
-            } catch (...) {}
-            auto ar = auth_->authorize(*token, required_scope);
+        // Diagnostic: validate token to see which user_id (if any) is associated
+        try {
+            auto vres = auth_->validateToken(*token);
+            THEMIS_INFO("requireAccess: validateToken -> authorized={} user_id='{}' reason='{}'", vres.authorized, vres.user_id, vres.reason);
             if (audit_logger_) {
                 nlohmann::json entry;
-                entry["event"]      = "authorization";
+                entry["event"]      = "token_validation";
                 entry["function"]   = "requireAccess";
-                entry["scope"]      = std::string(required_scope);
-                entry["user_id"]    = ar.user_id;
-                entry["authorized"] = ar.authorized;
-                entry["reason"]     = ar.reason;
+                entry["user_id"]    = vres.user_id;
+                entry["authorized"] = vres.authorized;
+                entry["reason"]     = vres.reason;
                 try { audit_logger_->logEvent(entry); } catch (...) {}
             }
+        } catch (...) {}
+        auto ar = auth_->authorize(*token, required_scope);
+        if (audit_logger_) {
+            audit_logger_->logSecurityEvent(
+                ar.authorized ? themis::utils::SecurityEventType::LOGIN_SUCCESS
+                              : themis::utils::SecurityEventType::PERMISSION_DENIED,
+                ar.user_id,
+                std::string(required_scope),
+                {{"decision", ar.authorized ? "allowed" : "denied"}, {"reason", ar.reason}}
+            );
+        }
         if (!ar.authorized) {
             http::response<http::string_body> res{http::status::forbidden, req.version()};
             res.set(http::field::content_type, "application/json");
@@ -10077,26 +10203,24 @@ http::response<http::string_body> HttpServer::handlePiiRevealByUuid(
         }
         auto ar = auth_->authorize(*token, "pii:reveal");
         if (audit_logger_) {
-            nlohmann::json entry;
-            entry["event"]      = "authorization";
-            entry["function"]   = "handlePiiRevealByUuid";
-            entry["scope"]      = "pii:reveal";
-            entry["user_id"]    = ar.user_id;
-            entry["authorized"] = ar.authorized;
-            entry["reason"]     = ar.reason;
-            try { audit_logger_->logEvent(entry); } catch (...) {}
+            audit_logger_->logSecurityEvent(
+                ar.authorized ? themis::utils::SecurityEventType::LOGIN_SUCCESS
+                              : themis::utils::SecurityEventType::PERMISSION_DENIED,
+                ar.user_id,
+                "pii:reveal",
+                {{"decision", ar.authorized ? "allowed" : "denied"}, {"reason", ar.reason}}
+            );
         }
         if (!ar.authorized) {
             ar = auth_->authorize(*token, "admin");
             if (audit_logger_) {
-                nlohmann::json entry;
-                entry["event"]      = "authorization";
-                entry["function"]   = "handlePiiRevealByUuid";
-                entry["scope"]      = "admin";
-                entry["user_id"]    = ar.user_id;
-                entry["authorized"] = ar.authorized;
-                entry["reason"]     = ar.reason;
-                try { audit_logger_->logEvent(entry); } catch (...) {}
+                audit_logger_->logSecurityEvent(
+                    ar.authorized ? themis::utils::SecurityEventType::LOGIN_SUCCESS
+                                  : themis::utils::SecurityEventType::PERMISSION_DENIED,
+                    ar.user_id,
+                    "admin",
+                    {{"decision", ar.authorized ? "allowed" : "denied"}, {"reason", ar.reason}}
+                );
             }
             if (!ar.authorized) {
                 http::response<http::string_body> res{http::status::forbidden, req.version()};
@@ -10217,13 +10341,28 @@ http::response<http::string_body> HttpServer::handlePiiDeleteByUuid(
             return res;
         }
         THEMIS_INFO("PII Delete: Authorization header present, required_scope='pii:write'");
-        
+         
         auto ar = auth_->authorize(*token, "pii:write");
-        THEMIS_INFO("PII Delete: authorize('pii:write') -> authorized={}", ar.authorized);
+        if (audit_logger_) {
+            audit_logger_->logSecurityEvent(
+                ar.authorized ? themis::utils::SecurityEventType::LOGIN_SUCCESS
+                              : themis::utils::SecurityEventType::PERMISSION_DENIED,
+                ar.user_id,
+                "pii:write",
+                {{"decision", ar.authorized ? "allowed" : "denied"}, {"reason", ar.reason}}
+            );
+        }
         if (!ar.authorized) {
-            THEMIS_INFO("PII Delete: trying fallback authorize('admin')");
             ar = auth_->authorize(*token, "admin");
-            THEMIS_INFO("PII Delete: authorize('admin') -> authorized={}", ar.authorized);
+            if (audit_logger_) {
+                audit_logger_->logSecurityEvent(
+                    ar.authorized ? themis::utils::SecurityEventType::LOGIN_SUCCESS
+                                  : themis::utils::SecurityEventType::PERMISSION_DENIED,
+                    ar.user_id,
+                    "admin",
+                    {{"decision", ar.authorized ? "allowed" : "denied"}, {"reason", ar.reason}}
+                );
+            }
             if (!ar.authorized) {
                 http::response<http::string_body> res{http::status::forbidden, req.version()};
                 res.set(http::field::content_type, "application/json");

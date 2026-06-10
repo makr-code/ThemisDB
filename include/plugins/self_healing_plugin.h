@@ -1,33 +1,15 @@
-/*
- * ThemisDB | File: self_healing_plugin.h | Version: 0.0.47
- * Maturity: 🟢 PRODUCTION-READY | Score: 97/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
+/**
+ * @file self_healing_plugin.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 97/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once
-
-#include "plugins/plugin_interface.h"
-#include <string>
-#include <vector>
-#include <chrono>
-#include <memory>
-#include <functional>
-
-/**
- * @file self_healing_plugin.h
- * @brief Self-Healing Plugin Interface for autonomous error recovery
- * 
- * This interface extends IThemisPlugin to support self-healing capabilities:
- * - Health monitoring and diagnostics
- * - Automatic error recovery
- * - State checkpointing and rollback
- * - Resource cleanup
- * 
- * Plugins implementing this interface can automatically detect and recover
- * from errors without manual intervention.
- */
 
 namespace themis {
 namespace plugins {

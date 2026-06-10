@@ -1,21 +1,12 @@
-/*
- * ThemisDB | File: delegate_evaluator.cpp | Version: 0.1.0 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 540
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=4, H=9, M=7, L=0
- * PR History (last 5): #5042 feat(base/rag): close Issue... (2026-05-12)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file delegate_evaluator.cpp
- * @brief Implementation of DELEGATE-52 round-trip corruption benchmark.
- *
- * Scientific basis: Laban et al., "LLMs Corrupt Your Documents When You
- * Delegate" (arXiv:2604.15597).
- *
- * All evaluators are deterministic, LLM-free, and operate on in-memory strings
- * so the full test suite runs without any external service or GPU hardware.
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.1.0
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=3, M=4, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include "rag/delegate_evaluator.h"

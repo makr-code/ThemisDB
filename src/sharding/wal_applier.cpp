@@ -1,3 +1,14 @@
+/**
+ * @file wal_applier.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=4, H=1, M=2, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
  * ThemisDB | File: wal_applier.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 21:32:13
  * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 93/100 | Lines: 190
@@ -11,25 +22,46 @@
 #include <iostream>
 #include <algorithm>
 #include <thread>
+#include <limits>
 
 namespace themis::sharding {
 
+/**
+ * @brief Construct WAL applier with initial LSN at 0/0.
+ * @param config Apply configuration.
+ */
 WALApplier::WALApplier(const WALApplierConfig& config)
     : config_(config), current_lsn_(0, 0) {
 }
 
+/** @brief Destructor for WAL applier. */
 WALApplier::~WALApplier() {
 }
 
+/**
+ * @brief Install callback used to apply individual WAL entries.
+ * @param handler Apply callback.
+ */
 void WALApplier::setApplyHandler(ApplyHandler handler) {
     std::lock_guard<std::mutex> lock(mutex_);
     apply_handler_ = handler;
 }
 
+/**
+ * @brief Apply ordered WAL batch with strict LSN validation (when enabled).
+ * @param entries WAL entries to apply.
+ * @return Apply result with per-batch diagnostics.
+ */
 ApplyResult WALApplier::applyBatch(const std::vector<WALEntry>& entries) {
     std::lock_guard<std::mutex> lock(mutex_);
     
     ApplyResult result;
+    
+    // W2-S03: Fail-closed on empty batch
+    if (entries.empty()) {
+        result.errors.push_back("Empty batch provided to applyBatch");
+        return result;
+    }
     
     if (!apply_handler_) {
         result.errors.push_back("No apply handler set");
@@ -37,6 +69,13 @@ ApplyResult WALApplier::applyBatch(const std::vector<WALEntry>& entries) {
     }
     
     for (const auto& entry : entries) {
+        // W2-S03: Fail-closed on invalid LSN bounds
+        if (entry.lsn.segment == std::numeric_limits<uint64_t>::max() ||
+            entry.lsn.offset == std::numeric_limits<uint64_t>::max()) {
+            result.errors.push_back("Invalid LSN bounds at entry index " + std::to_string(result.entries_applied));
+            return result;
+        }
+        
         // Validate LSN sequence if strict mode
         if (config_.strict_mode) {
             const bool bootstrap_replay =
@@ -105,27 +144,36 @@ ApplyResult WALApplier::applyBatch(const std::vector<WALEntry>& entries) {
     return result;
 }
 
+/** @brief Return current replica LSN cursor. */
 LSN WALApplier::getCurrentLSN() const {
     std::lock_guard<std::mutex> lock(mutex_);
     return current_lsn_;
 }
 
+/** @brief Set replica LSN cursor manually (bootstrap/recovery path). */
 void WALApplier::setCurrentLSN(const LSN& lsn) {
     std::lock_guard<std::mutex> lock(mutex_);
     current_lsn_ = lsn;
 }
 
+/** @brief Return current applier statistics snapshot. */
 WALApplierStats WALApplier::getStatistics() const {
     std::lock_guard<std::mutex> lock(stats_mutex_);
     return stats_;
 }
 
+/** @brief Reset statistics counters and sync LSN field to current cursor. */
 void WALApplier::resetStatistics() {
     std::lock_guard<std::mutex> lock(stats_mutex_);
     stats_ = WALApplierStats();
     stats_.current_replica_lsn = current_lsn_;
 }
 
+/**
+ * @brief Apply one entry via callback with bounded exponential retry.
+ * @param entry WAL entry to apply.
+ * @return true when callback succeeds within retry budget.
+ */
 bool WALApplier::applyEntry(const WALEntry& entry) {
     for (size_t attempt = 0; attempt < config_.max_apply_retries; ++attempt) {
         try {
@@ -154,6 +202,12 @@ bool WALApplier::applyEntry(const WALEntry& entry) {
     return false;
 }
 
+/**
+ * @brief Validate strict LSN progression between expected and actual values.
+ * @param expected Expected next LSN.
+ * @param actual Incoming entry LSN.
+ * @return true when sequence is valid.
+ */
 bool WALApplier::validateLSN(const LSN& expected, const LSN& actual) {
     // Same segment: must be exact successor offset.
     if (expected.segment == actual.segment) {
@@ -168,6 +222,11 @@ bool WALApplier::validateLSN(const LSN& expected, const LSN& actual) {
     return false;
 }
 
+/**
+ * @brief Handle conflict accounting and policy decision.
+ * @param entry WAL entry under conflict evaluation.
+ * @return true when processing may continue.
+ */
 bool WALApplier::handleConflict(const WALEntry& entry) {
     if (!config_.enable_conflict_detection) {
         return true;  // Conflicts ignored

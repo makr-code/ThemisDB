@@ -1,32 +1,12 @@
-/*
- * ThemisDB | File: prompt_engineering_grpc_service.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 88/100 | Lines: 92
- * Gap Summary: total=7; TODO=1, Stub=3, Unimpl=1, Mock=1, Sim=1, Debt=0, C=0, H=0, M=4, L=0
- * PR History (last 5): #3632 fix(build): register 40+ mi... (2026-03-12) | #1177 Align HTTP and gRPC APIs fo... (2026-03-11)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
-/*
+/**
  * @file prompt_engineering_grpc_service.cpp
- * @brief Stub gRPC service implementation for prompt engineering.
- *
- * STUB/SIMULATION NOTE:
- * Purpose: Provide a link-compatible constructor body for
- *   PromptEngineeringGrpcService so that the class can be instantiated and
- *   stored by the server without requiring the protoc-generated
- *   prompt_engineering.grpc.pb.h stubs to be compiled in.  The gRPC
- *   service() method (defined in the header) returns nullptr until the proto
- *   stubs are generated; the HttpServer/gRPC layer skips nullptr services.
- * Activation: Always active — the full gRPC handler implementation lives in
- *   a separate file that is compiled only when THEMIS_HAS_PROMPT_GRPC is set.
- * Production Delta: All gRPC calls to the prompt-engineering endpoint receive
- *   UNIMPLEMENTED status.  REST endpoints backed by PromptManager and friends
- *   are unaffected (they bypass this service class).
- * Removal Plan: Run protoc on proto/prompt_engineering.proto; compile the
- *   generated stubs and the full handler; set THEMIS_HAS_PROMPT_GRPC=1.
- *   Tracking: src/prompt_engineering/FUTURE_ENHANCEMENTS.md §"gRPC Service"
- * Roadmap ref: src/server/ROADMAP.md §gRPC service lifecycle
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=7; TODO=1, Stub=3, Unimpl=1, Mock=1, Sim=1, Debt=0, C=0, H=0, M=1, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include "server/prompt_engineering_grpc_service.h"

@@ -1,23 +1,12 @@
-/*
- * ThemisDB | File: pdf_processor.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 635
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=2, H=5, M=14, L=0
- * PR History (last 5): #3619 fix(content): build system ... (2026-03-12) | #3556 docs(content): reality-chec... (2026-03-12) | #3219 feat(content): enable/disab... (2026-03-12) | #3218 Implement content deduplica... (2026-03-12) | #3217 feat(content): Harden pipel... (2026-03-12)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file pdf_processor.cpp
- * @brief PDF Content Processor Implementation
- *
- * Extracts text and metadata from PDF documents.
- *
- * Build with -DTHEMIS_ENABLE_PDF=ON to enable poppler-cpp support.
- * Without poppler, basic header parsing and metadata extraction is available.
- *
- * @author ThemisDB Team
- * @date December 2025
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=2, H=4, M=4, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include "content/pdf_processor.h"

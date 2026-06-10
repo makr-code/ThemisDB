@@ -1,24 +1,12 @@
-/*
- * ThemisDB | File: speculative_decoder.cpp | Version: 0.0.15 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 289
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=3, M=0, L=0
- * PR History (last 5): #4370 [WIP] Update llm documentat... (2026-03-21) | #3177 [llm] Speculative decoding ... (2026-03-12)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file speculative_decoder.cpp
- * @brief Speculative decoding acceptance/rejection loop (Leviathan et al. 2023).
- *
- * Implements Algorithm 1 from:
- *   "Fast Inference from Transformers via Speculative Decoding"
- *   Leviathan, Kalman, Matias — ICML 2023.
- *
- * The implementation is pure-math: it takes pre-computed logits from both the
- * draft and target models and returns the accepted token sequence.  Actual model
- * calls (generating draft tokens, running the target model in one parallel pass)
- * are handled by InferenceEngineEnhanced.
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 99/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include "llm/speculative_decoder.h"

@@ -1,42 +1,33 @@
-/*
- * ThemisDB | File: lora_security_validator.h | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 398
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * PR History (last 5): #268 Fix critical security vulne... (2026-03-11)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 #pragma once
 
-#include <string>
-#include <vector>
-#include <optional>
-#include <regex>
-#include <unordered_set>
-#include <chrono>
-#include <memory>
-#include <nlohmann/json.hpp>
+/**
+ * @file lora_security_validator.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
+#include "llm/llm_model_audit_logger.h"
 #include "llm/lora_certificate_store.h"
 
-using json = nlohmann::json;
+#include <chrono>
+#include <memory>
+#include <optional>
+#include <regex>
+#include <string>
+#include <unordered_set>
+#include <vector>
+
+#include <nlohmann/json.hpp>
 
 namespace themis {
 namespace llm {
 
-// Forward declaration to avoid a circular include with llm_model_audit_logger.h
-class LLMModelAuditLogger;
-
-/**
- * @file lora_security_validator.h
- * @brief Security validation for LoRa adapters
- * 
- * Provides security checks for LoRa adapters including:
- * - Signature verification
- * - Integrity checks
- * - Anomaly detection in weights
- * - Metadata validation
- */
+using json = nlohmann::json;
 
 /**
  * @brief LoRa signature verification result

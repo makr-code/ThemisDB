@@ -1,3 +1,14 @@
+/**
+ * @file builtin_step_factories.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.2
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 82/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
  * ThemisDB | File: builtin_step_factories.h | Version: 0.0.2 | Last Modified: 2026-05-31 12:17:24
  * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 90/100 | Lines: 219
@@ -201,13 +212,16 @@ std::shared_ptr<IIngestionStep> createChunkTtDecomposeStep(
  * never persisted across restarts (suitable only for tests).
  *
  * Config keys (all optional):
- *  - `tenant_id`              string  Overrides `ctx.manifest.tenant_id`
- *                                     when non-empty.  Falls back to the
- *                                     manifest value, then to "default".
+ *  - `tenant_id`              string  Overrides tenant resolution when
+ *                                     non-empty. Falls back to
+ *                                     `ctx.extra["tenant_id"]`, then to
+ *                                     "default".
  *  - `skip_empty`             bool    Skip records with empty serialized_train
  *                                     (default true).
  *  - `fail_on_write_error`    bool    Propagate write errors as step failures
  *                                     (default false — records warned but skipped).
+ *  - `require_persistent_sink` bool   Abort step when the sink is
+ *                                     `InMemoryTensorCoreBridge` (default false).
  *
  * @param sink  Injectable ITensorCoreBridge; nullptr → InMemoryTensorCoreBridge.
  */

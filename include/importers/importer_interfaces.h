@@ -1,37 +1,15 @@
-/*
- * ThemisDB | File: importer_interfaces.h | Version: 0.0.13 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 740
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * PR History (last 5): #4288 feat(importers): MySQL/Mari... (2026-03-16) | #4225 feat(importers): Import Con... (2026-03-15) | #3572 feat(importers): add abstra... (2026-03-12)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
+/**
+ * @file importer_interfaces.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.13
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once
-
-/**
- * @file importer_interfaces.h
- * @brief Abstract interface contracts for the importers module.
- *
- * This header defines the pure-virtual interface types required by the
- * import pipeline, schema validation layer, and plugin registry.
- * Concrete implementations are provided by the respective .cpp files;
- * callers depend only on these interfaces.
- *
- * Interfaces defined here:
- *   - `IImportConflictResolver`   – stateless per-record conflict resolution
- *   - `IFlatFileSchemaDetector`   – advisory schema detection for flat files
- *   - `IKafkaConsumerSource`      – async Kafka consumer source
- *   - `IIncrementalImportCursor`  – pull-based resumable import cursor
- *   - `IImporterPlugin`           – URI-scheme-based plugin entry point
- *   - `IImporterPluginRegistry`   – plugin discovery by source URI
- *
- * @see importers/importer_interface.h  – IImporter base interface
- * @see importers/importer_plugin_api.h – runtime shared-library plugin loader
- * @see importers/conflict_resolver.h   – stateful ImportConflictResolver
- * @see importers/schema_validator.h    – SchemaAutoDetector
- * @see importers/kafka_importer.h      – KafkaImporter
- */
 
 #include "importers/importer_interface.h"
 

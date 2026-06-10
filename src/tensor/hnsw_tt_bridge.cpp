@@ -1,30 +1,12 @@
-/*
- * ThemisDB | File: hnsw_tt_bridge.cpp | Version: 1.1.0 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 657
- * Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=4, H=9, M=12, L=0
- * PR History (last 5): none
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
- * @file tensor/hnsw_tt_bridge.cpp
- * @brief HnswTTBridge — hybrid HNSW navigation + TT re-ranking.
- *
- * ### Architecture recap (see header for full diagram)
- *
- * 1. add()      → extract first-core sketch → insert into HNSW layer
- *               → store full TT in tt_store_
- * 2. search()   → HNSW search on sketches → retrieve top-C candidates
- *               → TT-cosine re-rank → return top-k
- *
- * ### Stub log
- * - HTB-01  HNSW layer — resolved 2026-05-06: when THEMIS_HNSW_ENABLED,
- *           HnswLayer uses hnswlib::HierarchicalNSW<float> over sketch
- *           vectors (sketch_dim = min(n_1, cfg.sketch_dim)); linear scan
- *           remains as compile-time fallback when hnswlib is absent.
- * - HTB-02  save() — resolved 2026-05-06: binary file serialization implemented
- * - HTB-03  load() — resolved 2026-05-06: binary file deserialization implemented
+ * @file hnsw_tt_bridge.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 1.1.0
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=4, M=6, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include "tensor/hnsw_tt_bridge.h"

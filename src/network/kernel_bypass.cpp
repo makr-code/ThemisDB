@@ -1,33 +1,12 @@
-/*
- * ThemisDB | File: kernel_bypass.cpp | Version: 0.0.9 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 88/100 | Lines: 984
- * Gap Summary: total=5; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=1, Debt=0, C=3, H=12, M=15, L=0
- * PR History (last 5): #4615 feat(network): Kernel Bypas... (2026-04-13)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file kernel_bypass.cpp
- * @brief Kernel bypass networking — DPDK server and io_uring server.
- *
- * Build-flag matrix
- * -----------------
- * | Flag                   | Effect                                    |
- * |------------------------|-------------------------------------------|
- * | THEMIS_ENABLE_DPDK     | Compiles the DPDK EAL integration path.   |
- * | THEMIS_ENABLE_IO_URING | Compiles the io_uring async server path.  |
- * | THEMIS_ENABLE_NUMA     | Enables libnuma allocation in NumaAlloc.  |
- *
- * When a flag is absent the affected code compiles to a thin shim:
- *   - `start()` sets `last_error_` and returns false.
- *   - All other public methods behave safely.
- *
- * Platform notes
- * --------------
- * - DPDK and io_uring require Linux; Windows stubs compile but do nothing.
- * - CpuPinner uses sched_setaffinity / pthread_setaffinity_np (Linux only).
- * - ZeroCopyDmaBuffer falls back through: MAP_HUGETLB → MAP_ANONYMOUS.
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.9
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 87/100
+ * @note Gap Summary: total=5; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=1, Debt=0, C=0, H=5, M=6, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include "network/kernel_bypass.h"

@@ -4,7 +4,7 @@
 
 **High-performance multi-model database with native AI/LLM integration**
 
-[![Version](https://img.shields.io/badge/version-1.8.2--rc-blue)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-1.9.0--beta-blue)](CHANGELOG.md)
 [![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 [![Status](https://img.shields.io/badge/status-ACTIVE_DEVELOPMENT-orange)](ROADMAP.md)
 [![Maturity](https://img.shields.io/badge/maturity-5_PROD_12_HARDENING_43_DEV-red)](ai_working/MODULE_MATURITY_MATRIX.md)
@@ -18,7 +18,7 @@
 
 ## ⚠️ IMPORTANT: Module Maturity Status
 
-**This is an active development project.** Of 60 modules:
+**This is an active development project.** Current maturity snapshot:
 - ✅ **5 modules** are production-ready (base, config, utils, cache, plugins)
 - 🟡 **12 modules** are in hardening (API, auth, governance, etc.)
 - 🔴 **18 modules** are in active development (storage, query, index, etc.)
@@ -44,7 +44,7 @@
 
 ThemisDB is a **high-performance multi-model database engine in active development** that aims to combine relational, graph, vector, document, geospatial, and time-series storage in a single system — with native AI/LLM integration. **Current Status:** Core infrastructure and utilities are stable and production-ready (5 modules). Critical modules like server, sharding, storage, and LLM are not yet production-ready and require focused hardening before production deployment. See [ai_working/MODULE_MATURITY_MATRIX.md](ai_working/MODULE_MATURITY_MATRIX.md) for detailed module status assessment.
 
-ThemisDB is under active development with **comprehensive documentation for all 60 modules**. **⚠️ Current Status:** Only 5 modules are production-ready; 12 are in hardening; 18 are in active development; 25 are not ready for production (see [ROADMAP.md](ROADMAP.md) and [ai_working/MODULE_MATURITY_MATRIX.md](ai_working/MODULE_MATURITY_MATRIX.md) for details).
+ThemisDB is under active development with comprehensive module documentation. **⚠️ Current Status:** Only 5 modules are production-ready; 12 are in hardening; 18 are in active development; 25 are not ready for production (see [ROADMAP.md](ROADMAP.md) and [ai_working/MODULE_MATURITY_MATRIX.md](ai_working/MODULE_MATURITY_MATRIX.md) for details).
 
 **Key capabilities at a glance:**
 
@@ -137,7 +137,7 @@ curl -X POST http://localhost:8765/v2/query \
 
 ## Architecture
 
-ThemisDB is organised into 58 source modules under `src/`, grouped into four logical layers:
+ThemisDB is organised into tracked source modules under `src/`, grouped into four logical layers:
 
 ```
 ┌─────────────────────────────────────────────────────┐

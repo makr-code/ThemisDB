@@ -1,35 +1,12 @@
-/*
- * ThemisDB | File: tensor_core_bridge_step.cpp | Version: 1.0.0 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 147
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=2, H=2, M=1, L=0
- * PR History (last 5): none
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file tensor_core_bridge_step.cpp
- * @brief `builtin.tensor_core_bridge` — persist TT-cores produced by
- *        `builtin.chunk_tt_decompose`.
- *
- * For each `TensorCoreRecord` in `ctx.tensor_cores`, calls
- * `sink->write(record, tenant_id)` to persist the pre-computed TT-cores.
- *
- * Ordering constraint:
- *   This step MUST follow `builtin.chunk_tt_decompose` in the workflow YAML
- *   so that `ctx.tensor_cores` is already populated before this step runs.
- *
- * Tenant resolution (first non-empty wins):
- *   1. Config key `tenant_id`
- *   2. `ctx.manifest.tenant_id` (if ExtractionContext carries a manifest)
- *   3. Literal string `"default"`
- *
- * Config keys (all optional):
- *  - `tenant_id`           string  Override for the tenant scope.
- *  - `skip_empty`          bool    Skip records with empty serialized_train
- *                                  (default true).
- *  - `fail_on_write_error` bool    Propagate write errors as step failures
- *                                  (default false — warnings only).
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 1.0.0
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 93/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=2, H=0, M=0, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include "ingestion/ingestion_step.h"
@@ -78,15 +55,37 @@ public:
             cfg.config["fail_on_write_error"].is_boolean()) {
             fail_on_write_error_ = cfg.config["fail_on_write_error"].get<bool>();
         }
+        if (cfg.config.contains("require_persistent_sink") &&
+            cfg.config["require_persistent_sink"].is_boolean()) {
+            require_persistent_sink_ =
+                cfg.config["require_persistent_sink"].get<bool>();
+        }
 
         if (ctx.tensor_cores.empty()) {
             return {}; // nothing to sink
         }
 
+        if (dynamic_cast<InMemoryTensorCoreBridge*>(sink_.get()) != nullptr) {
+            if (require_persistent_sink_) {
+                return ErrVoid(
+                    errors::ErrorCode::ERR_STORAGE_TRANSACTION_FAILED,
+                    "tensor_core_bridge: require_persistent_sink=true but "
+                    "InMemoryTensorCoreBridge is active");
+            }
+            ctx.warnings.push_back(
+                "tensor_core_bridge: InMemoryTensorCoreBridge active — "
+                "tensor cores are not persisted across process restarts");
+        }
+
         // Resolve tenant_id.
         std::string tenant_id = tenant_id_override_;
         if (tenant_id.empty()) {
-            tenant_id = "default";
+            auto it_tenant = ctx.extra.find("tenant_id");
+            if (it_tenant != ctx.extra.end() && !it_tenant->second.empty()) {
+                tenant_id = it_tenant->second;
+            } else {
+                tenant_id = "default";
+            }
         }
 
         for (const auto& record : ctx.tensor_cores) {
@@ -114,6 +113,9 @@ public:
                 }
                 // Non-fatal: log via THEMIS_WARN (no-op if not configured)
                 // and continue with the next record.
+                ctx.warnings.push_back(
+                    "tensor_core_bridge: write failed for chunk_id='" +
+                    record.chunk_id + "': " + res.error().message());
             }
         }
 
@@ -125,6 +127,7 @@ private:
     std::string                      tenant_id_override_;
     bool                             skip_empty_           = true;
     bool                             fail_on_write_error_  = false;
+    bool                             require_persistent_sink_ = false;
 };
 
 } // namespace

@@ -1,63 +1,41 @@
-/*
- * ThemisDB | File: inference_engine_enhanced.h | Version: 0.0.47 | Last Modified: 2026-06-01 07:56:03
- * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 687
- * Gap Summary: total=6; TODO=1, Stub=4, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * PR History (last 5): #4332 Implement AIOrchestrator to... (2026-03-19) | #3759 feat(llm): implement KV-cac... (2026-03-12) | #3199 feat(llm): LoRA adapter hot... (2026-03-12) | #3198 [llm] Complete shared worke... (2026-03-12) | #3138 feat(llm): implement per-mo... (2026-03-12)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 #pragma once
-
-#include "llm/inference_handle.h"
-#include "llm/continuous_batch_scheduler.h"
-#include "llm/lookup_decoder.h"
-#include "llm/paged_kv_cache.h"
-#include "llm/llm_prefix_cache.h"
-#include "llm/llm_plugin_interface.h"
-#include "llm/model_router.h"
-#include "llm/multi_lora_manager.h"
-#include "llm/shared_worker_pool.h"
-#include "llm/speculative_decoder.h"
-#include "llm/adapter_registry.h"
-#include "llm/i_federated_inference_backend.h"
-#include "rag/self_rag.h"
-#include <memory>
-#include <mutex>
-#include <vector>
-#include <unordered_map>
-#include <queue>
-#include <chrono>
-#include <atomic>
-#include <nlohmann/json.hpp>
-
-using json = nlohmann::json;
-
-// Forward declarations for cross-shard speculative decoding
-namespace themis { namespace sharding {
-class RemoteExecutor;
-struct ShardInfo;
-} }
-
-// ShardInfo is stored by value in InferenceEngineEnhanced — include the full type.
-#include "sharding/shard_topology.h"
 
 /**
  * @file inference_engine_enhanced.h
- * @brief Enhanced LLM Inference Engine with P1 Features
- * 
- * Implements the P1 Enterprise Features:
- * 1. Context Caching (KV-Cache Reuse) with LRU eviction
- * 2. Batch Processing with dynamic sizing
- * 3. Request Queuing with priority and timeout
- * 4. Load Balancing with multi-model support
- * 
- * Acceptance Criteria:
- * - Context cache hit rate > 80%
- * - Batch processing improves throughput by > 2x
- * - Queue prevents request drops under load
- * - Load balancer distributes requests evenly
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 94/100
+ * @note Gap Summary: total=6; TODO=1, Stub=4, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
+
+#include "llm/adapter_registry.h"
+#include "llm/continuous_batch_scheduler.h"
+#include "llm/i_federated_inference_backend.h"
+#include "llm/inference_handle.h"
+#include "llm/llm_prefix_cache.h"
+#include "llm/llm_plugin_interface.h"
+#include "llm/model_router.h"
+#include "llm/paged_block_manager.h"
+#include "llm/paged_kv_cache.h"
+#include "llm/shared_worker_pool.h"
+#include "llm/speculative_decoder.h"
+#include "llm/lookup_decoder.h"
+#include "rag/self_rag.h"
+#include "sharding/remote_executor.h"
+
+#include <chrono>
+#include <functional>
+#include <future>
+#include <memory>
+#include <mutex>
+#include <optional>
+#include <string>
+#include <string_view>
+#include <unordered_map>
+#include <vector>
 
 namespace themis {
 namespace llm {

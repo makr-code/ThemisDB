@@ -1,57 +1,24 @@
-/*
- * ThemisDB | File: lora_adapter_merger.h | Version: 0.0.12
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
+/**
+ * @file lora_adapter_merger.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.12
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
-
-// SPDX-License-Identifier: Apache-2.0
-// Copyright (c) 2026 ThemisDB Contributors
 
 #pragma once
 
 #include "training/lora_adapter.h"
 
 #include <cstddef>
-#include <memory>
-#include <stdexcept>
 #include <string>
 #include <vector>
 
 namespace themis {
 namespace training {
-
-/**
- * @file lora_adapter_merger.h
- * @brief LoRA adapter composition: linear merge and TIES merging.
- *
- * Two merge strategies are provided:
- *
- * ### Linear Merge
- * Computes ΔW_merged = Σ_i( w_i × (B_i @ A_i) × scaling_i ) and then
- * factorises the result back into a single B and A via a rank-1 SVD
- * approximation (outer product of the dominant left/right singular vectors
- * scaled by the largest singular value).  This matches the linear combination
- * approach used in practice for adapter stacking.
- *
- * ### TIES Merge (Yadav et al., 2023)
- * "TIES-Merging: Resolving Interference When Merging Models"
- * arXiv:2306.01708
- *
- * Three-step algorithm applied to each weight element across adapters:
- *  1. **Trim**: Zero out weight deltas whose absolute value is below a
- *     per-adapter threshold (fraction of the max absolute value).
- *  2. **Resolve**: For each element, take the sign that appears in the
- *     majority of adapters (element-wise majority vote).
- *  3. **Merge**: Average only the weight values that agree with the resolved
- *     sign; ignore the others.
- *
- * Both strategies produce a new `LoRAAdapter` with a single merged layer per
- * input layer name.
- *
- * Thread-safety: NOT guaranteed. Callers must provide external synchronisation.
- */
 
 /**
  * @brief Descriptor of one adapter participating in a merge.

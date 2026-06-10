@@ -1,51 +1,12 @@
-/*
- * ThemisDB | File: rag_context_budget_manager.h | Version: 0.0.1
- * Maturity: 🟢 PRODUCTION-READY | Score: 94/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file rag_context_budget_manager.h
- * @brief RAG context token-budget manager with RAII allocation handles.
- *
- * Implements the `IRAGContextBudgetManager` interface specified in
- * `include/prompt_engineering/FUTURE_ENHANCEMENTS.md §RAG Context Budget
- * Manager`.
- *
- * Key design decisions
- * --------------------
- * - **RAII ownership**: `BudgetHandle` automatically releases the reserved
- *   token count back to the manager when it goes out of scope or when
- *   `release()` is called explicitly.  This prevents "token leaks" when
- *   exceptions propagate through the RAG retrieval pipeline.
- * - **Hard limit enforcement**: `allocate()` throws `BudgetExhaustedError`
- *   instead of silently truncating, so callers cannot accidentally exceed
- *   the model's context window without explicit handling.
- * - **Thread safety**: `RagContextBudgetManager` is safe for concurrent
- *   allocation and release from multiple threads (retrieval workers).
- * - **Diagnostic snapshot**: `snapshot()` returns a point-in-time
- *   `BudgetSnapshot` without holding the lock; useful for monitoring and
- *   metrics without blocking the allocation hot path.
- *
- * ## Usage
- * ```cpp
- * RagContextBudgetManager mgr{4096};  // 4 096 tokens total
- *
- * {
- *     auto h1 = mgr.allocate(1024);   // reserve 1 024 tokens
- *     auto h2 = mgr.allocate(2048);   // reserve another 2 048
- *     // h1 + h2 hold a combined 3 072 tokens
- *     // mgr.remaining() == 1 024
- *
- *     // h2 destructor runs here → releases 2 048 tokens
- * }
- * // both handles destroyed → mgr.remaining() == 4 096
- * ```
- *
- * Copyright (c) 2026 ThemisDB Project
- * SPDX-License-Identifier: Apache-2.0
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.1
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 94/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once

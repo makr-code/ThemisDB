@@ -1,32 +1,12 @@
-/*
- * ThemisDB | File: schema_diff.h | Version: 0.0.10 | Last Modified: 2026-05-31 12:49:01
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 379
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * PR History (last 5): #5058 [Docs][Module] metadata â€”... (2026-05-13) | #4502 [WIP] Update documentation ... (2026-04-12)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file schema_diff.h
- * @brief Structural diff engine for ThemisDB table schemas.
- *
- * SchemaDiffEngine compares two TableSchema snapshots and produces a
- * SchemaDiff describing every column and index change.  The output is
- * deterministic: both ColumnDiff and IndexDiff lists are sorted by name.
- *
- * Diff types detected:
- *  - ColumnDiffType::ADDED              — column present in @p to, absent in @p from
- *  - ColumnDiffType::REMOVED            — column present in @p from, absent in @p to
- *  - ColumnDiffType::TYPE_CHANGED       — PropertyInfo::type differs
- *  - ColumnDiffType::NULLABILITY_CHANGED— PropertyInfo::nullable differs
- *  - ColumnDiffType::INDEX_CHANGED      — PropertyInfo::indexed or index_type differs
- *  - IndexDiffType::ADDED               — index present in @p to, absent in @p from
- *  - IndexDiffType::REMOVED             — index present in @p from, absent in @p to
- *  - IndexDiffType::CHANGED             — IndexInfo with same name has different attributes
- *
- * Copyright (c) 2026 ThemisDB Contributors
- * SPDX-License-Identifier: Apache-2.0
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.10
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once

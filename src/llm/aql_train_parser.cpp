@@ -1,21 +1,12 @@
-/*
- * ThemisDB | File: aql_train_parser.cpp | Version: 0.0.15 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 1089
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=21, H=24, M=13, L=0
- * PR History (last 5): #5403 fix(llm): narrow AQL TRAIN ... (2026-05-27) | #2698 feat(aql): Fine-tuned local... (2026-03-12)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file aql_train_parser.cpp
- * @brief Implementation of the AQL TRAIN statement parser.
- *
- * Provides parsing for:
- *   TRAIN ADAPTER <id> FROM <collection> [WHERE ...] [USING ...] [DISTRIBUTED] WITH {...}
- *   DEPLOY ADAPTER <id> TO SHARD <shard> [, ...] [WITH strategy = '...']
- *   VERIFY ADAPTER <id> [CHECK signature, manifest, ...]
- *   LIST ADAPTERS [WHERE ...] [ORDER BY ...] [LIMIT n]
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=18, H=20, M=8, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include "llm/aql_train_parser.h"

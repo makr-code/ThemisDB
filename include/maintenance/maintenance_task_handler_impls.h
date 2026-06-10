@@ -1,38 +1,12 @@
-/*
- * ThemisDB | File: maintenance_task_handler_impls.h | Version: 0.0.13 | Last Modified: 2026-05-31 12:49:01
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 291
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * PR History (last 5): #4124 feat(maintenance): implemen... (2026-03-12)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file maintenance_task_handler_impls.h
- * @brief Concrete IMaintenanceTaskHandler implementations for the built-in
- *        storage and sharding modules.
- *
- * These classes wire module-specific maintenance logic into the
- * DatabaseMaintenanceOrchestrator via its registerTaskHandler() API.
- *
- * ### Typical wiring at startup
- *
- * @code
- * // Storage module registers compaction handler:
- * orchestrator.registerTaskHandler(
- *     MaintenanceTaskType::STORAGE_COMPACTION,
- *     std::make_shared<StorageCompactionHandler>(compaction_manager));
- *
- * // Sharding module registers replica validation handler:
- * orchestrator.registerTaskHandler(
- *     MaintenanceTaskType::REPLICA_VALIDATION,
- *     std::make_shared<ReplicaValidationHandler>(consistency_check_fn));
- *
- * // Storage engine registers MVCC cleanup handler:
- * orchestrator.registerTaskHandler(
- *     MaintenanceTaskType::MVCC_CLEANUP,
- *     std::make_shared<MvccCleanupHandler>(mvcc_store, watermark_ms));
- * @endcode
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.13
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once

@@ -1,3 +1,14 @@
+/**
+ * @file shard_rpc_server.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=3, M=2, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
  * ThemisDB | File: shard_rpc_server.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
  * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 385
@@ -242,26 +253,40 @@ struct ShardRPCServer::Impl {
     explicit Impl(const ShardRPCServer::Config& cfg) : listen_address(cfg.listen_address), config(cfg) {}
 };
 
+/**
+ * @brief Construct shard RPC server with listen address convenience API.
+ * @param listen_address Server bind address.
+ */
 ShardRPCServer::ShardRPCServer(const std::string& listen_address)
     : impl_(std::make_unique<Impl>(listen_address))
 {
     THEMIS_INFO("ShardRPCServer created on: {}", listen_address);
 }
 
+/**
+ * @brief Construct shard RPC server with explicit TLS/runtime configuration.
+ * @param config Server configuration.
+ */
 ShardRPCServer::ShardRPCServer(const Config& config)
     : impl_(std::make_unique<Impl>(config))
 {
     THEMIS_INFO("ShardRPCServer created on: {} (mTLS: {})", config.listen_address, config.enable_mtls);
 }
 
+/** @brief Destroy server instance and ensure shutdown of active gRPC server. */
 ShardRPCServer::~ShardRPCServer() {
     stop();
 }
 
+/** @brief Install application request handler used by incoming RPC methods. */
 void ShardRPCServer::setRequestHandler(RequestHandler* handler) {
     impl_->handler = handler;
 }
 
+/**
+ * @brief Start gRPC server and bind to configured endpoint.
+ * @return True when server starts successfully; false otherwise.
+ */
 bool ShardRPCServer::start() {
 #if THEMIS_HAS_SHARD_GRPC
     try {
@@ -363,6 +388,7 @@ bool ShardRPCServer::start() {
 #endif
 }
 
+/** @brief Stop gRPC server and release registered service instance. */
 void ShardRPCServer::stop() {
 #if THEMIS_HAS_SHARD_GRPC
     if (impl_->server) {
@@ -374,6 +400,7 @@ void ShardRPCServer::stop() {
 #endif
 }
 
+/** @brief Block until server shutdown completes. */
 void ShardRPCServer::wait() {
 #if THEMIS_HAS_SHARD_GRPC
     if (impl_->server) {

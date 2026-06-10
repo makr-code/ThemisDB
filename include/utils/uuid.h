@@ -1,29 +1,12 @@
-/*
- * ThemisDB | File: uuid.h | Version: 0.0.13
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file uuid.h
- * @brief UUID v4 and UUID v7 generation utilities
- *
- * @details Provides self-contained, dependency-free UUID generators using
- *          the C++17 <random> and <chrono> facilities.
- *
- *          UUID v4: statistically random 128-bit UUID.
- *          UUID v7: time-ordered 128-bit UUID per RFC 9562. The most-significant
- *          48 bits encode the Unix epoch in milliseconds, making v7 UUIDs
- *          monotonically increasing within the same millisecond and suitable
- *          for use as database primary keys.
- *
- *          Neither generator uses a cryptographically secure PRNG; they
- *          MUST NOT be used for secrets, authentication tokens, or other
- *          security-sensitive values.
- *
- * @copyright MIT License
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.13
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once

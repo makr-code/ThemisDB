@@ -1,44 +1,15 @@
-/*
- * ThemisDB | File: wasm_host_api.h | Version: 0.0.13
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
+/**
+ * @file wasm_host_api.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.13
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once
-
-/**
- * @file wasm_host_api.h
- * @brief WASM Host API — maps IThemisPlugin vtable to WASM import functions.
- *
- * This header defines the C-ABI host functions that a WASM plugin module may
- * import.  It intentionally mirrors the IThemisPlugin interface so that native
- * and WASM plugins share a single logical contract.
- *
- * Activation:
- *   Compile with -DTHEMIS_WASM_SUPPORT to enable the WasmHostAPI class and
- *   associated runtime bridging.  When the macro is not defined the header
- *   still compiles but only the extern-"C" function declarations and the
- *   WasmPluginRuntime enum are visible.
- *
- * WASM-side usage (wat/C):
- *   The following symbols must be imported from the "themis" module:
- *     (import "themis" "themis_plugin_get_name"    (func ...))
- *     (import "themis" "themis_plugin_get_version" (func ...))
- *     (import "themis" "themis_plugin_initialize"  (func ...))
- *     (import "themis" "themis_plugin_shutdown"    (func ...))
- *     (import "themis" "themis_plugin_get_instance"(func ...))
- *     (import "themis" "themis_plugin_save_state"  (func ...))
- *     (import "themis" "themis_plugin_restore_state"(func ...))
- *
- * @note Actual WASM runtime instantiation (Wasmtime / WasmEdge) is handled by
- *       wasm_plugin_loader.cpp once THEMIS_WASM_SUPPORT is defined and the
- *       chosen runtime library is linked.
- *
- * @see src/plugins/wasm_plugin_loader.cpp
- * @see include/plugins/plugin_interface.h
- */
 
 #include "plugins/plugin_interface.h"
 #include <cstdint>

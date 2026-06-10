@@ -1,32 +1,12 @@
-/*
- * ThemisDB | File: text_quality_scorer.h | Version: 0.1.0
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
-#pragma once
-
 /**
  * @file text_quality_scorer.h
- * @brief Generic text quality scoring for NER pre-filtering.
- *
- * `TextQualityScorer` provides a lightweight quality gate that callers in
- * `training/`, `rag/`, and `aql/` can use **before** dispatching expensive
- * NER/LLM workflows.  Scoring a 10 000-character document takes < 1 ms.
- *
- * ## Free function (simplest usage)
- * @code
- * auto score = themis::toolbox::scoreText(text);
- * if (score.is_empty || score.token_count < 10) { skip(); }
- * @endcode
- *
- * ## Class usage (custom config)
- * @code
- * themis::toolbox::TextQualityScorer scorer;
- * auto score = scorer.score(text);
- * @endcode
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.1.0
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include <cstddef>
@@ -115,6 +95,8 @@ public:
  * @param text UTF-8 text to evaluate.
  * @return Populated `TextQualityScore`.
  */
+
+#pragma once
 TextQualityScore scoreText(std::string_view text);
 
 } // namespace toolbox

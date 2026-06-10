@@ -1,8 +1,20 @@
+/**
+ * @file ml_serving.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 81/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=14, M=7, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
  * ThemisDB | File: ml_serving.cpp | Version: 0.0.15 | Last Modified: 2026-05-31 12:49:01
  * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 97/100 | Lines: 698
  * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=20, M=14, L=0
- * PR History (last 5): #4929 [Docs][analytics] Refresh m... (2026-05-10) | #4315 fix(analytics): eliminate T... (2026-03-18) | #3478 docs(analytics): sync READM... (2026-03-12) | #2760 feat(analytics): Integrate ... (2026-03-12)
+ * PR History (last 5): #4929 [Docs][analytics] Refresh m... (2026-05-10) | #4315 fix(analytics): eliminate T...
+ * (2026-03-18) | #3478 docs(analytics): sync READM... (2026-03-12) | #2760 feat(analytics): Integrate ... (2026-03-12)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */
@@ -119,12 +131,14 @@ struct ONNXServingBackend::Impl {
     Ort::SessionOptions session_opts;
     // Per-model sessions stored as shared_ptr so handles can be retained
     // outside the map lock while ONNX Run() executes concurrently.
-    std::map<std::string, std::shared_ptr<Ort::Session>> sessions;
+    // Use unordered_map for O(1) average lookup (vs O(log n) for std::map).
+    std::unordered_map<std::string, std::shared_ptr<Ort::Session>> sessions;
     mutable std::shared_mutex sessions_mutex; // shared=read, exclusive=write
 
     // Per-model loading mutexes: serialise concurrent loads of the *same*
     // model without blocking inferences for unrelated models.
-    std::map<std::string, std::shared_ptr<std::mutex>> model_load_mutexes;
+    // Use unordered_map for O(1) average lookup.
+    std::unordered_map<std::string, std::shared_ptr<std::mutex>> model_load_mutexes;
     std::mutex model_load_mutexes_lock;
 
     explicit Impl(const ONNXBackendConfig &cfg) : config(cfg), env(ORT_LOGGING_LEVEL_WARNING, "ThemisDB-MLServing") {
@@ -247,6 +261,7 @@ MLServingResponse ONNXServingBackend::infer(const MLServingRequest &req) {
     if (req.inputs.empty()) {
         resp.status        = MLServingStatus::INVALID_INPUT;
         resp.error_message = "No input tensors provided";
+        spdlog::debug("MLServing[ONNX]: invalid input for model '{}' - empty inputs", req.model_name);
         return resp;
     }
 
@@ -258,6 +273,7 @@ MLServingResponse ONNXServingBackend::infer(const MLServingRequest &req) {
         resp.status        = MLServingStatus::UNAVAILABLE;
         resp.error_message = "Model '" + req.model_name + "' could not be loaded";
         resp.latency_ms    = sw.elapsedMs();
+        spdlog::warn("MLServing[ONNX]: model load failed for '{}' (latency_ms={})", req.model_name, resp.latency_ms);
         return resp;
     }
 
@@ -269,6 +285,10 @@ MLServingResponse ONNXServingBackend::infer(const MLServingRequest &req) {
         // Build input names and tensors
         std::vector<const char *> input_names;
         std::vector<Ort::Value> input_tensors;
+
+        // Pre-allocate vectors to avoid reallocations during loop
+        input_names.reserve(req.inputs.size());
+        input_tensors.reserve(req.inputs.size());
 
         auto memory_info = Ort::MemoryInfo::CreateCpu(OrtArenaAllocator, OrtMemTypeDefault);
 
@@ -287,6 +307,11 @@ MLServingResponse ONNXServingBackend::infer(const MLServingRequest &req) {
         std::size_t out_count = session.GetOutputCount();
         std::vector<std::string> out_name_strs;
         std::vector<const char *> output_names;
+
+        // Pre-allocate for known output count
+        out_name_strs.reserve(out_count);
+        output_names.reserve(out_count);
+
         for (std::size_t i = 0; i < out_count; ++i) {
             auto name_alloc = session.GetOutputNameAllocated(i, allocator);
             out_name_strs.emplace_back(name_alloc.get());
@@ -300,6 +325,7 @@ MLServingResponse ONNXServingBackend::infer(const MLServingRequest &req) {
                                           input_names.size(), output_names.data(), output_names.size());
 
         // Convert outputs
+        resp.outputs.reserve(output_tensors.size());
         for (std::size_t i = 0; i < output_tensors.size(); ++i) {
             const auto &ort_t = output_tensors[i];
             auto type_info    = ort_t.GetTensorTypeAndShapeInfo();
@@ -318,12 +344,15 @@ MLServingResponse ONNXServingBackend::infer(const MLServingRequest &req) {
 
         resp.status     = MLServingStatus::OK;
         resp.latency_ms = sw.elapsedMs();
+        spdlog::debug("MLServing[ONNX]: inference success for '{}' with {} inputs, {} outputs (latency_ms={})",
+                      req.model_name, req.inputs.size(), resp.outputs.size(), resp.latency_ms);
 
     } catch (const Ort::Exception &e) {
         resp.status        = MLServingStatus::BACKEND_ERROR;
         resp.error_message = std::string("ONNX Runtime error: ") + e.what();
         resp.latency_ms    = sw.elapsedMs();
-        spdlog::error("MLServing[ONNX]: inference error for '{}': {}", req.model_name, e.what());
+        spdlog::error("MLServing[ONNX]: inference error for '{}': {} (latency_ms={})", req.model_name, e.what(),
+                      resp.latency_ms);
     }
 
     return resp;
@@ -402,12 +431,15 @@ MLServingResponse TFServingBackend::infer([[maybe_unused]] const MLServingReques
     if (req.inputs.empty()) {
         resp.status        = MLServingStatus::INVALID_INPUT;
         resp.error_message = "No input tensors provided";
+        spdlog::debug("MLServing[TF]: invalid input for model '{}' - empty inputs", req.model_name);
         return resp;
     }
 
     // Build JSON payload: { "inputs": { "<name>": [[...]] } }
     json payload;
     json inputs_json = json::object();
+
+    // Pre-allocate for input tensors to avoid JSON object reallocations
     for (const auto &t : req.inputs) {
         // Flatten tensor into nested array according to shape
         // For simplicity we pass a 1-D array when the shape is {1, N} or {N}
@@ -416,6 +448,7 @@ MLServingResponse TFServingBackend::infer([[maybe_unused]] const MLServingReques
     payload["inputs"] = inputs_json;
 
     std::string json_body = payload.dump();
+    spdlog::debug("MLServing[TF]: prepared payload for model '{}': {} bytes", req.model_name, json_body.size());
 
     // Build URL
     std::string url = impl_->config.base_url + "/v1/models/" + req.model_name;
@@ -423,6 +456,7 @@ MLServingResponse TFServingBackend::infer([[maybe_unused]] const MLServingReques
         url += "/versions/" + req.model_version;
     }
     url += ":predict";
+    spdlog::debug("MLServing[TF]: sending request to {} for model '{}'", url, req.model_name);
 
     // Perform HTTP POST via libcurl
     std::string response_body;
@@ -431,6 +465,7 @@ MLServingResponse TFServingBackend::infer([[maybe_unused]] const MLServingReques
     if (!curl) {
         resp.status        = MLServingStatus::BACKEND_ERROR;
         resp.error_message = "Failed to initialise libcurl handle";
+        spdlog::error("MLServing[TF]: libcurl initialization failed for '{}'", req.model_name);
         return resp;
     }
 
@@ -464,15 +499,19 @@ MLServingResponse TFServingBackend::infer([[maybe_unused]] const MLServingReques
     if (res != CURLE_OK) {
         resp.status        = MLServingStatus::BACKEND_ERROR;
         resp.error_message = std::string("libcurl error: ") + curl_easy_strerror(res);
-        spdlog::error("MLServing[TF]: curl error for '{}': {}", req.model_name, resp.error_message);
+        spdlog::error("MLServing[TF]: curl error for '{}': {} (latency_ms={})", req.model_name, resp.error_message,
+                      resp.latency_ms);
         return resp;
     }
     if (http_code != 200) {
         resp.status        = MLServingStatus::BACKEND_ERROR;
         resp.error_message = "HTTP " + std::to_string(http_code) + ": " + response_body;
-        spdlog::error("MLServing[TF]: server error for '{}': HTTP {}", req.model_name, http_code);
+        spdlog::warn("MLServing[TF]: server error for model '{}': HTTP {} (latency_ms={})", req.model_name, http_code,
+                     resp.latency_ms);
         return resp;
     }
+
+    spdlog::debug("MLServing[TF]: received response for model '{}': {} bytes", req.model_name, response_body.size());
 
     // Parse JSON response: { "outputs": { "<name>": [...] } }
     try {
@@ -481,11 +520,15 @@ MLServingResponse TFServingBackend::infer([[maybe_unused]] const MLServingReques
         if (!jresp.contains("outputs")) {
             resp.status        = MLServingStatus::BACKEND_ERROR;
             resp.error_message = "TF Serving response missing 'outputs' field";
+            spdlog::error("MLServing[TF]: response missing 'outputs' field for model '{}'", req.model_name);
             return resp;
         }
 
         const auto &joutputs = jresp["outputs"];
         if (joutputs.is_object()) {
+            // Pre-allocate for outputs
+            resp.outputs.reserve(joutputs.size());
+
             for (auto &[name, val] : joutputs.items()) {
                 MLTensor t;
                 t.name = name;
@@ -506,11 +549,14 @@ MLServingResponse TFServingBackend::infer([[maybe_unused]] const MLServingReques
             }
         }
         resp.status = MLServingStatus::OK;
+        spdlog::debug("MLServing[TF]: inference success for model '{}' with {} outputs (latency_ms={})", req.model_name,
+                      resp.outputs.size(), resp.latency_ms);
 
     } catch (const json::exception &e) {
         resp.status        = MLServingStatus::BACKEND_ERROR;
         resp.error_message = std::string("JSON parse error: ") + e.what();
-        spdlog::error("MLServing[TF]: JSON parse error for '{}': {}", req.model_name, e.what());
+        spdlog::error("MLServing[TF]: JSON parse error for model '{}': {} (latency_ms={})", req.model_name, e.what(),
+                      resp.latency_ms);
     }
 
     return resp;
@@ -644,12 +690,17 @@ MLServingResponse MLServingClient::inferFromDataPoint(const std::string &model_n
         MLServingResponse resp;
         resp.status        = MLServingStatus::INVALID_INPUT;
         resp.error_message = "DataPoint has no numeric features";
+        spdlog::debug("MLServing: buildInferencePayload failed - DataPoint has no numeric features for model '{}'",
+                      model_name);
         return resp;
     }
 
     MLServingRequest req;
     req.model_name = model_name;
+    req.inputs.reserve(1); // We're adding exactly one input tensor
     req.inputs.push_back(MLTensor{input_name, {1, static_cast<int64_t>(values.size())}, std::move(values)});
+    spdlog::debug("MLServing: buildInferencePayload prepared request for model '{}' with {} features", model_name,
+                  values.size());
 
     return infer(req);
 }

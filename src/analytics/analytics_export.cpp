@@ -1,10 +1,12 @@
-/*
- * ThemisDB | File: analytics_export.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:49:01
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 965
- * Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=6, M=5, L=0
- * PR History (last 5): #4929 [Docs][analytics] Refresh m... (2026-05-10) | #4339 Analytics module: stats.h u... (2026-03-19) | #4328 Implement Arrow zero-copy I... (2026-03-18) | #4284 ExporterFactory Stub Replac... (2026-03-16) | #3610 fix(analytics): register mi... (2026-03-12)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
+/**
+ * @file analytics_export.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=2, M=5, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include "analytics/analytics_export.h"
@@ -12,41 +14,8 @@
 #include <chrono>
 #include <cstring>
 #include <fstream>
-#include <spdlog/spdlog.h>
-#include <sstream>
-#include <stdexcept>
-#include <string_view>
 
-/**
- * @file analytics_export.cpp
- * @module Export
- * @brief Analytics result export pipeline — JSON, CSV, Arrow IPC, Parquet, Feather.
- *
- * Data flow:
- *   ExporterFactory::createExporter(ExportFormat) → concrete IFormatExporter
- *   IFormatExporter::exportToFile(ArrowRecordBatch, path) → file on disk
- *   IFormatExporter::exportToString(ArrowRecordBatch)     → serialised string
- *
- * Format availability:
- *   JSON / CSV  — always available (no external deps)
- *   Arrow IPC   — requires THEMIS_HAS_ARROW at build time
- *   Parquet     — requires THEMIS_HAS_ARROW + Parquet writer
- *   Feather     — requires THEMIS_HAS_ARROW (Arrow IPC file format)
- *
- * Error paths:
- *   - `ExportStatus::NOT_SUPPORTED`: requested format unavailable without Arrow;
- *     returned from exportToFile()/exportToString() (no exception).
- *   - `ExportStatus::IO_ERROR`: file open or write failure; spdlog::error logged.
- *   - `ExportStatus::CONVERSION_ERROR`: Arrow RecordBatch serialisation failed;
- *     original Arrow status message captured in ExportResult::error_message.
- *   - exportToString() on Parquet/Feather: throws `std::runtime_error` (format
- *     requires seekable output; string-backed streams are not seekable).
- *
- * Cross-links:
- *   include/analytics/analytics_export.h — IFormatExporter, ExporterFactory
- *   include/analytics/arrow_export.h     — ArrowRecordBatch definition
- *   src/analytics/arrow_export.cpp       — Arrow RecordBatch conversion helpers
- */
+#include <spdlog/spdlog.h>
 
 // Apache Arrow integration (optional)
 // Enable with: cmake -DTHEMIS_HAS_ARROW=ON and install Apache Arrow via vcpkg

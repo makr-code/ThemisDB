@@ -1,25 +1,14 @@
-/*
- * ThemisDB | File: ai_orchestrator.h | Version: 0.0.15 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 641
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * PR History (last 5): #2590 feat: YAML-configurable LLM... (2026-03-11)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file ai_orchestrator.h
- * @brief LLM Orchestration Pipeline – Mode Spec types, Tool Registry and
- *        Orchestrator runtime for ThemisDB.
- *
- * This header defines a YAML-configurable orchestration layer that supports
- * multiple LLM request modes: ask, edit, rag, agentic, multi_agent and ethics.
- *
- * Schema version: themis.ai/v1
- *
- * @see config/ai_ml/llm/modes/ for example YAML files.
- * @see docs/llm_orchestration/README.md for architecture documentation.
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
+
 #pragma once
 
 #include "llm/llm_plugin_interface.h"
@@ -408,6 +397,11 @@ struct RunMetadata {
     int   retrieved_docs   = 0;
     float avg_relevance    = 0.0f;
 
+    // Adapter candidate selection stats (optional PR-1 path)
+    int   adapter_candidates = 0;
+    std::optional<std::string> selected_adapter_id;
+    std::optional<std::string> adapter_selection_reason;
+
     // Tool usage
     std::vector<std::string> tool_calls_made;
 
@@ -463,6 +457,149 @@ struct OrchestratorContext {
 };
 
 // ============================================================================
+// Optional adapter candidate selection (PR-1)
+// ============================================================================
+
+/**
+ * @brief One adapter candidate returned by the selection provider.
+ */
+struct AdapterCandidate {
+    std::string adapter_id;
+    float       similarity = 0.0f;
+    std::string source_layer;
+    std::string tenant;
+};
+
+/**
+ * @brief Input for adapter candidate selection.
+ */
+struct AdapterSelectionInput {
+    std::string session_id;
+    std::string tenant;
+    std::vector<float> query_embedding;
+    std::size_t top_k = 0;
+    std::string domain_hint;
+};
+
+/**
+ * @brief Output of adapter candidate selection.
+ */
+struct AdapterSelectionResult {
+    std::optional<std::string> selected_adapter_id;
+    std::vector<AdapterCandidate> candidates;
+    std::string reason;
+};
+
+/**
+ * @brief Policy guardrails for runtime adapter switching.
+ */
+struct AdapterSwitchPolicy {
+    int   min_switch_interval_ms = 500;
+    float min_similarity_gain = 0.0f;
+    int   max_switches_per_request = 1;
+    int   max_retry_attempts = 0;   ///< Additional retries after first apply attempt.
+    int   retry_backoff_ms = 0;     ///< Backoff between retries for retryable failures.
+    bool  enable_cost_budget_gate = false; ///< Enable pre-apply cost budget guard.
+    double max_total_cost = 0.0;           ///< Max projected total RAG cost.
+    bool  enable_cost_top_k_adaptation = false; ///< Adapt retrieval top_k to fit budget.
+    int   min_top_k_under_budget = 1;           ///< Lower bound for budget-driven top_k reduction.
+};
+
+/**
+ * @brief Resolve adapter id + tenant to a concrete LoRA artifact path.
+ *
+ * Return std::nullopt or an empty string to signal that the adapter cannot
+ * be resolved for the current request context.
+ */
+using AdapterPathResolverFn = std::function<std::optional<std::string>(
+    const std::string& adapter_id,
+    const std::string& tenant)>;
+
+/**
+ * @brief Optional runtime provider for adapter candidate selection.
+ */
+class IAdapterCandidateProvider {
+public:
+    virtual ~IAdapterCandidateProvider() = default;
+
+    /**
+     * @brief Select adapter candidates for the current request context.
+     */
+    [[nodiscard]] virtual AdapterSelectionResult
+    selectCandidates(const AdapterSelectionInput& input) const = 0;
+};
+
+/**
+ * @brief Optional runtime service to apply adapters before generation.
+ */
+class IAdapterApplyService {
+public:
+    virtual ~IAdapterApplyService() = default;
+
+    /**
+     * @brief Apply an adapter for the current runtime context.
+     */
+    [[nodiscard]] virtual bool applyAdapter(const std::string& adapter_id,
+                                            const std::string& tenant,
+                                            float              scale) = 0;
+
+    /**
+     * @brief Return current adapter id, or empty string if none is active.
+     */
+    [[nodiscard]] virtual std::string currentAdapter() const = 0;
+
+    /**
+     * @brief Whether switching is currently allowed.
+     */
+    [[nodiscard]] virtual bool canSwitch() const = 0;
+};
+
+/**
+ * @brief Cost model input for one RAG orchestration run.
+ */
+struct RagCostModelInput {
+    std::size_t retrieved_docs = 0;
+    int64_t retrieval_latency_ms = 0;
+    int64_t llm_latency_ms = 0;
+    int tokens_prompt = 0;
+    int tokens_generated = 0;
+    bool adapter_apply_attempted = false;
+    bool adapter_apply_success = false;
+    int adapter_apply_attempts = 0;
+    int64_t adapter_apply_latency_ms = 0;
+    std::string tenant;
+    json extra;
+};
+
+/**
+ * @brief Cost model output for one RAG orchestration run.
+ */
+struct RagCostEstimate {
+    double total_cost = 0.0;
+    double retrieval_cost = 0.0;
+    double inference_cost = 0.0;
+    double adapter_cost = 0.0;
+    std::string model = "";
+    std::string unit = "cost_units";
+    json extra;
+};
+
+/**
+ * @brief Optional runtime service to estimate end-to-end RAG cost.
+ */
+class IRagCostModelService {
+public:
+    virtual ~IRagCostModelService() = default;
+
+    /**
+     * @brief Estimate total RAG cost for a single run.
+     * @return Cost estimate, or nullopt when no estimate can be produced.
+     */
+    [[nodiscard]] virtual std::optional<RagCostEstimate>
+    estimate(const RagCostModelInput& input) const = 0;
+};
+
+// ============================================================================
 // AIOrchestrator
 // ============================================================================
 
@@ -500,6 +637,27 @@ public:
 
     /** @brief Set (or replace) the LLM plugin used for inference. */
     void setLLMPlugin(std::shared_ptr<ILLMPlugin> plugin);
+
+    /** @brief Set (or clear) the optional adapter candidate provider. */
+    void setAdapterCandidateProvider(std::shared_ptr<IAdapterCandidateProvider> provider);
+
+    /** @brief Set (or clear) the optional adapter apply service. */
+    void setAdapterApplyService(std::shared_ptr<IAdapterApplyService> service);
+
+    /** @brief Configure adapter switch policy guardrails. */
+    void setAdapterSwitchPolicy(const AdapterSwitchPolicy& policy);
+
+    /**
+     * @brief Set (or clear) adapter path resolver used by the default apply bridge.
+     *
+     * @param resolver Resolver callback. Pass empty function to clear resolver.
+     *        If resolver is set and returns empty/nullopt, adapter apply fails
+     *        with metadata error code "resolver_empty_path".
+     */
+    void setAdapterPathResolver(AdapterPathResolverFn resolver);
+
+    /** @brief Set (or clear) RAG cost model service. */
+    void setRagCostModelService(std::shared_ptr<IRagCostModelService> service);
 
     /** @brief Expose the internal tool registry for external registrations. */
     ToolRegistry& toolRegistry();

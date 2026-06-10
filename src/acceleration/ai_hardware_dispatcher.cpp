@@ -1,8 +1,19 @@
+/**
+ * @file ai_hardware_dispatcher.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.10
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 84/100
+ * @note Gap Summary: total=7; TODO=1, Stub=4, Unimpl=0, Mock=1, Sim=1, Debt=0, C=28, H=49, M=2, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
- * ThemisDB | File: ai_hardware_dispatcher.cpp | Version: 0.0.10 | Last Modified: 2026-05-31 12:49:01
+ * ThemisDB | File: ai_hardware_dispatcher.cpp | Version: 0.0.10 | Last Modified: 2026-06-02 11:49:05
  * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 87/100 | Lines: 944
- * Gap Summary: total=7; TODO=1, Stub=4, Unimpl=0, Mock=1, Sim=1, Debt=0, C=39, H=76, M=3, L=0
- * PR History (last 5): #4928 [Docs][acceleration] Aktual... (2026-05-10)
+ * Gap Summary: total=7; TODO=1, Stub=4, Unimpl=0, Mock=1, Sim=1, Debt=0, C=28, H=49, M=2, L=0
+ * PR History (last 5): none
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

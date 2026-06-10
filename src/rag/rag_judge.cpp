@@ -1,15 +1,12 @@
-/*
- * ThemisDB | File: rag_judge.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 19:05:19
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 1540
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=84, H=89, M=19, L=0
- * PR History (last 5): #651 [RAG-ETHICS] Add ethical co... (2026-03-11) | #650 Complete RAG Enhancement Im... (2026-03-11) | #638 RAG Enhancement: Knowledge ... (2026-03-11) | #836 Implement production-ready ... (2026-03-11) | #1271 Quality Control enhancement... (2026-03-11)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file rag_judge.cpp
- * @brief Implementation of LLM-as-Judge for RAG System Quality Evaluation
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=56, H=63, M=12, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include "rag/rag_judge.h"

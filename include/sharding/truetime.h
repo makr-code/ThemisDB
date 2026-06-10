@@ -1,3 +1,14 @@
+/**
+ * @file truetime.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
  * ThemisDB | File: truetime.h | Version: 0.0.47
  * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
@@ -96,18 +107,23 @@ public:
      * @brief Configuration for TrueTime
      */
     struct Config {
+        /** @brief Base epsilon contribution in microseconds after successful sync. */
         // Base uncertainty in microseconds (default: 1ms)
         uint64_t base_uncertainty_us = 1000;
         
+        /** @brief Upper cap for uncertainty growth in microseconds. */
         // Maximum allowed clock drift in microseconds (default: 100ms)
         uint64_t max_drift_us = 100000;
         
+        /** @brief Periodic synchronization cadence in seconds. */
         // Clock sync interval in seconds (default: 30s)
         uint64_t sync_interval_s = 30;
         
+        /** @brief NTP server hostnames/addresses used for offset sampling. */
         // NTP server addresses (empty = local system time only)
         std::vector<std::string> ntp_servers;
         
+        /** @brief Enable chunked waiting for improved interruption responsiveness. */
         // Enable aggressive wait optimization
         bool enable_wait_optimization = true;
     };
@@ -118,9 +134,7 @@ public:
      */
     explicit TrueTime(const Config& config);
     
-    /**
-     * @brief Destructor - stops sync thread
-     */
+    /** @brief Destructor; stops synchronization thread if active. */
     ~TrueTime();
     
     // Prevent copying
@@ -169,26 +183,18 @@ public:
      */
     std::chrono::nanoseconds getDrift() const;
     
-    /**
-     * @brief Force a clock synchronization
-     * @return True if sync was successful
+    /** @brief Force immediate clock synchronization attempt.
+     *  @return true when synchronization succeeded or local fallback was applied.
      */
     bool syncNow();
     
-    /**
-     * @brief Get statistics about clock sync
-     * @return JSON with sync stats (last sync time, drift, etc.)
-     */
+    /** @brief Return JSON statistics for sync/uncertainty state. */
     std::string getStats() const;
     
-    /**
-     * @brief Start background clock sync thread
-     */
+    /** @brief Start background clock synchronization thread. */
     void startSyncThread();
     
-    /**
-     * @brief Stop background clock sync thread
-     */
+    /** @brief Stop background clock synchronization thread. */
     void stopSyncThread();
 
 private:

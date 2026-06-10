@@ -1,26 +1,12 @@
-/*
- * ThemisDB | File: database_maintenance_orchestrator.cpp | Version: 0.0.13 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 96/100 | Lines: 1482
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=7, M=10, L=0
- * PR History (last 5): #4124 feat(maintenance): implemen... (2026-03-12) | #4125 feat(maintenance): upgrade ... (2026-03-12) | #4109 feat(maintenance): Explicit... (2026-03-12) | #3901 feat(maintenance): Schedule... (2026-03-12) | #3900 feat(maintenance): Force-Ru... (2026-03-12)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file database_maintenance_orchestrator.cpp
- * @brief Implementation of DatabaseMaintenanceOrchestrator.
- *
- * Coordinates database maintenance tasks across all modules by:
- *   1. Persisting MaintenanceScheduleEntry objects (full CRUD).
- *   2. Registering enabled schedules as TaskScheduler cron tasks.
- *   3. Executing maintenance operations via module delegates
- *      (IndexMaintenanceManager, etc.).
- *   4. Tracking running/completed OrchestratorJob objects.
- *   5. Aggregating per-module health signals.
- *   6. Enforcing maintenance windows (SKIPPED when outside window).
- *   7. Audit-logging all CRUD and job lifecycle events.
- *   8. Exporting metrics via MetricsCollector.
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.13
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 96/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=5, M=5, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include "maintenance/database_maintenance_orchestrator.h"

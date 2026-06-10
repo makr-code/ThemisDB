@@ -1,3 +1,14 @@
+/**
+ * @file query_engine.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=4; TODO=1, Stub=1, Unimpl=1, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
  * ThemisDB | File: query_engine.h | Version: 0.0.47
  * Maturity: 🟢 PRODUCTION-READY | Score: 94/100
@@ -40,6 +51,12 @@ using IGraphIndexPtr = std::shared_ptr<IGraphIndex>;
 // Minimal forward declarations for early usage
 namespace query { struct Expression; struct Query; class CTECache; struct QueryPlanNode; }
 
+/**
+ * @brief Input model for recursive graph path expansion queries.
+ *
+ * Describes start/end anchors, traversal depth, optional temporal validity
+ * constraints, and optional spatial constraints for graph+geo hybrid queries.
+ */
 struct RecursivePathQuery {
     std::string start_node;
     std::string end_node;
@@ -59,8 +76,14 @@ struct RecursivePathQuery {
 };
 
 // General Traversal Query Structures
+/**
+ * @brief Traversal direction for graph expansion operations.
+ */
 enum class TraversalDirection { OUTBOUND, INBOUND, ANY };
 
+/**
+ * @brief Result row for graph traversals.
+ */
 struct TraversalResult {
     std::string vertex_pk;
     int depth = 0;
@@ -69,7 +92,9 @@ struct TraversalResult {
     nlohmann::json vertex_data;      // Full vertex entity data
 };
 
-// Vector + Geo Hybrid Query
+/**
+ * @brief Query model for hybrid vector similarity plus spatial filtering.
+ */
 struct VectorGeoQuery {
     std::string table;
     std::string vector_field = "embedding";
@@ -81,7 +106,11 @@ struct VectorGeoQuery {
     std::vector<std::shared_ptr<query::Expression>> extra_filters; // evaluated conjunctively
 };
 
-// Filtered Vector Search Query (Pure Vector + Attribute Filters, NO Geo)
+/**
+ * @brief Query model for vector similarity search with attribute filters.
+ *
+ * This variant intentionally excludes geo predicates.
+ */
 struct FilteredVectorSearchQuery {
     std::string table;
     std::string vector_field = "embedding";
@@ -119,7 +148,9 @@ struct FilteredVectorSearchQuery {
     std::string strategy = "auto";
 };
 
-// Radius Vector Search Query (Epsilon-based neighbors)
+/**
+ * @brief Query model for epsilon/radius vector neighbor search.
+ */
 struct RadiusVectorSearchQuery {
     std::string table;
     std::string vector_field = "embedding";
@@ -132,7 +163,9 @@ struct RadiusVectorSearchQuery {
     std::string strategy = "auto";
 };
 
-// Content Search Query (Fulltext + Metadata Filtering)
+/**
+ * @brief Full-text query model with optional metadata filters.
+ */
 struct ContentSearchQuery {
     std::string table;
     std::string fulltext_field = "content"; // Field containing text content
@@ -152,7 +185,9 @@ struct ContentSearchQuery {
     double min_score = 0.0;
 };
 
-// Content + Geo Hybrid Query
+/**
+ * @brief Full-text query model combined with optional spatial filtering.
+ */
 struct ContentGeoQuery {
     std::string table;
     std::string text_field;

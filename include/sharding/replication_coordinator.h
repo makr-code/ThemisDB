@@ -1,3 +1,14 @@
+/**
+ * @file replication_coordinator.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
  * ThemisDB | File: replication_coordinator.h | Version: 0.0.47
  * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
@@ -20,15 +31,15 @@
 namespace themis::sharding {
 
 /**
- * Replication Coordinator
- * 
- * Manages write concern enforcement and tracks replica acknowledgments.
- * Used by write API to ensure writes meet quorum requirements.
+ * @brief Coordinates replica acknowledgments for write-concern enforcement.
+ *
+ * The coordinator tracks pending writes by LSN and blocks callers until the
+ * requested write concern is satisfied or times out.
  */
 class ReplicationCoordinator {
 public:
     /**
-     * Result of a replication wait operation
+     * @brief Result of waitForReplication.
      */
     struct ReplicationResult {
         bool success = false;                       // Whether write succeeded
@@ -38,7 +49,13 @@ public:
         std::string error_message;                 // Error details if failed
     };
 
+    /**
+     * @brief Construct coordinator.
+     * @param shipper WAL shipper used for replica topology and replication signals.
+     */
     explicit ReplicationCoordinator(std::shared_ptr<WALShipper> shipper);
+
+    /** @brief Destructor; wakes waiting threads during shutdown. */
     ~ReplicationCoordinator();
 
     /**
@@ -61,7 +78,8 @@ public:
     void recordAcknowledgment(const std::string& replica_id, const LSN& lsn);
 
     /**
-     * Get current replica count (for quorum calculation)
+     * @brief Return current replica count excluding primary.
+     * @return Number of replicas known by WAL shipper.
      */
     size_t getReplicaCount() const;
 
@@ -72,14 +90,18 @@ public:
     std::vector<ReplicaInfo> getReplicaInfo() const;
 
     /**
-     * Get WAL shipper statistics (delegates to WALShipper)
+     * @brief Return current WAL shipper statistics.
+     * @return WAL shipper stats snapshot, or default-initialized stats when unavailable.
      */
     WALShipperStats getShipperStats() const;
 
     /**
-     * Enable/disable coordinator (useful for testing)
+     * @brief Enable or disable write-concern waiting.
+     * @param enabled New enabled state.
      */
     void setEnabled(bool enabled);
+
+    /** @brief Check whether coordinator is enabled. */
     bool isEnabled() const;
 
 private:
@@ -138,13 +160,14 @@ private:
     std::condition_variable pending_cv_;
 
     /**
-     * Check if write has met its concern requirement
+     * @brief Check whether current acknowledgment count satisfies write concern.
+     * @param write Pending write state.
+     * @param total_replicas Total participants including primary.
+     * @return true when required acknowledgments are reached.
      */
     bool hasMetConcern(const PendingWrite& write, size_t total_replicas) const;
 
-    /**
-     * Cleanup old pending writes (timed out or completed)
-     */
+    /** @brief Remove stale or completed pending-write records. */
     void cleanupPendingWrites();
 };
 

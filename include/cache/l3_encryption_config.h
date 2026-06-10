@@ -1,21 +1,12 @@
-/*
- * ThemisDB | File: l3_encryption_config.h | Version: 0.1.0 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 143
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * PR History (last 5): none
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file l3_encryption_config.h
- * @brief L3 cache encryption enforcement configuration and manager interface.
- *
- * Defines the encryption modes and configuration structure for encrypting
- * data at rest in the L3 (persistent/remote) cache tier, and the interface
- * for applying, operating, and rotating keys managed by an external KMS/HSM.
- *
- * Compliance: PCI DSS 3.4, HIPAA §164.312(a)(2)(iv), FIPS 140-3.
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.1.0
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once

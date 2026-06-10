@@ -1,3 +1,14 @@
+/**
+ * @file distributed_transaction.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
  * ThemisDB | File: distributed_transaction.h | Version: 0.0.47
  * Maturity: 🟢 PRODUCTION-READY | Score: 94/100
@@ -28,13 +39,13 @@ namespace themis::sharding {
  * @brief Transaction state
  */
 enum class TransactionState {
-    ACTIVE,      // Transaction is active
-    PREPARING,   // Preparing to commit (phase 1 of 2PC)
-    PREPARED,    // All participants prepared (ready to commit)
-    COMMITTING,  // Committing transaction (phase 2 of 2PC)
-    COMMITTED,   // Transaction committed successfully
-    ABORTING,    // Aborting transaction
-    ABORTED      // Transaction aborted
+    ACTIVE,      ///< Transaction is active.
+    PREPARING,   ///< Phase 1 of 2PC in progress.
+    PREPARED,    ///< All participants prepared and ready for decision.
+    COMMITTING,  ///< Phase 2 of 2PC commit in progress.
+    COMMITTED,   ///< Transaction committed successfully.
+    ABORTING,    ///< Abort propagation in progress.
+    ABORTED      ///< Transaction aborted.
 };
 
 /**
@@ -44,34 +55,34 @@ enum class TransactionState {
  * TwoPhaseCommitParticipant::onPrepare() via the validate_and_lock callback.
  */
 enum class DistributedIsolationLevel {
-    SNAPSHOT_ISOLATION, // MVCC snapshot reads – default; may allow write-skew/phantom anomalies
-    SERIALIZABLE        // Full serializability; read-set validation on prepare
+    SNAPSHOT_ISOLATION, ///< MVCC snapshot reads; may allow write-skew/phantoms.
+    SERIALIZABLE        ///< Full serializability with prepare-time validation.
 };
 
 /**
  * @brief Participant in a distributed transaction
  */
 struct TransactionParticipant {
-    std::string shard_id;        // Shard identifier
-    std::string endpoint;        // Network endpoint
-    bool prepared;               // Has this participant prepared?
-    bool committed;              // Has this participant committed?
-    std::string error_msg;       // Error message if any
+    std::string shard_id;   ///< Target shard identifier.
+    std::string endpoint;   ///< RPC endpoint for shard participant.
+    bool prepared;          ///< True when participant voted/prepared.
+    bool committed;         ///< True when participant applied commit.
+    std::string error_msg;  ///< Participant-specific failure detail.
 };
 
 /**
  * @brief Distributed transaction metadata
  */
 struct DistributedTransaction {
-    std::string transaction_id;           // Unique transaction ID
-    TransactionState state;               // Current state
-    DistributedIsolationLevel isolation_level; // Isolation level
-    std::chrono::nanoseconds start_time;  // Transaction start timestamp
-    std::chrono::nanoseconds commit_time; // Commit timestamp (TrueTime)
-    std::vector<TransactionParticipant> participants;  // Participating shards
-    nlohmann::json operations;            // Operations to execute
-    uint32_t commit_retry_count;          // Number of commit retries
-    std::string error_detail;             // Detailed error message
+    std::string transaction_id;                      ///< Unique transaction ID.
+    TransactionState state;                          ///< Current lifecycle state.
+    DistributedIsolationLevel isolation_level;       ///< Isolation level selected for transaction.
+    std::chrono::nanoseconds start_time;             ///< Transaction start timestamp.
+    std::chrono::nanoseconds commit_time;            ///< Assigned commit timestamp.
+    std::vector<TransactionParticipant> participants; ///< Participating shards.
+    nlohmann::json operations;                       ///< Grouped operations per shard.
+    uint32_t commit_retry_count;                     ///< Number of commit retry attempts.
+    std::string error_detail;                        ///< Extended error detail for diagnostics.
     
     DistributedTransaction()
         : state(TransactionState::ACTIVE)
@@ -96,17 +107,17 @@ public:
      * @brief Configuration for distributed transaction coordinator
      */
     struct Config {
-        uint64_t prepare_timeout_ms = 10000;   // Timeout for prepare phase
-        uint64_t commit_timeout_ms = 10000;    // Timeout for commit phase
-        uint64_t max_concurrent_txns = 1000;   // Max concurrent transactions
-        bool enable_read_only_opt = true;      // Enable read-only optimization
-        uint64_t rpc_timeout_ms = 5000;        // RPC timeout per shard call
-        uint32_t max_retries = 3;              // RPC retry attempts
-        uint32_t max_commit_retries = 5;       // Max commit phase retries (higher for durability)
-        uint64_t retry_backoff_base_ms = 100;  // Base delay for exponential backoff
-        uint64_t max_backoff_ms = 5000;        // Maximum backoff delay
-        bool enable_recovery_log = true;       // Enable transaction recovery logging
-        std::string coordinator_id;            // Identifier for Prometheus labels (default: "default")
+        uint64_t prepare_timeout_ms = 10000;    ///< Timeout for prepare phase.
+        uint64_t commit_timeout_ms = 10000;     ///< Timeout for commit phase.
+        uint64_t max_concurrent_txns = 1000;    ///< Maximum concurrent transactions.
+        bool enable_read_only_opt = true;       ///< Enable read-only fast-path optimization.
+        uint64_t rpc_timeout_ms = 5000;         ///< RPC timeout per shard call.
+        uint32_t max_retries = 3;               ///< Per-RPC retry attempts.
+        uint32_t max_commit_retries = 5;        ///< Maximum retries for commit phase.
+        uint64_t retry_backoff_base_ms = 100;   ///< Base delay for exponential retry backoff.
+        uint64_t max_backoff_ms = 5000;         ///< Maximum retry backoff delay.
+        bool enable_recovery_log = true;        ///< Enable WAL-based transaction recovery logging.
+        std::string coordinator_id;             ///< Prometheus label value for coordinator metrics.
 
         /**
          * When true (default), transactions with isolation_level ==
@@ -119,7 +130,7 @@ public:
          */
         bool use_percolator_for_snapshot = true;
     };
-    
+
     /**
      * @brief Construct coordinator
      * @param truetime TrueTime instance for timestamping
@@ -129,6 +140,9 @@ public:
         std::shared_ptr<TrueTime> truetime,
         const Config& config
     );
+
+    /** @brief Default destructor. */
+    ~DistributedTransactionCoordinator() = default;
     
     /**
      * @brief Begin a new distributed transaction
@@ -220,23 +234,23 @@ public:
     void setShardEndpointMap(std::unordered_map<std::string, std::string> map);
 
 private:
-    std::shared_ptr<TrueTime> truetime_;
-    Config config_;
+    std::shared_ptr<TrueTime> truetime_;  ///< TrueTime source used for timestamp assignment and waits.
+    Config config_;                       ///< Runtime coordinator configuration.
 
     // Shard-id to real network endpoint (populated via setShardEndpointMap())
-    std::unordered_map<std::string, std::string> shard_endpoint_map_;
+    std::unordered_map<std::string, std::string> shard_endpoint_map_; ///< Registered shard endpoint map.
     
     // Write-Ahead Log for transaction recovery
-    std::unique_ptr<WALManager> wal_manager_;
+    std::unique_ptr<WALManager> wal_manager_; ///< Optional WAL manager for in-doubt recovery.
     
-    mutable std::timed_mutex mutex_;
-    std::map<std::string, DistributedTransaction> transactions_;
+    mutable std::timed_mutex mutex_;                         ///< Protects transactions and endpoint map.
+    std::map<std::string, DistributedTransaction> transactions_; ///< Active and recent transaction registry.
     
     // Statistics
-    std::atomic<uint64_t> total_transactions_{0};
-    std::atomic<uint64_t> committed_transactions_{0};
-    std::atomic<uint64_t> aborted_transactions_{0};
-    std::atomic<uint64_t> readonly_transactions_{0};
+    std::atomic<uint64_t> total_transactions_{0};      ///< Total begun transactions.
+    std::atomic<uint64_t> committed_transactions_{0};  ///< Successfully committed transactions.
+    std::atomic<uint64_t> aborted_transactions_{0};    ///< Aborted transactions.
+    std::atomic<uint64_t> readonly_transactions_{0};   ///< Executed read-only transactions.
     
     /**
      * @brief Phase 1: Send prepare requests to all participants

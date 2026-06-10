@@ -1,3 +1,14 @@
+/**
+ * @file logical_replication.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.13
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=6, H=10, M=19, L=4
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
  * ThemisDB | File: logical_replication.cpp | Version: 0.0.13 | Last Modified: 2026-05-31 12:17:24
  * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 718
@@ -188,6 +199,8 @@ std::vector<LogicalChange> LogicalReplicationManager::readChanges(
 
     std::lock_guard<std::mutex> lock(runtime->mutex);
     const uint32_t count = std::min<uint32_t>(max_changes, static_cast<uint32_t>(runtime->buffer.size()));
+    // BATCH B OPTIMIZATION: Reserve space for all changes upfront
+    out.reserve(count);
     for (uint32_t i = 0; i < count; ++i) {
         out.push_back(std::move(runtime->buffer.front()));
         runtime->buffer.pop_front();
@@ -210,6 +223,8 @@ void LogicalReplicationManager::recordDDLChange(const std::string& ddl_statement
     std::vector<std::shared_ptr<SlotRuntime>> slots_copy;
     {
         std::shared_lock<std::shared_mutex> lock(slots_mutex_);
+        // BATCH B OPTIMIZATION: Reserve space for all slots upfront
+        slots_copy.reserve(slots_.size());
         for (auto& kv : slots_) {
             slots_copy.push_back(kv.second);
         }

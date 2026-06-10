@@ -3144,7 +3144,7 @@ if(THEMIS_BUILD_MODULAR)
                 VERBATIM
             )
 
-            add_library(themis_shard_proto STATIC ${SHARD_PROTO_SRCS} ${SHARD_PROTO_HDRS})
+            add_library(themis_shard_proto SHARED ${SHARD_PROTO_SRCS} ${SHARD_PROTO_HDRS})
             target_include_directories(themis_shard_proto PUBLIC ${SHARD_PROTO_GEN_DIR})
             target_link_libraries(themis_shard_proto PUBLIC gRPC::grpc++ protobuf::libprotobuf)
 
@@ -3155,7 +3155,7 @@ if(THEMIS_BUILD_MODULAR)
                 target_compile_options(themis_shard_proto PRIVATE -Wno-unused-parameter -Wno-deprecated-declarations -Wno-conversion)
             endif()
 
-            message(STATUS "themis_shard_proto library created for inter-shard communication (modular build)")
+            message(STATUS "themis_shard_proto shared library created for inter-shard communication (modular build)")
 
             # Generate ThemisDB API protobuf/grpc stubs for modular network module
             set(THEMISDB_API_PROTO ${THEMIS_ROOT_DIR}/proto/themisdb.proto)
@@ -4167,7 +4167,7 @@ if(THEMIS_ENABLE_GRPC)
                 VERBATIM
             )
 
-            add_library(themis_api_proto STATIC
+            add_library(themis_api_proto SHARED
                 ${THEMISDB_API_PROTO_SRCS}
                 ${THEMISDB_API_PROTO_HDRS}
             )
@@ -4183,7 +4183,7 @@ if(THEMIS_ENABLE_GRPC)
             endif()
 
             target_link_libraries(themis_core PUBLIC themis_api_proto)
-            message(STATUS "themis_api_proto library created for ThemisDB API gRPC service")
+            message(STATUS "themis_api_proto shared library created for ThemisDB API gRPC service")
         else()
             message(WARNING "protoc/grpc plugin targets unavailable – themisdb.proto stubs will not be generated")
         endif()

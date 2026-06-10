@@ -1,3 +1,18 @@
+/**
+ * @file graphics_backends.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @author makr-code
+ * @version 0.0.47
+ * @date 2026-06-02 20:56:29
+ * @note Maturity: 🟡 RELEASE-CANDIDATE
+ * @note Score: 74/100
+ * @note Lines: 4295
+ * @note Gap Summary: total=34; TODO=1, Stub=28, Unimpl=0, Mock=1, Sim=3, Debt=1, C=0, H=28, M=13, L=4
+ * @note PR History (last 5): #4928 [Docs][acceleration] Aktual... (2026-05-10) | #4206 feat(acceleration): Vulkan ... (2026-03-14) | #3665 feat(acceleration): Impleme... (2026-03-12) | #3664 feat(acceleration): Impleme... (2026-03-12) | #3609 feat(acceleration): wire mi... (2026-03-12)
+ * @note Status: Release Candidate
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
  * ThemisDB | File: graphics_backends.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:49:01
  * Author: makr-code | Maturity: 🟡 RELEASE-CANDIDATE | Score: 77/100 | Lines: 4294
@@ -1097,7 +1112,9 @@ uint32_t VulkanVectorBackend::getWorkgroupSizeBatchSearch() const noexcept {
 
 bool VulkanVectorBackend::isAvailable() const noexcept {
 #ifdef THEMIS_ENABLE_VULKAN
-    // Probe Vulkan availability by attempting a minimal instance creation
+    // Treat Vulkan as available only when a non-CPU physical device exists.
+    // A software ICD alone would otherwise outrank the explicit CPU fallback
+    // during capability-driven selection on headless CI and CPU-only hosts.
     VkApplicationInfo appInfo{};
     appInfo.sType      = VK_STRUCTURE_TYPE_APPLICATION_INFO;
     appInfo.apiVersion = VK_API_VERSION_1_0;
@@ -1106,11 +1123,36 @@ bool VulkanVectorBackend::isAvailable() const noexcept {
     ci.pApplicationInfo = &appInfo;
     VkInstance probe = VK_NULL_HANDLE;
     VkResult result = vkCreateInstance(&ci, nullptr, &probe);
-    if (result == VK_SUCCESS) {
-        vkDestroyInstance(probe, nullptr);
-        return true;
+    if (result != VK_SUCCESS) {
+        return false;
     }
-    return false;
+
+    uint32_t deviceCount = 0;
+    result = vkEnumeratePhysicalDevices(probe, &deviceCount, nullptr);
+    if (result != VK_SUCCESS || deviceCount == 0) {
+        vkDestroyInstance(probe, nullptr);
+        return false;
+    }
+
+    std::vector<VkPhysicalDevice> devices(deviceCount);
+    result = vkEnumeratePhysicalDevices(probe, &deviceCount, devices.data());
+    if (result != VK_SUCCESS) {
+        vkDestroyInstance(probe, nullptr);
+        return false;
+    }
+
+    auto hasAcceleratedDevice = false;
+    for (auto physicalDevice : devices) {
+        VkPhysicalDeviceProperties properties{};
+        vkGetPhysicalDeviceProperties(physicalDevice, &properties);
+        if (properties.deviceType != VK_PHYSICAL_DEVICE_TYPE_CPU) {
+            hasAcceleratedDevice = true;
+            break;
+        }
+    }
+
+    vkDestroyInstance(probe, nullptr);
+    return hasAcceleratedDevice;
 #else
     AvailabilityFn fn;
     {

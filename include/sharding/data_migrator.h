@@ -1,3 +1,14 @@
+/**
+ * @file data_migrator.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
  * ThemisDB | File: data_migrator.h | Version: 0.0.47
  * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
@@ -26,25 +37,32 @@ class PrometheusMetrics;
 class ShardTopology;
 class WALShipper;
 
-// Progress information for data migration
+/**
+ * @brief Fortschrittsdaten einer laufenden Datenmigration.
+ *
+ * Wird bei jeder verarbeiteten Batch aktualisiert und optional ueber
+ * ProgressCallback an Aufrufer weitergereicht.
+ */
 struct MigrationProgress {
-    uint64_t records_migrated = 0;
-    uint64_t total_records = 0;
-    uint64_t bytes_transferred = 0;
-    uint64_t errors = 0;
-    double progress_percent = 0.0;
-    std::string migration_id;  // Deterministic migration ID
+    uint64_t records_migrated = 0; ///< Bereits migrierte Datensaetze.
+    uint64_t total_records = 0;    ///< Erwartete Gesamtanzahl im Token-Bereich.
+    uint64_t bytes_transferred = 0; ///< Uebertragene Bytes ueber alle Batches.
+    uint64_t errors = 0;           ///< Anzahl erkannter Batch-Fehler.
+    double progress_percent = 0.0; ///< Fortschritt in Prozent [0, 100].
+    std::string migration_id;      ///< Deterministische Migrations-ID.
 };
 
-// Result of a migration operation
+/**
+ * @brief Ergebnis einer abgeschlossenen Migration.
+ */
 struct MigrationResult {
-    bool success = false;
-    uint64_t records_migrated = 0;
-    uint64_t bytes_transferred = 0;
-    std::vector<std::string> errors;
-    std::string error_message;
-    std::string migration_id;  // Deterministic migration ID for tracking
-    bool was_already_completed = false;  // True if migration was already done
+    bool success = false;               ///< True bei erfolgreichem Abschluss.
+    uint64_t records_migrated = 0;      ///< Migrierte Datensaetze.
+    uint64_t bytes_transferred = 0;     ///< Uebertragene Gesamtdatenmenge in Bytes.
+    std::vector<std::string> errors;    ///< Batch-spezifische Fehlerdetails.
+    std::string error_message;          ///< Zusammenfassende Fehlermeldung.
+    std::string migration_id;           ///< Deterministische Tracking-ID.
+    bool was_already_completed = false; ///< True, falls Idempotenz die Arbeit uebersprang.
 };
 
 /**
@@ -97,21 +115,23 @@ struct LiveMigrationResult {
     std::string migration_id;
 };
 
-// Configuration for data migrator
+/**
+ * @brief Konfiguration des DataMigrator.
+ */
 struct DataMigratorConfig {
-    std::string source_endpoint;
-    std::string target_endpoint;
-    std::string cert_path;
-    std::string key_path;
-    std::string ca_cert_path;
-    uint32_t batch_size = 1000;
-    bool verify_integrity = true;
-    uint32_t max_retries = 3;
-    uint32_t retry_delay_ms = 1000;
+    std::string source_endpoint; ///< Source-Endpoint fuer Fetch/Count-Anfragen.
+    std::string target_endpoint; ///< Target-Endpoint fuer Write-Anfragen.
+    std::string cert_path;       ///< Client-Zertifikatspfad fuer mTLS.
+    std::string key_path;        ///< Private-Key-Pfad fuer mTLS.
+    std::string ca_cert_path;    ///< CA-Zertifikat zur Peer-Validierung.
+    uint32_t batch_size = 1000;  ///< Anzahl Records pro Batch.
+    bool verify_integrity = true; ///< Fuehrt Hash-basierte Integritaetspruefung aus.
+    uint32_t max_retries = 3;    ///< Maximalzahl Retries pro fehlgeschlagener Operation.
+    uint32_t retry_delay_ms = 1000; ///< Basiswartezeit zwischen Retries in Millisekunden.
     
     // Idempotency configuration
-    bool enable_idempotency = true;     // Enable idempotent migrations
-    std::string idempotency_store_path = "./migrations";  // Path to store migration state
+    bool enable_idempotency = true; ///< Aktiviert idempotente Wiederaufnahme.
+    std::string idempotency_store_path = "./migrations"; ///< Persistenzpfad fuer Idempotenzstatus.
 };
 
 /**
@@ -126,12 +146,21 @@ struct DataMigratorConfig {
  */
 class DataMigrator {
 public:
+    /** @brief Callback fuer MigrationProgress-Updates. */
     using ProgressCallback = std::function<void(const MigrationProgress&)>;
 
+    /**
+     * @brief Erzeugt einen DataMigrator.
+     * @param config Laufzeitkonfiguration inklusive Endpoints und mTLS-Pfaden.
+     * @param metrics Optionales Prometheus-Metrics-Backend.
+     * @throws std::invalid_argument Wenn Endpoints leer sind oder batch_size == 0.
+     */
     explicit DataMigrator(
         const DataMigratorConfig& config,
         std::shared_ptr<PrometheusMetrics> metrics = nullptr
     );
+
+    /** @brief Standard-Destruktor ohne spezielle Ressourcenlogik. */
     ~DataMigrator() = default;
 
     /**
@@ -202,7 +231,14 @@ public:
         ProgressCallback progress_callback = nullptr
     );
     
-    // Public for testing
+    /**
+     * @brief Erzeugt eine deterministische Migrations-ID aus Quelle/Ziel/Range.
+     * @param source_shard_id Quell-Shard.
+     * @param target_shard_id Ziel-Shard.
+     * @param token_range_start Range-Start.
+     * @param token_range_end Range-Ende.
+     * @return Deterministische, hash-basierte Migrations-ID.
+     */
     std::string generateMigrationId(
         const std::string& source_shard_id,
         const std::string& target_shard_id,
@@ -210,25 +246,38 @@ public:
         uint64_t token_range_end
     );
     
+    /**
+     * @brief Erzeugt eine deterministische Batch-ID innerhalb einer Migration.
+     * @param migration_id Deterministische Migrations-ID.
+     * @param batch_index Laufender Batch-Index.
+     * @return Eindeutige Batch-ID fuer Idempotenztracking.
+     */
     std::string generateBatchId(
         const std::string& migration_id,
         uint32_t batch_index
     );
     
+    /** @brief Prueft, ob eine Migration bereits als abgeschlossen markiert ist. */
     bool isMigrationCompleted(const std::string& migration_id);
+
+    /** @brief Markiert eine Migration als abgeschlossen und persistiert den Zustand. */
     void markMigrationCompleted(const std::string& migration_id);
+
+    /** @brief Prueft, ob eine Batch bereits erfolgreich verarbeitet wurde. */
     bool isBatchCompleted(const std::string& batch_id);
+
+    /** @brief Markiert eine Batch als abgeschlossen; persistiert periodisch den Status. */
     void markBatchCompleted(const std::string& batch_id);
 
 private:
-    DataMigratorConfig config_;
-    std::shared_ptr<PrometheusMetrics> metrics_;
+    DataMigratorConfig config_; ///< Laufzeitkonfiguration.
+    std::shared_ptr<PrometheusMetrics> metrics_; ///< Optionales Metrics-Backend.
     
     // Idempotency tracking
-    mutable std::mutex idempotency_mutex_;
-    std::unordered_set<std::string> completed_migrations_;
-    std::unordered_set<std::string> completed_batches_;
-    std::atomic<size_t> batch_counter_{0};  // Thread-safe counter for idempotency state persistence
+    mutable std::mutex idempotency_mutex_; ///< Schutz fuer idempotente Statusmengen.
+    std::unordered_set<std::string> completed_migrations_; ///< Bereits finalisierte Migrationen.
+    std::unordered_set<std::string> completed_batches_; ///< Bereits verarbeitete Batch-IDs.
+    std::atomic<size_t> batch_counter_{0}; ///< Zaehler fuer periodische Statuspersistenz.
     
     /**
      * Load idempotency state from persistent storage
@@ -240,7 +289,15 @@ private:
      */
     void saveIdempotencyState();
 
-    // Fetch batch of records from source
+    /**
+     * @brief Holt eine Daten-Batch vom Quell-Shard.
+     * @param source_shard_id Quell-Shard-ID.
+     * @param token_range_start Range-Start.
+     * @param token_range_end Range-Ende.
+     * @param offset Paging-Offset.
+     * @param limit Maximale Anzahl Records.
+     * @return JSON-Array mit Records; bei Fehlern leeres Array.
+     */
     nlohmann::json fetchBatch(
         const std::string& source_shard_id,
         uint64_t token_range_start,
@@ -249,16 +306,30 @@ private:
         uint32_t limit
     );
 
-    // Write batch to target
+    /**
+     * @brief Schreibt eine Batch atomar auf den Ziel-Shard.
+     * @param target_shard_id Ziel-Shard-ID.
+     * @param batch Zu schreibende Records als JSON-Array.
+     * @return true bei bestaetigtem erfolgreichem Write.
+     */
     bool writeBatch(
         const std::string& target_shard_id,
         const nlohmann::json& batch
     );
 
-    // Calculate hash for data integrity
+    /**
+     * @brief Berechnet einen SHA-256-Hash ueber serialisierte JSON-Daten.
+     * @param data Eingabedaten.
+     * @return Hex-codierter SHA-256-Hash.
+     */
     std::string calculateHash(const nlohmann::json& data);
 
-    // Retry logic for failed operations
+    /**
+     * @brief Fuehrt eine Operation mit begrenzten Retries aus.
+     * @tparam Func Callable mit Rueckgabe bool.
+     * @param func Auszufuehrende Operation.
+     * @return true sobald ein Versuch erfolgreich war, sonst false.
+     */
     template<typename Func>
     bool retryOperation(Func func);
 };

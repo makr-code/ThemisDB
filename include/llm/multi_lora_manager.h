@@ -1,49 +1,36 @@
-/*
- * ThemisDB | File: multi_lora_manager.h | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 96/100 | Lines: 976
- * Gap Summary: total=4; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=1, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * PR History (last 5): #3199 feat(llm): LoRA adapter hot... (2026-03-12) | #701 [WIP] Add multi-GPU/Node Lo... (2026-03-11) | #700 Add multi-LoRA composition ... (2026-03-11) | #220 Add multi-GPU LoRA adapter ... (2026-03-11) | #217 Implement LoRA Quantization... (2026-03-11)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
+/**
+ * @file multi_lora_manager.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 96/100
+ * @note Gap Summary: total=4; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=1, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once
 
 #include "llm/llm_plugin_interface.h"
 #include "llm/lora_security_validator.h"
+
+#include <chrono>
+#include <functional>
 #include <memory>
-#include <string>
-#include <vector>
-#include <unordered_map>
 #include <mutex>
 #include <optional>
-#include <thread>
-#include <atomic>
-#include <condition_variable>
-#include <functional>
+#include <string>
+#include <unordered_map>
+#include <vector>
 
-// Forward declaration from llama.cpp
+#include <nlohmann/json.hpp>
+
 struct llama_context;
-
-/**
- * @file multi_lora_manager.h
- * @brief vLLM-inspired multi-LoRA management for ThemisDB
- * 
- * This component implements efficient multi-LoRA adapter management similar to vLLM:
- * - Multiple LoRA adapters can be loaded simultaneously
- * - Efficient adapter switching during inference (minimal overhead)
- * - Batched inference with different LoRAs for different requests
- * - Memory-efficient adapter storage and composition
- * 
- * Key features from vLLM:
- * - Multi-LoRA inference: Different requests can use different adapters
- * - Adapter batching: Multiple LoRAs in a single batch
- * - Dynamic loading/unloading: Adapters load/unload on demand
- * - Memory pooling: Efficient VRAM usage for multiple adapters
- */
 
 namespace themis {
 namespace llm {
+
+using json = nlohmann::json;
 
 /**
  * @brief Multi-GPU placement strategy for LoRA adapters (v1.4.0)

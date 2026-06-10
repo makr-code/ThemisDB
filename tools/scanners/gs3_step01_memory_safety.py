@@ -15,7 +15,7 @@ Detects:
 import re
 import sys
 from pathlib import Path
-from typing import List
+from typing import List, Set
 
 # Import base scanner
 sys.path.insert(0, str(Path(__file__).parents[1]))
@@ -42,6 +42,12 @@ class MemorySafetyScanner(BaseGapScanner):
         self.malloc_pattern = re.compile(r'\b(malloc|calloc|realloc)\s*\(')
         self.unique_ptr_pattern = re.compile(r'std::unique_ptr\s*<|make_unique\s*<')
         self.shared_ptr_pattern = re.compile(r'std::shared_ptr\s*<|make_shared\s*<')
+        self.pointer_index_pattern = re.compile(
+            r'\b([A-Za-z_]\w*(?:ptr|buffer|data|array))\s*\[\s*([^\]]+)\s*\]'
+        )
+        self.pointer_add_deref_pattern = re.compile(
+            r'\*\s*\(\s*([A-Za-z_]\w*)\s*\+\s*([^)]+)\)'
+        )
     
     def scan(self, source_dir: str) -> List[Gap]:
         """Scan source directory for memory safety gaps"""
@@ -95,36 +101,80 @@ class MemorySafetyScanner(BaseGapScanner):
         gaps = []
         
         for line_no, line in enumerate(lines, 1):
+            stripped = line.strip()
             # Skip comments
-            if line.strip().startswith('//'):
+            if stripped.startswith('//') or stripped.startswith('/*') or stripped.startswith('#'):
                 continue
-            
-            # Check for pointer/array dereference
-            if ('ptr' in line or 'buffer' in line or 'data' in line or 'array' in line) and \
-               ('->' in line or ('[' in line and ']' in line)):
-                
-                # Check if bounds guard exists in previous context
-                has_guard = self._context_window_search(lines, line_no,
-                    [r'if\s*\([^)]*size\s*\(\)', 
-                     r'if\s*\([^)]*\.length\s*\(',
-                     r'if\s*\([^)]*\bindex\b',
-                     r'assert\s*\([^)]*size',
-                     r'CHECK\s*\([^)]*size'],
-                    window=12)
-                
-                if not has_guard:
-                    gaps.append(Gap(
-                        file=str(file_path.relative_to(self.source_path)),
-                        line=line_no,
-                        type="pointer_arithmetic_unbounded",
-                        severity="HIGH",
-                        confidence=0.70,
-                        description="Pointer/array access without bounds validation",
-                        remediation="Add bounds check before dereferencing (e.g., if (index < size))",
-                        context='\n'.join(self._get_context(lines, line_no, window=3))
-                    ))
+
+            index_match = self.pointer_index_pattern.search(line)
+            add_deref_match = self.pointer_add_deref_pattern.search(line)
+            if not index_match and not add_deref_match:
+                continue
+
+            # Common safe forms should not be reported.
+            if '.at(' in line or 'std::span' in line or 'gsl::span' in line:
+                continue
+
+            index_expr = ''
+            if index_match:
+                index_expr = index_match.group(2).strip()
+            elif add_deref_match:
+                index_expr = add_deref_match.group(2).strip()
+
+            # Constant indexing is generally intentional and low risk for this heuristic.
+            if index_expr.isdigit():
+                continue
+
+            index_vars = self._extract_index_variables(index_expr)
+
+            # Check if bounds guard exists in local context.
+            has_guard = self._context_window_search(lines, line_no,
+                [r'if\s*\([^)]*(?:size\s*\(|\.size\s*\(|\.length\s*\(|capacity\s*\()',
+                 r'if\s*\([^)]*\b(?:index|idx|offset|pos)\b\s*[<>=!]',
+                 r'assert\s*\([^)]*(?:size|index|idx|offset)',
+                 r'CHECK\s*\([^)]*(?:size|index|idx|offset)',
+                 r'\bstd::min\s*\(',
+                 r'\bclamp\s*\('],
+                window=12)
+
+            if not has_guard and index_vars:
+                has_guard = self._has_index_var_guard(lines, line_no, index_vars)
+
+            if not has_guard:
+                gaps.append(Gap(
+                    file=str(file_path.relative_to(self.source_path)),
+                    line=line_no,
+                    type="pointer_arithmetic_unbounded",
+                    severity="HIGH",
+                    confidence=0.70,
+                    description="Pointer/array access without bounds validation",
+                    remediation="Add bounds check before dereferencing (e.g., if (index < size))",
+                    context='\n'.join(self._get_context(lines, line_no, window=3))
+                ))
         
         return gaps
+
+    def _extract_index_variables(self, expr: str) -> Set[str]:
+        variables = set(re.findall(r'\b[A-Za-z_][A-Za-z0-9_]*\b', expr))
+        stopwords = {
+            'int', 'size_t', 'std', 'min', 'max', 'clamp', 'static_cast',
+            'reinterpret_cast', 'const_cast', 'true', 'false', 'nullptr'
+        }
+        return {v for v in variables if not v.isdigit() and v not in stopwords}
+
+    def _has_index_var_guard(self, lines: List[str], line_no: int, index_vars: Set[str]) -> bool:
+        start = max(0, line_no - 12)
+        context = '\n'.join(lines[start:line_no + 1])
+        for var in index_vars:
+            patterns = [
+                rf'if\s*\([^)]*\b{re.escape(var)}\b\s*[<>=!]',
+                rf'assert\s*\([^)]*\b{re.escape(var)}\b',
+                rf'CHECK\s*\([^)]*\b{re.escape(var)}\b',
+                rf'\b{re.escape(var)}\b\s*<\s*\w+\s*\.(?:size|length)\s*\(',
+            ]
+            if any(re.search(pattern, context) for pattern in patterns):
+                return True
+        return False
     
     def _check_unchecked_malloc(self, file_path: Path, lines: List[str]) -> List[Gap]:
         """Detect malloc/calloc/realloc without null checks"""

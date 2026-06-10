@@ -1,3 +1,14 @@
+/**
+ * @file redundancy_strategy.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
  * ThemisDB | File: redundancy_strategy.h | Version: 0.0.47
  * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
@@ -55,10 +66,7 @@ class ConsistentHashRing;
 class ShardTopology;
 struct ShardInfo;
 
-/**
- * Redundancy Mode
- * RAID-inspired data distribution strategies
- */
+/** @brief RAID-inspired data distribution and redundancy modes. */
 enum class RedundancyMode {
     NONE,           // No redundancy, only consistent hash sharding
     MIRROR,         // Full replication to N shards (RAID-1)
@@ -69,10 +77,7 @@ enum class RedundancyMode {
     GEO_MIRROR      // Geo-distributed replication
 };
 
-/**
- * Read Preference
- * Where to route read operations
- */
+/** @brief Read-routing policy for replicated data. */
 enum class ReadPreference {
     PRIMARY,        // Always read from primary
     NEAREST,        // Read from nearest replica (latency-based)
@@ -83,10 +88,7 @@ enum class ReadPreference {
     LOCAL_REGION    // Prefer shards in the local region (geo-locality)
 };
 
-/**
- * Conflict Resolution Strategy
- * For multi-master or async replication scenarios
- */
+/** @brief Conflict-resolution policy for async/multi-master replication flows. */
 enum class ConflictResolution {
     LAST_WRITE_WINS,    // Timestamp-based
     FIRST_WRITE_WINS,   // First value preserved
@@ -94,9 +96,7 @@ enum class ConflictResolution {
     CUSTOM              // Application-defined
 };
 
-/**
- * Erasure Coding Algorithm
- */
+/** @brief Erasure-coding backend algorithm selection. */
 enum class ErasureCodingAlgorithm {
     REED_SOLOMON,       // Classic Reed-Solomon
     CAUCHY,             // Cauchy Reed-Solomon (faster)
@@ -104,9 +104,7 @@ enum class ErasureCodingAlgorithm {
     HAMMING             // Hamming code (RAID-2 style, single-error correction via XOR parities)
 };
 
-/**
- * Erasure Coding Configuration
- */
+/** @brief Configuration parameters for erasure-coded redundancy modes. */
 struct ErasureCodingConfig {
     uint32_t data_shards = 4;       // k: Number of data chunks
     uint32_t parity_shards = 2;     // m: Number of parity chunks
@@ -125,9 +123,7 @@ struct ErasureCodingConfig {
     uint32_t faultTolerance() const { return parity_shards; }
 };
 
-/**
- * Geo-Replication Configuration
- */
+/** @brief Configuration for geo-distributed replication and failover behavior. */
 struct GeoReplicationConfig {
     std::string primary_datacenter;
     std::vector<std::string> replica_datacenters;
@@ -177,9 +173,7 @@ struct GeoReplicationConfig {
     mutable std::vector<std::string> failed_regions;
 };
 
-/**
- * Stripe Configuration
- */
+/** @brief Striping layout and throughput tuning parameters. */
 struct StripeConfig {
     uint32_t stripe_size_kb = 64;           // Chunk size in KB
     uint32_t min_stripe_shards = 4;         // Minimum shards for striping
@@ -189,9 +183,7 @@ struct StripeConfig {
     uint32_t max_parallel_io = 8;           // Max concurrent I/O operations
 };
 
-/**
- * Hot Spare Configuration (forward declaration for inclusion)
- */
+/** @brief Hot-spare failover and rebuild tuning parameters. */
 struct HotSpareConfigSimple {
     bool enable = false;
     std::vector<std::string> spare_shards;
@@ -200,9 +192,7 @@ struct HotSpareConfigSimple {
     std::chrono::seconds health_check_interval{30};
 };
 
-/**
- * Main Redundancy Configuration
- */
+/** @brief Top-level redundancy policy configuration for one collection/strategy. */
 struct RedundancyConfig {
     RedundancyMode mode = RedundancyMode::MIRROR;
     
@@ -251,10 +241,7 @@ struct RedundancyConfig {
     uint32_t getEffectiveReplicationFactor() const;
 };
 
-/**
- * Chunk Information
- * Represents a piece of a striped document
- */
+/** @brief Metadata for one striped/parity chunk of a logical document. */
 struct ChunkInfo {
     std::string chunk_id;
     std::string document_id;
@@ -271,10 +258,7 @@ struct ChunkInfo {
     static std::optional<ChunkInfo> deserialize(const std::vector<uint8_t>& data);
 };
 
-/**
- * Stripe Group
- * Collection of chunks that form a complete document
- */
+/** @brief Logical chunk group representing one striped/parity document layout. */
 struct StripeGroup {
     std::string document_id;
     std::vector<ChunkInfo> data_chunks;
@@ -292,9 +276,7 @@ struct StripeGroup {
     bool canRecover(uint32_t data_shards, uint32_t parity_shards) const;
 };
 
-/**
- * Write Result
- */
+/** @brief Result payload for write path with redundancy fanout metadata. */
 struct WriteResult {
     bool success;
     std::string document_id;
@@ -311,9 +293,7 @@ struct WriteResult {
                              const std::string& error);
 };
 
-/**
- * Read Result
- */
+/** @brief Result payload for read path including source and chunk metadata. */
 struct ReadResult {
     bool success;
     std::string document_id;
@@ -325,9 +305,7 @@ struct ReadResult {
     std::string error_message;
 };
 
-/**
- * Redundancy Statistics
- */
+/** @brief Aggregated runtime statistics for redundancy strategy activity. */
 struct RedundancyStats {
     uint64_t total_documents;
     uint64_t total_replicas;
@@ -356,9 +334,7 @@ struct RedundancyStats {
     uint32_t degraded_documents;  // Documents with missing replicas
 };
 
-/**
- * Erasure Coder Interface
- */
+/** @brief Interface for erasure-coding implementations used by parity modes. */
 class ErasureCoder {
 public:
     virtual ~ErasureCoder() = default;
@@ -578,10 +554,12 @@ public:
                                             const std::string& shard_id,
                                             const std::string& doc_id)>;
     
+    /** @brief Construct strategy for a given redundancy configuration. */
     explicit RedundancyStrategy(const RedundancyConfig& config);
+    /** @brief Destroy strategy and associated coder resources. */
     ~RedundancyStrategy();
     
-    // Write document with configured redundancy
+    /** @brief Write document using the currently configured redundancy mode. */
     WriteResult write(
         const std::string& document_id,
         const std::vector<uint8_t>& data,
@@ -591,7 +569,7 @@ public:
         WriteHandler handler
     );
     
-    // Read document with configured redundancy
+    /** @brief Read document using configured read preference and redundancy mode. */
     ReadResult read(
         const std::string& document_id,
         const std::string& collection,
@@ -600,7 +578,7 @@ public:
         ReadHandler handler
     );
     
-    // Delete document from all replicas/chunks
+    /** @brief Remove document from all replicas/chunks according to mode semantics. */
     bool remove(
         const std::string& document_id,
         const std::string& collection,
@@ -609,7 +587,7 @@ public:
         WriteHandler handler  // Sends delete command
     );
     
-    // Recovery operations
+    /** @brief Attempt recovery of degraded/unavailable document replicas/chunks. */
     bool recoverDocument(
         const std::string& document_id,
         const std::string& collection,
@@ -619,15 +597,29 @@ public:
         WriteHandler write_handler
     );
     
-    // Check document health
+    /** @brief Health snapshot for one logical document across redundancy layout. */
     struct DocumentHealth {
+        /** @brief True when no required replica/chunk is missing. */
         bool is_healthy;
+        /** @brief Number of replicas/chunks that are currently readable. */
         uint32_t available_replicas;
+        /** @brief Replica/chunk count required by active redundancy mode. */
         uint32_t required_replicas;
+        /** @brief Shards that should contain data but currently do not. */
         std::vector<std::string> missing_shards;
+        /** @brief True when recovery path can reconstruct missing data. */
         bool can_recover;
     };
     
+    /**
+     * @brief Evaluate document health across expected replicas/chunks.
+     * @param document_id Logical document identifier.
+     * @param collection Collection name (reserved for collection-level policy context).
+     * @param ring Hash-ring resolver for primary/replica placement.
+     * @param topology Topology source used for shard-health filtering.
+     * @param handler Read callback used to probe replica/chunk availability.
+     * @return Health summary with availability and recoverability assessment.
+     */
     DocumentHealth checkDocumentHealth(
         const std::string& document_id,
         const std::string& collection,
@@ -636,16 +628,16 @@ public:
         ReadHandler handler
     );
     
-    // Get configuration
+    /** @brief Return currently active strategy configuration. */
     const RedundancyConfig& getConfig() const { return config_; }
     
-    // Update configuration (for dynamic reconfiguration)
+    /** @brief Update strategy configuration (dynamic reconfiguration). */
     void updateConfig(const RedundancyConfig& config);
     
-    // Get statistics
+    /** @brief Return aggregated redundancy runtime statistics. */
     RedundancyStats getStats() const;
     
-    // Export Prometheus metrics
+    /** @brief Export strategy metrics in Prometheus text exposition format. */
     std::string exportPrometheusMetrics() const;
     
     /**
@@ -816,26 +808,28 @@ private:
  */
 class CollectionRedundancyManager {
 public:
+    /** @brief Construct collection-level redundancy manager. */
     CollectionRedundancyManager();
+    /** @brief Destroy manager and owned strategy instances. */
     ~CollectionRedundancyManager();
     
-    // Set default configuration
+    /** @brief Set default redundancy config used when collection override is absent. */
     void setDefaultConfig(const RedundancyConfig& config);
     
-    // Set collection-specific configuration
+    /** @brief Set or replace per-collection redundancy configuration. */
     void setCollectionConfig(const std::string& collection, 
                             const RedundancyConfig& config);
     
-    // Get configuration for a collection (returns default if not set)
+    /** @brief Get effective config for collection (default fallback when unset). */
     RedundancyConfig getConfig(const std::string& collection) const;
     
-    // Get strategy for a collection
+    /** @brief Get lazily-created strategy instance for collection. */
     std::shared_ptr<RedundancyStrategy> getStrategy(const std::string& collection);
     
-    // List all configured collections
+    /** @brief List collections with explicit configuration overrides. */
     std::vector<std::string> listCollections() const;
     
-    // Remove collection-specific configuration
+    /** @brief Remove collection override and associated cached strategy. */
     void removeCollectionConfig(const std::string& collection);
     
 private:

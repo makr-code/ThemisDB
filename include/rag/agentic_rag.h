@@ -1,31 +1,12 @@
-/*
- * ThemisDB | File: agentic_rag.h | Version: 0.0.15
- * Maturity: 🟢 PRODUCTION-READY | Score: 96/100
- * Gap Summary: total=5; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=2, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file agentic_rag.h
- * @brief Agentic RAG with iterative retrieval loops (RAG Phase 4)
- *
- * Implements an agentic retrieval-augmented generation loop that:
- *   1. Runs an initial retrieval pass.
- *   2. Evaluates the retrieved context using the existing RAGJudge.
- *   3. Detects knowledge gaps with the KnowledgeGapDetector.
- *   4. When gaps are found, reformulates the query and invokes the
- *      caller-supplied retrieval function again.
- *   5. Repeats until the quality threshold is met, the maximum number
- *      of iterations is reached, or no gap remains.
- *
- * Design goals:
- *   - Bring-your-own retrieval: callers supply a RetrievalFn lambda so
- *     the engine is decoupled from any specific vector store.
- *   - No external dependencies beyond the standard library and the
- *     existing themis::rag components.
- *   - Thread-compatible: instances are not shared across threads;
- *     use one AgenticRAG per concurrent request.
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 96/100
+ * @note Gap Summary: total=5; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=2, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once

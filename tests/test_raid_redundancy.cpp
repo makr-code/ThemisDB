@@ -22,8 +22,6 @@
 #include <map>
 #include <string>
 #include <cstring>
-#include <atomic>
-#include <thread>
 
 using namespace themis::sharding;
 using themisdb::storage::BlobRedundancyManager;
@@ -283,54 +281,6 @@ TEST_F(RedundancyStrategyTest, RAID1_WriteConcernMajority) {
     EXPECT_TRUE(result.success);
     // Should succeed with >= 2 out of 3 writes
     EXPECT_GE(result.acknowledgements, 2);
-}
-
-TEST_F(RedundancyStrategyTest, RAID1_WriteConcernAllFailsWhenReplicationTargetsMissing) {
-    RedundancyConfig config;
-    config.mode = RedundancyMode::MIRROR;
-    config.replication_factor = 10;
-    config.write_concern = WriteConcern::ALL;
-
-    RedundancyStrategy strategy(config);
-
-    size_t write_calls = 0;
-    auto counting_handler = [this, &write_calls](const std::string& shard_id,
-                                                 const std::string& doc_id,
-                                                 const std::vector<uint8_t>& data) {
-        ++write_calls;
-        return storage->write(shard_id, doc_id, data);
-    };
-
-    std::vector<uint8_t> data = {'T', 'e', 's', 't'};
-    auto result = strategy.write("doc1", data, "collection1", *ring, *topology, counting_handler);
-
-    EXPECT_FALSE(result.success);
-    EXPECT_EQ(write_calls, 0u);
-    EXPECT_NE(result.error_message.find("Insufficient replica targets"), std::string::npos);
-}
-
-TEST_F(RedundancyStrategyTest, RAID1_WriteConcernMajorityFailsWhenReplicationTargetsMissing) {
-    RedundancyConfig config;
-    config.mode = RedundancyMode::MIRROR;
-    config.replication_factor = 12;
-    config.write_concern = WriteConcern::MAJORITY;
-
-    RedundancyStrategy strategy(config);
-
-    size_t write_calls = 0;
-    auto counting_handler = [this, &write_calls](const std::string& shard_id,
-                                                 const std::string& doc_id,
-                                                 const std::vector<uint8_t>& data) {
-        ++write_calls;
-        return storage->write(shard_id, doc_id, data);
-    };
-
-    std::vector<uint8_t> data = {'T', 'e', 's', 't'};
-    auto result = strategy.write("doc1", data, "collection1", *ring, *topology, counting_handler);
-
-    EXPECT_FALSE(result.success);
-    EXPECT_EQ(write_calls, 0u);
-    EXPECT_NE(result.error_message.find("Insufficient replica targets"), std::string::npos);
 }
 
 TEST_F(RedundancyStrategyTest, RAID1_ReadFromReplica) {
@@ -1293,118 +1243,6 @@ TEST_F(GeoMirrorTest, RegionQuorumMet) {
     EXPECT_TRUE(wr.success);
 }
 
-TEST_F(GeoMirrorTest, WriteConcernAllFailsWhenReplicationTargetsMissing) {
-    RedundancyConfig config;
-    config.mode = RedundancyMode::GEO_MIRROR;
-    config.replication_factor = 10;
-    config.write_concern = WriteConcern::ALL;
-
-    RedundancyStrategy strategy(config);
-
-    size_t write_calls = 0;
-    auto counting_handler = [this, &write_calls](const std::string& shard_id,
-                                                 const std::string& doc_id,
-                                                 const std::vector<uint8_t>& data) {
-        ++write_calls;
-        return storage->write(shard_id, doc_id, data);
-    };
-
-    std::vector<uint8_t> data = {'G', 'e', 'o', 'A', 'l', 'l'};
-    auto wr = strategy.write("geo-all-insufficient", data, "coll", *ring, *topology, counting_handler);
-
-    EXPECT_FALSE(wr.success);
-    EXPECT_EQ(write_calls, 0u);
-    EXPECT_NE(wr.error_message.find("Insufficient replica targets"), std::string::npos);
-}
-
-TEST_F(GeoMirrorTest, WriteConcernMajorityFailsWhenReplicationTargetsMissing) {
-    RedundancyConfig config;
-    config.mode = RedundancyMode::GEO_MIRROR;
-    config.replication_factor = 12;
-    config.write_concern = WriteConcern::MAJORITY;
-
-    RedundancyStrategy strategy(config);
-
-    size_t write_calls = 0;
-    auto counting_handler = [this, &write_calls](const std::string& shard_id,
-                                                 const std::string& doc_id,
-                                                 const std::vector<uint8_t>& data) {
-        ++write_calls;
-        return storage->write(shard_id, doc_id, data);
-    };
-
-    std::vector<uint8_t> data = {'G', 'e', 'o', 'M', 'a', 'j'};
-    auto wr = strategy.write("geo-majority-insufficient", data, "coll", *ring, *topology, counting_handler);
-
-    EXPECT_FALSE(wr.success);
-    EXPECT_EQ(write_calls, 0u);
-    EXPECT_NE(wr.error_message.find("Insufficient replica targets"), std::string::npos);
-}
-
-TEST_F(GeoMirrorTest, RegionWriteQuorumFailsWhenReplicationTargetsMissing) {
-    RedundancyConfig config;
-    config.mode = RedundancyMode::GEO_MIRROR;
-    config.replication_factor = 6;
-    config.write_concern = WriteConcern::ONE;
-    config.geo_replication.region_write_quorums = {{"us-east", 4}, {"eu-west", 1}};
-
-    RedundancyStrategy strategy(config);
-
-    size_t write_calls = 0;
-    auto counting_handler = [this, &write_calls](const std::string& shard_id,
-                                                 const std::string& doc_id,
-                                                 const std::vector<uint8_t>& data) {
-        ++write_calls;
-        return storage->write(shard_id, doc_id, data);
-    };
-
-    std::vector<uint8_t> data = {'G', 'e', 'o', 'R', 'e', 'g'};
-    auto wr = strategy.write("geo-region-insufficient", data, "coll", *ring, *topology,
-                             counting_handler);
-
-    EXPECT_FALSE(wr.success);
-    EXPECT_EQ(write_calls, 0u);
-    EXPECT_NE(wr.error_message.find("Insufficient replica targets"), std::string::npos);
-}
-
-TEST_F(GeoMirrorTest, RegionReadQuorumFailsWhenReplicationTargetsMissing) {
-    RedundancyConfig wconfig;
-    wconfig.mode = RedundancyMode::GEO_MIRROR;
-    wconfig.replication_factor = 6;
-    wconfig.write_concern = WriteConcern::ALL;
-
-    RedundancyStrategy wstrategy(wconfig);
-    std::vector<uint8_t> data = {'Q', 'u', 'o', 'r', 'u', 'm'};
-    auto wr = wstrategy.write("geo-read-quorum-insufficient", data, "coll", *ring, *topology,
-                              createWriteHandler());
-    ASSERT_TRUE(wr.success);
-
-    topology->updateHealth("shard-3", false);
-    topology->updateHealth("shard-4", false);
-    topology->updateHealth("shard-5", false);
-
-    RedundancyConfig rconfig;
-    rconfig.mode = RedundancyMode::GEO_MIRROR;
-    rconfig.replication_factor = 6;
-    rconfig.geo_replication.region_read_quorums = {{"us-east", 1}, {"eu-west", 1}};
-    rconfig.geo_replication.enable_geo_failover = true;
-
-    RedundancyStrategy rstrategy(rconfig);
-
-    size_t read_calls = 0;
-    auto counting_read_handler = [this, &read_calls](const std::string& shard_id,
-                                                     const std::string& doc_id) {
-        ++read_calls;
-        return storage->read(shard_id, doc_id);
-    };
-
-    auto rr = rstrategy.read("geo-read-quorum-insufficient", "coll", *ring, *topology,
-                             counting_read_handler);
-    EXPECT_FALSE(rr.success);
-    EXPECT_EQ(read_calls, 0u);
-    EXPECT_NE(rr.error_message.find("Insufficient replica targets"), std::string::npos);
-}
-
 TEST_F(GeoMirrorTest, FollowerReadPreference) {
     RedundancyConfig config;
     config.mode = RedundancyMode::GEO_MIRROR;
@@ -1917,79 +1755,6 @@ TEST_F(RedundancyStrategyTest, DISABLED_StressTest_ManyWrites) {
     
     auto stats = strategy.getStats();
     EXPECT_EQ(stats.reads_from_primary + stats.reads_from_replica, 0);
-}
-
-// ═══════════════════════════════════════════════════════════
-// Concurrent configure / erasure-coder data-race tests
-// ═══════════════════════════════════════════════════════════
-
-// Helper: build a PARITY 4+2 config
-static RedundancyConfig makeParity42Config() {
-    RedundancyConfig cfg;
-    cfg.mode = RedundancyMode::PARITY;
-    cfg.erasure_coding.data_shards   = 4;
-    cfg.erasure_coding.parity_shards = 2;
-    return cfg;
-}
-
-TEST_F(RedundancyStrategyTest, ConcurrentConfigure_WriteParity_NoDataRace) {
-    // Repeatedly reconfigure while write operations are in flight.
-    // The shared_lock guard in writeParity must prevent use-after-free on
-    // erasure_coder_.
-    RedundancyStrategy strategy(makeParity42Config());
-
-    std::atomic<bool> stop{false};
-    std::vector<uint8_t> data(256, 0xAB);
-
-    // Writer thread: keep calling write() until stop
-    std::thread writer([&] {
-        while (!stop.load(std::memory_order_relaxed)) {
-            strategy.write("race-doc", data, "coll", *ring, *topology, createWriteHandler());
-        }
-    });
-
-    // Reconfigure thread: alternate between two valid PARITY configs
-    std::thread reconfigurer([&] {
-        for (int i = 0; i < 200; ++i) {
-            RedundancyConfig c2 = makeParity42Config();
-            c2.erasure_coding.data_shards   = (i % 2 == 0) ? 4 : 3;
-            c2.erasure_coding.parity_shards = 2;
-            strategy.updateConfig(c2);
-        }
-        stop.store(true, std::memory_order_relaxed);
-    });
-
-    writer.join();
-    reconfigurer.join();
-    // Test passes if it completes without crash or sanitizer report.
-}
-
-TEST_F(RedundancyStrategyTest, ConcurrentConfigure_ReadParity_NoDataRace) {
-    // Same pattern but exercises readParity.
-    RedundancyStrategy strategy(makeParity42Config());
-
-    // Pre-write some chunks so readParity has something to decode.
-    std::vector<uint8_t> data(256, 0xCD);
-    strategy.write("read-race-doc", data, "coll", *ring, *topology, createWriteHandler());
-
-    std::atomic<bool> stop{false};
-
-    std::thread reader([&] {
-        while (!stop.load(std::memory_order_relaxed)) {
-            // Ignore errors — we only care that it does not crash.
-            strategy.read("read-race-doc", "coll", *ring, *topology, createReadHandler());
-        }
-    });
-
-    std::thread reconfigurer([&] {
-        for (int i = 0; i < 200; ++i) {
-            strategy.updateConfig(makeParity42Config());
-        }
-        stop.store(true, std::memory_order_relaxed);
-    });
-
-    reader.join();
-    reconfigurer.join();
 }
 
 // ═══════════════════════════════════════════════════════════

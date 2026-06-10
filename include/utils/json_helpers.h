@@ -1,41 +1,12 @@
-/*
- * ThemisDB | File: json_helpers.h | Version: 0.0.7
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
-// SPDX-License-Identifier: Apache-2.0
-// Copyright (c) 2026 ThemisDB Contributors
-
-#pragma once
-
 /**
  * @file json_helpers.h
- * @brief Safe nlohmann::json access utilities for ThemisDB.
- *
- * Consolidates the repetitive `try { j.at("key").get<T>() } catch(...) {}`
- * boilerplate that appears in ~3 600 places across the codebase.
- *
- * Usage:
- * @code
- *   #include "utils/json_helpers.h"
- *   using namespace themis::json_util;
- *
- *   // Returns value or default – never throws:
- *   int timeout = getOrDefault(j, "timeout_ms", 5000);
- *
- *   // Returns value or throws std::invalid_argument with a clear message:
- *   std::string name = requireField<std::string>(j, "name");
- *
- *   // Returns std::optional<T> – empty on missing/wrong type:
- *   auto opt = safeGet<bool>(j, "enabled");
- *   if (opt) { … }
- *
- *   // Type-safe nested access ("a.b.c"):
- *   int v = getNestedOrDefault<int>(j, {"a", "b", "c"}, 0);
- * @endcode
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.7
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include <nlohmann/json.hpp>

@@ -1,18 +1,12 @@
-/*
- * ThemisDB | File: llm_judge_client.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 495
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=3, H=26, M=5, L=0
- * PR History (last 5): #1271 Quality Control enhancement... (2026-03-11) | #1272 Implement post-generation q... (2026-03-11) | #1273 Analysis: Duplicate impleme... (2026-03-11)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file llm_judge_client.cpp
- * @brief LLM Judge Client - Connects prompts to InferenceEngineEnhanced
- * 
- * This client bridges RAG Judge evaluations to the LLM inference engine,
- * enabling automated evaluation with proper caching and batching.
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=2, H=19, M=4, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include "rag/llm_judge_client.h"

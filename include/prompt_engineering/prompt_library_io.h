@@ -1,49 +1,12 @@
-/*
- * ThemisDB | File: prompt_library_io.h | Version: 0.0.12
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file prompt_library_io.h
- * @brief Import/export of prompt template libraries to JSON and YAML (Phase 5 / v2.0.0).
- *
- * Enables cross-environment portability for prompt template collections.
- * A prompt library is serialised as a **`PromptLibraryBundle`**: a self-contained
- * document that carries the collection of `PromptManager::PromptTemplate` objects
- * together with bundle metadata and an FNV-1a integrity checksum.
- *
- * Key types
- * ---------
- *
- * - **`PromptLibraryBundle`** — name, description, version, format_version
- *   ("1.0"), created_at, checksum, templates.  `toJson()` / `fromJson()`.
- * - **`ExportFormat`** — `JSON` or `YAML`.
- * - **`ImportResult`** — success flag, templates_loaded count, error_message,
- *   checksum_valid flag.
- * - **`ExportResult`** — success flag, templates_written count, error_message.
- * - **`PromptLibraryIO`** — all-static utility class:
- *     * `exportToJson(bundle)` — pretty-printed JSON; embeds checksum.
- *     * `exportToYaml(bundle)` — YAML via yaml-cpp emitter; embeds checksum.
- *     * `exportToFile(bundle, path, fmt)` — format derived from extension when
- *       fmt == JSON and extension is `.yaml`/`.yml`.
- *     * `importFromJson(json_str)` → `optional<PromptLibraryBundle>`.
- *     * `importFromYaml(yaml_str)` → `optional<PromptLibraryBundle>`.
- *     * `importFromFile(path, out_bundle)` → `ImportResult`; auto-detects format.
- *     * `computeChecksum(bundle)` — FNV-1a 64-bit over sorted template JSON.
- *     * `verifyChecksum(bundle)` — `bundle.checksum == computeChecksum(bundle)`.
- *
- * Checksum algorithm
- * ------------------
- *
- * Each template is serialised to its canonical JSON representation (via
- * `PromptTemplate::toJson()`), the resulting strings are sorted by template id
- * for determinism, then concatenated and hashed with FNV-1a 64.  The hash is
- * stored as a zero-padded 16-character lowercase hex string.
- *
- * @see PromptManager::PromptTemplate
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.12
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once

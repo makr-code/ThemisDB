@@ -1,3 +1,14 @@
+/**
+ * @file smart_routing.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.13
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 84/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=2, H=0, M=2, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
  * ThemisDB | File: smart_routing.cpp | Version: 0.0.13 | Last Modified: 2026-05-31 12:17:24
  * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 99/100 | Lines: 362
@@ -23,10 +34,15 @@ namespace themis::server {
 // Construction
 // ===========================================================================
 
+/** @brief Construct router with default config values. */
 SmartRouter::SmartRouter()
     : config_{}
 {}
 
+/**
+ * @brief Construct router with explicit config.
+ * @param config Runtime routing configuration.
+ */
 SmartRouter::SmartRouter(const Config& config)
     : config_(config)
 {}
@@ -35,6 +51,10 @@ SmartRouter::SmartRouter(const Config& config)
 // Backend registry
 // ===========================================================================
 
+/**
+ * @brief Register backend endpoint if not already present.
+ * @param endpoint Backend descriptor.
+ */
 void SmartRouter::addBackend(const BackendEndpoint& endpoint) {
     std::unique_lock lock(mutex_);
     if (backends_.count(endpoint.backend_id)) {
@@ -46,12 +66,17 @@ void SmartRouter::addBackend(const BackendEndpoint& endpoint) {
                   endpoint.backend_id, endpoint.address, endpoint.port);
 }
 
+/**
+ * @brief Remove backend endpoint by id.
+ * @param backend_id Backend identifier.
+ */
 void SmartRouter::removeBackend(const std::string& backend_id) {
     std::unique_lock lock(mutex_);
     backends_.erase(backend_id);
     spdlog::debug("SmartRouter: removed backend '{}'", backend_id);
 }
 
+/** @brief Return snapshot list of all registered backends. */
 std::vector<BackendEndpoint> SmartRouter::listBackends() const {
     std::shared_lock lock(mutex_);
     std::vector<BackendEndpoint> result;
@@ -66,6 +91,11 @@ std::vector<BackendEndpoint> SmartRouter::listBackends() const {
 // Feedback
 // ===========================================================================
 
+/**
+ * @brief Record one latency sample for a backend.
+ * @param backend_id Backend identifier.
+ * @param latency_ms Request latency in milliseconds.
+ */
 void SmartRouter::recordLatency(const std::string& backend_id,
                                 double latency_ms)
 {
@@ -85,6 +115,11 @@ void SmartRouter::recordLatency(const std::string& backend_id,
     refreshStats(state);
 }
 
+/**
+ * @brief Record cache hit for backend/resource key pair.
+ * @param backend_id Backend identifier.
+ * @param resource_key Resource key.
+ */
 void SmartRouter::recordCacheHit(const std::string& backend_id,
                                  const std::string& resource_key)
 {
@@ -97,6 +132,10 @@ void SmartRouter::recordCacheHit(const std::string& backend_id,
     state.key_hit_counts[resource_key]++;
 }
 
+/**
+ * @brief Record cache miss for backend/resource key pair.
+ * @param backend_id Backend identifier.
+ */
 void SmartRouter::recordCacheMiss(const std::string& backend_id,
                                   [[maybe_unused]] const std::string& resource_key)
 {
@@ -108,6 +147,10 @@ void SmartRouter::recordCacheMiss(const std::string& backend_id,
     it->second.cache_misses++;
 }
 
+/**
+ * @brief Increment active connection counter for backend.
+ * @param backend_id Backend identifier.
+ */
 void SmartRouter::incrementActiveConnections(const std::string& backend_id) {
     // active_connections is atomic; no need for the write lock.
     std::shared_lock lock(mutex_);
@@ -117,6 +160,10 @@ void SmartRouter::incrementActiveConnections(const std::string& backend_id) {
     }
 }
 
+/**
+ * @brief Decrement active connection counter for backend.
+ * @param backend_id Backend identifier.
+ */
 void SmartRouter::decrementActiveConnections(const std::string& backend_id) {
     std::shared_lock lock(mutex_);
     auto it = backends_.find(backend_id);
@@ -134,6 +181,11 @@ void SmartRouter::decrementActiveConnections(const std::string& backend_id) {
 // Routing decisions
 // ===========================================================================
 
+/**
+ * @brief Route request key to best backend using multi-phase strategy.
+ * @param resource_key Resource identifier.
+ * @return Selected backend, or std::nullopt if none are available.
+ */
 std::optional<BackendEndpoint> SmartRouter::route(
     const std::string& resource_key) const
 {
@@ -216,6 +268,10 @@ std::optional<BackendEndpoint> SmartRouter::route(
     return std::nullopt;
 }
 
+/**
+ * @brief Select least-loaded backend with tail-latency filtering.
+ * @return Selected backend or std::nullopt.
+ */
 std::optional<BackendEndpoint> SmartRouter::routeLeastLoaded() const {
     std::shared_lock lock(mutex_);
     if (backends_.empty()) return std::nullopt;
@@ -250,6 +306,11 @@ std::optional<BackendEndpoint> SmartRouter::routeLeastLoaded() const {
     return chosen ? std::optional<BackendEndpoint>{chosen->endpoint} : std::nullopt;
 }
 
+/**
+ * @brief Predict backend likely to hold resource in cache.
+ * @param resource_key Resource identifier.
+ * @return Predicted backend, or std::nullopt when history is insufficient.
+ */
 std::optional<BackendEndpoint> SmartRouter::predictCachedBackend(
     const std::string& resource_key) const
 {
@@ -277,6 +338,7 @@ std::optional<BackendEndpoint> SmartRouter::predictCachedBackend(
 // Observability
 // ===========================================================================
 
+/** @brief Return stats snapshots for all backends. */
 std::vector<SmartRouter::BackendStats> SmartRouter::getAllStats() const {
     std::shared_lock lock(mutex_);
     std::vector<BackendStats> result;
@@ -297,6 +359,12 @@ std::vector<SmartRouter::BackendStats> SmartRouter::getAllStats() const {
     return result;
 }
 
+/**
+ * @brief Return stats snapshot for one backend.
+ * @param backend_id Backend identifier.
+ * @return Backend statistics snapshot.
+ * @throws std::out_of_range If backend is unknown.
+ */
 SmartRouter::BackendStats SmartRouter::getBackendStats(
     const std::string& backend_id) const
 {
@@ -326,6 +394,7 @@ SmartRouter::BackendStats SmartRouter::getBackendStats(
 // ===========================================================================
 
 /* static */
+/** @brief Compute arithmetic mean of latency window. */
 double SmartRouter::computeAvg(const std::deque<double>& window) noexcept {
     if (window.empty()) return 0.0;
     double sum = std::accumulate(window.begin(), window.end(), 0.0);
@@ -333,6 +402,7 @@ double SmartRouter::computeAvg(const std::deque<double>& window) noexcept {
 }
 
 /* static */
+/** @brief Compute p99 latency via nearest-rank method. */
 double SmartRouter::computeP99(const std::deque<double>& window) {
     if (window.empty()) return 0.0;
     std::vector<double> sorted(window.begin(), window.end());
@@ -346,11 +416,18 @@ double SmartRouter::computeP99(const std::deque<double>& window) {
 }
 
 /* static */
+/** @brief Refresh cached average and p99 values for backend state. */
 void SmartRouter::refreshStats(BackendState& state) noexcept {
     state.cached_avg_latency = computeAvg(state.latency_window);
     state.cached_p99_latency = computeP99(state.latency_window);
 }
 
+/**
+ * @brief Determine whether backend is high-tail under current threshold.
+ * @param state Backend runtime state.
+ * @param has_other_candidates Whether alternatives exist.
+ * @return true when backend should be treated as high-tail.
+ */
 bool SmartRouter::isHighTail(const BackendState& state,
                              bool has_other_candidates) const noexcept
 {

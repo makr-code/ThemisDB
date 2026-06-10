@@ -1,61 +1,21 @@
-/*
- * ThemisDB | File: thread_safety.h | Version: 0.0.47
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
+/**
+ * @file thread_safety.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once
 
+#include <atomic>
 #include <mutex>
 #include <shared_mutex>
-#include <atomic>
-#include <optional>
-#include <functional>
-#include <utility>  // for std::declval
-
-/**
- * @file thread_safety.h
- * @brief Thread-safety utilities for ThemisDB
- * 
- * This header provides utility classes and patterns for thread-safe code:
- * - Synchronized<T>: RAII wrapper for mutex-protected access
- * - SharedSynchronized<T>: RAII wrapper for reader-writer locks
- * 
- * Usage Examples:
- * 
- * 1. Exclusive access with Synchronized:
- *    ```cpp
- *    Synchronized<std::vector<Task>> queue;
- *    
- *    // Thread-safe modify
- *    queue.with_lock([](auto& q) {
- *        q.push_back(task);
- *    });
- *    
- *    // Thread-safe read
- *    auto size = queue.with_lock([](const auto& q) {
- *        return q.size();
- *    });
- *    ```
- * 
- * 2. Reader-writer access with SharedSynchronized:
- *    ```cpp
- *    SharedSynchronized<std::unordered_map<std::string, Value>> cache;
- *    
- *    // Thread-safe read (shared lock - multiple readers allowed)
- *    auto value = cache.with_shared_lock([&](const auto& c) {
- *        auto it = c.find(key);
- *        return it != c.end() ? std::optional(it->second) : std::nullopt;
- *    });
- *    
- *    // Thread-safe write (exclusive lock - only one writer)
- *    cache.with_unique_lock([&](auto& c) {
- *        c[key] = value;
- *    });
- *    ```
- */
+#include <type_traits>
+#include <utility>
 
 namespace themis {
 namespace utils {

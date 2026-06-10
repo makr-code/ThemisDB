@@ -1,841 +1,965 @@
 # cdc Module - Developer Gap Note
 
-> Auto-generated from ai_working/gap_scan_v3_aggregate.json.
+> Auto-generated from ai_working\gap_scan_results.json.
 > This file is overwritten on each regeneration.
 
 ## Scan Snapshot
 
 - Module: cdc
-- Generated: 2026-06-02 12:40:50
+- Generated: 2026-06-04 08:50:22
 - Status: Critical Findings Present
-- Total Findings: 190
-- Actionable Findings (Critical + High): 123
-- Affected Files: 13
+- Total Findings: 125
+- Actionable Findings (Critical + High): 101
+- Affected Files: 14
 
 ## Severity Summary
 
 | Severity | Count |
 |---|---:|
-| Critical | 11 |
-| High | 112 |
-| Medium | 67 |
-| Low | 0 |
+| Critical | 18 |
+| High | 83 |
+| Medium | 18 |
+| Low | 6 |
 
 ## Category Summary
 
 | Category | Count |
 |---|---:|
-| reliability | 86 |
-| performance_patterns | 23 |
-| container | 20 |
-| exception_safety | 19 |
-| raii | 15 |
-| platform | 9 |
-| legacy_duplication | 6 |
-| memory | 6 |
-| concurrency | 5 |
-| audit_logging | 4 |
-| determinism | 3 |
-| performance | 3 |
+| resource_leaked_in_exception | 17 |
+| size_assumption | 9 |
+| uncaught_exception | 8 |
+| db_connection_leak | 7 |
+| delete_without_nullptr | 7 |
+| explicit_delete | 7 |
+| uninitialized_access | 7 |
+| legacy_or_compat_path | 6 |
+| thread_join_no_timeout | 5 |
+| copy_overhead | 4 |
+| hardcoded_output | 4 |
+| manual_cleanup | 4 |
+| data_race | 3 |
+| o_n_squared | 3 |
+| pointer_arithmetic_unbounded | 3 |
+| smart_ptr_misuse | 3 |
+| blocking_no_timeout | 2 |
+| delete_no_nullptr | 2 |
+| exception_in_destructor | 2 |
+| lock_contention | 2 |
+| map_vs_unordered_map | 2 |
+| memory_order | 2 |
+| module_doc_linkset_drift | 2 |
+| no_timeout | 2 |
+| primitive_no_volatile | 2 |
+| range_temporary | 2 |
+| unordered_container_iter | 2 |
+| explicit_lock_unlock | 1 |
+| generic_catch | 1 |
+| missing_dtor | 1 |
+| repeated_search | 1 |
+| stale_doc_section_reference | 1 |
+| timestamp_sorting_unstable | 1 |
 
 ## File Overview
 
 | File | Findings | Critical | High | Medium | Low |
 |---|---:|---:|---:|---:|---:|
-| src/cdc/changefeed.cpp | 47 | 4 | 29 | 14 | 0 |
-| src/cdc/consumer_group.cpp | 41 | 0 | 29 | 12 | 0 |
-| src/cdc/tenant_buffer_manager.cpp | 20 | 3 | 14 | 3 | 0 |
-| src/cdc/cdc_admin.cpp | 19 | 0 | 16 | 3 | 0 |
-| src/cdc/outbox.cpp | 15 | 1 | 8 | 6 | 0 |
-| src/cdc/dead_letter_queue.cpp | 13 | 1 | 4 | 8 | 0 |
-| src/cdc/ws_transport.cpp | 8 | 0 | 3 | 5 | 0 |
-| src/cdc/cdc_ws_handler.cpp | 6 | 0 | 0 | 6 | 0 |
-| src/cdc/cross_collection_stream.cpp | 6 | 0 | 1 | 5 | 0 |
-| src/cdc/delivery_tracker.cpp | 5 | 0 | 1 | 4 | 0 |
-| src/cdc/changefeed_buffer.cpp | 4 | 2 | 2 | 0 | 0 |
-| src/cdc/cdc_materialized_view.cpp | 3 | 0 | 2 | 1 | 0 |
-| src/cdc/kafka_cdc_producer.cpp | 3 | 0 | 3 | 0 | 0 |
+| cdc/changefeed.cpp | 48 | 5 | 36 | 6 | 1 |
+| cdc/consumer_group.cpp | 13 | 0 | 11 | 2 | 0 |
+| cdc/outbox.cpp | 10 | 2 | 5 | 1 | 2 |
+| cdc/tenant_buffer_manager.cpp | 10 | 3 | 5 | 2 | 0 |
+| cdc/changefeed_buffer.cpp | 9 | 5 | 4 | 0 | 0 |
+| cdc/cdc_admin.cpp | 8 | 0 | 8 | 0 | 0 |
+| cdc/dead_letter_queue.cpp | 8 | 1 | 5 | 1 | 1 |
+| cdc/kafka_cdc_producer.cpp | 5 | 1 | 3 | 1 | 0 |
+| cdc/cross_collection_stream.cpp | 4 | 0 | 1 | 3 | 0 |
+| cdc/ws_transport.cpp | 4 | 0 | 3 | 1 | 0 |
+| cdc/delivery_tracker.cpp | 3 | 1 | 1 | 1 | 0 |
+| cdc/FUTURE_ENHANCEMENTS.md | 1 | 0 | 0 | 0 | 1 |
+| cdc/PRODUCTION_REQUIREMENTS.md | 1 | 0 | 0 | 0 | 1 |
+| cdc/cdc_ws_handler.cpp | 1 | 0 | 1 | 0 | 0 |
 
 ## Full Scanner Findings
 
-### src/cdc/changefeed.cpp
-Total findings: 47
+### cdc/changefeed.cpp
+Total findings: 48
 
 - Line 43: severity=CRITICAL; category=missing_dtor
   Description: Class SequenceIncrementOperator allocates resources but has no destructor
-  Remediation: Add explicit destructor: ~SequenceIncrementOperator() { /* cleanup */ }
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::raii
   Context: class/struct SequenceIncrementOperator
 - Line 48: severity=CRITICAL; category=data_race
   Description: Shared data access without lock protection
-  Remediation: Protect shared data with std::lock_guard or std::unique_lock
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::concurrency
   Context: if (existing_value != nullptr && !existing_value->empty()) {
 - Line 49: severity=CRITICAL; category=data_race
   Description: Shared data access without lock protection
-  Remediation: Protect shared data with std::lock_guard or std::unique_lock
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::concurrency
   Context: if (existing_value->size() == sizeof(uint64_t)) {
 - Line 55: severity=CRITICAL; category=data_race
   Description: Shared data access without lock protection
-  Remediation: Protect shared data with std::lock_guard or std::unique_lock
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::concurrency
   Context: base = std::stoull(std::string(existing_value->data(),
-- Line 0: severity=HIGH; category=uncategorized
-  Confidence: band=high; score=0.73
-- Line 0: severity=HIGH; category=uncategorized
-  Confidence: band=high; score=0.73
-- Line 0: severity=HIGH; category=uncategorized
-  Confidence: band=high; score=0.73
-- Line 0: severity=HIGH; category=uncategorized
-  Confidence: band=high; score=0.73
-- Line 0: severity=HIGH; category=uncategorized
-  Confidence: band=high; score=0.73
-- Line 0: severity=HIGH; category=uncategorized
-  Confidence: band=high; score=0.73
-- Line 0: severity=HIGH; category=uncategorized
-  Confidence: band=high; score=0.73
+- Line 1076: severity=CRITICAL; category=thread_join_no_timeout
+  Description: Thread join/wait without timeout (blocking indefinitely)
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::phase1_thread_safety
+  Context: retention_thread_.join();
 - Line 5: severity=HIGH; category=uninitialized_access
   Description: Container element access before initialization
-  Remediation: Use .at() for bounds checking or initialize element first
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::container
   Context: * PR History (last 5): #4325 [Issue] Implement DiffEngin... (2026-03-19) | #4294 docs(cdc): audit v1
-- Line 39: severity=HIGH; category=legacy_duplication; pattern=legacy_or_compat_path
+- Line 38: severity=HIGH; category=legacy_or_compat_path
   Description: Legacy/compatibility/deprecation marker detected (review removal/containment plan).
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::legacy_duplication
+  Context: // practice).  Handles legacy decimal-string base values for backward
+- Line 39: severity=HIGH; category=legacy_or_compat_path
+  Description: Legacy/compatibility/deprecation marker detected (review removal/containment plan).
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::legacy_duplication
   Context: // compatibility with existing deployments.
-  Confidence: band=high; score=0.8
+- Line 46: severity=HIGH; category=resource_leaked_in_exception
+  Description: Exception before delete causes resource leak
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::exception_safety
 - Line 49: severity=HIGH; category=size_assumption
   Description: Hardcoded size assumption — pointer/int size may differ on platforms
-  Remediation: Use <cstdint> types (uint32_t, uint64_t) and sizeof() checks, not constants
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::platform
   Context: if (existing_value->size() == sizeof(uint64_t)) {
+- Line 50: severity=HIGH; category=resource_leaked_in_exception
+  Description: Exception before delete causes resource leak
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::exception_safety
 - Line 51: severity=HIGH; category=size_assumption
   Description: Hardcoded size assumption — pointer/int size may differ on platforms
-  Remediation: Use <cstdint> types (uint32_t, uint64_t) and sizeof() checks, not constants
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::platform
   Context: memcpy(&base, existing_value->data(), sizeof(uint64_t));
+- Line 53: severity=HIGH; category=legacy_or_compat_path
+  Description: Legacy/compatibility/deprecation marker detected (review removal/containment plan).
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::legacy_duplication
+  Context: // Legacy decimal-string format (backward compatibility)
 - Line 68: severity=HIGH; category=size_assumption
   Description: Hardcoded size assumption — pointer/int size may differ on platforms
-  Remediation: Use <cstdint> types (uint32_t, uint64_t) and sizeof() checks, not constants
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::platform
   Context: if (value.size() == sizeof(uint64_t)) {
 - Line 69: severity=HIGH; category=size_assumption
   Description: Hardcoded size assumption — pointer/int size may differ on platforms
-  Remediation: Use <cstdint> types (uint32_t, uint64_t) and sizeof() checks, not constants
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::platform
   Context: memcpy(&delta, value.data(), sizeof(uint64_t));
+- Line 73: severity=HIGH; category=resource_leaked_in_exception
+  Description: Exception before delete causes resource leak
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::exception_safety
 - Line 73: severity=HIGH; category=size_assumption
   Description: Hardcoded size assumption — pointer/int size may differ on platforms
-  Remediation: Use <cstdint> types (uint32_t, uint64_t) and sizeof() checks, not constants
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::platform
   Context: new_value->resize(sizeof(uint64_t));
+- Line 74: severity=HIGH; category=resource_leaked_in_exception
+  Description: Exception before delete causes resource leak
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::exception_safety
 - Line 74: severity=HIGH; category=size_assumption
   Description: Hardcoded size assumption — pointer/int size may differ on platforms
-  Remediation: Use <cstdint> types (uint32_t, uint64_t) and sizeof() checks, not constants
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::platform
   Context: memcpy(&(*new_value)[0], &result, sizeof(uint64_t));
 - Line 195: severity=HIGH; category=size_assumption
   Description: Hardcoded size assumption — pointer/int size may differ on platforms
-  Remediation: Use <cstdint> types (uint32_t, uint64_t) and sizeof() checks, not constants
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::platform
   Context: if (seq_value.size() == sizeof(uint64_t)) {
-- Line 318: severity=HIGH; category=memory_order
+- Line 200: severity=HIGH; category=legacy_or_compat_path
+  Description: Legacy/compatibility/deprecation marker detected (review removal/containment plan).
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::legacy_duplication
+  Context: // Legacy decimal-string format (backward compatibility)
+- Line 317: severity=HIGH; category=memory_order
   Description: memory_order_relaxed used — potential visibility issue
-  Remediation: Use memory_order_acquire/release unless truly lock-free
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::concurrency
   Context: const uint64_t seq = sequence_counter_.fetch_add(1, std::memory_order_relaxed) + 1;
-- Line 325: severity=HIGH; category=db_connection_leak
+- Line 324: severity=HIGH; category=db_connection_leak
   Description: Resource acquired but not released — potential leak
-  Remediation: Ensure all acquire() calls are matched with release() in all code paths
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::raii
   Context: if (sequence_merge_supported_.load(std::memory_order_acquire)) {
-- Line 350: severity=HIGH; category=db_connection_leak
+- Line 349: severity=HIGH; category=db_connection_leak
   Description: Resource acquired but not released — potential leak
-  Remediation: Ensure all acquire() calls are matched with release() in all code paths
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::raii
   Context: uint64_t persisted = persisted_sequence_.load(std::memory_order_acquire);
+- Line 360: severity=HIGH; category=size_assumption
+  Description: Hardcoded size assumption — pointer/int size may differ on platforms
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::platform
+  Context: std::string seq_value(sizeof(uint64_t), '\0');
 - Line 361: severity=HIGH; category=size_assumption
   Description: Hardcoded size assumption — pointer/int size may differ on platforms
-  Remediation: Use <cstdint> types (uint32_t, uint64_t) and sizeof() checks, not constants
-  Context: std::string seq_value(sizeof(uint64_t), '\0');
-- Line 362: severity=HIGH; category=size_assumption
-  Description: Hardcoded size assumption — pointer/int size may differ on platforms
-  Remediation: Use <cstdint> types (uint32_t, uint64_t) and sizeof() checks, not constants
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::platform
   Context: std::memcpy(seq_value.data(), &seq, sizeof(uint64_t));
-- Line 406: severity=HIGH; category=uncaught_exception
-  Description: Exception thrown without try/catch context
-  Remediation: Wrap throwing code in try/catch or add proper error handling
-  Context: throw error::eventRecordFailed(s.ToString());
+- Line 422: severity=HIGH; category=resource_leaked_in_exception
+  Description: Exception before delete causes resource leak
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::exception_safety
+- Line 477: severity=HIGH; category=legacy_or_compat_path
+  Description: Legacy/compatibility/deprecation marker detected (review removal/containment plan).
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::legacy_duplication
+  Context: // Multi-type filter takes precedence; fall back to legacy single-type filter
 - Line 506: severity=HIGH; category=memory_order
   Description: memory_order_relaxed used — potential visibility issue
-  Remediation: Use memory_order_acquire/release unless truly lock-free
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::concurrency
   Context: return sequence_counter_.load(std::memory_order_relaxed);
 - Line 526: severity=HIGH; category=range_temporary
   Description: Range-for on temporary container — references may be invalid
-  Remediation: Store container in variable first: auto c = func(); for (auto x : c) { ... }
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::container
   Context: std::this_thread::sleep_for(std::chrono::milliseconds(50));
-- Line 621: severity=HIGH; category=uncaught_exception
-  Description: Exception thrown without try/catch context
-  Remediation: Wrap throwing code in try/catch or add proper error handling
-  Context: throw error::dbOperationFailed("getEvent", s.ToString());
+- Line 667: severity=HIGH; category=delete_without_nullptr
+  Description: Delete without nullifying pointer — use-after-free risk
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::phase1_memory_safety
+  Context: }
+
+    }
+
+
+
+    // Phase 2: Re-scan and delete any event that is NOT the latest for its key,
+
+    // unless it is a DELETE event (tombstone must be preserved for consumers).
+
+    {
+
+        std::unique_ptr<rocksdb::Iterator> it;
+- Line 667: severity=HIGH; category=explicit_delete
+  Description: Explicit delete statement (prefer smart pointers)
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::phase1_raii
+  Context: // Phase 2: Re-scan and delete any event that is NOT the latest for its key,
 - Line 717: severity=HIGH; category=delete_no_nullptr
   Description: Delete without nullifying pointer — use-after-free risk
-  Remediation: After delete: event = nullptr;
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::memory
   Context: THEMIS_WARN("compactByKey: failed to delete event {}: {}", k, s.ToString());
-- Line 739: severity=HIGH; category=uncaught_exception
-  Description: Exception thrown without try/catch context
-  Remediation: Wrap throwing code in try/catch or add proper error handling
-  Context: throw error::invalidArgument("redactByKeyPrefix: key_prefix cannot be empty");
+- Line 717: severity=HIGH; category=delete_without_nullptr
+  Description: Delete without nullifying pointer — use-after-free risk
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::phase1_memory_safety
+  Context: result.events_deleted++;
+
+                        compacted_keys.insert(ev.key);
+
+                    } else {
+
+                        THEMIS_WARN("compactByKey: failed to delete event {}: {}", k, s.ToString());
+
+                        result.events_retained++;
+
+                    }
+
+                } else {
+- Line 717: severity=HIGH; category=explicit_delete
+  Description: Explicit delete statement (prefer smart pointers)
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::phase1_raii
+  Context: THEMIS_WARN("compactByKey: failed to delete event {}: {}", k, s.ToString());
+- Line 788: severity=HIGH; category=resource_leaked_in_exception
+  Description: Exception before delete causes resource leak
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::exception_safety
+- Line 893: severity=HIGH; category=resource_leaked_in_exception
+  Description: Exception before delete causes resource leak
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::exception_safety
+- Line 1006: severity=HIGH; category=delete_without_nullptr
+  Description: Delete without nullifying pointer — use-after-free risk
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::phase1_memory_safety
+  Context: // Apply size-based retention
+
+    if (stats.total_size_bytes > policy.max_size_bytes) {
+
+        // Estimate how many events to delete based on average event size
+
+        size_t avg_event_size = stats.total_events > 0 ? (stats.total_size_bytes / stats.total_events) : 1024;
+
+        size_t excess_bytes   = stats.total_size_bytes - policy.max_size_bytes;
+- Line 1006: severity=HIGH; category=explicit_delete
+  Description: Explicit delete statement (prefer smart pointers)
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::phase1_raii
+  Context: // Estimate how many events to delete based on average event size
 - Line 1115: severity=HIGH; category=range_temporary
   Description: Range-for on temporary container — references may be invalid
-  Remediation: Store container in variable first: auto c = func(); for (auto x : c) { ... }
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::container
   Context: std::this_thread::sleep_for(std::chrono::seconds(ERROR_RETRY_DELAY_SECONDS));
 - Line 1157: severity=HIGH; category=db_connection_leak
   Description: Resource acquired but not released — potential leak
-  Remediation: Ensure all acquire() calls are matched with release() in all code paths
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::raii
   Context: if (subscription_count_.load(std::memory_order_acquire) == 0) {
-- Line 185: severity=MEDIUM; category=no_health_check
-  Description: Status field defined but no initialization or health check
-  Remediation: Initialize status to UNKNOWN and implement periodic health checks
-  Context: rocksdb::Status s;
-- Line 329: severity=MEDIUM; category=no_health_check
-  Description: Status field defined but no initialization or health check
-  Remediation: Initialize status to UNKNOWN and implement periodic health checks
-  Context: rocksdb::Status s;
-- Line 364: severity=MEDIUM; category=no_health_check
-  Description: Status field defined but no initialization or health check
-  Remediation: Initialize status to UNKNOWN and implement periodic health checks
-  Context: rocksdb::Status persist_status;
-- Line 396: severity=MEDIUM; category=no_health_check
-  Description: Status field defined but no initialization or health check
-  Remediation: Initialize status to UNKNOWN and implement periodic health checks
-  Context: rocksdb::Status s;
-- Line 581: severity=MEDIUM; category=no_health_check
-  Description: Status field defined but no initialization or health check
-  Remediation: Initialize status to UNKNOWN and implement periodic health checks
-  Context: rocksdb::Status s;
-- Line 612: severity=MEDIUM; category=no_health_check
-  Description: Status field defined but no initialization or health check
-  Remediation: Initialize status to UNKNOWN and implement periodic health checks
-  Context: rocksdb::Status s;
-- Line 706: severity=MEDIUM; category=no_health_check
-  Description: Status field defined but no initialization or health check
-  Remediation: Initialize status to UNKNOWN and implement periodic health checks
-  Context: rocksdb::Status s;
+- Line 61: severity=MEDIUM; category=generic_catch
+  Description: Generic catch(...) — specific exception types ignored
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::phase1_error_handling
+  Context: base = 0;
+
+                } catch (const char*) {
+
+                    base = 0;
+
+                } catch (...) {
+
+                    base = 0;
+
+                }
+
+            }
+- Line 61: severity=MEDIUM; category=uncaught_exception
+  Description: Generic catch(...) — specific exception types ignored
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::reliability
+  Context: } catch (...) {
 - Line 717: severity=MEDIUM; category=manual_cleanup
   Description: Manual cleanup outside exception handler — not exception-safe
-  Remediation: Use RAII or smart pointers for automatic cleanup in all exception paths
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::raii
   Context: THEMIS_WARN("compactByKey: failed to delete event {}: {}", k, s.ToString());
-- Line 789: severity=MEDIUM; category=no_health_check
-  Description: Status field defined but no initialization or health check
-  Remediation: Initialize status to UNKNOWN and implement periodic health checks
-  Context: rocksdb::Status s;
-- Line 840: severity=MEDIUM; category=no_health_check
-  Description: Status field defined but no initialization or health check
-  Remediation: Initialize status to UNKNOWN and implement periodic health checks
-  Context: rocksdb::Status s;
-- Line 942: severity=MEDIUM; category=no_health_check
-  Description: Status field defined but no initialization or health check
-  Remediation: Initialize status to UNKNOWN and implement periodic health checks
-  Context: rocksdb::Status s;
 - Line 996: severity=MEDIUM; category=manual_cleanup
   Description: Manual cleanup outside exception handler — not exception-safe
-  Remediation: Use RAII or smart pointers for automatic cleanup in all exception paths
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::raii
   Context: size_t to_delete         = stats.total_events - policy.max_event_count;
 - Line 1012: severity=MEDIUM; category=manual_cleanup
   Description: Manual cleanup outside exception handler — not exception-safe
-  Remediation: Use RAII or smart pointers for automatic cleanup in all exception paths
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::raii
   Context: size_t events_to_delete                       = (excess_bytes / avg_event_size) + SIZE_RETENTION_BUF
-- Line 1167: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: snapshot.push_back(entry);
-  Confidence: band=high; score=0.74
+- Line 1087: severity=MEDIUM; category=primitive_no_volatile
+  Description: Primitive shared across threads without volatile
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::phase1_thread_safety
+  Context: constexpr int ERROR_RETRY_DELAY_SECONDS = 60;
+- Line 310: severity=LOW; category=hardcoded_output
+  Description: Hardcoded stdout output instead of structured logging
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::audit_logging
+  Context: snprintf(buf, sizeof(buf), "%s%020llu", KEY_PREFIX, static_cast<unsigned long long>(sequence));
 
-### src/cdc/consumer_group.cpp
-Total findings: 41
+### cdc/consumer_group.cpp
+Total findings: 13
 
-- Line 0: severity=HIGH; category=uncategorized
-  Confidence: band=high; score=0.73
-- Line 0: severity=HIGH; category=uncategorized
-  Confidence: band=high; score=0.73
-- Line 0: severity=HIGH; category=uncategorized
-  Confidence: band=high; score=0.73
-- Line 0: severity=HIGH; category=uncategorized
-  Confidence: band=high; score=0.73
 - Line 5: severity=HIGH; category=uninitialized_access
   Description: Container element access before initialization
-  Remediation: Use .at() for bounds checking or initialize element first
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::container
   Context: * PR History (last 5): #4239 feat(cdc): Consumer Group S... (2026-03-15) | #3106 [cdc] Add event thr
 - Line 56: severity=HIGH; category=uncaught_exception
   Description: Exception thrown without try/catch context
-  Remediation: Wrap throwing code in try/catch or add proper error handling
-  Context: throw error::invalidArgument("ConsumerGroupManager: db cannot be null");
-- Line 88: severity=HIGH; category=uncaught_exception
-  Description: Exception thrown without try/catch context
-  Remediation: Wrap throwing code in try/catch or add proper error handling
-  Context: throw error::invalidArgument("Consumer group not found: " + group_id);
-- Line 91: severity=HIGH; category=uncaught_exception
-  Description: Exception thrown without try/catch context
-  Remediation: Wrap throwing code in try/catch or add proper error handling
-  Context: throw error::dbOperationFailed("Get group config", s.ToString());
-- Line 116: severity=HIGH; category=uncaught_exception
-  Description: Exception thrown without try/catch context
-  Remediation: Wrap throwing code in try/catch or add proper error handling
-  Context: throw error::dbOperationFailed("Get group offset", s.ToString());
-- Line 142: severity=HIGH; category=uncaught_exception
-  Description: Exception thrown without try/catch context
-  Remediation: Wrap throwing code in try/catch or add proper error handling
-  Context: throw error::dbOperationFailed("Put group config", s.ToString());
-- Line 158: severity=HIGH; category=uncaught_exception
-  Description: Exception thrown without try/catch context
-  Remediation: Wrap throwing code in try/catch or add proper error handling
-  Context: throw CDCException(ErrorCode::DB_WRITE_FAILED, ErrorSeverity::ERROR, "Failed to commit group offset"
-- Line 169: severity=HIGH; category=uncaught_exception
-  Description: Exception thrown without try/catch context
-  Remediation: Wrap throwing code in try/catch or add proper error handling
-  Context: throw error::invalidArgument("group_id", "must not be empty");
-- Line 172: severity=HIGH; category=uncaught_exception
-  Description: Exception thrown without try/catch context
-  Remediation: Wrap throwing code in try/catch or add proper error handling
-  Context: throw error::invalidArgument("consumer_count", "must be >= 1");
-- Line 182: severity=HIGH; category=uncaught_exception
-  Description: Exception thrown without try/catch context
-  Remediation: Wrap throwing code in try/catch or add proper error handling
-  Context: throw error::invalidArgument("group_id", "must not be empty");
-- Line 200: severity=HIGH; category=uncaught_exception
-  Description: Exception thrown without try/catch context
-  Remediation: Wrap throwing code in try/catch or add proper error handling
-  Context: throw error::dbOperationFailed("Delete group config", s1.ToString());
-- Line 203: severity=HIGH; category=uncaught_exception
-  Description: Exception thrown without try/catch context
-  Remediation: Wrap throwing code in try/catch or add proper error handling
-  Context: throw error::dbOperationFailed("Delete group offset", s2.ToString());
-- Line 234: severity=HIGH; category=uncaught_exception
-  Description: Exception thrown without try/catch context
-  Remediation: Wrap throwing code in try/catch or add proper error handling
-  Context: throw error::invalidArgument("group_id", "must not be empty");
-- Line 242: severity=HIGH; category=uncaught_exception
-  Description: Exception thrown without try/catch context
-  Remediation: Wrap throwing code in try/catch or add proper error handling
-  Context: throw error::invalidArgument("group_id", "must not be empty");
-- Line 294: severity=HIGH; category=uncaught_exception
-  Description: Exception thrown without try/catch context
-  Remediation: Wrap throwing code in try/catch or add proper error handling
-  Context: throw error::invalidArgument("group_id", "must not be empty");
-- Line 305: severity=HIGH; category=uncaught_exception
-  Description: Exception thrown without try/catch context
-  Remediation: Wrap throwing code in try/catch or add proper error handling
-  Context: throw error::invalidArgument("group_id", "must not be empty");
-- Line 330: severity=HIGH; category=uncaught_exception
-  Description: Exception thrown without try/catch context
-  Remediation: Wrap throwing code in try/catch or add proper error handling
-  Context: throw error::invalidArgument("group_id", "must not be empty");
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::phase1_error_handling
+  Context: ConsumerGroupManager::ConsumerGroupManager(rocksdb::TransactionDB *db, rocksdb::ColumnFamilyHandle *cf)
+
+    : db_(db), cf_(cf) {
+
+    if (!db_) {
+
+        throw error::invalidArgument("ConsumerGroupManager: db cannot be null");
+
+    }
+
+}
 - Line 341: severity=HIGH; category=uncaught_exception
   Description: Exception thrown without try/catch context
-  Remediation: Wrap throwing code in try/catch or add proper error handling
-  Context: throw error::invalidArgument("group_id", "must not be empty");
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::phase1_error_handling
+  Context: bool ConsumerGroupManager::consumerHandlesKey(const std::string &group_id, const std::string &consumer_id,
+
+                                              const std::string &event_key) const {
+
+    if (group_id.empty()) {
+
+        throw error::invalidArgument("group_id", "must not be empty");
+
+    }
+
+
+
+    std::lock_guard<std::mutex> lock(mutex_);
 - Line 354: severity=HIGH; category=uncaught_exception
   Description: Exception thrown without try/catch context
-  Remediation: Wrap throwing code in try/catch or add proper error handling
-  Context: throw error::invalidArgument("group_id", "must not be empty");
-- Line 371: severity=HIGH; category=uncaught_exception
-  Description: Exception thrown without try/catch context
-  Remediation: Wrap throwing code in try/catch or add proper error handling
-  Context: throw error::invalidArgument("group_id", "must not be empty");
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::phase1_error_handling
+  Context: uint32_t ConsumerGroupManager::getPartitionForKey(const std::string &group_id, const std::string &key) const {
+
+    if (group_id.empty()) {
+
+        throw error::invalidArgument("group_id", "must not be empty");
+
+    }
+
+
+
+    std::lock_guard<std::mutex> lock(mutex_);
 - Line 422: severity=HIGH; category=uncaught_exception
   Description: Exception thrown without try/catch context
-  Remediation: Wrap throwing code in try/catch or add proper error handling
-  Context: throw error::invalidArgument("group_id", "must not be empty");
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::phase1_error_handling
+  Context: ConsumerGroupManager::fetchEventsAtLeastOnce(const std::string &group_id, const std::string &consumer_id,
+
+                                             const Changefeed &changefeed, size_t limit, uint32_t ack_timeout_ms) {
+
+    if (group_id.empty()) {
+
+        throw error::invalidArgument("group_id", "must not be empty");
+
+    }
+
+    if (consumer_id.empty()) {
+
+        throw error::invalidArgument("consumer_id", "must not be empty");
 - Line 425: severity=HIGH; category=uncaught_exception
   Description: Exception thrown without try/catch context
-  Remediation: Wrap throwing code in try/catch or add proper error handling
-  Context: throw error::invalidArgument("consumer_id", "must not be empty");
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::phase1_error_handling
+  Context: throw error::invalidArgument("group_id", "must not be empty");
+
+    }
+
+    if (consumer_id.empty()) {
+
+        throw error::invalidArgument("consumer_id", "must not be empty");
+
+    }
+
+
+
+    const size_t effective_limit = (limit == 0) ? 100 : limit;
+- Line 474: severity=HIGH; category=resource_leaked_in_exception
+  Description: Exception before delete causes resource leak
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::exception_safety
+- Line 496: severity=HIGH; category=resource_leaked_in_exception
+  Description: Exception before delete causes resource leak
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::exception_safety
+- Line 502: severity=HIGH; category=resource_leaked_in_exception
+  Description: Exception before delete causes resource leak
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::exception_safety
 - Line 509: severity=HIGH; category=repeated_search
   Description: find/search in loop — O(n²) or worse
-  Remediation: Move search outside loop or build index/map before loop
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::performance
   Context: if (std::find(overdue_seqs.begin(), overdue_seqs.end(), rec.sequence) != overdue_seqs.end()) {
-- Line 531: severity=HIGH; category=uncaught_exception
-  Description: Exception thrown without try/catch context
-  Remediation: Wrap throwing code in try/catch or add proper error handling
-  Context: throw error::invalidArgument("group_id", "must not be empty");
-- Line 534: severity=HIGH; category=uncaught_exception
-  Description: Exception thrown without try/catch context
-  Remediation: Wrap throwing code in try/catch or add proper error handling
-  Context: throw error::invalidArgument("consumer_id", "must not be empty");
-- Line 79: severity=MEDIUM; category=no_health_check
-  Description: Status field defined but no initialization or health check
-  Remediation: Initialize status to UNKNOWN and implement periodic health checks
-  Context: rocksdb::Status s;
-- Line 133: severity=MEDIUM; category=no_health_check
-  Description: Status field defined but no initialization or health check
-  Remediation: Initialize status to UNKNOWN and implement periodic health checks
-  Context: rocksdb::Status s;
-- Line 188: severity=MEDIUM; category=no_health_check
-  Description: Status field defined but no initialization or health check
-  Remediation: Initialize status to UNKNOWN and implement periodic health checks
-  Context: rocksdb::Status s1, s2;
-- Line 221: severity=MEDIUM; category=no_health_check
-  Description: Status field defined but no initialization or health check
-  Remediation: Initialize status to UNKNOWN and implement periodic health checks
-  Context: rocksdb::Status s;
-- Line 279: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: groups.push_back(std::move(gid));
-  Confidence: band=high; score=0.74
-- Line 403: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: result.push_back(std::move(ev));
-  Confidence: band=high; score=0.74
+- Line 520: severity=HIGH; category=resource_leaked_in_exception
+  Description: Exception before delete causes resource leak
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::exception_safety
 - Line 450: severity=MEDIUM; category=copy_overhead
   Description: push_back in loop — consider pre-allocating with reserve()
-  Remediation: Call vector.reserve(expected_size) before loop to avoid reallocations
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::container
   Context: overdue_seqs.push_back(rec.sequence);
-- Line 467: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: result.push_back(changefeed.getEvent(seq));
-  Confidence: band=high; score=0.74
-- Line 495: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: new_records.push_back({ev.sequence, now, 1});
-  Confidence: band=high; score=0.74
 - Line 496: severity=MEDIUM; category=copy_overhead
   Description: push_back in loop — consider pre-allocating with reserve()
-  Remediation: Call vector.reserve(expected_size) before loop to avoid reallocations
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::container
   Context: new_records.push_back({ev.sequence, now, 1});
-- Line 520: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: consumer_inflight.push_back(std::move(rec));
-  Confidence: band=high; score=0.74
-- Line 520: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: consumer_inflight.push_back(std::move(rec));
-  Confidence: band=high; score=0.74
 
-### src/cdc/tenant_buffer_manager.cpp
-Total findings: 20
+### cdc/outbox.cpp
+Total findings: 10
 
-- Line 0: severity=CRITICAL; category=uncategorized
-  Confidence: band=very_high; score=0.85
-- Line 179: severity=CRITICAL; category=smart_ptr_misuse
-  Description: Raw new without immediate wrapping in smart pointer
-  Remediation: Use auto ptr = std::make_unique<T>(...);
-  Context: THEMIS_INFO("Created new tenant: {}", config.tenant_id);
-- Line 356: severity=CRITICAL; category=smart_ptr_misuse
-  Description: Raw new without immediate wrapping in smart pointer
-  Remediation: Use auto ptr = std::make_unique<T>(...);
-  Context: THEMIS_INFO("Auto-created buffer for new tenant: {}", tenant_id);
-- Line 0: severity=HIGH; category=uncategorized
-  Confidence: band=high; score=0.73
-- Line 0: severity=HIGH; category=uncategorized
-  Confidence: band=high; score=0.73
-- Line 0: severity=HIGH; category=uncategorized
-  Confidence: band=high; score=0.73
-- Line 0: severity=HIGH; category=uncategorized
-  Confidence: band=high; score=0.73
-- Line 0: severity=HIGH; category=uncategorized
-  Confidence: band=high; score=0.73
-- Line 22: severity=HIGH; category=uncaught_exception
-  Description: Exception thrown without try/catch context
-  Remediation: Wrap throwing code in try/catch or add proper error handling
-  Context: throw error::invalidArgument("changefeed", "Cannot be null");
-- Line 65: severity=HIGH; category=uncaught_exception
-  Description: Exception thrown without try/catch context
-  Remediation: Wrap throwing code in try/catch or add proper error handling
-  Context: throw CDCException(ErrorCode::BUFFER_NOT_RUNNING, ErrorSeverity::ERROR, "TenantBufferManager not run
-- Line 70: severity=HIGH; category=uncaught_exception
-  Description: Exception thrown without try/catch context
-  Remediation: Wrap throwing code in try/catch or add proper error handling
-  Context: throw error::invalidArgument("tenant_id", "Cannot be empty");
-- Line 80: severity=HIGH; category=uncaught_exception
-  Description: Exception thrown without try/catch context
-  Remediation: Wrap throwing code in try/catch or add proper error handling
-  Context: throw CDCException(ErrorCode::TENANT_UNAUTHORIZED, ErrorSeverity::ERROR, "Tenant is disabled",
-- Line 88: severity=HIGH; category=uncaught_exception
-  Description: Exception thrown without try/catch context
-  Remediation: Wrap throwing code in try/catch or add proper error handling
-  Context: throw CDCException(ErrorCode::TENANT_QUOTA_EXCEEDED, ErrorSeverity::WARNING, "Tenant quota exceeded"
-- Line 139: severity=HIGH; category=pointer_arithmetic
-  Description: Pointer/array access without bounds validation
-  Remediation: Add bounds check before dereferencing
-  Context: for (auto &[tenant_id, state] : tenant_buffers_) {
-- Line 153: severity=HIGH; category=uncaught_exception
-  Description: Exception thrown without try/catch context
-  Remediation: Wrap throwing code in try/catch or add proper error handling
-  Context: throw error::invalidArgument("tenant_id", "Cannot be empty");
-- Line 225: severity=HIGH; category=pointer_arithmetic
-  Description: Pointer/array access without bounds validation
-  Remediation: Add bounds check before dereferencing
-  Context: for (const auto &[tenant_id, state] : tenant_buffers_) {
-- Line 258: severity=HIGH; category=pointer_arithmetic
-  Description: Pointer/array access without bounds validation
-  Remediation: Add bounds check before dereferencing
-  Context: for (const auto &[tenant_id, state] : tenant_buffers_) {
-- Line 254: severity=MEDIUM; category=performance; pattern=map_vs_unordered_map
-  Description: std::map used only for lookups (consider std::unordered_map)
-  Context: std::map<std::string, TenantStats> TenantBufferManager::getAllTenantStats() const {
-  Confidence: band=high; score=0.74
-- Line 257: severity=MEDIUM; category=performance; pattern=map_vs_unordered_map
-  Description: std::map used only for lookups (consider std::unordered_map)
-  Context: std::map<std::string, TenantStats> all_stats;
-  Confidence: band=high; score=0.74
-- Line 272: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: tenants.push_back(tenant_id);
-  Confidence: band=high; score=0.74
-
-### src/cdc/cdc_admin.cpp
-Total findings: 19
-
-- Line 5: severity=HIGH; category=uninitialized_access
-  Description: Container element access before initialization
-  Remediation: Use .at() for bounds checking or initialize element first
-  Context: * PR History (last 5): #4833 Continue Phase-6 tensorgrap... (2026-05-07) | #3687 feat(cdc): runtime-
-- Line 31: severity=HIGH; category=uncaught_exception
-  Description: Exception thrown without try/catch context
-  Remediation: Wrap throwing code in try/catch or add proper error handling
-  Context: throw error::invalidArgument("Changefeed cannot be null");
-- Line 41: severity=HIGH; category=uncaught_exception
-  Description: Exception thrown without try/catch context
-  Remediation: Wrap throwing code in try/catch or add proper error handling
-  Context: throw error::invalidArgument("TenantBufferManager cannot be null");
-- Line 52: severity=HIGH; category=uncaught_exception
-  Description: Exception thrown without try/catch context
-  Remediation: Wrap throwing code in try/catch or add proper error handling
-  Context: throw error::internalError("No changefeed available for purge");
-- Line 74: severity=HIGH; category=uninitialized_access
-  Description: Container element access before initialization
-  Remediation: Use .at() for bounds checking or initialize element first
-  Context: THEMIS_INFO("CDC Admin: Purging sequence range [{}, {}]", start_sequence, end_sequence);
-- Line 82: severity=HIGH; category=uncaught_exception
-  Description: Exception thrown without try/catch context
-  Remediation: Wrap throwing code in try/catch or add proper error handling
-  Context: throw error::internalError("No changefeed available for purge");
-- Line 107: severity=HIGH; category=uncaught_exception
-  Description: Exception thrown without try/catch context
-  Remediation: Wrap throwing code in try/catch or add proper error handling
-  Context: throw error::internalError("No changefeed available for purge");
-- Line 123: severity=HIGH; category=uncaught_exception
-  Description: Exception thrown without try/catch context
-  Remediation: Wrap throwing code in try/catch or add proper error handling
-  Context: throw error::internalError("No tenant manager available for tenant purge");
-- Line 127: severity=HIGH; category=uncaught_exception
-  Description: Exception thrown without try/catch context
-  Remediation: Wrap throwing code in try/catch or add proper error handling
-  Context: throw error::invalidArgument("Tenant ID cannot be empty");
-- Line 171: severity=HIGH; category=uncaught_exception
-  Description: Exception thrown without try/catch context
-  Remediation: Wrap throwing code in try/catch or add proper error handling
-  Context: throw error::internalError("No changefeed available for replay");
-- Line 276: severity=HIGH; category=uncaught_exception
-  Description: Exception thrown without try/catch context
-  Remediation: Wrap throwing code in try/catch or add proper error handling
-  Context: throw error::invalidArgument(
-- Line 284: severity=HIGH; category=uncaught_exception
-  Description: Exception thrown without try/catch context
-  Remediation: Wrap throwing code in try/catch or add proper error handling
-  Context: throw error::invalidArgument(
-- Line 295: severity=HIGH; category=uncaught_exception
-  Description: Exception thrown without try/catch context
-  Remediation: Wrap throwing code in try/catch or add proper error handling
-  Context: throw error::internalError("No changefeed available for compaction");
-- Line 317: severity=HIGH; category=uncaught_exception
-  Description: Exception thrown without try/catch context
-  Remediation: Wrap throwing code in try/catch or add proper error handling
-  Context: throw error::internalError("No changefeed available for GDPR redaction");
-- Line 321: severity=HIGH; category=uncaught_exception
-  Description: Exception thrown without try/catch context
-  Remediation: Wrap throwing code in try/catch or add proper error handling
-  Context: throw error::invalidArgument("redactByKeyPrefix: key_prefix cannot be empty");
-- Line 416: severity=HIGH; category=uncaught_exception
-  Description: Exception thrown without try/catch context
-  Remediation: Wrap throwing code in try/catch or add proper error handling
-  Context: throw error::internalError("No changefeed available for retention status");
-- Line 189: severity=MEDIUM; category=no_health_check
-  Description: Status field defined but no initialization or health check
-  Remediation: Initialize status to UNKNOWN and implement periodic health checks
-  Context: HealthStatus status;
-- Line 255: severity=MEDIUM; category=no_health_check
-  Description: Status field defined but no initialization or health check
-  Remediation: Initialize status to UNKNOWN and implement periodic health checks
-  Context: total_events, health.is_healthy ? "OK" : "ISSUES");
-- Line 419: severity=MEDIUM; category=no_health_check
-  Description: Status field defined but no initialization or health check
-  Remediation: Initialize status to UNKNOWN and implement periodic health checks
-  Context: RetentionStatus status;
-
-### src/cdc/outbox.cpp
-Total findings: 15
-
-- Line 0: severity=CRITICAL; category=uncategorized
-  Confidence: band=very_high; score=0.85
+- Line 225: severity=CRITICAL; category=exception_in_destructor
+  Description: Destructors must be noexcept; exceptions here cause std::terminate()
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::exception_safety
+- Line 365: severity=CRITICAL; category=thread_join_no_timeout
+  Description: Thread join/wait without timeout (blocking indefinitely)
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::phase1_thread_safety
+  Context: relay_thread_.join();
 - Line 122: severity=HIGH; category=uncaught_exception
   Description: Exception thrown without try/catch context
-  Remediation: Wrap throwing code in try/catch or add proper error handling
-  Context: throw error::invalidArgument("OutboxWriter: db cannot be null");
-- Line 167: severity=HIGH; category=uncaught_exception
-  Description: Exception thrown without try/catch context
-  Remediation: Wrap throwing code in try/catch or add proper error handling
-  Context: throw CDCException(ErrorCode::DB_WRITE_FAILED, ErrorSeverity::CRITICAL,
-- Line 179: severity=HIGH; category=uncaught_exception
-  Description: Exception thrown without try/catch context
-  Remediation: Wrap throwing code in try/catch or add proper error handling
-  Context: throw error::invalidArgument("OutboxWriter::writeToOutbox: txn cannot be null");
-- Line 182: severity=HIGH; category=uncaught_exception
-  Description: Exception thrown without try/catch context
-  Remediation: Wrap throwing code in try/catch or add proper error handling
-  Context: throw error::invalidArgument("OutboxWriter::writeToOutbox: record key cannot be empty");
-- Line 205: severity=HIGH; category=uncaught_exception
-  Description: Exception thrown without try/catch context
-  Remediation: Wrap throwing code in try/catch or add proper error handling
-  Context: throw CDCException(ErrorCode::DB_WRITE_FAILED, ErrorSeverity::ERROR,
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::phase1_error_handling
+  Context: OutboxWriter::OutboxWriter(rocksdb::TransactionDB *db, rocksdb::ColumnFamilyHandle *cf) : db_(db), cf_(cf) {
+
+    if (!db_) {
+
+        throw error::invalidArgument("OutboxWriter: db cannot be null");
+
+    }
+
+}
 - Line 221: severity=HIGH; category=uncaught_exception
   Description: Exception thrown without try/catch context
-  Remediation: Wrap throwing code in try/catch or add proper error handling
-  Context: throw error::invalidArgument("OutboxRelay: db cannot be null");
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::phase1_error_handling
+  Context: OutboxRelayConfig config)
+
+    : db_(db), cf_(cf), changefeed_(changefeed), config_(std::move(config)) {
+
+    if (!db_) {
+
+        throw error::invalidArgument("OutboxRelay: db cannot be null");
+
+    }
+
+}
+- Line 299: severity=HIGH; category=pointer_arithmetic_unbounded
+  Description: Pointer/array access without bounds validation
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::phase1_memory_safety
+  Context: event.value    = rec.value;
+
+            event.metadata = rec.metadata;
+
+            if (!rec.collection.empty()) {
+
+                event.metadata["collection"] = rec.collection;
+
+            }
+
+            event.timestamp_ms = rec.created_at_ms;
 - Line 342: severity=HIGH; category=db_connection_leak
   Description: Resource acquired but not released — potential leak
-  Remediation: Ensure all acquire() calls are matched with release() in all code paths
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::raii
   Context: while (running_.load(std::memory_order_acquire)) {
 - Line 346: severity=HIGH; category=db_connection_leak
   Description: Resource acquired but not released — potential leak
-  Remediation: Ensure all acquire() calls are matched with release() in all code paths
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::raii
   Context: cv_.wait_for(lock, config_.poll_interval, [this] { return !running_.load(std::memory_order_acquire);
-- Line 137: severity=MEDIUM; category=no_health_check
-  Description: Status field defined but no initialization or health check
-  Remediation: Initialize status to UNKNOWN and implement periodic health checks
-  Context: rocksdb::Status s;
-- Line 160: severity=MEDIUM; category=no_health_check
-  Description: Status field defined but no initialization or health check
-  Remediation: Initialize status to UNKNOWN and implement periodic health checks
-  Context: rocksdb::Status ws;
-- Line 197: severity=MEDIUM; category=no_health_check
-  Description: Status field defined but no initialization or health check
-  Remediation: Initialize status to UNKNOWN and implement periodic health checks
-  Context: rocksdb::Status s;
-- Line 240: severity=MEDIUM; category=no_health_check
-  Description: Status field defined but no initialization or health check
-  Remediation: Initialize status to UNKNOWN and implement periodic health checks
-  Context: rocksdb::Status s;
-- Line 267: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: result.push_back(std::move(rec));
-  Confidence: band=high; score=0.74
-- Line 385: severity=MEDIUM; category=no_health_check
-  Description: Status field defined but no initialization or health check
-  Remediation: Initialize status to UNKNOWN and implement periodic health checks
-  Context: rocksdb::Status s;
+- Line 351: severity=MEDIUM; category=primitive_no_volatile
+  Description: Primitive shared across threads without volatile
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::phase1_thread_safety
+  Context: bool expected = false;
+- Line 128: severity=LOW; category=hardcoded_output
+  Description: Hardcoded stdout output instead of structured logging
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::audit_logging
+  Context: std::snprintf(buf, sizeof(buf), "%s%020llu", KEY_PREFIX, static_cast<unsigned long long>(seq));
+- Line 231: severity=LOW; category=hardcoded_output
+  Description: Hardcoded stdout output instead of structured logging
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::audit_logging
+  Context: std::snprintf(buf, sizeof(buf), "%s%020llu", KEY_PREFIX, static_cast<unsigned long long>(seq));
 
-### src/cdc/dead_letter_queue.cpp
-Total findings: 13
+### cdc/tenant_buffer_manager.cpp
+Total findings: 10
 
-- Line 167: severity=CRITICAL; category=smart_ptr_misuse
+- Line 26: severity=CRITICAL; category=exception_in_destructor
+  Description: Destructors must be noexcept; exceptions here cause std::terminate()
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::exception_safety
+- Line 179: severity=CRITICAL; category=smart_ptr_misuse
   Description: Raw new without immediate wrapping in smart pointer
-  Remediation: Use auto ptr = std::make_unique<T>(...);
-  Context: THEMIS_INFO("DeadLetterQueue: replayed dlq_seq={} → new seq={}",
-- Line 0: severity=HIGH; category=uncategorized
-  Confidence: band=high; score=0.73
-- Line 5: severity=HIGH; category=uninitialized_access
-  Description: Container element access before initialization
-  Remediation: Use .at() for bounds checking or initialize element first
-  Context: * PR History (last 5): #3552 docs(cdc): full module docu... (2026-03-12) | #2796 [cdc] Dead-letter q
-- Line 91: severity=HIGH; category=uncaught_exception
-  Description: Exception thrown without try/catch context
-  Remediation: Wrap throwing code in try/catch or add proper error handling
-  Context: throw error::sequenceGenerationFailed(write_status.ToString());
-- Line 243: severity=HIGH; category=delete_no_nullptr
-  Description: Delete without nullifying pointer — use-after-free risk
-  Remediation: After delete: key = nullptr;
-  Context: THEMIS_WARN("DeadLetterQueue: drain failed to delete key={}: {}",
-- Line 67: severity=MEDIUM; category=no_health_check
-  Description: Status field defined but no initialization or health check
-  Remediation: Initialize status to UNKNOWN and implement periodic health checks
-  Context: rocksdb::Status s;
-- Line 82: severity=MEDIUM; category=no_health_check
-  Description: Status field defined but no initialization or health check
-  Remediation: Initialize status to UNKNOWN and implement periodic health checks
-  Context: rocksdb::Status write_status;
-- Line 113: severity=MEDIUM; category=no_health_check
-  Description: Status field defined but no initialization or health check
-  Remediation: Initialize status to UNKNOWN and implement periodic health checks
-  Context: rocksdb::Status s;
-- Line 136: severity=MEDIUM; category=no_health_check
-  Description: Status field defined but no initialization or health check
-  Remediation: Initialize status to UNKNOWN and implement periodic health checks
-  Context: rocksdb::Status s;
-- Line 176: severity=MEDIUM; category=no_health_check
-  Description: Status field defined but no initialization or health check
-  Remediation: Initialize status to UNKNOWN and implement periodic health checks
-  Context: rocksdb::Status read_status;
-- Line 194: severity=MEDIUM; category=no_health_check
-  Description: Status field defined but no initialization or health check
-  Remediation: Initialize status to UNKNOWN and implement periodic health checks
-  Context: rocksdb::Status s;
-- Line 233: severity=MEDIUM; category=no_health_check
-  Description: Status field defined but no initialization or health check
-  Remediation: Initialize status to UNKNOWN and implement periodic health checks
-  Context: rocksdb::Status s;
-- Line 243: severity=MEDIUM; category=manual_cleanup
-  Description: Manual cleanup outside exception handler — not exception-safe
-  Remediation: Use RAII or smart pointers for automatic cleanup in all exception paths
-  Context: THEMIS_WARN("DeadLetterQueue: drain failed to delete key={}: {}",
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::raii
+  Context: THEMIS_INFO("Created new tenant: {}", config.tenant_id);
+- Line 356: severity=CRITICAL; category=smart_ptr_misuse
+  Description: Raw new without immediate wrapping in smart pointer
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::raii
+  Context: THEMIS_INFO("Auto-created buffer for new tenant: {}", tenant_id);
+- Line 167: severity=HIGH; category=resource_leaked_in_exception
+  Description: Exception before delete causes resource leak
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::exception_safety
+- Line 168: severity=HIGH; category=resource_leaked_in_exception
+  Description: Exception before delete causes resource leak
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::exception_safety
+- Line 169: severity=HIGH; category=resource_leaked_in_exception
+  Description: Exception before delete causes resource leak
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::exception_safety
+- Line 344: severity=HIGH; category=resource_leaked_in_exception
+  Description: Exception before delete causes resource leak
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::exception_safety
+- Line 356: severity=HIGH; category=resource_leaked_in_exception
+  Description: Exception before delete causes resource leak
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::exception_safety
+- Line 254: severity=MEDIUM; category=map_vs_unordered_map
+  Description: std::map used only for lookups (consider std::unordered_map)
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::performance_patterns
+  Context: std::map<std::string, TenantStats> TenantBufferManager::getAllTenantStats() const {
+- Line 257: severity=MEDIUM; category=map_vs_unordered_map
+  Description: std::map used only for lookups (consider std::unordered_map)
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::performance_patterns
+  Context: std::map<std::string, TenantStats> all_stats;
 
-### src/cdc/ws_transport.cpp
+### cdc/changefeed_buffer.cpp
+Total findings: 9
+
+- Line 65: severity=CRITICAL; category=thread_join_no_timeout
+  Description: Thread join/wait without timeout (blocking indefinitely)
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::phase1_thread_safety
+  Context: flush_thread_.join();
+- Line 148: severity=CRITICAL; category=blocking_no_timeout
+  Description: Blocking operation without timeout — can block indefinitely
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::phase1_error_handling
+  Context: // Unlock before flush to avoid deadlock, flush will re-acquire lock
+
+            lock.unlock();
+
+            flushInternal(false);
+
+            lock.lock();
+
+        }
+
+        
+
+        // Add to buffer
+- Line 148: severity=CRITICAL; category=no_timeout
+  Description: mutex_lock without timeout — can block indefinitely
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::reliability
+  Context: lock.lock();
+- Line 203: severity=CRITICAL; category=blocking_no_timeout
+  Description: Blocking operation without timeout — can block indefinitely
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::phase1_error_handling
+  Context: std::unique_lock<std::mutex> lock(buffers_mutex_, std::defer_lock);
+
+    if (!lock_held) {
+
+        lock.lock();
+
+    }
+
+    
+
+    if (buffers_.empty()) {
+- Line 203: severity=CRITICAL; category=no_timeout
+  Description: mutex_lock without timeout — can block indefinitely
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::reliability
+  Context: lock.lock();
+- Line 112: severity=HIGH; category=pointer_arithmetic_unbounded
+  Description: Pointer/array access without bounds validation
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::phase1_memory_safety
+  Context: auto compressed = utils::zstd_compress(*event.value, 3);
+
+                if (!compressed.empty() && compressed.size() < payload_size) {
+
+                    event.value = std::string(compressed.begin(), compressed.end());
+
+                    event.metadata["_compressed"] = true;
+
+                    stats_.compressed_payloads++;
+
+                    metrics_.compression_count++;
+- Line 148: severity=HIGH; category=explicit_lock_unlock
+  Description: Explicit lock/unlock without RAII guard
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::phase1_thread_safety
+  Context: lock.lock();
+- Line 255: severity=HIGH; category=pointer_arithmetic_unbounded
+  Description: Pointer/array access without bounds validation
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::phase1_memory_safety
+  Context: try {
+
+                // Decompress if needed
+
+                Changefeed::ChangeEvent event = buffered_event.event;
+
+                if (event.metadata.contains("_compressed") && event.metadata["_compressed"] == true) {
+
+                    if (event.value.has_value()) {
+
+                        {
+
+#pragma warning(suppress: 4456)
+- Line 396: severity=HIGH; category=lock_contention
+  Description: Mutex lock in loop — high contention
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::performance
+  Context: std::unique_lock<std::mutex> lock(flush_mutex_);
+
+### cdc/cdc_admin.cpp
 Total findings: 8
 
 - Line 5: severity=HIGH; category=uninitialized_access
   Description: Container element access before initialization
-  Remediation: Use .at() for bounds checking or initialize element first
-  Context: * PR History (last 5): #4184 feat(cdc): WebSocket Change... (2026-03-13) | #3616 fix(cdc): build sys
-- Line 178: severity=HIGH; category=o_n_squared
-  Description: O(n²) pattern: find() on vector inside loop
-  Remediation: Use std::unordered_map or std::set for O(log n) or O(1) lookup
-  Context: auto sit = sessions_.find(result.session_id);
-- Line 184: severity=HIGH; category=o_n_squared
-  Description: O(n²) pattern: find() on vector inside loop
-  Remediation: Use std::unordered_map or std::set for O(log n) or O(1) lookup
-  Context: auto sub_it = session.subscriptions.find(result.sub_id);
-- Line 133: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: query_items.push_back({sid, sub_id, std::move(opts)});
-  Confidence: band=high; score=0.74
-- Line 133: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: query_items.push_back({sid, sub_id, std::move(opts)});
-  Confidence: band=high; score=0.74
-- Line 154: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: results.push_back({item.session_id, item.sub_id, std::move(events)});
-  Confidence: band=high; score=0.74
-- Line 197: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: overflow_sessions.push_back(result.session_id);
-  Confidence: band=high; score=0.74
-- Line 198: severity=MEDIUM; category=copy_overhead
-  Description: push_back in loop — consider pre-allocating with reserve()
-  Remediation: Call vector.reserve(expected_size) before loop to avoid reallocations
-  Context: overflow_sessions.push_back(result.session_id);
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::container
+  Context: * PR History (last 5): #4833 Continue Phase-6 tensorgrap... (2026-05-07) | #3687 feat(cdc): runtime-
+- Line 74: severity=HIGH; category=uninitialized_access
+  Description: Container element access before initialization
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::container
+  Context: THEMIS_INFO("CDC Admin: Purging sequence range [{}, {}]", start_sequence, end_sequence);
+- Line 88: severity=HIGH; category=delete_without_nullptr
+  Description: Delete without nullifying pointer — use-after-free risk
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::phase1_memory_safety
+  Context: // Delete events up to end_sequence (exclusive, so add 1)
 
-### src/cdc/cdc_ws_handler.cpp
-Total findings: 6
+    uint64_t total_deleted = changefeed_->deleteOldEvents(end_sequence + 1);
 
-- Line 193: severity=MEDIUM; category=copy_overhead
-  Description: push_back in loop — consider pre-allocating with reserve()
-  Remediation: Call vector.reserve(expected_size) before loop to avoid reallocations
-  Context: responses.push_back({{"action", "error"}, {"message", "ack requires 'id' or 'group_id'"}});
-- Line 231: severity=MEDIUM; category=copy_overhead
-  Description: push_back in loop — consider pre-allocating with reserve()
-  Remediation: Call vector.reserve(expected_size) before loop to avoid reallocations
-  Context: responses.push_back({{"action", "error"}, {"message", "unknown action: " + action}});
-- Line 305: severity=MEDIUM; category=copy_overhead
-  Description: push_back in loop — consider pre-allocating with reserve()
-  Remediation: Call vector.reserve(expected_size) before loop to avoid reallocations
-  Context: sub.pending_ack.push_back({event_frame, now});
-- Line 344: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: frames.push_back(pending.frame);
-  Confidence: band=high; score=0.74
-- Line 344: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: frames.push_back(pending.frame);
-  Confidence: band=high; score=0.74
-- Line 345: severity=MEDIUM; category=copy_overhead
-  Description: push_back in loop — consider pre-allocating with reserve()
-  Remediation: Call vector.reserve(expected_size) before loop to avoid reallocations
-  Context: frames.push_back(pending.frame);
+    
 
-### src/cdc/cross_collection_stream.cpp
-Total findings: 6
+    // If start_sequence > 0, we deleted too many, but RocksDB delete is by prefix
 
-- Line 122: severity=HIGH; category=o_n_squared
-  Description: O(n²) pattern: find() on vector inside loop
-  Remediation: Use std::unordered_map or std::set for O(log n) or O(1) lookup
-  Context: auto cursor_it = options.from_sequence.find(name);
-- Line 68: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: names.push_back(kv.first);
-  Confidence: band=high; score=0.74
-- Line 80: severity=MEDIUM; category=determinism; pattern=timestamp_sorting_unstable
-  Description: Timestamp-based sorting without stable_sort (non-deterministic ties)
-  Context: // Comparator: sort by (timestamp_ms ASC, collection ASC, sequence ASC).
-  Confidence: band=high; score=0.74
-- Line 103: severity=MEDIUM; category=determinism; pattern=unordered_container_iter
-  Description: Non-deterministic unordered_map/set iteration order
-  Context: std::unordered_map<std::string, Changefeed*> feeds_snapshot;
-  Confidence: band=medium; score=0.66
-- Line 142: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: all_events.push_back({name, std::move(ev)});
-  Confidence: band=high; score=0.74
-- Line 183: severity=MEDIUM; category=determinism; pattern=unordered_container_iter
-  Description: Non-deterministic unordered_map/set iteration order
-  Context: std::unordered_map<std::string, Changefeed*> feeds_snapshot;
-  Confidence: band=medium; score=0.66
+    // For now, we delete everything up to end_sequence
 
-### src/cdc/delivery_tracker.cpp
-Total findings: 5
+    // A proper implementation would iterate and delete specific keys
 
-- Line 246: severity=HIGH; category=lock_contention
-  Description: Mutex lock in loop — high contention
-  Remediation: Acquire lock before loop or redesign to minimize lock time
-  Context: std::unique_lock<std::mutex> lock(cv_mutex_);
-- Line 164: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: to_expire.push_back(seq);
-  Confidence: band=high; score=0.74
-- Line 168: severity=MEDIUM; category=copy_overhead
-  Description: push_back in loop — consider pre-allocating with reserve()
-  Remediation: Call vector.reserve(expected_size) before loop to avoid reallocations
-  Context: to_redeliver.push_back(pending.event);
-- Line 228: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: result.push_back(std::move(stats));
-  Confidence: band=high; score=0.74
-- Line 277: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: consumer_ids.push_back(id);
-  Confidence: band=high; score=0.74
+    result.events_deleted = total_deleted;
+- Line 88: severity=HIGH; category=explicit_delete
+  Description: Explicit delete statement (prefer smart pointers)
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::phase1_raii
+  Context: // If start_sequence > 0, we deleted too many, but RocksDB delete is by prefix
+- Line 89: severity=HIGH; category=delete_without_nullptr
+  Description: Delete without nullifying pointer — use-after-free risk
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::phase1_memory_safety
+  Context: uint64_t total_deleted = changefeed_->deleteOldEvents(end_sequence + 1);
 
-### src/cdc/changefeed_buffer.cpp
-Total findings: 4
+    
 
-- Line 148: severity=CRITICAL; category=no_timeout
-  Description: mutex_lock without timeout — can block indefinitely
-  Remediation: Add timeout parameter (e.g., wait_for(timeout), with_timeout())
-  Context: lock.lock();
-- Line 203: severity=CRITICAL; category=no_timeout
-  Description: mutex_lock without timeout — can block indefinitely
-  Remediation: Add timeout parameter (e.g., wait_for(timeout), with_timeout())
-  Context: lock.lock();
-- Line 152: severity=HIGH; category=pointer_arithmetic
-  Description: Pointer/array access without bounds validation
-  Remediation: Add bounds check before dereferencing
-  Context: auto& buffer = buffers_[event.type];
-- Line 396: severity=HIGH; category=lock_contention
-  Description: Mutex lock in loop — high contention
-  Remediation: Acquire lock before loop or redesign to minimize lock time
-  Context: std::unique_lock<std::mutex> lock(flush_mutex_);
+    // If start_sequence > 0, we deleted too many, but RocksDB delete is by prefix
 
-### src/cdc/cdc_materialized_view.cpp
-Total findings: 3
+    // For now, we delete everything up to end_sequence
 
-- Line 89: severity=HIGH; category=no_retry_logic
-  Description: database_query without retry logic — transient failures will propagate
-  Remediation: Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)
-  Context: CDCMaterializedViewMaintainer::query(const std::string &view_name,
-- Line 92: severity=HIGH; category=no_retry_logic
-  Description: database_query without retry logic — transient failures will propagate
-  Remediation: Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)
-  Context: return view_manager_.query(view_name, filters, limit, offset);
-- Line 74: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: records.push_back(std::move(rec));
-  Confidence: band=high; score=0.74
+    // A proper implementation would iterate and delete specific keys
 
-### src/cdc/kafka_cdc_producer.cpp
-Total findings: 3
+    result.events_deleted = total_deleted;
+- Line 89: severity=HIGH; category=explicit_delete
+  Description: Explicit delete statement (prefer smart pointers)
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::phase1_raii
+  Context: // For now, we delete everything up to end_sequence
+- Line 90: severity=HIGH; category=delete_without_nullptr
+  Description: Delete without nullifying pointer — use-after-free risk
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::phase1_memory_safety
+  Context: // If start_sequence > 0, we deleted too many, but RocksDB delete is by prefix
 
+    // For now, we delete everything up to end_sequence
+
+    // A proper implementation would iterate and delete specific keys
+
+    result.events_deleted = total_deleted;
+
+    
+
+    auto end = steady_clock::now();
+- Line 90: severity=HIGH; category=explicit_delete
+  Description: Explicit delete statement (prefer smart pointers)
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::phase1_raii
+  Context: // A proper implementation would iterate and delete specific keys
+
+### cdc/dead_letter_queue.cpp
+Total findings: 8
+
+- Line 167: severity=CRITICAL; category=smart_ptr_misuse
+  Description: Raw new without immediate wrapping in smart pointer
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::raii
+  Context: THEMIS_INFO("DeadLetterQueue: replayed dlq_seq={} → new seq={}",
 - Line 5: severity=HIGH; category=uninitialized_access
   Description: Container element access before initialization
-  Remediation: Use .at() for bounds checking or initialize element first
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::container
+  Context: * PR History (last 5): #3552 docs(cdc): full module docu... (2026-03-12) | #2796 [cdc] Dead-letter q
+- Line 167: severity=HIGH; category=resource_leaked_in_exception
+  Description: Exception before delete causes resource leak
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::exception_safety
+- Line 243: severity=HIGH; category=delete_no_nullptr
+  Description: Delete without nullifying pointer — use-after-free risk
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::memory
+  Context: THEMIS_WARN("DeadLetterQueue: drain failed to delete key={}: {}",
+- Line 243: severity=HIGH; category=delete_without_nullptr
+  Description: Delete without nullifying pointer — use-after-free risk
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::phase1_memory_safety
+  Context: if (s.ok()) {
+
+            ++deleted;
+
+        } else {
+
+            THEMIS_WARN("DeadLetterQueue: drain failed to delete key={}: {}",
+
+                        key, s.ToString());
+
+        }
+- Line 243: severity=HIGH; category=explicit_delete
+  Description: Explicit delete statement (prefer smart pointers)
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::phase1_raii
+  Context: THEMIS_WARN("DeadLetterQueue: drain failed to delete key={}: {}",
+- Line 243: severity=MEDIUM; category=manual_cleanup
+  Description: Manual cleanup outside exception handler — not exception-safe
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::raii
+  Context: THEMIS_WARN("DeadLetterQueue: drain failed to delete key={}: {}",
+- Line 57: severity=LOW; category=hardcoded_output
+  Description: Hardcoded stdout output instead of structured logging
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::audit_logging
+  Context: std::snprintf(buf, sizeof(buf), "%s%020llu",
+
+### cdc/kafka_cdc_producer.cpp
+Total findings: 5
+
+- Line 171: severity=CRITICAL; category=thread_join_no_timeout
+  Description: Thread join/wait without timeout (blocking indefinitely)
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::phase1_thread_safety
+  Context: thread_.join();
+- Line 5: severity=HIGH; category=uninitialized_access
+  Description: Container element access before initialization
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::container
   Context: * PR History (last 5): #4607 feat(cdc): register CDCKafk... (2026-04-13) | #3106 [cdc] Add event thr
 - Line 94: severity=HIGH; category=db_connection_leak
   Description: Resource acquired but not released — potential leak
-  Remediation: Ensure all acquire() calls are matched with release() in all code paths
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::raii
   Context: if (running_.load(std::memory_order_acquire)) {
 - Line 309: severity=HIGH; category=db_connection_leak
   Description: Resource acquired but not released — potential leak
-  Remediation: Ensure all acquire() calls are matched with release() in all code paths
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::raii
   Context: while (running_.load(std::memory_order_acquire)) {
+- Line 35: severity=MEDIUM; category=stale_doc_section_reference
+  Description: Code comment references section 'Kafka CDC Producer Activation' that was not found in 'src/cdc/FUTURE_ENHANCEMENTS.md'
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::themis_doc_freshness_rules
+  Context: src/cdc/FUTURE_ENHANCEMENTS.md §"Kafka CDC Producer Activation"
+
+### cdc/cross_collection_stream.cpp
+Total findings: 4
+
+- Line 122: severity=HIGH; category=o_n_squared
+  Description: O(n²) pattern: find() on vector inside loop
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::container
+  Context: auto cursor_it = options.from_sequence.find(name);
+- Line 80: severity=MEDIUM; category=timestamp_sorting_unstable
+  Description: Timestamp-based sorting without stable_sort (non-deterministic ties)
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::determinism
+  Context: // Comparator: sort by (timestamp_ms ASC, collection ASC, sequence ASC).
+- Line 103: severity=MEDIUM; category=unordered_container_iter
+  Description: Non-deterministic unordered_map/set iteration order
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::determinism
+  Context: std::unordered_map<std::string, Changefeed*> feeds_snapshot;
+- Line 183: severity=MEDIUM; category=unordered_container_iter
+  Description: Non-deterministic unordered_map/set iteration order
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::determinism
+  Context: std::unordered_map<std::string, Changefeed*> feeds_snapshot;
+
+### cdc/ws_transport.cpp
+Total findings: 4
+
+- Line 5: severity=HIGH; category=uninitialized_access
+  Description: Container element access before initialization
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::container
+  Context: * PR History (last 5): #4184 feat(cdc): WebSocket Change... (2026-03-13) | #3616 fix(cdc): build sys
+- Line 178: severity=HIGH; category=o_n_squared
+  Description: O(n²) pattern: find() on vector inside loop
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::container
+  Context: auto sit = sessions_.find(result.session_id);
+- Line 184: severity=HIGH; category=o_n_squared
+  Description: O(n²) pattern: find() on vector inside loop
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::container
+  Context: auto sub_it = session.subscriptions.find(result.sub_id);
+- Line 198: severity=MEDIUM; category=copy_overhead
+  Description: push_back in loop — consider pre-allocating with reserve()
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::container
+  Context: overflow_sessions.push_back(result.session_id);
+
+### cdc/delivery_tracker.cpp
+Total findings: 3
+
+- Line 47: severity=CRITICAL; category=thread_join_no_timeout
+  Description: Thread join/wait without timeout (blocking indefinitely)
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::phase1_thread_safety
+  Context: redelivery_thread_.join();
+- Line 246: severity=HIGH; category=lock_contention
+  Description: Mutex lock in loop — high contention
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::performance
+  Context: std::unique_lock<std::mutex> lock(cv_mutex_);
+- Line 168: severity=MEDIUM; category=copy_overhead
+  Description: push_back in loop — consider pre-allocating with reserve()
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::container
+  Context: to_redeliver.push_back(pending.event);
+
+### cdc/FUTURE_ENHANCEMENTS.md
+Total findings: 1
+
+- Line 1: severity=LOW; category=module_doc_linkset_drift
+  Description: Module doc 'FUTURE_ENHANCEMENTS.md' is missing expected cross-links: ARCHITECTURE.md
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::themis_doc_freshness_rules
+  Context: Refresh the top-level <!-- Links: ... --> metadata to match the current module doc set
+
+### cdc/PRODUCTION_REQUIREMENTS.md
+Total findings: 1
+
+- Line 1: severity=LOW; category=module_doc_linkset_drift
+  Description: Module doc 'PRODUCTION_REQUIREMENTS.md' is missing expected cross-links: FUTURE_ENHANCEMENTS.md, README.md, ROADMAP.md
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::themis_doc_freshness_rules
+  Context: Refresh the top-level <!-- Links: ... --> metadata to match the current module doc set
+
+### cdc/cdc_ws_handler.cpp
+Total findings: 1
+
+- Line 191: severity=HIGH; category=legacy_or_compat_path
+  Description: Legacy/compatibility/deprecation marker detected (review removal/containment plan).
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::legacy_duplication
+  Context: // Legacy id-based ack.
 
 ## Update Workflow
 
-- Refresh scan artifacts with: python tools/gap_scanner_v3.py
-- Regenerate all module notes with: python tools/module_doc_generator.py . ai_working ai_working/module_gaps
-- The generator mirrors each archive document directly into src/<module>/MODULE_GAPS.md.
+- Refresh scanner artifacts with: python tools/gs3_orchestrator.py ./src --output ai_working/gap_scan_results.json
+- Regenerate docs with: python tools/module_doc_generator.py . ai_working ai_working/module_gaps
+- Add --no-mirror when you only want archive docs in ai_working/module_gaps.
 
-Format: THEMIS_MODULE_GAPS_V3
+Format: THEMIS_MODULE_GAPS_V4

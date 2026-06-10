@@ -1,44 +1,12 @@
-/*
- * ThemisDB | File: emotion_analyzer.h | Version: 0.0.15
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file emotion_analyzer.h
- * @brief Emotion and sentiment detection from voice tone.
- *
- * Provides acoustic-feature-based emotion classification, sentiment analysis,
- * stress level detection, and engagement scoring without requiring external
- * neural model files.  All features are derived from sub-band energy, pitch
- * estimation, zero-crossing rate, crest factor, and spectral characteristics
- * computed directly from raw PCM audio.
- *
- * The implementation is designed so that a future neural emotion backend
- * (e.g. SER model, openSMILE) can be plugged in via the factory method
- * without changing the public API.
- *
- * Typical usage:
- * @code
- *   themis::voice::EmotionAnalyzer analyzer;
- *
- *   // Analyse a single audio buffer
- *   auto result = analyzer.analyze(audio_bytes);
- *   if (result) {
- *       auto& a = result.value();
- *       std::cout << "Emotion: " << themis::voice::to_string(a.primary_emotion)
- *                 << "  sentiment: " << a.sentiment_score << "\n";
- *   }
- *
- *   // Track emotions over a conversation
- *   std::vector<themis::voice::AudioSegment> segs = { ... };
- *   auto timeline = analyzer.track(segs);
- * @endcode
- *
- * @author ThemisDB Team
- * @date March 2026
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once

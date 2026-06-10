@@ -1,51 +1,12 @@
-/*
- * ThemisDB | File: metrics_stream_server.h | Version: 0.0.13 | Last Modified: 2026-05-20 17:13:04
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 376
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * PR History (last 5): #5056 docs(observability): update... (2026-05-13) | #4153 fix(observability): address... (2026-03-13)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file metrics_stream_server.h
- * @brief Real-time metric streaming via WebSocket or Server-Sent Events.
- *
- * `MetricsStreamServer` is the core dispatch engine for streaming live
- * ThemisDB metrics to connected clients.  Network I/O is intentionally
- * decoupled: callers supply a @c SendFn callback so the engine can be
- * unit-tested without live sockets and integrated into any transport
- * (Boost.Beast WebSocket, cpp-httplib SSE, etc.).
- *
- * ## Protocol
- *
- * ### WebSocket endpoint  `ws://host:port/metrics/stream`
- * ```json
- * // Client → Server: subscribe
- * {"action":"subscribe","client_id":"cli-1",
- *  "metrics":["query_latency_ms","cache_hit_rate"],
- *  "filters":[{"label":"tenant_id","value":"acme"}],
- *  "interval_ms":1000}
- *
- * // Server → Client: metric update
- * {"type":"metric_update","metric_name":"query_latency_ms",
- *  "value":42.5,
- *  "labels":{"tenant_id":"acme"},
- *  "timestamp_ms":1712000000000}
- * ```
- *
- * ### SSE endpoint  `GET /metrics/events`
- * ```
- * data: {"type":"metric_update","metric_name":"query_latency_ms",...}
- *
- * ```
- *
- * ## Thread safety
- * All public methods are thread-safe; they acquire an internal mutex before
- * accessing shared state.
- *
- * Copyright (c) 2025 ThemisDB Project
- * SPDX-License-Identifier: Apache-2.0
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.13
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 94/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once

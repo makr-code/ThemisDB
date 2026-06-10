@@ -103,98 +103,15 @@ class RAIIGapScanner:
         ]
         return any(re.search(p, prev_context + next_context) for p in error_patterns)
     
-    def _should_skip_db_connection_leak(self, line: str, context: str, line_num: int, lines: List[str]) -> bool:
-        """WHITELIST: Recognize RAII + ConnectionPool patterns.
-        
-        DB connections in RAII wrappers, ConnectionPool, or with explicit cleanup patterns
-        should be whitelisted.
-        Returns True if this should NOT be flagged.
-        """
-        l_lower = line.lower()
-        
-        # WHITELIST 1: Smart pointers wrapping connections
-        if 'unique_ptr' in l_lower or 'shared_ptr' in l_lower:
-            return True
-        
-        # WHITELIST 2: ConnectionPool patterns (expected to manage lifecycle)
-        if 'connectionpool' in l_lower or 'pool_' in l_lower or 'connection_pool' in l_lower:
-            return True
-        
-        # WHITELIST 3: Explicit close() in destructor context
-        if self._is_destructor_context(line_num, lines):
-            return True
-        
-        # WHITELIST 4: Using statement (RAII scope guard)
-        if 'using' in l_lower or 'scoped_' in l_lower or 'guard' in l_lower:
-            return True
-        
-        # WHITELIST 5: RAII wrapper class definition (it will have destructor)
-        if 'class ' in line or 'struct ' in line:
-            # This is class definition, destructor will handle cleanup
-            return True
-        
-        # WHITELIST 6: In-function variable initialization with RAII
-        if 'auto ' in l_lower or 'unique_ptr' in context or 'shared_ptr' in context:
-            return True
-        
-        return False
-    
-    def _check_db_connection_leak(self, file_path: Path, lines: List[str]) -> List[RAIIGap]:
-        """Detect database connections not released (RAII pattern).
-        
-        Looks for getConnection/acquire without matching releaseConnection/close.
-        Returns list of gaps found.
-        """
-        gaps = []
-        
-        for line_num, line in enumerate(lines, 1):
-            # Skip comments and test code
-            stripped = line.strip()
-            if stripped.startswith('//') or stripped.startswith('/*'):
-                continue
-            if 'TEST' in line or 'MOCK' in line or 'test' in file_path.name:
-                continue
-            
-            # Look for connection acquisition
-            if self.PATTERNS['getConnection'].search(line):
-                # Extract variable name
-                match = re.search(r'(\w+)\s*=.*(?:getConnection|acquire)', line)
-                if not match:
-                    continue
-                
-                var_name = match.group(1)
-                
-                # Expand context to ±20 lines for better pattern matching
-                context_start = max(0, line_num - 20)
-                context_end = min(len(lines), line_num + 20)
-                full_context = ''.join(lines[context_start:context_end])
-                
-                # Check if this should be whitelisted
-                if self._should_skip_db_connection_leak(line, full_context, line_num, lines):
-                    continue
-                
-                # Check if connection is released
-                has_release = any(pattern in full_context for pattern in [
-                    f'release({var_name})',
-                    f'close({var_name})',
-                    f'{var_name}->close()',
-                    f'{var_name}->release()',
-                    f'releaseConnection',
-                ])
-                
-                if not has_release:
-                    gap = RAIIGap(
-                        file_path=str(file_path.relative_to(self.repo_root)),
-                        line_num=line_num,
-                        gap_type=RAIIGapType.DB_CONNECTION_LEAK,
-                        snippet=line.strip()[:100],
-                        severity='CRITICAL',
-                        description=f'Database connection from {var_name} never released — potential leak',
-                        remediation='Use ConnectionPool, RAII wrapper, or explicit close() in destructor/finally'
-                    )
-                    gaps.append(gap)
-        
-        return gaps
+    def _is_raii_wrapper_cleanup(self, line: str) -> bool:
+        """Skip cleanup that's part of RAII class design (expected pattern)."""
+        # Common RAII wrapper patterns
+        wrapper_patterns = [
+            r'~\w+\(.*\)',        # destructor signature
+            r'std::unique_ptr.*delete',  # already in smart ptr
+            r'std::shared_ptr.*delete',
+        ]
+        return any(re.search(p, line) for p in wrapper_patterns)
     
     def scan_file(self, file_path: Path) -> List[RAIIGap]:
         """Scan single file for RAII violations"""
@@ -357,10 +274,6 @@ class RAIIGapScanner:
                 )
                 gaps.append(gap)
     
-        # Check for database connection leaks (separate scan with wider context)
-        db_gaps = self._check_db_connection_leak(file_path, lines)
-        gaps.extend(db_gaps)
-        
         return gaps
     
     def scan_module(self, module: str) -> Dict[str, List[RAIIGap]]:

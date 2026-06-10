@@ -1,43 +1,12 @@
-/*
- * ThemisDB | File: paxos_state_persistence.h | Version: 0.0.13
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
-#pragma once
-
 /**
  * @file paxos_state_persistence.h
- * @brief Durable persistence of Paxos acceptor state across process restarts.
- *
- * A Paxos acceptor must remember the highest promise number it has issued
- * and the value it has accepted — even after a crash.  This module provides
- * PaxosStatePersistence, a thin durability layer on top of the existing
- * PaxosWAL and PaxosSnapshotManager that ensures:
- *
- *   - **Crash safety**: every promise / accept is fsynced before the response
- *     is sent so that the invariants of Paxos Phase-1 and Phase-2 hold after
- *     a restart.
- *   - **Fast recovery**: on startup the acceptor reloads its last durable state
- *     (latest snapshot + WAL tail) in O(log N) time without re-executing all
- *     committed entries.
- *   - **Compaction**: periodic snapshots bound WAL growth (ROADMAP: Raft
- *     snapshot compaction).
- *
- * ## Relationship to existing files
- * | File               | Role                                        |
- * |--------------------|---------------------------------------------|
- * | paxos_consensus.h  | Multi-Paxos protocol logic                  |
- * | paxos_wal.h        | Append-only WAL for log entries             |
- * | paxos_snapshot.h   | Point-in-time state snapshots               |
- * | **this file**      | Ties WAL + snapshots into a persistence API |
- *
- * @note Thread Safety: all public methods are thread-safe.
- *
- * Copyright (c) 2025 VCC-URN Project
- * SPDX-License-Identifier: Apache-2.0
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.13
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include "sharding/paxos_snapshot.h"

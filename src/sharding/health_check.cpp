@@ -1,3 +1,14 @@
+/**
+ * @file health_check.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=4, M=8, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
  * ThemisDB | File: health_check.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
  * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 392
@@ -20,14 +31,17 @@
 namespace themis {
 namespace sharding {
 
+/** @brief Construct health-check system with immutable runtime config. */
 HealthCheckSystem::HealthCheckSystem(const Config& config)
     : config_(config) {
 }
 
+/** @brief Destructor stops periodic checks and joins worker if needed. */
 HealthCheckSystem::~HealthCheckSystem() {
     stopPeriodicChecks();
 }
 
+/** @brief Perform complete shard health assessment (cert/storage/network). */
 ShardHealthInfo HealthCheckSystem::checkShardHealth(const std::string& shard_id, 
                                                      const std::string& endpoint,
                                                      const std::string& cert_path) {
@@ -77,6 +91,7 @@ ShardHealthInfo HealthCheckSystem::checkShardHealth(const std::string& shard_id,
     return info;
 }
 
+/** @brief Execute health checks over all shards and aggregate cluster status. */
 ClusterHealthInfo HealthCheckSystem::checkClusterHealth(const std::map<std::string, std::string>& shard_endpoints) {
     ClusterHealthInfo cluster_info;
     cluster_info.total_shards = static_cast<int>(shard_endpoints.size());
@@ -119,11 +134,13 @@ ClusterHealthInfo HealthCheckSystem::checkClusterHealth(const std::map<std::stri
     return cluster_info;
 }
 
+/** @brief Register callback for periodic cluster-health updates. */
 void HealthCheckSystem::registerCallback(HealthCheckCallback callback) {
     std::lock_guard<std::mutex> lock(state_mutex_);
     callback_ = callback;
 }
 
+/** @brief Start periodic cluster-health monitoring loop. */
 void HealthCheckSystem::startPeriodicChecks(const std::map<std::string, std::string>& shard_endpoints) {
     std::thread stale_thread;
     {
@@ -173,6 +190,7 @@ void HealthCheckSystem::startPeriodicChecks(const std::map<std::string, std::str
     });
 }
 
+/** @brief Stop periodic monitoring loop and join worker thread safely. */
 void HealthCheckSystem::stopPeriodicChecks() {
     std::thread thread_to_join;
     {
@@ -192,11 +210,13 @@ void HealthCheckSystem::stopPeriodicChecks() {
     thread_to_join.join();
 }
 
+/** @brief Return latest cached cluster-health snapshot. */
 ClusterHealthInfo HealthCheckSystem::getCurrentHealth() const {
     std::lock_guard<std::mutex> lock(state_mutex_);
     return current_health_;
 }
 
+/** @brief Validate X509 certificate and return remaining lifetime in seconds. */
 bool HealthCheckSystem::checkCertificateValidity(const std::string& cert_path, int64_t& seconds_until_expiry) {
     FILE* fp = fopen(cert_path.c_str(), "r");
     if (!fp) {
@@ -240,6 +260,7 @@ bool HealthCheckSystem::checkCertificateValidity(const std::string& cert_path, i
     return seconds_until_expiry > 0;
 }
 
+/** @brief Probe shard storage metrics endpoint and derive usage percentage. */
 bool HealthCheckSystem::checkStorageCapacity(const std::string& endpoint, double& usage_percent) {
     // Make HTTP request to shard to get storage metrics
     // Uses the /metrics or /health endpoint on the shard
@@ -294,6 +315,7 @@ bool HealthCheckSystem::checkStorageCapacity(const std::string& endpoint, double
     }
 }
 
+/** @brief Probe shard health endpoint and measure network response latency. */
 bool HealthCheckSystem::checkNetworkConnectivity(const std::string& endpoint, double& response_time_ms) {
     // Measure actual network latency to the shard endpoint
     
@@ -330,6 +352,7 @@ bool HealthCheckSystem::checkNetworkConnectivity(const std::string& endpoint, do
     }
 }
 
+/** @brief Reduce per-shard health statuses to one cluster severity level. */
 HealthStatus HealthCheckSystem::aggregateHealth(const std::vector<ShardHealthInfo>& shard_health) {
     int critical_count = 0;
     int unhealthy_count = 0;
@@ -363,6 +386,7 @@ HealthStatus HealthCheckSystem::aggregateHealth(const std::vector<ShardHealthInf
     return HealthStatus::HEALTHY;
 }
 
+/** @brief Return true when healthy shards form strict majority quorum. */
 bool HealthCheckSystem::hasQuorum(int healthy_shards, int total_shards) {
     if (total_shards == 0) return false;
     return healthy_shards > total_shards / 2;

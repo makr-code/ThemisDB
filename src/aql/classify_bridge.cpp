@@ -1,23 +1,12 @@
-/*
- * ThemisDB | File: classify_bridge.cpp | Version: 0.0.13 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 261
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=4, M=7, L=0
- * PR History (last 5): #4220 feat(aql): wire detectInten... (2026-03-14)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file classify_bridge.cpp
- * @brief Implementation of AQLFunctionClassifyBridge and registerClassifyBridge().
- *
- * The bridge first attempts to call the standard AQL CLASSIFY function through
- * the FunctionRegistry.  When CLASSIFY is not yet registered (or its result
- * carries insufficient confidence), it falls back to a lightweight keyword-
- * scoring classifier that maps intent categories to weighted term lists.  This
- * guarantees that detectIntentWithNativeNLP() always produces a meaningful
- * result once any IClassifyFn is injected, while remaining composable with a
- * future full ML-backed CLASSIFY implementation.
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.13
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=2, M=3, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include "aql/classify_bridge.h"

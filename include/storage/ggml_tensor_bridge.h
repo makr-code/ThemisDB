@@ -1,62 +1,12 @@
-/*
- * ThemisDB | File: ggml_tensor_bridge.h | Version: 1.0.0
- * Maturity: 🟢 PRODUCTION-READY | Score: 88/100
- * Gap Summary: total=15; TODO=1, Stub=11, Unimpl=0, Mock=1, Sim=2, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file ggml_tensor_bridge.h
- * @brief Zero-Copy mmap Bridge between ThemisDB TT-Storage and ggml/llama.cpp.
- *
- * ## Purpose
- *
- * This header defines the interface for direct memory-mapped access of
- * TT-compressed tensor data stored in ThemisDB from an inference engine
- * that uses the ggml computation graph (e.g. llama.cpp, whisper.cpp).
- *
- * ### The Problem it Solves ("Context Wall")
- *
- * Classical RAG/FLARE pipelines serialise retrieved knowledge into text tokens
- * before feeding them to the LLM:
- *
- *   DB → Deserialise → JSON/Protobuf → Tokenise → Prefill → Inference
- *
- * Each step adds latency (150–400 ms TTFT) and destroys structural information.
- *
- * ### The Zero-Copy Solution
- *
- * ThemisDB TT-cores are stored in a format that can be mmap'd directly into the
- * address space of the inference engine:
- *
- *   DB (mmap) → GgmlTensorBridge → ggml_tensor* (GGML_TYPE_TT) → Inference
- *
- * Estimated TTFT reduction: 3–5× (40–90 ms vs 150–400 ms).
- *
- * ## STUB/SIMULATION NOTE:
- * Purpose: This header is a specification for Phase 3 integration.
- *          All methods are declared but not yet implemented in a .cpp file.
- * Activation: Build with THEMIS_ENABLE_GGML_BRIDGE=ON (CMake option, Q1 2027).
- * Production Delta: Requires ggml commit ≥ 2025-06 for GGML_TYPE custom types.
- * Removal Plan: Merge into production src/storage/ggml_tensor_bridge.cpp (Q1 2027).
- *
- * ## Design Constraints
- *
- * - No data is copied; the inference engine reads directly from ThemisDB's
- *   memory-mapped RocksDB files.
- * - Thread-safety: multiple inference threads may concurrently map different
- *   TT-trains; the bridge uses read-only mmap with reference counting.
- * - The bridge is inactive when THEMIS_ENABLE_GGML_BRIDGE is not defined,
- *   ensuring zero overhead for deployments without llama.cpp.
- * - PEFT/LoRA adapter isolation: the bridge can map individual LoRA adapters
- *   stored as TT-trains without loading the full base model.
- *
- * ## References
- *
- * - Oseledets (2011) SIAM J. Sci. Comput. — TT-SVD
- * - ggml custom tensor type API: https://github.com/ggml-org/ggml
- * - llama.cpp KV-cache extension points
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 1.0.0
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 88/100
+ * @note Gap Summary: total=15; TODO=1, Stub=11, Unimpl=0, Mock=1, Sim=2, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once

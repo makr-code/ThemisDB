@@ -1,3 +1,14 @@
+/**
+ * @file zero_copy_logger.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.13
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 84/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=4, M=26, L=5
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
  * ThemisDB | File: zero_copy_logger.cpp | Version: 0.0.13 | Last Modified: 2026-05-31 12:17:24
  * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 99/100 | Lines: 396
@@ -282,6 +293,8 @@ std::string &ZeroCopyLogger::formatBuffer() const noexcept {
 }
 
 void ZeroCopyLogger::jsonEscapeInto(std::string &out, std::string_view s) {
+    // Reserve a conservative lower bound to reduce repeated growth in hot paths.
+    out.reserve(out.size() + s.size());
     for (unsigned char c : s) {
         switch (c) {
             case '"':
@@ -301,8 +314,8 @@ void ZeroCopyLogger::jsonEscapeInto(std::string &out, std::string_view s) {
                 break;
             default:
                 if (c < 0x20) {
-                    char buf[8];
-                    std::snprintf(buf, sizeof(buf), "\\u%04x", c);
+                    char buf[8]{};
+                    std::snprintf(buf, sizeof(buf), "\\u%04x", static_cast<unsigned int>(c));
                     out += buf;
                 } else {
                     out += static_cast<char>(c);
@@ -318,10 +331,11 @@ bool ZeroCopyLogger::isPiiKey(std::string_view key) noexcept {
         = {"password", "secret", "token", "email", "phone", "ssn", "credit_card"};
 
     // Build a lowercase copy of the key (stack buffer for keys ≤ 128 bytes).
-    char lower_buf[128];
+    char lower_buf[128]{};
     const std::size_t n = key.size() < sizeof(lower_buf) - 1 ? key.size() : sizeof(lower_buf) - 1;
     for (std::size_t i = 0; i < n; ++i) {
-        lower_buf[i] = static_cast<char>((key[i] >= 'A' && key[i] <= 'Z') ? (key[i] | 0x20) : key[i]);
+        const auto ch = static_cast<unsigned char>(key[i]);
+        lower_buf[i] = static_cast<char>((ch >= 'A' && ch <= 'Z') ? (ch | 0x20) : ch);
     }
     lower_buf[n] = '\0';
     std::string_view lower_key(lower_buf, n);

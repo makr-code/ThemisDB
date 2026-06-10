@@ -1,43 +1,29 @@
-/*
- * ThemisDB | File: model_loader.h | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 313
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * PR History (last 5): #639 P0: LLM Production Readines... (2026-03-11) | #661 LLM Core Audit & Documentat... (2026-03-11) | #1215 Fix thread-safety: atomic c... (2026-03-11) | #105 Add plugin-based LLM integr... (2026-03-11)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 #pragma once
-
-#include "llm/llm_plugin_interface.h"
-#include "utils/expected.h"
-#include <memory>
-#include <string>
-#include <unordered_map>
-#include <chrono>
-#include <mutex>
-#include <optional>
-#include <future>
-#include <thread>
-#include <functional>
-#include <atomic>
 
 /**
  * @file model_loader.h
- * @brief Ollama-inspired lazy model loading for ThemisDB
- * 
- * This component implements lazy loading of LLM models similar to Ollama:
- * - Models are loaded on-demand when first requested
- * - Models can be unloaded automatically when not used (TTL-based eviction)
- * - Multiple models can be kept in memory simultaneously (with memory limits)
- * - Efficient model switching with minimal overhead
- * 
- * Key features from Ollama:
- * - Lazy loading: Models load only when needed
- * - Automatic unloading: Unused models are evicted based on LRU + TTL
- * - Multi-model support: Keep multiple models loaded
- * - Resource management: Respect VRAM/RAM limits
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
+
+#include "llm/llm_plugin_interface.h"
+#include "utils/expected.h"
+
+#include <atomic>
+#include <chrono>
+#include <functional>
+#include <future>
+#include <memory>
+#include <mutex>
+#include <optional>
+#include <string>
+#include <unordered_map>
+#include <vector>
 
 namespace themis {
 namespace llm {

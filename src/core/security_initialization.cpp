@@ -1,28 +1,12 @@
-/*
- * ThemisDB | File: security_initialization.cpp | Version: 0.0.1 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 96/100 | Lines: 338
- * Gap Summary: total=7; TODO=1, Stub=1, Unimpl=0, Mock=5, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * PR History (last 5): #5118 docs(core): rebaseline PROD... (2026-05-13) | #3899 feat(auth): Mandatory JWT I... (2026-03-12) | #1253 Implement production-harden... (2026-03-11)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file security_initialization.cpp
- * @brief Builds and validates the core security layer bootstrap for ThemisDB.
- *
- * This translation unit wires security providers, encryption settings, JWT
- * configuration, and the fail-closed initialization path for the security
- * module. Configuration parsing is intentionally strict: malformed provider
- * JSON, invalid Vault configuration, or unsupported provider combinations are
- * rejected before a security layer is constructed.
- *
- * Failure behavior:
- * - Parse/validation errors raise std::runtime_error with a descriptive reason.
- * - Missing or invalid security configuration fails closed instead of falling
- *   back to a permissive runtime state.
- * - Provider setup logic is kept centralized here so the module remains easy to
- *   audit alongside src/core/MODULE_GAPS.md.
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.1
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 95/100
+ * @note Gap Summary: total=7; TODO=1, Stub=1, Unimpl=0, Mock=5, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include "core/security_initialization.h"
@@ -43,8 +27,18 @@
 
 namespace themis {
 
+/**
+ * @brief Construct a security-layer builder with empty/default state.
+ */
 SecurityLayerBuilder::SecurityLayerBuilder() = default;
 
+/**
+ * @brief Configure key-provider type and raw JSON config payload.
+ * @param type Key provider selection.
+ * @param config_json Provider configuration JSON.
+ * @return Reference to this builder for fluent chaining.
+ * @throws std::runtime_error If JSON parsing fails or provider-specific validation fails.
+ */
 SecurityLayerBuilder& SecurityLayerBuilder::withKeyProvider(
     KeyProviderType type,
     const std::string& config_json)
@@ -75,6 +69,11 @@ SecurityLayerBuilder& SecurityLayerBuilder::withKeyProvider(
     return *this;
 }
 
+/**
+ * @brief Configure field-encryption rules.
+ * @param config Encryption policy object.
+ * @return Reference to this builder.
+ */
 SecurityLayerBuilder& SecurityLayerBuilder::withFieldEncryption(
     const EncryptionConfig& config)
 {
@@ -82,6 +81,11 @@ SecurityLayerBuilder& SecurityLayerBuilder::withFieldEncryption(
     return *this;
 }
 
+/**
+ * @brief Configure RBAC policy file path.
+ * @param policy_file Filesystem path to RBAC policy config.
+ * @return Reference to this builder.
+ */
 SecurityLayerBuilder& SecurityLayerBuilder::withRBACPolicy(
     const std::string& policy_file)
 {
@@ -89,6 +93,12 @@ SecurityLayerBuilder& SecurityLayerBuilder::withRBACPolicy(
     return *this;
 }
 
+/**
+ * @brief Configure JWT validator via certificate path and issuer allow-list.
+ * @param cert_file Certificate/JWKS file path.
+ * @param allowed_issuers Allowed issuer list. Empty disables issuer validation.
+ * @return Reference to this builder.
+ */
 SecurityLayerBuilder& SecurityLayerBuilder::withJWT(
     const std::string& cert_file,
     const std::vector<std::string>& allowed_issuers)
@@ -105,6 +115,11 @@ SecurityLayerBuilder& SecurityLayerBuilder::withJWT(
     return *this;
 }
 
+/**
+ * @brief Configure JWT validator via full configuration struct.
+ * @param config JWT validator configuration.
+ * @return Reference to this builder.
+ */
 SecurityLayerBuilder& SecurityLayerBuilder::withJWT(
     const auth::JWTValidatorConfig& config)
 {
@@ -113,6 +128,14 @@ SecurityLayerBuilder& SecurityLayerBuilder::withJWT(
     return *this;
 }
 
+/**
+ * @brief Build fully initialized security components.
+ * @return SecurityLayer with encryption, RBAC, and JWT components.
+ * @throws std::runtime_error On invalid configuration, failed policy loading,
+ *         failed provider initialization, or production-mode policy violations.
+ * @note Production mode is fail-closed: mock/local key providers and missing JWT
+ *       configuration are rejected.
+ */
 SecurityLayerBuilder::SecurityLayer SecurityLayerBuilder::build() {
     SecurityLayer layer;
     
@@ -201,11 +224,21 @@ SecurityLayerBuilder::SecurityLayer SecurityLayerBuilder::build() {
     return layer;
 }
 
+/**
+ * @brief Create a builder with development-friendly defaults.
+ * @return Builder preconfigured with LOCAL key provider.
+ */
 SecurityLayerBuilder SecurityLayerBuilder::standard() {
     return SecurityLayerBuilder()
         .withKeyProvider(KeyProviderType::LOCAL, "{}");
 }
 
+/**
+ * @brief Load full text content from a file path.
+ * @param path File path to read.
+ * @return File content as a string.
+ * @throws std::runtime_error If the file cannot be opened.
+ */
 std::string SecurityLayerBuilder::loadFile(const std::string& path) {
     std::ifstream file(path);
     if (!file.is_open()) {
@@ -217,6 +250,14 @@ std::string SecurityLayerBuilder::loadFile(const std::string& path) {
     return buffer.str();
 }
 
+/**
+ * @brief Instantiate concrete key provider based on type and JSON config.
+ * @param type Selected key-provider backend.
+ * @param config_json JSON payload for backend-specific options.
+ * @return Key provider instance suitable for field encryption.
+ * @throws std::runtime_error If config parsing/validation fails, backend is not
+ *         enabled, or provider initialization fails.
+ */
 IKeyProviderPtr SecurityLayerBuilder::createKeyProvider(
     KeyProviderType type,
     const std::string& config_json)

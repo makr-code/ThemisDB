@@ -1,50 +1,12 @@
-/*
- * ThemisDB | File: adapter_repository.cpp | Version: 1.0.0 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 89/100 | Lines: 398
- * Gap Summary: total=19; TODO=1, Stub=13, Unimpl=0, Mock=1, Sim=4, Debt=0, C=1, H=7, M=5, L=0
- * PR History (last 5): none
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
- * @file tensor/adapter_repository.cpp
- * @brief AdapterRepository implementation (Adapter Sovereignty).
- *
- * ### Stub log
- * - AR-01  loadAdapter() copies TT-core data from the backend into a heap
- *          allocation instead of using mmap(MAP_SHARED) for zero-copy.
- *          See STUB #265 in STUB_INVENTORY.md.
- * - AR-02  findSimilarAdapters() uses column-mean fingerprint cosine similarity
- *          ( inherited from STUB #276 in TensorFingerprintGraph).  Full TT
- *          inner-product deferred to Q3 2027 (Phase 4 AdaLoRA bridge).
- *          See STUB #266 in STUB_INVENTORY.md.
- *
- * STUB/SIMULATION NOTE (AR-01):
- * Purpose: Provide a fully functional adapter store/load cycle so that
- *          upstream callers (e.g. GgmlTensorBridge) can integrate with
- *          AdapterRepository before the mmap path is ready.
- * Activation: Always — no compile-time flag required.
- * Production Delta: GgmlCoreDescriptor::train.cores[k].data is a heap copy,
- *                   not a pointer into a mmap'd page.  This means one extra
- *                   memcpy per loadAdapter() call and no mlock() protection.
- *                   The adapter switch latency is O(totalParams) CPU copy vs.
- *                   the ≤ 5 ms page-pin target.
- * Removal Plan: Q1 2027 — replace backend->get() + deserialize() with
- *               mmap(MAP_SHARED) on the RocksDB SST backing file + mlock()
- *               to pin the pages; return raw float* into the mmap region.
- *
- * STUB/SIMULATION NOTE (AR-02 / STUB #266):
- * Purpose: Expose findSimilarAdapters() before full TT inner-product sweep
- *          is available in TensorFingerprintGraph.
- * Activation: Only when setFingerprintGraph() has been called with a non-null
- *             graph; otherwise findSimilarAdapters() returns an empty vector.
- * Production Delta: Similarity scores are based on cosine distance of the G_0
- *                   column-mean fingerprint, not the exact TT inner-product.
- *                   For high-rank adapters (G_0 energy < 60% of Frobenius
- *                   norm) the ranking may deviate from the exact result.
- * Removal Plan: Q3 2027 — wire TTTrain::innerProduct() per-pair and add HNSW
- *               indexing over fingerprints for sub-linear search.
+ * @file adapter_repository.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 1.0.0
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 88/100
+ * @note Gap Summary: total=19; TODO=1, Stub=13, Unimpl=0, Mock=1, Sim=4, Debt=0, C=0, H=6, M=3, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include "tensor/adapter_repository.h"
@@ -141,12 +103,30 @@ bool AdapterRepository::store(const std::string&      domain,
     }
 
     const std::string key = makeKey(domain, base_model_id);
+    const auto existing_raw = backend_->get(key);
+    const bool replacing_existing = existing_raw.has_value() && !existing_raw->empty();
+
+    std::size_t old_param_bytes = 0;
+    if (replacing_existing) {
+        auto old_train = storage::TTTrain::deserialize(*existing_raw);
+        if (old_train.has_value()) {
+            old_param_bytes = old_train->totalParams() * sizeof(float);
+        }
+    }
+
     const bool ok = backend_->put(key, bytes);
 
     if (ok) {
         {
             std::unique_lock lock(stats_mutex_);
-            ++stats_.total_adapters;
+            if (!replacing_existing) {
+                ++stats_.total_adapters;
+            }
+            if (old_param_bytes <= stats_.total_param_bytes) {
+                stats_.total_param_bytes -= old_param_bytes;
+            } else {
+                stats_.total_param_bytes = 0;
+            }
             stats_.total_param_bytes += adapter_train.totalParams() * sizeof(float);
         }
 

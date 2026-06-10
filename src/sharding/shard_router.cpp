@@ -1,3 +1,14 @@
+/**
+ * @file shard_router.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=23, H=31, M=12, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
  * ThemisDB | File: shard_router.cpp | Version: 0.0.47 | Last Modified: 2026-06-01 21:46:31
  * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 1049
@@ -32,7 +43,7 @@ static constexpr const char* API_MIGRATE_FETCH = "/api/v1/data/migrate/fetch";
 static constexpr const char* API_MIGRATE_WRITE = "/api/v1/data/migrate/write";
 static constexpr const char* API_QUERY = "/api/v1/query";
 
-// Helper function to parse query parameters from URL path
+/** @brief Parse URL query string (`?a=b&c=d`) into key/value map. */
 static std::map<std::string, std::string> parseQueryParams(const std::string& path) {
     std::map<std::string, std::string> params;
     
@@ -57,7 +68,7 @@ static std::map<std::string, std::string> parseQueryParams(const std::string& pa
     return params;
 }
 
-// Helper function to extract URN string from API data path
+/** @brief Extract URN suffix from `/api/v1/data/<urn>` style path. */
 static std::string extractUrnFromPath(const std::string& path) {
     size_t data_pos = path.find(API_DATA_PREFIX);
     if (data_pos == std::string::npos) {
@@ -75,6 +86,14 @@ static std::string extractUrnFromPath(const std::string& path) {
     return urn_str;
 }
 
+/**
+ * @brief Construct shard router facade and optional transaction coordinator.
+ * @param resolver Shard mapping resolver.
+ * @param executor Remote execution adapter.
+ * @param config Routing configuration.
+ * @param metrics Optional metrics collector.
+ * @param truetime Optional TrueTime source enabling distributed transactions.
+ */
 ShardRouter::ShardRouter(
     std::shared_ptr<URNResolver> resolver,
     std::shared_ptr<RemoteExecutor> executor,
@@ -94,6 +113,7 @@ ShardRouter::ShardRouter(
     }
 }
 
+/** @brief Replace TrueTime source and (re)create distributed txn coordinator if available. */
 void ShardRouter::setTrueTime(std::shared_ptr<TrueTime> truetime) {
     truetime_ = truetime;
     if (truetime_) {
@@ -102,10 +122,12 @@ void ShardRouter::setTrueTime(std::shared_ptr<TrueTime> truetime) {
     }
 }
 
+/** @brief Return current distributed transaction coordinator instance. */
 std::shared_ptr<DistributedTransactionCoordinator> ShardRouter::getTransactionCoordinator() {
     return txn_coordinator_;
 }
 
+/** @brief Route point read request by URN and return document payload on success. */
 std::optional<nlohmann::json> ShardRouter::get(
     const URN& urn,
     std::optional<std::chrono::nanoseconds> snapshot_timestamp) {
@@ -113,6 +135,11 @@ std::optional<nlohmann::json> ShardRouter::get(
     if (metrics_) {
         metrics_->recordRoutingRequest("single_shard");
     }
+    
+    // W2-S07: Read consistency model
+    // - Default: Read from primary shard (eventual consistency)
+    // - With snapshot_timestamp: Read from specified snapshot (MVCC)
+    // - No quorum checking: Primary shard is source of truth for consistency
     
     // If snapshot timestamp provided, add it to the request
     std::string path = "/api/v1/data/" + urn.toString();
@@ -136,11 +163,18 @@ std::optional<nlohmann::json> ShardRouter::get(
     return std::nullopt;
 }
 
+/** @brief Route point write request by URN to owning shard. */
 bool ShardRouter::put(const URN& urn, const nlohmann::json& data) {
     total_requests_++;
     if (metrics_) {
         metrics_->recordRoutingRequest("single_shard");
     }
+    
+    // W2-S07: Write consistency model
+    // - Primary shard: Write forwarded to primary after hashing
+    // - Replication: Async replication to replicas (not part of this call)
+    // - Durability: Write-through to primary's WAL
+    // - Atomicity: Single shard write is atomic; multi-shard requires 2PC
     
     auto result = routeRequest(urn, "PUT", "/api/v1/data/" + urn.toString(), std::optional<nlohmann::json>(data));
     
@@ -156,6 +190,7 @@ bool ShardRouter::put(const URN& urn, const nlohmann::json& data) {
     return result.success;
 }
 
+/** @brief Route point delete request by URN to owning shard. */
 bool ShardRouter::del(const URN& urn) {
     total_requests_++;
     
@@ -168,6 +203,11 @@ bool ShardRouter::del(const URN& urn) {
     return result.success;
 }
 
+/**
+ * @brief Execute query using selected routing strategy.
+ * @param query Query text.
+ * @return JSON payload merged from one or more shard responses.
+ */
 nlohmann::json ShardRouter::executeQuery(const std::string& query) {
     auto span = Tracer::startSpan("ShardRouter.executeQuery");
     span.setAttribute("query_length", static_cast<int64_t>(query.length()));
@@ -230,6 +270,7 @@ nlohmann::json ShardRouter::executeQuery(const std::string& query) {
     return nlohmann::json{};
 }
 
+/** @brief Classify query into single-shard, scatter, namespace-local, or join strategy. */
 RoutingStrategy ShardRouter::analyzeQuery(const std::string& query) const {
     // Simple query analysis
     // In production, would parse AQL/SQL and analyze
@@ -254,6 +295,11 @@ RoutingStrategy ShardRouter::analyzeQuery(const std::string& query) const {
     return RoutingStrategy::SCATTER_GATHER;
 }
 
+/**
+ * @brief Execute scatter-gather request across current healthy shard set.
+ * @param query Query text sent to each selected shard.
+ * @return Per-shard execution records including failures/timeouts.
+ */
 std::vector<ShardResult> ShardRouter::scatterGather(const std::string& query) {
     std::vector<ShardResult> results;
     scatter_gather_requests_++;
@@ -391,6 +437,12 @@ std::vector<ShardResult> ShardRouter::scatterGather(const std::string& query) {
     return results;
 }
 
+/**
+ * @brief Execute query on explicit subset of shard ids.
+ * @param query Query text.
+ * @param shard_ids Target shard identifiers.
+ * @return Per-shard execution records for targeted subset.
+ */
 std::vector<ShardResult> ShardRouter::executeOnShards(
     const std::string& query,
     const std::vector<std::string>& shard_ids
@@ -413,11 +465,11 @@ std::vector<ShardResult> ShardRouter::executeOnShards(
     std::vector<ShardInfo> target_shards;
     target_shards.reserve(shard_ids.size());
     for (const auto& id : shard_ids) {
-        auto it = shard_map.find(id);
-        if (it == shard_map.end()) {
+        // W2-S07: Use safe map access with at() instead of find() + iterator
+        try {
+            target_shards.push_back(shard_map.at(id));
+        } catch (const std::out_of_range&) {
             spdlog::warn("executeOnShards: unknown or unhealthy shard '{}', skipping", id);
-        } else {
-            target_shards.push_back(it->second);
         }
     }
 
@@ -956,6 +1008,12 @@ ShardResult ShardRouter::executeLocal(
 }
 
 nlohmann::json ShardRouter::mergeResults(const std::vector<ShardResult>& results) {
+    // W2-S07: Merge strategy for distributed query results
+    // - Conflict resolution: Last-write-wins based on shard response order
+    // - Consistency model: Read committed (eventual) from multiple shards
+    // - Duplicate handling: Client responsible for deduplication on keys
+    // - Ordering: Results ordered by shard response arrival, not key
+    
     nlohmann::json merged;
     merged["results"] = nlohmann::json::array();
     merged["errors"] = nlohmann::json::array();

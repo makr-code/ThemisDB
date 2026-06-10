@@ -1,3 +1,14 @@
+/**
+ * @file llama_wrapper.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 82/100
+ * @note Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
  * ThemisDB | File: llama_wrapper.h | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
  * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 90/100 | Lines: 662
@@ -26,6 +37,10 @@
 #include <mutex>
 #include <unordered_map>
 #include <memory>
+
+#ifdef ERROR
+#undef ERROR
+#endif
 
 // Forward declarations for ThemisDB storage classes
 namespace themis {
@@ -320,6 +335,34 @@ public:
     static size_t cleanupTempModels(int days_old = 7);
     
     void unloadModel() override;
+    
+    /**
+     * @brief Verify model file integrity using checksum
+     * 
+     * Verifies that a model file matches the expected checksum to detect
+     * corruption or tampering. Supports SHA256 and MD5 (legacy/deprecated).
+     * 
+     * @param file_path Path to the model file to verify
+     * @param expected_checksum Expected checksum value
+     * @param checksum_type Checksum algorithm ("sha256" or "md5")
+     * @return true if checksum matches, false if mismatch or verification fails
+     */
+    static bool verifyModelIntegrity(
+        const std::string& file_path,
+        const std::string& expected_checksum,
+        const std::string& checksum_type = "sha256"
+    );
+    
+    /**
+     * @brief Calculate SHA256 checksum of a model file
+     * 
+     * Computes the SHA256 hash of a model file for integrity verification
+     * and storage in metadata.
+     * 
+     * @param file_path Path to the model file
+     * @return SHA256 hash as hex string, or empty string on error
+     */
+    static std::string calculateModelChecksum(const std::string& file_path);
     
     std::optional<ModelInfo> getModelInfo() const override;
     

@@ -1,32 +1,12 @@
-/*
- * ThemisDB | File: protegi_optimizer.h | Version: 0.0.12
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file protegi_optimizer.h
- * @brief ProTeGi – textual gradient descent prompt optimizer.
- *
- * Implements the "Automatic Prompt Optimization with Gradient Descent and
- * Beam Search" algorithm (Pryzant et al., EMNLP 2023).  Instead of numeric
- * gradients the optimizer uses an LLM to:
- *   1. Run a mini-batch of inputs through the current prompt and collect errors.
- *   2. Generate a natural-language "gradient" (critique) explaining what went wrong.
- *   3. Produce a set of improved prompt candidates guided by the critique.
- *   4. Evaluate candidates on a held-out set and retain the top-k (beam).
- *   5. Repeat until convergence or the maximum number of steps is reached.
- *
- * The optimizer integrates with the existing @c PromptOptimizer infrastructure
- * through the shared @c EvaluationFunction / @c TestCase types defined in
- * @c prompt_optimizer.h.
- *
- * Reference:
- *   R. Pryzant et al., "Automatic Prompt Optimization with 'Gradient Descent'
- *   and Beam Search," in Proc. EMNLP 2023, pp. 7957–7968, 2023.
- *   Available: https://arxiv.org/abs/2305.03495
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.12
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once

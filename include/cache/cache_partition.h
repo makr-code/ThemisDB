@@ -1,36 +1,12 @@
-/*
- * ThemisDB | File: cache_partition.h | Version: 0.0.10 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 196
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * PR History (last 5): #4476 feat(cache): Phase 6 distri... (2026-04-12)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
-// Copyright 2025 ThemisDB
-// Licensed under MIT License
-
 /**
  * @file cache_partition.h
- * @brief Sharded per-tenant cache partition interface.
- *
- * `ICachePartition` defines how a cache's capacity is divided into logical
- * partitions, each assigned to one or more tenants.  Partitions allow
- * per-tenant capacity isolation so that a high-traffic tenant cannot evict
- * entries belonging to other tenants.
- *
- * This complements the per-tenant byte quota enforced by `AdaptiveQueryCache`
- * by providing a coarser-grained partitioning mechanism that is independent
- * of the LRU eviction order.
- *
- * Design constraints:
- *   - All methods are thread-safe; implementations serialise access internally.
- *   - `getPartitionId()` must return a stable ID for the lifetime of the tenant
- *     assignment; reassignment is allowed only via `assignTenant()`.
- *   - `evictPartition()` is a blocking call; it returns after all entries in
- *     the partition have been removed from the local cache tier.
- *   - A tenant assigned to a non-existent partition ID results in a default
- *     "global" partition; implementations must not throw on unknown IDs.
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.10
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once

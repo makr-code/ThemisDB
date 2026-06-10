@@ -4,7 +4,7 @@
 
 **Version:** 2.3  
 **Last Updated:** 2026-05-27  
-**Scope:** Aggregated roadmap across all 65 modules in `src/` (Phase 1-5 Gap Analysis Complete)
+**Scope:** Aggregated roadmap across tracked modules in `src/` (scanner baseline currently tracks 65 modules; Phase 1-5 Gap Analysis Complete)
 
 > For module-specific details see each module's `src/<module>/ROADMAP.md`.
 
@@ -12,10 +12,10 @@
 
 ## Overview
 
-ThemisDB is a high-performance multi-model database with native AI/LLM integration. This top-level roadmap aggregates the status and planned work across all 58 source modules. The project follows a phased approach: stabilise core infrastructure first, then harden distributed and AI layers, and finally deliver operational excellence at hyperscale.
+ThemisDB is a high-performance multi-model database with native AI/LLM integration. This top-level roadmap aggregates the status and planned work across tracked source modules. The project follows a phased approach: stabilise core infrastructure first, then harden distributed and AI layers, and finally deliver operational excellence at hyperscale.
 
 **Overall Timeline:** Q1 2026 – Q4 2027  
-**Current Release:** v1.8.1-rc2
+**Current Release:** v1.9.0-beta
 
 ---
 
@@ -181,7 +181,7 @@ Audit method:
 | **sharding** | 🚨 BLOCKED | 2,051 | 696 | **DO NOT USE IN PRODUCTION** — Consistency guarantees, failover logic, unimplemented paths (See CRITICAL RISK section below) |
 | **server** | 🚨 BLOCKED | 4,139 | 1,407 | **DO NOT USE IN PRODUCTION** — Missing timeouts, retry logic, error handling, stubs (See CRITICAL RISK section below) |
 
-**Legend:** 🟢 PRODUCTION · 🟡 HARDENING · 🟤 ACTIVE WORK · 🚨 BLOCKED/NOT READY · *(60 modules total)*
+**Legend:** 🟢 PRODUCTION · 🟡 HARDENING · 🟤 ACTIVE WORK · 🚨 BLOCKED/NOT READY · *(see table; scanner baseline tracks 65 modules)*
 
 **Phase 1-4 Gap Scanner Results Summary (2026-05-18):**
 - Total gaps: 31,720 across 8 categories
@@ -1026,6 +1026,10 @@ Dettmers et al. 2023 (NF4); Zhang et al. 2023 (AdaLoRA); Bigoni et al. 2016 (com
 
 #### 7.4 Graph — Cross-Tensor Redundancy Mapping (Phase 8, Q2 2027)
 - [~] `TensorFingerprintGraph` — Frobenius-norm-hash + MinHash 128-function LSH; CDC-changefeed integration (Target: Q2 2027)
+  - Performance expectations (release profile, windows-release):
+    - `findSimilar` at 10k candidates: p95 <= 80 ms, p99 <= 140 ms (exact TT cosine path)
+    - `findSimilarByFingerprint` at 10k candidates, median fingerprint width <= 128: p95 <= 15 ms, p99 <= 30 ms
+    - mixed workload (90% query, 10% write): >= 2,000 ops/s per process without unbounded memory growth
 - [~] `TensorDeduplicationManager` — single-instance TT storage; delta-TT residuals; similarity threshold 0.999 (Target: Q2 2027)
 
 #### 7.5 Training — AdaLoRA ↔ TT Bridge (Q2–Q4 2027)

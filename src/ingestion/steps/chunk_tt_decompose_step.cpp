@@ -1,40 +1,12 @@
-/*
- * ThemisDB | File: chunk_tt_decompose_step.cpp | Version: 1.0.0 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 200
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=2, M=3, L=0
- * PR History (last 5): none
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file chunk_tt_decompose_step.cpp
- * @brief `builtin.chunk_tt_decompose` — Tensor-Train decomposition of embeddings.
- *
- * For each `VectorRecord` in `ctx.embeddings`, calls
- * `backend->shouldDecompose()` (κ-gate) and, when the gate passes,
- * `backend->decompose()` to produce a `TensorCoreRecord` in `ctx.tensor_cores`.
- *
- * The step is a pure opt-in enrichment: if the backend is unavailable and
- * `skip_when_unavailable` is `true` (default), it succeeds without emitting
- * any cores.  Set `skip_when_unavailable: false` to treat unavailability as an
- * error (useful in environments where TT-cores are required for downstream RAG).
- *
- * Design reference:
- *   - Oseledets (2011) TT-SVD: SIAM J. Sci. Comput. 33(5), 2295-2317
- *   - Edge et al. (2024) GraphRAG offline graph construction pattern
- *   - Jiang et al. (2023) FLARE: latency targets require pre-computed cores
- *   - research/HNSW_FAISS_TT_BOUNDARY_ANALYSIS.md (κ boundary = 1.3)
- *
- * Ordering constraint:
- *   This step MUST follow `builtin.chunk_embed` in the workflow YAML so that
- *   `ctx.embeddings` is populated before this step executes.
- *
- * Config keys (all optional):
- *  - `skip_when_unavailable`  bool    default true
- *  - `epsilon`                number  TT-SVD error tolerance ε (default 0.01)
- *  - `max_rank`               number  Bond-dimension cap (0 = no cap, default 0)
- *  - `min_kappa`              number  κ-gate threshold (default 1.3)
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 1.0.0
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=2, M=2, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include "ingestion/ingestion_step.h"

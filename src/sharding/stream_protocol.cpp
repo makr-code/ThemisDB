@@ -1,3 +1,14 @@
+/**
+ * @file stream_protocol.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 83/100
+ * @note Gap Summary: total=7; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=2, Debt=1, C=6, H=15, M=10, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
  * ThemisDB | File: stream_protocol.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 21:32:13
  * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 86/100 | Lines: 1443
@@ -24,6 +35,7 @@
 #include <iostream>
 #include <fstream>
 #include <filesystem>
+#include <spdlog/spdlog.h>
 
 // Optional: LZ4 compression (conditional compilation)
 #ifdef THEMIS_HAS_LZ4
@@ -99,6 +111,7 @@ uint32_t calculateCRC32(const uint8_t* data, size_t length) {
     return crc ^ 0xFFFFFFFF;
 }
 
+/** @brief Generate pseudo-random per-session identifier. */
 uint32_t generateSessionId() {
     static std::random_device rd;
     static std::mt19937 gen(rd());
@@ -112,6 +125,7 @@ uint32_t generateSessionId() {
 // StreamMessageHeader Implementation
 // ============================================================================
 
+/** @brief Serialize stream message header into fixed-size wire bytes. */
 std::vector<uint8_t> StreamMessageHeader::serialize() const {
     std::vector<uint8_t> result(SIZE);
     size_t pos = 0;
@@ -151,6 +165,11 @@ std::vector<uint8_t> StreamMessageHeader::serialize() const {
     return result;
 }
 
+/**
+ * @brief Deserialize stream message header from wire bytes.
+ * @param data Serialized header bytes.
+ * @return Parsed header or std::nullopt for malformed/short input.
+ */
 std::optional<StreamMessageHeader> StreamMessageHeader::deserialize(const std::vector<uint8_t>& data) {
     if (data.size() < SIZE) {
         return std::nullopt;
@@ -197,6 +216,10 @@ std::optional<StreamMessageHeader> StreamMessageHeader::deserialize(const std::v
 // StreamChunk Implementation
 // ============================================================================
 
+/**
+ * @brief Verify chunk payload checksum.
+ * @return true when checksum matches serialized payload data.
+ */
 bool StreamChunk::verify() const {
     if (data.empty()) {
         return checksum == 0;
@@ -204,6 +227,7 @@ bool StreamChunk::verify() const {
     return calculateCRC32(data.data(), data.size()) == checksum;
 }
 
+/** @brief Serialize chunk metadata and payload into transport bytes. */
 std::vector<uint8_t> StreamChunk::serialize() const {
     std::vector<uint8_t> result;
     
@@ -245,7 +269,13 @@ std::vector<uint8_t> StreamChunk::serialize() const {
     return result;
 }
 
+/**
+ * @brief Deserialize chunk from transport bytes and validate metadata bounds.
+ * @param data Serialized chunk bytes.
+ * @return Parsed chunk or std::nullopt for malformed/inconsistent input.
+ */
 std::optional<StreamChunk> StreamChunk::deserialize(const std::vector<uint8_t>& data) {
+    // W2-S03: Chunk metadata validation - fail-closed on malformed inputs
     if (data.size() < 24) {
         return std::nullopt;
     }
@@ -287,6 +317,25 @@ std::optional<StreamChunk> StreamChunk::deserialize(const std::vector<uint8_t>& 
                      static_cast<uint32_t>(data[pos+3]);
     pos += 4;
     
+    // W2-S03: Validate chunk metadata consistency
+    // Fail-closed if uncompressed_size exceeds 1GB (impossibly large single chunk)
+    constexpr uint32_t MAX_UNCOMPRESSED_SIZE = 1024u * 1024u * 1024u;  // 1GB
+    if (chunk.uncompressed_size == 0 || chunk.uncompressed_size > MAX_UNCOMPRESSED_SIZE) {
+        return std::nullopt;
+    }
+    
+    // Fail-closed if compressed_size doesn't match payload size
+    size_t payload_size = data.size() - pos;
+    if (chunk.compressed_size != payload_size) {
+        return std::nullopt;
+    }
+    
+    // Fail-closed if uncompressed_size < compressed_size (invalid compression claim)
+    // Only allow when uncompressed and compressed are the same (no compression)
+    if (chunk.compressed_size > 0 && chunk.uncompressed_size < chunk.compressed_size) {
+        return std::nullopt;
+    }
+    
     // data
     if (data.size() > pos) {
         chunk.data.assign(data.begin() + pos, data.end());
@@ -299,6 +348,10 @@ std::optional<StreamChunk> StreamChunk::deserialize(const std::vector<uint8_t>& 
 // StreamFileProgress Implementation
 // ============================================================================
 
+/**
+ * @brief Compute transfer throughput over observed activity window.
+ * @return Average bytes per second since start_time.
+ */
 double StreamFileProgress::getThroughputBytesPerSecond() const {
     auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(
         last_activity - start_time
@@ -312,6 +365,7 @@ double StreamFileProgress::getThroughputBytesPerSecond() const {
 // StreamingStats Implementation
 // ============================================================================
 
+/** @brief Export streaming counters in Prometheus exposition format. */
 std::string StreamingStats::toPrometheusFormat() const {
     std::ostringstream oss;
     
@@ -352,6 +406,10 @@ std::string StreamingStats::toPrometheusFormat() const {
 // StreamCompressor Implementation
 // ============================================================================
 
+/**
+ * @brief Compress payload using selected algorithm, with passthrough fallback.
+ * @return Compressed bytes, or original bytes when algorithm is unavailable/fails.
+ */
 std::vector<uint8_t> StreamCompressor::compress(
     const std::vector<uint8_t>& data,
     CompressionAlgorithm algorithm,
@@ -404,6 +462,10 @@ std::vector<uint8_t> StreamCompressor::compress(
     return data;
 }
 
+/**
+ * @brief Decompress payload to expected size, with passthrough fallback.
+ * @return Decompressed bytes, or original bytes when algorithm is unavailable/fails.
+ */
 std::vector<uint8_t> StreamCompressor::decompress(
     const std::vector<uint8_t>& data,
     CompressionAlgorithm algorithm,
@@ -453,6 +515,7 @@ std::vector<uint8_t> StreamCompressor::decompress(
     return data;
 }
 
+/** @brief Return whether algorithm is compiled into current binary. */
 bool StreamCompressor::isSupported(CompressionAlgorithm algorithm) {
     switch (algorithm) {
         case CompressionAlgorithm::NONE:
@@ -1131,6 +1194,11 @@ std::optional<StreamChunk> StreamTransferTask::createChunk(uint32_t chunk_index)
 }
 
 bool StreamTransferTask::sendChunk(const StreamChunk& chunk) {
+    // W2-S07: Document stream transfer semantics
+    // - Local staging: written to temporary file without replication
+    // - Remote setup: would require consensus before durable write
+    // - Recovery: based on source file and transaction log, not staging files
+    
     // Local implementation: write chunk to temporary staging area
     // In distributed setup, this would send via RPC/network to target shard
     
@@ -1153,6 +1221,16 @@ bool StreamTransferTask::sendChunk(const StreamChunk& chunk) {
         }
     }
 
+    // W2-S07: Validate chunk before writing to persistent storage
+    if (chunk.chunk_index == std::numeric_limits<uint32_t>::max()) {
+        spdlog::error("Invalid chunk index for staging write");
+        return false;
+    }
+    if (chunk.data.size() > 1024 * 1024 * 1024) {  // 1GB max chunk
+        spdlog::error("Chunk data exceeds maximum size ({})", chunk.data.size());
+        return false;
+    }
+    
     // Write chunk to staging file (simulates network transfer)
     std::filesystem::path chunk_file = staging_dir / 
         (file_.file_id + "_chunk_" + std::to_string(chunk.chunk_index) + ".dat");

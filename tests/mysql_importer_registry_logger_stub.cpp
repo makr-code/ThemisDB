@@ -1,20 +1,12 @@
-/*
- * ThemisDB | File: mysql_importer_registry_logger_stub.cpp | Version: 0.0.12
- * Maturity: 🟢 PRODUCTION-READY | Score: 93/100
- * Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file mysql_importer_registry_logger_stub.cpp
- * @brief Minimal no-op stub for Logger static members used by mysql_importer.cpp
- *        when building test_mysql_importer_registry as a standalone binary.
- *
- * mysql_importer.cpp uses the THEMIS_INFO / THEMIS_WARN macros which expand to
- * Logger::info / Logger::warn.  These template methods check `if (logger_)` before
- * forwarding to spdlog.  Keeping logger_ null makes every log call a safe no-op –
- * exactly what unit tests need.
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.12
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 99/100
+ * @note Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 // This TU defines Logger static members for a focused test binary.
@@ -31,8 +23,6 @@
 
 namespace themis {
 namespace utils {
-
-LogMetrics Logger::metrics_{};
 
 spdlog::level::level_enum Logger::toSpdlogLevel(Level) {
     return spdlog::level::info;

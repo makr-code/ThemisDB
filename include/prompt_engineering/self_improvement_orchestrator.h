@@ -1,22 +1,12 @@
-/*
- * ThemisDB | File: self_improvement_orchestrator.h | Version: 0.0.47
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file self_improvement_orchestrator.h
- * @brief Orchestrates autonomous prompt optimization and A/B testing
- * 
- * Coordinates the self-improvement workflow:
- * 1. Monitors prompt performance via PromptPerformanceTracker
- * 2. Triggers optimization when thresholds are met
- * 3. Manages A/B testing of optimized prompts
- * 4. Performs automatic rollback on performance degradation
- * 
- * This is the central coordinator for autonomous prompt engineering.
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once

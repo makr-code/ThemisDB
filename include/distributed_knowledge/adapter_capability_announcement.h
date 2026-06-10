@@ -1,43 +1,15 @@
-/*
- * ThemisDB | File: adapter_capability_announcement.h | Version: 0.0.1 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 296
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * PR History (last 5): none
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
-// Copyright 2026 ThemisDB — Licensed under MIT License
-#pragma once
-
 /**
  * @file adapter_capability_announcement.h
- * @brief Ebene A — Gossip-basierte Adapter-Discovery
- *
- * Defines the `AdapterCapabilityAnnouncement` payload that each shard
- * broadcasts via `GossipProtocol` to advertise its LoRA adapter specialisation.
- *
- * The `AdaptiveShardRouter` consumes these announcements to route queries to
- * the shard with the best-matching domain adapter without requiring raw data
- * to cross shard boundaries.
- *
- * Design Constraints:
- *  - Payload is JSON-serialisable so it can be embedded verbatim in the
- *    existing `GossipMessage::payload` field (no protocol change required).
- *  - No raw model weights or training data are included; only aggregate
- *    performance metrics and semantic domain descriptors.
- *  - `GossipAdapterPublisher` is the single-writer gateway; it integrates with
- *    an `AdapterRegistry` to keep the announcement up to date after each
- *    `IncrementalLoRATrainer` round.
- *
- * @see include/sharding/gossip_protocol.h   — carrier protocol
- * @see include/llm/adapter_registry.h       — source of adapter metadata
- * @see include/sharding/adaptive_shard_router.h — consumer of announcements
- *
- * Scientific reference:
- *   McMahan, H.B. et al. (2017). Communication-Efficient Learning of Deep
- *   Networks from Decentralised Data. AISTATS 2017.
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.1
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
+
+#pragma once
 
 #include <string>
 #include <vector>

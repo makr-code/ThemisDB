@@ -1,36 +1,12 @@
-/*
- * ThemisDB | File: delegate_evaluator.h | Version: 0.1.0
- * Maturity: 🟢 PRODUCTION-READY | Score: 96/100
- * Gap Summary: total=7; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=4, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file delegate_evaluator.h
- * @brief DELEGATE-52 Benchmark — document round-trip corruption measurement.
- *
- * Implements the Reconstruction-Score (RS\@k) methodology introduced by
- * Laban et al., "LLMs Corrupt Your Documents When You Delegate"
- * (arXiv:2604.15597).
- *
- * @note **ThemisDB scope vs. DELEGATE-52 paper:**
- *   | Aspect     | Paper                             | ThemisDB                          |
- *   |------------|-----------------------------------|-----------------------------------|
- *   | Domains    | 52 (crystallography, music, …)    | 4 (JSON, AQL, text, XML)          |
- *   | EditFn     | Real LLM via OpenAI/Azure         | Injected lambda (LLM-agnostic)    |
- *   | Dataset    | 234 HuggingFace environments      | Synthetic in-process fixtures     |
- *   | Goal       | Benchmark 19 LLMs                 | QA for agentic workflows          |
- *
- * All scoring is deterministic and LLM-free so tests run without any API key
- * or GPU hardware.
- *
- * ### Design goals
- *   - `IDomainEvaluator` is stateless and thread-compatible (one instance per domain).
- *   - `RoundTripSimulator` is per-request and **not** shared across threads, mirroring
- *     the `AgenticRAG` ownership model.
- *   - RS scores are always clamped to `[0.0, 1.0]` via `std::clamp`.
- *   - No `new`/`delete`; all polymorphic objects are managed by `std::unique_ptr`.
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.1.0
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 96/100
+ * @note Gap Summary: total=7; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=4, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once

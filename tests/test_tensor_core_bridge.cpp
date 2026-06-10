@@ -53,6 +53,10 @@
  *   TCS-18  Step skips records with empty serialized_train by default
  *   TCS-19  Step processes records with empty serialized_train when skip_empty=false
  *   TCS-20  Step propagates write errors when fail_on_write_error=true
+ *   TCS-21  Step resolves tenant from ctx.extra when config key absent
+ *   TCS-22  Step emits warning when non-persistent in-memory sink is active
+ *   TCS-23  Step aborts when require_persistent_sink=true with in-memory sink
+ *   TCS-24  Step records warning for non-fatal write failure
  */
 
 #include <gtest/gtest.h>
@@ -447,6 +451,81 @@ TEST(TCS, TCS_20_FailOnWriteError) {
     auto ctx = makeCtxWithCores({makeRecord("f:0")});
     auto res = step->execute(ctx, sc);
     EXPECT_FALSE(res); // error propagated
+}
+
+TEST(TCS, TCS_21_TenantFromContextExtra) {
+    auto sink = std::make_shared<InMemoryTensorCoreBridge>();
+    auto step = builtin::createTensorCoreBridgeStep(sink);
+    StepConfig sc;
+
+    auto ctx = makeCtxWithCores({makeRecord("f:0")});
+    ctx.extra["tenant_id"] = "ctx-extra-tenant";
+
+    auto res = step->execute(ctx, sc);
+    ASSERT_TRUE(res) << res.error().message();
+
+    auto* found = sink->find("ctx-extra-tenant", "f:0");
+    EXPECT_NE(found, nullptr);
+}
+
+TEST(TCS, TCS_22_WarnsWhenInMemorySinkActive) {
+    auto sink = std::make_shared<InMemoryTensorCoreBridge>();
+    auto step = builtin::createTensorCoreBridgeStep(sink);
+    StepConfig sc;
+    sc.config = json{{"tenant_id", "t1"}};
+
+    auto ctx = makeCtxWithCores({makeRecord("f:0")});
+    auto res = step->execute(ctx, sc);
+    ASSERT_TRUE(res) << res.error().message();
+
+    bool saw_warning = false;
+    for (const auto& warning : ctx.warnings) {
+        if (warning.find("InMemoryTensorCoreBridge active") != std::string::npos) {
+            saw_warning = true;
+            break;
+        }
+    }
+    EXPECT_TRUE(saw_warning);
+}
+
+TEST(TCS, TCS_23_RequirePersistentSinkRejectsInMemory) {
+    auto sink = std::make_shared<InMemoryTensorCoreBridge>();
+    auto step = builtin::createTensorCoreBridgeStep(sink);
+    StepConfig sc;
+    sc.config = json{{"require_persistent_sink", true}};
+
+    auto ctx = makeCtxWithCores({makeRecord("f:0")});
+    auto res = step->execute(ctx, sc);
+    EXPECT_FALSE(res);
+}
+
+TEST(TCS, TCS_24_NonFatalWriteErrorAddsWarning) {
+    class RejectAllSink : public ITensorCoreBridge {
+    public:
+        Result<void> write(const TensorCoreRecord&, const std::string&) override {
+            return ErrVoid(errors::ErrorCode::ERR_STORAGE_TRANSACTION_FAILED,
+                           "forced failure");
+        }
+        std::size_t writeCount() const override { return 0; }
+    };
+
+    auto sink = std::make_shared<RejectAllSink>();
+    auto step = builtin::createTensorCoreBridgeStep(sink);
+    StepConfig sc;
+    sc.config = json{{"tenant_id", "t1"}, {"fail_on_write_error", false}};
+
+    auto ctx = makeCtxWithCores({makeRecord("f:0")});
+    auto res = step->execute(ctx, sc);
+    ASSERT_TRUE(res);
+
+    bool saw_failure_warning = false;
+    for (const auto& warning : ctx.warnings) {
+        if (warning.find("write failed for chunk_id='f:0'") != std::string::npos) {
+            saw_failure_warning = true;
+            break;
+        }
+    }
+    EXPECT_TRUE(saw_failure_warning);
 }
 
 

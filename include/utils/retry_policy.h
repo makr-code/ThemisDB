@@ -1,64 +1,12 @@
-/*
- * ThemisDB | File: retry_policy.h | Version: 1.0.0
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file retry_policy.h
- * @brief Centralised exponential-backoff retry templates for ThemisDB.
- *
- * Previously every subsystem (network, storage, RAG) implemented its own
- * retry loop.  This header provides a single, tested implementation that all
- * subsystems should migrate to (tracked in ROADMAP.md consolidation phase,
- * target v1.5.0).
- *
- * ### Usage
- *
- * ```cpp
- * #include "utils/retry_policy.h"
- *
- * auto result = themis::utils::retry_with_backoff(
- *     [&]() -> std::optional<MyResult> {
- *         auto r = doRemoteCall();
- *         if (r.is_transient_error()) return std::nullopt; // retry
- *         return r;
- *     },
- *     themis::utils::RetryConfig{
- *         .max_attempts       = 5,
- *         .initial_backoff_ms = 100,
- *         .max_backoff_ms     = 10'000,
- *         .multiplier         = 2.0,
- *         .jitter_fraction    = 0.1,
- *     });
- *
- * if (!result) {
- *     // All attempts exhausted.
- * }
- * ```
- *
- * ### Design rationale
- *   - `retry_with_backoff` is a free function template; no virtual dispatch.
- *   - Jitter (random fraction of backoff) prevents thundering-herd on shared
- *     backends.
- *   - The callable returns `std::optional<T>`; returning `std::nullopt`
- *     signals "please retry", returning a value signals success.
- *   - Exceptions thrown by the callable propagate immediately without retry
- *     unless the caller catches them inside the lambda and returns nullopt.
- *   - `ExponentialBackoff` is a standalone helper for callers that need manual
- *     control over the wait (e.g. async code).
- *
- * ### Known callers — migration status (v1.9.0)
- *   - `src/rag/http_metrics_client.cpp`    ✅ migrated: iterative loop with `ExponentialBackoff`
- *   - `src/rag/llm_judge_integration.cpp` ✅ migrated: `retry_with_backoff` in evaluate/evaluateDimension
- *   - `src/network/wire_protocol_connection_pool.cpp` — ✅ analysed (v1.9.0): uses a deadline-bounded
- *       `cv.wait_until()` loop, not an attempt-bounded retry loop. The fixed 100ms pause on
- *       connection-creation failure is an exception-recovery breath, not a retry policy; migrating
- *       to `retry_with_backoff` (attempt-bounded) would change semantics. No migration applicable.
- *   - `src/network/` other subsystems      — single-shot sleeps; not retry loops; no migration needed
- *   - `src/storage/transaction_retry_manager` — domain-specific policy; intentionally separate
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 1.0.0
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once

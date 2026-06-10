@@ -1,28 +1,12 @@
-/*
- * ThemisDB | File: streaming_retriever.h | Version: 0.0.18
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file streaming_retriever.h
- * @brief Streaming retrieval with incremental context window filling
- *
- * Provides StreamingRetriever and ContextWindowFiller for Phase 2 of the RAG
- * evaluation pipeline.  Documents are emitted one at a time via a callback and
- * the context window is filled incrementally while respecting a configurable
- * token budget.
- *
- * Design goals:
- * - Token-budget enforcement: never exceed max_context_tokens.
- * - Relevance-ordered ingestion: highest-scoring documents are added first.
- * - Diversity-aware selection: optional MMR-style deduplication to avoid
- *   redundant context.
- * - Cancellation support: callers may stop the stream mid-way.
- * - No external dependencies beyond the standard library and the existing
- *   themis::rag types.
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.18
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once

@@ -1,3 +1,14 @@
+/**
+ * @file distributed_saga.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
  * ThemisDB | File: distributed_saga.h | Version: 0.0.15
  * Maturity: 🟢 PRODUCTION-READY | Score: 94/100
@@ -260,6 +271,34 @@ using RemoteStepExecutor =
         const std::string& /*operation*/,
         const nlohmann::json& /*params*/)>;
 
+
+/**
+ * @brief Result payload for consensus verification of a completed step write.
+ */
+struct ConsensusVerificationResult {
+    /// True when quorum durability has been confirmed.
+    bool verified{false};
+
+    /// Quorum size expected for this write (e.g. 2 of 3 replicas).
+    int quorum_size{0};
+
+    /// Number of replica acknowledgements observed.
+    int ack_count{0};
+
+    /// Optional diagnostic detail for logs and failure reasons.
+    std::string detail;
+};
+
+/**
+ * @brief Pluggable consensus verification callback.
+ *
+ * Signature: (step_name, node_id) -> ConsensusVerificationResult
+ */
+using ConsensusVerifier =
+    std::function<ConsensusVerificationResult(
+        const std::string& /*step_name*/,
+        const std::string& /*node_id*/)>
+;
 /**
  * @brief Configuration for DistributedSagaCoordinator.
  */
@@ -283,8 +322,15 @@ struct DistributedSagaCoordinatorConfig {
     /// Enable distributed consensus verification for write durability (QW-39).
     /// When true, after each step succeeds locally, the coordinator verifies that
     /// the write was replicated to a quorum of replicas before declaring success.
-    /// Fail-closed: if consensus cannot be verified, the step is retried.
+    /// If a consensus_verifier is configured, failed verification causes retries
+    /// and eventually fail-closed behavior when retries are exhausted.
+    /// If no consensus_verifier is configured, a single-node fallback (1/1 ack)
+    /// is applied for backward compatibility.
     bool enable_consensus_verification{true};
+
+    /// Optional callback that validates quorum durability for a completed step.
+    /// When set, this callback is authoritative for consensus decisions.
+    ConsensusVerifier consensus_verifier;
 
     /// Pluggable transport for remote step execution.
     /// Must be configured for executeDistributed(); otherwise execution is
@@ -467,6 +513,8 @@ public:
         uint64_t total_compensations{0};
         uint64_t total_step_retries{0};
         uint64_t total_timeout_aborts{0};
+        uint64_t consensus_checks_total{0};
+        uint64_t consensus_checks_failed{0};
     };
 
     Metrics getMetrics() const;
@@ -512,10 +560,14 @@ private:
     /// to a quorum of replicas for durability guarantees.
     /// @param step_name Name of the step that executed
     /// @param node_id Node/service identifier for the write
+    /// @param record Mutable step record for consensus metadata population
+    /// @param failure_detail Optional textual reason when verification fails
     /// @return true if consensus verified (or verification disabled), false if unconfirmed
     bool verifyStepConsensus(
         const std::string& step_name,
-        const std::string& node_id
+        const std::string& node_id,
+        StepRecord& record,
+        std::string* failure_detail = nullptr
     );
 
     /// Compensate all completed steps in reverse execution order.

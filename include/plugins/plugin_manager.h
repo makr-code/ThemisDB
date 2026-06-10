@@ -1,3 +1,14 @@
+/**
+ * @file plugin_manager.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
  * ThemisDB | File: plugin_manager.h | Version: 0.0.47
  * Maturity: 🟢 PRODUCTION-READY | Score: 94/100
@@ -104,8 +115,26 @@ private:
     mutable std::mutex mutex_;
     
     // Reuse existing platform-specific loading from acceleration/plugin_loader.cpp
+    /**
+     * @brief Load a shared library from disk.
+     * @param path Absolute or relative path to the plugin binary.
+     * @return Native library handle on success, nullptr on failure.
+     * @note Thread-safe under PluginManager external locking discipline.
+     */
     void* loadLibrary(const std::string& path);
+
+    /**
+     * @brief Resolve an exported symbol from a loaded library handle.
+     * @param handle Native library handle returned by loadLibrary().
+     * @param symbolName Exported symbol name to resolve.
+     * @return Pointer to the resolved symbol, or nullptr if not found.
+     */
     void* getSymbol(void* handle, const std::string& symbolName);
+
+    /**
+     * @brief Unload a previously loaded library handle.
+     * @param handle Native library handle. nullptr is ignored.
+     */
     void unloadLibrary(void* handle);
     
     // Manifest loading (with QW-43 path traversal guards)
@@ -115,15 +144,44 @@ private:
     std::optional<PluginManifest> loadManifest(const std::string& manifest_path);
     
     // Manifest signature verification
+    /**
+     * @brief Verify the detached signature for a plugin manifest.
+     * @param manifest_path Path to plugin.json manifest.
+     * @param error_message Output error detail when verification fails.
+     * @return true if signature policy is satisfied for the current build mode.
+     * @note Production builds require a valid `.sig` file; development builds warn and continue.
+     */
     bool verifyManifestSignature(const std::string& manifest_path, std::string& error_message);
     
     // Security verification (reuse acceleration/plugin_security.h)
+    /**
+     * @brief Validate plugin binary against configured security policy.
+     * @param path Path to plugin shared library.
+     * @param error_message Output error detail on verification failure.
+     * @return true if the plugin passes policy checks, false otherwise.
+     */
     bool verifyPlugin(const std::string& path, std::string& error_message);
     
+    /**
+     * @brief Compute SHA-256 hash for a file.
+     * @param path File path to hash.
+     * @return Lower-case hex digest string, or empty string on I/O/crypto failure.
+     */
     std::string calculateFileHash(const std::string& path);
     
     // Hot-reload helper methods
+    /**
+     * @brief Find loaded plugins that depend on @p name.
+     * @param name Plugin name to resolve reverse dependencies for.
+     * @return Dependent plugin names in unspecified order.
+     */
     std::vector<std::string> findDependentPlugins(const std::string& name) const;
+
+    /**
+     * @brief Notify registered reload listeners for a plugin lifecycle phase.
+     * @param name Plugin name associated with the event.
+     * @param phase Reload phase being emitted.
+     */
     void notifyPluginReload(const std::string& name, PluginReloadPhase phase);
     
 public:

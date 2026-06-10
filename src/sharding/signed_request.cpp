@@ -1,3 +1,14 @@
+/**
+ * @file signed_request.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=3, H=16, M=0, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
  * ThemisDB | File: signed_request.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
  * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 590
@@ -77,6 +88,11 @@ namespace {
 
     // Base64 encode helper
     [[nodiscard]] std::string base64Encode(const unsigned char* data, size_t len) {
+        if (!data || len == 0) {
+            spdlog::warn("base64Encode called with null or empty data");
+            return "";
+        }
+        
         BIO* bmem = BIO_new(BIO_s_mem());
         if (!bmem) return "";
         BIO* b64 = BIO_new(BIO_f_base64());
@@ -84,11 +100,26 @@ namespace {
         BIO_set_flags(b64, BIO_FLAGS_BASE64_NO_NL);
         auto bio = utils::BIOPtr(BIO_push(b64, bmem));  // BIO_push returns top of chain
         
-        BIO_write(bio.get(), data, static_cast<int>(len));
-        BIO_flush(bio.get());
+        // W2-S07: Validate OpenSSL write result
+        int written = BIO_write(bio.get(), data, static_cast<int>(len));
+        if (written != static_cast<int>(len)) {
+            spdlog::error("OpenSSL BIO_write incomplete: wrote {} of {} bytes", written, len);
+            return "";
+        }
+        
+        int flush_result = BIO_flush(bio.get());
+        if (flush_result != 1) {
+            spdlog::error("OpenSSL BIO_flush failed");
+            return "";
+        }
         
         BUF_MEM* buffer_ptr;
         BIO_get_mem_ptr(bio.get(), &buffer_ptr);
+        
+        if (!buffer_ptr || !buffer_ptr->data) {
+            spdlog::error("OpenSSL buffer_ptr is null");
+            return "";
+        }
         
         std::string result(buffer_ptr->data, buffer_ptr->length);
         
@@ -135,6 +166,7 @@ namespace {
 // SignedRequest
 // ============================================================================
 
+/** @brief Serialize signed request into JSON payload. */
 nlohmann::json SignedRequest::toJSON() const {
     return nlohmann::json{
         {"shard_id", shard_id},
@@ -150,6 +182,11 @@ nlohmann::json SignedRequest::toJSON() const {
     };
 }
 
+/**
+ * @brief Parse signed request from JSON.
+ * @param j Input JSON value.
+ * @return Parsed request object or std::nullopt when mandatory fields are missing/invalid.
+ */
 std::optional<SignedRequest> SignedRequest::fromJSON(const nlohmann::json& j) {
     try {
         SignedRequest req;
@@ -173,6 +210,10 @@ std::optional<SignedRequest> SignedRequest::fromJSON(const nlohmann::json& j) {
     }
 }
 
+/**
+ * @brief Build canonical v1 signing string.
+ * @return Deterministic line-based representation used for signing and verification.
+ */
 std::string SignedRequest::getCanonicalString() const {
     std::ostringstream oss;
     oss << "signature_format=" << signature_format << '\n'
@@ -191,6 +232,10 @@ std::string SignedRequest::getCanonicalString() const {
 // SignedRequestSigner
 // ============================================================================
 
+/**
+ * @brief Construct signer and preload certificate serial when available.
+ * @param config Signer configuration.
+ */
 SignedRequestSigner::SignedRequestSigner(const Config& config)
     : config_(config) {
     // Extract certificate serial
@@ -200,6 +245,11 @@ SignedRequestSigner::SignedRequestSigner(const Config& config)
     }
 }
 
+/**
+ * @brief Populate metadata and signature fields.
+ * @param request Request mutated in place.
+ * @return true on successful signing.
+ */
 bool SignedRequestSigner::sign(SignedRequest& request) {
     // Set shard ID
     request.shard_id = config_.shard_id;
@@ -228,6 +278,9 @@ bool SignedRequestSigner::sign(SignedRequest& request) {
     return true;
 }
 
+/**
+ * @brief Create and sign a request from primitive inputs.
+ */
 SignedRequest SignedRequestSigner::createSignedRequest(const std::string& operation,
                                                        const std::string& path,
                                                        const nlohmann::json& body) {
@@ -240,6 +293,7 @@ SignedRequest SignedRequestSigner::createSignedRequest(const std::string& operat
     return request;
 }
 
+/** @brief Generate pseudo-random 64-bit nonce for replay protection. */
 uint64_t SignedRequestSigner::generateNonce() const {
     std::random_device rd;
     std::mt19937_64 gen(rd());
@@ -247,12 +301,18 @@ uint64_t SignedRequestSigner::generateNonce() const {
     return dis(gen);
 }
 
+/** @brief Return current UNIX timestamp in milliseconds. */
 uint64_t SignedRequestSigner::getCurrentTimestampMs() const {
     auto now = std::chrono::system_clock::now();
     auto ms = std::chrono::duration_cast<std::chrono::milliseconds>(now.time_since_epoch());
     return ms.count();
 }
 
+/**
+ * @brief Sign canonical data with configured private key.
+ * @param data Canonical request text.
+ * @return Base64 signature, or std::nullopt when cryptographic setup/signing fails.
+ */
 std::optional<std::string> SignedRequestSigner::signData(const std::string& data) {
     // Read private key
     FILE* key_file = fopen(config_.key_path.c_str(), "r");
@@ -310,10 +370,20 @@ std::optional<std::string> SignedRequestSigner::signData(const std::string& data
 // SignedRequestVerifier
 // ============================================================================
 
+/**
+ * @brief Construct verifier with replay/certificate policy.
+ * @param config Verification policy.
+ */
 SignedRequestVerifier::SignedRequestVerifier(const Config& config)
     : config_(config) {
 }
 
+/**
+ * @brief Verify signed request metadata, freshness, replay and signature.
+ * @param request Request to verify.
+ * @param expected_shard_id Optional sender constraint.
+ * @return true when all checks pass.
+ */
 bool SignedRequestVerifier::verify(const SignedRequest& request,
                                    const std::string& expected_shard_id) {
     // 0. Verify versioned request metadata (fail-closed)
@@ -353,11 +423,13 @@ bool SignedRequestVerifier::verify(const SignedRequest& request,
     return true;
 }
 
+/** @brief Remove expired replay-cache nonce entries. */
 void SignedRequestVerifier::cleanupExpiredNonces() {
     std::lock_guard<std::mutex> lock(nonce_mutex_);
     purgeExpiredNoncesLocked(getCurrentTimestampMs());
 }
 
+/** @brief Verify timestamp skew is within configured bounds. */
 bool SignedRequestVerifier::verifyTimestamp(uint64_t timestamp_ms) const {
     uint64_t current_time = getCurrentTimestampMs();
     uint64_t time_diff = (current_time > timestamp_ms) ?
@@ -366,6 +438,12 @@ bool SignedRequestVerifier::verifyTimestamp(uint64_t timestamp_ms) const {
     return time_diff <= config_.max_time_skew_ms;
 }
 
+/**
+ * @brief Verify nonce uniqueness and maintain replay cache.
+ * @param nonce Nonce value to verify.
+ * @param timestamp_ms Request timestamp used for expiry checks.
+ * @return true when nonce is accepted.
+ */
 bool SignedRequestVerifier::verifyNonce(uint64_t nonce, [[maybe_unused]] uint64_t timestamp_ms) {
     std::lock_guard<std::mutex> lock(nonce_mutex_);
 
@@ -407,6 +485,11 @@ bool SignedRequestVerifier::verifyNonce(uint64_t nonce, [[maybe_unused]] uint64_
     return true;
 }
 
+/**
+ * @brief Verify signature using trust-store certificate selected by key_id.
+ * @param request Signed request.
+ * @return true when cryptographic verification succeeds.
+ */
 bool SignedRequestVerifier::verifySignature(const SignedRequest& request) {
     if (!isStrictBase64(request.signature_b64)) {
         return rejectWithAuditCode(
@@ -563,6 +646,10 @@ bool SignedRequestVerifier::verifySignature(const SignedRequest& request) {
         "unsupported public key type id=" + std::to_string(pubkey_type));
 }
 
+/**
+ * @brief Purge expired nonce entries from replay cache.
+ * @param now_ms Current timestamp in milliseconds.
+ */
 void SignedRequestVerifier::purgeExpiredNoncesLocked(uint64_t now_ms) {
     while (!nonce_fifo_.empty()) {
         const NonceEntry oldest = nonce_fifo_.front();
@@ -581,6 +668,7 @@ void SignedRequestVerifier::purgeExpiredNoncesLocked(uint64_t now_ms) {
     }
 }
 
+/** @brief Return current UNIX timestamp in milliseconds. */
 uint64_t SignedRequestVerifier::getCurrentTimestampMs() const {
     auto now = std::chrono::system_clock::now();
     auto ms = std::chrono::duration_cast<std::chrono::milliseconds>(now.time_since_epoch());

@@ -1,3 +1,14 @@
+/**
+ * @file raft_consensus.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
  * ThemisDB | File: raft_consensus.h | Version: 0.0.47
  * Maturity: 🟢 PRODUCTION-READY | Score: 94/100
@@ -25,46 +36,46 @@ namespace sharding {
  * @brief Heartbeat message for partition detection
  */
 struct Heartbeat {
-    std::string leader_id;
-    uint64_t term;
-    uint64_t commit_index;
-    std::chrono::steady_clock::time_point timestamp;
-    std::vector<std::string> reachable_nodes;  // Nodes leader can reach
+    std::string leader_id;                             ///< Current leader node ID.
+    uint64_t term;                                    ///< Leader term associated with heartbeat.
+    uint64_t commit_index;                            ///< Leader commit index at send time.
+    std::chrono::steady_clock::time_point timestamp;  ///< Local send timestamp.
+    std::vector<std::string> reachable_nodes;         ///< Peers currently reachable by the leader.
 };
 
 /**
  * @brief Health status of a replica
  */
 enum class ReplicaHealth {
-    HEALTHY,        // Responding normally
-    DEGRADED,       // Slow responses
-    UNREACHABLE,    // Cannot connect
-    PARTITIONED     // In different network partition
+    HEALTHY,        ///< Responding normally.
+    DEGRADED,       ///< Responding but showing failures or latency.
+    UNREACHABLE,    ///< Currently unreachable.
+    PARTITIONED     ///< Known to be in a different network partition.
 };
 
 /**
  * @brief Replica state tracking
  */
 struct ReplicaState {
-    std::string node_id;
+    std::string node_id;          ///< Replica node identifier.
     std::string endpoint;           ///< Network endpoint ("host:port" or URL); updated by updatePeerAddress()
-    ReplicaHealth health;
-    uint64_t next_index;        // Next log index to send
-    uint64_t match_index;       // Highest log index replicated
-    std::chrono::steady_clock::time_point last_contact;
-    uint32_t consecutive_failures;
+    ReplicaHealth health;        ///< Current health classification.
+    uint64_t next_index;         ///< Next log index to send to replica.
+    uint64_t match_index;        ///< Highest log index known replicated on replica.
+    std::chrono::steady_clock::time_point last_contact; ///< Last successful contact timestamp.
+    uint32_t consecutive_failures; ///< Consecutive failed contact attempts.
 };
 
 /**
  * @brief Partition detection result
  */
 struct PartitionStatus {
-    bool is_partitioned;
-    std::vector<std::string> reachable_nodes;
-    std::vector<std::string> unreachable_nodes;
-    bool has_quorum;
-    std::string partition_id;  // Identifier for this partition group
-    std::chrono::steady_clock::time_point detected_at;
+    bool is_partitioned;                                ///< True when partition symptoms are detected.
+    std::vector<std::string> reachable_nodes;           ///< Peers reachable from this node.
+    std::vector<std::string> unreachable_nodes;         ///< Peers currently unreachable.
+    bool has_quorum;                                    ///< True when reachable set still forms quorum.
+    std::string partition_id;                           ///< Deterministic identifier for current reachable set.
+    std::chrono::steady_clock::time_point detected_at;  ///< Time partition status was computed.
 };
 
 /**
@@ -87,16 +98,22 @@ public:
      * @brief Consensus configuration
      */
     struct Config {
-        RaftConfig raft_config;
-        std::chrono::milliseconds heartbeat_timeout{500};
-        std::chrono::milliseconds partition_detection_interval{1000};
-        uint32_t max_consecutive_failures{3};
-        bool enable_partition_detection{true};
-        bool enable_split_brain_prevention{true};
-        bool read_only_on_partition{true};  // Become read-only if minority partition
+        RaftConfig raft_config;                                        ///< Core Raft timing and membership config.
+        std::chrono::milliseconds heartbeat_timeout{500};              ///< Timeout used to judge heartbeat staleness.
+        std::chrono::milliseconds partition_detection_interval{1000};  ///< Poll interval for partition detection.
+        uint32_t max_consecutive_failures{3};                          ///< Failure threshold before replica becomes unreachable.
+        bool enable_partition_detection{true};                         ///< Enables background partition detector thread.
+        bool enable_split_brain_prevention{true};                      ///< Enables partition-aware safety measures.
+        bool read_only_on_partition{true};                             ///< Enter read-only mode in minority partition.
     };
-    
+
+    /**
+     * @brief Construct enhanced Raft consensus engine.
+     * @param config Consensus configuration and timing thresholds.
+     */
     explicit RaftConsensus(const Config& config);
+
+    /** @brief Stop background threads and release owned resources. */
     ~RaftConsensus();
     
     // Prevent copying
@@ -122,64 +139,78 @@ public:
     
     /**
      * @brief Check if this node is the leader
+        * @return True when underlying Raft state is leader.
      */
     bool isLeader() const;
     
     /**
      * @brief Check if cluster has quorum
+        * @return True when enough healthy replicas are reachable.
      */
     bool hasQuorum() const;
     
     /**
      * @brief Get current partition status
+        * @return Snapshot of latest partition detection result.
      */
     PartitionStatus getPartitionStatus() const;
     
     /**
      * @brief Check if node is in read-only mode (minority partition)
+        * @return True when write operations should be refused.
      */
     bool isReadOnly() const;
     
     /**
      * @brief Get current leader ID
+        * @return Current known leader identifier, possibly empty.
      */
     std::string getLeaderId() const;
     
     /**
      * @brief Get current term
+        * @return Current Raft term.
      */
     uint64_t getCurrentTerm() const;
     
     /**
      * @brief Get replica states
+        * @return Copy of tracked follower replication/health states.
      */
     std::vector<ReplicaState> getReplicaStates() const;
     
     /**
      * @brief Set replication callback
+        * @param callback Callback used to send replicated log entries to peers.
      */
     void setReplicationCallback(ReplicationCallback callback);
     
     /**
      * @brief Set heartbeat callback
+        * @param callback Callback used to send leader heartbeats to peers.
      */
     void setHeartbeatCallback(HeartbeatCallback callback);
     
     /**
      * @brief Handle incoming heartbeat from leader
+        * @param heartbeat Incoming heartbeat payload.
      */
     void receiveHeartbeat(const Heartbeat& heartbeat);
     
     /**
      * @brief Handle append entries response from follower
+        * @param node_id Follower identifier.
+        * @param response AppendEntries RPC response from follower.
      */
     void receiveAppendEntriesResponse(const std::string& node_id,
                                      const AppendEntriesResponse& response);
     
     /**
      * @brief Get reference to underlying Raft state
+        * @return Mutable reference to underlying Raft state machine.
      */
     RaftState& getRaftState() { return raft_state_; }
+        /** @brief Return const reference to underlying Raft state machine. */
     const RaftState& getRaftState() const { return raft_state_; }
 
     /**
@@ -224,27 +255,27 @@ private:
     RaftState raft_state_;
     
     // Callbacks
-    ReplicationCallback replication_callback_;
-    HeartbeatCallback heartbeat_callback_;
+    ReplicationCallback replication_callback_;   ///< Log replication transport callback.
+    HeartbeatCallback heartbeat_callback_;       ///< Heartbeat transport callback.
     
     // Replica tracking
     mutable std::mutex replica_mutex_;
-    std::map<std::string, ReplicaState> replica_states_;
+    std::map<std::string, ReplicaState> replica_states_; ///< Per-replica replication and health state.
     
     // Partition detection
     mutable std::mutex partition_mutex_;
-    PartitionStatus partition_status_;
-    std::atomic<bool> read_only_mode_{false};
+    PartitionStatus partition_status_;               ///< Latest detected partition status.
+    std::atomic<bool> read_only_mode_{false};        ///< True when writes must be rejected.
     
     // Background threads
-    std::atomic<bool> running_{false};
-    std::thread heartbeat_thread_;
-    std::thread election_thread_;
-    std::thread partition_detector_thread_;
+    std::atomic<bool> running_{false};               ///< Lifecycle flag shared by background threads.
+    std::thread heartbeat_thread_;                   ///< Leader heartbeat worker thread.
+    std::thread election_thread_;                    ///< Election timeout worker thread.
+    std::thread partition_detector_thread_;          ///< Partition detector worker thread.
     
     // Thread synchronization
     std::condition_variable cv_;
-    std::mutex cv_mutex_;
+    std::mutex cv_mutex_;                            ///< Wait mutex for worker thread sleep/wake.
     
     /**
      * @brief Heartbeat loop (for leader)
@@ -268,6 +299,10 @@ private:
     
     /**
      * @brief Replicate log entry to follower
+        * @param node_id Follower identifier.
+        * @param entry Log entry to replicate.
+        * @param callback Transport callback to invoke.
+        * @return True when replication callback reports success.
      */
     bool replicateToFollower(const std::string& node_id,
                              const LogEntry& entry,
@@ -275,16 +310,22 @@ private:
     
     /**
      * @brief Detect network partition
+        * @return Newly computed partition status snapshot.
      */
     PartitionStatus detectPartition();
     
     /**
      * @brief Update replica health status
+        * @param node_id Replica identifier.
+        * @param success True when the most recent contact succeeded.
      */
     void updateReplicaHealth(const std::string& node_id, bool success);
 
     /**
      * @brief Update a single replica state's health with replica_mutex_ already held
+        * @param state Mutable replica state to update.
+        * @param success True when the most recent contact succeeded.
+        * @param now Timestamp used for staleness calculations.
      */
     void updateReplicaHealthLocked(ReplicaState& state,
                                    bool success,
@@ -292,6 +333,7 @@ private:
     
     /**
      * @brief Check if have quorum of healthy replicas
+        * @return True when reachable healthy/degraded nodes satisfy quorum.
      */
     bool checkQuorum() const;
     

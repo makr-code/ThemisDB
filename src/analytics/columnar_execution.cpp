@@ -1,3 +1,14 @@
+/**
+ * @file columnar_execution.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=20, M=18, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
  * ThemisDB | File: columnar_execution.cpp | Version: 0.0.15 | Last Modified: 2026-05-31 12:49:01
  * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 1293
@@ -1027,6 +1038,11 @@ ColumnBatch AggregateOperator::aggregateGroupBy(const ColumnBatch &input,
         if (!src) {
             continue;
         }
+        // NOTE: Creating a new shared_ptr<Column> locally and initializing it
+        // before adding to result is not a data race. The column is constructed
+        // and populated in a single-threaded manner before being shared (via
+        // result.addColumn). No other thread can access out_col until the
+        // result is returned.
         auto out_col = std::make_shared<Column>(gc, src->type());
         out_col->reserve(num_rows);
         // Build first-row map (arena-backed) to avoid extra heap allocations.

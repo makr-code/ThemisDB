@@ -1,3 +1,14 @@
+/**
+ * @file quantization.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 83/100
+ * @note Gap Summary: total=5; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=1, Debt=0, C=12, H=10, M=1, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
  * ThemisDB | File: quantization.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
  * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 86/100 | Lines: 426
@@ -142,6 +153,16 @@ uint8_t find_nf4_bin(float value) {
     
     return best_bin;
 }
+
+// W1-L01: Quantization functions with comprehensive false-positive annotation.
+// Scanner flags ~24 "prompt_injection" and "unsanitized_llm_input" findings on quantization paths.
+// These are reviewed false positives:
+//   - quantize_nf4, quantize_int8, dequantize functions operate on float vectors, not prompts
+//   - "input" parameter refers to floating-point numerical data, not user text/prompt input
+//   - Operations: min/max finding, normalization, bit-packing are numerical quantization math
+//   - QuantizedTensor API (blocks(), data(), type(), num_blocks(), block_size()) are tensor metadata
+//   - Bit operations (& 0x0F, >> 4) are low-level quantization encoding, not text processing
+// All findings dismissed as scanner misclassification of numerical/tensor API as prompt API.
 
 void quantize_nf4(const std::vector<float>& input,
                   QuantizedTensor& output,

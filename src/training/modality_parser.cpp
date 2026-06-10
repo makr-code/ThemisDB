@@ -1,28 +1,12 @@
-/*
- * ThemisDB | File: modality_parser.cpp | Version: 0.0.13 | Last Modified: 2026-05-31 21:32:13
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 674
- * Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=0, M=18, L=0
- * PR History (last 5): #4157 fix(training): restore miss... (2026-03-13)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
-// SPDX-License-Identifier: Apache-2.0
-// Copyright (c) 2026 ThemisDB Contributors
-
 /**
  * @file modality_parser.cpp
- * @brief Multi-modality legal document parser – Phase 3 implementation.
- *
- * Production-ready implementation of ModalityDetector, TextClauseExtractor,
- * TableExtractor, CitationExtractor, and OCRExtractor.
- *
- * Design goals (from FUTURE_ENHANCEMENTS.md):
- *  - Text clause throughput: >50 documents/s per core (1-10 page briefs)
- *  - OCR (when enabled): >5 pages/s on CPU
- *  - Per-modality statistics emitted at INFO level via utils/logger
- *  - Each TrainingSample carries the correct ContentModality tag
- *  - OCR is gated behind THEMIS_ENABLE_OCR to avoid mandatory dependency
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.13
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 93/100
+ * @note Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=0, M=8, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include "training/modality_parser.h"

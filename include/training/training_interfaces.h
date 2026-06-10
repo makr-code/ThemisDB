@@ -1,29 +1,12 @@
-/*
- * ThemisDB | File: training_interfaces.h | Version: 0.0.12
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
-// SPDX-License-Identifier: Apache-2.0
-// Copyright (c) 2026 ThemisDB Contributors
-
-#pragma once
-
 /**
  * @file training_interfaces.h
- * @brief Abstract interfaces for the training module.
- *
- * Defines the pure-virtual contracts used by the orchestration layer,
- * test doubles, and future service implementations:
- *
- *   - ILoRACheckpointManager  – content-addressed checkpoint save/load/verify
- *   - ISampleProvenanceTracker – append-only sample lineage tracking
- *   - IKGEnrichmentInterface  – cached knowledge-graph enrichment
- *   - IConfidenceCalibrator   – threshold-only calibration (no weight mutation)
- *   - ITrainingPipeline       – fully async training job orchestration
- *   - ILineageQueryAPI        – read-only sample-to-model lineage traversal
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.12
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include "training/provenance_tracker.h"

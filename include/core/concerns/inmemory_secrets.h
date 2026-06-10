@@ -1,10 +1,12 @@
-/*
- * ThemisDB | File: inmemory_secrets.h | Version: 0.0.12 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 243
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * PR History (last 5): #4379 [WIP] Update module documen... (2026-03-22)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
+/**
+ * @file inmemory_secrets.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.1
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 94/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once
@@ -31,9 +33,9 @@ namespace concerns {
  * credentials from configuration files at startup.
  *
  * The secret store is mutable at runtime: call setSecret() to add or
- * update a value, and removeSecret() to revoke one.  All values are
- * stored as plain strings — callers are responsible for protecting the
- * process address space (e.g. via OS-level memory locking when needed).
+ * update a value, and removeSecret() to revoke one. All values are stored
+ * as plain strings; callers are responsible for protecting the process
+ * address space (e.g. via OS-level memory locking when needed).
  *
  * Thread-safety: all public methods are guarded by an internal mutex.
  */
@@ -139,21 +141,21 @@ private:
  *   getSecret("redis-url")     → reads THEMIS_SECRET_REDIS_URL
  *
  * listSecretNames() returns the names that were registered via
- * registerName() — since POSIX does not provide a portable enumeration API
+ * registerName(). Since POSIX does not provide a portable enumeration API
  * for environment variables, enumeration is opt-in.
  *
  * Thread-safety: getSecret() and hasSecret() call ::getenv() which is
  * not thread-safe on all platforms if the environment is mutated concurrently.
  * In typical server applications the environment is read-only after startup,
- * making this safe in practice.  The registered names set is mutex-protected.
+ * making this safe in practice. The registered-names list is mutex-protected.
  */
 class EnvSecretsProvider : public ISecrets {
 public:
     /**
      * @brief Construct with a custom env-var prefix.
      *
-     * @param prefix  Prefix prepended to every secret name before looking up
-     *                the environment variable.  Default: "THEMIS_SECRET_".
+    * @param prefix Prefix prepended to every secret name before looking up
+    *               the environment variable. Default: "THEMIS_SECRET_".
      */
     explicit EnvSecretsProvider(std::string prefix = "THEMIS_SECRET_")
         : prefix_(std::move(prefix)) {}
@@ -179,8 +181,10 @@ public:
     /**
      * @brief Return the registered secret names that are currently available.
      *
-     * Only names explicitly registered via registerName() are returned.
-     * Names without a matching environment variable are silently excluded.
+    * Only names explicitly registered via registerName() are returned.
+    * Names without a matching environment variable are silently excluded.
+    * Duplicate registrations are preserved and may therefore appear more
+    * than once in the returned vector.
      */
     std::vector<std::string> listSecretNames() const override {
         std::lock_guard<std::mutex> lock(mutex_);
@@ -206,7 +210,10 @@ public:
     /**
      * @brief Register a secret name so it appears in listSecretNames().
      *
-     * @param name  The logical secret name (e.g. "db.password").
+     * Duplicate names are allowed and are returned as duplicates by
+     * listSecretNames() when the corresponding environment variable exists.
+     *
+     * @param name The logical secret name (e.g. "db.password").
      */
     void registerName(std::string_view name) {
         std::lock_guard<std::mutex> lock(mutex_);

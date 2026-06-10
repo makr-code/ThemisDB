@@ -1,3 +1,14 @@
+/**
+ * @file tenant_manager.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
  * ThemisDB | File: tenant_manager.h | Version: 0.0.47
  * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
@@ -157,6 +168,7 @@ struct TenantUsage {
  */
 class TenantManager {
 public:
+    /** @brief Return global singleton instance of TenantManager. */
     static TenantManager& instance();
     
     // Configuration
@@ -180,7 +192,13 @@ public:
         bool enforce_quotas = true;
     };
     
+    /**
+     * @brief Apply manager configuration.
+     * @param config New manager configuration.
+     */
     void configure(const Config& config);
+
+    /** @brief Return current manager configuration. */
     const Config& getConfig() const { return config_; }
     
     // Tenant lifecycle
@@ -192,18 +210,57 @@ public:
         InternalError
     };
     
+    /**
+     * @brief Create new tenant and initialize usage counters.
+     * @param config Tenant configuration.
+     * @return Detailed create result code.
+     */
     CreateResult createTenant(const TenantConfig& config);
+
+    /**
+     * @brief Update existing tenant configuration.
+     * @param config Updated tenant configuration.
+     * @return true on success.
+     */
     bool updateTenant(const TenantConfig& config);
+
+    /**
+     * @brief Delete tenant and associated usage/domain mappings.
+     * @param tenant_id Tenant identifier.
+     * @return true on success.
+     */
     bool deleteTenant(std::string_view tenant_id);
+
+    /**
+     * @brief Enable or disable tenant.
+     * @param tenant_id Tenant identifier.
+     * @param enabled Desired enabled state.
+     * @return true on success.
+     */
     bool setTenantEnabled(std::string_view tenant_id, bool enabled);
     
     // Tenant lookup
+    /** @brief Return tenant configuration by id. */
     std::optional<TenantConfig> getTenant(std::string_view tenant_id) const;
+
+    /** @brief Return snapshot of all tenant configurations. */
     std::vector<TenantConfig> listTenants() const;
+
+    /** @brief Check whether tenant exists. */
     bool tenantExists(std::string_view tenant_id) const;
+
+    /** @brief Return total number of tenants. */
     size_t getTenantCount() const;
     
     // Request context resolution
+    /**
+     * @brief Resolve full tenant context from request metadata.
+     * @param headers Request headers.
+     * @param path Request path.
+     * @param user_id Optional user identifier.
+     * @param roles Optional role list.
+     * @return Tenant context when tenant is resolved and enabled.
+     */
     std::optional<TenantContext> resolveContext(
         const std::unordered_map<std::string, std::string>& headers,
         std::string_view path,
@@ -212,6 +269,12 @@ public:
     ) const;
     
     // Extract tenant ID from request
+    /**
+     * @brief Extract tenant id from headers/path/default-tenant fallback.
+     * @param headers Request headers.
+     * @param path Request path.
+     * @return Tenant id when resolvable, std::nullopt otherwise.
+     */
     std::optional<std::string> extractTenantId(
         const std::unordered_map<std::string, std::string>& headers,
         std::string_view path
@@ -270,35 +333,68 @@ public:
         std::string reason;
     };
     
+    /**
+     * @brief Validate a tenant quota request.
+     * @param tenant_id Tenant identifier.
+     * @param resource_type Resource type name.
+     * @param requested_amount Requested amount.
+     * @return Quota decision and reason.
+     */
     QuotaCheckResult checkQuota(std::string_view tenant_id, 
                                  std::string_view resource_type,
                                  uint64_t requested_amount = 1) const;
     
     // Resource usage tracking
+    /** @brief Return mutable usage counters for tenant, or nullptr when unknown. */
     TenantUsage* getUsage(std::string_view tenant_id);
+
+    /** @brief Return read-only usage counters for tenant, or nullptr when unknown. */
     const TenantUsage* getUsage(std::string_view tenant_id) const;
     
+    /** @brief Adjust storage usage by signed byte delta. */
     void incrementStorage(std::string_view tenant_id, int64_t bytes);
+
+    /** @brief Adjust document count by signed delta. */
     void incrementDocuments(std::string_view tenant_id, int64_t count);
+
+    /** @brief Adjust collection count by signed delta. */
     void incrementCollections(std::string_view tenant_id, int64_t count);
+
+    /** @brief Record one request for tenant metrics. */
     void recordRequest(std::string_view tenant_id);
+
+    /** @brief Record one query for tenant metrics. */
     void recordQuery(std::string_view tenant_id);
+
+    /** @brief Add read byte count to tenant metrics. */
     void recordBytesRead(std::string_view tenant_id, uint64_t bytes);
+
+    /** @brief Add written byte count to tenant metrics. */
     void recordBytesWritten(std::string_view tenant_id, uint64_t bytes);
+
+    /** @brief Record one rate-limited request event. */
     void recordRateLimited(std::string_view tenant_id);
     
     // Connection tracking
+    /** @brief Acquire one connection slot subject to tenant quotas. */
     bool acquireConnection(std::string_view tenant_id);
+
+    /** @brief Release one previously acquired connection slot. */
     void releaseConnection(std::string_view tenant_id);
     
     // Query tracking
+    /** @brief Acquire one query slot subject to tenant quotas. */
     bool acquireQuerySlot(std::string_view tenant_id);
+
+    /** @brief Release one previously acquired query slot. */
     void releaseQuerySlot(std::string_view tenant_id);
     
     // Metrics (Prometheus format)
+    /** @brief Export tenant metrics in Prometheus text format. */
     std::string getMetrics() const;
     
     // Key derivation for tenant-specific encryption
+    /** @brief Return tenant encryption key id or derived default key id. */
     std::string getTenantKeyId(std::string_view tenant_id) const;
     
 private:
@@ -352,6 +448,10 @@ public:
         }
     }
     
+    /**
+     * @brief Acquire query slot once for this guard instance.
+     * @return true when query slot is held by this guard.
+     */
     bool acquireQuerySlot() {
         if (!query_slot_acquired_) {
             auto& tm = TenantManager::instance();
@@ -363,8 +463,13 @@ public:
         return query_slot_acquired_;
     }
     
+    /** @brief Access bound tenant context. */
     const TenantContext& context() const { return ctx_; }
+
+    /** @brief Return whether connection slot was acquired. */
     bool hasConnection() const { return connection_acquired_; }
+
+    /** @brief Return whether query slot was acquired. */
     bool hasQuerySlot() const { return query_slot_acquired_; }
     
 private:

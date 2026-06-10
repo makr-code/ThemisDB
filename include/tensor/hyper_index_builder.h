@@ -1,45 +1,12 @@
-/*
- * ThemisDB | File: hyper_index_builder.h | Version: 1.0.0
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
- * @file tensor/hyper_index_builder.h
- * @brief HyperIndexBuilder — relational Hyper-Index construction from tabular data.
- *
- * ## Overview
- *
- * The Hyper-Index encodes relational data (one or more tables) as a TT-train
- * that exposes latent cross-column and cross-table relationships that are
- * invisible to the relational query planner.  Inspired by "Tensor Methods for
- * Data Science" (Anandkumar et al.) and the ThemisDB Phase-7 paper §Relational.
- *
- * ### Construction algorithm
- *
- * 1. For each column, discretise values into `bucket_count` buckets.
- * 2. Build a co-occurrence count tensor T of order `d = num_columns` and shape
- *    `[bucket_count] ^ d`, where T[b₀,…,b_{d-1}] counts rows that fall into
- *    bucket b_k along column k simultaneously.
- * 3. TT-decompose T (ε ≤ config.eps) to obtain the `HyperIndexTensor`.
- *
- * ### Latent join discovery
- *
- * Given a query predicate on a subset of columns the query engine contracts the
- * corresponding TT-cores and returns the residual train as a latent join result.
- *
- * ### Tenant isolation
- *
- * Each `HyperIndexTensor` carries the `tenant_id` from which it was built.
- * `HyperIndexBuilder` never mixes rows from different tenants.
- *
- * ## Extension bridge
- *
- * `HyperIndexBuilder::BucketAssignmentFn` allows callers to inject FK-aware or
- * domain-aware bucket assignment per row while retaining the built-in uniform
- * bucketisation path as fallback.
+ * @file hyper_index_builder.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 1.0.0
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once

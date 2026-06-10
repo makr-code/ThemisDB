@@ -1,31 +1,12 @@
-/*
- * ThemisDB | File: rag_context_assembler.h | Version: 0.0.10
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file rag_context_assembler.h
- * @brief Budget-aware context assembler for RAG inference.
- *
- * Implements the "Greedy Fill with Response Guard" strategy:
- *
- *   1. Compute a ContextWindowBudget for the current model context window,
- *      system prompt, and user query.
- *   2. Sort retrieved chunks by relevance score (descending); ties are
- *      resolved deterministically via chunk_id/source/content.
- *   3. Greedily add chunks while the token budget allows.
- *   4. If the last chunk does not fit in full, truncate it and append a
- *      configurable truncation marker instead of silently dropping it.
- *   5. Return an AssembledContext that reports which chunks were used, how
- *      many tokens they consumed, and how many tokens are left for the
- *      model response.
- *
- * The assembler also provides computeMaxTokens() which derives the
- * InferenceRequest::max_tokens value so the caller never accidentally
- * requests more response tokens than the context window can hold.
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.10
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once

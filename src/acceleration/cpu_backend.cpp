@@ -1,7 +1,18 @@
+/**
+ * @file cpu_backend.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=0, M=2, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
- * ThemisDB | File: cpu_backend.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:49:01
+ * ThemisDB | File: cpu_backend.cpp | Version: 0.0.47 | Last Modified: 2026-06-02 11:49:05
  * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 512
- * Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=3, M=6, L=0
+ * Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=0, M=2, L=0
  * PR History (last 5): #3466 docs(acceleration): Add IEE... (2026-03-12) | #3111 [geo] Implement runtime GPU... (2026-03-12) | #3091 [geo] Fix circuit-breaker s... (2026-03-12) | #3078 [geo] GPU backend stub: fix... (2026-03-12) | #3061 [geo] Add populateCudaGeoDi... (2026-03-12)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)

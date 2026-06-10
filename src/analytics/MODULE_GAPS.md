@@ -1,4755 +1,3738 @@
 # analytics Module - Developer Gap Note
 
-> Auto-generated from ai_working/gap_scan_v3_aggregate.json.
+> Auto-generated from ai_working\gap_scan_results.json.
 > This file is overwritten on each regeneration.
 
 ## Scan Snapshot
 
 - Module: analytics
-- Generated: 2026-06-02 12:40:50
+- Generated: 2026-06-04 08:50:21
 - Status: Critical Findings Present
-- Total Findings: 1176
-- Actionable Findings (Critical + High): 483
-- Affected Files: 24
+- Total Findings: 653
+- Actionable Findings (Critical + High): 393
+- Affected Files: 26
 
 ## Severity Summary
 
 | Severity | Count |
 |---|---:|
-| Critical | 133 |
-| High | 350 |
-| Medium | 688 |
-| Low | 0 |
+| Critical | 110 |
+| High | 283 |
+| Medium | 224 |
+| Low | 36 |
 
 ## Category Summary
 
 | Category | Count |
 |---|---:|
-| performance_patterns | 438 |
-| container | 199 |
-| reliability | 87 |
-| concurrency | 86 |
-| distributed_consistency | 60 |
-| exception_safety | 54 |
-| platform | 48 |
-| determinism | 46 |
-| performance | 30 |
-| memory | 29 |
-| observability | 27 |
-| audit_logging | 20 |
-| llm_ai_safety | 19 |
-| raii | 14 |
-| uninitialized | 12 |
-| legacy_duplication | 6 |
-| oop_design | 3 |
-| type_conversion | 3 |
+| resource_leaked_in_exception | 51 |
+| data_race | 46 |
+| unordered_container_iter | 40 |
+| o_n_squared | 38 |
+| undefined_conflict_resolution | 38 |
+| copy_overhead | 34 |
+| missing_version_tracking | 31 |
+| string_concat_loop | 31 |
+| hardcoded_output | 29 |
+| uninitialized_access | 29 |
+| map_vs_unordered_map | 27 |
+| nested_loop_find | 21 |
+| db_connection_leak | 20 |
+| hardcoded_path | 19 |
+| missing_latency_metric | 14 |
+| pointer_arithmetic_unbounded | 13 |
+| size_assumption | 12 |
+| uncaught_exception | 12 |
+| generic_catch | 11 |
+| thread_join_no_timeout | 10 |
+| lock_contention | 9 |
+| fp_exact_comparison | 8 |
+| missing_trace_point | 8 |
+| primitive_no_volatile | 8 |
+| unnecessary_copy | 8 |
+| iterator_invalidation | 7 |
+| shared_state_no_sync | 7 |
+| range_temporary | 6 |
+| uninitialized_array | 6 |
+| uninitialized_member_field | 6 |
+| manual_cleanup_in_destructor | 5 |
+| unstructured_log | 5 |
+| legacy_or_compat_path | 4 |
+| missing_move_constructor_defaulted | 4 |
+| stale_doc_section_reference | 4 |
+| missing_dtor | 3 |
+| missing_override_keyword | 3 |
+| model_integrity_gap | 3 |
+| duplicate_qualified_signature | 2 |
+| module_doc_linkset_drift | 2 |
+| multiplication_overflow | 2 |
+| repeated_search | 2 |
+| unspecified_consistency | 2 |
+| allocation_loop | 1 |
+| arithmetic_overflow | 1 |
+| blocking_no_timeout | 1 |
+| exception_in_destructor | 1 |
+| explicit_lock_unlock | 1 |
+| lock_in_loop | 1 |
+| manual_cleanup | 1 |
+| memory_order | 1 |
+| missing_vector_reserve | 1 |
+| no_retry_logic | 1 |
+| no_timeout | 1 |
+| prompt_injection | 1 |
+| unvalidated_llm_output | 1 |
 
 ## File Overview
 
 | File | Findings | Critical | High | Medium | Low |
 |---|---:|---:|---:|---:|---:|
-| src/analytics/process_mining.cpp | 159 | 0 | 14 | 145 | 0 |
-| src/analytics/olap.cpp | 150 | 9 | 42 | 99 | 0 |
-| src/analytics/forecasting.cpp | 110 | 43 | 42 | 23 | 2 |
-| src/analytics/distributed_analytics.cpp | 103 | 28 | 57 | 18 | 0 |
-| src/analytics/cep_engine.cpp | 99 | 2 | 22 | 75 | 0 |
-| src/analytics/automl.cpp | 77 | 9 | 13 | 54 | 1 |
-| src/analytics/columnar_execution.cpp | 60 | 1 | 32 | 27 | 0 |
-| src/analytics/streaming_window.cpp | 53 | 9 | 18 | 26 | 0 |
-| src/analytics/streaming_join.cpp | 49 | 0 | 10 | 39 | 0 |
-| src/analytics/anomaly_detection.cpp | 42 | 7 | 9 | 25 | 1 |
-| src/analytics/nlp_text_analyzer.cpp | 38 | 8 | 4 | 25 | 1 |
-| src/analytics/ml_serving.cpp | 34 | 0 | 20 | 14 | 0 |
-| src/analytics/diff_engine.cpp | 29 | 1 | 13 | 15 | 0 |
-| src/analytics/arrow_flight.cpp | 23 | 3 | 3 | 17 | 0 |
-| src/analytics/llm_process_analyzer.cpp | 23 | 3 | 8 | 12 | 0 |
-| src/analytics/model_serving.cpp | 22 | 4 | 14 | 4 | 0 |
-| src/analytics/incremental_view.cpp | 18 | 0 | 10 | 8 | 0 |
-| src/analytics/process_pattern_matcher.cpp | 17 | 0 | 1 | 16 | 0 |
-| src/analytics/expert_system_engine.cpp | 16 | 1 | 2 | 13 | 0 |
-| src/analytics/jit_aggregation.cpp | 14 | 4 | 6 | 4 | 0 |
-| src/analytics/arrow_export.cpp | 13 | 0 | 4 | 9 | 0 |
-| src/analytics/analytics_export.cpp | 12 | 1 | 6 | 5 | 0 |
-| src/analytics/lora_pattern_classifier.cpp | 8 | 0 | 0 | 8 | 0 |
-| src/analytics/knowledge_base.cpp | 7 | 0 | 0 | 7 | 0 |
+| analytics/distributed_analytics.cpp | 93 | 33 | 50 | 10 | 0 |
+| analytics/forecasting.cpp | 89 | 22 | 54 | 10 | 3 |
+| analytics/process_mining.cpp | 72 | 3 | 22 | 47 | 0 |
+| analytics/olap.cpp | 66 | 2 | 33 | 31 | 0 |
+| analytics/cep_engine.cpp | 46 | 4 | 18 | 21 | 3 |
+| analytics/streaming_window.cpp | 44 | 13 | 22 | 8 | 1 |
+| analytics/automl.cpp | 28 | 2 | 9 | 16 | 1 |
+| analytics/nlp_text_analyzer.cpp | 27 | 8 | 2 | 16 | 1 |
+| analytics/ml_serving.cpp | 26 | 0 | 1 | 2 | 23 |
+| analytics/anomaly_detection.cpp | 25 | 10 | 5 | 9 | 1 |
+| analytics/columnar_execution.cpp | 21 | 1 | 14 | 6 | 0 |
+| analytics/streaming_join.cpp | 21 | 0 | 8 | 13 | 0 |
+| analytics/diff_engine.cpp | 15 | 0 | 14 | 1 | 0 |
+| analytics/incremental_view.cpp | 11 | 0 | 6 | 5 | 0 |
+| analytics/model_serving.cpp | 11 | 3 | 4 | 3 | 1 |
+| analytics/llm_process_analyzer.cpp | 10 | 2 | 2 | 6 | 0 |
+| analytics/arrow_flight.cpp | 9 | 4 | 4 | 1 | 0 |
+| analytics/jit_aggregation.cpp | 8 | 2 | 3 | 3 | 0 |
+| analytics/analytics_export.cpp | 7 | 1 | 5 | 1 | 0 |
+| analytics/expert_system_engine.cpp | 7 | 0 | 3 | 4 | 0 |
+| analytics/arrow_export.cpp | 4 | 0 | 3 | 1 | 0 |
+| analytics/lora_pattern_classifier.cpp | 4 | 0 | 0 | 4 | 0 |
+| analytics/process_pattern_matcher.cpp | 4 | 0 | 1 | 3 | 0 |
+| analytics/knowledge_base.cpp | 3 | 0 | 0 | 3 | 0 |
+| analytics/FUTURE_ENHANCEMENTS.md | 1 | 0 | 0 | 0 | 1 |
+| analytics/PRODUCTION_REQUIREMENTS.md | 1 | 0 | 0 | 0 | 1 |
 
 ## Full Scanner Findings
 
-### src/analytics/process_mining.cpp
-Total findings: 159
+### analytics/distributed_analytics.cpp
+Total findings: 93
 
-- Line 0: severity=HIGH; category=uncategorized
-  Confidence: band=high; score=0.73
+- Line 21: severity=CRITICAL; category=missing_version_tracking
+  Description: Concurrent update without version vector or causal ordering
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::distributed_consistency
+  Context: *     → merge: SUM/COUNT aggregated, AVG recomputed, MIN/MAX reduced
+- Line 22: severity=CRITICAL; category=missing_version_tracking
+  Description: Concurrent update without version vector or causal ordering
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::distributed_consistency
+  Context: *     → returns merged OLAPResult; partial results returned when < 20% shards fail
+- Line 32: severity=CRITICAL; category=missing_version_tracking
+  Description: Concurrent update without version vector or causal ordering
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::distributed_consistency
+  Context: * Thread safety: `DistributedAnalyticsSharding` is thread-safe; concurrent
+- Line 127: severity=CRITICAL; category=missing_version_tracking
+  Description: Concurrent update without version vector or causal ordering
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::distributed_consistency
+  Context: // Per-group merge accumulator
+- Line 131: severity=CRITICAL; category=missing_version_tracking
+  Description: Concurrent update without version vector or causal ordering
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::distributed_consistency
+  Context: * Tracks the partial state needed to correctly merge one measure column
+- Line 176: severity=CRITICAL; category=missing_version_tracking
+  Description: Concurrent update without version vector or causal ordering
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::distributed_consistency
+  Context: // during the shard-merge step we use the weighted approach.
+- Line 207: severity=CRITICAL; category=missing_version_tracking
+  Description: Concurrent update without version vector or causal ordering
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::distributed_consistency
+  Context: // duplicates).  A full HyperLogLog merge would be exact.
+- Line 251: severity=CRITICAL; category=missing_version_tracking
+  Description: Concurrent update without version vector or causal ordering
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::distributed_consistency
+  Context: * Merge another Chan state (for STDDEV/VARIANCE parallel combination).
+- Line 253: severity=CRITICAL; category=missing_version_tracking
+  Description: Concurrent update without version vector or causal ordering
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::distributed_consistency
+  Context: void mergeVarianceState(double other_count, double other_mean, double other_m2) {
+- Line 262: severity=CRITICAL; category=multiplication_overflow
+  Description: Multi-factor multiplication detected (CWE-190, likely overflow risk)
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::type_conversion
+  Context: ['        double delta = other_mean - mean;', '        mean         = (count * mean + other_count * other_mean) / total;', '        m2 += other_m2 + delta * delta * count * other_count / total;', '        count = total;', '    }']
+- Line 266: severity=CRITICAL; category=missing_version_tracking
+  Description: Concurrent update without version vector or causal ordering
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::distributed_consistency
+  Context: /** Finalise and return the merged aggregate value. */
+- Line 366: severity=CRITICAL; category=thread_join_no_timeout
+  Description: Thread join/wait without timeout (blocking indefinitely)
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::phase1_thread_safety
+  Context: health_monitor_thread_.join();
+- Line 562: severity=CRITICAL; category=missing_version_tracking
+  Description: Concurrent update without version vector or causal ordering
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::distributed_consistency
+  Context: // merge steps as if they were concurrent, but the entire merge process is single-threaded.
+- Line 571: severity=CRITICAL; category=missing_version_tracking
+  Description: Concurrent update without version vector or causal ordering
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::distributed_consistency
+  Context: OLAPResult merged;
+- Line 574: severity=CRITICAL; category=missing_version_tracking
+  Description: Concurrent update without version vector or causal ordering
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::distributed_consistency
+  Context: merged.columns = p.columns;
+- Line 644: severity=CRITICAL; category=missing_version_tracking
+  Description: Concurrent update without version vector or causal ordering
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::distributed_consistency
+  Context: // the caller added one.  We use it for weighted merge.
+- Line 666: severity=CRITICAL; category=missing_version_tracking
+  Description: Concurrent update without version vector or causal ordering
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::distributed_consistency
+  Context: // Step 3: Merge grand_totals (SUM / COUNT / MIN / MAX)
+- Line 687: severity=CRITICAL; category=missing_version_tracking
+  Description: Concurrent update without version vector or causal ordering
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::distributed_consistency
+  Context: // Step 4: Build the merged rows from the accumulators
+- Line 689: severity=CRITICAL; category=missing_version_tracking
+  Description: Concurrent update without version vector or causal ordering
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::distributed_consistency
+  Context: merged.rows.reserve(group_order.size());
+- Line 707: severity=CRITICAL; category=missing_version_tracking
+  Description: Concurrent update without version vector or causal ordering
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::distributed_consistency
+  Context: merged.rows.push_back(std::move(out));
+- Line 711: severity=CRITICAL; category=missing_version_tracking
+  Description: Concurrent update without version vector or causal ordering
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::distributed_consistency
+  Context: merged.grand_totals.reserve(query.measures.size());
+- Line 717: severity=CRITICAL; category=missing_version_tracking
+  Description: Concurrent update without version vector or causal ordering
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::distributed_consistency
+  Context: merged.grand_totals[m.name] = toDouble(it->second.finalise());
+- Line 721: severity=CRITICAL; category=missing_version_tracking
+  Description: Concurrent update without version vector or causal ordering
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::distributed_consistency
+  Context: merged.total_rows        = static_cast<int64_t>(merged.rows.size());
+- Line 722: severity=CRITICAL; category=missing_version_tracking
+  Description: Concurrent update without version vector or causal ordering
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::distributed_consistency
+  Context: merged.has_more          = false;
+- Line 723: severity=CRITICAL; category=missing_version_tracking
+  Description: Concurrent update without version vector or causal ordering
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::distributed_consistency
+  Context: merged.execution_time_ms = 0.0;
+- Line 725: severity=CRITICAL; category=missing_version_tracking
+  Description: Concurrent update without version vector or causal ordering
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::distributed_consistency
+  Context: merged.execution_time_ms += p.execution_time_ms;
+- Line 728: severity=CRITICAL; category=missing_version_tracking
+  Description: Concurrent update without version vector or causal ordering
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::distributed_consistency
+  Context: return merged;
+- Line 871: severity=CRITICAL; category=missing_version_tracking
+  Description: Concurrent update without version vector or causal ordering
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::distributed_consistency
+  Context: "allow_partial_results=false; aborting merge",
+- Line 886: severity=CRITICAL; category=missing_version_tracking
+  Description: Concurrent update without version vector or causal ordering
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::distributed_consistency
+  Context: "max_failure_rate {:.1f}% ({}/{} shards failed); aborting merge",
+- Line 888: severity=CRITICAL; category=missing_version_tracking
+  Description: Concurrent update without version vector or causal ordering
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::distributed_consistency
+  Context: // Return partial shard_info without a merged result so the caller
+- Line 900: severity=CRITICAL; category=missing_version_tracking
+  Description: Concurrent update without version vector or causal ordering
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::distributed_consistency
+  Context: // Merge
+- Line 902: severity=CRITICAL; category=missing_version_tracking
+  Description: Concurrent update without version vector or causal ordering
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::distributed_consistency
+  Context: result.merged = mergeResults(partials, query);
+- Line 911: severity=CRITICAL; category=missing_version_tracking
+  Description: Concurrent update without version vector or causal ordering
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::distributed_consistency
+  Context: return executeDistributed(query).merged;
 - Line 5: severity=HIGH; category=uninitialized_access
   Description: Container element access before initialization
-  Remediation: Use .at() for bounds checking or initialize element first
-  Context: * PR History (last 5): #4626 fix(analytics): replace who... (2026-04-13) | #4402 [WIP] Add automated
-- Line 17: severity=HIGH; category=legacy_duplication; pattern=legacy_or_compat_path
-  Description: Legacy/compatibility/deprecation marker detected (review removal/containment plan).
-  Context: //   are defined.  The stub flag is an explicit opt-in compatibility switch for
-  Confidence: band=high; score=0.8
-- Line 793: severity=HIGH; category=performance; pattern=nested_loop_find
-  Description: O(n²) pattern: linear search inside nested loop
-  Context: auto it1 = parallel.find({targets[i], targets[j]});
-  Confidence: band=very_high; score=0.9
-- Line 794: severity=HIGH; category=performance; pattern=nested_loop_find
-  Description: O(n²) pattern: linear search inside nested loop
-  Context: auto it2 = parallel.find({targets[j], targets[i]});
-  Confidence: band=very_high; score=0.9
-- Line 851: severity=HIGH; category=performance; pattern=nested_loop_find
-  Description: O(n²) pattern: linear search inside nested loop
-  Context: auto it1 = parallel.find({sources[i], sources[j]});
-  Confidence: band=very_high; score=0.9
-- Line 852: severity=HIGH; category=performance; pattern=nested_loop_find
-  Description: O(n²) pattern: linear search inside nested loop
-  Context: auto it2 = parallel.find({sources[j], sources[i]});
-  Confidence: band=very_high; score=0.9
-- Line 1049: severity=HIGH; category=o_n_squared
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::container
+  Context: * PR History (last 5): #4929 [Docs][analytics] Refresh m... (2026-05-10) | #4324 Implement cached he
+- Line 21: severity=HIGH; category=undefined_conflict_resolution
+  Description: Merge without explicit conflict resolution strategy
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::distributed_consistency
+  Context: *     → merge: SUM/COUNT aggregated, AVG recomputed, MIN/MAX reduced
+- Line 22: severity=HIGH; category=undefined_conflict_resolution
+  Description: Merge without explicit conflict resolution strategy
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::distributed_consistency
+  Context: *     → returns merged OLAPResult; partial results returned when < 20% shards fail
+- Line 127: severity=HIGH; category=undefined_conflict_resolution
+  Description: Merge without explicit conflict resolution strategy
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::distributed_consistency
+  Context: // Per-group merge accumulator
+- Line 131: severity=HIGH; category=undefined_conflict_resolution
+  Description: Merge without explicit conflict resolution strategy
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::distributed_consistency
+  Context: * Tracks the partial state needed to correctly merge one measure column
+- Line 176: severity=HIGH; category=undefined_conflict_resolution
+  Description: Merge without explicit conflict resolution strategy
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::distributed_consistency
+  Context: // during the shard-merge step we use the weighted approach.
+- Line 207: severity=HIGH; category=undefined_conflict_resolution
+  Description: Merge without explicit conflict resolution strategy
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::distributed_consistency
+  Context: // duplicates).  A full HyperLogLog merge would be exact.
+- Line 251: severity=HIGH; category=undefined_conflict_resolution
+  Description: Merge without explicit conflict resolution strategy
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::distributed_consistency
+  Context: * Merge another Chan state (for STDDEV/VARIANCE parallel combination).
+- Line 253: severity=HIGH; category=undefined_conflict_resolution
+  Description: Merge without explicit conflict resolution strategy
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::distributed_consistency
+  Context: void mergeVarianceState(double other_count, double other_mean, double other_m2) {
+- Line 259: severity=HIGH; category=arithmetic_overflow
+  Description: Arithmetic operation result assigned to variable (potential overflow)
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::type_conversion
+  Context: ['            return;', '        }', '        double total = count + other_count;', '        double delta = other_mean - mean;', '        mean         = (count * mean + other_count * other_mean) / total;']
+- Line 266: severity=HIGH; category=undefined_conflict_resolution
+  Description: Merge without explicit conflict resolution strategy
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::distributed_consistency
+  Context: /** Finalise and return the merged aggregate value. */
+- Line 376: severity=HIGH; category=unspecified_consistency
+  Description: Read without explicit consistency level (replication lag unknown)
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::distributed_consistency
+  Context: health_monitor_thread_ = std::thread(&DistributedAnalyticsSharding::runHealthMonitor, this);
+- Line 381: severity=HIGH; category=db_connection_leak
+  Description: Resource acquired but not released — potential leak
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::raii
+  Context: while (!stopping_.load(std::memory_order_acquire)) {
+- Line 384: severity=HIGH; category=lock_contention
+  Description: Mutex lock in loop — high contention
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::performance
+  Context: std::unique_lock<std::mutex> lock(health_monitor_mutex_);
+- Line 386: severity=HIGH; category=db_connection_leak
+  Description: Resource acquired but not released — potential leak
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::raii
+  Context: [this] { return stopping_.load(std::memory_order_acquire); });
+- Line 389: severity=HIGH; category=db_connection_leak
+  Description: Resource acquired but not released — potential leak
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::raii
+  Context: if (stopping_.load(std::memory_order_acquire)) {
+- Line 542: severity=HIGH; category=undefined_conflict_resolution
+  Description: Merge without explicit conflict resolution strategy
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::distributed_consistency
+  Context: // mergeResults
+- Line 546: severity=HIGH; category=undefined_conflict_resolution
+  Description: Merge without explicit conflict resolution strategy
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::distributed_consistency
+  Context: OLAPResult DistributedAnalyticsSharding::mergeResults(const std::vector<OLAPResult> &partials, const OLAPQuery &query) {
+- Line 548: severity=HIGH; category=undefined_conflict_resolution
+  Description: Merge without explicit conflict resolution strategy
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::distributed_consistency
+  Context: // This static method executes as a single-threaded sequential merge operation.
+- Line 549: severity=HIGH; category=undefined_conflict_resolution
+  Description: Merge without explicit conflict resolution strategy
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::distributed_consistency
+  Context: // The mergeResults() call is always made from within a synchronous context
+- Line 552: severity=HIGH; category=undefined_conflict_resolution
+  Description: Merge without explicit conflict resolution strategy
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::distributed_consistency
+  Context: // 1. Each shard's partial result is computed independently (no concurrent merge on shards).
+- Line 553: severity=HIGH; category=undefined_conflict_resolution
+  Description: Merge without explicit conflict resolution strategy
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::distributed_consistency
+  Context: // 2. Partials are gathered synchronously before mergeResults() is called.
+- Line 554: severity=HIGH; category=undefined_conflict_resolution
+  Description: Merge without explicit conflict resolution strategy
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::distributed_consistency
+  Context: // 3. The merge itself (Step 1–4) is fully sequential with no shared mutable state
+- Line 556: severity=HIGH; category=undefined_conflict_resolution
+  Description: Merge without explicit conflict resolution strategy
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::distributed_consistency
+  Context: //    groups, grand_accs, and merged result).
+- Line 562: severity=HIGH; category=undefined_conflict_resolution
+  Description: Merge without explicit conflict resolution strategy
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::distributed_consistency
+  Context: // merge steps as if they were concurrent, but the entire merge process is single-threaded.
+- Line 571: severity=HIGH; category=undefined_conflict_resolution
+  Description: Merge without explicit conflict resolution strategy
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::distributed_consistency
+  Context: OLAPResult merged;
+- Line 574: severity=HIGH; category=undefined_conflict_resolution
+  Description: Merge without explicit conflict resolution strategy
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::distributed_consistency
+  Context: merged.columns = p.columns;
+- Line 612: severity=HIGH; category=o_n_squared
   Description: O(n²) pattern: find() on vector inside loop
-  Remediation: Use std::unordered_map or std::set for O(log n) or O(1) lookup
-  Context: if (ids.find(e.activity) == ids.end()) {
-- Line 1049: severity=HIGH; category=o_n_squared
-  Description: O(n²) pattern: find() on vector inside loop
-  Remediation: Use std::unordered_map or std::set for O(log n) or O(1) lookup
-  Context: if (ids.find(e.activity) == ids.end()) {
-- Line 1050: severity=HIGH; category=performance; pattern=nested_loop_find
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::container
+  Context: auto vit = row.values.find(dim.name);
+- Line 613: severity=HIGH; category=nested_loop_find
   Description: O(n²) pattern: linear search inside nested loop
-  Context: if (ids.find(e.activity) == ids.end()) {
-  Confidence: band=very_high; score=0.9
-- Line 1809: severity=HIGH; category=performance; pattern=nested_loop_find
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::performance_patterns
+  Context: auto vit = row.values.find(dim.name);
+- Line 644: severity=HIGH; category=undefined_conflict_resolution
+  Description: Merge without explicit conflict resolution strategy
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::distributed_consistency
+  Context: // the caller added one.  We use it for weighted merge.
+- Line 666: severity=HIGH; category=undefined_conflict_resolution
+  Description: Merge without explicit conflict resolution strategy
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::distributed_consistency
+  Context: // Step 3: Merge grand_totals (SUM / COUNT / MIN / MAX)
+- Line 677: severity=HIGH; category=nested_loop_find
   Description: O(n²) pattern: linear search inside nested loop
-  Context: tokens.erase(tokens.find(token));
-  Confidence: band=very_high; score=0.9
-- Line 2275: severity=HIGH; category=repeated_search
-  Description: find/search in loop — O(n²) or worse
-  Remediation: Move search outside loop or build index/map before loop
-  Context: if (std::find(modelOrder.begin(), modelOrder.end(), act) == modelOrder.end()) {
-- Line 2337: severity=HIGH; category=determinism; pattern=fp_exact_comparison
-  Description: Floating-point exact comparison (use tolerance/epsilon)
-  Context: m.type     = (syncCost == 0.0) ? "sync" : "log+model";
-  Confidence: band=very_high; score=0.9
-- Line 2510: severity=HIGH; category=pointer_arithmetic
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::performance_patterns
+  Context: auto git = partial.grand_totals.find(m.name);
+- Line 687: severity=HIGH; category=undefined_conflict_resolution
+  Description: Merge without explicit conflict resolution strategy
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::distributed_consistency
+  Context: // Step 4: Build the merged rows from the accumulators
+- Line 689: severity=HIGH; category=undefined_conflict_resolution
+  Description: Merge without explicit conflict resolution strategy
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::distributed_consistency
+  Context: merged.rows.reserve(group_order.size());
+- Line 707: severity=HIGH; category=undefined_conflict_resolution
+  Description: Merge without explicit conflict resolution strategy
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::distributed_consistency
+  Context: merged.rows.push_back(std::move(out));
+- Line 711: severity=HIGH; category=undefined_conflict_resolution
+  Description: Merge without explicit conflict resolution strategy
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::distributed_consistency
+  Context: merged.grand_totals.reserve(query.measures.size());
+- Line 717: severity=HIGH; category=undefined_conflict_resolution
+  Description: Merge without explicit conflict resolution strategy
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::distributed_consistency
+  Context: merged.grand_totals[m.name] = toDouble(it->second.finalise());
+- Line 721: severity=HIGH; category=undefined_conflict_resolution
+  Description: Merge without explicit conflict resolution strategy
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::distributed_consistency
+  Context: merged.total_rows        = static_cast<int64_t>(merged.rows.size());
+- Line 722: severity=HIGH; category=undefined_conflict_resolution
+  Description: Merge without explicit conflict resolution strategy
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::distributed_consistency
+  Context: merged.has_more          = false;
+- Line 723: severity=HIGH; category=undefined_conflict_resolution
+  Description: Merge without explicit conflict resolution strategy
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::distributed_consistency
+  Context: merged.execution_time_ms = 0.0;
+- Line 725: severity=HIGH; category=undefined_conflict_resolution
+  Description: Merge without explicit conflict resolution strategy
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::distributed_consistency
+  Context: merged.execution_time_ms += p.execution_time_ms;
+- Line 728: severity=HIGH; category=undefined_conflict_resolution
+  Description: Merge without explicit conflict resolution strategy
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::distributed_consistency
+  Context: return merged;
+- Line 863: severity=HIGH; category=unspecified_consistency
+  Description: Read without explicit consistency level (replication lag unknown)
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::distributed_consistency
+  Context: auto [partial, info] = f.get();
+- Line 871: severity=HIGH; category=undefined_conflict_resolution
+  Description: Merge without explicit conflict resolution strategy
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::distributed_consistency
+  Context: "allow_partial_results=false; aborting merge",
+- Line 886: severity=HIGH; category=undefined_conflict_resolution
+  Description: Merge without explicit conflict resolution strategy
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::distributed_consistency
+  Context: "max_failure_rate {:.1f}% ({}/{} shards failed); aborting merge",
+- Line 888: severity=HIGH; category=undefined_conflict_resolution
+  Description: Merge without explicit conflict resolution strategy
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::distributed_consistency
+  Context: // Return partial shard_info without a merged result so the caller
+- Line 900: severity=HIGH; category=undefined_conflict_resolution
+  Description: Merge without explicit conflict resolution strategy
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::distributed_consistency
+  Context: // Merge
+- Line 902: severity=HIGH; category=undefined_conflict_resolution
+  Description: Merge without explicit conflict resolution strategy
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::distributed_consistency
+  Context: result.merged = mergeResults(partials, query);
+- Line 910: severity=HIGH; category=missing_trace_point
+  Description: Critical function execute without trace point
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::observability
+  Context: OLAPResult DistributedAnalyticsSharding::execute(const OLAPQuery &query) {
+- Line 911: severity=HIGH; category=undefined_conflict_resolution
+  Description: Merge without explicit conflict resolution strategy
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::distributed_consistency
+  Context: return executeDistributed(query).merged;
+- Line 433: severity=MEDIUM; category=generic_catch
+  Description: Generic catch(...) — specific exception types ignored
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::phase1_error_handling
+  Context: if (executor) {
+
+        try {
+
+            initial_healthy = executor->isHealthy();
+
+        } catch (...) {
+
+            initial_healthy = false;
+
+        }
+
+    }
+- Line 433: severity=MEDIUM; category=uncaught_exception
+  Description: Generic catch(...) — specific exception types ignored
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::reliability
+  Context: } catch (...) {
+- Line 529: severity=MEDIUM; category=string_concat_loop
+  Description: String concatenation in loop (use std::stringstream)
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::performance_patterns
+  Context: key += '|';
+- Line 530: severity=MEDIUM; category=string_concat_loop
+  Description: String concatenation in loop — O(n²) behavior
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::performance
+  Context: key += '|';
+- Line 535: severity=MEDIUM; category=string_concat_loop
+  Description: String concatenation in loop — O(n²) behavior
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::performance
+  Context: key += "<missing>";
+- Line 580: severity=MEDIUM; category=unordered_container_iter
+  Description: Non-deterministic unordered_map/set iteration order
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::determinism
+  Context: std::unordered_map<std::string, Measure::Function> measure_funcs;
+- Line 586: severity=MEDIUM; category=unordered_container_iter
+  Description: Non-deterministic unordered_map/set iteration order
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::determinism
+  Context: std::unordered_map<std::string, bool> dim_set;
+- Line 595: severity=MEDIUM; category=unordered_container_iter
+  Description: Non-deterministic unordered_map/set iteration order
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::determinism
+  Context: std::unordered_map<std::string, GroupAccumulator> groups;
+- Line 668: severity=MEDIUM; category=unordered_container_iter
+  Description: Non-deterministic unordered_map/set iteration order
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::determinism
+  Context: std::unordered_map<std::string, MeasureAccumulator> grand_accs;
+- Line 910: severity=MEDIUM; category=missing_latency_metric
+  Description: No latency measurement for operation
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::observability
+  Context: OLAPResult DistributedAnalyticsSharding::execute(const OLAPQuery &query) {
+
+### analytics/forecasting.cpp
+Total findings: 89
+
+- Line 473: severity=CRITICAL; category=missing_dtor
+  Description: Class HoltWintersParams allocates resources but has no destructor
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::raii
+  Context: class/struct HoltWintersParams
+- Line 1222: severity=CRITICAL; category=multiplication_overflow
+  Description: Multi-factor multiplication detected (CWE-190, likely overflow risk)
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::type_conversion
+  Context: ['                        // partial derivative w.r.t. delta[ci]', '                        double dt = t_norm[i] - p.changepoints_t[static_cast<size_t>(ci)];', '                        grad += 2.0 * err * dt / static_cast<double>(n);', '                    }', '                }']
+- Line 1815: severity=CRITICAL; category=data_race
+  Description: Shared data access without lock protection
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::concurrency
+  Context: auto preds = impl_->predict(static_cast<int>(impl_->train_y.size()) - 1);
+- Line 1821: severity=CRITICAL; category=data_race
+  Description: Shared data access without lock protection
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::concurrency
+  Context: impl_->in_sample_rmse = preds.empty() ? 0.0 : std::sqrt(ss / static_cast<double>(preds.size()));
+- Line 1824: severity=CRITICAL; category=data_race
+  Description: Shared data access without lock protection
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::concurrency
+  Context: impl_->cache_entry.linear_p       = impl_->linear_p;
+- Line 1825: severity=CRITICAL; category=data_race
+  Description: Shared data access without lock protection
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::concurrency
+  Context: impl_->cache_entry.ses_p          = impl_->ses_p;
+- Line 1826: severity=CRITICAL; category=data_race
+  Description: Shared data access without lock protection
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::concurrency
+  Context: impl_->cache_entry.hw_p           = impl_->hw_p;
+- Line 1827: severity=CRITICAL; category=data_race
+  Description: Shared data access without lock protection
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::concurrency
+  Context: impl_->cache_entry.arima_p        = impl_->arima_p;
+- Line 1828: severity=CRITICAL; category=data_race
+  Description: Shared data access without lock protection
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::concurrency
+  Context: impl_->cache_entry.in_sample_rmse = impl_->in_sample_rmse;
+- Line 1829: severity=CRITICAL; category=data_race
+  Description: Shared data access without lock protection
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::concurrency
+  Context: impl_->cache_entry.config         = impl_->config;
+- Line 1830: severity=CRITICAL; category=data_race
+  Description: Shared data access without lock protection
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::concurrency
+  Context: impl_->cache_entry.lin_sx         = impl_->lin_sx;
+- Line 1831: severity=CRITICAL; category=data_race
+  Description: Shared data access without lock protection
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::concurrency
+  Context: impl_->cache_entry.lin_sy         = impl_->lin_sy;
+- Line 1832: severity=CRITICAL; category=data_race
+  Description: Shared data access without lock protection
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::concurrency
+  Context: impl_->cache_entry.lin_sxx        = impl_->lin_sxx;
+- Line 1833: severity=CRITICAL; category=data_race
+  Description: Shared data access without lock protection
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::concurrency
+  Context: impl_->cache_entry.lin_sxy        = impl_->lin_sxy;
+- Line 1834: severity=CRITICAL; category=data_race
+  Description: Shared data access without lock protection
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::concurrency
+  Context: impl_->cache_entry.lin_n          = impl_->lin_n;
+- Line 1982: severity=CRITICAL; category=data_race
+  Description: Shared data access without lock protection
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::concurrency
+  Context: int n_prev      = static_cast<int>(impl_->train_y.size()) - 1; // index before this obs
+- Line 2317: severity=CRITICAL; category=data_race
+  Description: Shared data access without lock protection
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::concurrency
+  Context: model.impl_->hw_p.S[static_cast<size_t>(i)] = readD("hw_S_" + std::to_string(i));
+- Line 2329: severity=CRITICAL; category=data_race
+  Description: Shared data access without lock protection
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::concurrency
+  Context: model.impl_->arima_p.ar_coeffs[static_cast<size_t>(i)] = readD("ar_c_" + std::to_string(i));
+- Line 2336: severity=CRITICAL; category=data_race
+  Description: Shared data access without lock protection
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::concurrency
+  Context: model.impl_->arima_p.ma_coeffs[static_cast<size_t>(i)] = readD("ma_c_" + std::to_string(i));
+- Line 2343: severity=CRITICAL; category=data_race
+  Description: Shared data access without lock protection
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::concurrency
+  Context: model.impl_->arima_p.last_window[static_cast<size_t>(i)] = readD("ar_w_" + std::to_string(i));
+- Line 2350: severity=CRITICAL; category=data_race
+  Description: Shared data access without lock protection
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::concurrency
+  Context: model.impl_->arima_p.last_resid[static_cast<size_t>(i)] = readD("ar_r_" + std::to_string(i));
+- Line 2358: severity=CRITICAL; category=data_race
+  Description: Shared data access without lock protection
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::concurrency
+  Context: model.impl_->train_ts[static_cast<size_t>(i)] = readL("ts_" + std::to_string(i));
+- Line 5: severity=HIGH; category=uninitialized_access
+  Description: Container element access before initialization
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::container
+  Context: * PR History (last 5): #4929 [Docs][analytics] Refresh m... (2026-05-10) | #4317 feat(analytics): SI
+- Line 322: severity=HIGH; category=uninitialized_array
+  Description: Array contains garbage values; use with zeros or explicit init
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::uninitialized
+  Context: Array declared without initialization
+- Line 504: severity=HIGH; category=pointer_arithmetic_unbounded
   Description: Pointer/array access without bounds validation
-  Remediation: Add bounds check before dereferencing
-  Context: for (const auto &[freq, data] : freq_sorted) {
-- Line 222: severity=MEDIUM; category=performance; pattern=map_vs_unordered_map
-  Description: std::map used only for lookups (consider std::unordered_map)
-  Context: std::map<std::string, std::vector<ProcessEvent>> cases;
-  Confidence: band=high; score=0.74
-- Line 299: severity=MEDIUM; category=uncaught_exception
-  Description: Generic catch(...) — specific exception types ignored
-  Remediation: Catch specific exceptions: catch(std::exception& e) { ... }
-  Context: } catch (...) {
-- Line 306: severity=MEDIUM; category=performance; pattern=map_vs_unordered_map
-  Description: std::map used only for lookups (consider std::unordered_map)
-  Context: std::map<std::string, int> variant_counts;
-  Confidence: band=high; score=0.74
-- Line 310: severity=MEDIUM; category=determinism; pattern=timestamp_sorting_unstable
-  Description: Timestamp-based sorting without stable_sort (non-deterministic ties)
-  Context: // Sort by timestamp
-  Confidence: band=high; score=0.74
-- Line 326: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: activitySeq.push_back(e.activity);
-  Confidence: band=high; score=0.74
-- Line 326: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: activitySeq.push_back(e.activity);
-  Confidence: band=high; score=0.74
-- Line 346: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: log.traces.push_back(std::move(trace));
-  Confidence: band=high; score=0.74
-- Line 353: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: log.id_to_activity.push_back(act);
-  Confidence: band=high; score=0.74
-- Line 377: severity=MEDIUM; category=performance; pattern=map_vs_unordered_map
-  Description: std::map used only for lookups (consider std::unordered_map)
-  Context: std::map<std::string, std::vector<ProcessEvent>> cases;
-  Confidence: band=high; score=0.74
-- Line 420: severity=MEDIUM; category=uncaught_exception
-  Description: Generic catch(...) — specific exception types ignored
-  Remediation: Catch specific exceptions: catch(std::exception& e) { ... }
-  Context: } catch (...) {
-- Line 427: severity=MEDIUM; category=determinism; pattern=timestamp_sorting_unstable
-  Description: Timestamp-based sorting without stable_sort (non-deterministic ties)
-  Context: // Sort events within each case by timestamp
-  Confidence: band=high; score=0.74
-- Line 434: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: log.traces.push_back(std::move(trace));
-  Confidence: band=high; score=0.74
-- Line 464: severity=MEDIUM; category=performance; pattern=map_vs_unordered_map
-  Description: std::map used only for lookups (consider std::unordered_map)
-  Context: std::map<std::string, std::vector<ProcessEvent>> cases;
-  Confidence: band=high; score=0.74
-- Line 484: severity=MEDIUM; category=determinism; pattern=unordered_container_iter
-  Description: Non-deterministic unordered_map/set iteration order
-  Context: std::unordered_set<std::string> visited;
-  Confidence: band=medium; score=0.66
-- Line 534: severity=MEDIUM; category=uncaught_exception
-  Description: Generic catch(...) — specific exception types ignored
-  Remediation: Catch specific exceptions: catch(std::exception& e) { ... }
-  Context: } catch (...) {
-- Line 543: severity=MEDIUM; category=determinism; pattern=timestamp_sorting_unstable
-  Description: Timestamp-based sorting without stable_sort (non-deterministic ties)
-  Context: // Sort by timestamp
-  Confidence: band=high; score=0.74
-- Line 549: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: log.traces.push_back(std::move(trace));
-  Confidence: band=high; score=0.74
-- Line 613: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: dfg.edges.push_back(edge);
-  Confidence: band=high; score=0.74
-- Line 708: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: process.nodes.push_back(node);
-  Confidence: band=high; score=0.74
-- Line 725: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: process.edges.push_back(edge);
-  Confidence: band=high; score=0.74
-- Line 743: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: process.edges.push_back(edge);
-  Confidence: band=high; score=0.74
-- Line 743: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: process.edges.push_back(edge);
-  Confidence: band=high; score=0.74
-- Line 757: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: process.edges.push_back(edge);
-  Confidence: band=high; score=0.74
-- Line 763: severity=MEDIUM; category=performance; pattern=map_vs_unordered_map
-  Description: std::map used only for lookups (consider std::unordered_map)
-  Context: std::map<std::string, std::vector<std::string>> outgoing; // activity -> list of following activities
-  Confidence: band=high; score=0.74
-- Line 764: severity=MEDIUM; category=performance; pattern=map_vs_unordered_map
-  Description: std::map used only for lookups (consider std::unordered_map)
-  Context: std::map<std::string, std::vector<std::string>> incoming; // activity -> list of preceding activities
-  Confidence: band=high; score=0.74
-- Line 777: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: outgoing[fromName].push_back(toName);
-  Confidence: band=high; score=0.74
-- Line 777: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: outgoing[fromName].push_back(toName);
-  Confidence: band=high; score=0.74
-- Line 806: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: process.nodes.push_back(gateway);
-  Confidence: band=high; score=0.74
-- Line 806: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: process.nodes.push_back(gateway);
-  Confidence: band=high; score=0.74
-- Line 810: severity=MEDIUM; category=performance; pattern=unnecessary_copy
-  Description: Unnecessary copy: use auto& for container element access
-  Context: auto actNode = actToNode[activity];
-  Confidence: band=high; score=0.74
-- Line 813: severity=MEDIUM; category=determinism; pattern=unordered_container_iter
-  Description: Non-deterministic unordered_map/set iteration order
-  Context: std::unordered_set<std::string> targetNodes;
-  Confidence: band=medium; score=0.66
-- Line 829: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: process.edges.push_back(toGateway);
-  Confidence: band=high; score=0.74
-- Line 837: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: process.edges.push_back(fromGateway);
-  Confidence: band=high; score=0.74
-- Line 864: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: process.nodes.push_back(gateway);
-  Confidence: band=high; score=0.74
-- Line 864: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: process.nodes.push_back(gateway);
-  Confidence: band=high; score=0.74
-- Line 864: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: process.nodes.push_back(gateway);
-  Confidence: band=high; score=0.74
-- Line 868: severity=MEDIUM; category=performance; pattern=unnecessary_copy
-  Description: Unnecessary copy: use auto& for container element access
-  Context: auto actNode = actToNode[activity];
-  Confidence: band=high; score=0.74
-- Line 871: severity=MEDIUM; category=determinism; pattern=unordered_container_iter
-  Description: Non-deterministic unordered_map/set iteration order
-  Context: std::unordered_set<std::string> sourceNodes;
-  Confidence: band=medium; score=0.66
-- Line 888: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: process.edges.push_back(toGateway);
-  Confidence: band=high; score=0.74
-- Line 888: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: process.edges.push_back(toGateway);
-  Confidence: band=high; score=0.74
-- Line 955: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: process.nodes.push_back(startNode);
-  Confidence: band=high; score=0.74
-- Line 974: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: process.nodes.push_back(node);
-  Confidence: band=high; score=0.74
-- Line 974: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: process.nodes.push_back(node);
-  Confidence: band=high; score=0.74
-- Line 974: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: process.nodes.push_back(node);
-  Confidence: band=high; score=0.74
-- Line 993: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: process.edges.push_back(edge);
-  Confidence: band=high; score=0.74
-- Line 1011: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: process.edges.push_back(edge);
-  Confidence: band=high; score=0.74
-- Line 1011: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: process.edges.push_back(edge);
-  Confidence: band=high; score=0.74
-- Line 1021: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: process.edges.push_back(edge);
-  Confidence: band=high; score=0.74
-- Line 1045: severity=MEDIUM; category=performance; pattern=map_vs_unordered_map
-  Description: std::map used only for lookups (consider std::unordered_map)
-  Context: std::map<std::string, int> buildActivityIds(const std::vector<ProcessTrace> &traces) {
-  Confidence: band=high; score=0.74
-- Line 1046: severity=MEDIUM; category=performance; pattern=map_vs_unordered_map
-  Description: std::map used only for lookups (consider std::unordered_map)
-  Context: std::map<std::string, int> ids;
-  Confidence: band=high; score=0.74
-- Line 1101: severity=MEDIUM; category=determinism; pattern=unordered_container_iter
-  Description: Non-deterministic unordered_map/set iteration order
-  Context: std::unordered_set<std::string> visited;
-  Confidence: band=medium; score=0.66
-- Line 1122: severity=MEDIUM; category=determinism; pattern=unordered_container_iter
-  Description: Non-deterministic unordered_map/set iteration order
-  Context: std::unordered_map<std::string, std::string> parent;
-  Confidence: band=medium; score=0.66
-- Line 1145: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: result.push_back(std::move(g));
-  Confidence: band=high; score=0.74
-- Line 1145: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: result.push_back(std::move(g));
-  Confidence: band=high; score=0.74
-- Line 1145: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: result.push_back(std::move(g));
-  Confidence: band=high; score=0.74
-- Line 1200: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: order.push_back(node);
-  Confidence: band=high; score=0.74
-- Line 1200: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: order.push_back(node);
-  Confidence: band=high; score=0.74
-- Line 1345: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: sub.events.push_back(e);
-  Confidence: band=high; score=0.74
-- Line 1345: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: sub.events.push_back(e);
-  Confidence: band=high; score=0.74
-- Line 1345: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: sub.events.push_back(e);
-  Confidence: band=high; score=0.74
-- Line 1359: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: sub.events.push_back(e);
-  Confidence: band=high; score=0.74
-- Line 1359: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: sub.events.push_back(e);
-  Confidence: band=high; score=0.74
-- Line 1373: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: sub.events.push_back(e);
-  Confidence: band=high; score=0.74
-- Line 1373: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: sub.events.push_back(e);
-  Confidence: band=high; score=0.74
-- Line 1413: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: process.nodes.push_back(task);
-  Confidence: band=high; score=0.74
-- Line 1466: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: process.nodes.push_back(task);
-  Confidence: band=high; score=0.74
-- Line 1466: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: process.nodes.push_back(task);
-  Confidence: band=high; score=0.74
-- Line 1555: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: process.nodes.push_back(mid);
-  Confidence: band=high; score=0.74
-- Line 1600: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: process.nodes.push_back(loopStart);
-  Confidence: band=high; score=0.74
-- Line 1662: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: process.nodes.push_back(startNode);
-  Confidence: band=high; score=0.74
-- Line 1662: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: process.nodes.push_back(startNode);
-  Confidence: band=high; score=0.74
-- Line 1694: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: actSeq.push_back(e.activity);
-  Confidence: band=high; score=0.74
-- Line 1694: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: actSeq.push_back(e.activity);
-  Confidence: band=high; score=0.74
-- Line 1695: severity=MEDIUM; category=copy_overhead
-  Description: push_back in loop — consider pre-allocating with reserve()
-  Remediation: Call vector.reserve(expected_size) before loop to avoid reallocations
-  Context: actSeq.push_back(e.activity);
-- Line 1707: severity=MEDIUM; category=copy_overhead
-  Description: push_back in loop — consider pre-allocating with reserve()
-  Remediation: Call vector.reserve(expected_size) before loop to avoid reallocations
-  Context: v.case_ids.push_back(trace.case_id);
-- Line 1713: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: result.push_back(std::move(v));
-  Confidence: band=high; score=0.74
-- Line 1746: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: transitions[fromName].push_back(toName);
-  Confidence: band=high; score=0.74
-- Line 1746: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: transitions[fromName].push_back(toName);
-  Confidence: band=high; score=0.74
-- Line 1823: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: result.deviations.push_back("Case " + trace.case_id + ": missing token for activity '" + activity
-  Confidence: band=high; score=0.74
-- Line 1824: severity=MEDIUM; category=copy_overhead
-  Description: push_back in loop — consider pre-allocating with reserve()
-  Remediation: Call vector.reserve(expected_size) before loop to avoid reallocations
-  Context: result.deviations.push_back("Case " + trace.case_id + ": missing token for activity '" + activity
-- Line 1857: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: result.deviations.push_back("Case " + trace.case_id + ": ended without reaching end node");
-  Confidence: band=high; score=0.74
-- Line 1857: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: result.deviations.push_back("Case " + trace.case_id + ": ended without reaching end node");
-  Confidence: band=high; score=0.74
-- Line 1858: severity=MEDIUM; category=copy_overhead
-  Description: push_back in loop — consider pre-allocating with reserve()
-  Remediation: Call vector.reserve(expected_size) before loop to avoid reallocations
-  Context: result.deviations.push_back("Case " + trace.case_id + ": ended without reaching end node");
-- Line 1891: severity=MEDIUM; category=hardcoded_path
-  Description: Hardcoded path separator — not portable
-  Remediation: Use std::filesystem::path or boost::filesystem for cross-platform paths
-  Context: xml << R"(<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL")" << "\n";
-- Line 1891: severity=MEDIUM; category=hardcoded_path
-  Description: Hardcoded path separator — not portable
-  Remediation: Use std::filesystem::path or boost::filesystem for cross-platform paths
-  Context: xml << R"(<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL")" << "\n";
-- Line 1892: severity=MEDIUM; category=hardcoded_path
-  Description: Hardcoded path separator — not portable
-  Remediation: Use std::filesystem::path or boost::filesystem for cross-platform paths
-  Context: xml << R"(             xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI")" << "\n";
-- Line 1892: severity=MEDIUM; category=hardcoded_path
-  Description: Hardcoded path separator — not portable
-  Remediation: Use std::filesystem::path or boost::filesystem for cross-platform paths
-  Context: xml << R"(             xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI")" << "\n";
-- Line 1893: severity=MEDIUM; category=hardcoded_path
-  Description: Hardcoded path separator — not portable
-  Remediation: Use std::filesystem::path or boost::filesystem for cross-platform paths
-  Context: xml << R"(             targetNamespace="http://themis.db/process">)" << "\n";
-- Line 1893: severity=MEDIUM; category=hardcoded_path
-  Description: Hardcoded path separator — not portable
-  Remediation: Use std::filesystem::path or boost::filesystem for cross-platform paths
-  Context: xml << R"(             targetNamespace="http://themis.db/process">)" << "\n";
-- Line 1916: severity=MEDIUM; category=hardcoded_path
-  Description: Hardcoded path separator — not portable
-  Remediation: Use std::filesystem::path or boost::filesystem for cross-platform paths
-  Context: xml << "    <" << element << R"( id=")" << node.id << R"(" name=")" << node.name << R"("/>)" << "\n"
-- Line 1916: severity=MEDIUM; category=hardcoded_path
-  Description: Hardcoded path separator — not portable
-  Remediation: Use std::filesystem::path or boost::filesystem for cross-platform paths
-  Context: xml << "    <" << element << R"( id=")" << node.id << R"(" name=")" << node.name << R"("/>)" << "\n"
-- Line 1922: severity=MEDIUM; category=hardcoded_path
-  Description: Hardcoded path separator — not portable
-  Remediation: Use std::filesystem::path or boost::filesystem for cross-platform paths
-  Context: << edge.to << R"("/>)" << "\n";
-- Line 1922: severity=MEDIUM; category=hardcoded_path
-  Description: Hardcoded path separator — not portable
-  Remediation: Use std::filesystem::path or boost::filesystem for cross-platform paths
-  Context: << edge.to << R"("/>)" << "\n";
-- Line 1925: severity=MEDIUM; category=hardcoded_path
-  Description: Hardcoded path separator — not portable
-  Remediation: Use std::filesystem::path or boost::filesystem for cross-platform paths
-  Context: xml << "  </process>\n";
-- Line 1926: severity=MEDIUM; category=hardcoded_path
-  Description: Hardcoded path separator — not portable
-  Remediation: Use std::filesystem::path or boost::filesystem for cross-platform paths
-  Context: xml << "</definitions>\n";
-- Line 2009: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: embedding.push_back(normalized);
-  Confidence: band=high; score=0.74
-- Line 2009: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: embedding.push_back(normalized);
-  Confidence: band=high; score=0.74
-- Line 2043: severity=MEDIUM; category=copy_overhead
-  Description: push_back in loop — consider pre-allocating with reserve()
-  Remediation: Call vector.reserve(expected_size) before loop to avoid reallocations
-  Context: info.trace_indices.push_back(static_cast<int>(i));
-- Line 2046: severity=MEDIUM; category=copy_overhead
-  Description: push_back in loop — consider pre-allocating with reserve()
-  Remediation: Call vector.reserve(expected_size) before loop to avoid reallocations
-  Context: info.activities.push_back(ev.activity);
-- Line 2056: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: variant_keys.push_back(sig);
-  Confidence: band=high; score=0.74
-- Line 2067: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: result[0].push_back(idx);
-  Confidence: band=high; score=0.74
-- Line 2067: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: result[0].push_back(idx);
-  Confidence: band=high; score=0.74
-- Line 2156: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: result[cluster_id].push_back(trace_idx);
-  Confidence: band=high; score=0.74
-- Line 2156: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: result[cluster_id].push_back(trace_idx);
-  Confidence: band=high; score=0.74
-- Line 2156: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: result[cluster_id].push_back(trace_idx);
-  Confidence: band=high; score=0.74
-- Line 2156: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: result[cluster_id].push_back(trace_idx);
-  Confidence: band=high; score=0.74
-- Line 2251: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: succ_list[src].push_back(d);
-  Confidence: band=high; score=0.74
-- Line 2251: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: succ_list[src].push_back(d);
-  Confidence: band=high; score=0.74
-- Line 2251: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: succ_list[src].push_back(d);
-  Confidence: band=high; score=0.74
-- Line 2265: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: modelOrder.push_back(cur);
-  Confidence: band=high; score=0.74
-- Line 2275: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: modelOrder.push_back(act);
-  Confidence: band=high; score=0.74
-- Line 2275: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: modelOrder.push_back(act);
-  Confidence: band=high; score=0.74
-- Line 2396: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: activity_durations[trace.events[i].activity].push_back(duration);
-  Confidence: band=high; score=0.74
-- Line 2396: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: activity_durations[trace.events[i].activity].push_back(duration);
-  Confidence: band=high; score=0.74
-- Line 2423: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: durations.push_back(duration);
-  Confidence: band=high; score=0.74
-- Line 2423: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: durations.push_back(duration);
-  Confidence: band=high; score=0.74
-- Line 2439: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: bottlenecks.push_back(activity);
-  Confidence: band=high; score=0.74
-- Line 2451: severity=MEDIUM; category=hardcoded_path
-  Description: Hardcoded path separator — not portable
-  Remediation: Use std::filesystem::path or boost::filesystem for cross-platform paths
-  Context: xml << "<pnml xmlns=\"http://www.pnml.org/version-1-0/pnml\">\n";
-- Line 2451: severity=MEDIUM; category=hardcoded_path
-  Description: Hardcoded path separator — not portable
-  Remediation: Use std::filesystem::path or boost::filesystem for cross-platform paths
-  Context: xml << "<pnml xmlns=\"http://www.pnml.org/version-1-0/pnml\">\n";
-- Line 2452: severity=MEDIUM; category=hardcoded_path
-  Description: Hardcoded path separator — not portable
-  Remediation: Use std::filesystem::path or boost::filesystem for cross-platform paths
-  Context: xml << "  <net id=\"net1\" type=\"http://www.pnml.org/version-1-0/ptnet\">\n";
-- Line 2452: severity=MEDIUM; category=hardcoded_path
-  Description: Hardcoded path separator — not portable
-  Remediation: Use std::filesystem::path or boost::filesystem for cross-platform paths
-  Context: xml << "  <net id=\"net1\" type=\"http://www.pnml.org/version-1-0/ptnet\">\n";
-- Line 2452: severity=MEDIUM; category=hardcoded_path
-  Description: Hardcoded path separator — not portable
-  Remediation: Use std::filesystem::path or boost::filesystem for cross-platform paths
-  Context: xml << "  <net id=\"net1\" type=\"http://www.pnml.org/version-1-0/ptnet\">\n";
-- Line 2453: severity=MEDIUM; category=hardcoded_path
-  Description: Hardcoded path separator — not portable
-  Remediation: Use std::filesystem::path or boost::filesystem for cross-platform paths
-  Context: xml << "    <name><text>" << model.name << "</text></name>\n";
-- Line 2458: severity=MEDIUM; category=hardcoded_path
-  Description: Hardcoded path separator — not portable
-  Remediation: Use std::filesystem::path or boost::filesystem for cross-platform paths
-  Context: xml << "      <name><text>" << node.name << "</text></name>\n";
-- Line 2459: severity=MEDIUM; category=hardcoded_path
-  Description: Hardcoded path separator — not portable
-  Remediation: Use std::filesystem::path or boost::filesystem for cross-platform paths
-  Context: xml << "    </place>\n";
-- Line 2465: severity=MEDIUM; category=hardcoded_path
-  Description: Hardcoded path separator — not portable
-  Remediation: Use std::filesystem::path or boost::filesystem for cross-platform paths
-  Context: xml << "      <name><text>" << edge.from << " -> " << edge.to << "</text></name>\n";
-- Line 2466: severity=MEDIUM; category=hardcoded_path
-  Description: Hardcoded path separator — not portable
-  Remediation: Use std::filesystem::path or boost::filesystem for cross-platform paths
-  Context: xml << "    </transition>\n";
-- Line 2471: severity=MEDIUM; category=hardcoded_path
-  Description: Hardcoded path separator — not portable
-  Remediation: Use std::filesystem::path or boost::filesystem for cross-platform paths
-  Context: xml << "    <arc id=\"arc_" << edge.id << "\" source=\"" << edge.from << "\" target=\"" << edge.to <
-- Line 2471: severity=MEDIUM; category=hardcoded_path
-  Description: Hardcoded path separator — not portable
-  Remediation: Use std::filesystem::path or boost::filesystem for cross-platform paths
-  Context: xml << "    <arc id=\"arc_" << edge.id << "\" source=\"" << edge.from << "\" target=\"" << edge.to <
-- Line 2471: severity=MEDIUM; category=hardcoded_path
-  Description: Hardcoded path separator — not portable
-  Remediation: Use std::filesystem::path or boost::filesystem for cross-platform paths
-  Context: xml << "    <arc id=\"arc_" << edge.id << "\" source=\"" << edge.from << "\" target=\"" << edge.to <
-- Line 2471: severity=MEDIUM; category=hardcoded_path
-  Description: Hardcoded path separator — not portable
-  Remediation: Use std::filesystem::path or boost::filesystem for cross-platform paths
-  Context: xml << "    <arc id=\"arc_" << edge.id << "\" source=\"" << edge.from << "\" target=\"" << edge.to <
-- Line 2474: severity=MEDIUM; category=hardcoded_path
-  Description: Hardcoded path separator — not portable
-  Remediation: Use std::filesystem::path or boost::filesystem for cross-platform paths
-  Context: xml << "  </net>\n";
-- Line 2475: severity=MEDIUM; category=hardcoded_path
-  Description: Hardcoded path separator — not portable
-  Remediation: Use std::filesystem::path or boost::filesystem for cross-platform paths
-  Context: xml << "</pnml>\n";
-- Line 2489: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: activities.push_back(event.activity);
-  Confidence: band=high; score=0.74
-- Line 2489: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: activities.push_back(event.activity);
-  Confidence: band=high; score=0.74
-- Line 2489: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: activities.push_back(event.activity);
-  Confidence: band=high; score=0.74
-- Line 2490: severity=MEDIUM; category=copy_overhead
-  Description: push_back in loop — consider pre-allocating with reserve()
-  Remediation: Call vector.reserve(expected_size) before loop to avoid reallocations
-  Context: activities.push_back(event.activity);
-- Line 2496: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: pattern_info[window].second.push_back(trace.case_id);
-  Confidence: band=high; score=0.74
-- Line 2497: severity=MEDIUM; category=copy_overhead
-  Description: push_back in loop — consider pre-allocating with reserve()
-  Remediation: Call vector.reserve(expected_size) before loop to avoid reallocations
-  Context: pattern_info[window].second.push_back(trace.case_id);
-- Line 2503: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: freq_sorted.push_back({info.first, {seq, info.second}});
-  Confidence: band=high; score=0.74
-- Line 2504: severity=MEDIUM; category=copy_overhead
-  Description: push_back in loop — consider pre-allocating with reserve()
-  Remediation: Call vector.reserve(expected_size) before loop to avoid reallocations
-  Context: freq_sorted.push_back({info.first, {seq, info.second}});
-- Line 2517: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: results.push_back(frag);
-  Confidence: band=high; score=0.74
-- Line 2532: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: variant_traces[log.traces[i].variant_signature].push_back(i);
-  Confidence: band=high; score=0.74
-- Line 2549: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: clusters.push_back(cluster);
-  Confidence: band=high; score=0.74
-- Line 2583: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: evolution.snapshots.push_back(snapshot);
-  Confidence: band=high; score=0.74
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::phase1_memory_safety
+  Context: double pred = L + T;
 
-### src/analytics/olap.cpp
-Total findings: 150
+            double res  = y[i] - pred;
 
-- Line 188: severity=CRITICAL; category=no_timeout
-  Description: thread_join without timeout — can block indefinitely
-  Remediation: Add timeout parameter (e.g., wait_for(timeout), with_timeout())
-  Context: cleanup_thread.join();
-- Line 296: severity=CRITICAL; category=data_race
-  Description: Shared data access without lock protection
-  Remediation: Protect shared data with std::lock_guard or std::unique_lock
-  Context: const size_t max_entries = impl_->config.result_cache_max_entries;
-- Line 297: severity=CRITICAL; category=data_race
-  Description: Shared data access without lock protection
-  Remediation: Protect shared data with std::lock_guard or std::unique_lock
-  Context: const int64_t ttl_ms     = impl_->config.result_cache_ttl_ms;
-- Line 408: severity=CRITICAL; category=iterator_invalidation
-  Description: Iterator fieldIt may be invalidated by container modification
-  Remediation: Re-create iterator after modification or use erase() return value
-  Context: auto fieldIt = row.find(dim.name);
-- Line 926: severity=CRITICAL; category=data_race
-  Description: Shared data access without lock protection
-  Remediation: Protect shared data with std::lock_guard or std::unique_lock
-  Context: auto agg_result = impl_->gpu_accelerator->aggregate(gpu_rows, *gpu_func, value_fn);
-- Line 1192: severity=CRITICAL; category=iterator_invalidation
-  Description: Iterator it may be invalidated by container modification
-  Remediation: Re-create iterator after modification or use erase() return value
-  Context: auto it = row.find(name);
-- Line 1555: severity=CRITICAL; category=data_race
-  Description: Shared data access without lock protection
-  Remediation: Protect shared data with std::lock_guard or std::unique_lock
-  Context: impl_->cached_result  = engine.execute(query);
-- Line 1569: severity=CRITICAL; category=data_race
-  Description: Shared data access without lock protection
-  Remediation: Protect shared data with std::lock_guard or std::unique_lock
-  Context: impl_->cached_result  = impl_->buildResult(definition_.dimensions, definition_.measures);
-- Line 1581: severity=CRITICAL; category=data_race
-  Description: Shared data access without lock protection
-  Remediation: Protect shared data with std::lock_guard or std::unique_lock
-  Context: OLAPResult result = impl_->cached_result;
-- Line 0: severity=HIGH; category=uncategorized
-  Confidence: band=high; score=0.73
-- Line 0: severity=HIGH; category=uncategorized
-  Context: Array declared without initialization
-  Confidence: band=high; score=0.81
-- Line 0: severity=HIGH; category=uncategorized
-  Context: Array declared without initialization
-  Confidence: band=high; score=0.81
-- Line 0: severity=HIGH; category=uncategorized
-  Context: Array declared without initialization
-  Confidence: band=high; score=0.81
+            ss += res * res;
+
+            double Lnew = alpha * y[i] + (1.0 - alpha) * (L + T);
+
+            T           = beta * (Lnew - L) + (1.0 - beta) * T;
+
+            L           = Lnew;
+
+        }
+- Line 504: severity=HIGH; category=resource_leaked_in_exception
+  Description: Exception before delete causes resource leak
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::exception_safety
+- Line 505: severity=HIGH; category=resource_leaked_in_exception
+  Description: Exception before delete causes resource leak
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::exception_safety
+- Line 567: severity=HIGH; category=resource_leaked_in_exception
+  Description: Exception before delete causes resource leak
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::exception_safety
+- Line 571: severity=HIGH; category=resource_leaked_in_exception
+  Description: Exception before delete causes resource leak
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::exception_safety
+- Line 572: severity=HIGH; category=resource_leaked_in_exception
+  Description: Exception before delete causes resource leak
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::exception_safety
+- Line 575: severity=HIGH; category=pointer_arithmetic_unbounded
+  Description: Pointer/array access without bounds validation
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::phase1_memory_safety
+  Context: Tnew         = beta * (Lnew - L) + (1.0 - beta) * T;
+
+            Snew         = gamma * (y[i] / (std::abs(Lnew) > 1e-12 ? Lnew : 1e-10)) + (1.0 - gamma) * S[static_cast<size_t>(si)];
+
+        } else {
+
+            Lnew = alpha * (y[i] - S[static_cast<size_t>(si)]) + (1.0 - alpha) * (L + T);
+
+            Tnew = beta * (Lnew - L) + (1.0 - beta) * T;
+
+            Snew = gamma * (y[i] - Lnew) + (1.0 - gamma) * S[static_cast<size_t>(si)];
+
+        }
+- Line 575: severity=HIGH; category=resource_leaked_in_exception
+  Description: Exception before delete causes resource leak
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::exception_safety
+- Line 576: severity=HIGH; category=resource_leaked_in_exception
+  Description: Exception before delete causes resource leak
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::exception_safety
+- Line 579: severity=HIGH; category=resource_leaked_in_exception
+  Description: Exception before delete causes resource leak
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::exception_safety
+- Line 580: severity=HIGH; category=resource_leaked_in_exception
+  Description: Exception before delete causes resource leak
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::exception_safety
+- Line 1102: severity=HIGH; category=shared_state_no_sync
+  Description: Shared state accessed without synchronization
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::phase1_thread_safety
+  Context: double m_off = 0.0;                 ///< initial offset
+- Line 1114: severity=HIGH; category=uninitialized_access
+  Description: Container element access before initialization
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::container
+  Context: std::vector<double> fourier_weekly; ///< 2*fourier_order_weekly coeffs [a1,b1,a2,b2,...]
+- Line 1126: severity=HIGH; category=shared_state_no_sync
+  Description: Shared state accessed without synchronization
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::phase1_thread_safety
+  Context: double m_acc = m_off;
+- Line 1202: severity=HIGH; category=shared_state_no_sync
+  Description: Shared state accessed without synchronization
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::phase1_thread_safety
+  Context: p.m_off = (sy - p.k * sx) / dn;
+- Line 1204: severity=HIGH; category=shared_state_no_sync
+  Description: Shared state accessed without synchronization
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::phase1_thread_safety
+  Context: p.m_off = sy / dn;
+- Line 1272: severity=HIGH; category=fp_exact_comparison
+  Description: Floating-point exact comparison (use tolerance/epsilon)
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::determinism
+  Context: if (a != b) {
+- Line 1470: severity=HIGH; category=size_assumption
+  Description: Hardcoded size assumption — pointer/int size may differ on platforms
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::platform
+  Context: k.data_hash = fnv1a64(y.data(), y.size() * sizeof(double));
+- Line 1471: severity=HIGH; category=size_assumption
+  Description: Hardcoded size assumption — pointer/int size may differ on platforms
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::platform
+  Context: k.data_hash = fnv1a64(ts.data(), ts.size() * sizeof(int64_t)) ^ k.data_hash;
+- Line 1473: severity=HIGH; category=size_assumption
+  Description: Hardcoded size assumption — pointer/int size may differ on platforms
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::platform
+  Context: uint64_t cfg_h = fnv1a64(&cfg.alpha, sizeof(cfg.alpha));
+- Line 1474: severity=HIGH; category=size_assumption
+  Description: Hardcoded size assumption — pointer/int size may differ on platforms
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::platform
+  Context: cfg_h ^= fnv1a64(&cfg.beta, sizeof(cfg.beta));
+- Line 1475: severity=HIGH; category=size_assumption
+  Description: Hardcoded size assumption — pointer/int size may differ on platforms
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::platform
+  Context: cfg_h ^= fnv1a64(&cfg.gamma, sizeof(cfg.gamma));
+- Line 1476: severity=HIGH; category=size_assumption
+  Description: Hardcoded size assumption — pointer/int size may differ on platforms
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::platform
+  Context: cfg_h ^= fnv1a64(&cfg.seasonality, sizeof(cfg.seasonality));
+- Line 1477: severity=HIGH; category=size_assumption
+  Description: Hardcoded size assumption — pointer/int size may differ on platforms
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::platform
+  Context: cfg_h ^= fnv1a64(&cfg.ar_order, sizeof(cfg.ar_order));
+- Line 1478: severity=HIGH; category=size_assumption
+  Description: Hardcoded size assumption — pointer/int size may differ on platforms
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::platform
+  Context: cfg_h ^= fnv1a64(&cfg.diff_order, sizeof(cfg.diff_order));
+- Line 1479: severity=HIGH; category=size_assumption
+  Description: Hardcoded size assumption — pointer/int size may differ on platforms
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::platform
+  Context: cfg_h ^= fnv1a64(&cfg.ma_order, sizeof(cfg.ma_order));
+- Line 1518: severity=HIGH; category=shared_state_no_sync
+  Description: Shared state accessed without synchronization
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::phase1_thread_safety
+  Context: int m_period = (config.sarima_m > 0) ? config.sarima_m : config.seasonality;
+- Line 1520: severity=HIGH; category=shared_state_no_sync
+  Description: Shared state accessed without synchronization
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::phase1_thread_safety
+  Context: m_period = 12; // default monthly
+- Line 1540: severity=HIGH; category=pointer_arithmetic_unbounded
+  Description: Pointer/array access without bounds validation
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::phase1_memory_safety
+  Context: size_t n      = train_ts.empty() ? train_y.size() : train_ts.size();
+
+        double n_last = static_cast<double>(n) - 1.0;
+
+        for (int k = 1; k <= steps; ++k) {
+
+            out.push_back(linear_p.alpha + linear_p.beta * (n_last + static_cast<double>(k)));
+
+        }
+
+        return out;
+
+    }
+- Line 1625: severity=HIGH; category=resource_leaked_in_exception
+  Description: Exception before delete causes resource leak
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::exception_safety
+- Line 1908: severity=HIGH; category=resource_leaked_in_exception
+  Description: Exception before delete causes resource leak
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::exception_safety
+- Line 1933: severity=HIGH; category=resource_leaked_in_exception
+  Description: Exception before delete causes resource leak
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::exception_safety
+- Line 1934: severity=HIGH; category=resource_leaked_in_exception
+  Description: Exception before delete causes resource leak
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::exception_safety
+- Line 1936: severity=HIGH; category=resource_leaked_in_exception
+  Description: Exception before delete causes resource leak
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::exception_safety
+- Line 1937: severity=HIGH; category=resource_leaked_in_exception
+  Description: Exception before delete causes resource leak
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::exception_safety
+- Line 1949: severity=HIGH; category=resource_leaked_in_exception
+  Description: Exception before delete causes resource leak
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::exception_safety
+- Line 1995: severity=HIGH; category=pointer_arithmetic_unbounded
+  Description: Pointer/array access without bounds validation
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::phase1_memory_safety
+  Context: double S_t = hp.S[static_cast<size_t>(si)];
+
+            double L_new, T_new, S_new;
+
+            if (hp.multiplicative) {
+
+                L_new = hp.alpha * (y / (S_t > 1e-12 ? S_t : 1e-12)) + (1.0 - hp.alpha) * (L_prev + T_prev);
+
+                T_new = hp.beta * (L_new - L_prev) + (1.0 - hp.beta) * T_prev;
+
+                S_new = hp.gamma * (y / (L_new > 1e-12 ? L_new : 1e-12)) + (1.0 - hp.gamma) * S_t;
+
+            } else {
+- Line 1995: severity=HIGH; category=resource_leaked_in_exception
+  Description: Exception before delete causes resource leak
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::exception_safety
+- Line 1996: severity=HIGH; category=resource_leaked_in_exception
+  Description: Exception before delete causes resource leak
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::exception_safety
+- Line 1999: severity=HIGH; category=pointer_arithmetic_unbounded
+  Description: Pointer/array access without bounds validation
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::phase1_memory_safety
+  Context: T_new = hp.beta * (L_new - L_prev) + (1.0 - hp.beta) * T_prev;
+
+                S_new = hp.gamma * (y / (L_new > 1e-12 ? L_new : 1e-12)) + (1.0 - hp.gamma) * S_t;
+
+            } else {
+
+                L_new = hp.alpha * (y - S_t) + (1.0 - hp.alpha) * (L_prev + T_prev);
+
+                T_new = hp.beta * (L_new - L_prev) + (1.0 - hp.beta) * T_prev;
+
+                S_new = hp.gamma * (y - L_new) + (1.0 - hp.gamma) * S_t;
+
+            }
+- Line 1999: severity=HIGH; category=resource_leaked_in_exception
+  Description: Exception before delete causes resource leak
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::exception_safety
+- Line 2000: severity=HIGH; category=resource_leaked_in_exception
+  Description: Exception before delete causes resource leak
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::exception_safety
+- Line 2003: severity=HIGH; category=resource_leaked_in_exception
+  Description: Exception before delete causes resource leak
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::exception_safety
+- Line 2004: severity=HIGH; category=resource_leaked_in_exception
+  Description: Exception before delete causes resource leak
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::exception_safety
+- Line 2008: severity=HIGH; category=pointer_arithmetic_unbounded
+  Description: Pointer/array access without bounds validation
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::phase1_memory_safety
+  Context: hp.S[static_cast<size_t>(si)] = S_new;
+
+        } else {
+
+            // Holt (no seasonal)
+
+            double L_new = hp.alpha * y + (1.0 - hp.alpha) * (L_prev + T_prev);
+
+            double T_new = hp.beta * (L_new - L_prev) + (1.0 - hp.beta) * T_prev;
+
+            hp.L         = L_new;
+
+            hp.T         = T_new;
+- Line 2008: severity=HIGH; category=resource_leaked_in_exception
+  Description: Exception before delete causes resource leak
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::exception_safety
+- Line 2009: severity=HIGH; category=resource_leaked_in_exception
+  Description: Exception before delete causes resource leak
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::exception_safety
+- Line 2010: severity=HIGH; category=resource_leaked_in_exception
+  Description: Exception before delete causes resource leak
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::exception_safety
+- Line 2019: severity=HIGH; category=resource_leaked_in_exception
+  Description: Exception before delete causes resource leak
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::exception_safety
+- Line 2219: severity=HIGH; category=pointer_arithmetic_unbounded
+  Description: Pointer/array access without bounds validation
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::phase1_memory_safety
+  Context: }
+
+    oss << "sarima_sbuf_n=" << sp.seasonal_buffer.size() << "\n";
+
+    for (size_t i = 0; i < sp.seasonal_buffer.size(); ++i) {
+
+        oss << "sarima_sb_" << i << "=" << sp.seasonal_buffer[i] << "\n";
+
+    }
+
+    // Prophet params
+
+    const auto &pp = impl_->prophet_p;
+- Line 2403: severity=HIGH; category=pointer_arithmetic_unbounded
+  Description: Pointer/array access without bounds validation
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::phase1_memory_safety
+  Context: sp.seasonal_buffer.resize(static_cast<size_t>(sbuf_n));
+
+        for (int i = 0; i < sbuf_n; ++i) {
+
+            if (static_cast<size_t>(i) < sp.seasonal_buffer.size()) {  // bounds check
+
+                sp.seasonal_buffer[static_cast<size_t>(i)] = readD("sarima_sb_" + std::to_string(i));
+
+            }
+
+        }
+
+    }
+- Line 2412: severity=HIGH; category=shared_state_no_sync
+  Description: Shared state accessed without synchronization
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::phase1_thread_safety
+  Context: pp.m_off                = readD("prophet_m_off");
+- Line 154: severity=MEDIUM; category=duplicate_qualified_signature
+  Description: Potential duplicate implementation signature across files: TimeSeries::mean()
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::legacy_duplication
+  Context: double TimeSeries::mean() const {
+- Line 309: severity=MEDIUM; category=primitive_no_volatile
+  Description: Primitive shared across threads without volatile
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::phase1_thread_safety
+  Context: double acc         = 0.0;
+- Line 473: severity=MEDIUM; category=uninitialized_member_field
+  Description: Default constructor does not initialize POD members
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::uninitialized
+  Context: Struct with uninitialized fields
+- Line 594: severity=MEDIUM; category=uninitialized_member_field
+  Description: Default constructor does not initialize POD members
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::uninitialized
+  Context: Struct with uninitialized fields
+- Line 852: severity=MEDIUM; category=copy_overhead
+  Description: push_back in loop — consider pre-allocating with reserve()
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::container
+  Context: ar_lags.push_back(i * params.m);
+- Line 954: severity=MEDIUM; category=missing_vector_reserve
+  Description: vector::push_back in loop without prior reserve()
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::performance_patterns
+  Context: ma_lags.push_back(i);
+- Line 958: severity=MEDIUM; category=copy_overhead
+  Description: push_back in loop — consider pre-allocating with reserve()
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::container
+  Context: ma_lags.push_back(i * params.m);
+- Line 1770: severity=MEDIUM; category=primitive_no_volatile
+  Description: Primitive shared across threads without volatile
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::phase1_thread_safety
+  Context: for (int ai = 1; ai <= 9; ++ai) {
+- Line 1771: severity=MEDIUM; category=primitive_no_volatile
+  Description: Primitive shared across threads without volatile
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::phase1_thread_safety
+  Context: double a = 0.1 * static_cast<double>(ai);
+- Line 1775: severity=MEDIUM; category=primitive_no_volatile
+  Description: Primitive shared across threads without volatile
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::phase1_thread_safety
+  Context: double ss  = 0.0;
+- Line 257: severity=LOW; category=unstructured_log
+  Description: Unstructured logging (use structured format)
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::observability
+  Context: double t = std::sqrt(-2.0 * std::log(p));
+- Line 266: severity=LOW; category=unstructured_log
+  Description: Unstructured logging (use structured format)
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::observability
+  Context: double t = std::sqrt(-2.0 * std::log(1.0 - p));
+- Line 1260: severity=LOW; category=hardcoded_output
+  Description: Hardcoded stdout output instead of structured logging
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::audit_logging
+  Context: if (nc == 0 || n == 0) return {};  // guard against empty inputs
+
+### analytics/process_mining.cpp
+Total findings: 72
+
+- Line 1810: severity=CRITICAL; category=iterator_invalidation
+  Description: Iterator itTo may be invalidated by container modification
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::container
+  Context: auto itTo   = nodeIdToName.find(edge.to);
+- Line 1820: severity=CRITICAL; category=iterator_invalidation
+  Description: Iterator itFrom may be invalidated by container modification
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::container
+  Context: auto itFrom = nodeIdToName.find(edge.from);
+- Line 1821: severity=CRITICAL; category=iterator_invalidation
+  Description: Iterator itTo may be invalidated by container modification
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::container
+  Context: auto itTo   = nodeIdToName.find(edge.to);
 - Line 5: severity=HIGH; category=uninitialized_access
   Description: Container element access before initialization
-  Remediation: Use .at() for bounds checking or initialize element first
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::container
+  Context: * PR History (last 5): #4626 fix(analytics): replace who... (2026-04-13) | #4402 [WIP] Add automated
+- Line 17: severity=HIGH; category=legacy_or_compat_path
+  Description: Legacy/compatibility/deprecation marker detected (review removal/containment plan).
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::legacy_duplication
+  Context: //   are defined.  The stub flag is an explicit opt-in compatibility switch for
+- Line 327: severity=HIGH; category=db_connection_leak
+  Description: Resource acquired but not released — potential leak
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::raii
+  Context: activitySeq.reserve(trace.events.size()); // Pre-allocate for efficiency
+- Line 354: severity=HIGH; category=db_connection_leak
+  Description: Resource acquired but not released — potential leak
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::raii
+  Context: log.id_to_activity.reserve(activities.size()); // Pre-allocate for efficiency
+- Line 791: severity=HIGH; category=o_n_squared
+  Description: O(n²) pattern: find() on vector inside loop
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::container
+  Context: auto itFrom = nodeIdToName.find(edge.from);
+- Line 792: severity=HIGH; category=o_n_squared
+  Description: O(n²) pattern: find() on vector inside loop
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::container
+  Context: auto itTo   = nodeIdToName.find(edge.to);
+- Line 819: severity=HIGH; category=nested_loop_find
+  Description: O(n²) pattern: linear search inside nested loop
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::performance_patterns
+  Context: auto it1 = parallel.find({targets[i], targets[j]});
+- Line 820: severity=HIGH; category=nested_loop_find
+  Description: O(n²) pattern: linear search inside nested loop
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::performance_patterns
+  Context: auto it2 = parallel.find({targets[j], targets[i]});
+- Line 893: severity=HIGH; category=nested_loop_find
+  Description: O(n²) pattern: linear search inside nested loop
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::performance_patterns
+  Context: auto it1 = parallel.find({sources[i], sources[j]});
+- Line 894: severity=HIGH; category=nested_loop_find
+  Description: O(n²) pattern: linear search inside nested loop
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::performance_patterns
+  Context: auto it2 = parallel.find({sources[j], sources[i]});
+- Line 1107: severity=HIGH; category=o_n_squared
+  Description: O(n²) pattern: find() on vector inside loop
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::container
+  Context: // NOTE: ids.find() on unordered_map is O(1) average case, not O(n).
+- Line 1108: severity=HIGH; category=nested_loop_find
+  Description: O(n²) pattern: linear search inside nested loop
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::performance_patterns
+  Context: // NOTE: ids.find() on unordered_map is O(1) average case, not O(n).
+- Line 1109: severity=HIGH; category=o_n_squared
+  Description: O(n²) pattern: find() on vector inside loop
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::container
+  Context: if (ids.find(e.activity) == ids.end()) {
+- Line 1110: severity=HIGH; category=nested_loop_find
+  Description: O(n²) pattern: linear search inside nested loop
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::performance_patterns
+  Context: if (ids.find(e.activity) == ids.end()) {
+- Line 1756: severity=HIGH; category=db_connection_leak
+  Description: Resource acquired but not released — potential leak
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::raii
+  Context: actSeq.reserve(trace.events.size());  // Pre-allocate for efficiency
+- Line 1775: severity=HIGH; category=db_connection_leak
+  Description: Resource acquired but not released — potential leak
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::raii
+  Context: result.reserve(variants.size());  // Pre-allocate for efficiency
+- Line 1807: severity=HIGH; category=o_n_squared
+  Description: O(n²) pattern: find() on vector inside loop
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::container
+  Context: // Use .find() to check for key existence before access (defensive coding)
+- Line 1808: severity=HIGH; category=o_n_squared
+  Description: O(n²) pattern: find() on vector inside loop
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::container
+  Context: auto itFrom = nodeIdToName.find(edge.from);
+- Line 1809: severity=HIGH; category=o_n_squared
+  Description: O(n²) pattern: find() on vector inside loop
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::container
+  Context: auto itTo   = nodeIdToName.find(edge.to);
+- Line 1819: severity=HIGH; category=o_n_squared
+  Description: O(n²) pattern: find() on vector inside loop
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::container
+  Context: auto itFrom = nodeIdToName.find(edge.from);
+- Line 1820: severity=HIGH; category=o_n_squared
+  Description: O(n²) pattern: find() on vector inside loop
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::container
+  Context: auto itTo   = nodeIdToName.find(edge.to);
+- Line 2229: severity=HIGH; category=resource_leaked_in_exception
+  Description: Exception before delete causes resource leak
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::exception_safety
+- Line 26: severity=MEDIUM; category=stale_doc_section_reference
+  Description: Code comment references section 'Process Mining Windows Port' that was not found in 'src/analytics/FUTURE_ENHANCEMENTS.md'
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::themis_doc_freshness_rules
+  Context: src/analytics/FUTURE_ENHANCEMENTS.md § "Process Mining Windows Port"
+- Line 27: severity=MEDIUM; category=stale_doc_section_reference
+  Description: Code comment references section 'ProcessMining' that was not found in 'src/analytics/ROADMAP.md'
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::themis_doc_freshness_rules
+  Context: src/analytics/ROADMAP.md § ProcessMining
+- Line 307: severity=MEDIUM; category=unordered_container_iter
+  Description: Non-deterministic unordered_map/set iteration order
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::determinism
+  Context: std::unordered_map<std::string, int> variant_counts;
+- Line 488: severity=MEDIUM; category=unordered_container_iter
+  Description: Non-deterministic unordered_map/set iteration order
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::determinism
+  Context: std::unordered_set<std::string> visited;
+- Line 582: severity=MEDIUM; category=unordered_container_iter
+  Description: Non-deterministic unordered_map/set iteration order
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::determinism
+  Context: std::unordered_map<std::string, int> startCounts;
+- Line 583: severity=MEDIUM; category=unordered_container_iter
+  Description: Non-deterministic unordered_map/set iteration order
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::determinism
+  Context: std::unordered_map<std::string, int> endCounts;
+- Line 682: severity=MEDIUM; category=unordered_container_iter
+  Description: Non-deterministic unordered_map/set iteration order
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::determinism
+  Context: std::unordered_set<std::pair<std::string, std::string>, PairHash> parallel;
+- Line 743: severity=MEDIUM; category=unordered_container_iter
+  Description: Non-deterministic unordered_map/set iteration order
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::determinism
+  Context: std::unordered_map<std::string, int> edgeFreqIndex;
+- Line 781: severity=MEDIUM; category=map_vs_unordered_map
+  Description: std::map used only for lookups (consider std::unordered_map)
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::performance_patterns
+  Context: std::map<std::string, std::vector<std::string>> outgoing; // activity -> list of following activities
+- Line 782: severity=MEDIUM; category=map_vs_unordered_map
+  Description: std::map used only for lookups (consider std::unordered_map)
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::performance_patterns
+  Context: std::map<std::string, std::vector<std::string>> incoming; // activity -> list of preceding activities
+- Line 785: severity=MEDIUM; category=unordered_container_iter
+  Description: Non-deterministic unordered_map/set iteration order
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::determinism
+  Context: std::unordered_map<std::string, std::string> nodeIdToName;
+- Line 816: severity=MEDIUM; category=unordered_container_iter
+  Description: Non-deterministic unordered_map/set iteration order
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::determinism
+  Context: std::unordered_set<std::string> parallelTargets;
+- Line 847: severity=MEDIUM; category=unnecessary_copy
+  Description: Unnecessary copy: use auto& for container element access
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::performance_patterns
+  Context: auto actNode = actToNode[activity];
+- Line 850: severity=MEDIUM; category=unordered_container_iter
+  Description: Non-deterministic unordered_map/set iteration order
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::determinism
+  Context: std::unordered_set<std::string> targetNodes;
+- Line 890: severity=MEDIUM; category=unordered_container_iter
+  Description: Non-deterministic unordered_map/set iteration order
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::determinism
+  Context: std::unordered_set<std::string> parallelSources;
+- Line 921: severity=MEDIUM; category=unnecessary_copy
+  Description: Unnecessary copy: use auto& for container element access
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::performance_patterns
+  Context: auto actNode = actToNode[activity];
+- Line 924: severity=MEDIUM; category=unordered_container_iter
+  Description: Non-deterministic unordered_map/set iteration order
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::determinism
+  Context: std::unordered_set<std::string> sourceNodes;
+- Line 1002: severity=MEDIUM; category=map_vs_unordered_map
+  Description: std::map used only for lookups (consider std::unordered_map)
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::performance_patterns
+  Context: std::map<std::string, std::string> actToNode;
+- Line 1013: severity=MEDIUM; category=unordered_container_iter
+  Description: Non-deterministic unordered_map/set iteration order
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::determinism
+  Context: std::unordered_map<std::string, int> activityFreq;
+- Line 1103: severity=MEDIUM; category=unordered_container_iter
+  Description: Non-deterministic unordered_map/set iteration order
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::determinism
+  Context: std::unordered_map<std::string, int> buildActivityIds(const std::vector<ProcessTrace> &traces) {
+- Line 1104: severity=MEDIUM; category=unordered_container_iter
+  Description: Non-deterministic unordered_map/set iteration order
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::determinism
+  Context: std::unordered_map<std::string, int> ids;
+- Line 1161: severity=MEDIUM; category=unordered_container_iter
+  Description: Non-deterministic unordered_map/set iteration order
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::determinism
+  Context: std::unordered_set<std::string> visited;
+- Line 1182: severity=MEDIUM; category=unordered_container_iter
+  Description: Non-deterministic unordered_map/set iteration order
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::determinism
+  Context: std::unordered_map<std::string, std::string> parent;
+- Line 1800: severity=MEDIUM; category=map_vs_unordered_map
+  Description: std::map used only for lookups (consider std::unordered_map)
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::performance_patterns
+  Context: std::map<std::string, std::vector<std::string>> transitions;
+- Line 1801: severity=MEDIUM; category=map_vs_unordered_map
+  Description: std::map used only for lookups (consider std::unordered_map)
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::performance_patterns
+  Context: std::map<std::string, std::string> nodeIdToName;
+- Line 1867: severity=MEDIUM; category=unordered_container_iter
+  Description: Non-deterministic unordered_map/set iteration order
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::determinism
+  Context: std::unordered_set<std::string> modelActivitySet;
+- Line 2005: severity=MEDIUM; category=hardcoded_path
+  Description: Hardcoded path separator — not portable
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::platform
+  Context: xml << "    <" << element << R"( id=")" << node.id << R"(" name=")" << node.name << R"("/>)" << "\n"
+- Line 2011: severity=MEDIUM; category=hardcoded_path
+  Description: Hardcoded path separator — not portable
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::platform
+  Context: << edge.to << R"("/>)" << "\n";
+- Line 2014: severity=MEDIUM; category=hardcoded_path
+  Description: Hardcoded path separator — not portable
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::platform
+  Context: xml << "  </process>\n";
+- Line 2015: severity=MEDIUM; category=hardcoded_path
+  Description: Hardcoded path separator — not portable
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::platform
+  Context: xml << "</definitions>\n";
+- Line 2132: severity=MEDIUM; category=copy_overhead
+  Description: push_back in loop — consider pre-allocating with reserve()
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::container
+  Context: info.trace_indices.push_back(static_cast<int>(i));
+- Line 2135: severity=MEDIUM; category=copy_overhead
+  Description: push_back in loop — consider pre-allocating with reserve()
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::container
+  Context: info.activities.push_back(ev.activity);
+- Line 2298: severity=MEDIUM; category=map_vs_unordered_map
+  Description: std::map used only for lookups (consider std::unordered_map)
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::performance_patterns
+  Context: std::map<std::string, std::string> nodeIdToName;
+- Line 2312: severity=MEDIUM; category=map_vs_unordered_map
+  Description: std::map used only for lookups (consider std::unordered_map)
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::performance_patterns
+  Context: std::map<std::string, std::set<std::string>> successors;
+- Line 2352: severity=MEDIUM; category=map_vs_unordered_map
+  Description: std::map used only for lookups (consider std::unordered_map)
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::performance_patterns
+  Context: std::map<std::string, int> in_deg;
+- Line 2353: severity=MEDIUM; category=map_vs_unordered_map
+  Description: std::map used only for lookups (consider std::unordered_map)
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::performance_patterns
+  Context: std::map<std::string, std::vector<std::string>> succ_list;
+- Line 2356: severity=MEDIUM; category=unordered_container_iter
+  Description: Non-deterministic unordered_map/set iteration order
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::determinism
+  Context: std::unordered_set<std::string> modelActivitySet(modelActivities.begin(), modelActivities.end());
+- Line 2393: severity=MEDIUM; category=unordered_container_iter
+  Description: Non-deterministic unordered_map/set iteration order
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::determinism
+  Context: std::unordered_set<std::string> addedActivities(modelOrder.begin(), modelOrder.end());
+- Line 2575: severity=MEDIUM; category=hardcoded_path
+  Description: Hardcoded path separator — not portable
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::platform
+  Context: xml << "    <name><text>" << model.name << "</text></name>\n";
+- Line 2580: severity=MEDIUM; category=hardcoded_path
+  Description: Hardcoded path separator — not portable
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::platform
+  Context: xml << "      <name><text>" << node.name << "</text></name>\n";
+- Line 2581: severity=MEDIUM; category=hardcoded_path
+  Description: Hardcoded path separator — not portable
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::platform
+  Context: xml << "    </place>\n";
+- Line 2587: severity=MEDIUM; category=hardcoded_path
+  Description: Hardcoded path separator — not portable
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::platform
+  Context: xml << "      <name><text>" << edge.from << " -> " << edge.to << "</text></name>\n";
+- Line 2588: severity=MEDIUM; category=hardcoded_path
+  Description: Hardcoded path separator — not portable
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::platform
+  Context: xml << "    </transition>\n";
+- Line 2593: severity=MEDIUM; category=hardcoded_path
+  Description: Hardcoded path separator — not portable
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::platform
+  Context: xml << "    <arc id=\"arc_" << edge.id << "\" source=\"" << edge.from << "\" target=\"" << edge.to <
+- Line 2596: severity=MEDIUM; category=hardcoded_path
+  Description: Hardcoded path separator — not portable
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::platform
+  Context: xml << "  </net>\n";
+- Line 2597: severity=MEDIUM; category=hardcoded_path
+  Description: Hardcoded path separator — not portable
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::platform
+  Context: xml << "</pnml>\n";
+- Line 2612: severity=MEDIUM; category=copy_overhead
+  Description: push_back in loop — consider pre-allocating with reserve()
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::container
+  Context: activities.push_back(event.activity);
+
+### analytics/olap.cpp
+Total findings: 66
+
+- Line 532: severity=CRITICAL; category=iterator_invalidation
+  Description: Iterator fieldIt may be invalidated by container modification
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::container
+  Context: auto fieldIt = row.find(dim.name);
+- Line 1317: severity=CRITICAL; category=iterator_invalidation
+  Description: Iterator it may be invalidated by container modification
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::container
+  Context: auto it = row.find(name);
+- Line 5: severity=HIGH; category=uninitialized_access
+  Description: Container element access before initialization
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::container
   Context: * PR History (last 5): #4929 [Docs][analytics] Refresh m... (2026-05-10) | #4626 fix(analytics): rep
 - Line 79: severity=HIGH; category=db_connection_leak
   Description: Resource acquired but not released — potential leak
-  Remediation: Ensure all acquire() calls are matched with release() in all code paths
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::raii
   Context: * Thread safety: OLAPEngine is fully thread-safe; each execute* call acquires a
-- Line 172: severity=HIGH; category=lock_contention
+- Line 236: severity=HIGH; category=db_connection_leak
+  Description: Resource acquired but not released — potential leak
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::raii
+  Context: while (!cleanup_stop.load(std::memory_order_acquire)) {
+- Line 238: severity=HIGH; category=lock_contention
   Description: Mutex lock in loop — high contention
-  Remediation: Acquire lock before loop or redesign to minimize lock time
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::performance
+  Context: std::unique_lock<std::mutex> lk(cleanup_mutex_);
+- Line 246: severity=HIGH; category=lock_contention
+  Description: Mutex lock in loop — high contention
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::performance
   Context: std::lock_guard<std::mutex> lock(result_cache_mutex);
-- Line 293: severity=HIGH; category=no_retry_logic
-  Description: database_query without retry logic — transient failures will propagate
-  Remediation: Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)
-  Context: OLAPResult OLAPEngine::execute(const OLAPQuery &query) {
-- Line 293: severity=HIGH; category=observability; pattern=missing_trace_point
-  Description: Critical function execute without trace point
-  Context: OLAPResult OLAPEngine::execute(const OLAPQuery &query) {
-  Confidence: band=very_high; score=0.9
-- Line 407: severity=HIGH; category=o_n_squared
+- Line 276: severity=HIGH; category=range_temporary
+  Description: Range-for on temporary container — references may be invalid
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::container
+  Context: std::this_thread::sleep_for(std::chrono::milliseconds(100));
+- Line 531: severity=HIGH; category=o_n_squared
   Description: O(n²) pattern: find() on vector inside loop
-  Remediation: Use std::unordered_map or std::set for O(log n) or O(1) lookup
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::container
   Context: auto fieldIt = row.find(dim.name);
-- Line 407: severity=HIGH; category=o_n_squared
-  Description: O(n²) pattern: find() on vector inside loop
-  Remediation: Use std::unordered_map or std::set for O(log n) or O(1) lookup
-  Context: auto fieldIt = row.find(dim.name);
-- Line 407: severity=HIGH; category=o_n_squared
-  Description: O(n²) pattern: find() on vector inside loop
-  Remediation: Use std::unordered_map or std::set for O(log n) or O(1) lookup
-  Context: auto fieldIt = row.find(dim.name);
-- Line 407: severity=HIGH; category=o_n_squared
-  Description: O(n²) pattern: find() on vector inside loop
-  Remediation: Use std::unordered_map or std::set for O(log n) or O(1) lookup
-  Context: auto fieldIt = row.find(dim.name);
-- Line 408: severity=HIGH; category=performance; pattern=nested_loop_find
+- Line 532: severity=HIGH; category=nested_loop_find
   Description: O(n²) pattern: linear search inside nested loop
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::performance_patterns
   Context: auto fieldIt = row.find(dim.name);
-  Confidence: band=very_high; score=0.9
-- Line 425: severity=HIGH; category=o_n_squared
+- Line 549: severity=HIGH; category=o_n_squared
   Description: O(n²) pattern: find() on vector inside loop
-  Remediation: Use std::unordered_map or std::set for O(log n) or O(1) lookup
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::container
   Context: auto fieldIt = row.find(measure.field);
-- Line 469: severity=HIGH; category=o_n_squared
+- Line 593: severity=HIGH; category=o_n_squared
   Description: O(n²) pattern: find() on vector inside loop
-  Remediation: Use std::unordered_map or std::set for O(log n) or O(1) lookup
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::container
   Context: auto aIt = a.values.find(sort.field);
-- Line 469: severity=HIGH; category=o_n_squared
+- Line 594: severity=HIGH; category=o_n_squared
   Description: O(n²) pattern: find() on vector inside loop
-  Remediation: Use std::unordered_map or std::set for O(log n) or O(1) lookup
-  Context: auto aIt = a.values.find(sort.field);
-- Line 470: severity=HIGH; category=o_n_squared
-  Description: O(n²) pattern: find() on vector inside loop
-  Remediation: Use std::unordered_map or std::set for O(log n) or O(1) lookup
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::container
   Context: auto bIt = b.values.find(sort.field);
-- Line 491: severity=HIGH; category=determinism; pattern=fp_exact_comparison
-  Description: Floating-point exact comparison (use tolerance/epsilon)
-  Context: if (aVal != bVal) {
-  Confidence: band=very_high; score=0.9
-- Line 597: severity=HIGH; category=pointer_arithmetic
-  Description: Pointer/array access without bounds validation
-  Remediation: Add bounds check before dereferencing
-  Context: row.values[query.dimensions[i].name] = nullptr;
-- Line 667: severity=HIGH; category=o_n_squared
+- Line 778: severity=HIGH; category=o_n_squared
   Description: O(n²) pattern: find() on vector inside loop
-  Remediation: Use std::unordered_map or std::set for O(log n) or O(1) lookup
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::container
   Context: auto it = row.values.find(dim.name);
-- Line 668: severity=HIGH; category=performance; pattern=nested_loop_find
+- Line 779: severity=HIGH; category=nested_loop_find
   Description: O(n²) pattern: linear search inside nested loop
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::performance_patterns
   Context: auto it = row.values.find(dim.name);
-  Confidence: band=very_high; score=0.9
-- Line 678: severity=HIGH; category=o_n_squared
+- Line 789: severity=HIGH; category=o_n_squared
   Description: O(n²) pattern: find() on vector inside loop
-  Remediation: Use std::unordered_map or std::set for O(log n) or O(1) lookup
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::container
   Context: auto it = row.values.find(measure.name);
-- Line 710: severity=HIGH; category=o_n_squared
+- Line 821: severity=HIGH; category=o_n_squared
   Description: O(n²) pattern: find() on vector inside loop
-  Remediation: Use std::unordered_map or std::set for O(log n) or O(1) lookup
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::container
   Context: auto levelIt = row.values.find("_level");
-- Line 718: severity=HIGH; category=o_n_squared
+- Line 829: severity=HIGH; category=o_n_squared
   Description: O(n²) pattern: find() on vector inside loop
-  Remediation: Use std::unordered_map or std::set for O(log n) or O(1) lookup
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::container
   Context: auto it = row.values.find(dim.name);
-- Line 776: severity=HIGH; category=o_n_squared
+- Line 887: severity=HIGH; category=o_n_squared
   Description: O(n²) pattern: find() on vector inside loop
-  Remediation: Use std::unordered_map or std::set for O(log n) or O(1) lookup
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::container
   Context: auto it = data[j].find(measure.field);
-- Line 776: severity=HIGH; category=o_n_squared
-  Description: O(n²) pattern: find() on vector inside loop
-  Remediation: Use std::unordered_map or std::set for O(log n) or O(1) lookup
-  Context: auto it = data[j].find(measure.field);
-- Line 1191: severity=HIGH; category=o_n_squared
-  Description: O(n²) pattern: find() on vector inside loop
-  Remediation: Use std::unordered_map or std::set for O(log n) or O(1) lookup
-  Context: auto it = row.find(name);
-- Line 1191: severity=HIGH; category=o_n_squared
-  Description: O(n²) pattern: find() on vector inside loop
-  Remediation: Use std::unordered_map or std::set for O(log n) or O(1) lookup
-  Context: auto it = row.find(name);
-- Line 1192: severity=HIGH; category=performance; pattern=nested_loop_find
-  Description: O(n²) pattern: linear search inside nested loop
-  Context: auto it = row.find(name);
-  Confidence: band=very_high; score=0.9
-- Line 1450: severity=HIGH; category=o_n_squared
-  Description: O(n²) pattern: find() on vector inside loop
-  Remediation: Use std::unordered_map or std::set for O(log n) or O(1) lookup
-  Context: auto it = row.find(d.name);
-- Line 1485: severity=HIGH; category=o_n_squared
-  Description: O(n²) pattern: find() on vector inside loop
-  Remediation: Use std::unordered_map or std::set for O(log n) or O(1) lookup
-  Context: auto it     = row.find(m.field);
-- Line 1493: severity=HIGH; category=o_n_squared
-  Description: O(n²) pattern: find() on vector inside loop
-  Remediation: Use std::unordered_map or std::set for O(log n) or O(1) lookup
-  Context: auto git = groups.find(gk);
-- Line 1529: severity=HIGH; category=o_n_squared
-  Description: O(n²) pattern: find() on vector inside loop
-  Remediation: Use std::unordered_map or std::set for O(log n) or O(1) lookup
-  Context: auto it = agg_map.find(m.name);
-- Line 1530: severity=HIGH; category=performance; pattern=nested_loop_find
-  Description: O(n²) pattern: linear search inside nested loop
-  Context: auto it = agg_map.find(m.name);
-  Confidence: band=very_high; score=0.9
-- Line 1555: severity=HIGH; category=no_retry_logic
-  Description: database_query without retry logic — transient failures will propagate
-  Remediation: Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)
-  Context: impl_->cached_result  = engine.execute(query);
-- Line 1574: severity=HIGH; category=no_retry_logic
-  Description: database_query without retry logic — transient failures will propagate
-  Remediation: Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)
-  Context: OLAPResult MaterializedView::query(const std::vector<Filter> &filters, const std::vector<Sort> &sort
-- Line 1780: severity=HIGH; category=determinism; pattern=fp_exact_comparison
-  Description: Floating-point exact comparison (use tolerance/epsilon)
-  Context: if (aVal != bVal) {
-  Confidence: band=very_high; score=0.9
-- Line 1835: severity=HIGH; category=o_n_squared
-  Description: O(n²) pattern: find() on vector inside loop
-  Remediation: Use std::unordered_map or std::set for O(log n) or O(1) lookup
-  Context: auto it = row.values.find(col_name);
-- Line 1836: severity=HIGH; category=performance; pattern=nested_loop_find
-  Description: O(n²) pattern: linear search inside nested loop
-  Context: auto it = row.values.find(col_name);
-  Confidence: band=very_high; score=0.9
-- Line 1890: severity=HIGH; category=o_n_squared
-  Description: O(n²) pattern: find() on vector inside loop
-  Remediation: Use std::unordered_map or std::set for O(log n) or O(1) lookup
-  Context: auto it = row.values.find(col_name);
-- Line 1891: severity=HIGH; category=performance; pattern=nested_loop_find
-  Description: O(n²) pattern: linear search inside nested loop
-  Context: auto it = row.values.find(col_name);
-  Confidence: band=very_high; score=0.9
-- Line 254: severity=MEDIUM; category=performance; pattern=string_concat_loop
-  Description: String concatenation in loop (use std::stringstream)
-  Context: fstr += "null";
-  Confidence: band=high; score=0.74
-- Line 254: severity=MEDIUM; category=performance; pattern=string_concat_loop
-  Description: String concatenation in loop (use std::stringstream)
-  Context: fstr += "null";
-  Confidence: band=high; score=0.74
-- Line 254: severity=MEDIUM; category=performance; pattern=string_concat_loop
-  Description: String concatenation in loop (use std::stringstream)
-  Context: fstr += "null";
-  Confidence: band=high; score=0.74
-- Line 254: severity=MEDIUM; category=performance; pattern=string_concat_loop
-  Description: String concatenation in loop (use std::stringstream)
-  Context: fstr += "null";
-  Confidence: band=high; score=0.74
-- Line 254: severity=MEDIUM; category=performance; pattern=string_concat_loop
-  Description: String concatenation in loop (use std::stringstream)
-  Context: fstr += "null";
-  Confidence: band=high; score=0.74
-- Line 255: severity=MEDIUM; category=string_concat_loop
-  Description: String concatenation in loop — O(n²) behavior
-  Remediation: Use std::ostringstream or pre-allocate string with .reserve()
-  Context: fstr += "null";
-- Line 266: severity=MEDIUM; category=performance; pattern=string_concat_loop
-  Description: String concatenation in loop (use std::stringstream)
-  Context: fstr += ',';
-  Confidence: band=high; score=0.74
-- Line 267: severity=MEDIUM; category=string_concat_loop
-  Description: String concatenation in loop — O(n²) behavior
-  Remediation: Use std::ostringstream or pre-allocate string with .reserve()
-  Context: fstr += ',';
-- Line 267: severity=MEDIUM; category=string_concat_loop
-  Description: String concatenation in loop — O(n²) behavior
-  Remediation: Use std::ostringstream or pre-allocate string with .reserve()
-  Context: fstr += ',';
-- Line 271: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: filter_strs.push_back(std::move(fstr));
-  Confidence: band=high; score=0.74
-- Line 389: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: result.columns.push_back(dim.name);
-  Confidence: band=high; score=0.74
-- Line 390: severity=MEDIUM; category=copy_overhead
-  Description: push_back in loop — consider pre-allocating with reserve()
-  Remediation: Call vector.reserve(expected_size) before loop to avoid reallocations
-  Context: result.columns.push_back(dim.name);
-- Line 392: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: result.columns.push_back(measure.name);
-  Confidence: band=high; score=0.74
-- Line 393: severity=MEDIUM; category=copy_overhead
-  Description: push_back in loop — consider pre-allocating with reserve()
-  Remediation: Call vector.reserve(expected_size) before loop to avoid reallocations
-  Context: result.columns.push_back(measure.name);
-- Line 397: severity=MEDIUM; category=performance; pattern=map_vs_unordered_map
-  Description: std::map used only for lookups (consider std::unordered_map)
-  Context: std::map<std::vector<std::string>, std::vector<double>> groups;
-  Confidence: band=high; score=0.74
-- Line 410: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: groupKey.push_back(*s);
-  Confidence: band=high; score=0.74
-- Line 410: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: groupKey.push_back(*s);
-  Confidence: band=high; score=0.74
-- Line 411: severity=MEDIUM; category=copy_overhead
-  Description: push_back in loop — consider pre-allocating with reserve()
-  Remediation: Call vector.reserve(expected_size) before loop to avoid reallocations
-  Context: groupKey.push_back(*s);
-- Line 413: severity=MEDIUM; category=copy_overhead
-  Description: push_back in loop — consider pre-allocating with reserve()
-  Remediation: Call vector.reserve(expected_size) before loop to avoid reallocations
-  Context: groupKey.push_back(std::to_string(*i));
-- Line 415: severity=MEDIUM; category=copy_overhead
-  Description: push_back in loop — consider pre-allocating with reserve()
-  Remediation: Call vector.reserve(expected_size) before loop to avoid reallocations
-  Context: groupKey.push_back(std::to_string(*d));
-- Line 417: severity=MEDIUM; category=copy_overhead
-  Description: push_back in loop — consider pre-allocating with reserve()
-  Remediation: Call vector.reserve(expected_size) before loop to avoid reallocations
-  Context: groupKey.push_back("");
-- Line 420: severity=MEDIUM; category=copy_overhead
-  Description: push_back in loop — consider pre-allocating with reserve()
-  Remediation: Call vector.reserve(expected_size) before loop to avoid reallocations
-  Context: groupKey.push_back("");
-- Line 434: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: groups[groupKey].push_back(val);
-  Confidence: band=high; score=0.74
-- Line 452: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: measureValues.push_back(values[i]);
-  Confidence: band=high; score=0.74
-- Line 452: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: measureValues.push_back(values[i]);
-  Confidence: band=high; score=0.74
-- Line 452: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: measureValues.push_back(values[i]);
-  Confidence: band=high; score=0.74
-- Line 452: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: measureValues.push_back(values[i]);
-  Confidence: band=high; score=0.74
-- Line 453: severity=MEDIUM; category=copy_overhead
-  Description: push_back in loop — consider pre-allocating with reserve()
-  Remediation: Call vector.reserve(expected_size) before loop to avoid reallocations
-  Context: measureValues.push_back(values[i]);
-- Line 518: severity=MEDIUM; category=observability; pattern=missing_latency_metric
-  Description: No latency measurement for operation
-  Context: OLAPResult OLAPEngine::executeCubeQuery(const OLAPQuery &query) {
-  Confidence: band=high; score=0.74
-- Line 527: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: result.columns.push_back(dim.name);
-  Confidence: band=high; score=0.74
-- Line 528: severity=MEDIUM; category=copy_overhead
-  Description: push_back in loop — consider pre-allocating with reserve()
-  Remediation: Call vector.reserve(expected_size) before loop to avoid reallocations
-  Context: result.columns.push_back(dim.name);
-- Line 530: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: result.columns.push_back(measure.name);
-  Confidence: band=high; score=0.74
-- Line 531: severity=MEDIUM; category=copy_overhead
-  Description: push_back in loop — consider pre-allocating with reserve()
-  Remediation: Call vector.reserve(expected_size) before loop to avoid reallocations
-  Context: result.columns.push_back(measure.name);
-- Line 533: severity=MEDIUM; category=copy_overhead
-  Description: push_back in loop — consider pre-allocating with reserve()
-  Remediation: Call vector.reserve(expected_size) before loop to avoid reallocations
-  Context: result.columns.push_back("_grouping_id");
-- Line 542: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: subQuery.dimensions.push_back(query.dimensions[i]);
-  Confidence: band=high; score=0.74
-- Line 542: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: subQuery.dimensions.push_back(query.dimensions[i]);
-  Confidence: band=high; score=0.74
-- Line 543: severity=MEDIUM; category=copy_overhead
-  Description: push_back in loop — consider pre-allocating with reserve()
-  Remediation: Call vector.reserve(expected_size) before loop to avoid reallocations
-  Context: subQuery.dimensions.push_back(query.dimensions[i]);
-- Line 557: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: result.rows.push_back(std::move(row));
-  Confidence: band=high; score=0.74
-- Line 557: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: result.rows.push_back(std::move(row));
-  Confidence: band=high; score=0.74
-- Line 566: severity=MEDIUM; category=observability; pattern=missing_latency_metric
-  Description: No latency measurement for operation
-  Context: OLAPResult OLAPEngine::executeRollupQuery(const OLAPQuery &query) {
-  Confidence: band=high; score=0.74
-- Line 574: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: result.columns.push_back(dim.name);
-  Confidence: band=high; score=0.74
-- Line 577: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: result.columns.push_back(measure.name);
-  Confidence: band=high; score=0.74
-- Line 578: severity=MEDIUM; category=copy_overhead
-  Description: push_back in loop — consider pre-allocating with reserve()
-  Remediation: Call vector.reserve(expected_size) before loop to avoid reallocations
-  Context: result.columns.push_back(measure.name);
-- Line 580: severity=MEDIUM; category=copy_overhead
-  Description: push_back in loop — consider pre-allocating with reserve()
-  Remediation: Call vector.reserve(expected_size) before loop to avoid reallocations
-  Context: result.columns.push_back("_level");
-- Line 588: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: subQuery.dimensions.push_back(query.dimensions[i]);
-  Confidence: band=high; score=0.74
-- Line 588: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: subQuery.dimensions.push_back(query.dimensions[i]);
-  Confidence: band=high; score=0.74
-- Line 589: severity=MEDIUM; category=copy_overhead
-  Description: push_back in loop — consider pre-allocating with reserve()
-  Remediation: Call vector.reserve(expected_size) before loop to avoid reallocations
-  Context: subQuery.dimensions.push_back(query.dimensions[i]);
-- Line 599: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: result.rows.push_back(std::move(row));
-  Confidence: band=high; score=0.74
-- Line 599: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: result.rows.push_back(std::move(row));
-  Confidence: band=high; score=0.74
-- Line 608: severity=MEDIUM; category=observability; pattern=missing_latency_metric
-  Description: No latency measurement for operation
-  Context: OLAPResult OLAPEngine::executeGroupingSetsQuery(const OLAPQuery &query) {
-  Confidence: band=high; score=0.74
-- Line 612: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: result.columns.push_back(dim.name);
-  Confidence: band=high; score=0.74
-- Line 615: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: result.columns.push_back(measure.name);
-  Confidence: band=high; score=0.74
-- Line 625: severity=MEDIUM; category=determinism; pattern=unordered_container_iter
-  Description: Non-deterministic unordered_map/set iteration order
-  Context: std::unordered_set<std::string> setDimensions(groupingSet.dimensions.begin(), groupingSet.dimensions.end());
-  Confidence: band=medium; score=0.66
-- Line 628: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: subQuery.dimensions.push_back(dim);
-  Confidence: band=high; score=0.74
-- Line 628: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: subQuery.dimensions.push_back(dim);
-  Confidence: band=high; score=0.74
-- Line 641: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: result.rows.push_back(std::move(row));
-  Confidence: band=high; score=0.74
-- Line 641: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: result.rows.push_back(std::move(row));
-  Confidence: band=high; score=0.74
-- Line 688: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: cells.push_back(std::move(cell));
-  Confidence: band=high; score=0.74
-- Line 721: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: rollupRow.dimension_values.push_back(std::nullopt);
-  Confidence: band=high; score=0.74
-- Line 721: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: rollupRow.dimension_values.push_back(std::nullopt);
-  Confidence: band=high; score=0.74
-- Line 722: severity=MEDIUM; category=copy_overhead
-  Description: push_back in loop — consider pre-allocating with reserve()
-  Remediation: Call vector.reserve(expected_size) before loop to avoid reallocations
-  Context: rollupRow.dimension_values.push_back(std::nullopt);
-- Line 724: severity=MEDIUM; category=copy_overhead
-  Description: push_back in loop — consider pre-allocating with reserve()
-  Remediation: Call vector.reserve(expected_size) before loop to avoid reallocations
-  Context: rollupRow.dimension_values.push_back(*s);
-- Line 726: severity=MEDIUM; category=copy_overhead
-  Description: push_back in loop — consider pre-allocating with reserve()
-  Remediation: Call vector.reserve(expected_size) before loop to avoid reallocations
-  Context: rollupRow.dimension_values.push_back(std::nullopt);
-- Line 729: severity=MEDIUM; category=copy_overhead
-  Description: push_back in loop — consider pre-allocating with reserve()
-  Remediation: Call vector.reserve(expected_size) before loop to avoid reallocations
-  Context: rollupRow.dimension_values.push_back(std::nullopt);
-- Line 743: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: rows.push_back(std::move(rollupRow));
-  Confidence: band=high; score=0.74
-- Line 751: severity=MEDIUM; category=determinism; pattern=unordered_container_iter
-  Description: Non-deterministic unordered_map/set iteration order
-  Context: OLAPEngine::evaluateWindowFunctions(const std::vector<std::unordered_map<std::string, double>> &data,
-  Confidence: band=medium; score=0.66
-- Line 777: severity=MEDIUM; category=performance; pattern=unnecessary_copy
-  Description: Unnecessary copy: use auto& for container element access
-  Context: auto it = data[j].find(measure.field);
-  Confidence: band=high; score=0.74
-- Line 778: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: windowValues.push_back(it->second);
-  Confidence: band=high; score=0.74
-- Line 778: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: windowValues.push_back(it->second);
-  Confidence: band=high; score=0.74
-- Line 779: severity=MEDIUM; category=copy_overhead
-  Description: push_back in loop — consider pre-allocating with reserve()
-  Remediation: Call vector.reserve(expected_size) before loop to avoid reallocations
-  Context: windowValues.push_back(it->second);
-- Line 820: severity=MEDIUM; category=copy_overhead
-  Description: push_back in loop — consider pre-allocating with reserve()
-  Remediation: Call vector.reserve(expected_size) before loop to avoid reallocations
-  Context: plan.optimization_notes.push_back("Full table scan required (no filters)");
-- Line 822: severity=MEDIUM; category=copy_overhead
-  Description: push_back in loop — consider pre-allocating with reserve()
-  Remediation: Call vector.reserve(expected_size) before loop to avoid reallocations
-  Context: plan.optimization_notes.push_back("Filter pushdown applied");
-- Line 828: severity=MEDIUM; category=copy_overhead
-  Description: push_back in loop — consider pre-allocating with reserve()
-  Remediation: Call vector.reserve(expected_size) before loop to avoid reallocations
-  Context: plan.optimization_notes.push_back("CUBE will generate " + std::to_string(combinations)
-- Line 832: severity=MEDIUM; category=copy_overhead
-  Description: push_back in loop — consider pre-allocating with reserve()
-  Remediation: Call vector.reserve(expected_size) before loop to avoid reallocations
-  Context: plan.optimization_notes.push_back("ROLLUP will generate " + std::to_string(query.dimensions.size() +
-- Line 913: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: gpu_rows.push_back(std::move(row));
-  Confidence: band=high; score=0.74
-- Line 1146: severity=MEDIUM; category=determinism; pattern=unordered_container_iter
-  Description: Non-deterministic unordered_map/set iteration order
-  Context: std::unordered_map<std::string, Column> columns;
-  Confidence: band=medium; score=0.66
-- Line 1159: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: buf.push_back(*d);
-  Confidence: band=high; score=0.74
-- Line 1188: severity=MEDIUM; category=determinism; pattern=unordered_container_iter
-  Description: Non-deterministic unordered_map/set iteration order
-  Context: const std::vector<std::unordered_map<std::string, std::variant<std::nullptr_t, bool, int64_t, double, std::string>>>
-  Confidence: band=medium; score=0.66
-- Line 1193: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: col.data.push_back(it->second);
-  Confidence: band=high; score=0.74
-- Line 1193: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: col.data.push_back(it->second);
-  Confidence: band=high; score=0.74
-- Line 1284: severity=MEDIUM; category=determinism; pattern=unordered_container_iter
-  Description: Non-deterministic unordered_map/set iteration order
-  Context: std::unordered_set<std::string> unique;
-  Confidence: band=medium; score=0.66
-- Line 1330: severity=MEDIUM; category=determinism; pattern=unordered_container_iter
-  Description: Non-deterministic unordered_map/set iteration order
-  Context: std::unordered_set<std::string> unique;
-  Confidence: band=medium; score=0.66
-- Line 1446: severity=MEDIUM; category=determinism; pattern=unordered_container_iter
-  Description: Non-deterministic unordered_map/set iteration order
-  Context: std::map<std::string, std::unordered_map<std::string, AggState>> groups;
-  Confidence: band=medium; score=0.66
-- Line 1446: severity=MEDIUM; category=performance; pattern=map_vs_unordered_map
-  Description: std::map used only for lookups (consider std::unordered_map)
-  Context: std::map<std::string, std::unordered_map<std::string, AggState>> groups;
-  Confidence: band=high; score=0.74
-- Line 1460: severity=MEDIUM; category=performance; pattern=string_concat_loop
-  Description: String concatenation in loop (use std::stringstream)
-  Context: key += '\0';
-  Confidence: band=high; score=0.74
-- Line 1461: severity=MEDIUM; category=string_concat_loop
-  Description: String concatenation in loop — O(n²) behavior
-  Remediation: Use std::ostringstream or pre-allocate string with .reserve()
-  Context: key += '\0';
-- Line 1513: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: r.columns.push_back(d.name);
-  Confidence: band=high; score=0.74
-- Line 1513: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: r.columns.push_back(d.name);
-  Confidence: band=high; score=0.74
-- Line 1514: severity=MEDIUM; category=copy_overhead
-  Description: push_back in loop — consider pre-allocating with reserve()
-  Remediation: Call vector.reserve(expected_size) before loop to avoid reallocations
-  Context: r.columns.push_back(d.name);
-- Line 1516: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: r.columns.push_back(m.name);
-  Confidence: band=high; score=0.74
-- Line 1517: severity=MEDIUM; category=copy_overhead
-  Description: push_back in loop — consider pre-allocating with reserve()
-  Remediation: Call vector.reserve(expected_size) before loop to avoid reallocations
-  Context: r.columns.push_back(m.name);
-- Line 1534: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: r.rows.push_back(std::move(row));
-  Confidence: band=high; score=0.74
-- Line 1534: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: r.rows.push_back(std::move(row));
-  Confidence: band=high; score=0.74
-- Line 1534: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: r.rows.push_back(std::move(row));
-  Confidence: band=high; score=0.74
-- Line 1561: severity=MEDIUM; category=determinism; pattern=unordered_container_iter
-  Description: Non-deterministic unordered_map/set iteration order
-  Context: const std::vector<std::unordered_map<std::string, std::variant<std::nullptr_t, bool, int64_t, double, std::string>>>
-  Confidence: band=medium; score=0.66
-- Line 1805: severity=MEDIUM; category=legacy_duplication; pattern=duplicate_qualified_signature
-  Description: Potential duplicate implementation signature across files: MaterializedView::isStale()
-  Context: bool MaterializedView::isStale() const {
-  Confidence: band=medium; score=0.56
-- Line 1957: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: arrays.push_back(array);
-  Confidence: band=high; score=0.74
-- Line 2024: severity=MEDIUM; category=uncaught_exception
-  Description: Generic catch(...) — specific exception types ignored
-  Remediation: Catch specific exceptions: catch(std::exception& e) { ... }
-  Context: } catch (...) {
-- Line 2042: severity=MEDIUM; category=uncaught_exception
-  Description: Generic catch(...) — specific exception types ignored
-  Remediation: Catch specific exceptions: catch(std::exception& e) { ... }
-  Context: } catch (...) {
-
-### src/analytics/forecasting.cpp
-Total findings: 110
-
-- Line 0: severity=CRITICAL; category=uncategorized
-  Context: ['                        // partial derivative w.r.t. delta[ci]', '                        double dt = t_norm[i] - p.changepoints_t[static_cast<size_t>(ci)];', '                        grad += 2.0 * err * dt / static_cast<double>(n);', '                    }', '                }']
-  Confidence: band=very_high; score=0.9
-- Line 466: severity=CRITICAL; category=missing_dtor
-  Description: Class HoltWintersParams allocates resources but has no destructor
-  Remediation: Add explicit destructor: ~HoltWintersParams() { /* cleanup */ }
-  Context: class/struct HoltWintersParams
-- Line 1700: severity=CRITICAL; category=data_race
-  Description: Shared data access without lock protection
-  Remediation: Protect shared data with std::lock_guard or std::unique_lock
-  Context: if (impl_->cache_valid && impl_->cache_key == ck) {
-- Line 1702: severity=CRITICAL; category=data_race
-  Description: Shared data access without lock protection
-  Remediation: Protect shared data with std::lock_guard or std::unique_lock
-  Context: impl_->linear_p       = impl_->cache_entry.linear_p;
-- Line 1703: severity=CRITICAL; category=data_race
-  Description: Shared data access without lock protection
-  Remediation: Protect shared data with std::lock_guard or std::unique_lock
-  Context: impl_->ses_p          = impl_->cache_entry.ses_p;
-- Line 1704: severity=CRITICAL; category=data_race
-  Description: Shared data access without lock protection
-  Remediation: Protect shared data with std::lock_guard or std::unique_lock
-  Context: impl_->hw_p           = impl_->cache_entry.hw_p;
-- Line 1705: severity=CRITICAL; category=data_race
-  Description: Shared data access without lock protection
-  Remediation: Protect shared data with std::lock_guard or std::unique_lock
-  Context: impl_->arima_p        = impl_->cache_entry.arima_p;
-- Line 1706: severity=CRITICAL; category=data_race
-  Description: Shared data access without lock protection
-  Remediation: Protect shared data with std::lock_guard or std::unique_lock
-  Context: impl_->in_sample_rmse = impl_->cache_entry.in_sample_rmse;
-- Line 1707: severity=CRITICAL; category=data_race
-  Description: Shared data access without lock protection
-  Remediation: Protect shared data with std::lock_guard or std::unique_lock
-  Context: impl_->config         = impl_->cache_entry.config;
-- Line 1708: severity=CRITICAL; category=data_race
-  Description: Shared data access without lock protection
-  Remediation: Protect shared data with std::lock_guard or std::unique_lock
-  Context: impl_->lin_sx         = impl_->cache_entry.lin_sx;
-- Line 1709: severity=CRITICAL; category=data_race
-  Description: Shared data access without lock protection
-  Remediation: Protect shared data with std::lock_guard or std::unique_lock
-  Context: impl_->lin_sy         = impl_->cache_entry.lin_sy;
-- Line 1710: severity=CRITICAL; category=data_race
-  Description: Shared data access without lock protection
-  Remediation: Protect shared data with std::lock_guard or std::unique_lock
-  Context: impl_->lin_sxx        = impl_->cache_entry.lin_sxx;
-- Line 1711: severity=CRITICAL; category=data_race
-  Description: Shared data access without lock protection
-  Remediation: Protect shared data with std::lock_guard or std::unique_lock
-  Context: impl_->lin_sxy        = impl_->cache_entry.lin_sxy;
-- Line 1712: severity=CRITICAL; category=data_race
-  Description: Shared data access without lock protection
-  Remediation: Protect shared data with std::lock_guard or std::unique_lock
-  Context: impl_->lin_n          = impl_->cache_entry.lin_n;
-- Line 1768: severity=CRITICAL; category=data_race
-  Description: Shared data access without lock protection
-  Remediation: Protect shared data with std::lock_guard or std::unique_lock
-  Context: auto preds = impl_->predict(static_cast<int>(impl_->train_y.size()) - 1);
-- Line 1774: severity=CRITICAL; category=data_race
-  Description: Shared data access without lock protection
-  Remediation: Protect shared data with std::lock_guard or std::unique_lock
-  Context: impl_->in_sample_rmse = preds.empty() ? 0.0 : std::sqrt(ss / static_cast<double>(preds.size()));
-- Line 1777: severity=CRITICAL; category=data_race
-  Description: Shared data access without lock protection
-  Remediation: Protect shared data with std::lock_guard or std::unique_lock
-  Context: impl_->cache_entry.linear_p       = impl_->linear_p;
-- Line 1778: severity=CRITICAL; category=data_race
-  Description: Shared data access without lock protection
-  Remediation: Protect shared data with std::lock_guard or std::unique_lock
-  Context: impl_->cache_entry.ses_p          = impl_->ses_p;
-- Line 1779: severity=CRITICAL; category=data_race
-  Description: Shared data access without lock protection
-  Remediation: Protect shared data with std::lock_guard or std::unique_lock
-  Context: impl_->cache_entry.hw_p           = impl_->hw_p;
-- Line 1780: severity=CRITICAL; category=data_race
-  Description: Shared data access without lock protection
-  Remediation: Protect shared data with std::lock_guard or std::unique_lock
-  Context: impl_->cache_entry.arima_p        = impl_->arima_p;
-- Line 1781: severity=CRITICAL; category=data_race
-  Description: Shared data access without lock protection
-  Remediation: Protect shared data with std::lock_guard or std::unique_lock
-  Context: impl_->cache_entry.in_sample_rmse = impl_->in_sample_rmse;
-- Line 1782: severity=CRITICAL; category=data_race
-  Description: Shared data access without lock protection
-  Remediation: Protect shared data with std::lock_guard or std::unique_lock
-  Context: impl_->cache_entry.config         = impl_->config;
-- Line 1783: severity=CRITICAL; category=data_race
-  Description: Shared data access without lock protection
-  Remediation: Protect shared data with std::lock_guard or std::unique_lock
-  Context: impl_->cache_entry.lin_sx         = impl_->lin_sx;
-- Line 1784: severity=CRITICAL; category=data_race
-  Description: Shared data access without lock protection
-  Remediation: Protect shared data with std::lock_guard or std::unique_lock
-  Context: impl_->cache_entry.lin_sy         = impl_->lin_sy;
-- Line 1785: severity=CRITICAL; category=data_race
-  Description: Shared data access without lock protection
-  Remediation: Protect shared data with std::lock_guard or std::unique_lock
-  Context: impl_->cache_entry.lin_sxx        = impl_->lin_sxx;
-- Line 1786: severity=CRITICAL; category=data_race
-  Description: Shared data access without lock protection
-  Remediation: Protect shared data with std::lock_guard or std::unique_lock
-  Context: impl_->cache_entry.lin_sxy        = impl_->lin_sxy;
-- Line 1787: severity=CRITICAL; category=data_race
-  Description: Shared data access without lock protection
-  Remediation: Protect shared data with std::lock_guard or std::unique_lock
-  Context: impl_->cache_entry.lin_n          = impl_->lin_n;
-- Line 1788: severity=CRITICAL; category=data_race
-  Description: Shared data access without lock protection
-  Remediation: Protect shared data with std::lock_guard or std::unique_lock
-  Context: impl_->cache_key                  = ck;
-- Line 1789: severity=CRITICAL; category=data_race
-  Description: Shared data access without lock protection
-  Remediation: Protect shared data with std::lock_guard or std::unique_lock
-  Context: impl_->cache_valid                = true;
-- Line 1861: severity=CRITICAL; category=data_race
-  Description: Shared data access without lock protection
-  Remediation: Protect shared data with std::lock_guard or std::unique_lock
-  Context: impl_->cache_valid = false;
-- Line 1873: severity=CRITICAL; category=data_race
-  Description: Shared data access without lock protection
-  Remediation: Protect shared data with std::lock_guard or std::unique_lock
-  Context: double x_new = static_cast<double>(impl_->lin_n); // next 0-based index
-- Line 1879: severity=CRITICAL; category=data_race
-  Description: Shared data access without lock protection
-  Remediation: Protect shared data with std::lock_guard or std::unique_lock
-  Context: double dn    = static_cast<double>(impl_->lin_n);
-- Line 1922: severity=CRITICAL; category=data_race
-  Description: Shared data access without lock protection
-  Remediation: Protect shared data with std::lock_guard or std::unique_lock
-  Context: int n_prev      = static_cast<int>(impl_->train_y.size()) - 1; // index before this obs
-- Line 2010: severity=CRITICAL; category=data_race
-  Description: Shared data access without lock protection
-  Remediation: Protect shared data with std::lock_guard or std::unique_lock
-  Context: int m = (impl_->config.seasonality >= 2) ? impl_->config.seasonality : static_cast<int>(std::max(siz
-- Line 2060: severity=CRITICAL; category=data_race
-  Description: Shared data access without lock protection
-  Remediation: Protect shared data with std::lock_guard or std::unique_lock
-  Context: oss << "method=" << static_cast<int>(impl_->method) << "\n";
-- Line 2204: severity=CRITICAL; category=data_race
-  Description: Shared data access without lock protection
-  Remediation: Protect shared data with std::lock_guard or std::unique_lock
-  Context: model.impl_->method                = static_cast<ForecastMethod>(readI("method"));
-- Line 2235: severity=CRITICAL; category=data_race
-  Description: Shared data access without lock protection
-  Remediation: Protect shared data with std::lock_guard or std::unique_lock
-  Context: model.impl_->hw_p.S[static_cast<size_t>(i)] = readD("hw_S_" + std::to_string(i));
-- Line 2245: severity=CRITICAL; category=data_race
-  Description: Shared data access without lock protection
-  Remediation: Protect shared data with std::lock_guard or std::unique_lock
-  Context: model.impl_->arima_p.ar_coeffs[static_cast<size_t>(i)] = readD("ar_c_" + std::to_string(i));
-- Line 2250: severity=CRITICAL; category=data_race
-  Description: Shared data access without lock protection
-  Remediation: Protect shared data with std::lock_guard or std::unique_lock
-  Context: model.impl_->arima_p.ma_coeffs[static_cast<size_t>(i)] = readD("ma_c_" + std::to_string(i));
-- Line 2255: severity=CRITICAL; category=data_race
-  Description: Shared data access without lock protection
-  Remediation: Protect shared data with std::lock_guard or std::unique_lock
-  Context: model.impl_->arima_p.last_window[static_cast<size_t>(i)] = readD("ar_w_" + std::to_string(i));
-- Line 2260: severity=CRITICAL; category=data_race
-  Description: Shared data access without lock protection
-  Remediation: Protect shared data with std::lock_guard or std::unique_lock
-  Context: model.impl_->arima_p.last_resid[static_cast<size_t>(i)] = readD("ar_r_" + std::to_string(i));
-- Line 2266: severity=CRITICAL; category=data_race
-  Description: Shared data access without lock protection
-  Remediation: Protect shared data with std::lock_guard or std::unique_lock
-  Context: model.impl_->train_ts[static_cast<size_t>(i)] = readL("ts_" + std::to_string(i));
-- Line 2342: severity=CRITICAL; category=data_race
-  Description: Shared data access without lock protection
-  Remediation: Protect shared data with std::lock_guard or std::unique_lock
-  Context: mi.training_points = impl_->train_y.size();
-- Line 0: severity=HIGH; category=uncategorized
-  Confidence: band=high; score=0.73
-- Line 0: severity=HIGH; category=uncategorized
-  Confidence: band=high; score=0.73
-- Line 0: severity=HIGH; category=uncategorized
-  Confidence: band=high; score=0.73
-- Line 0: severity=HIGH; category=uncategorized
-  Confidence: band=high; score=0.73
-- Line 0: severity=HIGH; category=uncategorized
-  Confidence: band=high; score=0.73
-- Line 0: severity=HIGH; category=uncategorized
-  Confidence: band=high; score=0.73
-- Line 0: severity=HIGH; category=uncategorized
-  Confidence: band=high; score=0.73
-- Line 0: severity=HIGH; category=uncategorized
-  Confidence: band=high; score=0.73
-- Line 0: severity=HIGH; category=uncategorized
-  Confidence: band=high; score=0.73
-- Line 0: severity=HIGH; category=uncategorized
-  Confidence: band=high; score=0.73
-- Line 0: severity=HIGH; category=uncategorized
-  Confidence: band=high; score=0.73
-- Line 0: severity=HIGH; category=uncategorized
-  Confidence: band=high; score=0.73
-- Line 0: severity=HIGH; category=uncategorized
-  Confidence: band=high; score=0.73
-- Line 0: severity=HIGH; category=uncategorized
-  Confidence: band=high; score=0.73
-- Line 0: severity=HIGH; category=uncategorized
-  Confidence: band=high; score=0.73
-- Line 0: severity=HIGH; category=uncategorized
-  Confidence: band=high; score=0.73
-- Line 0: severity=HIGH; category=uncategorized
-  Confidence: band=high; score=0.73
-- Line 0: severity=HIGH; category=uncategorized
-  Confidence: band=high; score=0.73
-- Line 0: severity=HIGH; category=uncategorized
-  Confidence: band=high; score=0.73
-- Line 0: severity=HIGH; category=uncategorized
-  Confidence: band=high; score=0.73
-- Line 0: severity=HIGH; category=uncategorized
-  Confidence: band=high; score=0.73
-- Line 0: severity=HIGH; category=uncategorized
-  Confidence: band=high; score=0.73
-- Line 0: severity=HIGH; category=uncategorized
-  Confidence: band=high; score=0.73
-- Line 0: severity=HIGH; category=uncategorized
-  Confidence: band=high; score=0.73
-- Line 0: severity=HIGH; category=uncategorized
-  Confidence: band=high; score=0.73
-- Line 0: severity=HIGH; category=uncategorized
+- Line 1168: severity=HIGH; category=uninitialized_array
+  Description: Array contains garbage values; use with zeros or explicit init
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::uninitialized
   Context: Array declared without initialization
-  Confidence: band=high; score=0.81
-- Line 5: severity=HIGH; category=uninitialized_access
-  Description: Container element access before initialization
-  Remediation: Use .at() for bounds checking or initialize element first
-  Context: * PR History (last 5): #4929 [Docs][analytics] Refresh m... (2026-05-10) | #4317 feat(analytics): SI
-- Line 534: severity=HIGH; category=determinism; pattern=fp_exact_comparison
-  Description: Floating-point exact comparison (use tolerance/epsilon)
-  Context: if (base == 0.0) {
-  Confidence: band=very_high; score=0.9
-- Line 562: severity=HIGH; category=determinism; pattern=fp_exact_comparison
-  Description: Floating-point exact comparison (use tolerance/epsilon)
-  Context: Snew         = gamma * (y[i] / (Lnew != 0.0 ? Lnew : 1e-10)) + (1.0 - gamma) * S[static_cast<size_t>(si)];
-  Confidence: band=very_high; score=0.9
-- Line 1084: severity=HIGH; category=uninitialized_access
-  Description: Container element access before initialization
-  Remediation: Use .at() for bounds checking or initialize element first
-  Context: std::vector<double> fourier_weekly; ///< 2*fourier_order_weekly coeffs [a1,b1,a2,b2,...]
-- Line 1239: severity=HIGH; category=determinism; pattern=fp_exact_comparison
-  Description: Floating-point exact comparison (use tolerance/epsilon)
-  Context: if (a != b) {
-  Confidence: band=very_high; score=0.9
-- Line 1436: severity=HIGH; category=size_assumption
-  Description: Hardcoded size assumption — pointer/int size may differ on platforms
-  Remediation: Use <cstdint> types (uint32_t, uint64_t) and sizeof() checks, not constants
-  Context: k.data_hash = fnv1a64(y.data(), y.size() * sizeof(double));
-- Line 1437: severity=HIGH; category=size_assumption
-  Description: Hardcoded size assumption — pointer/int size may differ on platforms
-  Remediation: Use <cstdint> types (uint32_t, uint64_t) and sizeof() checks, not constants
-  Context: k.data_hash = fnv1a64(ts.data(), ts.size() * sizeof(int64_t)) ^ k.data_hash;
-- Line 1439: severity=HIGH; category=size_assumption
-  Description: Hardcoded size assumption — pointer/int size may differ on platforms
-  Remediation: Use <cstdint> types (uint32_t, uint64_t) and sizeof() checks, not constants
-  Context: uint64_t cfg_h = fnv1a64(&cfg.alpha, sizeof(cfg.alpha));
-- Line 1440: severity=HIGH; category=size_assumption
-  Description: Hardcoded size assumption — pointer/int size may differ on platforms
-  Remediation: Use <cstdint> types (uint32_t, uint64_t) and sizeof() checks, not constants
-  Context: cfg_h ^= fnv1a64(&cfg.beta, sizeof(cfg.beta));
-- Line 1441: severity=HIGH; category=size_assumption
-  Description: Hardcoded size assumption — pointer/int size may differ on platforms
-  Remediation: Use <cstdint> types (uint32_t, uint64_t) and sizeof() checks, not constants
-  Context: cfg_h ^= fnv1a64(&cfg.gamma, sizeof(cfg.gamma));
-- Line 1442: severity=HIGH; category=size_assumption
-  Description: Hardcoded size assumption — pointer/int size may differ on platforms
-  Remediation: Use <cstdint> types (uint32_t, uint64_t) and sizeof() checks, not constants
-  Context: cfg_h ^= fnv1a64(&cfg.seasonality, sizeof(cfg.seasonality));
-- Line 1443: severity=HIGH; category=size_assumption
-  Description: Hardcoded size assumption — pointer/int size may differ on platforms
-  Remediation: Use <cstdint> types (uint32_t, uint64_t) and sizeof() checks, not constants
-  Context: cfg_h ^= fnv1a64(&cfg.ar_order, sizeof(cfg.ar_order));
-- Line 1444: severity=HIGH; category=size_assumption
-  Description: Hardcoded size assumption — pointer/int size may differ on platforms
-  Remediation: Use <cstdint> types (uint32_t, uint64_t) and sizeof() checks, not constants
-  Context: cfg_h ^= fnv1a64(&cfg.diff_order, sizeof(cfg.diff_order));
-- Line 1445: severity=HIGH; category=size_assumption
-  Description: Hardcoded size assumption — pointer/int size may differ on platforms
-  Remediation: Use <cstdint> types (uint32_t, uint64_t) and sizeof() checks, not constants
-  Context: cfg_h ^= fnv1a64(&cfg.ma_order, sizeof(cfg.ma_order));
-- Line 2032: severity=HIGH; category=determinism; pattern=fp_exact_comparison
-  Description: Floating-point exact comparison (use tolerance/epsilon)
-  Context: season_acc[static_cast<size_t>(si)] += multiplicative ? (base != 0.0 ? y[i] / base : 1.0) : (y[i] - base);
-  Confidence: band=very_high; score=0.9
-- Line 2301: severity=HIGH; category=pointer_arithmetic
-  Description: Pointer/array access without bounds validation
-  Remediation: Add bounds check before dereferencing
-  Context: sp.seasonal_buffer[static_cast<size_t>(i)] = readD("sarima_sb_" + std::to_string(i));
-- Line 0: severity=MEDIUM; category=uncategorized
-  Context: Struct with uninitialized fields
-  Confidence: band=medium; score=0.65
-- Line 0: severity=MEDIUM; category=uncategorized
-  Context: Struct with uninitialized fields
-  Confidence: band=medium; score=0.65
-- Line 121: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: t.push_back(p.timestamp_ms);
-  Confidence: band=high; score=0.74
-- Line 130: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: result.points_.push_back(p);
-  Confidence: band=high; score=0.74
-- Line 149: severity=MEDIUM; category=legacy_duplication; pattern=duplicate_qualified_signature
-  Description: Potential duplicate implementation signature across files: TimeSeries::mean()
-  Context: double TimeSeries::mean() const {
-  Confidence: band=medium; score=0.56
-- Line 387: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: diffs.push_back(static_cast<double>(timestamps[i] - timestamps[i - 1]));
-  Confidence: band=high; score=0.74
-- Line 516: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: season_avgs.push_back(avg / static_cast<double>(im));
-  Confidence: band=high; score=0.74
-- Line 516: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: season_avgs.push_back(avg / static_cast<double>(im));
-  Confidence: band=high; score=0.74
-- Line 829: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: ar_lags.push_back(i);
-  Confidence: band=high; score=0.74
-- Line 829: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: ar_lags.push_back(i);
-  Confidence: band=high; score=0.74
-- Line 832: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: ar_lags.push_back(i * params.m);
-  Confidence: band=high; score=0.74
-- Line 833: severity=MEDIUM; category=copy_overhead
-  Description: push_back in loop — consider pre-allocating with reserve()
-  Remediation: Call vector.reserve(expected_size) before loop to avoid reallocations
-  Context: ar_lags.push_back(i * params.m);
-- Line 934: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: ma_lags.push_back(i);
-  Confidence: band=high; score=0.74
-- Line 934: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: ma_lags.push_back(i);
-  Confidence: band=high; score=0.74
-- Line 934: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: ma_lags.push_back(i);
-  Confidence: band=high; score=0.74
-- Line 937: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: ma_lags.push_back(i * params.m);
-  Confidence: band=high; score=0.74
-- Line 938: severity=MEDIUM; category=copy_overhead
-  Description: push_back in loop — consider pre-allocating with reserve()
-  Remediation: Call vector.reserve(expected_size) before loop to avoid reallocations
-  Context: ma_lags.push_back(i * params.m);
-- Line 1053: severity=MEDIUM; category=copy_overhead
-  Description: push_back in loop — consider pre-allocating with reserve()
-  Remediation: Call vector.reserve(expected_size) before loop to avoid reallocations
-  Context: window.push_back(pred_diff - p.mean_diff);
-- Line 1344: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: out.push_back(trend + s_weekly + s_yearly);
-  Confidence: band=high; score=0.74
-- Line 1577: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: out.push_back(pred_val);
-  Confidence: band=high; score=0.74
-- Line 1577: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: out.push_back(pred_val);
-  Confidence: band=high; score=0.74
-- Line 1581: severity=MEDIUM; category=copy_overhead
-  Description: push_back in loop — consider pre-allocating with reserve()
-  Remediation: Call vector.reserve(expected_size) before loop to avoid reallocations
-  Context: window.push_back(pred_diff - arima_p.mean_diff);
-- Line 1843: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: results.push_back(m.predict(steps));
-  Confidence: band=high; score=0.74
-- Line 252: severity=LOW; category=observability; pattern=unstructured_log
-  Description: Unstructured logging (use structured format)
-  Context: double t = std::sqrt(-2.0 * std::log(p));
-  Confidence: band=medium; score=0.6
-- Line 261: severity=LOW; category=observability; pattern=unstructured_log
-  Description: Unstructured logging (use structured format)
-  Context: double t = std::sqrt(-2.0 * std::log(1.0 - p));
-  Confidence: band=medium; score=0.6
-
-### src/analytics/distributed_analytics.cpp
-Total findings: 103
-
-- Line 0: severity=CRITICAL; category=uncategorized
-  Context: ['        double delta = other_mean - mean;', '        mean         = (count * mean + other_count * other_mean) / total;', '        m2 += other_m2 + delta * delta * count * other_count / total;', '        count = total;', '    }']
-  Confidence: band=very_high; score=0.9
-- Line 21: severity=CRITICAL; category=distributed_consistency; pattern=missing_version_tracking
-  Description: Concurrent update without version vector or causal ordering
-  Context: *     → merge: SUM/COUNT aggregated, AVG recomputed, MIN/MAX reduced
-  Confidence: band=very_high; score=0.99
-- Line 22: severity=CRITICAL; category=distributed_consistency; pattern=missing_version_tracking
-  Description: Concurrent update without version vector or causal ordering
-  Context: *     → returns merged OLAPResult; partial results returned when < 20% shards fail
-  Confidence: band=very_high; score=0.99
-- Line 32: severity=CRITICAL; category=distributed_consistency; pattern=missing_version_tracking
-  Description: Concurrent update without version vector or causal ordering
-  Context: * Thread safety: `DistributedAnalyticsSharding` is thread-safe; concurrent
-  Confidence: band=very_high; score=0.99
-- Line 110: severity=CRITICAL; category=distributed_consistency; pattern=missing_version_tracking
-  Description: Concurrent update without version vector or causal ordering
-  Context: // Per-group merge accumulator
-  Confidence: band=very_high; score=0.99
-- Line 114: severity=CRITICAL; category=distributed_consistency; pattern=missing_version_tracking
-  Description: Concurrent update without version vector or causal ordering
-  Context: * Tracks the partial state needed to correctly merge one measure column
-  Confidence: band=very_high; score=0.99
-- Line 159: severity=CRITICAL; category=distributed_consistency; pattern=missing_version_tracking
-  Description: Concurrent update without version vector or causal ordering
-  Context: // during the shard-merge step we use the weighted approach.
-  Confidence: band=very_high; score=0.99
-- Line 188: severity=CRITICAL; category=distributed_consistency; pattern=missing_version_tracking
-  Description: Concurrent update without version vector or causal ordering
-  Context: // duplicates).  A full HyperLogLog merge would be exact.
-  Confidence: band=very_high; score=0.99
-- Line 232: severity=CRITICAL; category=distributed_consistency; pattern=missing_version_tracking
-  Description: Concurrent update without version vector or causal ordering
-  Context: * Merge another Chan state (for STDDEV/VARIANCE parallel combination).
-  Confidence: band=very_high; score=0.99
-- Line 234: severity=CRITICAL; category=distributed_consistency; pattern=missing_version_tracking
-  Description: Concurrent update without version vector or causal ordering
-  Context: void mergeVarianceState(double other_count, double other_mean, double other_m2) {
-  Confidence: band=very_high; score=0.99
-- Line 245: severity=CRITICAL; category=distributed_consistency; pattern=missing_version_tracking
-  Description: Concurrent update without version vector or causal ordering
-  Context: /** Finalise and return the merged aggregate value. */
-  Confidence: band=very_high; score=0.99
-- Line 507: severity=CRITICAL; category=distributed_consistency; pattern=missing_version_tracking
-  Description: Concurrent update without version vector or causal ordering
-  Context: OLAPResult DistributedAnalyticsSharding::mergeResults(const std::vector<OLAPResult> &partials, const OLAPQuery &query) {
-  Confidence: band=very_high; score=0.99
-- Line 515: severity=CRITICAL; category=distributed_consistency; pattern=missing_version_tracking
-  Description: Concurrent update without version vector or causal ordering
-  Context: OLAPResult merged;
-  Confidence: band=very_high; score=0.99
-- Line 518: severity=CRITICAL; category=distributed_consistency; pattern=missing_version_tracking
-  Description: Concurrent update without version vector or causal ordering
-  Context: merged.columns = p.columns;
-  Confidence: band=very_high; score=0.99
-- Line 586: severity=CRITICAL; category=distributed_consistency; pattern=missing_version_tracking
-  Description: Concurrent update without version vector or causal ordering
-  Context: // the caller added one.  We use it for weighted merge.
-  Confidence: band=very_high; score=0.99
-- Line 608: severity=CRITICAL; category=distributed_consistency; pattern=missing_version_tracking
-  Description: Concurrent update without version vector or causal ordering
-  Context: // Step 3: Merge grand_totals (SUM / COUNT / MIN / MAX)
-  Confidence: band=very_high; score=0.99
-- Line 628: severity=CRITICAL; category=distributed_consistency; pattern=missing_version_tracking
-  Description: Concurrent update without version vector or causal ordering
-  Context: // Step 4: Build the merged rows from the accumulators
-  Confidence: band=very_high; score=0.99
-- Line 630: severity=CRITICAL; category=distributed_consistency; pattern=missing_version_tracking
-  Description: Concurrent update without version vector or causal ordering
-  Context: merged.rows.reserve(group_order.size());
-  Confidence: band=very_high; score=0.99
-- Line 642: severity=CRITICAL; category=distributed_consistency; pattern=missing_version_tracking
-  Description: Concurrent update without version vector or causal ordering
-  Context: merged.rows.push_back(std::move(out));
-  Confidence: band=very_high; score=0.99
-- Line 651: severity=CRITICAL; category=distributed_consistency; pattern=missing_version_tracking
-  Description: Concurrent update without version vector or causal ordering
-  Context: merged.grand_totals[m.name] = toDouble(it->second.finalise());
-  Confidence: band=very_high; score=0.99
-- Line 655: severity=CRITICAL; category=distributed_consistency; pattern=missing_version_tracking
-  Description: Concurrent update without version vector or causal ordering
-  Context: merged.total_rows        = static_cast<int64_t>(merged.rows.size());
-  Confidence: band=very_high; score=0.99
-- Line 656: severity=CRITICAL; category=distributed_consistency; pattern=missing_version_tracking
-  Description: Concurrent update without version vector or causal ordering
-  Context: merged.has_more          = false;
-  Confidence: band=very_high; score=0.99
-- Line 792: severity=CRITICAL; category=distributed_consistency; pattern=missing_version_tracking
-  Description: Concurrent update without version vector or causal ordering
-  Context: "allow_partial_results=false; aborting merge",
-  Confidence: band=very_high; score=0.99
-- Line 807: severity=CRITICAL; category=distributed_consistency; pattern=missing_version_tracking
-  Description: Concurrent update without version vector or causal ordering
-  Context: "max_failure_rate {:.1f}% ({}/{} shards failed); aborting merge",
-  Confidence: band=very_high; score=0.99
-- Line 809: severity=CRITICAL; category=distributed_consistency; pattern=missing_version_tracking
-  Description: Concurrent update without version vector or causal ordering
-  Context: // Return partial shard_info without a merged result so the caller
-  Confidence: band=very_high; score=0.99
-- Line 821: severity=CRITICAL; category=distributed_consistency; pattern=missing_version_tracking
-  Description: Concurrent update without version vector or causal ordering
-  Context: // Merge
-  Confidence: band=very_high; score=0.99
-- Line 823: severity=CRITICAL; category=distributed_consistency; pattern=missing_version_tracking
-  Description: Concurrent update without version vector or causal ordering
-  Context: result.merged = mergeResults(partials, query);
-  Confidence: band=very_high; score=0.99
-- Line 832: severity=CRITICAL; category=distributed_consistency; pattern=missing_version_tracking
-  Description: Concurrent update without version vector or causal ordering
-  Context: return executeDistributed(query).merged;
-  Confidence: band=very_high; score=0.99
-- Line 0: severity=HIGH; category=uncategorized
-  Context: ['            return;', '        }', '        double total = count + other_count;', '        double delta = other_mean - mean;', '        mean         = (count * mean + other_count * other_mean) / total;']
-  Confidence: band=high; score=0.81
-- Line 5: severity=HIGH; category=uninitialized_access
-  Description: Container element access before initialization
-  Remediation: Use .at() for bounds checking or initialize element first
-  Context: * PR History (last 5): #4929 [Docs][analytics] Refresh m... (2026-05-10) | #4324 Implement cached he
-- Line 21: severity=HIGH; category=distributed_consistency; pattern=undefined_conflict_resolution
-  Description: Merge without explicit conflict resolution strategy
-  Context: *     → merge: SUM/COUNT aggregated, AVG recomputed, MIN/MAX reduced
-  Confidence: band=very_high; score=0.9
-- Line 22: severity=HIGH; category=distributed_consistency; pattern=undefined_conflict_resolution
-  Description: Merge without explicit conflict resolution strategy
-  Context: *     → returns merged OLAPResult; partial results returned when < 20% shards fail
-  Confidence: band=very_high; score=0.9
-- Line 110: severity=HIGH; category=distributed_consistency; pattern=undefined_conflict_resolution
-  Description: Merge without explicit conflict resolution strategy
-  Context: // Per-group merge accumulator
-  Confidence: band=very_high; score=0.9
-- Line 114: severity=HIGH; category=distributed_consistency; pattern=undefined_conflict_resolution
-  Description: Merge without explicit conflict resolution strategy
-  Context: * Tracks the partial state needed to correctly merge one measure column
-  Confidence: band=very_high; score=0.9
-- Line 159: severity=HIGH; category=distributed_consistency; pattern=undefined_conflict_resolution
-  Description: Merge without explicit conflict resolution strategy
-  Context: // during the shard-merge step we use the weighted approach.
-  Confidence: band=very_high; score=0.9
-- Line 188: severity=HIGH; category=distributed_consistency; pattern=undefined_conflict_resolution
-  Description: Merge without explicit conflict resolution strategy
-  Context: // duplicates).  A full HyperLogLog merge would be exact.
-  Confidence: band=very_high; score=0.9
-- Line 232: severity=HIGH; category=distributed_consistency; pattern=undefined_conflict_resolution
-  Description: Merge without explicit conflict resolution strategy
-  Context: * Merge another Chan state (for STDDEV/VARIANCE parallel combination).
-  Confidence: band=very_high; score=0.9
-- Line 234: severity=HIGH; category=distributed_consistency; pattern=undefined_conflict_resolution
-  Description: Merge without explicit conflict resolution strategy
-  Context: void mergeVarianceState(double other_count, double other_mean, double other_m2) {
-  Confidence: band=very_high; score=0.9
-- Line 245: severity=HIGH; category=distributed_consistency; pattern=undefined_conflict_resolution
-  Description: Merge without explicit conflict resolution strategy
-  Context: /** Finalise and return the merged aggregate value. */
-  Confidence: band=very_high; score=0.9
-- Line 255: severity=HIGH; category=determinism; pattern=fp_exact_comparison
-  Description: Floating-point exact comparison (use tolerance/epsilon)
-  Context: if (count == 0.0) {
-  Confidence: band=very_high; score=0.9
-- Line 261: severity=HIGH; category=determinism; pattern=fp_exact_comparison
-  Description: Floating-point exact comparison (use tolerance/epsilon)
-  Context: if (min_val == std::numeric_limits<double>::max()) {
-  Confidence: band=very_high; score=0.9
-- Line 267: severity=HIGH; category=determinism; pattern=fp_exact_comparison
-  Description: Floating-point exact comparison (use tolerance/epsilon)
-  Context: if (max_val == std::numeric_limits<double>::lowest()) {
-  Confidence: band=very_high; score=0.9
-- Line 294: severity=HIGH; category=determinism; pattern=fp_exact_comparison
-  Description: Floating-point exact comparison (use tolerance/epsilon)
-  Context: if (count == 0.0) {
-  Confidence: band=very_high; score=0.9
-- Line 350: severity=HIGH; category=distributed_consistency; pattern=unspecified_consistency
-  Description: Read without explicit consistency level (replication lag unknown)
-  Context: health_monitor_thread_ = std::thread(&DistributedAnalyticsSharding::runHealthMonitor, this);
-  Confidence: band=very_high; score=0.9
-- Line 355: severity=HIGH; category=db_connection_leak
+- Line 1204: severity=HIGH; category=uninitialized_array
+  Description: Array contains garbage values; use with zeros or explicit init
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::uninitialized
+  Context: Array declared without initialization
+- Line 1245: severity=HIGH; category=uninitialized_array
+  Description: Array contains garbage values; use with zeros or explicit init
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::uninitialized
+  Context: Array declared without initialization
+- Line 1316: severity=HIGH; category=o_n_squared
+  Description: O(n²) pattern: find() on vector inside loop
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::container
+  Context: auto it = row.find(name);
+- Line 1317: severity=HIGH; category=nested_loop_find
+  Description: O(n²) pattern: linear search inside nested loop
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::performance_patterns
+  Context: auto it = row.find(name);
+- Line 1535: severity=HIGH; category=resource_leaked_in_exception
+  Description: Exception before delete causes resource leak
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::exception_safety
+- Line 1576: severity=HIGH; category=o_n_squared
+  Description: O(n²) pattern: find() on vector inside loop
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::container
+  Context: auto it = row.find(d.name);
+- Line 1611: severity=HIGH; category=o_n_squared
+  Description: O(n²) pattern: find() on vector inside loop
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::container
+  Context: auto it     = row.find(m.field);
+- Line 1619: severity=HIGH; category=o_n_squared
+  Description: O(n²) pattern: find() on vector inside loop
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::container
+  Context: auto git = groups.find(gk);
+- Line 1655: severity=HIGH; category=o_n_squared
+  Description: O(n²) pattern: find() on vector inside loop
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::container
+  Context: auto it = agg_map.find(m.name);
+- Line 1656: severity=HIGH; category=nested_loop_find
+  Description: O(n²) pattern: linear search inside nested loop
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::performance_patterns
+  Context: auto it = agg_map.find(m.name);
+- Line 1733: severity=HIGH; category=db_connection_leak
   Description: Resource acquired but not released — potential leak
-  Remediation: Ensure all acquire() calls are matched with release() in all code paths
-  Context: while (!stopping_.load(std::memory_order_acquire)) {
-- Line 358: severity=HIGH; category=lock_contention
-  Description: Mutex lock in loop — high contention
-  Remediation: Acquire lock before loop or redesign to minimize lock time
-  Context: std::unique_lock<std::mutex> lock(health_monitor_mutex_);
-- Line 360: severity=HIGH; category=db_connection_leak
-  Description: Resource acquired but not released — potential leak
-  Remediation: Ensure all acquire() calls are matched with release() in all code paths
-  Context: [this] { return stopping_.load(std::memory_order_acquire); });
-- Line 363: severity=HIGH; category=db_connection_leak
-  Description: Resource acquired but not released — potential leak
-  Remediation: Ensure all acquire() calls are matched with release() in all code paths
-  Context: if (stopping_.load(std::memory_order_acquire)) {
-- Line 491: severity=HIGH; category=o_n_squared
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::raii
+  Context: refresh(); // acquires view_mutex_ internally after computation
+- Line 2014: severity=HIGH; category=o_n_squared
   Description: O(n²) pattern: find() on vector inside loop
-  Remediation: Use std::unordered_map or std::set for O(log n) or O(1) lookup
-  Context: auto it = row.values.find(dim.name);
-- Line 491: severity=HIGH; category=o_n_squared
-  Description: O(n²) pattern: find() on vector inside loop
-  Remediation: Use std::unordered_map or std::set for O(log n) or O(1) lookup
-  Context: auto it = row.values.find(dim.name);
-- Line 503: severity=HIGH; category=distributed_consistency; pattern=undefined_conflict_resolution
-  Description: Merge without explicit conflict resolution strategy
-  Context: // mergeResults
-  Confidence: band=very_high; score=0.9
-- Line 507: severity=HIGH; category=distributed_consistency; pattern=undefined_conflict_resolution
-  Description: Merge without explicit conflict resolution strategy
-  Context: OLAPResult DistributedAnalyticsSharding::mergeResults(const std::vector<OLAPResult> &partials, const OLAPQuery &query) {
-  Confidence: band=very_high; score=0.9
-- Line 515: severity=HIGH; category=distributed_consistency; pattern=undefined_conflict_resolution
-  Description: Merge without explicit conflict resolution strategy
-  Context: OLAPResult merged;
-  Confidence: band=very_high; score=0.9
-- Line 518: severity=HIGH; category=distributed_consistency; pattern=undefined_conflict_resolution
-  Description: Merge without explicit conflict resolution strategy
-  Context: merged.columns = p.columns;
-  Confidence: band=very_high; score=0.9
-- Line 545: severity=HIGH; category=o_n_squared
-  Description: O(n²) pattern: find() on vector inside loop
-  Remediation: Use std::unordered_map or std::set for O(log n) or O(1) lookup
-  Context: auto it = groups.find(key);
-- Line 545: severity=HIGH; category=o_n_squared
-  Description: O(n²) pattern: find() on vector inside loop
-  Remediation: Use std::unordered_map or std::set for O(log n) or O(1) lookup
-  Context: auto it = groups.find(key);
-- Line 545: severity=HIGH; category=o_n_squared
-  Description: O(n²) pattern: find() on vector inside loop
-  Remediation: Use std::unordered_map or std::set for O(log n) or O(1) lookup
-  Context: auto it = groups.find(key);
-- Line 546: severity=HIGH; category=performance; pattern=nested_loop_find
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::container
+  Context: auto it = row.values.find(col_name);
+- Line 2015: severity=HIGH; category=nested_loop_find
   Description: O(n²) pattern: linear search inside nested loop
-  Context: auto it = groups.find(key);
-  Confidence: band=very_high; score=0.9
-- Line 554: severity=HIGH; category=o_n_squared
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::performance_patterns
+  Context: auto it = row.values.find(col_name);
+- Line 2069: severity=HIGH; category=o_n_squared
   Description: O(n²) pattern: find() on vector inside loop
-  Remediation: Use std::unordered_map or std::set for O(log n) or O(1) lookup
-  Context: auto vit = row.values.find(dim.name);
-- Line 554: severity=HIGH; category=o_n_squared
-  Description: O(n²) pattern: find() on vector inside loop
-  Remediation: Use std::unordered_map or std::set for O(log n) or O(1) lookup
-  Context: auto vit = row.values.find(dim.name);
-- Line 555: severity=HIGH; category=performance; pattern=nested_loop_find
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::container
+  Context: auto it = row.values.find(col_name);
+- Line 2070: severity=HIGH; category=nested_loop_find
   Description: O(n²) pattern: linear search inside nested loop
-  Context: auto vit = row.values.find(dim.name);
-  Confidence: band=very_high; score=0.9
-- Line 586: severity=HIGH; category=distributed_consistency; pattern=undefined_conflict_resolution
-  Description: Merge without explicit conflict resolution strategy
-  Context: // the caller added one.  We use it for weighted merge.
-  Confidence: band=very_high; score=0.9
-- Line 608: severity=HIGH; category=distributed_consistency; pattern=undefined_conflict_resolution
-  Description: Merge without explicit conflict resolution strategy
-  Context: // Step 3: Merge grand_totals (SUM / COUNT / MIN / MAX)
-  Confidence: band=very_high; score=0.9
-- Line 618: severity=HIGH; category=performance; pattern=nested_loop_find
-  Description: O(n²) pattern: linear search inside nested loop
-  Context: auto git = partial.grand_totals.find(m.name);
-  Confidence: band=very_high; score=0.9
-- Line 628: severity=HIGH; category=distributed_consistency; pattern=undefined_conflict_resolution
-  Description: Merge without explicit conflict resolution strategy
-  Context: // Step 4: Build the merged rows from the accumulators
-  Confidence: band=very_high; score=0.9
-- Line 630: severity=HIGH; category=distributed_consistency; pattern=undefined_conflict_resolution
-  Description: Merge without explicit conflict resolution strategy
-  Context: merged.rows.reserve(group_order.size());
-  Confidence: band=very_high; score=0.9
-- Line 636: severity=HIGH; category=performance; pattern=nested_loop_find
-  Description: O(n²) pattern: linear search inside nested loop
-  Context: auto ait = acc.measures.find(m.name);
-  Confidence: band=very_high; score=0.9
-- Line 642: severity=HIGH; category=distributed_consistency; pattern=undefined_conflict_resolution
-  Description: Merge without explicit conflict resolution strategy
-  Context: merged.rows.push_back(std::move(out));
-  Confidence: band=very_high; score=0.9
-- Line 651: severity=HIGH; category=distributed_consistency; pattern=undefined_conflict_resolution
-  Description: Merge without explicit conflict resolution strategy
-  Context: merged.grand_totals[m.name] = toDouble(it->second.finalise());
-  Confidence: band=very_high; score=0.9
-- Line 655: severity=HIGH; category=distributed_consistency; pattern=undefined_conflict_resolution
-  Description: Merge without explicit conflict resolution strategy
-  Context: merged.total_rows        = static_cast<int64_t>(merged.rows.size());
-  Confidence: band=very_high; score=0.9
-- Line 656: severity=HIGH; category=distributed_consistency; pattern=undefined_conflict_resolution
-  Description: Merge without explicit conflict resolution strategy
-  Context: merged.has_more          = false;
-  Confidence: band=very_high; score=0.9
-- Line 657: severity=HIGH; category=distributed_consistency; pattern=undefined_conflict_resolution
-  Description: Merge without explicit conflict resolution strategy
-  Context: merged.execution_time_ms = 0.0;
-  Confidence: band=very_high; score=0.9
-- Line 659: severity=HIGH; category=distributed_consistency; pattern=undefined_conflict_resolution
-  Description: Merge without explicit conflict resolution strategy
-  Context: merged.execution_time_ms += p.execution_time_ms;
-  Confidence: band=very_high; score=0.9
-- Line 662: severity=HIGH; category=distributed_consistency; pattern=undefined_conflict_resolution
-  Description: Merge without explicit conflict resolution strategy
-  Context: return merged;
-  Confidence: band=very_high; score=0.9
-- Line 729: severity=HIGH; category=distributed_consistency; pattern=unspecified_consistency
-  Description: Read without explicit consistency level (replication lag unknown)
-  Context: std::thread([entry, query, promise = std::move(promise)]() mutable {
-  Confidence: band=very_high; score=0.9
-- Line 735: severity=HIGH; category=no_retry_logic
-  Description: database_query without retry logic — transient failures will propagate
-  Remediation: Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)
-  Context: auto partial = entry.executor->execute(entry.shard_id, query);
-- Line 784: severity=HIGH; category=distributed_consistency; pattern=unspecified_consistency
-  Description: Read without explicit consistency level (replication lag unknown)
-  Context: auto [partial, info] = f.get();
-  Confidence: band=very_high; score=0.9
-- Line 792: severity=HIGH; category=distributed_consistency; pattern=undefined_conflict_resolution
-  Description: Merge without explicit conflict resolution strategy
-  Context: "allow_partial_results=false; aborting merge",
-  Confidence: band=very_high; score=0.9
-- Line 807: severity=HIGH; category=distributed_consistency; pattern=undefined_conflict_resolution
-  Description: Merge without explicit conflict resolution strategy
-  Context: "max_failure_rate {:.1f}% ({}/{} shards failed); aborting merge",
-  Confidence: band=very_high; score=0.9
-- Line 809: severity=HIGH; category=distributed_consistency; pattern=undefined_conflict_resolution
-  Description: Merge without explicit conflict resolution strategy
-  Context: // Return partial shard_info without a merged result so the caller
-  Confidence: band=very_high; score=0.9
-- Line 821: severity=HIGH; category=distributed_consistency; pattern=undefined_conflict_resolution
-  Description: Merge without explicit conflict resolution strategy
-  Context: // Merge
-  Confidence: band=very_high; score=0.9
-- Line 823: severity=HIGH; category=distributed_consistency; pattern=undefined_conflict_resolution
-  Description: Merge without explicit conflict resolution strategy
-  Context: result.merged = mergeResults(partials, query);
-  Confidence: band=very_high; score=0.9
-- Line 831: severity=HIGH; category=no_retry_logic
-  Description: database_query without retry logic — transient failures will propagate
-  Remediation: Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)
-  Context: OLAPResult DistributedAnalyticsSharding::execute(const OLAPQuery &query) {
-- Line 831: severity=HIGH; category=observability; pattern=missing_trace_point
-  Description: Critical function execute without trace point
-  Context: OLAPResult DistributedAnalyticsSharding::execute(const OLAPQuery &query) {
-  Confidence: band=very_high; score=0.9
-- Line 832: severity=HIGH; category=distributed_consistency; pattern=undefined_conflict_resolution
-  Description: Merge without explicit conflict resolution strategy
-  Context: return executeDistributed(query).merged;
-  Confidence: band=very_high; score=0.9
-- Line 383: severity=MEDIUM; category=uncaught_exception
-  Description: Generic catch(...) — specific exception types ignored
-  Remediation: Catch specific exceptions: catch(std::exception& e) { ... }
-  Context: } catch (...) {
-- Line 402: severity=MEDIUM; category=uncaught_exception
-  Description: Generic catch(...) — specific exception types ignored
-  Remediation: Catch specific exceptions: catch(std::exception& e) { ... }
-  Context: } catch (...) {
-- Line 424: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: shards_.push_back(std::move(entry));
-  Confidence: band=high; score=0.74
-- Line 474: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: ids.push_back(e.shard_id);
-  Confidence: band=high; score=0.74
-- Line 524: severity=MEDIUM; category=determinism; pattern=unordered_container_iter
-  Description: Non-deterministic unordered_map/set iteration order
-  Context: std::unordered_map<std::string, Measure::Function> measure_funcs;
-  Confidence: band=medium; score=0.66
-- Line 530: severity=MEDIUM; category=determinism; pattern=unordered_container_iter
-  Description: Non-deterministic unordered_map/set iteration order
-  Context: std::unordered_map<std::string, bool> dim_set;
-  Confidence: band=medium; score=0.66
-- Line 539: severity=MEDIUM; category=determinism; pattern=unordered_container_iter
-  Description: Non-deterministic unordered_map/set iteration order
-  Context: std::unordered_map<std::string, GroupAccumulator> groups;
-  Confidence: band=medium; score=0.66
-- Line 569: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: group_order.push_back(key);
-  Confidence: band=high; score=0.74
-- Line 569: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: group_order.push_back(key);
-  Confidence: band=high; score=0.74
-- Line 610: severity=MEDIUM; category=determinism; pattern=unordered_container_iter
-  Description: Non-deterministic unordered_map/set iteration order
-  Context: std::unordered_map<std::string, MeasureAccumulator> grand_accs;
-  Confidence: band=medium; score=0.66
-- Line 641: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: merged.rows.push_back(std::move(out));
-  Confidence: band=high; score=0.74
-- Line 641: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: merged.rows.push_back(std::move(out));
-  Confidence: band=high; score=0.74
-- Line 686: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: active.push_back(e);
-  Confidence: band=high; score=0.74
-- Line 726: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: futures.push_back(promise.get_future());
-  Confidence: band=high; score=0.74
-- Line 751: severity=MEDIUM; category=uncaught_exception
-  Description: Generic catch(...) — specific exception types ignored
-  Remediation: Catch specific exceptions: catch(std::exception& e) { ... }
-  Context: } catch (...) {
-- Line 778: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: result.shard_info.push_back(std::move(info));
-  Confidence: band=high; score=0.74
-- Line 778: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: result.shard_info.push_back(std::move(info));
-  Confidence: band=high; score=0.74
-- Line 831: severity=MEDIUM; category=observability; pattern=missing_latency_metric
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::performance_patterns
+  Context: auto it = row.values.find(col_name);
+- Line 189: severity=MEDIUM; category=primitive_no_volatile
+  Description: Primitive shared across threads without volatile
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::phase1_thread_safety
+  Context: bool valid = false;
+- Line 354: severity=MEDIUM; category=string_concat_loop
+  Description: String concatenation in loop (use std::stringstream)
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::performance_patterns
+  Context: fstr += "null";
+- Line 355: severity=MEDIUM; category=string_concat_loop
+  Description: String concatenation in loop — O(n²) behavior
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::performance
+  Context: fstr += "null";
+- Line 366: severity=MEDIUM; category=string_concat_loop
+  Description: String concatenation in loop (use std::stringstream)
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::performance_patterns
+  Context: fstr += ',';
+- Line 367: severity=MEDIUM; category=string_concat_loop
+  Description: String concatenation in loop — O(n²) behavior
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::performance
+  Context: fstr += ',';
+- Line 393: severity=MEDIUM; category=missing_latency_metric
   Description: No latency measurement for operation
-  Context: OLAPResult DistributedAnalyticsSharding::execute(const OLAPQuery &query) {
-  Confidence: band=high; score=0.74
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::observability
+  Context: OLAPResult OLAPEngine::execute(const OLAPQuery &query) {
+- Line 519: severity=MEDIUM; category=map_vs_unordered_map
+  Description: std::map used only for lookups (consider std::unordered_map)
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::performance_patterns
+  Context: std::map<std::vector<std::string>, std::vector<double>> groups;
+- Line 535: severity=MEDIUM; category=copy_overhead
+  Description: push_back in loop — consider pre-allocating with reserve()
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::container
+  Context: groupKey.push_back(*s);
+- Line 537: severity=MEDIUM; category=copy_overhead
+  Description: push_back in loop — consider pre-allocating with reserve()
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::container
+  Context: groupKey.push_back(std::to_string(*i));
+- Line 539: severity=MEDIUM; category=copy_overhead
+  Description: push_back in loop — consider pre-allocating with reserve()
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::container
+  Context: groupKey.push_back(std::to_string(*d));
+- Line 541: severity=MEDIUM; category=copy_overhead
+  Description: push_back in loop — consider pre-allocating with reserve()
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::container
+  Context: groupKey.push_back("");
+- Line 544: severity=MEDIUM; category=copy_overhead
+  Description: push_back in loop — consider pre-allocating with reserve()
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::container
+  Context: groupKey.push_back("");
+- Line 577: severity=MEDIUM; category=copy_overhead
+  Description: push_back in loop — consider pre-allocating with reserve()
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::container
+  Context: measureValues.push_back(values[i]);
+- Line 629: severity=MEDIUM; category=missing_latency_metric
+  Description: No latency measurement for operation
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::observability
+  Context: OLAPResult OLAPEngine::executeCubeQuery(const OLAPQuery &query) {
+- Line 677: severity=MEDIUM; category=missing_latency_metric
+  Description: No latency measurement for operation
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::observability
+  Context: OLAPResult OLAPEngine::executeRollupQuery(const OLAPQuery &query) {
+- Line 719: severity=MEDIUM; category=missing_latency_metric
+  Description: No latency measurement for operation
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::observability
+  Context: OLAPResult OLAPEngine::executeGroupingSetsQuery(const OLAPQuery &query) {
+- Line 736: severity=MEDIUM; category=unordered_container_iter
+  Description: Non-deterministic unordered_map/set iteration order
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::determinism
+  Context: std::unordered_set<std::string> setDimensions(groupingSet.dimensions.begin(), groupingSet.dimensions.end());
+- Line 862: severity=MEDIUM; category=unordered_container_iter
+  Description: Non-deterministic unordered_map/set iteration order
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::determinism
+  Context: OLAPEngine::evaluateWindowFunctions(const std::vector<std::unordered_map<std::string, double>> &data,
+- Line 888: severity=MEDIUM; category=unnecessary_copy
+  Description: Unnecessary copy: use auto& for container element access
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::performance_patterns
+  Context: auto it = data[j].find(measure.field);
+- Line 1150: severity=MEDIUM; category=primitive_no_volatile
+  Description: Primitive shared across threads without volatile
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::phase1_thread_safety
+  Context: double total = 0.0;
+- Line 1271: severity=MEDIUM; category=unordered_container_iter
+  Description: Non-deterministic unordered_map/set iteration order
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::determinism
+  Context: std::unordered_map<std::string, Column> columns;
+- Line 1313: severity=MEDIUM; category=unordered_container_iter
+  Description: Non-deterministic unordered_map/set iteration order
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::determinism
+  Context: const std::vector<std::unordered_map<std::string, std::variant<std::nullptr_t, bool, int64_t, double, std::string>>>
+- Line 1409: severity=MEDIUM; category=unordered_container_iter
+  Description: Non-deterministic unordered_map/set iteration order
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::determinism
+  Context: std::unordered_set<std::string> unique;
+- Line 1455: severity=MEDIUM; category=unordered_container_iter
+  Description: Non-deterministic unordered_map/set iteration order
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::determinism
+  Context: std::unordered_set<std::string> unique;
+- Line 1572: severity=MEDIUM; category=map_vs_unordered_map
+  Description: std::map used only for lookups (consider std::unordered_map)
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::performance_patterns
+  Context: std::map<std::string, std::unordered_map<std::string, AggState>> groups;
+- Line 1572: severity=MEDIUM; category=unordered_container_iter
+  Description: Non-deterministic unordered_map/set iteration order
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::determinism
+  Context: std::map<std::string, std::unordered_map<std::string, AggState>> groups;
+- Line 1586: severity=MEDIUM; category=string_concat_loop
+  Description: String concatenation in loop (use std::stringstream)
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::performance_patterns
+  Context: key += '\0';
+- Line 1587: severity=MEDIUM; category=string_concat_loop
+  Description: String concatenation in loop — O(n²) behavior
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::performance
+  Context: key += '\0';
+- Line 1701: severity=MEDIUM; category=unordered_container_iter
+  Description: Non-deterministic unordered_map/set iteration order
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::determinism
+  Context: const std::vector<std::unordered_map<std::string, std::variant<std::nullptr_t, bool, int64_t, double, std::string>>>
+- Line 1983: severity=MEDIUM; category=duplicate_qualified_signature
+  Description: Potential duplicate implementation signature across files: MaterializedView::isStale()
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::legacy_duplication
+  Context: bool MaterializedView::isStale() const {
+- Line 2193: severity=MEDIUM; category=stale_doc_section_reference
+  Description: Code comment references section 'Parquet/Arrow Export (v1.7.0)' that was not found in 'src/analytics/FUTURE_ENHANCEMENTS.md'
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::themis_doc_freshness_rules
+  Context: src/analytics/FUTURE_ENHANCEMENTS.md § "Parquet/Arrow Export (v1.7.0)"
 
-### src/analytics/cep_engine.cpp
-Total findings: 99
+### analytics/cep_engine.cpp
+Total findings: 46
 
-- Line 1095: severity=CRITICAL; category=iterator_invalidation
-  Description: Iterator it may be invalidated by container modification
-  Remediation: Re-create iterator after modification or use erase() return value
-  Context: auto it = session_windows_.find(key);
-- Line 1710: severity=CRITICAL; category=data_race
+- Line 1048: severity=CRITICAL; category=thread_join_no_timeout
+  Description: Thread join/wait without timeout (blocking indefinitely)
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::phase1_thread_safety
+  Context: timer_thread_.join();
+- Line 1838: severity=CRITICAL; category=data_race
   Description: Shared data access without lock protection
-  Remediation: Protect shared data with std::lock_guard or std::unique_lock
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::concurrency
   Context: auto agg_results = state.aggregator->getResults();
-- Line 0: severity=HIGH; category=uncategorized
-  Confidence: band=high; score=0.73
-- Line 0: severity=HIGH; category=uncategorized
-  Confidence: band=high; score=0.73
-- Line 0: severity=HIGH; category=uncategorized
-  Confidence: band=high; score=0.73
-- Line 0: severity=HIGH; category=uncategorized
-  Confidence: band=high; score=0.73
-- Line 0: severity=HIGH; category=uncategorized
-  Confidence: band=high; score=0.73
-- Line 0: severity=HIGH; category=uncategorized
-  Confidence: band=high; score=0.73
-- Line 0: severity=HIGH; category=uncategorized
-  Confidence: band=high; score=0.73
-- Line 0: severity=HIGH; category=uncategorized
-  Confidence: band=high; score=0.73
-- Line 0: severity=HIGH; category=uncategorized
-  Confidence: band=high; score=0.73
-- Line 5: severity=HIGH; category=uninitialized_access
-  Description: Container element access before initialization
-  Remediation: Use .at() for bounds checking or initialize element first
-  Context: * PR History (last 5): #4339 Analytics module: stats.h u... (2026-03-19) | #4311 Implement memory po
-- Line 63: severity=HIGH; category=size_assumption
+- Line 2459: severity=CRITICAL; category=thread_join_no_timeout
+  Description: Thread join/wait without timeout (blocking indefinitely)
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::phase1_thread_safety
+  Context: t.join();
+- Line 2464: severity=CRITICAL; category=thread_join_no_timeout
+  Description: Thread join/wait without timeout (blocking indefinitely)
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::phase1_thread_safety
+  Context: metrics_thread_.join();
+- Line 86: severity=HIGH; category=size_assumption
   Description: Hardcoded size assumption — pointer/int size may differ on platforms
-  Remediation: Use <cstdint> types (uint32_t, uint64_t) and sizeof() checks, not constants
-  Context: std::snprintf(buf, sizeof(buf), "%08x-%04x-%04x-%04x-%012llx", static_cast<unsigned>(a >> 32),
-- Line 769: severity=HIGH; category=o_n_squared
-  Description: O(n²) pattern: find() on vector inside loop
-  Remediation: Use std::unordered_map or std::set for O(log n) or O(1) lookup
-  Context: if (seen.find(et) == seen.end()) {
-- Line 769: severity=HIGH; category=o_n_squared
-  Description: O(n²) pattern: find() on vector inside loop
-  Remediation: Use std::unordered_map or std::set for O(log n) or O(1) lookup
-  Context: if (seen.find(et) == seen.end()) {
-- Line 1225: severity=HIGH; category=lock_contention
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::platform
+  Context: int written = std::snprintf(buf, sizeof(buf), "%08x-%04x-%04x-%04x-%012" PRIx64, static_cast<unsigne
+- Line 813: severity=HIGH; category=resource_leaked_in_exception
+  Description: Exception before delete causes resource leak
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::exception_safety
+- Line 927: severity=HIGH; category=resource_leaked_in_exception
+  Description: Exception before delete causes resource leak
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::exception_safety
+- Line 928: severity=HIGH; category=resource_leaked_in_exception
+  Description: Exception before delete causes resource leak
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::exception_safety
+- Line 929: severity=HIGH; category=resource_leaked_in_exception
+  Description: Exception before delete causes resource leak
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::exception_safety
+- Line 930: severity=HIGH; category=resource_leaked_in_exception
+  Description: Exception before delete causes resource leak
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::exception_safety
+- Line 1205: severity=HIGH; category=resource_leaked_in_exception
+  Description: Exception before delete causes resource leak
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::exception_safety
+- Line 1332: severity=HIGH; category=lock_contention
   Description: Mutex lock in loop — high contention
-  Remediation: Acquire lock before loop or redesign to minimize lock time
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::performance
   Context: std::unique_lock lk(timer_mutex_);
-- Line 1842: severity=HIGH; category=range_temporary
-  Description: Range-for on temporary container — references may be invalid
-  Remediation: Store container in variable first: auto c = func(); for (auto x : c) { ... }
-  Context: for (; it != std::sregex_iterator(); ++it) {
-- Line 2096: severity=HIGH; category=range_temporary
-  Description: Range-for on temporary container — references may be invalid
-  Remediation: Store container in variable first: auto c = func(); for (auto x : c) { ... }
-  Context: for (; pit != std::sregex_iterator(); ++pit) {
-- Line 2316: severity=HIGH; category=pointer_arithmetic
-  Description: Pointer/array access without bounds validation
-  Remediation: Add bounds check before dereferencing
-  Context: return (it != streams_.end()) ? it->second : nullptr;
-- Line 2685: severity=HIGH; category=range_temporary
-  Description: Range-for on temporary container — references may be invalid
-  Remediation: Store container in variable first: auto c = func(); for (auto x : c) { ... }
-  Context: for (const auto &entry : std::filesystem::directory_iterator(cp_dir)) {
-- Line 2701: severity=HIGH; category=lock_contention
+- Line 1891: severity=HIGH; category=resource_leaked_in_exception
+  Description: Exception before delete causes resource leak
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::exception_safety
+- Line 2088: severity=HIGH; category=legacy_or_compat_path
+  Description: Legacy/compatibility/deprecation marker detected (review removal/containment plan).
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::legacy_duplication
+  Context: //   Legacy:        WINDOW TYPE N[ms|s] [SLIDE N[ms|s]] [GAP N[ms|s]]
+- Line 2136: severity=HIGH; category=legacy_or_compat_path
+  Description: Legacy/compatibility/deprecation marker detected (review removal/containment plan).
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::legacy_duplication
+  Context: // Legacy format: WINDOW TYPE N[ms|s] [SLIDE N[ms|s]] [GAP N[ms|s]]
+- Line 2307: severity=HIGH; category=legacy_or_compat_path
+  Description: Legacy/compatibility/deprecation marker detected (review removal/containment plan).
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::legacy_duplication
+  Context: // Legacy: ON MATCH ALERT [severity=<s>] [message=<msg>]
+- Line 2882: severity=HIGH; category=lock_contention
   Description: Mutex lock in loop — high contention
-  Remediation: Acquire lock before loop or redesign to minimize lock time
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::performance
   Context: std::unique_lock lk(mutex_);
-- Line 2702: severity=HIGH; category=range_temporary
+- Line 2883: severity=HIGH; category=range_temporary
   Description: Range-for on temporary container — references may be invalid
-  Remediation: Store container in variable first: auto c = func(); for (auto x : c) { ... }
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::container
   Context: cv_.wait_for(lk, std::chrono::milliseconds(100),
-- Line 2720: severity=HIGH; category=determinism; pattern=fp_exact_comparison
+- Line 2901: severity=HIGH; category=fp_exact_comparison
   Description: Floating-point exact comparison (use tolerance/epsilon)
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::determinism
   Context: if (result == EventStream::PushResult::DROPPED) {
-  Confidence: band=very_high; score=0.9
-- Line 2744: severity=HIGH; category=lock_contention
+- Line 2912: severity=HIGH; category=resource_leaked_in_exception
+  Description: Exception before delete causes resource leak
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::exception_safety
+- Line 2917: severity=HIGH; category=resource_leaked_in_exception
+  Description: Exception before delete causes resource leak
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::exception_safety
+- Line 2925: severity=HIGH; category=lock_contention
   Description: Mutex lock in loop — high contention
-  Remediation: Acquire lock before loop or redesign to minimize lock time
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::performance
   Context: std::unique_lock lk(metrics_mutex_);
-- Line 184: severity=MEDIUM; category=copy_overhead
-  Description: push_back in loop — consider pre-allocating with reserve()
-  Remediation: Call vector.reserve(expected_size) before loop to avoid reallocations
-  Context: tokens.push_back({t, word});
-- Line 196: severity=MEDIUM; category=uncaught_exception
-  Description: Generic catch(...) — specific exception types ignored
-  Remediation: Catch specific exceptions: catch(std::exception& e) { ... }
-  Context: try { num_val = std::stod(ns); } catch (...) {}
-- Line 197: severity=MEDIUM; category=copy_overhead
-  Description: push_back in loop — consider pre-allocating with reserve()
-  Remediation: Call vector.reserve(expected_size) before loop to avoid reallocations
-  Context: tokens.push_back({TokType::NUMBER, ns, num_val});
-- Line 205: severity=MEDIUM; category=copy_overhead
-  Description: push_back in loop — consider pre-allocating with reserve()
-  Remediation: Call vector.reserve(expected_size) before loop to avoid reallocations
-  Context: tokens.push_back({TokType::STRING, expr.substr(start, i - start)});
 - Line 210: severity=MEDIUM; category=copy_overhead
   Description: push_back in loop — consider pre-allocating with reserve()
-  Remediation: Call vector.reserve(expected_size) before loop to avoid reallocations
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::container
+  Context: tokens.push_back({t, word});
+- Line 231: severity=MEDIUM; category=copy_overhead
+  Description: push_back in loop — consider pre-allocating with reserve()
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::container
+  Context: tokens.push_back({TokType::NUMBER, ns, num_val});
+- Line 239: severity=MEDIUM; category=copy_overhead
+  Description: push_back in loop — consider pre-allocating with reserve()
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::container
+  Context: tokens.push_back({TokType::STRING, expr.substr(start, i - start)});
+- Line 244: severity=MEDIUM; category=copy_overhead
+  Description: push_back in loop — consider pre-allocating with reserve()
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::container
   Context: tokens.push_back({TokType::LPAREN, "("});
-- Line 213: severity=MEDIUM; category=copy_overhead
+- Line 247: severity=MEDIUM; category=copy_overhead
   Description: push_back in loop — consider pre-allocating with reserve()
-  Remediation: Call vector.reserve(expected_size) before loop to avoid reallocations
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::container
   Context: tokens.push_back({TokType::RPAREN, ")"});
-- Line 216: severity=MEDIUM; category=copy_overhead
+- Line 250: severity=MEDIUM; category=copy_overhead
   Description: push_back in loop — consider pre-allocating with reserve()
-  Remediation: Call vector.reserve(expected_size) before loop to avoid reallocations
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::container
   Context: tokens.push_back({TokType::EQ, "=="});
-- Line 220: severity=MEDIUM; category=copy_overhead
+- Line 254: severity=MEDIUM; category=copy_overhead
   Description: push_back in loop — consider pre-allocating with reserve()
-  Remediation: Call vector.reserve(expected_size) before loop to avoid reallocations
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::container
   Context: tokens.push_back({TokType::NEQ, "!="});
-- Line 339: severity=MEDIUM; category=uncaught_exception
-  Description: Generic catch(...) — specific exception types ignored
-  Remediation: Catch specific exceptions: catch(std::exception& e) { ... }
-  Context: try { lhs_num = std::stod(lhs); lhs_is_num = true; } catch (...) {}
-- Line 370: severity=MEDIUM; category=uncaught_exception
-  Description: Generic catch(...) — specific exception types ignored
-  Remediation: Catch specific exceptions: catch(std::exception& e) { ... }
-  Context: } catch (...) {
-- Line 423: severity=MEDIUM; category=uncaught_exception
-  Description: Generic catch(...) — specific exception types ignored
-  Remediation: Catch specific exceptions: catch(std::exception& e) { ... }
-  Context: } catch (...) {
-- Line 440: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: partitions_.emplace_back(std::make_unique<Partition>());
-  Confidence: band=high; score=0.74
-- Line 458: severity=MEDIUM; category=uncaught_exception
-  Description: Generic catch(...) — specific exception types ignored
-  Remediation: Catch specific exceptions: catch(std::exception& e) { ... }
-  Context: try { cb(event); } catch (...) {}
-- Line 596: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: s.transitions.push_back(i + 1);
-  Confidence: band=high; score=0.74
-- Line 597: severity=MEDIUM; category=copy_overhead
+- Line 257: severity=MEDIUM; category=copy_overhead
   Description: push_back in loop — consider pre-allocating with reserve()
-  Remediation: Call vector.reserve(expected_size) before loop to avoid reallocations
-  Context: s.transitions.push_back(i + 1);
-- Line 629: severity=MEDIUM; category=performance; pattern=map_vs_unordered_map
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::container
+  Context: tokens.push_back({TokType::NOT, "!"});
+- Line 262: severity=MEDIUM; category=copy_overhead
+  Description: push_back in loop — consider pre-allocating with reserve()
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::container
+  Context: tokens.push_back({TokType::LEQ, "<="});
+- Line 265: severity=MEDIUM; category=copy_overhead
+  Description: push_back in loop — consider pre-allocating with reserve()
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::container
+  Context: tokens.push_back({TokType::LT, "<"});
+- Line 690: severity=MEDIUM; category=map_vs_unordered_map
   Description: std::map used only for lookups (consider std::unordered_map)
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::performance_patterns
   Context: std::map<std::string, std::string> ctx;
-  Confidence: band=high; score=0.74
-- Line 667: severity=MEDIUM; category=performance; pattern=string_concat_loop
-  Description: String concatenation in loop (use std::stringstream)
-  Context: group_key += (it != event.fields.end() ? fieldValueToString(it->second) : "") + ":";
-  Confidence: band=high; score=0.74
-- Line 667: severity=MEDIUM; category=performance; pattern=string_concat_loop
-  Description: String concatenation in loop (use std::stringstream)
-  Context: group_key += (it != event.fields.end() ? fieldValueToString(it->second) : "") + ":";
-  Confidence: band=high; score=0.74
-- Line 682: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: pm.matched_events.push_back(event);
-  Confidence: band=high; score=0.74
-- Line 682: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: pm.matched_events.push_back(event);
-  Confidence: band=high; score=0.74
-- Line 715: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: completed.push_back(std::move(result));
-  Confidence: band=high; score=0.74
-- Line 744: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: pm.matched_events.push_back(event);
-  Confidence: band=high; score=0.74
-- Line 744: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: pm.matched_events.push_back(event);
-  Confidence: band=high; score=0.74
-- Line 780: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: completed.push_back(std::move(result));
-  Confidence: band=high; score=0.74
-- Line 780: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: completed.push_back(std::move(result));
-  Confidence: band=high; score=0.74
-- Line 780: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: completed.push_back(std::move(result));
-  Confidence: band=high; score=0.74
-- Line 799: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: extended.matched_events.push_back(event);
-  Confidence: band=high; score=0.74
-- Line 815: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: next_active.push_back(extended);
-  Confidence: band=high; score=0.74
-- Line 823: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: next_active.push_back(std::move(advanced));
-  Confidence: band=high; score=0.74
-- Line 851: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: newpm.matched_events.push_back(event);
-  Confidence: band=high; score=0.74
-- Line 932: severity=MEDIUM; category=uncaught_exception
-  Description: Generic catch(...) — specific exception types ignored
-  Remediation: Catch specific exceptions: catch(std::exception& e) { ... }
-  Context: } catch (...) { continue; }
-- Line 1039: severity=MEDIUM; category=uncaught_exception
-  Description: Generic catch(...) — specific exception types ignored
-  Remediation: Catch specific exceptions: catch(std::exception& e) { ... }
-  Context: catch (...) { spdlog::warn("CEPEngine: window callback threw unknown exception"); }
-- Line 1061: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: w.events.push_back(event);
-  Confidence: band=high; score=0.74
-- Line 1070: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: batches.push_back(std::move(*b));
-  Confidence: band=high; score=0.74
-- Line 1084: severity=MEDIUM; category=uncaught_exception
-  Description: Generic catch(...) — specific exception types ignored
-  Remediation: Catch specific exceptions: catch(std::exception& e) { ... }
-  Context: catch (...) { spdlog::warn("CEPEngine: window callback threw unknown exception"); }
-- Line 1099: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: w.events.push_back(event);
-  Confidence: band=high; score=0.74
-- Line 1123: severity=MEDIUM; category=uncaught_exception
-  Description: Generic catch(...) — specific exception types ignored
-  Remediation: Catch specific exceptions: catch(std::exception& e) { ... }
-  Context: catch (...) { spdlog::warn("CEPEngine: window callback threw unknown exception"); }
-- Line 1153: severity=MEDIUM; category=uncaught_exception
-  Description: Generic catch(...) — specific exception types ignored
-  Remediation: Catch specific exceptions: catch(std::exception& e) { ... }
-  Context: catch (...) { spdlog::warn("CEPEngine: window callback threw unknown exception"); }
-- Line 1189: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: result.push_back(ev);
-  Confidence: band=high; score=0.74
-- Line 1189: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: result.push_back(ev);
-  Confidence: band=high; score=0.74
-- Line 1189: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: result.push_back(ev);
-  Confidence: band=high; score=0.74
-- Line 1197: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: result.push_back(ev);
-  Confidence: band=high; score=0.74
-- Line 1197: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: result.push_back(ev);
-  Confidence: band=high; score=0.74
-- Line 1242: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: batches.push_back({w.events, w.start, now});
-  Confidence: band=high; score=0.74
-- Line 1242: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: batches.push_back({w.events, w.start, now});
-  Confidence: band=high; score=0.74
-- Line 1243: severity=MEDIUM; category=copy_overhead
+- Line 826: severity=MEDIUM; category=unordered_container_iter
+  Description: Non-deterministic unordered_map/set iteration order
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::determinism
+  Context: std::unordered_set<std::string> seen;
+- Line 1350: severity=MEDIUM; category=copy_overhead
   Description: push_back in loop — consider pre-allocating with reserve()
-  Remediation: Call vector.reserve(expected_size) before loop to avoid reallocations
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::container
   Context: batches.push_back({w.events, w.start, now});
-- Line 1250: severity=MEDIUM; category=uncaught_exception
-  Description: Generic catch(...) — specific exception types ignored
-  Remediation: Catch specific exceptions: catch(std::exception& e) { ... }
-  Context: catch (...) { spdlog::warn("CEPEngine: window callback threw unknown exception"); }
-- Line 1264: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: batches.push_back(std::move(*b));
-  Confidence: band=high; score=0.74
-- Line 1264: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: batches.push_back(std::move(*b));
-  Confidence: band=high; score=0.74
-- Line 1273: severity=MEDIUM; category=uncaught_exception
-  Description: Generic catch(...) — specific exception types ignored
-  Remediation: Catch specific exceptions: catch(std::exception& e) { ... }
-  Context: catch (...) { spdlog::warn("CEPEngine: window callback threw unknown exception"); }
-- Line 1322: severity=MEDIUM; category=performance; pattern=string_concat_loop
+- Line 1437: severity=MEDIUM; category=string_concat_loop
   Description: String concatenation in loop (use std::stringstream)
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::performance_patterns
   Context: key += (it != event.fields.end() ? fieldValueToString(it->second) : "") + "|";
-  Confidence: band=high; score=0.74
-- Line 1322: severity=MEDIUM; category=performance; pattern=string_concat_loop
-  Description: String concatenation in loop (use std::stringstream)
-  Context: key += (it != event.fields.end() ? fieldValueToString(it->second) : "") + "|";
-  Confidence: band=high; score=0.74
-- Line 1410: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: strs.push_back(std::to_string(v));
-  Confidence: band=high; score=0.74
-- Line 1422: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: strs.push_back(std::to_string(v));
-  Confidence: band=high; score=0.74
-- Line 1457: severity=MEDIUM; category=performance; pattern=map_vs_unordered_map
+- Line 1576: severity=MEDIUM; category=map_vs_unordered_map
   Description: std::map used only for lookups (consider std::unordered_map)
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::performance_patterns
   Context: std::map<std::string, AggregationResult> Aggregator::getResults() const {
-  Confidence: band=high; score=0.74
-- Line 1459: severity=MEDIUM; category=performance; pattern=map_vs_unordered_map
+- Line 1578: severity=MEDIUM; category=map_vs_unordered_map
   Description: std::map used only for lookups (consider std::unordered_map)
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::performance_patterns
   Context: std::map<std::string, AggregationResult> results;
-  Confidence: band=high; score=0.74
-- Line 1565: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: result.push_back(s.config);
-  Confidence: band=high; score=0.74
-- Line 1729: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: alerts.push_back(std::move(alert));
-  Confidence: band=high; score=0.74
-- Line 1769: severity=MEDIUM; category=performance; pattern=string_concat_loop
+- Line 1897: severity=MEDIUM; category=string_concat_loop
   Description: String concatenation in loop (use std::stringstream)
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::performance_patterns
   Context: norm += ' ';
-  Confidence: band=high; score=0.74
-- Line 1770: severity=MEDIUM; category=string_concat_loop
+- Line 1898: severity=MEDIUM; category=string_concat_loop
   Description: String concatenation in loop — O(n²) behavior
-  Remediation: Use std::ostringstream or pre-allocate string with .reserve()
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::performance
   Context: norm += ' ';
-- Line 1789: severity=MEDIUM; category=uncaught_exception
+- Line 2196: severity=MEDIUM; category=generic_catch
   Description: Generic catch(...) — specific exception types ignored
-  Remediation: Catch specific exceptions: catch(std::exception& e) { ... }
-  Context: try { val = std::stoull(val_str); } catch (...) { return 0; }
-- Line 1933: severity=MEDIUM; category=uncaught_exception
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::phase1_error_handling
+  Context: std::string unit = m[7];
+
+                        std::transform(unit.begin(), unit.end(), unit.begin(), ::tolower);
+
+                        wc.gap = (unit == "s") ? std::chrono::milliseconds(gap * 1000) : std::chrono::milliseconds(gap);
+
+                    } catch (...) {
+
+                    }
+
+                }
+
+                cfg.window = std::move(wc);
+- Line 2196: severity=MEDIUM; category=uncaught_exception
   Description: Generic catch(...) — specific exception types ignored
-  Remediation: Catch specific exceptions: catch(std::exception& e) { ... }
-  Context: try { pc.within = std::chrono::milliseconds(timeToMs(m[3], unit)); } catch (...) {}
-- Line 1964: severity=MEDIUM; category=uncaught_exception
-  Description: Generic catch(...) — specific exception types ignored
-  Remediation: Catch specific exceptions: catch(std::exception& e) { ... }
-  Context: try { wc.count = std::stoull(m[2]); } catch (...) {}
-- Line 2002: severity=MEDIUM; category=uncaught_exception
-  Description: Generic catch(...) — specific exception types ignored
-  Remediation: Catch specific exceptions: catch(std::exception& e) { ... }
-  Context: try { wc.count = std::stoull(m[2]); } catch (...) {}
-- Line 2009: severity=MEDIUM; category=uncaught_exception
-  Description: Generic catch(...) — specific exception types ignored
-  Remediation: Catch specific exceptions: catch(std::exception& e) { ... }
-  Context: } catch (...) {}
-- Line 2018: severity=MEDIUM; category=uncaught_exception
-  Description: Generic catch(...) — specific exception types ignored
-  Remediation: Catch specific exceptions: catch(std::exception& e) { ... }
-  Context: } catch (...) {}
-- Line 2027: severity=MEDIUM; category=uncaught_exception
-  Description: Generic catch(...) — specific exception types ignored
-  Remediation: Catch specific exceptions: catch(std::exception& e) { ... }
-  Context: } catch (...) {}
-- Line 2099: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: params.push_back(val);
-  Confidence: band=high; score=0.74
-- Line 2263: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: worker_threads_.emplace_back([this] { workerLoop(); });
-  Confidence: band=high; score=0.74
-- Line 2323: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: result.push_back(s);
-  Confidence: band=high; score=0.74
-- Line 2468: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: result.push_back(*it);
-  Confidence: band=high; score=0.74
-- Line 2492: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: alerts_.push_back(alert);
-  Confidence: band=high; score=0.74
-- Line 2501: severity=MEDIUM; category=uncaught_exception
-  Description: Generic catch(...) — specific exception types ignored
-  Remediation: Catch specific exceptions: catch(std::exception& e) { ... }
-  Context: try { alert_callback_(alert); } catch (...) {}
-- Line 2686: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::reliability
+  Context: } catch (...) {
+- Line 2865: severity=MEDIUM; category=copy_overhead
+  Description: push_back in loop — consider pre-allocating with reserve()
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::container
   Context: result.push_back(entry.path().stem().string());
-  Confidence: band=high; score=0.74
-- Line 2687: severity=MEDIUM; category=copy_overhead
-  Description: push_back in loop — consider pre-allocating with reserve()
-  Remediation: Call vector.reserve(expected_size) before loop to avoid reallocations
-  Context: result.push_back(entry.path().stem().string());
+- Line 86: severity=LOW; category=hardcoded_output
+  Description: Hardcoded stdout output instead of structured logging
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::audit_logging
+  Context: int written = std::snprintf(buf, sizeof(buf), "%08x-%04x-%04x-%04x-%012" PRIx64, static_cast<unsigned>(a >> 32),
+- Line 89: severity=LOW; category=hardcoded_output
+  Description: Hardcoded stdout output instead of structured logging
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::audit_logging
+  Context: // Ensure the snprintf call succeeded and produced expected output
+- Line 91: severity=LOW; category=hardcoded_output
+  Description: Hardcoded stdout output instead of structured logging
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::audit_logging
+  Context: spdlog::warn("UUID generation snprintf warning: written={} vs buffer_size={}", written, sizeof(buf));
 
-### src/analytics/automl.cpp
-Total findings: 77
+### analytics/streaming_window.cpp
+Total findings: 44
 
-- Line 313: severity=CRITICAL; category=iterator_invalidation
-  Description: Iterator it may be invalidated by container modification
-  Remediation: Re-create iterator after modification or use erase() return value
-  Context: auto it = index.find(l);
-- Line 1293: severity=CRITICAL; category=data_race
+- Line 349: severity=CRITICAL; category=thread_join_no_timeout
+  Description: Thread join/wait without timeout (blocking indefinitely)
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::phase1_thread_safety
+  Context: idle_thread_.join();
+- Line 430: severity=CRITICAL; category=db_connection_leak
+  Description: Database connection from wm never released — potential leak
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::raii
+  Context: int64_t wm = watermark_us_.load(std::memory_order_acquire);
+- Line 512: severity=CRITICAL; category=db_connection_leak
+  Description: Database connection from last never released — potential leak
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::raii
+  Context: int64_t last       = last_event_us_.load(std::memory_order_acquire);
+- Line 562: severity=CRITICAL; category=thread_join_no_timeout
+  Description: Thread join/wait without timeout (blocking indefinitely)
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::phase1_thread_safety
+  Context: idle_thread_.join();
+- Line 676: severity=CRITICAL; category=db_connection_leak
+  Description: Database connection from wm never released — potential leak
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::raii
+  Context: int64_t wm    = watermark_us_.load(std::memory_order_acquire);
+- Line 754: severity=CRITICAL; category=db_connection_leak
+  Description: Database connection from last never released — potential leak
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::raii
+  Context: int64_t last       = last_event_us_.load(std::memory_order_acquire);
+- Line 800: severity=CRITICAL; category=thread_join_no_timeout
+  Description: Thread join/wait without timeout (blocking indefinitely)
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::phase1_thread_safety
+  Context: expiry_thread_.join();
+- Line 1234: severity=CRITICAL; category=data_race
   Description: Shared data access without lock protection
-  Remediation: Protect shared data with std::lock_guard or std::unique_lock
-  Context: gb->base_value = y_reg.empty() ? 0.0 : mean_y / static_cast<double>(n);
-- Line 1578: severity=CRITICAL; category=data_race
-  Description: Shared data access without lock protection
-  Remediation: Protect shared data with std::lock_guard or std::unique_lock
-  Context: m[impl_->label_enc.decode(static_cast<int>(c))] = probs[c];
-- Line 1878: severity=CRITICAL; category=data_race
-  Description: Shared data access without lock protection
-  Remediation: Protect shared data with std::lock_guard or std::unique_lock
-  Context: ss << "task=" << static_cast<int>(impl_->task) << "\n";
-- Line 1879: severity=CRITICAL; category=data_race
-  Description: Shared data access without lock protection
-  Remediation: Protect shared data with std::lock_guard or std::unique_lock
-  Context: ss << "algorithm=" << static_cast<int>(impl_->algo) << "\n";
-- Line 1904: severity=CRITICAL; category=data_race
-  Description: Shared data access without lock protection
-  Remediation: Protect shared data with std::lock_guard or std::unique_lock
-  Context: m.impl_->task = static_cast<AutoMLTask>(std::stoi(val));
-- Line 1906: severity=CRITICAL; category=data_race
-  Description: Shared data access without lock protection
-  Remediation: Protect shared data with std::lock_guard or std::unique_lock
-  Context: m.impl_->algo = static_cast<ModelAlgorithm>(std::stoi(val));
-- Line 1922: severity=CRITICAL; category=data_race
-  Description: Shared data access without lock protection
-  Remediation: Protect shared data with std::lock_guard or std::unique_lock
-  Context: for (int i = 0; i < static_cast<int>(m.impl_->label_enc.classes.size()); ++i) {
-- Line 1923: severity=CRITICAL; category=data_race
-  Description: Shared data access without lock protection
-  Remediation: Protect shared data with std::lock_guard or std::unique_lock
-  Context: m.impl_->label_enc.index[m.impl_->label_enc.classes[static_cast<size_t>(i)]] = i;
-- Line 145: severity=HIGH; category=o_n_squared
-  Description: O(n²) pattern: find() on vector inside loop
-  Remediation: Use std::unordered_map or std::set for O(log n) or O(1) lookup
-  Context: auto it = p.fields.find(fm.names[j]);
-- Line 145: severity=HIGH; category=o_n_squared
-  Description: O(n²) pattern: find() on vector inside loop
-  Remediation: Use std::unordered_map or std::set for O(log n) or O(1) lookup
-  Context: auto it = p.fields.find(fm.names[j]);
-- Line 145: severity=HIGH; category=o_n_squared
-  Description: O(n²) pattern: find() on vector inside loop
-  Remediation: Use std::unordered_map or std::set for O(log n) or O(1) lookup
-  Context: auto it = p.fields.find(fm.names[j]);
-- Line 145: severity=HIGH; category=o_n_squared
-  Description: O(n²) pattern: find() on vector inside loop
-  Remediation: Use std::unordered_map or std::set for O(log n) or O(1) lookup
-  Context: auto it = p.fields.find(fm.names[j]);
-- Line 146: severity=HIGH; category=performance; pattern=nested_loop_find
-  Description: O(n²) pattern: linear search inside nested loop
-  Context: auto it = p.fields.find(fm.names[j]);
-  Confidence: band=very_high; score=0.9
-- Line 166: severity=HIGH; category=o_n_squared
-  Description: O(n²) pattern: find() on vector inside loop
-  Remediation: Use std::unordered_map or std::set for O(log n) or O(1) lookup
-  Context: auto it = p.fields.find(target);
-- Line 196: severity=HIGH; category=o_n_squared
-  Description: O(n²) pattern: find() on vector inside loop
-  Remediation: Use std::unordered_map or std::set for O(log n) or O(1) lookup
-  Context: auto it = p.fields.find(target);
-- Line 312: severity=HIGH; category=o_n_squared
-  Description: O(n²) pattern: find() on vector inside loop
-  Remediation: Use std::unordered_map or std::set for O(log n) or O(1) lookup
-  Context: auto it = index.find(l);
-- Line 312: severity=HIGH; category=o_n_squared
-  Description: O(n²) pattern: find() on vector inside loop
-  Remediation: Use std::unordered_map or std::set for O(log n) or O(1) lookup
-  Context: auto it = index.find(l);
-- Line 860: severity=HIGH; category=determinism; pattern=fp_exact_comparison
-  Description: Floating-point exact comparison (use tolerance/epsilon)
-  Context: if (t == p) {
-  Confidence: band=very_high; score=0.9
-- Line 1119: severity=HIGH; category=uninitialized_access
-  Description: Container element access before initialization
-  Remediation: Use .at() for bounds checking or initialize element first
-  Context: for (auto [d2, i] : nbrs) {
-- Line 1134: severity=HIGH; category=uninitialized_access
-  Description: Container element access before initialization
-  Remediation: Use .at() for bounds checking or initialize element first
-  Context: for (auto [d2, i] : nbrs) {
-- Line 1525: severity=HIGH; category=o_n_squared
-  Description: O(n²) pattern: find() on vector inside loop
-  Remediation: Use std::unordered_map or std::set for O(log n) or O(1) lookup
-  Context: auto it = p.fields.find(base);
-- Line 0: severity=MEDIUM; category=uncategorized
-  Context: Struct with uninitialized fields
-  Confidence: band=medium; score=0.65
-- Line 0: severity=MEDIUM; category=uncategorized
-  Confidence: band=medium; score=0.57
-- Line 0: severity=MEDIUM; category=uncategorized
-  Confidence: band=medium; score=0.57
-- Line 0: severity=MEDIUM; category=uncategorized
-  Confidence: band=medium; score=0.57
-- Line 156: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: fm.X.push_back(std::move(row));
-  Confidence: band=high; score=0.74
-- Line 168: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: out.push_back("");
-  Confidence: band=high; score=0.74
-- Line 198: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: out.push_back(0.0);
-  Confidence: band=high; score=0.74
-- Line 277: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: r.push_back(v * v);
-  Confidence: band=high; score=0.74
-- Line 277: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: r.push_back(v * v);
-  Confidence: band=high; score=0.74
-- Line 287: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: out.push_back(n + "^2");
-  Confidence: band=high; score=0.74
-- Line 299: severity=MEDIUM; category=performance; pattern=map_vs_unordered_map
-  Description: std::map used only for lookups (consider std::unordered_map)
-  Context: std::map<std::string, int> index;
-  Confidence: band=high; score=0.74
-- Line 313: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: out.push_back(it != index.end() ? it->second : 0);
-  Confidence: band=high; score=0.74
-- Line 490: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: vals.push_back(X[i][static_cast<size_t>(f)]);
-  Confidence: band=high; score=0.74
-- Line 520: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: left_idx.push_back(i);
-  Confidence: band=high; score=0.74
-- Line 596: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: left.push_back(i);
-  Confidence: band=high; score=0.74
-- Line 596: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: left.push_back(i);
-  Confidence: band=high; score=0.74
-- Line 932: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: train.push_back(idx[i]);
-  Confidence: band=high; score=0.74
-- Line 932: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: train.push_back(idx[i]);
-  Confidence: band=high; score=0.74
-- Line 933: severity=MEDIUM; category=copy_overhead
-  Description: push_back in loop — consider pre-allocating with reserve()
-  Remediation: Call vector.reserve(expected_size) before loop to avoid reallocations
-  Context: train.push_back(idx[i]);
-- Line 1160: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: dists.emplace_back(l2sq(x, X_train[i]), static_cast<int>(i));
-  Confidence: band=high; score=0.74
-- Line 1214: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: copy->members.push_back(m->clone());
-  Confidence: band=high; score=0.74
-- Line 1214: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: copy->members.push_back(m->clone());
-  Confidence: band=high; score=0.74
-- Line 1214: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: copy->members.push_back(m->clone());
-  Confidence: band=high; score=0.74
-- Line 1214: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: copy->members.push_back(m->clone());
-  Confidence: band=high; score=0.74
-- Line 1215: severity=MEDIUM; category=copy_overhead
-  Description: push_back in loop — consider pre-allocating with reserve()
-  Remediation: Call vector.reserve(expected_size) before loop to avoid reallocations
-  Context: copy->members.push_back(m->clone());
-- Line 1261: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: Xb.push_back(X[i]);
-  Confidence: band=high; score=0.74
-- Line 1314: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: gb->stages.push_back({std::move(t), learning_rate});
-  Confidence: band=high; score=0.74
-- Line 1314: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: gb->stages.push_back({std::move(t), learning_rate});
-  Confidence: band=high; score=0.74
-- Line 1314: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: gb->stages.push_back({std::move(t), learning_rate});
-  Confidence: band=high; score=0.74
-- Line 1346: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: gb->stages.push_back({std::move(t), learning_rate});
-  Confidence: band=high; score=0.74
-- Line 1346: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: gb->stages.push_back({std::move(t), learning_rate});
-  Confidence: band=high; score=0.74
-- Line 1346: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: gb->stages.push_back({std::move(t), learning_rate});
-  Confidence: band=high; score=0.74
-- Line 1476: severity=MEDIUM; category=performance; pattern=map_vs_unordered_map
-  Description: std::map used only for lookups (consider std::unordered_map)
-  Context: std::map<std::string, double> sampleHP(const HPGrid &grid, std::mt19937 &rng) {
-  Confidence: band=high; score=0.74
-- Line 1477: severity=MEDIUM; category=performance; pattern=map_vs_unordered_map
-  Description: std::map used only for lookups (consider std::unordered_map)
-  Context: std::map<std::string, double> hp;
-  Confidence: band=high; score=0.74
-- Line 1514: severity=MEDIUM; category=performance; pattern=map_vs_unordered_map
-  Description: std::map used only for lookups (consider std::unordered_map)
-  Context: std::map<std::string, double> feat_importance;
-  Confidence: band=high; score=0.74
-- Line 1588: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: out.push_back(explainOne(p));
-  Confidence: band=high; score=0.74
-- Line 1632: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: exp.feature_contributions.emplace_back(name, contrib);
-  Confidence: band=high; score=0.74
-- Line 1644: severity=MEDIUM; category=performance; pattern=string_concat_loop
-  Description: String concatenation in loop (use std::stringstream)
-  Context: tf += ", ";
-  Confidence: band=high; score=0.74
-- Line 1644: severity=MEDIUM; category=performance; pattern=string_concat_loop
-  Description: String concatenation in loop (use std::stringstream)
-  Context: tf += ", ";
-  Confidence: band=high; score=0.74
-- Line 1645: severity=MEDIUM; category=string_concat_loop
-  Description: String concatenation in loop — O(n²) behavior
-  Remediation: Use std::ostringstream or pre-allocate string with .reserve()
-  Context: tf += ", ";
-- Line 1714: severity=MEDIUM; category=performance; pattern=string_concat_loop
-  Description: String concatenation in loop (use std::stringstream)
-  Context: out += "\\\"";
-  Confidence: band=high; score=0.74
-- Line 1715: severity=MEDIUM; category=string_concat_loop
-  Description: String concatenation in loop — O(n²) behavior
-  Remediation: Use std::ostringstream or pre-allocate string with .reserve()
-  Context: out += "\\\"";
-- Line 1717: severity=MEDIUM; category=string_concat_loop
-  Description: String concatenation in loop — O(n²) behavior
-  Remediation: Use std::ostringstream or pre-allocate string with .reserve()
-  Context: out += "\\\\";
-- Line 1719: severity=MEDIUM; category=string_concat_loop
-  Description: String concatenation in loop — O(n²) behavior
-  Remediation: Use std::ostringstream or pre-allocate string with .reserve()
-  Context: out += "\\n";
-- Line 1939: severity=MEDIUM; category=performance; pattern=map_vs_unordered_map
-  Description: std::map used only for lookups (consider std::unordered_map)
-  Context: ModelAlgorithm algo, const std::map<std::string, double> &hp, std::mt19937 &rng, AutoMLMetric metric) {
-  Confidence: band=high; score=0.74
-- Line 1961: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: y_bin.push_back(v >= mean_y ? 1 : 0);
-  Confidence: band=high; score=0.74
-- Line 2013: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: Xt.push_back(X[i]);
-  Confidence: band=high; score=0.74
-- Line 2013: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: Xt.push_back(X[i]);
-  Confidence: band=high; score=0.74
-- Line 2018: severity=MEDIUM; category=copy_overhead
-  Description: push_back in loop — consider pre-allocating with reserve()
-  Remediation: Call vector.reserve(expected_size) before loop to avoid reallocations
-  Context: yrt.push_back(y_reg[i]);
-- Line 2021: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: Xv.push_back(X[i]);
-  Confidence: band=high; score=0.74
-- Line 2022: severity=MEDIUM; category=copy_overhead
-  Description: push_back in loop — consider pre-allocating with reserve()
-  Remediation: Call vector.reserve(expected_size) before loop to avoid reallocations
-  Context: Xv.push_back(X[i]);
-- Line 2024: severity=MEDIUM; category=copy_overhead
-  Description: push_back in loop — consider pre-allocating with reserve()
-  Remediation: Call vector.reserve(expected_size) before loop to avoid reallocations
-  Context: ycv.push_back(y_cls[i]);
-- Line 2026: severity=MEDIUM; category=copy_overhead
-  Description: push_back in loop — consider pre-allocating with reserve()
-  Remediation: Call vector.reserve(expected_size) before loop to avoid reallocations
-  Context: yrv.push_back(y_reg[i]);
-- Line 2233: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: ens->members.push_back(std::move(m));
-  Confidence: band=high; score=0.74
-- Line 1325: severity=LOW; category=observability; pattern=unstructured_log
-  Description: Unstructured logging (use structured format)
-  Context: gb->base_value = std::log(mean_p / (1.0 - mean_p));
-  Confidence: band=medium; score=0.6
-
-### src/analytics/columnar_execution.cpp
-Total findings: 60
-
-- Line 1030: severity=CRITICAL; category=data_race
-  Description: Shared data access without lock protection
-  Remediation: Protect shared data with std::lock_guard or std::unique_lock
-  Context: auto out_col = std::make_shared<Column>(gc, src->type());
-- Line 0: severity=HIGH; category=uncategorized
-  Confidence: band=high; score=0.73
-- Line 0: severity=HIGH; category=uncategorized
-  Confidence: band=high; score=0.73
-- Line 5: severity=HIGH; category=uninitialized_access
-  Description: Container element access before initialization
-  Remediation: Use .at() for bounds checking or initialize element first
-  Context: * PR History (last 5): #4929 [Docs][analytics] Refresh m... (2026-05-10) | #4317 feat(analytics): SI
-- Line 265: severity=HIGH; category=pointer_arithmetic
-  Description: Pointer/array access without bounds validation
-  Remediation: Add bounds check before dereferencing
-  Context: out->appendBool(bool_data_[row], is_null);
-- Line 289: severity=HIGH; category=pointer_arithmetic
-  Description: Pointer/array access without bounds validation
-  Remediation: Add bounds check before dereferencing
-  Context: out->appendDouble(double_data_[row], is_null);
-- Line 292: severity=HIGH; category=pointer_arithmetic
-  Description: Pointer/array access without bounds validation
-  Remediation: Add bounds check before dereferencing
-  Context: out->appendString(string_data_[row], is_null);
-- Line 295: severity=HIGH; category=pointer_arithmetic
-  Description: Pointer/array access without bounds validation
-  Remediation: Add bounds check before dereferencing
-  Context: out->appendBool(bool_data_[row], is_null);
-- Line 592: severity=HIGH; category=no_retry_logic
-  Description: database_query without retry logic — transient failures will propagate
-  Remediation: Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)
-  Context: ColumnBatch FilterOperator::execute(const ColumnBatch &input) const {
-- Line 592: severity=HIGH; category=observability; pattern=missing_trace_point
-  Description: Critical function execute without trace point
-  Context: ColumnBatch FilterOperator::execute(const ColumnBatch &input) const {
-  Confidence: band=very_high; score=0.9
-- Line 627: severity=HIGH; category=observability; pattern=missing_trace_point
-  Description: Critical function execute without trace point
-  Context: ColumnBatch ProjectOperator::execute(const ColumnBatch &input) const {
-  Confidence: band=very_high; score=0.9
-- Line 745: severity=HIGH; category=pointer_arithmetic
-  Description: Pointer/array access without bounds validation
-  Remediation: Add bounds check before dereferencing
-  Context: r.sum += data[i];
-- Line 901: severity=HIGH; category=no_retry_logic
-  Description: database_query without retry logic — transient failures will propagate
-  Remediation: Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)
-  Context: ColumnBatch AggregateOperator::execute(const ColumnBatch &input) const {
-- Line 901: severity=HIGH; category=observability; pattern=missing_trace_point
-  Description: Critical function execute without trace point
-  Context: ColumnBatch AggregateOperator::execute(const ColumnBatch &input) const {
-  Confidence: band=very_high; score=0.9
-- Line 1085: severity=HIGH; category=no_retry_logic
-  Description: database_query without retry logic — transient failures will propagate
-  Remediation: Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)
-  Context: ColumnBatch SortOperator::execute(const ColumnBatch &input) const {
-- Line 1085: severity=HIGH; category=observability; pattern=missing_trace_point
-  Description: Critical function execute without trace point
-  Context: ColumnBatch SortOperator::execute(const ColumnBatch &input) const {
-  Confidence: band=very_high; score=0.9
-- Line 1119: severity=HIGH; category=determinism; pattern=fp_exact_comparison
-  Description: Floating-point exact comparison (use tolerance/epsilon)
-  Context: if (va != vb) {
-  Confidence: band=very_high; score=0.9
-- Line 1127: severity=HIGH; category=determinism; pattern=fp_exact_comparison
-  Description: Floating-point exact comparison (use tolerance/epsilon)
-  Context: if (va != vb) {
-  Confidence: band=very_high; score=0.9
-- Line 1135: severity=HIGH; category=determinism; pattern=fp_exact_comparison
-  Description: Floating-point exact comparison (use tolerance/epsilon)
-  Context: if (va != vb) {
-  Confidence: band=very_high; score=0.9
-- Line 1143: severity=HIGH; category=determinism; pattern=fp_exact_comparison
-  Description: Floating-point exact comparison (use tolerance/epsilon)
-  Context: if (va != vb) {
-  Confidence: band=very_high; score=0.9
-- Line 1205: severity=HIGH; category=observability; pattern=missing_trace_point
-  Description: Critical function execute without trace point
-  Context: ColumnBatch VectorizedPipeline::execute(const ColumnBatch &input) const {
-  Confidence: band=very_high; score=0.9
-- Line 1211: severity=HIGH; category=no_retry_logic
-  Description: database_query without retry logic — transient failures will propagate
-  Remediation: Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)
-  Context: current = stage.filter->execute(current);
-- Line 1215: severity=HIGH; category=no_retry_logic
-  Description: database_query without retry logic — transient failures will propagate
-  Remediation: Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)
-  Context: current = stage.project->execute(current);
-- Line 1219: severity=HIGH; category=no_retry_logic
-  Description: database_query without retry logic — transient failures will propagate
-  Remediation: Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)
-  Context: current = stage.aggregate->execute(current);
-- Line 1223: severity=HIGH; category=no_retry_logic
-  Description: database_query without retry logic — transient failures will propagate
-  Remediation: Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)
-  Context: current = stage.sort->execute(current);
-- Line 1238: severity=HIGH; category=no_retry_logic
-  Description: database_query without retry logic — transient failures will propagate
-  Remediation: Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)
-  Context: ColumnBatch ColumnarExecutionEngine::execute(const ColumnBatch &input, const VectorizedPipeline &pip
-- Line 1238: severity=HIGH; category=observability; pattern=missing_trace_point
-  Description: Critical function execute without trace point
-  Context: ColumnBatch ColumnarExecutionEngine::execute(const ColumnBatch &input, const VectorizedPipeline &pipeline) {
-  Confidence: band=very_high; score=0.9
-- Line 1244: severity=HIGH; category=no_retry_logic
-  Description: database_query without retry logic — transient failures will propagate
-  Remediation: Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)
-  Context: ColumnBatch result = pipeline.execute(input);
-- Line 1259: severity=HIGH; category=no_retry_logic
-  Description: database_query without retry logic — transient failures will propagate
-  Remediation: Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)
-  Context: results.push_back(execute(batch, pipeline));
-- Line 1267: severity=HIGH; category=no_retry_logic
-  Description: database_query without retry logic — transient failures will propagate
-  Remediation: Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)
-  Context: return execute(input, p);
-- Line 1273: severity=HIGH; category=no_retry_logic
-  Description: database_query without retry logic — transient failures will propagate
-  Remediation: Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)
-  Context: return execute(input, p);
-- Line 1279: severity=HIGH; category=no_retry_logic
-  Description: database_query without retry logic — transient failures will propagate
-  Remediation: Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)
-  Context: return execute(input, p);
-- Line 1285: severity=HIGH; category=no_retry_logic
-  Description: database_query without retry logic — transient failures will propagate
-  Remediation: Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)
-  Context: return execute(input, p);
-- Line 390: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: result.push_back(std::move(sub));
-  Confidence: band=high; score=0.74
-- Line 390: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: result.push_back(std::move(sub));
-  Confidence: band=high; score=0.74
-- Line 496: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: sel.push_back(static_cast<uint32_t>(i));
-  Confidence: band=high; score=0.74
-- Line 497: severity=MEDIUM; category=copy_overhead
-  Description: push_back in loop — consider pre-allocating with reserve()
-  Remediation: Call vector.reserve(expected_size) before loop to avoid reallocations
-  Context: sel.push_back(static_cast<uint32_t>(i));
-- Line 504: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: sel.push_back(static_cast<uint32_t>(i));
-  Confidence: band=high; score=0.74
-- Line 505: severity=MEDIUM; category=copy_overhead
-  Description: push_back in loop — consider pre-allocating with reserve()
-  Remediation: Call vector.reserve(expected_size) before loop to avoid reallocations
-  Context: sel.push_back(static_cast<uint32_t>(i));
-- Line 519: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: sel.push_back(static_cast<uint32_t>(i));
-  Confidence: band=high; score=0.74
-- Line 520: severity=MEDIUM; category=copy_overhead
-  Description: push_back in loop — consider pre-allocating with reserve()
-  Remediation: Call vector.reserve(expected_size) before loop to avoid reallocations
-  Context: sel.push_back(static_cast<uint32_t>(i));
-- Line 527: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: sel.push_back(static_cast<uint32_t>(i));
-  Confidence: band=high; score=0.74
-- Line 528: severity=MEDIUM; category=copy_overhead
-  Description: push_back in loop — consider pre-allocating with reserve()
-  Remediation: Call vector.reserve(expected_size) before loop to avoid reallocations
-  Context: sel.push_back(static_cast<uint32_t>(i));
-- Line 546: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: sel.push_back(static_cast<uint32_t>(i));
-  Confidence: band=high; score=0.74
-- Line 547: severity=MEDIUM; category=copy_overhead
-  Description: push_back in loop — consider pre-allocating with reserve()
-  Remediation: Call vector.reserve(expected_size) before loop to avoid reallocations
-  Context: sel.push_back(static_cast<uint32_t>(i));
-- Line 561: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: sel.push_back(static_cast<uint32_t>(i));
-  Confidence: band=high; score=0.74
-- Line 562: severity=MEDIUM; category=copy_overhead
-  Description: push_back in loop — consider pre-allocating with reserve()
-  Remediation: Call vector.reserve(expected_size) before loop to avoid reallocations
-  Context: sel.push_back(static_cast<uint32_t>(i));
-- Line 578: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: sel.push_back(static_cast<uint32_t>(i));
-  Confidence: band=high; score=0.74
-- Line 579: severity=MEDIUM; category=copy_overhead
-  Description: push_back in loop — consider pre-allocating with reserve()
-  Remediation: Call vector.reserve(expected_size) before loop to avoid reallocations
-  Context: sel.push_back(static_cast<uint32_t>(i));
-- Line 592: severity=MEDIUM; category=observability; pattern=missing_latency_metric
-  Description: No latency measurement for operation
-  Context: ColumnBatch FilterOperator::execute(const ColumnBatch &input) const {
-  Confidence: band=high; score=0.74
-- Line 627: severity=MEDIUM; category=observability; pattern=missing_latency_metric
-  Description: No latency measurement for operation
-  Context: ColumnBatch ProjectOperator::execute(const ColumnBatch &input) const {
-  Confidence: band=high; score=0.74
-- Line 901: severity=MEDIUM; category=observability; pattern=missing_latency_metric
-  Description: No latency measurement for operation
-  Context: ColumnBatch AggregateOperator::execute(const ColumnBatch &input) const {
-  Confidence: band=high; score=0.74
-- Line 993: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: key_order.push_back(it->first); // reference key already in the map
-  Confidence: band=high; score=0.74
-- Line 994: severity=MEDIUM; category=copy_overhead
-  Description: push_back in loop — consider pre-allocating with reserve()
-  Remediation: Call vector.reserve(expected_size) before loop to avoid reallocations
-  Context: key_order.push_back(it->first); // reference key already in the map
-- Line 1085: severity=MEDIUM; category=observability; pattern=missing_latency_metric
-  Description: No latency measurement for operation
-  Context: ColumnBatch SortOperator::execute(const ColumnBatch &input) const {
-  Confidence: band=high; score=0.74
-- Line 1157: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: sel.push_back(static_cast<uint32_t>(idx));
-  Confidence: band=high; score=0.74
-- Line 1158: severity=MEDIUM; category=copy_overhead
-  Description: push_back in loop — consider pre-allocating with reserve()
-  Remediation: Call vector.reserve(expected_size) before loop to avoid reallocations
-  Context: sel.push_back(static_cast<uint32_t>(idx));
-- Line 1176: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: stages_.push_back(std::move(s));
-  Confidence: band=high; score=0.74
-- Line 1205: severity=MEDIUM; category=observability; pattern=missing_latency_metric
-  Description: No latency measurement for operation
-  Context: ColumnBatch VectorizedPipeline::execute(const ColumnBatch &input) const {
-  Confidence: band=high; score=0.74
-- Line 1258: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: results.push_back(execute(batch, pipeline));
-  Confidence: band=high; score=0.74
-
-### src/analytics/streaming_window.cpp
-Total findings: 53
-
-- Line 1224: severity=CRITICAL; category=data_race
-  Description: Shared data access without lock protection
-  Remediation: Protect shared data with std::lock_guard or std::unique_lock
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::concurrency
   Context: pipeline->config_    = config_;
-- Line 1225: severity=CRITICAL; category=data_race
+- Line 1235: severity=CRITICAL; category=data_race
   Description: Shared data access without lock protection
-  Remediation: Protect shared data with std::lock_guard or std::unique_lock
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::concurrency
   Context: pipeline->agg_specs_ = agg_specs_;
-- Line 1233: severity=CRITICAL; category=data_race
+- Line 1243: severity=CRITICAL; category=data_race
   Description: Shared data access without lock protection
-  Remediation: Protect shared data with std::lock_guard or std::unique_lock
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::concurrency
   Context: pipeline->tumbling_ = std::make_shared<TumblingWindow>(cfg);
-- Line 1233: severity=CRITICAL; category=data_race
+- Line 1257: severity=CRITICAL; category=data_race
   Description: Shared data access without lock protection
-  Remediation: Protect shared data with std::lock_guard or std::unique_lock
-  Context: pipeline->tumbling_ = std::make_shared<TumblingWindow>(cfg);
-- Line 1247: severity=CRITICAL; category=data_race
-  Description: Shared data access without lock protection
-  Remediation: Protect shared data with std::lock_guard or std::unique_lock
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::concurrency
   Context: pipeline->sliding_ = std::make_shared<SlidingWindow>(cfg);
-- Line 1247: severity=CRITICAL; category=data_race
+- Line 1271: severity=CRITICAL; category=data_race
   Description: Shared data access without lock protection
-  Remediation: Protect shared data with std::lock_guard or std::unique_lock
-  Context: pipeline->sliding_ = std::make_shared<SlidingWindow>(cfg);
-- Line 1261: severity=CRITICAL; category=data_race
-  Description: Shared data access without lock protection
-  Remediation: Protect shared data with std::lock_guard or std::unique_lock
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::concurrency
   Context: pipeline->session_                   = std::make_shared<SessionWindow>(cfg);
-- Line 1275: severity=CRITICAL; category=data_race
+- Line 1285: severity=CRITICAL; category=data_race
   Description: Shared data access without lock protection
-  Remediation: Protect shared data with std::lock_guard or std::unique_lock
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::concurrency
   Context: pipeline->hopping_ = std::make_shared<HoppingWindow>(cfg);
-- Line 1275: severity=CRITICAL; category=data_race
-  Description: Shared data access without lock protection
-  Remediation: Protect shared data with std::lock_guard or std::unique_lock
-  Context: pipeline->hopping_ = std::make_shared<HoppingWindow>(cfg);
-- Line 0: severity=HIGH; category=uncategorized
-  Confidence: band=high; score=0.73
-- Line 0: severity=HIGH; category=uncategorized
-  Confidence: band=high; score=0.73
-- Line 0: severity=HIGH; category=uncategorized
-  Confidence: band=high; score=0.73
-- Line 0: severity=HIGH; category=uncategorized
-  Confidence: band=high; score=0.73
-- Line 0: severity=HIGH; category=uncategorized
-  Confidence: band=high; score=0.73
-- Line 0: severity=HIGH; category=uncategorized
-  Confidence: band=high; score=0.73
 - Line 5: severity=HIGH; category=uninitialized_access
   Description: Container element access before initialization
-  Remediation: Use .at() for bounds checking or initialize element first
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::container
   Context: * PR History (last 5): #4929 [Docs][analytics] Refresh m... (2026-05-10) | #4339 Analytics module: s
 - Line 113: severity=HIGH; category=memory_order
   Description: memory_order_relaxed used — potential visibility issue
-  Remediation: Use memory_order_acquire/release unless truly lock-free
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::concurrency
   Context: uint64_t c = counter.fetch_add(1, std::memory_order_relaxed);
 - Line 122: severity=HIGH; category=size_assumption
   Description: Hardcoded size assumption — pointer/int size may differ on platforms
-  Remediation: Use <cstdint> types (uint32_t, uint64_t) and sizeof() checks, not constants
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::platform
   Context: std::snprintf(buf, sizeof(buf), "%08x-%04x-%04x-%04x-%012llx", static_cast<unsigned>(a >> 32),
 - Line 202: severity=HIGH; category=o_n_squared
   Description: O(n²) pattern: find() on vector inside loop
-  Remediation: Use std::unordered_map or std::set for O(log n) or O(1) lookup
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::container
   Context: auto it = rec.fields.find(spec.field);
-- Line 203: severity=HIGH; category=performance; pattern=nested_loop_find
+- Line 203: severity=HIGH; category=nested_loop_find
   Description: O(n²) pattern: linear search inside nested loop
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::performance_patterns
   Context: auto it = rec.fields.find(spec.field);
-  Confidence: band=very_high; score=0.9
+- Line 344: severity=HIGH; category=manual_cleanup_in_destructor
+  Description: Manual resource cleanup in destructor (should use RAII wrapper)
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::phase1_raii
+  Context: TumblingWindow::~TumblingWindow() {
 - Line 504: severity=HIGH; category=lock_contention
   Description: Mutex lock in loop — high contention
-  Remediation: Acquire lock before loop or redesign to minimize lock time
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::performance
   Context: std::unique_lock lk(idle_mutex_);
+- Line 519: severity=HIGH; category=resource_leaked_in_exception
+  Description: Exception before delete causes resource leak
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::exception_safety
 - Line 525: severity=HIGH; category=db_connection_leak
   Description: Resource acquired but not released — potential leak
-  Remediation: Ensure all acquire() calls are matched with release() in all code paths
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::raii
   Context: int64_t wm = watermark_us_.load(std::memory_order_acquire);
+- Line 557: severity=HIGH; category=manual_cleanup_in_destructor
+  Description: Manual resource cleanup in destructor (should use RAII wrapper)
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::phase1_raii
+  Context: SlidingWindow::~SlidingWindow() {
+- Line 591: severity=HIGH; category=resource_leaked_in_exception
+  Description: Exception before delete causes resource leak
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::exception_safety
 - Line 746: severity=HIGH; category=lock_contention
   Description: Mutex lock in loop — high contention
-  Remediation: Acquire lock before loop or redesign to minimize lock time
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::performance
   Context: std::unique_lock lk(idle_mutex_);
+- Line 761: severity=HIGH; category=resource_leaked_in_exception
+  Description: Exception before delete causes resource leak
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::exception_safety
 - Line 767: severity=HIGH; category=db_connection_leak
   Description: Resource acquired but not released — potential leak
-  Remediation: Ensure all acquire() calls are matched with release() in all code paths
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::raii
   Context: int64_t wm = watermark_us_.load(std::memory_order_acquire);
+- Line 796: severity=HIGH; category=manual_cleanup_in_destructor
+  Description: Manual resource cleanup in destructor (should use RAII wrapper)
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::phase1_raii
+  Context: SessionWindow::~SessionWindow() {
+- Line 845: severity=HIGH; category=resource_leaked_in_exception
+  Description: Exception before delete causes resource leak
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::exception_safety
 - Line 851: severity=HIGH; category=db_connection_leak
   Description: Resource acquired but not released — potential leak
-  Remediation: Ensure all acquire() calls are matched with release() in all code paths
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::raii
   Context: int64_t wm = watermark_us_.load(std::memory_order_acquire);
+- Line 890: severity=HIGH; category=resource_leaked_in_exception
+  Description: Exception before delete causes resource leak
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::exception_safety
 - Line 959: severity=HIGH; category=lock_contention
   Description: Mutex lock in loop — high contention
-  Remediation: Acquire lock before loop or redesign to minimize lock time
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::performance
   Context: std::unique_lock lk(expiry_mutex_);
+- Line 1007: severity=HIGH; category=manual_cleanup_in_destructor
+  Description: Manual resource cleanup in destructor (should use RAII wrapper)
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::phase1_raii
+  Context: HoppingWindow::~HoppingWindow() {
+- Line 1034: severity=HIGH; category=resource_leaked_in_exception
+  Description: Exception before delete causes resource leak
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::exception_safety
 - Line 1109: severity=HIGH; category=db_connection_leak
   Description: Resource acquired but not released — potential leak
-  Remediation: Ensure all acquire() calls are matched with release() in all code paths
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::raii
   Context: int64_t wm    = watermark_us_.load(std::memory_order_acquire);
-- Line 213: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: nums.push_back(d);
-  Confidence: band=high; score=0.74
-- Line 290: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: results.push_back(std::move(av));
-  Confidence: band=high; score=0.74
-- Line 403: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: pending.push_back(computeResult(closed, false));
-  Confidence: band=high; score=0.74
-- Line 475: severity=MEDIUM; category=uncaught_exception
+- Line 48: severity=MEDIUM; category=stale_doc_section_reference
+  Description: Code comment references section '13):' that was not found in 'src/analytics/FUTURE_ENHANCEMENTS.md'
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::themis_doc_freshness_rules
+  Context: src/analytics/FUTURE_ENHANCEMENTS.md §13):
+- Line 536: severity=MEDIUM; category=generic_catch
   Description: Generic catch(...) — specific exception types ignored
-  Remediation: Catch specific exceptions: catch(std::exception& e) { ... }
-  Context: try { cb(r); } catch (...) {}
-- Line 491: severity=MEDIUM; category=uncaught_exception
-  Description: Generic catch(...) — specific exception types ignored
-  Remediation: Catch specific exceptions: catch(std::exception& e) { ... }
-  Context: try { cb(r); } catch (...) {}
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::phase1_error_handling
+  Context: }
+
+        if (cb) {
+
+            for (auto& r : pending) {
+
+                try { cb(r); } catch (...) {}
+
+            }
+
+        }
+
+    }
 - Line 536: severity=MEDIUM; category=uncaught_exception
   Description: Generic catch(...) — specific exception types ignored
-  Remediation: Catch specific exceptions: catch(std::exception& e) { ... }
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::reliability
   Context: try { cb(r); } catch (...) {}
-- Line 634: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: windows_.push_back(std::move(win));
-  Confidence: band=high; score=0.74
-- Line 648: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: pending.push_back(computeResult(w, false));
-  Confidence: band=high; score=0.74
-- Line 701: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: w.records.push_back(record);
-  Confidence: band=high; score=0.74
-- Line 717: severity=MEDIUM; category=uncaught_exception
+- Line 778: severity=MEDIUM; category=generic_catch
   Description: Generic catch(...) — specific exception types ignored
-  Remediation: Catch specific exceptions: catch(std::exception& e) { ... }
-  Context: try { cb(r); } catch (...) {}
-- Line 733: severity=MEDIUM; category=uncaught_exception
-  Description: Generic catch(...) — specific exception types ignored
-  Remediation: Catch specific exceptions: catch(std::exception& e) { ... }
-  Context: try { cb(r); } catch (...) {}
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::phase1_error_handling
+  Context: }
+
+        if (cb) {
+
+            for (auto& r : pending) {
+
+                try { cb(r); } catch (...) {}
+
+            }
+
+        }
+
+    }
 - Line 778: severity=MEDIUM; category=uncaught_exception
   Description: Generic catch(...) — specific exception types ignored
-  Remediation: Catch specific exceptions: catch(std::exception& e) { ... }
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::reliability
   Context: try { cb(r); } catch (...) {}
-- Line 923: severity=MEDIUM; category=uncaught_exception
-  Description: Generic catch(...) — specific exception types ignored
-  Remediation: Catch specific exceptions: catch(std::exception& e) { ... }
-  Context: try { cb(pending_result); } catch (...) {}
-- Line 934: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: pending.push_back(computeResult(s, s.has_late_records));
-  Confidence: band=high; score=0.74
-- Line 935: severity=MEDIUM; category=copy_overhead
-  Description: push_back in loop — consider pre-allocating with reserve()
-  Remediation: Call vector.reserve(expected_size) before loop to avoid reallocations
-  Context: pending.push_back(computeResult(s, s.has_late_records));
-- Line 946: severity=MEDIUM; category=uncaught_exception
-  Description: Generic catch(...) — specific exception types ignored
-  Remediation: Catch specific exceptions: catch(std::exception& e) { ... }
-  Context: try { cb(r); } catch (...) {}
-- Line 974: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: to_close.push_back(key);
-  Confidence: band=high; score=0.74
-- Line 974: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: to_close.push_back(key);
-  Confidence: band=high; score=0.74
-- Line 980: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: pending.push_back(computeResult(s, s.has_late_records));
-  Confidence: band=high; score=0.74
 - Line 981: severity=MEDIUM; category=copy_overhead
   Description: push_back in loop — consider pre-allocating with reserve()
-  Remediation: Call vector.reserve(expected_size) before loop to avoid reallocations
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::container
   Context: pending.push_back(computeResult(s, s.has_late_records));
+- Line 991: severity=MEDIUM; category=generic_catch
+  Description: Generic catch(...) — specific exception types ignored
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::phase1_error_handling
+  Context: } // mutex_ released before callback (BUG 3 FIX)
+
+        if (cb) {
+
+            for (auto& r : pending) {
+
+                try { cb(r); } catch (...) {}
+
+            }
+
+        }
+
+    }
 - Line 991: severity=MEDIUM; category=uncaught_exception
   Description: Generic catch(...) — specific exception types ignored
-  Remediation: Catch specific exceptions: catch(std::exception& e) { ... }
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::reliability
   Context: try { cb(r); } catch (...) {}
-- Line 1068: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: windows_.push_back(std::move(win));
-  Confidence: band=high; score=0.74
-- Line 1082: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: pending.push_back(computeResult(w, false));
-  Confidence: band=high; score=0.74
-- Line 1125: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: w.records.push_back(record);
-  Confidence: band=high; score=0.74
-- Line 1140: severity=MEDIUM; category=uncaught_exception
-  Description: Generic catch(...) — specific exception types ignored
-  Remediation: Catch specific exceptions: catch(std::exception& e) { ... }
-  Context: try { cb(r); } catch (...) {}
-- Line 1156: severity=MEDIUM; category=uncaught_exception
-  Description: Generic catch(...) — specific exception types ignored
-  Remediation: Catch specific exceptions: catch(std::exception& e) { ... }
-  Context: try { cb(r); } catch (...) {}
+- Line 122: severity=LOW; category=hardcoded_output
+  Description: Hardcoded stdout output instead of structured logging
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::audit_logging
+  Context: std::snprintf(buf, sizeof(buf), "%08x-%04x-%04x-%04x-%012llx", static_cast<unsigned>(a >> 32),
 
-### src/analytics/streaming_join.cpp
-Total findings: 49
+### analytics/automl.cpp
+Total findings: 28
 
-- Line 0: severity=HIGH; category=uncategorized
-  Context: Array declared without initialization
-  Confidence: band=high; score=0.81
-- Line 0: severity=HIGH; category=uncategorized
-  Context: Array declared without initialization
-  Confidence: band=high; score=0.81
-- Line 5: severity=HIGH; category=uninitialized_access
-  Description: Container element access before initialization
-  Remediation: Use .at() for bounds checking or initialize element first
-  Context: * PR History (last 5): #4929 [Docs][analytics] Refresh m... (2026-05-10)
-- Line 335: severity=HIGH; category=repeated_search
-  Description: find/search in loop — O(n²) or worse
-  Remediation: Move search outside loop or build index/map before loop
-  Context: auto it   = std::find(build_column_names_.begin(), build_column_names_.end(), n);
-- Line 344: severity=HIGH; category=o_n_squared
+- Line 314: severity=CRITICAL; category=iterator_invalidation
+  Description: Iterator it may be invalidated by container modification
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::container
+  Context: auto it = index.find(l);
+- Line 1294: severity=CRITICAL; category=data_race
+  Description: Shared data access without lock protection
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::concurrency
+  Context: gb->base_value = y_reg.empty() ? 0.0 : mean_y / static_cast<double>(n);
+- Line 146: severity=HIGH; category=o_n_squared
   Description: O(n²) pattern: find() on vector inside loop
-  Remediation: Use std::unordered_map or std::set for O(log n) or O(1) lookup
-  Context: auto it  = hash_table_.find(key);
-- Line 368: severity=HIGH; category=performance; pattern=nested_loop_find
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::container
+  Context: auto it = p.fields.find(fm.names[j]);
+- Line 147: severity=HIGH; category=nested_loop_find
   Description: O(n²) pattern: linear search inside nested loop
-  Context: auto bit   = std::find(build_column_names_.begin(), build_column_names_.end(), n);
-  Confidence: band=very_high; score=0.9
-- Line 368: severity=HIGH; category=repeated_search
-  Description: find/search in loop — O(n²) or worse
-  Remediation: Move search outside loop or build index/map before loop
-  Context: auto bit   = std::find(build_column_names_.begin(), build_column_names_.end(), n);
-- Line 368: severity=HIGH; category=repeated_search
-  Description: find/search in loop — O(n²) or worse
-  Remediation: Move search outside loop or build index/map before loop
-  Context: auto bit   = std::find(build_column_names_.begin(), build_column_names_.end(), n);
-- Line 575: severity=HIGH; category=pointer_arithmetic
-  Description: Pointer/array access without bounds validation
-  Remediation: Add bounds check before dereferencing
-  Context: int64_t probe_ts = probe_time_data[r];
-- Line 600: severity=HIGH; category=pointer_arithmetic
-  Description: Pointer/array access without bounds validation
-  Remediation: Add bounds check before dereferencing
-  Context: for (auto it = it_lo; it != build_buffer_.end() && it->timestamp_ms <= hi; ++it) {
-- Line 60: severity=MEDIUM; category=hardcoded_path
-  Description: Hardcoded path separator — not portable
-  Remediation: Use std::filesystem::path or boost::filesystem for cross-platform paths
-  Context: return std::string("\x00\x00", 2); // null sentinel
-- Line 80: severity=MEDIUM; category=hardcoded_path
-  Description: Hardcoded path separator — not portable
-  Remediation: Use std::filesystem::path or boost::filesystem for cross-platform paths
-  Context: s += '\x01'; // terminator
-- Line 119: severity=MEDIUM; category=performance; pattern=string_concat_loop
-  Description: String concatenation in loop (use std::stringstream)
-  Context: key += '\xFF'; // separator
-  Confidence: band=high; score=0.74
-- Line 119: severity=MEDIUM; category=performance; pattern=string_concat_loop
-  Description: String concatenation in loop (use std::stringstream)
-  Context: key += '\xFF'; // separator
-  Confidence: band=high; score=0.74
-- Line 119: severity=MEDIUM; category=performance; pattern=string_concat_loop
-  Description: String concatenation in loop (use std::stringstream)
-  Context: key += '\xFF'; // separator
-  Confidence: band=high; score=0.74
-- Line 120: severity=MEDIUM; category=hardcoded_path
-  Description: Hardcoded path separator — not portable
-  Remediation: Use std::filesystem::path or boost::filesystem for cross-platform paths
-  Context: key += '\xFF'; // separator
-- Line 120: severity=MEDIUM; category=string_concat_loop
-  Description: String concatenation in loop — O(n²) behavior
-  Remediation: Use std::ostringstream or pre-allocate string with .reserve()
-  Context: key += '\xFF'; // separator
-- Line 141: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: result.push_back(col);
-  Confidence: band=high; score=0.74
-- Line 184: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: result.push_back(std::make_shared<Column>(c->name(), c->type()));
-  Confidence: band=high; score=0.74
-- Line 211: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: build_columns_.push_back(std::make_shared<Column>(col->name(), col->type()));
-  Confidence: band=high; score=0.74
-- Line 221: severity=MEDIUM; category=copy_overhead
-  Description: push_back in loop — consider pre-allocating with reserve()
-  Remediation: Call vector.reserve(expected_size) before loop to avoid reallocations
-  Context: build_columns_.push_back(std::make_shared<Column>(col->name(), col->type()));
-- Line 247: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: key_indices.push_back(i);
-  Confidence: band=high; score=0.74
-- Line 247: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: key_indices.push_back(i);
-  Confidence: band=high; score=0.74
-- Line 301: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: probe_key_indices.push_back(i);
-  Confidence: band=high; score=0.74
-- Line 301: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: probe_key_indices.push_back(i);
-  Confidence: band=high; score=0.74
-- Line 331: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: out_cols.push_back(std::make_shared<Column>(c->name(), c->type()));
-  Confidence: band=high; score=0.74
-- Line 336: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: out_cols.push_back(std::make_shared<Column>(n, build_columns_[ci]->type()));
-  Confidence: band=high; score=0.74
-- Line 441: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: vals.push_back(c->get(r));
-  Confidence: band=high; score=0.74
-- Line 486: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: probe_cols.push_back(probe_batch.getColumnAt(i));
-  Confidence: band=high; score=0.74
-- Line 487: severity=MEDIUM; category=copy_overhead
-  Description: push_back in loop — consider pre-allocating with reserve()
-  Remediation: Call vector.reserve(expected_size) before loop to avoid reallocations
-  Context: probe_cols.push_back(probe_batch.getColumnAt(i));
-- Line 488: severity=MEDIUM; category=copy_overhead
-  Description: push_back in loop — consider pre-allocating with reserve()
-  Remediation: Call vector.reserve(expected_size) before loop to avoid reallocations
-  Context: probe_col_names.push_back(probe_cols.back()->name());
-- Line 495: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: probe_cols.push_back(c);
-  Confidence: band=high; score=0.74
-- Line 507: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: probe_key_indices.push_back(i);
-  Confidence: band=high; score=0.74
-- Line 507: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: probe_key_indices.push_back(i);
-  Confidence: band=high; score=0.74
-- Line 520: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: build_key_indices.push_back(i);
-  Confidence: band=high; score=0.74
-- Line 588: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: probe_vals.push_back(probe_cols[ci]->get(r));
-  Confidence: band=high; score=0.74
-- Line 595: severity=MEDIUM; category=performance; pattern=string_concat_loop
-  Description: String concatenation in loop (use std::stringstream)
-  Context: probe_key += '\xFF';
-  Confidence: band=high; score=0.74
-- Line 595: severity=MEDIUM; category=performance; pattern=string_concat_loop
-  Description: String concatenation in loop (use std::stringstream)
-  Context: probe_key += '\xFF';
-  Confidence: band=high; score=0.74
-- Line 595: severity=MEDIUM; category=performance; pattern=string_concat_loop
-  Description: String concatenation in loop (use std::stringstream)
-  Context: probe_key += '\xFF';
-  Confidence: band=high; score=0.74
-- Line 596: severity=MEDIUM; category=string_concat_loop
-  Description: String concatenation in loop — O(n²) behavior
-  Remediation: Use std::ostringstream or pre-allocate string with .reserve()
-  Context: probe_key += '\xFF';
-- Line 605: severity=MEDIUM; category=performance; pattern=string_concat_loop
-  Description: String concatenation in loop (use std::stringstream)
-  Context: build_key += '\xFF';
-  Confidence: band=high; score=0.74
-- Line 605: severity=MEDIUM; category=performance; pattern=string_concat_loop
-  Description: String concatenation in loop (use std::stringstream)
-  Context: build_key += '\xFF';
-  Confidence: band=high; score=0.74
-- Line 606: severity=MEDIUM; category=string_concat_loop
-  Description: String concatenation in loop — O(n²) behavior
-  Remediation: Use std::ostringstream or pre-allocate string with .reserve()
-  Context: build_key += '\xFF';
-- Line 606: severity=MEDIUM; category=string_concat_loop
-  Description: String concatenation in loop — O(n²) behavior
-  Remediation: Use std::ostringstream or pre-allocate string with .reserve()
-  Context: build_key += '\xFF';
-- Line 615: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: build_out_vals.push_back(it->values[bi]);
-  Confidence: band=high; score=0.74
-- Line 684: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: out_cols_mat.push_back(std::make_shared<Column>(probe_col_names[i], t));
-  Confidence: band=high; score=0.74
-- Line 684: severity=MEDIUM; category=performance; pattern=unnecessary_copy
-  Description: Unnecessary copy: use auto& for container element access
-  Context: auto t = probe_types[i] == ColumnType::Null ? ColumnType::String : probe_types[i];
-  Confidence: band=high; score=0.74
-- Line 688: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: out_cols_mat.push_back(std::make_shared<Column>(build_output_names[i], t));
-  Confidence: band=high; score=0.74
-- Line 688: severity=MEDIUM; category=performance; pattern=unnecessary_copy
-  Description: Unnecessary copy: use auto& for container element access
-  Context: auto t = build_types[i] == ColumnType::Null ? ColumnType::String : build_types[i];
-  Confidence: band=high; score=0.74
-
-### src/analytics/anomaly_detection.cpp
-Total findings: 42
-
-- Line 222: severity=CRITICAL; category=missing_dtor
-  Description: Class IFNode allocates resources but has no destructor
-  Remediation: Add explicit destructor: ~IFNode() { /* cleanup */ }
-  Context: class/struct IFNode
-- Line 230: severity=CRITICAL; category=missing_dtor
-  Description: Class ITree allocates resources but has no destructor
-  Remediation: Add explicit destructor: ~ITree() { /* cleanup */ }
-  Context: class/struct ITree
-- Line 1009: severity=CRITICAL; category=data_race
-  Description: Shared data access without lock protection
-  Remediation: Protect shared data with std::lock_guard or std::unique_lock
-  Context: ss << "method=" << static_cast<int>(impl_->cfg.method) << "\n";
-- Line 1077: severity=CRITICAL; category=data_race
-  Description: Shared data access without lock protection
-  Remediation: Protect shared data with std::lock_guard or std::unique_lock
-  Context: det.impl_->cfg.method = static_cast<AnomalyMethod>(std::stoi(val));
-- Line 1085: severity=CRITICAL; category=data_race
-  Description: Shared data access without lock protection
-  Remediation: Protect shared data with std::lock_guard or std::unique_lock
-  Context: det.impl_->n_features = static_cast<size_t>(std::stoul(val));
-- Line 1130: severity=CRITICAL; category=data_race
-  Description: Shared data access without lock protection
-  Remediation: Protect shared data with std::lock_guard or std::unique_lock
-  Context: s.training_samples = impl_->training_samples_count;
-- Line 1158: severity=CRITICAL; category=no_timeout
-  Description: semaphore_wait without timeout — can block indefinitely
-  Remediation: Add timeout parameter (e.g., wait_for(timeout), with_timeout())
-  Context: retrain_future_.wait();
-- Line 16: severity=HIGH; category=uninitialized_access
-  Description: Container element access before initialization
-  Remediation: Use .at() for bounds checking or initialize element first
-  Context: *                      mapped to [0,1] via a logistic squashing function.
-- Line 438: severity=HIGH; category=o_n_squared
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::performance_patterns
+  Context: auto it = p.fields.find(fm.names[j]);
+- Line 167: severity=HIGH; category=o_n_squared
   Description: O(n²) pattern: find() on vector inside loop
-  Remediation: Use std::unordered_map or std::set for O(log n) or O(1) lookup
-  Context: auto it = p.fields.find(name);
-- Line 625: severity=HIGH; category=pointer_arithmetic
-  Description: Pointer/array access without bounds validation
-  Remediation: Add bounds check before dereferencing
-  Context: means[f]      = computeMean(col_data);
-- Line 626: severity=HIGH; category=pointer_arithmetic
-  Description: Pointer/array access without bounds validation
-  Remediation: Add bounds check before dereferencing
-  Context: stddevs[f]    = computeStddev(col_data, means[f]);
-- Line 627: severity=HIGH; category=pointer_arithmetic
-  Description: Pointer/array access without bounds validation
-  Remediation: Add bounds check before dereferencing
-  Context: medians[f]    = computeMedian(col_data);
-- Line 628: severity=HIGH; category=pointer_arithmetic
-  Description: Pointer/array access without bounds validation
-  Remediation: Add bounds check before dereferencing
-  Context: mads[f]       = computeMAD(col_data, medians[f]);
-- Line 631: severity=HIGH; category=pointer_arithmetic
-  Description: Pointer/array access without bounds validation
-  Remediation: Add bounds check before dereferencing
-  Context: computeQuartiles(col_data, q1[f], q3[f]);
-- Line 1062: severity=HIGH; category=range_temporary
-  Description: Range-for on temporary container — references may be invalid
-  Remediation: Store container in variable first: auto c = func(); for (auto x : c) { ... }
-  Context: for (const auto& t : splitComma(s)) {
-- Line 1234: severity=HIGH; category=range_temporary
-  Description: Range-for on temporary container — references may be invalid
-  Remediation: Store container in variable first: auto c = func(); for (auto x : c) { ... }
-  Context: && retrain_future_.wait_for(std::chrono::milliseconds(0)) != std::future_status::ready) {
-- Line 0: severity=MEDIUM; category=uncategorized
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::container
+  Context: auto it = p.fields.find(target);
+- Line 197: severity=HIGH; category=o_n_squared
+  Description: O(n²) pattern: find() on vector inside loop
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::container
+  Context: auto it = p.fields.find(target);
+- Line 313: severity=HIGH; category=o_n_squared
+  Description: O(n²) pattern: find() on vector inside loop
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::container
+  Context: auto it = index.find(l);
+- Line 861: severity=HIGH; category=fp_exact_comparison
+  Description: Floating-point exact comparison (use tolerance/epsilon)
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::determinism
+  Context: if (t == p) {
+- Line 1120: severity=HIGH; category=uninitialized_access
+  Description: Container element access before initialization
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::container
+  Context: for (auto [d2, i] : nbrs) {
+- Line 1135: severity=HIGH; category=uninitialized_access
+  Description: Container element access before initialization
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::container
+  Context: for (auto [d2, i] : nbrs) {
+- Line 1527: severity=HIGH; category=o_n_squared
+  Description: O(n²) pattern: find() on vector inside loop
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::container
+  Context: auto it = p.fields.find(base);
+- Line 279: severity=MEDIUM; category=copy_overhead
+  Description: push_back in loop — consider pre-allocating with reserve()
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::container
+  Context: r.push_back(v * v);
+- Line 300: severity=MEDIUM; category=map_vs_unordered_map
+  Description: std::map used only for lookups (consider std::unordered_map)
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::performance_patterns
+  Context: std::map<std::string, int> index;
+- Line 934: severity=MEDIUM; category=copy_overhead
+  Description: push_back in loop — consider pre-allocating with reserve()
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::container
+  Context: train.push_back(idx[i]);
+- Line 949: severity=MEDIUM; category=missing_override_keyword
+  Description: C++11: override keyword improves code clarity and catches errors
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::virtual_oop
+- Line 950: severity=MEDIUM; category=missing_override_keyword
+  Description: C++11: override keyword improves code clarity and catches errors
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::virtual_oop
+- Line 952: severity=MEDIUM; category=missing_override_keyword
+  Description: C++11: override keyword improves code clarity and catches errors
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::virtual_oop
+- Line 1075: severity=MEDIUM; category=uninitialized_member_field
+  Description: Default constructor does not initialize POD members
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::uninitialized
   Context: Struct with uninitialized fields
-  Confidence: band=medium; score=0.65
-- Line 62: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: out.push_back(*d);
-  Confidence: band=high; score=0.74
-- Line 63: severity=MEDIUM; category=copy_overhead
-  Description: push_back in loop — consider pre-allocating with reserve()
-  Remediation: Call vector.reserve(expected_size) before loop to avoid reallocations
-  Context: out.push_back(*d);
-- Line 65: severity=MEDIUM; category=copy_overhead
-  Description: push_back in loop — consider pre-allocating with reserve()
-  Remediation: Call vector.reserve(expected_size) before loop to avoid reallocations
-  Context: out.push_back(static_cast<double>(*i));
-- Line 67: severity=MEDIUM; category=copy_overhead
-  Description: push_back in loop — consider pre-allocating with reserve()
-  Remediation: Call vector.reserve(expected_size) before loop to avoid reallocations
-  Context: out.push_back(*b ? 1.0 : 0.0);
-- Line 77: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: out.push_back(name);
-  Confidence: band=high; score=0.74
-- Line 198: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: out.push_back(row[col]);
-  Confidence: band=high; score=0.74
-- Line 255: severity=MEDIUM; category=copy_overhead
-  Description: push_back in loop — consider pre-allocating with reserve()
-  Remediation: Call vector.reserve(expected_size) before loop to avoid reallocations
-  Context: stack.push_back({indices, height, -1, 0});
-- Line 315: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: left_idx.push_back(i);
-  Confidence: band=high; score=0.74
-- Line 381: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: dists.emplace_back(euclidean(train[i], query), i);
-  Confidence: band=high; score=0.74
-- Line 440: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: out.push_back(0.0);
-  Confidence: band=high; score=0.74
-- Line 657: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: lof_train.push_back(impl_extractForLof(p));
-  Confidence: band=high; score=0.74
-- Line 790: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: sub_detectors.push_back(std::move(sub));
-  Confidence: band=high; score=0.74
-- Line 881: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: results.push_back(predict(p));
-  Confidence: band=high; score=0.74
-- Line 966: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: exp.feature_contributions.emplace_back(impl_->feature_names[i], contrib[i]);
-  Confidence: band=high; score=0.74
-- Line 966: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: exp.feature_contributions.emplace_back(impl_->feature_names[i], contrib[i]);
-  Confidence: band=high; score=0.74
-- Line 966: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: exp.feature_contributions.emplace_back(impl_->feature_names[i], contrib[i]);
-  Confidence: band=high; score=0.74
-- Line 1062: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: try { v.push_back(std::stod(t)); } catch (...) {}
-  Confidence: band=high; score=0.74
-- Line 1063: severity=MEDIUM; category=copy_overhead
-  Description: push_back in loop — consider pre-allocating with reserve()
-  Remediation: Call vector.reserve(expected_size) before loop to avoid reallocations
-  Context: try { v.push_back(std::stod(t)); } catch (...) {}
-- Line 1063: severity=MEDIUM; category=uncaught_exception
-  Description: Generic catch(...) — specific exception types ignored
-  Remediation: Catch specific exceptions: catch(std::exception& e) { ... }
-  Context: try { v.push_back(std::stod(t)); } catch (...) {}
-- Line 1110: severity=MEDIUM; category=uncaught_exception
-  Description: Generic catch(...) — specific exception types ignored
-  Remediation: Catch specific exceptions: catch(std::exception& e) { ... }
-  Context: } catch (...) { /* skip malformed line */ }
-- Line 1169: severity=MEDIUM; category=observability; pattern=missing_latency_metric
-  Description: No latency measurement for operation
-  Context: std::optional<AnomalyResult> StreamingAnomalyDetector::process(const DataPoint &point) {
-  Confidence: band=high; score=0.74
-- Line 1217: severity=MEDIUM; category=uncaught_exception
-  Description: Generic catch(...) — specific exception types ignored
-  Remediation: Catch specific exceptions: catch(std::exception& e) { ... }
-  Context: } catch (...) {}
-- Line 1253: severity=MEDIUM; category=uncaught_exception
-  Description: Generic catch(...) — specific exception types ignored
-  Remediation: Catch specific exceptions: catch(std::exception& e) { ... }
-  Context: } catch (...) {}
-- Line 1269: severity=MEDIUM; category=uncaught_exception
-  Description: Generic catch(...) — specific exception types ignored
-  Remediation: Catch specific exceptions: catch(std::exception& e) { ... }
-  Context: } catch (...) {
-- Line 218: severity=LOW; category=observability; pattern=unstructured_log
+- Line 1478: severity=MEDIUM; category=map_vs_unordered_map
+  Description: std::map used only for lookups (consider std::unordered_map)
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::performance_patterns
+  Context: std::map<std::string, double> hp;
+- Line 1516: severity=MEDIUM; category=map_vs_unordered_map
+  Description: std::map used only for lookups (consider std::unordered_map)
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::performance_patterns
+  Context: std::map<std::string, double> feat_importance;
+- Line 1651: severity=MEDIUM; category=string_concat_loop
+  Description: String concatenation in loop (use std::stringstream)
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::performance_patterns
+  Context: tf += ", ";
+- Line 1652: severity=MEDIUM; category=string_concat_loop
+  Description: String concatenation in loop — O(n²) behavior
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::performance
+  Context: tf += ", ";
+- Line 1727: severity=MEDIUM; category=string_concat_loop
+  Description: String concatenation in loop (use std::stringstream)
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::performance_patterns
+  Context: out += "\\\"";
+- Line 1728: severity=MEDIUM; category=string_concat_loop
+  Description: String concatenation in loop — O(n²) behavior
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::performance
+  Context: out += "\\\"";
+- Line 1730: severity=MEDIUM; category=string_concat_loop
+  Description: String concatenation in loop — O(n²) behavior
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::performance
+  Context: out += "\\\\";
+- Line 1732: severity=MEDIUM; category=string_concat_loop
+  Description: String concatenation in loop — O(n²) behavior
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::performance
+  Context: out += "\\n";
+- Line 1953: severity=MEDIUM; category=map_vs_unordered_map
+  Description: std::map used only for lookups (consider std::unordered_map)
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::performance_patterns
+  Context: ModelAlgorithm algo, const std::map<std::string, double> &hp, std::mt19937 &rng, AutoMLMetric metric) {
+- Line 1326: severity=LOW; category=unstructured_log
   Description: Unstructured logging (use structured format)
-  Context: double H = std::log(n - 1.0) + 0.5772156649; // harmonic number approximation
-  Confidence: band=medium; score=0.6
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::observability
+  Context: gb->base_value = std::log(mean_p / (1.0 - mean_p));
 
-### src/analytics/nlp_text_analyzer.cpp
-Total findings: 38
+### analytics/nlp_text_analyzer.cpp
+Total findings: 27
 
 - Line 1074: severity=CRITICAL; category=data_race
   Description: Shared data access without lock protection
-  Remediation: Protect shared data with std::lock_guard or std::unique_lock
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::concurrency
   Context: auto ends_with = [&](std::string_view suffix, size_t min_stem) -> bool {
 - Line 1077: severity=CRITICAL; category=data_race
   Description: Shared data access without lock protection
-  Remediation: Protect shared data with std::lock_guard or std::unique_lock
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::concurrency
   Context: auto strip = [&](size_t n, std::string_view add = "") -> std::string {
 - Line 1162: severity=CRITICAL; category=data_race
   Description: Shared data access without lock protection
-  Remediation: Protect shared data with std::lock_guard or std::unique_lock
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::concurrency
   Context: auto bends = [&](std::string_view suffix, size_t min_stem) -> bool {
 - Line 1165: severity=CRITICAL; category=data_race
   Description: Shared data access without lock protection
-  Remediation: Protect shared data with std::lock_guard or std::unique_lock
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::concurrency
   Context: auto bstrip = [&](size_t n, std::string_view add = "") -> std::string {
 - Line 1657: severity=CRITICAL; category=data_race
   Description: Shared data access without lock protection
-  Remediation: Protect shared data with std::lock_guard or std::unique_lock
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::concurrency
   Context: auto form_it = lang_it->second.find(lower);
 - Line 1658: severity=CRITICAL; category=data_race
   Description: Shared data access without lock protection
-  Remediation: Protect shared data with std::lock_guard or std::unique_lock
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::concurrency
   Context: if (form_it != lang_it->second.end()) {
 - Line 1751: severity=CRITICAL; category=data_race
   Description: Shared data access without lock protection
-  Remediation: Protect shared data with std::lock_guard or std::unique_lock
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::concurrency
   Context: double tf = static_cast<double>(it->second) / total_terms;
 - Line 1755: severity=CRITICAL; category=data_race
   Description: Shared data access without lock protection
-  Remediation: Protect shared data with std::lock_guard or std::unique_lock
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::concurrency
   Context: double idf = std::log(static_cast<double>(term_freqs.size()) / it->second);
-- Line 0: severity=HIGH; category=uncategorized
-  Confidence: band=high; score=0.73
 - Line 5: severity=HIGH; category=uninitialized_access
   Description: Container element access before initialization
-  Remediation: Use .at() for bounds checking or initialize element first
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::container
   Context: * PR History (last 5): #3507 docs(analytics): reconcile ... (2026-03-12) | #2990 [analytics] Full mo
-- Line 408: severity=HIGH; category=no_retry_logic
-  Description: database_query without retry logic — transient failures will propagate
-  Remediation: Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)
-  Context: bool has_subquery    = containsSubquery(query_text);
-- Line 641: severity=HIGH; category=pointer_arithmetic
-  Description: Pointer/array access without bounds validation
-  Remediation: Add bounds check before dereferencing
-  Context: en["data"]      = "datum";
+- Line 568: severity=HIGH; category=resource_leaked_in_exception
+  Description: Exception before delete causes resource leak
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::exception_safety
+- Line 60: severity=MEDIUM; category=generic_catch
+  Description: Generic catch(...) — specific exception types ignored
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::phase1_error_handling
+  Context: initializeSentimentLexicon();
+
+            initializeEntityPatterns();
+
+            initializeLemmatizationData();
+
+        } catch (...) {
+
+            std::cerr << "CRITICAL: NlpTextAnalyzer minimal initialization also failed!" << std::endl;
+
+        }
+
+    }
 - Line 60: severity=MEDIUM; category=uncaught_exception
   Description: Generic catch(...) — specific exception types ignored
-  Remediation: Catch specific exceptions: catch(std::exception& e) { ... }
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::reliability
   Context: } catch (...) {
-- Line 142: severity=MEDIUM; category=copy_overhead
-  Description: push_back in loop — consider pre-allocating with reserve()
-  Remediation: Call vector.reserve(expected_size) before loop to avoid reallocations
-  Context: entity_patterns_.push_back({R"([a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})", "EMAIL"});
-- Line 145: severity=MEDIUM; category=copy_overhead
-  Description: push_back in loop — consider pre-allocating with reserve()
-  Remediation: Call vector.reserve(expected_size) before loop to avoid reallocations
-  Context: entity_patterns_.push_back({R"(https?://[^\s]+)", "URL"});
 - Line 145: severity=MEDIUM; category=hardcoded_path
   Description: Hardcoded path separator — not portable
-  Remediation: Use std::filesystem::path or boost::filesystem for cross-platform paths
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::platform
   Context: entity_patterns_.push_back({R"(https?://[^\s]+)", "URL"});
-- Line 148: severity=MEDIUM; category=copy_overhead
-  Description: push_back in loop — consider pre-allocating with reserve()
-  Remediation: Call vector.reserve(expected_size) before loop to avoid reallocations
-  Context: entity_patterns_.push_back({R"(\d{1,2}[./-]\d{1,2}[./-]\d{2,4})", "DATE"});
 - Line 148: severity=MEDIUM; category=hardcoded_path
   Description: Hardcoded path separator — not portable
-  Remediation: Use std::filesystem::path or boost::filesystem for cross-platform paths
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::platform
   Context: entity_patterns_.push_back({R"(\d{1,2}[./-]\d{1,2}[./-]\d{2,4})", "DATE"});
-- Line 151: severity=MEDIUM; category=copy_overhead
-  Description: push_back in loop — consider pre-allocating with reserve()
-  Remediation: Call vector.reserve(expected_size) before loop to avoid reallocations
-  Context: entity_patterns_.push_back({R"(\d+\s*(GB|MB|KB|TB|kg|km|m|cm))", "MEASUREMENT"});
-- Line 162: severity=MEDIUM; category=performance; pattern=map_vs_unordered_map
+- Line 162: severity=MEDIUM; category=map_vs_unordered_map
   Description: std::map used only for lookups (consider std::unordered_map)
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::performance_patterns
   Context: std::map<Language, size_t> scores;
-  Confidence: band=high; score=0.74
-- Line 228: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: tokens.push_back(std::move(token));
-  Confidence: band=high; score=0.74
-- Line 258: severity=MEDIUM; category=determinism; pattern=unordered_container_iter
+- Line 258: severity=MEDIUM; category=unordered_container_iter
   Description: Non-deterministic unordered_map/set iteration order
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::determinism
   Context: std::unordered_set<std::string> unique_terms;
-  Confidence: band=medium; score=0.66
-- Line 278: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: keywords.emplace_back(term, score, freq);
-  Confidence: band=high; score=0.74
-- Line 278: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: keywords.emplace_back(term, score, freq);
-  Confidence: band=high; score=0.74
-- Line 306: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: entities.push_back(entity);
-  Confidence: band=high; score=0.74
-- Line 306: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: entities.push_back(entity);
-  Confidence: band=high; score=0.74
-- Line 319: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: entities.push_back(entity);
-  Confidence: band=high; score=0.74
-- Line 378: severity=MEDIUM; category=determinism; pattern=unordered_container_iter
+- Line 378: severity=MEDIUM; category=unordered_container_iter
   Description: Non-deterministic unordered_map/set iteration order
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::determinism
   Context: std::unordered_set<std::string> unique;
-  Confidence: band=medium; score=0.66
-- Line 433: severity=MEDIUM; category=performance; pattern=map_vs_unordered_map
+- Line 433: severity=MEDIUM; category=map_vs_unordered_map
   Description: std::map used only for lookups (consider std::unordered_map)
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::performance_patterns
   Context: std::map<std::string, std::string> NlpTextAnalyzer::extractQueryHints(std::string_view query_text) const {
-  Confidence: band=high; score=0.74
-- Line 434: severity=MEDIUM; category=performance; pattern=map_vs_unordered_map
+- Line 434: severity=MEDIUM; category=map_vs_unordered_map
   Description: std::map used only for lookups (consider std::unordered_map)
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::performance_patterns
   Context: std::map<std::string, std::string> hints;
-  Confidence: band=high; score=0.74
-- Line 503: severity=MEDIUM; category=observability; pattern=missing_latency_metric
+- Line 503: severity=MEDIUM; category=missing_latency_metric
   Description: No latency measurement for operation
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::observability
   Context: std::string NlpTextAnalyzer::normalizeQuery(std::string_view query_text) const {
-  Confidence: band=high; score=0.74
-- Line 1676: severity=MEDIUM; category=determinism; pattern=unordered_container_iter
+- Line 1676: severity=MEDIUM; category=unordered_container_iter
   Description: Non-deterministic unordered_map/set iteration order
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::determinism
   Context: std::unordered_set<std::string> set1, set2;
-  Confidence: band=medium; score=0.66
-- Line 1695: severity=MEDIUM; category=performance; pattern=map_vs_unordered_map
+- Line 1695: severity=MEDIUM; category=map_vs_unordered_map
   Description: std::map used only for lookups (consider std::unordered_map)
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::performance_patterns
   Context: std::map<std::string, size_t> NlpTextAnalyzer::getStatistics() const {
-  Confidence: band=high; score=0.74
-- Line 1743: severity=MEDIUM; category=performance; pattern=map_vs_unordered_map
+- Line 1743: severity=MEDIUM; category=map_vs_unordered_map
   Description: std::map used only for lookups (consider std::unordered_map)
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::performance_patterns
   Context: double NlpTextAnalyzer::calculateTfIdf(const std::string &term, const std::map<std::string, size_t> &term_freqs,
-  Confidence: band=high; score=0.74
-- Line 1808: severity=MEDIUM; category=observability; pattern=missing_latency_metric
+- Line 1808: severity=MEDIUM; category=missing_latency_metric
   Description: No latency measurement for operation
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::observability
   Context: bool NlpTextAnalyzer::containsSubquery(std::string_view query) const {
-  Confidence: band=high; score=0.74
+- Line 2049: severity=MEDIUM; category=generic_catch
+  Description: Generic catch(...) — specific exception types ignored
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::phase1_error_handling
+  Context: if (!(val = parse_value(stripped, "deontic:")).empty()) {
+
+                current.deontic_logic = val;
+
+            } else if (!(val = parse_value(stripped, "strength:")).empty()) {
+
+                try { current.strength = std::stof(val); } catch (...) {
+
+                    std::cerr << "WARNING: NlpTextAnalyzer: failed to parse strength value '" 
+
+                              << val << "' in " << config_path << std::endl;
+
+                }
 - Line 2049: severity=MEDIUM; category=uncaught_exception
   Description: Generic catch(...) — specific exception types ignored
-  Remediation: Catch specific exceptions: catch(std::exception& e) { ... }
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::reliability
   Context: try { current.strength = std::stof(val); } catch (...) {
-- Line 2137: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: modalities.push_back(modality);
-  Confidence: band=high; score=0.74
-- Line 1755: severity=LOW; category=observability; pattern=unstructured_log
+- Line 1755: severity=LOW; category=unstructured_log
   Description: Unstructured logging (use structured format)
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::observability
   Context: double idf = std::log(static_cast<double>(term_freqs.size()) / it->second);
-  Confidence: band=medium; score=0.6
 
-### src/analytics/ml_serving.cpp
-Total findings: 34
+### analytics/ml_serving.cpp
+Total findings: 26
 
 - Line 5: severity=HIGH; category=uninitialized_access
   Description: Container element access before initialization
-  Remediation: Use .at() for bounds checking or initialize element first
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::container
   Context: * PR History (last 5): #4929 [Docs][analytics] Refresh m... (2026-05-10) | #4315 fix(analytics): eli
-- Line 247: severity=HIGH; category=audit_logging; pattern=hardcoded_output
-  Description: Hardcoded std::cout/printf instead of structured logging
-  Context: if (req.inputs.empty()) {
-  Confidence: band=very_high; score=0.9
-- Line 275: severity=HIGH; category=audit_logging; pattern=hardcoded_output
-  Description: Hardcoded std::cout/printf instead of structured logging
-  Context: for (const auto &t : req.inputs) {
-  Confidence: band=very_high; score=0.9
-- Line 302: severity=HIGH; category=audit_logging; pattern=hardcoded_output
-  Description: Hardcoded std::cout/printf instead of structured logging
-  Context: // Convert outputs
-  Confidence: band=very_high; score=0.9
-- Line 316: severity=HIGH; category=audit_logging; pattern=hardcoded_output
-  Description: Hardcoded std::cout/printf instead of structured logging
-  Context: resp.outputs.push_back(std::move(out_tensor));
-  Confidence: band=very_high; score=0.9
-- Line 402: severity=HIGH; category=audit_logging; pattern=hardcoded_output
-  Description: Hardcoded std::cout/printf instead of structured logging
-  Context: if (req.inputs.empty()) {
-  Confidence: band=very_high; score=0.9
-- Line 408: severity=HIGH; category=audit_logging; pattern=hardcoded_output
-  Description: Hardcoded std::cout/printf instead of structured logging
-  Context: // Build JSON payload: { "inputs": { "<name>": [[...]] } }
-  Confidence: band=very_high; score=0.9
-- Line 410: severity=HIGH; category=audit_logging; pattern=hardcoded_output
-  Description: Hardcoded std::cout/printf instead of structured logging
-  Context: json inputs_json = json::object();
-  Confidence: band=very_high; score=0.9
-- Line 411: severity=HIGH; category=audit_logging; pattern=hardcoded_output
-  Description: Hardcoded std::cout/printf instead of structured logging
-  Context: for (const auto &t : req.inputs) {
-  Confidence: band=very_high; score=0.9
-- Line 414: severity=HIGH; category=audit_logging; pattern=hardcoded_output
-  Description: Hardcoded std::cout/printf instead of structured logging
-  Context: inputs_json[t.name] = json(t.data.begin(), t.data.end());
-  Confidence: band=very_high; score=0.9
-- Line 414: severity=HIGH; category=pointer_arithmetic
-  Description: Pointer/array access without bounds validation
-  Remediation: Add bounds check before dereferencing
-  Context: inputs_json[t.name] = json(t.data.begin(), t.data.end());
-- Line 416: severity=HIGH; category=audit_logging; pattern=hardcoded_output
-  Description: Hardcoded std::cout/printf instead of structured logging
-  Context: payload["inputs"] = inputs_json;
-  Confidence: band=very_high; score=0.9
-- Line 477: severity=HIGH; category=audit_logging; pattern=hardcoded_output
-  Description: Hardcoded std::cout/printf instead of structured logging
-  Context: // Parse JSON response: { "outputs": { "<name>": [...] } }
-  Confidence: band=very_high; score=0.9
-- Line 481: severity=HIGH; category=audit_logging; pattern=hardcoded_output
-  Description: Hardcoded std::cout/printf instead of structured logging
-  Context: if (!jresp.contains("outputs")) {
-  Confidence: band=very_high; score=0.9
-- Line 483: severity=HIGH; category=audit_logging; pattern=hardcoded_output
-  Description: Hardcoded std::cout/printf instead of structured logging
-  Context: resp.error_message = "TF Serving response missing 'outputs' field";
-  Confidence: band=very_high; score=0.9
-- Line 487: severity=HIGH; category=audit_logging; pattern=hardcoded_output
-  Description: Hardcoded std::cout/printf instead of structured logging
-  Context: const auto &joutputs = jresp["outputs"];
-  Confidence: band=very_high; score=0.9
-- Line 488: severity=HIGH; category=audit_logging; pattern=hardcoded_output
-  Description: Hardcoded std::cout/printf instead of structured logging
-  Context: if (joutputs.is_object()) {
-  Confidence: band=very_high; score=0.9
-- Line 489: severity=HIGH; category=audit_logging; pattern=hardcoded_output
-  Description: Hardcoded std::cout/printf instead of structured logging
-  Context: for (auto &[name, val] : joutputs.items()) {
-  Confidence: band=very_high; score=0.9
-- Line 505: severity=HIGH; category=audit_logging; pattern=hardcoded_output
-  Description: Hardcoded std::cout/printf instead of structured logging
-  Context: resp.outputs.push_back(std::move(t));
-  Confidence: band=very_high; score=0.9
-- Line 652: severity=HIGH; category=audit_logging; pattern=hardcoded_output
-  Description: Hardcoded std::cout/printf instead of structured logging
-  Context: req.inputs.push_back(MLTensor{input_name, {1, static_cast<int64_t>(values.size())}, std::move(values)});
-  Confidence: band=very_high; score=0.9
-- Line 0: severity=MEDIUM; category=uncategorized
-  Confidence: band=medium; score=0.57
-- Line 122: severity=MEDIUM; category=performance; pattern=map_vs_unordered_map
-  Description: std::map used only for lookups (consider std::unordered_map)
-  Context: std::map<std::string, std::shared_ptr<Ort::Session>> sessions;
-  Confidence: band=high; score=0.74
-- Line 127: severity=MEDIUM; category=performance; pattern=map_vs_unordered_map
-  Description: std::map used only for lookups (consider std::unordered_map)
-  Context: std::map<std::string, std::shared_ptr<std::mutex>> model_load_mutexes;
-  Confidence: band=high; score=0.74
-- Line 275: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: input_names.push_back(t.name.c_str());
-  Confidence: band=high; score=0.74
-- Line 276: severity=MEDIUM; category=copy_overhead
-  Description: push_back in loop — consider pre-allocating with reserve()
-  Remediation: Call vector.reserve(expected_size) before loop to avoid reallocations
-  Context: input_names.push_back(t.name.c_str());
-- Line 282: severity=MEDIUM; category=copy_overhead
-  Description: push_back in loop — consider pre-allocating with reserve()
-  Remediation: Call vector.reserve(expected_size) before loop to avoid reallocations
-  Context: input_tensors.push_back(Ort::Value::CreateTensor<float>(memory_info, data_copy.data(), data_copy.siz
-- Line 291: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: out_name_strs.emplace_back(name_alloc.get());
-  Confidence: band=high; score=0.74
-- Line 294: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: output_names.push_back(s.c_str());
-  Confidence: band=high; score=0.74
-- Line 315: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: resp.outputs.push_back(std::move(out_tensor));
-  Confidence: band=high; score=0.74
-- Line 422: severity=MEDIUM; category=performance; pattern=string_concat_loop
+- Line 444: severity=MEDIUM; category=string_concat_loop
   Description: String concatenation in loop (use std::stringstream)
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::performance_patterns
   Context: url += "/versions/" + req.model_version;
-  Confidence: band=high; score=0.74
-- Line 498: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: t.data.push_back(node.get<float>());
-  Confidence: band=high; score=0.74
-- Line 498: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: t.data.push_back(node.get<float>());
-  Confidence: band=high; score=0.74
-- Line 499: severity=MEDIUM; category=copy_overhead
-  Description: push_back in loop — consider pre-allocating with reserve()
-  Remediation: Call vector.reserve(expected_size) before loop to avoid reallocations
-  Context: t.data.push_back(node.get<float>());
-- Line 636: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: values.push_back(static_cast<float>(*v_double));
-  Confidence: band=high; score=0.74
+- Line 526: severity=MEDIUM; category=missing_move_constructor_defaulted
+  Description: Missing move ctor prevents efficient rvalue transfers
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::exception_safety
+- Line 250: severity=LOW; category=hardcoded_output
+  Description: Hardcoded stdout output instead of structured logging
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::audit_logging
+  Context: if (req.inputs.empty()) {
+- Line 279: severity=LOW; category=hardcoded_output
+  Description: Hardcoded stdout output instead of structured logging
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::audit_logging
+  Context: input_names.reserve(req.inputs.size());
+- Line 280: severity=LOW; category=hardcoded_output
+  Description: Hardcoded stdout output instead of structured logging
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::audit_logging
+  Context: input_tensors.reserve(req.inputs.size());
+- Line 284: severity=LOW; category=hardcoded_output
+  Description: Hardcoded stdout output instead of structured logging
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::audit_logging
+  Context: for (const auto &t : req.inputs) {
+- Line 316: severity=LOW; category=hardcoded_output
+  Description: Hardcoded stdout output instead of structured logging
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::audit_logging
+  Context: // Convert outputs
+- Line 317: severity=LOW; category=hardcoded_output
+  Description: Hardcoded stdout output instead of structured logging
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::audit_logging
+  Context: resp.outputs.reserve(output_tensors.size());
+- Line 331: severity=LOW; category=hardcoded_output
+  Description: Hardcoded stdout output instead of structured logging
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::audit_logging
+  Context: resp.outputs.push_back(std::move(out_tensor));
+- Line 420: severity=LOW; category=hardcoded_output
+  Description: Hardcoded stdout output instead of structured logging
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::audit_logging
+  Context: if (req.inputs.empty()) {
+- Line 427: severity=LOW; category=hardcoded_output
+  Description: Hardcoded stdout output instead of structured logging
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::audit_logging
+  Context: // Build JSON payload: { "inputs": { "<name>": [[...]] } }
+- Line 429: severity=LOW; category=hardcoded_output
+  Description: Hardcoded stdout output instead of structured logging
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::audit_logging
+  Context: json inputs_json = json::object();
+- Line 432: severity=LOW; category=hardcoded_output
+  Description: Hardcoded stdout output instead of structured logging
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::audit_logging
+  Context: for (const auto &t : req.inputs) {
+- Line 435: severity=LOW; category=hardcoded_output
+  Description: Hardcoded stdout output instead of structured logging
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::audit_logging
+  Context: inputs_json[t.name] = json(t.data.begin(), t.data.end());
+- Line 437: severity=LOW; category=hardcoded_output
+  Description: Hardcoded stdout output instead of structured logging
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::audit_logging
+  Context: payload["inputs"] = inputs_json;
+- Line 505: severity=LOW; category=hardcoded_output
+  Description: Hardcoded stdout output instead of structured logging
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::audit_logging
+  Context: // Parse JSON response: { "outputs": { "<name>": [...] } }
+- Line 509: severity=LOW; category=hardcoded_output
+  Description: Hardcoded stdout output instead of structured logging
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::audit_logging
+  Context: if (!jresp.contains("outputs")) {
+- Line 511: severity=LOW; category=hardcoded_output
+  Description: Hardcoded stdout output instead of structured logging
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::audit_logging
+  Context: resp.error_message = "TF Serving response missing 'outputs' field";
+- Line 512: severity=LOW; category=hardcoded_output
+  Description: Hardcoded stdout output instead of structured logging
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::audit_logging
+  Context: spdlog::error("MLServing[TF]: response missing 'outputs' field for model '{}'", req.model_name);
+- Line 516: severity=LOW; category=hardcoded_output
+  Description: Hardcoded stdout output instead of structured logging
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::audit_logging
+  Context: const auto &joutputs = jresp["outputs"];
+- Line 517: severity=LOW; category=hardcoded_output
+  Description: Hardcoded stdout output instead of structured logging
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::audit_logging
+  Context: if (joutputs.is_object()) {
+- Line 518: severity=LOW; category=hardcoded_output
+  Description: Hardcoded stdout output instead of structured logging
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::audit_logging
+  Context: // Pre-allocate for outputs
+- Line 519: severity=LOW; category=hardcoded_output
+  Description: Hardcoded stdout output instead of structured logging
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::audit_logging
+  Context: resp.outputs.reserve(joutputs.size());
+- Line 521: severity=LOW; category=hardcoded_output
+  Description: Hardcoded stdout output instead of structured logging
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::audit_logging
+  Context: for (auto &[name, val] : joutputs.items()) {
+- Line 537: severity=LOW; category=hardcoded_output
+  Description: Hardcoded stdout output instead of structured logging
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::audit_logging
+  Context: resp.outputs.push_back(std::move(t));
 
-### src/analytics/diff_engine.cpp
-Total findings: 29
+### analytics/anomaly_detection.cpp
+Total findings: 25
 
-- Line 181: severity=CRITICAL; category=no_timeout
+- Line 222: severity=CRITICAL; category=missing_dtor
+  Description: Class IFNode allocates resources but has no destructor
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::raii
+  Context: class/struct IFNode
+- Line 230: severity=CRITICAL; category=missing_dtor
+  Description: Class ITree allocates resources but has no destructor
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::raii
+  Context: class/struct ITree
+- Line 1009: severity=CRITICAL; category=data_race
+  Description: Shared data access without lock protection
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::concurrency
+  Context: ss << "method=" << static_cast<int>(impl_->cfg.method) << "\n";
+- Line 1077: severity=CRITICAL; category=data_race
+  Description: Shared data access without lock protection
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::concurrency
+  Context: det.impl_->cfg.method = static_cast<AnomalyMethod>(std::stoi(val));
+- Line 1085: severity=CRITICAL; category=data_race
+  Description: Shared data access without lock protection
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::concurrency
+  Context: det.impl_->n_features = static_cast<size_t>(std::stoul(val));
+- Line 1130: severity=CRITICAL; category=data_race
+  Description: Shared data access without lock protection
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::concurrency
+  Context: s.training_samples = impl_->training_samples_count;
+- Line 1158: severity=CRITICAL; category=blocking_no_timeout
+  Description: Blocking operation without timeout — can block indefinitely
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::phase1_error_handling
+  Context: // `mu_` and `detector_` are not accessed after they have been destroyed.
+
+    stopping_.store(true, std::memory_order_release);
+
+    if (retrain_future_.valid()) {
+
+        retrain_future_.wait();
+
+    }
+
+}
+- Line 1158: severity=CRITICAL; category=no_timeout
   Description: semaphore_wait without timeout — can block indefinitely
-  Remediation: Add timeout parameter (e.g., wait_for(timeout), with_timeout())
-  Context: inflight_cv_.wait(lock);
-- Line 0: severity=HIGH; category=uncategorized
-  Confidence: band=high; score=0.73
-- Line 0: severity=HIGH; category=uncategorized
-  Confidence: band=high; score=0.73
-- Line 5: severity=HIGH; category=uninitialized_access
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::reliability
+  Context: retrain_future_.wait();
+- Line 1158: severity=CRITICAL; category=thread_join_no_timeout
+  Description: Thread join/wait without timeout (blocking indefinitely)
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::phase1_thread_safety
+  Context: retrain_future_.wait();
+- Line 1244: severity=CRITICAL; category=thread_join_no_timeout
+  Description: Thread join/wait without timeout (blocking indefinitely)
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::phase1_thread_safety
+  Context: // retrain_future_.wait() ensures this lambda completes before
+- Line 16: severity=HIGH; category=uninitialized_access
   Description: Container element access before initialization
-  Remediation: Use .at() for bounds checking or initialize element first
-  Context: * PR History (last 5): #4325 [Issue] Implement DiffEngin... (2026-03-19) | #1444 feat(analytics): im
-- Line 187: severity=HIGH; category=uninitialized_access
-  Description: Container element access before initialization
-  Remediation: Use .at() for bounds checking or initialize element first
-  Context: spdlog::debug("Cache hit for diff range [{}, {}]", from_sequence, to_sequence);
-- Line 232: severity=HIGH; category=uninitialized_access
-  Description: Container element access before initialization
-  Remediation: Use .at() for bounds checking or initialize element first
-  Context: spdlog::debug("Found {} events in range [{}, {}]", events.size(), from_sequence, to_sequence);
-- Line 252: severity=HIGH; category=range_temporary
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::container
+  Context: *                      mapped to [0,1] via a logistic squashing function.
+- Line 438: severity=HIGH; category=o_n_squared
+  Description: O(n²) pattern: find() on vector inside loop
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::container
+  Context: auto it = p.fields.find(name);
+- Line 893: severity=HIGH; category=uncaught_exception
+  Description: Exception thrown without try/catch context
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::phase1_error_handling
+  Context: AnomalyExplanation AnomalyDetector::explain(const DataPoint &point) const {
+
+    if (!impl_->trained) {
+
+        throw std::runtime_error("explain: detector not trained");
+
+    }
+
+
+
+    auto x = impl_->extractFeatures(point);
+- Line 1062: severity=HIGH; category=range_temporary
   Description: Range-for on temporary container — references may be invalid
-  Remediation: Store container in variable first: auto c = func(); for (auto x : c) { ... }
-  Context: for (auto it = std::next(diff_cache_.begin()); it != diff_cache_.end(); ++it) {
-- Line 269: severity=HIGH; category=uninitialized_access
-  Description: Container element access before initialization
-  Remediation: Use .at() for bounds checking or initialize element first
-  Context: spdlog::debug("Evicting oldest cache entry: range [{}, {}]", evict_key.first, evict_key.second);
-- Line 306: severity=HIGH; category=uninitialized_access
-  Description: Container element access before initialization
-  Remediation: Use .at() for bounds checking or initialize element first
-  Context: spdlog::debug("Timestamp range maps to sequence range [{}, {}]", from_seq, to_seq);
-- Line 549: severity=HIGH; category=uninitialized_access
-  Description: Container element access before initialization
-  Remediation: Use .at() for bounds checking or initialize element first
-  Context: spdlog::warn("No events available for timestamp range [{}, {}]", from_timestamp, to_timestamp);
-- Line 579: severity=HIGH; category=uninitialized_access
-  Description: Container element access before initialization
-  Remediation: Use .at() for bounds checking or initialize element first
-  Context: spdlog::warn("No events found in timestamp range [{}, {}]", from_timestamp, to_timestamp);
-- Line 584: severity=HIGH; category=uninitialized_access
-  Description: Container element access before initialization
-  Remediation: Use .at() for bounds checking or initialize element first
-  Context: spdlog::warn("No events found in timestamp range [{}, {}]", from_timestamp, to_timestamp);
-- Line 588: severity=HIGH; category=uninitialized_access
-  Description: Container element access before initialization
-  Remediation: Use .at() for bounds checking or initialize element first
-  Context: spdlog::debug("Timestamp range [{}, {}] maps to sequence range [{}, {}]", from_timestamp, to_timesta
-- Line 619: severity=HIGH; category=uninitialized_access
-  Description: Container element access before initialization
-  Remediation: Use .at() for bounds checking or initialize element first
-  Context: spdlog::debug("Evicting oldest cache entry: range [{}, {}]", oldest->first.first, oldest->first.seco
-- Line 0: severity=MEDIUM; category=uncategorized
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::container
+  Context: for (const auto& t : splitComma(s)) {
+- Line 1234: severity=HIGH; category=range_temporary
+  Description: Range-for on temporary container — references may be invalid
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::container
+  Context: && retrain_future_.wait_for(std::chrono::milliseconds(0)) != std::future_status::ready) {
+- Line 63: severity=MEDIUM; category=copy_overhead
+  Description: push_back in loop — consider pre-allocating with reserve()
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::container
+  Context: out.push_back(*d);
+- Line 65: severity=MEDIUM; category=copy_overhead
+  Description: push_back in loop — consider pre-allocating with reserve()
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::container
+  Context: out.push_back(static_cast<double>(*i));
+- Line 67: severity=MEDIUM; category=copy_overhead
+  Description: push_back in loop — consider pre-allocating with reserve()
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::container
+  Context: out.push_back(*b ? 1.0 : 0.0);
+- Line 248: severity=MEDIUM; category=uninitialized_member_field
+  Description: Default constructor does not initialize POD members
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::uninitialized
   Context: Struct with uninitialized fields
-  Confidence: band=medium; score=0.65
-- Line 81: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: added_arr.push_back(change.toJson());
-  Confidence: band=high; score=0.74
-- Line 82: severity=MEDIUM; category=copy_overhead
+- Line 255: severity=MEDIUM; category=copy_overhead
   Description: push_back in loop — consider pre-allocating with reserve()
-  Remediation: Call vector.reserve(expected_size) before loop to avoid reallocations
-  Context: added_arr.push_back(change.toJson());
-- Line 87: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: modified_arr.push_back(change.toJson());
-  Confidence: band=high; score=0.74
-- Line 88: severity=MEDIUM; category=copy_overhead
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::container
+  Context: stack.push_back({indices, height, -1, 0});
+- Line 1063: severity=MEDIUM; category=copy_overhead
   Description: push_back in loop — consider pre-allocating with reserve()
-  Remediation: Call vector.reserve(expected_size) before loop to avoid reallocations
-  Context: modified_arr.push_back(change.toJson());
-- Line 93: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: deleted_arr.push_back(change.toJson());
-  Confidence: band=high; score=0.74
-- Line 94: severity=MEDIUM; category=copy_overhead
-  Description: push_back in loop — consider pre-allocating with reserve()
-  Remediation: Call vector.reserve(expected_size) before loop to avoid reallocations
-  Context: deleted_arr.push_back(change.toJson());
-- Line 115: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: result.added.push_back(Change::fromJson(item));
-  Confidence: band=high; score=0.74
-- Line 116: severity=MEDIUM; category=copy_overhead
-  Description: push_back in loop — consider pre-allocating with reserve()
-  Remediation: Call vector.reserve(expected_size) before loop to avoid reallocations
-  Context: result.added.push_back(Change::fromJson(item));
-- Line 118: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: result.modified.push_back(Change::fromJson(item));
-  Confidence: band=high; score=0.74
-- Line 119: severity=MEDIUM; category=copy_overhead
-  Description: push_back in loop — consider pre-allocating with reserve()
-  Remediation: Call vector.reserve(expected_size) before loop to avoid reallocations
-  Context: result.modified.push_back(Change::fromJson(item));
-- Line 121: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: result.deleted.push_back(Change::fromJson(item));
-  Confidence: band=high; score=0.74
-- Line 122: severity=MEDIUM; category=copy_overhead
-  Description: push_back in loop — consider pre-allocating with reserve()
-  Remediation: Call vector.reserve(expected_size) before loop to avoid reallocations
-  Context: result.deleted.push_back(Change::fromJson(item));
-- Line 383: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: key_events[event.key].push_back(event);
-  Confidence: band=high; score=0.74
-- Line 492: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: result.added.push_back(change);
-  Confidence: band=high; score=0.74
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::container
+  Context: try { v.push_back(std::stod(t)); } catch (...) {}
+- Line 1169: severity=MEDIUM; category=missing_latency_metric
+  Description: No latency measurement for operation
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::observability
+  Context: std::optional<AnomalyResult> StreamingAnomalyDetector::process(const DataPoint &point) {
+- Line 1253: severity=MEDIUM; category=generic_catch
+  Description: Generic catch(...) — specific exception types ignored
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::phase1_error_handling
+  Context: // O(1) Pimpl pointer swap under brief exclusive lock
 
-### src/analytics/arrow_flight.cpp
-Total findings: 23
+                            std::unique_lock<std::shared_mutex> dl(detector_mu_);
 
-- Line 0: severity=CRITICAL; category=uncategorized
-  Confidence: band=very_high; score=0.85
-- Line 787: severity=CRITICAL; category=data_race
+                            detector_ = std::move(tmp);
+
+                        } catch (...) {}
+
+                    }
+
+                    retraining_.store(false, std::memory_order_release);
+
+                });
+- Line 1253: severity=MEDIUM; category=uncaught_exception
+  Description: Generic catch(...) — specific exception types ignored
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::reliability
+  Context: } catch (...) {}
+- Line 218: severity=LOW; category=unstructured_log
+  Description: Unstructured logging (use structured format)
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::observability
+  Context: double H = std::log(n - 1.0) + 0.5772156649; // harmonic number approximation
+
+### analytics/columnar_execution.cpp
+Total findings: 21
+
+- Line 1035: severity=CRITICAL; category=data_race
   Description: Shared data access without lock protection
-  Remediation: Protect shared data with std::lock_guard or std::unique_lock
-  Context: auto listing_result = candidate->ListFlights();
-- Line 808: severity=CRITICAL; category=data_race
-  Description: Shared data access without lock protection
-  Remediation: Protect shared data with std::lock_guard or std::unique_lock
-  Context: auto listing_result = native_client_->ListFlights();
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::concurrency
+  Context: auto out_col = std::make_shared<Column>(gc, src->type());
 - Line 5: severity=HIGH; category=uninitialized_access
   Description: Container element access before initialization
-  Remediation: Use .at() for bounds checking or initialize element first
-  Context: * PR History (last 5): #3478 docs(analytics): sync READM... (2026-03-12) | #2987 [analytics] Impleme
-- Line 151: severity=HIGH; category=pointer_arithmetic
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::container
+  Context: * PR History (last 5): #4929 [Docs][analytics] Refresh m... (2026-05-10) | #4317 feat(analytics): SI
+- Line 592: severity=HIGH; category=missing_trace_point
+  Description: Critical function execute without trace point
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::observability
+  Context: ColumnBatch FilterOperator::execute(const ColumnBatch &input) const {
+- Line 597: severity=HIGH; category=resource_leaked_in_exception
+  Description: Exception before delete causes resource leak
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::exception_safety
+- Line 627: severity=HIGH; category=missing_trace_point
+  Description: Critical function execute without trace point
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::observability
+  Context: ColumnBatch ProjectOperator::execute(const ColumnBatch &input) const {
+- Line 901: severity=HIGH; category=missing_trace_point
+  Description: Critical function execute without trace point
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::observability
+  Context: ColumnBatch AggregateOperator::execute(const ColumnBatch &input) const {
+- Line 991: severity=HIGH; category=resource_leaked_in_exception
+  Description: Exception before delete causes resource leak
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::exception_safety
+- Line 1030: severity=HIGH; category=allocation_loop
+  Description: Dynamic allocation in loop — high overhead
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::performance
+  Context: // NOTE: Creating a new shared_ptr<Column> locally and initializing it
+- Line 1090: severity=HIGH; category=missing_trace_point
+  Description: Critical function execute without trace point
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::observability
+  Context: ColumnBatch SortOperator::execute(const ColumnBatch &input) const {
+- Line 1124: severity=HIGH; category=fp_exact_comparison
+  Description: Floating-point exact comparison (use tolerance/epsilon)
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::determinism
+  Context: if (va != vb) {
+- Line 1132: severity=HIGH; category=fp_exact_comparison
+  Description: Floating-point exact comparison (use tolerance/epsilon)
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::determinism
+  Context: if (va != vb) {
+- Line 1140: severity=HIGH; category=fp_exact_comparison
+  Description: Floating-point exact comparison (use tolerance/epsilon)
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::determinism
+  Context: if (va != vb) {
+- Line 1148: severity=HIGH; category=fp_exact_comparison
+  Description: Floating-point exact comparison (use tolerance/epsilon)
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::determinism
+  Context: if (va != vb) {
+- Line 1210: severity=HIGH; category=missing_trace_point
+  Description: Critical function execute without trace point
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::observability
+  Context: ColumnBatch VectorizedPipeline::execute(const ColumnBatch &input) const {
+- Line 1243: severity=HIGH; category=missing_trace_point
+  Description: Critical function execute without trace point
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::observability
+  Context: ColumnBatch ColumnarExecutionEngine::execute(const ColumnBatch &input, const VectorizedPipeline &pipeline) {
+- Line 592: severity=MEDIUM; category=missing_latency_metric
+  Description: No latency measurement for operation
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::observability
+  Context: ColumnBatch FilterOperator::execute(const ColumnBatch &input) const {
+- Line 627: severity=MEDIUM; category=missing_latency_metric
+  Description: No latency measurement for operation
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::observability
+  Context: ColumnBatch ProjectOperator::execute(const ColumnBatch &input) const {
+- Line 672: severity=MEDIUM; category=primitive_no_volatile
+  Description: Primitive shared across threads without volatile
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::phase1_thread_safety
+  Context: double sum     = 0.0;
+- Line 901: severity=MEDIUM; category=missing_latency_metric
+  Description: No latency measurement for operation
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::observability
+  Context: ColumnBatch AggregateOperator::execute(const ColumnBatch &input) const {
+- Line 1090: severity=MEDIUM; category=missing_latency_metric
+  Description: No latency measurement for operation
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::observability
+  Context: ColumnBatch SortOperator::execute(const ColumnBatch &input) const {
+- Line 1210: severity=MEDIUM; category=missing_latency_metric
+  Description: No latency measurement for operation
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::observability
+  Context: ColumnBatch VectorizedPipeline::execute(const ColumnBatch &input) const {
+
+### analytics/streaming_join.cpp
+Total findings: 21
+
+- Line 5: severity=HIGH; category=uninitialized_access
+  Description: Container element access before initialization
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::container
+  Context: * PR History (last 5): #4929 [Docs][analytics] Refresh m... (2026-05-10)
+- Line 65: severity=HIGH; category=uninitialized_array
+  Description: Array contains garbage values; use with zeros or explicit init
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::uninitialized
+  Context: Array declared without initialization
+- Line 70: severity=HIGH; category=uninitialized_array
+  Description: Array contains garbage values; use with zeros or explicit init
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::uninitialized
+  Context: Array declared without initialization
+- Line 335: severity=HIGH; category=repeated_search
+  Description: find/search in loop — O(n²) or worse
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::performance
+  Context: auto it   = std::find(build_column_names_.begin(), build_column_names_.end(), n);
+- Line 344: severity=HIGH; category=o_n_squared
+  Description: O(n²) pattern: find() on vector inside loop
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::container
+  Context: auto it  = hash_table_.find(key);
+- Line 368: severity=HIGH; category=nested_loop_find
+  Description: O(n²) pattern: linear search inside nested loop
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::performance_patterns
+  Context: auto bit   = std::find(build_column_names_.begin(), build_column_names_.end(), n);
+- Line 368: severity=HIGH; category=repeated_search
+  Description: find/search in loop — O(n²) or worse
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::performance
+  Context: auto bit   = std::find(build_column_names_.begin(), build_column_names_.end(), n);
+- Line 575: severity=HIGH; category=pointer_arithmetic_unbounded
   Description: Pointer/array access without bounds validation
-  Remediation: Add bounds check before dereferencing
-  Context: spdlog::debug("[ArrowFlight] registered dataset '{}' on '{}'", key, endpoint);
-- Line 928: severity=HIGH; category=no_retry_logic
-  Description: socket_call without retry logic — transient failures will propagate
-  Remediation: Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)
-  Context: std::unique_ptr<ArrowFlightClient> ArrowFlightClient::connect(const FlightClientOptions &opts) {
-- Line 183: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: parts.push_back(part);
-  Confidence: band=high; score=0.74
-- Line 280: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: fields.push_back(arrow::field(col.schema.name, arrow::int64(), col.schema.nullable));
-  Confidence: band=high; score=0.74
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::memory
+  Context: int64_t probe_ts = probe_time_data[r];
+- Line 60: severity=MEDIUM; category=hardcoded_path
+  Description: Hardcoded path separator — not portable
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::platform
+  Context: return std::string("\x00\x00", 2); // null sentinel
+- Line 80: severity=MEDIUM; category=hardcoded_path
+  Description: Hardcoded path separator — not portable
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::platform
+  Context: s += '\x01'; // terminator
+- Line 119: severity=MEDIUM; category=string_concat_loop
+  Description: String concatenation in loop (use std::stringstream)
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::performance_patterns
+  Context: key += '\xFF'; // separator
+- Line 120: severity=MEDIUM; category=hardcoded_path
+  Description: Hardcoded path separator — not portable
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::platform
+  Context: key += '\xFF'; // separator
+- Line 120: severity=MEDIUM; category=string_concat_loop
+  Description: String concatenation in loop — O(n²) behavior
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::performance
+  Context: key += '\xFF'; // separator
 - Line 281: severity=MEDIUM; category=copy_overhead
   Description: push_back in loop — consider pre-allocating with reserve()
-  Remediation: Call vector.reserve(expected_size) before loop to avoid reallocations
-  Context: fields.push_back(arrow::field(col.schema.name, arrow::int64(), col.schema.nullable));
-- Line 287: severity=MEDIUM; category=copy_overhead
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::container
+  Context: probe_col_names.push_back(probe_cols.back()->name());
+- Line 488: severity=MEDIUM; category=copy_overhead
   Description: push_back in loop — consider pre-allocating with reserve()
-  Remediation: Call vector.reserve(expected_size) before loop to avoid reallocations
-  Context: arrays.push_back(std::make_shared<arrow::Int64Array>(static_cast<int64_t>(tb.rowCount()), buf));
-- Line 298: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: arrays.push_back(arr);
-  Confidence: band=high; score=0.74
-- Line 304: severity=MEDIUM; category=copy_overhead
-  Description: push_back in loop — consider pre-allocating with reserve()
-  Remediation: Call vector.reserve(expected_size) before loop to avoid reallocations
-  Context: fields.push_back(arrow::field(col.schema.name, arrow::float64(), col.schema.nullable));
-- Line 321: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: arrays.push_back(arr);
-  Confidence: band=high; score=0.74
-- Line 327: severity=MEDIUM; category=copy_overhead
-  Description: push_back in loop — consider pre-allocating with reserve()
-  Remediation: Call vector.reserve(expected_size) before loop to avoid reallocations
-  Context: fields.push_back(arrow::field(col.schema.name, arrow::utf8(), col.schema.nullable));
-- Line 342: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: arrays.push_back(arr);
-  Confidence: band=high; score=0.74
-- Line 347: severity=MEDIUM; category=copy_overhead
-  Description: push_back in loop — consider pre-allocating with reserve()
-  Remediation: Call vector.reserve(expected_size) before loop to avoid reallocations
-  Context: fields.push_back(arrow::field(col.schema.name, arrow::boolean(), col.schema.nullable));
-- Line 362: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: arrays.push_back(arr);
-  Confidence: band=high; score=0.74
-- Line 406: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: row.emplace_back(nullptr);
-  Confidence: band=high; score=0.74
-- Line 406: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: row.emplace_back(nullptr);
-  Confidence: band=high; score=0.74
-- Line 547: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: flight_infos.push_back(std::move(ainfo));
-  Confidence: band=high; score=0.74
-- Line 741: severity=MEDIUM; category=manual_cleanup
-  Description: Manual cleanup outside exception handler — not exception-safe
-  Remediation: Use RAII or smart pointers for automatic cleanup in all exception paths
-  Context: void close() override {
-- Line 887: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: fields.push_back(arrow::field(col.schema.name, dt, col.schema.nullable));
-  Confidence: band=high; score=0.74
-- Line 888: severity=MEDIUM; category=copy_overhead
-  Description: push_back in loop — consider pre-allocating with reserve()
-  Remediation: Call vector.reserve(expected_size) before loop to avoid reallocations
-  Context: fields.push_back(arrow::field(col.schema.name, dt, col.schema.nullable));
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::container
+  Context: probe_col_names.push_back(probe_cols.back()->name());
+- Line 595: severity=MEDIUM; category=string_concat_loop
+  Description: String concatenation in loop (use std::stringstream)
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::performance_patterns
+  Context: probe_key += '\xFF';
+- Line 596: severity=MEDIUM; category=string_concat_loop
+  Description: String concatenation in loop — O(n²) behavior
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::performance
+  Context: probe_key += '\xFF';
+- Line 605: severity=MEDIUM; category=string_concat_loop
+  Description: String concatenation in loop (use std::stringstream)
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::performance_patterns
+  Context: build_key += '\xFF';
+- Line 606: severity=MEDIUM; category=string_concat_loop
+  Description: String concatenation in loop — O(n²) behavior
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::performance
+  Context: build_key += '\xFF';
+- Line 684: severity=MEDIUM; category=unnecessary_copy
+  Description: Unnecessary copy: use auto& for container element access
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::performance_patterns
+  Context: auto t = probe_types[i] == ColumnType::Null ? ColumnType::String : probe_types[i];
+- Line 688: severity=MEDIUM; category=unnecessary_copy
+  Description: Unnecessary copy: use auto& for container element access
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::performance_patterns
+  Context: auto t = build_types[i] == ColumnType::Null ? ColumnType::String : build_types[i];
 
-### src/analytics/llm_process_analyzer.cpp
-Total findings: 23
+### analytics/diff_engine.cpp
+Total findings: 15
 
-- Line 400: severity=CRITICAL; category=data_race
-  Description: Shared data access without lock protection
-  Remediation: Protect shared data with std::lock_guard or std::unique_lock
-  Context: spdlog::debug("LLM call: provider={}, model={}, key={}", static_cast<int>(pImpl->config.provider),
-- Line 500: severity=CRITICAL; category=llm_ai_safety; pattern=prompt_injection
-  Description: User input in prompt without sanitization (injection risk)
-  Context: auto sha256hex = [](const std::string &input) -> std::string {
-  Confidence: band=very_high; score=0.99
-- Line 502: severity=CRITICAL; category=llm_ai_safety; pattern=prompt_injection
-  Description: User input in prompt without sanitization (injection risk)
-  Context: SHA256(reinterpret_cast<const unsigned char *>(input.data()), input.size(), hash);
-  Confidence: band=very_high; score=0.99
 - Line 5: severity=HIGH; category=uninitialized_access
   Description: Container element access before initialization
-  Remediation: Use .at() for bounds checking or initialize element first
-  Context: * PR History (last 5): #4322 [LLMProcessAnalyzer] Implem... (2026-03-18) | #3041 analytics: improve
-- Line 345: severity=HIGH; category=pointer_arithmetic
-  Description: Pointer/array access without bounds validation
-  Remediation: Add bounds check before dereferencing
-  Context: ss << "Bisheriger Verlauf:\n" << data["trace"].dump(2) << "\n\n";
-- Line 346: severity=HIGH; category=pointer_arithmetic
-  Description: Pointer/array access without bounds validation
-  Remediation: Add bounds check before dereferencing
-  Context: ss << "Prozessmodell:\n" << data["model"].dump(2) << "\n\n";
-- Line 475: severity=HIGH; category=pointer_arithmetic
-  Description: Pointer/array access without bounds validation
-  Remediation: Add bounds check before dereferencing
-  Context: return response.contains("predictions") && response["predictions"].is_array();
-- Line 500: severity=HIGH; category=llm_ai_safety; pattern=unsanitized_llm_input
-  Description: User input passed to LLM without normalization/sanitization
-  Context: auto sha256hex = [](const std::string &input) -> std::string {
-  Confidence: band=very_high; score=0.9
-- Line 502: severity=HIGH; category=llm_ai_safety; pattern=unsanitized_llm_input
-  Description: User input passed to LLM without normalization/sanitization
-  Context: SHA256(reinterpret_cast<const unsigned char *>(input.data()), input.size(), hash);
-  Confidence: band=very_high; score=0.9
-- Line 510: severity=HIGH; category=no_retry_logic
-  Description: http_call without retry logic — transient failures will propagate
-  Remediation: Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)
-  Context: const auto &trace            = request.process_trace.is_null() ? request.process_data : request.proc
-- Line 512: severity=HIGH; category=no_retry_logic
-  Description: http_call without retry logic — transient failures will propagate
-  Remediation: Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)
-  Context: const std::string model_hash = sha256hex(request.ideal_model.dump());
-- Line 215: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: response.deviations.push_back(dev);
-  Confidence: band=high; score=0.74
-- Line 225: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: response.compliance_issues.push_back(issue);
-  Confidence: band=high; score=0.74
-- Line 235: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: response.recommendations.push_back(rec);
-  Confidence: band=high; score=0.74
-- Line 254: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: response.predictions.push_back(pred);
-  Confidence: band=high; score=0.74
-- Line 263: severity=MEDIUM; category=performance; pattern=unnecessary_copy
-  Description: Unnecessary copy: use auto& for container element access
-  Context: auto fr                  = parsed["five_rights_check"];
-  Confidence: band=high; score=0.74
-- Line 272: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: check.corrective_actions.push_back(action.get<std::string>());
-  Confidence: band=high; score=0.74
-- Line 273: severity=MEDIUM; category=copy_overhead
-  Description: push_back in loop — consider pre-allocating with reserve()
-  Remediation: Call vector.reserve(expected_size) before loop to avoid reallocations
-  Context: check.corrective_actions.push_back(action.get<std::string>());
-- Line 283: severity=MEDIUM; category=performance; pattern=unnecessary_copy
-  Description: Unnecessary copy: use auto& for container element access
-  Context: auto fa          = parsed["fraud_analysis"];
-  Confidence: band=high; score=0.74
-- Line 286: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: fraud.detected_anomalies.push_back(anomaly.get<std::string>());
-  Confidence: band=high; score=0.74
-- Line 287: severity=MEDIUM; category=copy_overhead
-  Description: push_back in loop — consider pre-allocating with reserve()
-  Remediation: Call vector.reserve(expected_size) before loop to avoid reallocations
-  Context: fraud.detected_anomalies.push_back(anomaly.get<std::string>());
-- Line 291: severity=MEDIUM; category=performance; pattern=unnecessary_copy
-  Description: Unnecessary copy: use auto& for container element access
-  Context: auto flags                        = fa["flags"];
-  Confidence: band=high; score=0.74
-- Line 395: severity=MEDIUM; category=performance; pattern=map_vs_unordered_map
-  Description: std::map used only for lookups (consider std::unordered_map)
-  Context: [[maybe_unused]] const std::map<std::string, std::string> &params) {
-  Confidence: band=high; score=0.74
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::container
+  Context: * PR History (last 5): #4325 [Issue] Implement DiffEngin... (2026-03-19) | #1444 feat(analytics): im
+- Line 30: severity=HIGH; category=resource_leaked_in_exception
+  Description: Exception before delete causes resource leak
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::exception_safety
+- Line 56: severity=HIGH; category=resource_leaked_in_exception
+  Description: Exception before delete causes resource leak
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::exception_safety
+- Line 182: severity=HIGH; category=range_temporary
+  Description: Range-for on temporary container — references may be invalid
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::container
+  Context: if (inflight_cv_.wait_for(lock, std::chrono::seconds(30)) == std::cv_status::timeout) {
+- Line 193: severity=HIGH; category=uninitialized_access
+  Description: Container element access before initialization
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::container
+  Context: spdlog::debug("Cache hit for diff range [{}, {}]", from_sequence, to_sequence);
+- Line 238: severity=HIGH; category=uninitialized_access
+  Description: Container element access before initialization
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::container
+  Context: spdlog::debug("Found {} events in range [{}, {}]", events.size(), from_sequence, to_sequence);
+- Line 258: severity=HIGH; category=range_temporary
+  Description: Range-for on temporary container — references may be invalid
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::container
+  Context: for (auto it = std::next(diff_cache_.begin()); it != diff_cache_.end(); ++it) {
+- Line 275: severity=HIGH; category=uninitialized_access
+  Description: Container element access before initialization
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::container
+  Context: spdlog::debug("Evicting oldest cache entry: range [{}, {}]", evict_key.first, evict_key.second);
+- Line 312: severity=HIGH; category=uninitialized_access
+  Description: Container element access before initialization
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::container
+  Context: spdlog::debug("Timestamp range maps to sequence range [{}, {}]", from_seq, to_seq);
+- Line 555: severity=HIGH; category=uninitialized_access
+  Description: Container element access before initialization
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::container
+  Context: spdlog::warn("No events available for timestamp range [{}, {}]", from_timestamp, to_timestamp);
+- Line 585: severity=HIGH; category=uninitialized_access
+  Description: Container element access before initialization
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::container
+  Context: spdlog::warn("No events found in timestamp range [{}, {}]", from_timestamp, to_timestamp);
+- Line 590: severity=HIGH; category=uninitialized_access
+  Description: Container element access before initialization
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::container
+  Context: spdlog::warn("No events found in timestamp range [{}, {}]", from_timestamp, to_timestamp);
+- Line 594: severity=HIGH; category=uninitialized_access
+  Description: Container element access before initialization
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::container
+  Context: spdlog::debug("Timestamp range [{}, {}] maps to sequence range [{}, {}]", from_timestamp, to_timesta
+- Line 625: severity=HIGH; category=uninitialized_access
+  Description: Container element access before initialization
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::container
+  Context: spdlog::debug("Evicting oldest cache entry: range [{}, {}]", oldest->first.first, oldest->first.seco
+- Line 208: severity=MEDIUM; category=uninitialized_member_field
+  Description: Default constructor does not initialize POD members
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::uninitialized
+  Context: Struct with uninitialized fields
 
-### src/analytics/model_serving.cpp
-Total findings: 22
+### analytics/incremental_view.cpp
+Total findings: 11
 
-- Line 30: severity=CRITICAL; category=llm_ai_safety; pattern=model_integrity_gap
-  Description: Model loading without integrity verification (poisoning risk)
-  Context: *     when called via loadModel() with existing key.
-  Confidence: band=very_high; score=0.99
-- Line 399: severity=CRITICAL; category=llm_ai_safety; pattern=model_integrity_gap
-  Description: Model loading without integrity verification (poisoning risk)
-  Context: // loadModel
-  Confidence: band=very_high; score=0.99
-- Line 402: severity=CRITICAL; category=llm_ai_safety; pattern=model_integrity_gap
-  Description: Model loading without integrity verification (poisoning risk)
-  Context: void ModelServingEngine::loadModel(const std::string &name, const std::string &version,
-  Confidence: band=very_high; score=0.99
-- Line 404: severity=CRITICAL; category=llm_ai_safety; pattern=model_integrity_gap
-  Description: Model loading without integrity verification (poisoning risk)
-  Context: auto model = AutoMLModel::deserialize(serialized_data);
-  Confidence: band=very_high; score=0.99
 - Line 5: severity=HIGH; category=uninitialized_access
   Description: Container element access before initialization
-  Remediation: Use .at() for bounds checking or initialize element first
-  Context: * PR History (last 5): #4929 [Docs][analytics] Refresh m... (2026-05-10) | #4314 fix(analytics): Rel
-- Line 11: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
-  Description: LLM output used without validation (hallucination/bias risk)
-  Context: * Model Serving and Online Inference Pipeline – Implementation
-  Confidence: band=very_high; score=0.9
-- Line 20: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
-  Description: LLM output used without validation (hallucination/bias risk)
-  Context: *     → InferenceResult{class_label, probabilities} + latency update
-  Confidence: band=very_high; score=0.9
-- Line 27: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
-  Description: LLM output used without validation (hallucination/bias risk)
-  Context: *   - `std::runtime_error`: inference failure inside AutoMLModel::predict()
-  Confidence: band=very_high; score=0.9
-- Line 35: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
-  Description: LLM output used without validation (hallucination/bias risk)
-  Context: *   tests/analytics/test_model_serving.cpp — registry, inference, health metrics
-  Confidence: band=very_high; score=0.9
-- Line 40: severity=HIGH; category=db_connection_leak
-  Description: Resource acquired but not released — potential leak
-  Remediation: Ensure all acquire() calls are matched with release() in all code paths
-  Context: *     list*, health*) acquire a shared lock; write operations
-- Line 41: severity=HIGH; category=db_connection_leak
-  Description: Resource acquired but not released — potential leak
-  Remediation: Ensure all acquire() calls are matched with release() in all code paths
-  Context: *     (register, unregister, load) acquire an exclusive lock.
-- Line 45: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
-  Description: LLM output used without validation (hallucination/bias risk)
-  Context: *     stores the duration of each inference call in milliseconds.
-  Confidence: band=very_high; score=0.9
-- Line 67: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
-  Description: LLM output used without validation (hallucination/bias risk)
-  Context: // Latency window - protected by its own mutex so concurrent inference
-  Confidence: band=very_high; score=0.9
-- Line 148: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
-  Description: LLM output used without validation (hallucination/bias risk)
-  Context: // inference and metrics updates outside the registry lock, so that concurrent
-  Confidence: band=very_high; score=0.9
-- Line 149: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
-  Description: LLM output used without validation (hallucination/bias risk)
-  Context: // register/unregister calls are never starved by long-running inference.
-  Confidence: band=very_high; score=0.9
-- Line 235: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
-  Description: LLM output used without validation (hallucination/bias risk)
-  Context: // Run inference outside the registry lock so that concurrent
-  Confidence: band=very_high; score=0.9
-- Line 269: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
-  Description: LLM output used without validation (hallucination/bias risk)
-  Context: // Run batch inference outside the registry lock.
-  Confidence: band=very_high; score=0.9
-- Line 302: severity=HIGH; category=llm_ai_safety; pattern=unvalidated_llm_output
-  Description: LLM output used without validation (hallucination/bias risk)
-  Context: // Run inference outside the registry lock.
-  Confidence: band=very_high; score=0.9
-- Line 306: severity=MEDIUM; category=performance; pattern=map_vs_unordered_map
-  Description: std::map used only for lookups (consider std::unordered_map)
-  Context: std::vector<std::map<std::string, double>> out;
-  Confidence: band=high; score=0.74
-- Line 316: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: out.push_back({{"value", val}});
-  Confidence: band=high; score=0.74
-- Line 316: severity=MEDIUM; category=uncaught_exception
-  Description: Generic catch(...) — specific exception types ignored
-  Remediation: Catch specific exceptions: catch(std::exception& e) { ... }
-  Context: try { val = std::stod(p); } catch (...) {}
-- Line 343: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: out.push_back(e->info);
-  Confidence: band=high; score=0.74
-
-### src/analytics/incremental_view.cpp
-Total findings: 18
-
-- Line 0: severity=HIGH; category=uncategorized
-  Confidence: band=high; score=0.73
-- Line 5: severity=HIGH; category=uninitialized_access
-  Description: Container element access before initialization
-  Remediation: Use .at() for bounds checking or initialize element first
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::container
   Context: * PR History (last 5): #4316 feat(analytics): Incrementa... (2026-03-18) | #3610 fix(analytics): reg
+- Line 169: severity=HIGH; category=resource_leaked_in_exception
+  Description: Exception before delete causes resource leak
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::exception_safety
 - Line 251: severity=HIGH; category=o_n_squared
   Description: O(n²) pattern: find() on vector inside loop
-  Remediation: Use std::unordered_map or std::set for O(log n) or O(1) lookup
-  Context: auto it         = gk.find(f.field);
-- Line 251: severity=HIGH; category=o_n_squared
-  Description: O(n²) pattern: find() on vector inside loop
-  Remediation: Use std::unordered_map or std::set for O(log n) or O(1) lookup
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::container
   Context: auto it         = gk.find(f.field);
 - Line 270: severity=HIGH; category=o_n_squared
   Description: O(n²) pattern: find() on vector inside loop
-  Remediation: Use std::unordered_map or std::set for O(log n) or O(1) lookup
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::container
   Context: auto it = row.find(spec.source_field);
-- Line 418: severity=HIGH; category=performance; pattern=lock_in_loop
+- Line 418: severity=HIGH; category=lock_in_loop
   Description: Mutex lock acquired per iteration (move outside loop)
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::performance_patterns
   Context: for (size_t batch_start = 0; batch_start < filtered.size(); batch_start += kMicroBatchSize) {
-  Confidence: band=very_high; score=0.9
-- Line 473: severity=HIGH; category=observability; pattern=missing_trace_point
+- Line 473: severity=HIGH; category=missing_trace_point
   Description: Critical function query without trace point
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::observability
   Context: ViewQueryResult IncrementalView::query(const std::vector<ViewFilter> &filters, int64_t limit, int64_t offset) const {
-  Confidence: band=very_high; score=0.9
-- Line 586: severity=HIGH; category=pointer_arithmetic
-  Description: Pointer/array access without bounds validation
-  Remediation: Add bounds check before dereferencing
-  Context: return (it != views_.end()) ? it->second : nullptr;
-- Line 619: severity=HIGH; category=no_retry_logic
-  Description: database_query without retry logic — transient failures will propagate
-  Remediation: Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)
-  Context: ViewQueryResult IncrementalViewManager::query(const std::string &view_name, const std::vector<ViewFi
-- Line 627: severity=HIGH; category=no_retry_logic
-  Description: database_query without retry logic — transient failures will propagate
-  Remediation: Add retry loop with exponential backoff (e.g., 3 retries, 100ms-1s)
-  Context: return it->second->query(filters, limit, offset);
-- Line 0: severity=MEDIUM; category=uncategorized
-  Context: Struct with uninitialized fields
-  Confidence: band=medium; score=0.65
-- Line 223: severity=MEDIUM; category=determinism; pattern=unordered_container_iter
+- Line 223: severity=MEDIUM; category=unordered_container_iter
   Description: Non-deterministic unordered_map/set iteration order
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::determinism
   Context: std::unordered_map<std::string, std::string> IncrementalView::parseGroupKey(const GroupKey &gk) const {
-  Confidence: band=medium; score=0.66
-- Line 224: severity=MEDIUM; category=determinism; pattern=unordered_container_iter
+- Line 224: severity=MEDIUM; category=unordered_container_iter
   Description: Non-deterministic unordered_map/set iteration order
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::determinism
   Context: std::unordered_map<std::string, std::string> result;
-  Confidence: band=medium; score=0.66
-- Line 249: severity=MEDIUM; category=determinism; pattern=unordered_container_iter
+- Line 249: severity=MEDIUM; category=unordered_container_iter
   Description: Non-deterministic unordered_map/set iteration order
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::determinism
   Context: bool IncrementalView::passesRuntimeFilters(const std::unordered_map<std::string, std::string> &gk,
-  Confidence: band=medium; score=0.66
-- Line 410: severity=MEDIUM; category=copy_overhead
-  Description: push_back in loop — consider pre-allocating with reserve()
-  Remediation: Call vector.reserve(expected_size) before loop to avoid reallocations
-  Context: filtered.push_back({i, bp, ap});
-- Line 473: severity=MEDIUM; category=observability; pattern=missing_latency_metric
+- Line 373: severity=MEDIUM; category=uninitialized_member_field
+  Description: Default constructor does not initialize POD members
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::uninitialized
+  Context: Struct with uninitialized fields
+- Line 473: severity=MEDIUM; category=missing_latency_metric
   Description: No latency measurement for operation
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::observability
   Context: ViewQueryResult IncrementalView::query(const std::vector<ViewFilter> &filters, int64_t limit, int64_t offset) const {
-  Confidence: band=high; score=0.74
-- Line 509: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: result.rows.push_back(std::move(row));
-  Confidence: band=high; score=0.74
-- Line 593: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: names.push_back(n);
-  Confidence: band=high; score=0.74
 
-### src/analytics/process_pattern_matcher.cpp
-Total findings: 17
+### analytics/model_serving.cpp
+Total findings: 11
 
-- Line 806: severity=HIGH; category=determinism; pattern=fp_exact_comparison
-  Description: Floating-point exact comparison (use tolerance/epsilon)
-  Context: if (norm_a == 0.0 || norm_b == 0.0) {
-  Confidence: band=very_high; score=0.9
-- Line 69: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: acts.push_back(e.activity);
-  Confidence: band=high; score=0.74
-- Line 377: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: matched.push_back(a);
-  Confidence: band=high; score=0.74
-- Line 384: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: missing.push_back(a);
-  Confidence: band=high; score=0.74
-- Line 392: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: matched_edges.push_back(e);
-  Confidence: band=high; score=0.74
-- Line 490: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: result.deviations.push_back("MISSING: " + a);
-  Confidence: band=high; score=0.74
-- Line 490: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: result.deviations.push_back("MISSING: " + a);
-  Confidence: band=high; score=0.74
-- Line 491: severity=MEDIUM; category=copy_overhead
-  Description: push_back in loop — consider pre-allocating with reserve()
-  Remediation: Call vector.reserve(expected_size) before loop to avoid reallocations
-  Context: result.deviations.push_back("MISSING: " + a);
-- Line 495: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: result.deviations.push_back("EXTRA: " + a);
-  Confidence: band=high; score=0.74
-- Line 496: severity=MEDIUM; category=copy_overhead
-  Description: push_back in loop — consider pre-allocating with reserve()
-  Remediation: Call vector.reserve(expected_size) before loop to avoid reallocations
-  Context: result.deviations.push_back("EXTRA: " + a);
-- Line 502: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: result.deviations.push_back("MISSING_EDGE: " + e.first + "->" + e.second);
-  Confidence: band=high; score=0.74
-- Line 503: severity=MEDIUM; category=copy_overhead
-  Description: push_back in loop — consider pre-allocating with reserve()
-  Remediation: Call vector.reserve(expected_size) before loop to avoid reallocations
-  Context: result.deviations.push_back("MISSING_EDGE: " + e.first + "->" + e.second);
-- Line 556: severity=MEDIUM; category=performance; pattern=map_vs_unordered_map
-  Description: std::map used only for lookups (consider std::unordered_map)
-  Context: std::pair<ProcessPatternMatcher::Status, std::map<std::string, SimilarityResult>>
-  Confidence: band=high; score=0.74
-- Line 559: severity=MEDIUM; category=performance; pattern=map_vs_unordered_map
-  Description: std::map used only for lookups (consider std::unordered_map)
-  Context: std::map<std::string, SimilarityResult> results;
-  Confidence: band=high; score=0.74
-- Line 572: severity=MEDIUM; category=determinism; pattern=unordered_container_iter
-  Description: Non-deterministic unordered_map/set iteration order
-  Context: std::unordered_map<std::string, const ProcessTrace *> trace_map;
-  Confidence: band=medium; score=0.66
-- Line 625: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: r.matched_activities.push_back(a);
-  Confidence: band=high; score=0.74
-- Line 632: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: r.missing_activities.push_back(a);
-  Confidence: band=high; score=0.74
-
-### src/analytics/expert_system_engine.cpp
-Total findings: 16
-
-- Line 331: severity=CRITICAL; category=no_timeout
-  Description: mutex_lock without timeout — can block indefinitely
-  Remediation: Add timeout parameter (e.g., wait_for(timeout), with_timeout())
-  Context: lock.lock();
-- Line 0: severity=HIGH; category=uncategorized
-  Confidence: band=high; score=0.73
-- Line 0: severity=HIGH; category=uncategorized
-  Confidence: band=high; score=0.73
-- Line 34: severity=MEDIUM; category=string_concat_loop
-  Description: String concatenation in loop — O(n²) behavior
-  Remediation: Use std::ostringstream or pre-allocate string with .reserve()
-  Context: out += "\\\"";
-- Line 36: severity=MEDIUM; category=string_concat_loop
-  Description: String concatenation in loop — O(n²) behavior
-  Remediation: Use std::ostringstream or pre-allocate string with .reserve()
-  Context: out += "\\\\";
-- Line 38: severity=MEDIUM; category=string_concat_loop
-  Description: String concatenation in loop — O(n²) behavior
-  Remediation: Use std::ostringstream or pre-allocate string with .reserve()
-  Context: out += "\\n";
-- Line 40: severity=MEDIUM; category=string_concat_loop
-  Description: String concatenation in loop — O(n²) behavior
-  Remediation: Use std::ostringstream or pre-allocate string with .reserve()
-  Context: out += "\\r";
-- Line 260: severity=MEDIUM; category=uncaught_exception
-  Description: Generic catch(...) — specific exception types ignored
-  Remediation: Catch specific exceptions: catch(std::exception& e) { ... }
-  Context: } catch (...) {
-- Line 275: severity=MEDIUM; category=uncaught_exception
-  Description: Generic catch(...) — specific exception types ignored
-  Remediation: Catch specific exceptions: catch(std::exception& e) { ... }
-  Context: } catch (...) {
-- Line 278: severity=MEDIUM; category=uncaught_exception
-  Description: Generic catch(...) — specific exception types ignored
-  Remediation: Catch specific exceptions: catch(std::exception& e) { ... }
-  Context: } catch (...) {
-- Line 318: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: matched.push_back(f);
-  Confidence: band=high; score=0.74
-- Line 318: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: matched.push_back(f);
-  Confidence: band=high; score=0.74
-- Line 318: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: matched.push_back(f);
-  Confidence: band=high; score=0.74
-- Line 318: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: matched.push_back(f);
-  Confidence: band=high; score=0.74
-- Line 318: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: matched.push_back(f);
-  Confidence: band=high; score=0.74
-- Line 463: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: sub_trace.push_back(step);
-  Confidence: band=high; score=0.74
-
-### src/analytics/jit_aggregation.cpp
-Total findings: 14
-
-- Line 297: severity=CRITICAL; category=iterator_invalidation
-  Description: Iterator it may be invalidated by container modification
-  Remediation: Re-create iterator after modification or use erase() return value
-  Context: auto it = groups.find(key);
-- Line 344: severity=CRITICAL; category=data_race
-  Description: Shared data access without lock protection
-  Remediation: Protect shared data with std::lock_guard or std::unique_lock
-  Context: auto out_col = std::make_shared<Column>(gc, src->type());
-- Line 501: severity=CRITICAL; category=data_race
-  Description: Shared data access without lock protection
-  Remediation: Protect shared data with std::lock_guard or std::unique_lock
-  Context: cache_[key] = [captured_specs](const ColumnBatch &batch) -> ColumnBatch {
-- Line 505: severity=CRITICAL; category=data_race
-  Description: Shared data access without lock protection
-  Remediation: Protect shared data with std::lock_guard or std::unique_lock
-  Context: cache_[key] = [captured_specs, captured_groups](const ColumnBatch &batch) -> ColumnBatch {
+- Line 30: severity=CRITICAL; category=model_integrity_gap
+  Description: Model loading without integrity verification (poisoning risk)
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::llm_ai_safety
+  Context: *     when called via loadModel() with existing key.
+- Line 411: severity=CRITICAL; category=model_integrity_gap
+  Description: Model loading without integrity verification (poisoning risk)
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::llm_ai_safety
+  Context: void ModelServingEngine::loadModel(const std::string &name, const std::string &version,
+- Line 413: severity=CRITICAL; category=model_integrity_gap
+  Description: Model loading without integrity verification (poisoning risk)
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::llm_ai_safety
+  Context: auto model = AutoMLModel::deserialize(serialized_data);
 - Line 5: severity=HIGH; category=uninitialized_access
   Description: Container element access before initialization
-  Remediation: Use .at() for bounds checking or initialize element first
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::container
+  Context: * PR History (last 5): #4929 [Docs][analytics] Refresh m... (2026-05-10) | #4314 fix(analytics): Rel
+- Line 40: severity=HIGH; category=db_connection_leak
+  Description: Resource acquired but not released — potential leak
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::raii
+  Context: *     list*, health*) acquire a shared lock; write operations
+- Line 41: severity=HIGH; category=db_connection_leak
+  Description: Resource acquired but not released — potential leak
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::raii
+  Context: *     (register, unregister, load) acquire an exclusive lock.
+- Line 239: severity=HIGH; category=unvalidated_llm_output
+  Description: LLM output used without validation (hallucination/bias risk)
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::llm_ai_safety
+  Context: auto result          = e.model.predictOne(point);
+- Line 306: severity=MEDIUM; category=map_vs_unordered_map
+  Description: std::map used only for lookups (consider std::unordered_map)
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::performance_patterns
+  Context: std::vector<std::map<std::string, double>> out;
+- Line 316: severity=MEDIUM; category=generic_catch
+  Description: Generic catch(...) — specific exception types ignored
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::phase1_error_handling
+  Context: out.reserve(preds.size());
+
+        for (const auto &p : preds) {
+
+            double val = 0.0;
+
+            try { val = std::stod(p); } catch (...) {}
+
+            out.push_back({{"value", val}});
+
+        }
+
+    }
+- Line 316: severity=MEDIUM; category=uncaught_exception
+  Description: Generic catch(...) — specific exception types ignored
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::reliability
+  Context: try { val = std::stod(p); } catch (...) {}
+- Line 404: severity=LOW; category=hardcoded_output
+  Description: Hardcoded stdout output instead of structured logging
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::audit_logging
+  Context: // could provide a poisoned model that produces adversarial outputs.
+
+### analytics/llm_process_analyzer.cpp
+Total findings: 10
+
+- Line 170: severity=CRITICAL; category=prompt_injection
+  Description: User input in prompt without sanitization (injection risk)
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::llm_ai_safety
+  Context: std::string prompt = generatePrompt(request.task_type, data, request.domain);
+- Line 405: severity=CRITICAL; category=data_race
+  Description: Shared data access without lock protection
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::concurrency
+  Context: spdlog::debug("LLM call: provider={}, model={}, key={}", static_cast<int>(pImpl->config.provider),
+- Line 5: severity=HIGH; category=uninitialized_access
+  Description: Container element access before initialization
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::container
+  Context: * PR History (last 5): #4322 [LLMProcessAnalyzer] Implem... (2026-03-18) | #3041 analytics: improve
+- Line 522: severity=HIGH; category=no_retry_logic
+  Description: RPC/network call without retry logic — transient failures will propagate
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::phase1_error_handling
+  Context: return oss.str();
+
+    };
+
+
+
+    const auto &trace            = request.process_trace.is_null() ? request.process_data : request.process_trace;
+
+    const std::string trace_hash = sha256hex(trace.dump());
+
+    const std::string model_hash = sha256hex(request.ideal_model.dump());
+- Line 174: severity=MEDIUM; category=primitive_no_volatile
+  Description: Primitive shared across threads without volatile
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::phase1_thread_safety
+  Context: int retries = 0;
+- Line 263: severity=MEDIUM; category=unnecessary_copy
+  Description: Unnecessary copy: use auto& for container element access
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::performance_patterns
+  Context: auto fr                  = parsed["five_rights_check"];
+- Line 283: severity=MEDIUM; category=unnecessary_copy
+  Description: Unnecessary copy: use auto& for container element access
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::performance_patterns
+  Context: auto fa          = parsed["fraud_analysis"];
+- Line 291: severity=MEDIUM; category=unnecessary_copy
+  Description: Unnecessary copy: use auto& for container element access
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::performance_patterns
+  Context: auto flags                        = fa["flags"];
+- Line 395: severity=MEDIUM; category=map_vs_unordered_map
+  Description: std::map used only for lookups (consider std::unordered_map)
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::performance_patterns
+  Context: [[maybe_unused]] const std::map<std::string, std::string> &params) {
+- Line 402: severity=MEDIUM; category=missing_move_constructor_defaulted
+  Description: Missing move ctor prevents efficient rvalue transfers
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::exception_safety
+
+### analytics/arrow_flight.cpp
+Total findings: 9
+
+- Line 674: severity=CRITICAL; category=thread_join_no_timeout
+  Description: Thread join/wait without timeout (blocking indefinitely)
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::phase1_thread_safety
+  Context: flight_thread_.join();
+- Line 703: severity=CRITICAL; category=exception_in_destructor
+  Description: Destructors must be noexcept; exceptions here cause std::terminate()
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::exception_safety
+- Line 787: severity=CRITICAL; category=data_race
+  Description: Shared data access without lock protection
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::concurrency
+  Context: auto listing_result = candidate->ListFlights();
+- Line 808: severity=CRITICAL; category=data_race
+  Description: Shared data access without lock protection
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::concurrency
+  Context: auto listing_result = native_client_->ListFlights();
+- Line 5: severity=HIGH; category=uninitialized_access
+  Description: Container element access before initialization
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::container
+  Context: * PR History (last 5): #3478 docs(analytics): sync READM... (2026-03-12) | #2987 [analytics] Impleme
+- Line 294: severity=HIGH; category=pointer_arithmetic_unbounded
+  Description: Pointer/array access without bounds validation
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::phase1_memory_safety
+  Context: if (!col.null_bitmap.empty() && col.null_bitmap[ri]) {
+
+                            ARROW_RETURN_NOT_OK(builder.AppendNull());
+
+                        } else {
+
+                            ARROW_RETURN_NOT_OK(builder.Append(col.int64_buffer[ri]));
+
+                        }
+
+                    }
+
+                    std::shared_ptr<arrow::Array> arr;
+- Line 317: severity=HIGH; category=pointer_arithmetic_unbounded
+  Description: Pointer/array access without bounds validation
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::phase1_memory_safety
+  Context: if (!col.null_bitmap.empty() && col.null_bitmap[ri]) {
+
+                            ARROW_RETURN_NOT_OK(builder.AppendNull());
+
+                        } else {
+
+                            ARROW_RETURN_NOT_OK(builder.Append(col.double_buffer[ri]));
+
+                        }
+
+                    }
+
+                    std::shared_ptr<arrow::Array> arr;
+- Line 703: severity=HIGH; category=manual_cleanup_in_destructor
+  Description: Manual resource cleanup in destructor (should use RAII wrapper)
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::phase1_raii
+  Context: ~InProcessArrowFlightClient() override {
+- Line 741: severity=MEDIUM; category=manual_cleanup
+  Description: Manual cleanup outside exception handler — not exception-safe
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::raii
+  Context: void close() override {
+
+### analytics/jit_aggregation.cpp
+Total findings: 8
+
+- Line 298: severity=CRITICAL; category=iterator_invalidation
+  Description: Iterator it may be invalidated by container modification
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::container
+  Context: auto it = groups.find(key);
+- Line 349: severity=CRITICAL; category=data_race
+  Description: Shared data access without lock protection
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::concurrency
+  Context: auto out_col = std::make_shared<Column>(gc, src->type());
+- Line 5: severity=HIGH; category=uninitialized_access
+  Description: Container element access before initialization
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::container
   Context: * PR History (last 5): #3610 fix(analytics): register mi... (2026-03-12) | #3478 docs(analytics): sy
-- Line 233: severity=HIGH; category=pointer_arithmetic
-  Description: Pointer/array access without bounds validation
-  Remediation: Add bounds check before dereferencing
-  Context: const auto &data = col->doubleData();
-- Line 251: severity=HIGH; category=pointer_arithmetic
-  Description: Pointer/array access without bounds validation
-  Remediation: Add bounds check before dereferencing
-  Context: const auto &data = col->doubleData();
-- Line 296: severity=HIGH; category=o_n_squared
+- Line 297: severity=HIGH; category=o_n_squared
   Description: O(n²) pattern: find() on vector inside loop
-  Remediation: Use std::unordered_map or std::set for O(log n) or O(1) lookup
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::container
   Context: auto it = groups.find(key);
-- Line 296: severity=HIGH; category=o_n_squared
+- Line 305: severity=HIGH; category=o_n_squared
   Description: O(n²) pattern: find() on vector inside loop
-  Remediation: Use std::unordered_map or std::set for O(log n) or O(1) lookup
-  Context: auto it = groups.find(key);
-- Line 300: severity=HIGH; category=o_n_squared
-  Description: O(n²) pattern: find() on vector inside loop
-  Remediation: Use std::unordered_map or std::set for O(log n) or O(1) lookup
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::container
   Context: it = groups.find(key);
-- Line 0: severity=MEDIUM; category=uncategorized
-  Confidence: band=medium; score=0.57
-- Line 0: severity=MEDIUM; category=uncategorized
-  Confidence: band=medium; score=0.57
-- Line 299: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: key_order.push_back(key);
-  Confidence: band=high; score=0.74
-- Line 331: severity=MEDIUM; category=determinism; pattern=unordered_container_iter
+- Line 26: severity=MEDIUM; category=missing_move_constructor_defaulted
+  Description: Missing move ctor prevents efficient rvalue transfers
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::exception_safety
+- Line 336: severity=MEDIUM; category=unordered_container_iter
   Description: Non-deterministic unordered_map/set iteration order
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::determinism
   Context: std::unordered_map<std::string, size_t> first_row;
-  Confidence: band=medium; score=0.66
+- Line 557: severity=MEDIUM; category=missing_move_constructor_defaulted
+  Description: Missing move ctor prevents efficient rvalue transfers
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::exception_safety
 
-### src/analytics/arrow_export.cpp
-Total findings: 13
-
-- Line 39: severity=HIGH; category=pointer_arithmetic
-  Description: Pointer/array access without bounds validation
-  Remediation: Add bounds check before dereferencing
-  Context: is_null ? int64_t(0) : std::get<int64_t>(row_data[i]));
-- Line 42: severity=HIGH; category=pointer_arithmetic
-  Description: Pointer/array access without bounds validation
-  Remediation: Add bounds check before dereferencing
-  Context: columns_[i].double_buffer.push_back(
-- Line 43: severity=HIGH; category=pointer_arithmetic
-  Description: Pointer/array access without bounds validation
-  Remediation: Add bounds check before dereferencing
-  Context: is_null ? 0.0 : std::get<double>(row_data[i]));
-- Line 173: severity=HIGH; category=size_assumption
-  Description: Hardcoded size assumption — pointer/int size may differ on platforms
-  Remediation: Use <cstdint> types (uint32_t, uint64_t) and sizeof() checks, not constants
-  Context: total_bytes += col.int64_buffer.size() * sizeof(int64_t);  // Zero-copy int64 buffer
-- Line 27: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: columns_[i].data.push_back(row_data[i]);
-  Confidence: band=high; score=0.74
-- Line 28: severity=MEDIUM; category=copy_overhead
-  Description: push_back in loop — consider pre-allocating with reserve()
-  Remediation: Call vector.reserve(expected_size) before loop to avoid reallocations
-  Context: columns_[i].data.push_back(row_data[i]);
-- Line 38: severity=MEDIUM; category=copy_overhead
-  Description: push_back in loop — consider pre-allocating with reserve()
-  Remediation: Call vector.reserve(expected_size) before loop to avoid reallocations
-  Context: columns_[i].int64_buffer.push_back(
-- Line 42: severity=MEDIUM; category=copy_overhead
-  Description: push_back in loop — consider pre-allocating with reserve()
-  Remediation: Call vector.reserve(expected_size) before loop to avoid reallocations
-  Context: columns_[i].double_buffer.push_back(
-- Line 153: severity=MEDIUM; category=hardcoded_path
-  Description: Hardcoded path separator — not portable
-  Remediation: Use std::filesystem::path or boost::filesystem for cross-platform paths
-  Context: oss << "    // ... " << (row_count_ - 10) << " more rows\n";
-- Line 153: severity=MEDIUM; category=hardcoded_path
-  Description: Hardcoded path separator — not portable
-  Remediation: Use std::filesystem::path or boost::filesystem for cross-platform paths
-  Context: oss << "    // ... " << (row_count_ - 10) << " more rows\n";
-- Line 179: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: meta.schema.push_back(col.schema);
-  Confidence: band=high; score=0.74
-- Line 179: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: meta.schema.push_back(col.schema);
-  Confidence: band=high; score=0.74
-- Line 180: severity=MEDIUM; category=copy_overhead
-  Description: push_back in loop — consider pre-allocating with reserve()
-  Remediation: Call vector.reserve(expected_size) before loop to avoid reallocations
-  Context: meta.schema.push_back(col.schema);
-
-### src/analytics/analytics_export.cpp
-Total findings: 12
+### analytics/analytics_export.cpp
+Total findings: 7
 
 - Line 615: severity=CRITICAL; category=data_race
   Description: Shared data access without lock protection
-  Remediation: Protect shared data with std::lock_guard or std::unique_lock
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::concurrency
   Context: const size_t total_sz = static_cast<size_t>(ipc_buffer->size());
 - Line 5: severity=HIGH; category=uninitialized_access
   Description: Container element access before initialization
-  Remediation: Use .at() for bounds checking or initialize element first
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::container
   Context: * PR History (last 5): #4929 [Docs][analytics] Refresh m... (2026-05-10) | #4339 Analytics module: s
-- Line 394: severity=HIGH; category=performance; pattern=nested_loop_find
+- Line 394: severity=HIGH; category=nested_loop_find
   Description: O(n²) pattern: linear search inside nested loop
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::performance_patterns
   Context: bool needs_quotes = str.find(',') != std::string::npos || str.find('"') != std::string::npos
-  Confidence: band=very_high; score=0.9
-- Line 395: severity=HIGH; category=performance; pattern=nested_loop_find
+- Line 395: severity=HIGH; category=nested_loop_find
   Description: O(n²) pattern: linear search inside nested loop
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::performance_patterns
   Context: || str.find('\n') != std::string::npos
-  Confidence: band=very_high; score=0.9
-- Line 396: severity=HIGH; category=performance; pattern=nested_loop_find
+- Line 396: severity=HIGH; category=nested_loop_find
   Description: O(n²) pattern: linear search inside nested loop
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::performance_patterns
   Context: || str.find('\r') != std::string::npos
-  Confidence: band=very_high; score=0.9
-- Line 397: severity=HIGH; category=performance; pattern=nested_loop_find
+- Line 397: severity=HIGH; category=nested_loop_find
   Description: O(n²) pattern: linear search inside nested loop
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::performance_patterns
   Context: || (!str.empty() && kFormulaChars.find(str[0]) != std::string::npos);
-  Confidence: band=very_high; score=0.9
-- Line 614: severity=HIGH; category=pointer_arithmetic
-  Description: Pointer/array access without bounds validation
-  Remediation: Add bounds check before dereferencing
-  Context: const uint8_t *base   = ipc_buffer->data();
-- Line 37: severity=MEDIUM; category=no_health_check
-  Description: Status field defined but no initialization or health check
-  Remediation: Initialize status to UNKNOWN and implement periodic health checks
-  Context: *   - `ExportStatus::NOT_SUPPORTED`: requested format unavailable without Arrow;
-- Line 39: severity=MEDIUM; category=no_health_check
-  Description: Status field defined but no initialization or health check
-  Remediation: Initialize status to UNKNOWN and implement periodic health checks
-  Context: *   - `ExportStatus::IO_ERROR`: file open or write failure; spdlog::error logged.
-- Line 40: severity=MEDIUM; category=no_health_check
-  Description: Status field defined but no initialization or health check
-  Remediation: Initialize status to UNKNOWN and implement periodic health checks
-  Context: *   - `ExportStatus::CONVERSION_ERROR`: Arrow RecordBatch serialisation failed;
-- Line 199: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: arrays.push_back(array);
-  Confidence: band=high; score=0.74
 - Line 403: severity=MEDIUM; category=hardcoded_path
   Description: Hardcoded path separator — not portable
-  Remediation: Use std::filesystem::path or boost::filesystem for cross-platform paths
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::platform
   Context: oss << "\"\""; // Escape double-quotes per RFC 4180
 
-### src/analytics/lora_pattern_classifier.cpp
-Total findings: 8
-
-- Line 126: severity=MEDIUM; category=uncaught_exception
-  Description: Generic catch(...) — specific exception types ignored
-  Remediation: Catch specific exceptions: catch(std::exception& e) { ... }
-  Context: } catch (...) {
-- Line 190: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: numeric_values.push_back(*d);
-  Confidence: band=high; score=0.74
-- Line 190: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: numeric_values.push_back(*d);
-  Confidence: band=high; score=0.74
-- Line 194: severity=MEDIUM; category=copy_overhead
-  Description: push_back in loop — consider pre-allocating with reserve()
-  Remediation: Call vector.reserve(expected_size) before loop to avoid reallocations
-  Context: numeric_values.push_back(static_cast<double>(*iv));
-- Line 197: severity=MEDIUM; category=copy_overhead
-  Description: push_back in loop — consider pre-allocating with reserve()
-  Remediation: Call vector.reserve(expected_size) before loop to avoid reallocations
-  Context: numeric_values.push_back(*bv ? 1.0 : 0.0);
-- Line 282: severity=MEDIUM; category=uncaught_exception
-  Description: Generic catch(...) — specific exception types ignored
-  Remediation: Catch specific exceptions: catch(std::exception& e) { ... }
-  Context: catch (...) { return domains_.front().adapter_id; }
-- Line 317: severity=MEDIUM; category=uncaught_exception
-  Description: Generic catch(...) — specific exception types ignored
-  Remediation: Catch specific exceptions: catch(std::exception& e) { ... }
-  Context: } catch (...) {
-- Line 345: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: futures.push_back(
-  Confidence: band=high; score=0.74
-
-### src/analytics/knowledge_base.cpp
+### analytics/expert_system_engine.cpp
 Total findings: 7
 
-- Line 148: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: result.push_back(f);
-  Confidence: band=high; score=0.74
-- Line 153: severity=MEDIUM; category=performance; pattern=missing_vector_reserve
-  Description: vector::push_back in loop without prior reserve()
-  Context: result.push_back(it->second);
-  Confidence: band=high; score=0.74
+- Line 336: severity=HIGH; category=explicit_lock_unlock
+  Description: Explicit lock/unlock without RAII guard
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::phase1_thread_safety
+  Context: lock.lock();
+- Line 354: severity=HIGH; category=resource_leaked_in_exception
+  Description: Exception before delete causes resource leak
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::exception_safety
+- Line 360: severity=HIGH; category=resource_leaked_in_exception
+  Description: Exception before delete causes resource leak
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::exception_safety
+- Line 34: severity=MEDIUM; category=string_concat_loop
+  Description: String concatenation in loop — O(n²) behavior
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::performance
+  Context: out += "\\\"";
+- Line 36: severity=MEDIUM; category=string_concat_loop
+  Description: String concatenation in loop — O(n²) behavior
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::performance
+  Context: out += "\\\\";
+- Line 38: severity=MEDIUM; category=string_concat_loop
+  Description: String concatenation in loop — O(n²) behavior
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::performance
+  Context: out += "\\n";
+- Line 40: severity=MEDIUM; category=string_concat_loop
+  Description: String concatenation in loop — O(n²) behavior
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::performance
+  Context: out += "\\r";
+
+### analytics/arrow_export.cpp
+Total findings: 4
+
+- Line 39: severity=HIGH; category=pointer_arithmetic_unbounded
+  Description: Pointer/array access without bounds validation
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::phase1_memory_safety
+  Context: case DataType::INT64:
+
+            case DataType::TIMESTAMP:
+
+                columns_[i].int64_buffer.push_back(
+
+                    is_null ? int64_t(0) : std::get<int64_t>(row_data[i]));
+
+                break;
+
+            case DataType::DOUBLE:
+
+                columns_[i].double_buffer.push_back(
+- Line 43: severity=HIGH; category=pointer_arithmetic_unbounded
+  Description: Pointer/array access without bounds validation
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::phase1_memory_safety
+  Context: break;
+
+            case DataType::DOUBLE:
+
+                columns_[i].double_buffer.push_back(
+
+                    is_null ? 0.0 : std::get<double>(row_data[i]));
+
+                break;
+
+            default:
+
+                break;
+- Line 173: severity=HIGH; category=size_assumption
+  Description: Hardcoded size assumption — pointer/int size may differ on platforms
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::platform
+  Context: total_bytes += col.int64_buffer.size() * sizeof(int64_t);  // Zero-copy int64 buffer
+- Line 153: severity=MEDIUM; category=hardcoded_path
+  Description: Hardcoded path separator — not portable
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::platform
+  Context: oss << "    // ... " << (row_count_ - 10) << " more rows\n";
+
+### analytics/lora_pattern_classifier.cpp
+Total findings: 4
+
+- Line 126: severity=MEDIUM; category=generic_catch
+  Description: Generic catch(...) — specific exception types ignored
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::phase1_error_handling
+  Context: result.confidence    = std::stod(json.substr(pos), &consumed);
+
+            // Clamp to [0, 1].
+
+            result.confidence = std::max(0.0, std::min(1.0, result.confidence));
+
+        } catch (...) {
+
+            result.confidence = 0.0;
+
+        }
+
+    }
+- Line 126: severity=MEDIUM; category=uncaught_exception
+  Description: Generic catch(...) — specific exception types ignored
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::reliability
+  Context: } catch (...) {
+- Line 282: severity=MEDIUM; category=generic_catch
+  Description: Generic catch(...) — specific exception types ignored
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::phase1_error_handling
+  Context: std::vector<double> ctx_emb;
+
+    try { ctx_emb = embedding_fn_(context); }
+
+    catch (...) { return domains_.front().adapter_id; }
+
+
+
+    std::string best_id;
+
+    double best_sim = -1.0;
+- Line 282: severity=MEDIUM; category=uncaught_exception
+  Description: Generic catch(...) — specific exception types ignored
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::reliability
+  Context: catch (...) { return domains_.front().adapter_id; }
+
+### analytics/process_pattern_matcher.cpp
+Total findings: 4
+
+- Line 806: severity=HIGH; category=fp_exact_comparison
+  Description: Floating-point exact comparison (use tolerance/epsilon)
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::determinism
+  Context: if (norm_a == 0.0 || norm_b == 0.0) {
+- Line 556: severity=MEDIUM; category=map_vs_unordered_map
+  Description: std::map used only for lookups (consider std::unordered_map)
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::performance_patterns
+  Context: std::pair<ProcessPatternMatcher::Status, std::map<std::string, SimilarityResult>>
+- Line 559: severity=MEDIUM; category=map_vs_unordered_map
+  Description: std::map used only for lookups (consider std::unordered_map)
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::performance_patterns
+  Context: std::map<std::string, SimilarityResult> results;
+- Line 572: severity=MEDIUM; category=unordered_container_iter
+  Description: Non-deterministic unordered_map/set iteration order
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::determinism
+  Context: std::unordered_map<std::string, const ProcessTrace *> trace_map;
+
+### analytics/knowledge_base.cpp
+Total findings: 3
+
 - Line 233: severity=MEDIUM; category=copy_overhead
   Description: push_back in loop — consider pre-allocating with reserve()
-  Remediation: Call vector.reserve(expected_size) before loop to avoid reallocations
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::container
   Context: parts.push_back(themis::utils::trim(stripQuotes(token)));
-- Line 245: severity=MEDIUM; category=performance; pattern=string_concat_loop
+- Line 245: severity=MEDIUM; category=string_concat_loop
   Description: String concatenation in loop (use std::stringstream)
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::performance_patterns
   Context: tp.object += "," + parts[i];
-  Confidence: band=high; score=0.74
 - Line 246: severity=MEDIUM; category=string_concat_loop
   Description: String concatenation in loop — O(n²) behavior
-  Remediation: Use std::ostringstream or pre-allocate string with .reserve()
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::performance
   Context: tp.object += "," + parts[i];
-- Line 314: severity=MEDIUM; category=uncaught_exception
-  Description: Generic catch(...) — specific exception types ignored
-  Remediation: Catch specific exceptions: catch(std::exception& e) { ... }
-  Context: catch (...) { current.priority = 0; }
-- Line 323: severity=MEDIUM; category=uncaught_exception
-  Description: Generic catch(...) — specific exception types ignored
-  Remediation: Catch specific exceptions: catch(std::exception& e) { ... }
-  Context: catch (...) { current.ml_confidence_threshold = 0.0; }
+
+### analytics/FUTURE_ENHANCEMENTS.md
+Total findings: 1
+
+- Line 1: severity=LOW; category=module_doc_linkset_drift
+  Description: Module doc 'FUTURE_ENHANCEMENTS.md' is missing expected cross-links: ARCHITECTURE.md
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::themis_doc_freshness_rules
+  Context: Refresh the top-level <!-- Links: ... --> metadata to match the current module doc set
+
+### analytics/PRODUCTION_REQUIREMENTS.md
+Total findings: 1
+
+- Line 1: severity=LOW; category=module_doc_linkset_drift
+  Description: Module doc 'PRODUCTION_REQUIREMENTS.md' is missing expected cross-links: FUTURE_ENHANCEMENTS.md, README.md, ROADMAP.md
+  Remediation: Review finding and apply recommended module-specific fix.
+  Scanner: Uniform::themis_doc_freshness_rules
+  Context: Refresh the top-level <!-- Links: ... --> metadata to match the current module doc set
 
 ## Update Workflow
 
-- Refresh scan artifacts with: python tools/gap_scanner_v3.py
-- Regenerate all module notes with: python tools/module_doc_generator.py . ai_working ai_working/module_gaps
-- The generator mirrors each archive document directly into src/<module>/MODULE_GAPS.md.
+- Refresh scanner artifacts with: python tools/gs3_orchestrator.py ./src --output ai_working/gap_scan_results.json
+- Regenerate docs with: python tools/module_doc_generator.py . ai_working ai_working/module_gaps
+- Add --no-mirror when you only want archive docs in ai_working/module_gaps.
 
-Format: THEMIS_MODULE_GAPS_V3
+Format: THEMIS_MODULE_GAPS_V4

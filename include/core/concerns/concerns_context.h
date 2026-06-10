@@ -1,10 +1,12 @@
-/*
- * ThemisDB | File: concerns_context.h | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 93/100 | Lines: 516
- * Gap Summary: total=17; TODO=1, Stub=15, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * PR History (last 5): #4481 feat(core): implement IHeal... (2026-04-09) | #3570 feat(core): dynamic log lev... (2026-03-12) | #3557 docs(core): reality-check s... (2026-03-12) | #3039 feat(core): Jaeger/Zipkin t... (2026-03-12) | #2845 [core] Feature flag interfa... (2026-03-12)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
+/**
+ * @file concerns_context.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.1
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 93/100
+ * @note Gap Summary: total=17; TODO=1, Stub=15, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once
@@ -134,17 +136,43 @@ public:
 
     /**
      * @brief Create a default context with production implementations.
+     *
+     * Uses the default config values from Config and applies the repository's
+     * fail-closed adapter selection rules. If production mode is enabled, the
+     * resulting context is required to use production-capable adapters.
+     *
+     * @return Shared context configured from default settings.
      */
     static std::shared_ptr<ConcernsContext> create();
+
+    /**
+     * @brief Create a context from an explicit configuration object.
+     *
+     * The configuration is validated before any adapter objects are created.
+     * Invalid log, tracing, cache, or adapter settings raise
+     * std::runtime_error and do not yield a partially constructed context.
+     *
+     * @param config Runtime configuration for concern adapters and limits.
+     * @return Shared context configured from @p config.
+     * @throws std::runtime_error if validation fails or a production-only
+     *         adapter requirement is not satisfied.
+     */
     static std::shared_ptr<ConcernsContext> create(const Config& config);
 
     /**
      * @brief Create a context with custom implementations (for testing).
      *
-     * The @p secrets parameter is optional; when nullptr a no-op provider is
-     * used so that existing call-sites do not need to be updated.
-     * The 4-argument overload automatically installs a NoOpFeatureFlags so
-     * that existing call-sites do not need to be updated.
+    * The @p circuit_breaker parameter is optional; when nullptr a no-op
+    * provider is used so that existing call-sites do not need to be updated.
+    * The 4-argument overload automatically installs a NoOpFeatureFlags so
+    * that existing call-sites do not need to be updated.
+     *
+     * @param logger           Logger implementation to install.
+     * @param tracer           Tracer implementation to install.
+     * @param metrics          Metrics implementation to install.
+     * @param cache            Cache implementation to install.
+     * @param circuit_breaker  Optional circuit-breaker implementation.
+     * @return Shared context backed by the supplied adapters.
      */
     static std::shared_ptr<ConcernsContext> createCustom(
         std::unique_ptr<ILogger> logger,
@@ -157,7 +185,15 @@ public:
     /**
      * @brief Create a context with custom secrets implementation.
      *
-     * @p featureFlags is optional; nullptr installs a NoOpFeatureFlags.
+    * @p featureFlags is optional; nullptr installs a NoOpFeatureFlags.
+     *
+     * @param logger        Logger implementation to install.
+     * @param tracer        Tracer implementation to install.
+     * @param metrics       Metrics implementation to install.
+     * @param cache         Cache implementation to install.
+     * @param secrets       Secrets implementation to install.
+     * @param featureFlags  Optional feature-flag implementation.
+     * @return Shared context backed by the supplied adapters.
      */
     static std::shared_ptr<ConcernsContext> createCustom(
         std::unique_ptr<ILogger> logger,
@@ -170,6 +206,13 @@ public:
 
     /**
      * @brief Create a context with custom feature-flag implementation.
+     *
+     * @param logger        Logger implementation to install.
+     * @param tracer        Tracer implementation to install.
+     * @param metrics       Metrics implementation to install.
+     * @param cache         Cache implementation to install.
+     * @param featureFlags  Feature-flag implementation to install.
+     * @return Shared context backed by the supplied adapters.
      */
     static std::shared_ptr<ConcernsContext> createCustom(
         std::unique_ptr<ILogger> logger,
@@ -180,11 +223,20 @@ public:
     );
 
     /**
-     * @brief Create a context with a custom audit log implementation.
+    * @brief Create a context with a custom audit log implementation.
      *
      * All other concerns default to no-op.  Use in tests that need to
      * verify audit records, or in deployments with a custom audit backend.
      * @p auditLog is optional; nullptr installs a NoOpAuditLog.
+     *
+     * @param logger        Logger implementation to install.
+     * @param tracer        Tracer implementation to install.
+     * @param metrics       Metrics implementation to install.
+     * @param cache         Cache implementation to install.
+     * @param secrets       Secrets implementation to install.
+     * @param featureFlags  Feature-flag implementation to install.
+     * @param auditLog      Audit-log implementation to install.
+     * @return Shared context backed by the supplied adapters.
      */
     static std::shared_ptr<ConcernsContext> createCustom(
         std::unique_ptr<ILogger> logger,
@@ -196,9 +248,14 @@ public:
         std::unique_ptr<IAuditLog> auditLog
     );
 
-    /**
-     * @brief Create a no-op context (all concerns disabled).
-     */
+     /**
+      * @brief Create a no-op context (all concerns disabled).
+      *
+      * The returned context is suitable for tests that only need the wiring
+      * surface but not actual side effects.
+      *
+      * @return Shared context using only no-op adapters.
+      */
     static std::shared_ptr<ConcernsContext> createNoOp();
 
     // Accessor methods
@@ -233,7 +290,8 @@ public:
      * that the minimum severity threshold can be changed without restarting
      * the database process (Issue #1412).
      *
-     * @param level New minimum severity level.
+        * @param level New minimum severity level.
+        * @throws std::runtime_error if the logger adapter is unavailable.
      */
     void setLogLevel(ILogger::Level level) { logger_->setLevel(level); }
 
@@ -257,10 +315,11 @@ public:
     // -------------------------------------------------------------------------
 
     /**
-     * @brief Swap the active logger adapter.
+    * @brief Swap the active logger adapter.
      *
-     * Flushes the current adapter before installing @p new_logger.  After
-     * this call, `logger()` returns a reference to the new adapter.
+    * Flushes the current adapter before installing @p new_logger. After
+    * this call, `logger()` returns a reference to the new adapter. Callers
+    * should expect a brief synchronization point while the swap occurs.
      *
      * Thread-safety: safe to call while other threads are logging.
      *
@@ -335,8 +394,8 @@ public:
     }
 
     /**
-     * @brief Extract W3C TraceContext from inbound headers and start a linked
-     *        span via the active tracer.
+    * @brief Extract W3C TraceContext from inbound headers and start a linked
+    *        span via the active tracer.
      *
      * Delegates to ITracer::startSpanFromHeaders().
      */
@@ -361,8 +420,8 @@ public:
     }
 
     /**
-     * @brief Emit a structured log record with the active trace/span IDs
-     *        automatically injected.
+    * @brief Emit a structured log record with the active trace/span IDs
+    *        automatically injected.
      *
      * Fetches the current thread's OpenTelemetry trace-id and span-id via
      * `Tracer::getCurrentTraceId()` / `Tracer::getCurrentSpanId()` and
@@ -375,6 +434,8 @@ public:
      * @param level   Severity level.
      * @param message Human-readable log text.
      * @param fields  Optional additional structured key/value fields.
+    * @throws std::runtime_error if the logger adapter cannot accept a
+    *         structured event.
      */
     void logWithTrace(ILogger::Level level,
                       const std::string& message,
@@ -385,11 +446,13 @@ public:
     // -------------------------------------------------------------------------
 
     /**
-     * @brief Flush all buffered data in every concern.
+    * @brief Flush all buffered data in every concern.
      *
      * Call this when you want to ensure pending log records, spans, and
      * metric observations have been forwarded to their respective sinks
      * without fully shutting down.  Safe to call multiple times.
+      * Any individual adapter failure should be handled by the adapter's own
+      * implementation contract; the context does not swallow adapter errors.
      */
     void flush() {
         logger_->flush();
@@ -403,11 +466,13 @@ public:
     }
 
     /**
-     * @brief Gracefully shut down all concerns and release resources.
+    * @brief Gracefully shut down all concerns and release resources.
      *
      * Flushes pending data before tearing down each concern.  After this
      * call the context must not be used; any further accessor calls have
      * undefined behaviour.
+      * Shutdown is idempotent from the caller's perspective, but adapters may
+      * still reject repeated teardown if they enforce their own lifecycle.
      *
      * Recommended usage:
      * @code

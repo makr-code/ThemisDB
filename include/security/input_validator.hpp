@@ -1,29 +1,12 @@
-/*
- * ThemisDB | File: input_validator.hpp | Version: 0.0.1
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=1, M=2, L=0
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file input_validator.hpp
- * @brief Input validation and sanitization framework
- * @details
- *   Comprehensive input validation for user-supplied data, preventing:
- *   - SQL injection
- *   - Command injection
- *   - XSS (cross-site scripting)
- *   - Path traversal
- *   - Buffer overflow
- *   - Format string attacks
- *
- * Usage:
- *   auto status = InputValidator::validateUserInput(user_input, ValidationContext::SQL_QUERY);
- *   if (!status.ok()) { return handleValidationError(status); }
- *
- * @author Copilot Code Generation
- * @date 2026-05-19
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.1
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once

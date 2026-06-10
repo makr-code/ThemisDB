@@ -1,53 +1,12 @@
-/*
- * ThemisDB | File: tensor_rag_cost_model.h | Version: 1.0.0
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
-#pragma once
-
 /**
  * @file tensor_rag_cost_model.h
- * @brief Query cost model for Tensor-Train RAG retrieval in ThemisDB.
- *
- * ## Overview
- *
- * This header formalises the cost model for three RAG retrieval paths:
- *
- *   (A) Classical HNSW RAG  — flat vectors, JSON/text context injection
- *   (B) TT-HYBRID RAG       — HNSW on first-core sketches + TT-domain distance
- *   (C) TT-LIFT / Zero-Copy — full TT-index + mmap injection into ggml
- *
- * Cost is modelled in **normalised cost units (NCU)** calibrated against the
- * existing `OptimizerCostModel::CostConstants`.  One NCU ≈ 1 µs of wall-clock
- * time on a 3 GHz CPU single-thread.
- *
- * ### Integration with OptimizerCostModel
- *
- * Use `TensorRagCostModel::estimate()` during AQL query planning.  The
- * returned `RagCostBreakdown` maps to `OptimizerCostModel::WorkloadType`
- * via `RagCostBreakdown::workloadType()`.
- *
- * ### Per-phase terminology
- *
- * | Phase | Symbol | Description |
- * |-------|--------|-------------|
- * | Index traversal | T_idx | Time to find k ANN candidates |
- * | Distance verification | T_dist | Time to verify candidates |
- * | Storage fetch | T_fetch | Time to load payload bytes |
- * | Deserialise / decode | T_dec | JSON parse / TT reconstruct |
- * | Context injection | T_inject | Tokenise OR mmap + contraction |
- * | **Total TTFT** | **T_rag** | Sum of all phases |
- *
- * ### References
- *
- * - Malkov & Yashunin (2020) HNSW — T_idx model
- * - Oseledets (2011) TT-SVD — T_dist TT model
- * - Holtz et al. (2012) — transfer-matrix algorithm
- * - Johnson et al. (2021) FAISS — T_idx IVF model
- * - `research/HNSW_FAISS_TT_BOUNDARY_ANALYSIS.md` §3 — derived constants
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 1.0.0
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include "query/optimizer_cost_model.h"

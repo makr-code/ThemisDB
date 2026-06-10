@@ -1,3 +1,14 @@
+/**
+ * @file transaction_wal.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 84/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=6, M=2, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
  * ThemisDB | File: transaction_wal.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
  * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 99/100 | Lines: 367
@@ -34,11 +45,17 @@ static_assert(static_cast<uint8_t>(TransactionWALEntryType::ABORTED)    == 136,
 static_assert(static_cast<uint8_t>(TransactionWALEntryType::COMPENSATE) == 137,
               "TWAL-2: TransactionWALEntryType::COMPENSATE must stay at 137 for WAL compatibility");
 
+/**
+ * @brief Construct transaction WAL wrapper with provided runtime configuration.
+ * @param config WAL directories, segment and sync settings.
+ */
 TransactionWAL::TransactionWAL(const TransactionWALConfig& config)
     : config_(config), current_lsn_(0, 0) {}
 
+/** @brief Destroy transaction WAL wrapper and owned WAL manager. */
 TransactionWAL::~TransactionWAL() = default;
 
+/** @brief Create directories and initialize base WAL manager. */
 bool TransactionWAL::initialize() {
     try {
         // Create WAL directory
@@ -69,6 +86,7 @@ bool TransactionWAL::initialize() {
     }
 }
 
+/** @brief Append BEGIN transaction lifecycle record to WAL. */
 LSN TransactionWAL::logBegin(const std::string& transaction_id,
                               TransactionProtocol protocol,
                               const std::vector<std::string>& participants) {
@@ -95,6 +113,7 @@ LSN TransactionWAL::logBegin(const std::string& transaction_id,
     return lsn;
 }
 
+/** @brief Append PREPARE request record for one participant. */
 LSN TransactionWAL::logPrepare(const std::string& transaction_id,
                                 const std::string& participant_id,
                                 const nlohmann::json& data) {
@@ -116,6 +135,7 @@ LSN TransactionWAL::logPrepare(const std::string& transaction_id,
     return lsn;
 }
 
+/** @brief Append PREPARED participant vote record. */
 LSN TransactionWAL::logPrepared(const std::string& transaction_id,
                                  const std::string& participant_id,
                                  bool vote,
@@ -144,6 +164,7 @@ LSN TransactionWAL::logPrepared(const std::string& transaction_id,
     return lsn;
 }
 
+/** @brief Append COMMIT decision record. */
 LSN TransactionWAL::logCommit(const std::string& transaction_id,
                                const nlohmann::json& data) {
     TransactionWALEntry entry;
@@ -162,6 +183,7 @@ LSN TransactionWAL::logCommit(const std::string& transaction_id,
     return lsn;
 }
 
+/** @brief Append COMMITTED acknowledgment record for one participant. */
 LSN TransactionWAL::logCommitted(const std::string& transaction_id,
                                   const std::string& participant_id) {
     TransactionWALEntry entry;
@@ -181,6 +203,7 @@ LSN TransactionWAL::logCommitted(const std::string& transaction_id,
     return lsn;
 }
 
+/** @brief Append ABORT decision record with reason text. */
 LSN TransactionWAL::logAbort(const std::string& transaction_id,
                               const std::string& reason) {
     TransactionWALEntry entry;
@@ -204,6 +227,7 @@ LSN TransactionWAL::logAbort(const std::string& transaction_id,
     return lsn;
 }
 
+/** @brief Append ABORTED acknowledgment record for one participant. */
 LSN TransactionWAL::logAborted(const std::string& transaction_id,
                                 const std::string& participant_id) {
     TransactionWALEntry entry;
@@ -223,6 +247,7 @@ LSN TransactionWAL::logAborted(const std::string& transaction_id,
     return lsn;
 }
 
+/** @brief Append SAGA compensation step execution record. */
 LSN TransactionWAL::logCompensate(const std::string& transaction_id,
                                    const std::string& step_id,
                                    const nlohmann::json& compensation_data) {
@@ -244,6 +269,7 @@ LSN TransactionWAL::logCompensate(const std::string& transaction_id,
     return lsn;
 }
 
+/** @brief Read and decode transaction-specific entries from WAL starting at LSN. */
 std::vector<TransactionWALEntry> TransactionWAL::readEntries(LSN start_lsn) {
     std::vector<TransactionWALEntry> entries;
 
@@ -274,10 +300,12 @@ std::vector<TransactionWALEntry> TransactionWAL::readEntries(LSN start_lsn) {
     return entries;
 }
 
+/** @brief Return whether snapshot interval threshold has been reached. */
 bool TransactionWAL::shouldCreateSnapshot(uint64_t operations_count) const {
     return operations_count >= config_.snapshot_interval;
 }
 
+/** @brief Return current LSN from WAL manager if initialized, else cached value. */
 LSN TransactionWAL::getCurrentLSN() const {
     if (wal_manager_) {
         return wal_manager_->getCurrentLSN();
@@ -286,6 +314,7 @@ LSN TransactionWAL::getCurrentLSN() const {
     return current_lsn_;
 }
 
+/** @brief Encode transaction WAL entry payload into generic WAL record. */
 WALEntry TransactionWAL::toWALEntry(const TransactionWALEntry& txn_entry) {
     WALEntry wal_entry;
     wal_entry.lsn = txn_entry.lsn;
@@ -321,6 +350,7 @@ WALEntry TransactionWAL::toWALEntry(const TransactionWALEntry& txn_entry) {
     return wal_entry;
 }
 
+/** @brief Decode generic WAL record into transaction WAL entry payload. */
 std::optional<TransactionWALEntry> TransactionWAL::fromWALEntry(const WALEntry& wal_entry) {
     try {
         TransactionWALEntry txn_entry;

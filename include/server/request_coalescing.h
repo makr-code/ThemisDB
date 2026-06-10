@@ -1,36 +1,12 @@
-/*
- * ThemisDB | File: request_coalescing.h | Version: 0.0.13
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
-#pragma once
-
 /**
  * @file request_coalescing.h
- * @brief Request coalescing for the API Gateway.
- *
- * Merges duplicate in-flight requests to the same resource so that only one
- * backend call is executed and the response is shared with all waiters.
- *
- * Scenario:
- * ```
- * t=0ms  Client A → GET /api/v1/entities/123  (backend call starts)
- * t=2ms  Client B → GET /api/v1/entities/123  (coalesced – waits for A)
- * t=5ms  Backend returns → both A and B receive the same response
- * ```
- *
- * Benefits:
- *  - Reduces backend load for hot resources.
- *  - Lowers tail latency for duplicate concurrent requests.
- *  - Especially effective for expensive read-only queries.
- *
- * Thread safety: all public methods are safe to call from multiple threads.
- *
- * Copyright (c) 2025 VCC-URN Project
- * SPDX-License-Identifier: Apache-2.0
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.13
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include <atomic>

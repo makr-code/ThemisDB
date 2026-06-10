@@ -1,3 +1,14 @@
+/**
+ * @file webdav_user_registration_plugin.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=1, M=2, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
  * ThemisDB | File: webdav_user_registration_plugin.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
  * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 650
@@ -10,6 +21,7 @@
 #include "security/user_registration_plugin.h"
 #include "utils/logger.h"
 #include <openssl/evp.h>
+#include <memory>
 #include <sstream>
 #include <iomanip>
 
@@ -20,6 +32,25 @@
 
 namespace themis {
 namespace security {
+
+namespace {
+
+// ── RAII Wrappers for OpenSSL and curl objects ──────────────────────────────
+struct WebDAV_EVP_MD_CTX_Deleter {
+    void operator()(EVP_MD_CTX* p) const { if (p) EVP_MD_CTX_free(p); }
+};
+
+#ifdef THEMIS_ENABLE_WEBDAV
+struct WebDAV_CURL_slist_Deleter {
+    void operator()(struct curl_slist* p) const { if (p) curl_slist_free_all(p); }
+};
+
+using WebDAV_CURL_slist_ptr = std::unique_ptr<struct curl_slist, WebDAV_CURL_slist_Deleter>;
+#endif
+
+using WebDAV_EVP_MD_CTX_ptr = std::unique_ptr<EVP_MD_CTX, WebDAV_EVP_MD_CTX_Deleter>;
+
+} // anonymous namespace
 
 /**
  * @brief WebDAV User Registration Plugin
@@ -177,9 +208,9 @@ public:
         }
 
         // Depth: 1 – list direct children (one entry per user sub-resource).
-        struct curl_slist* headers = nullptr;
-        headers = curl_slist_append(headers, "Depth: 1");
-        headers = curl_slist_append(headers, "Content-Type: application/xml");
+        WebDAV_CURL_slist_ptr headers(nullptr);
+        headers.reset(curl_slist_append(headers.get(), "Depth: 1"));
+        headers.reset(curl_slist_append(headers.get(), "Content-Type: application/xml"));
 
         // Minimal PROPFIND body requesting displayname and resourcetype.
         static const char kPropfindBody[] =
@@ -630,11 +661,10 @@ private:
         unsigned char hash[EVP_MAX_MD_SIZE];
         unsigned int hash_len = 0;
         
-        EVP_MD_CTX* mdctx = EVP_MD_CTX_new();
-        EVP_DigestInit_ex(mdctx, EVP_sha256(), nullptr);
-        EVP_DigestUpdate(mdctx, password.c_str(), password.length());
-        EVP_DigestFinal_ex(mdctx, hash, &hash_len);
-        EVP_MD_CTX_free(mdctx);
+        WebDAV_EVP_MD_CTX_ptr mdctx(EVP_MD_CTX_new());
+        EVP_DigestInit_ex(mdctx.get(), EVP_sha256(), nullptr);
+        EVP_DigestUpdate(mdctx.get(), password.c_str(), password.length());
+        EVP_DigestFinal_ex(mdctx.get(), hash, &hash_len);
         
         std::stringstream ss;
         for (unsigned int i = 0; i < hash_len; i++) {

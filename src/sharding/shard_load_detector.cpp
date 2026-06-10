@@ -1,3 +1,14 @@
+/**
+ * @file shard_load_detector.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=4, M=23, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
  * ThemisDB | File: shard_load_detector.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
  * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 567
@@ -14,15 +25,49 @@
 #include <algorithm>
 #include <cmath>
 #include <numeric>
+#include <sstream>
+#include <unordered_set>
+
+namespace {
+
+/** @brief Append clause to semicolon-delimited imbalance reason string. */
+void appendReasonClause(std::string& reason, const std::string& clause) {
+    if (!reason.empty()) {
+        reason.append("; ");
+    }
+    reason.append(clause);
+}
+
+/** @brief Insert hotspot shard only once while preserving insertion order. */
+void addHotspotIfAbsent(std::vector<std::string>& hotspots,
+                        std::unordered_set<std::string>& hotspot_index,
+                        const std::string& shard_id) {
+    if (hotspot_index.insert(shard_id).second) {
+        hotspots.push_back(shard_id);
+    }
+}
+
+} // namespace
 
 namespace themis {
 namespace sharding {
 
+/**
+ * @brief Construct load detector with default configuration.
+ * @param topology Shard topology provider.
+ * @param metrics Optional metrics sink.
+ */
 ShardLoadDetector::ShardLoadDetector(
     std::shared_ptr<ShardTopology> topology,
     std::shared_ptr<PrometheusMetrics> metrics
 ) : ShardLoadDetector(topology, metrics, Config{}) {}
 
+/**
+ * @brief Construct load detector with explicit thresholds and cadence.
+ * @param topology Shard topology provider.
+ * @param metrics Optional metrics sink.
+ * @param config Detection configuration.
+ */
 ShardLoadDetector::ShardLoadDetector(
     std::shared_ptr<ShardTopology> topology,
     std::shared_ptr<PrometheusMetrics> metrics,
@@ -36,6 +81,7 @@ ShardLoadDetector::ShardLoadDetector(
                config_.storage_imbalance_threshold, config_.request_imbalance_threshold);
 }
 
+/** @brief Update latest shard load snapshot and append history sample. */
 void ShardLoadDetector::updateShardLoad(const std::string& shard_id, const ShardLoadMetrics& load) {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -76,6 +122,7 @@ void ShardLoadDetector::updateShardLoad(const std::string& shard_id, const Shard
     }
 }
 
+/** @brief Run configured imbalance heuristics and return combined detection result. */
 LoadImbalanceResult ShardLoadDetector::detectImbalance() const {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -121,6 +168,7 @@ LoadImbalanceResult ShardLoadDetector::detectImbalance() const {
     return result;
 }
 
+/** @brief Evaluate storage-byte skew across shards. */
 bool ShardLoadDetector::detectStorageImbalance(
     const std::map<std::string, ShardLoadMetrics>& loads,
     LoadImbalanceResult& result
@@ -169,12 +217,18 @@ bool ShardLoadDetector::detectStorageImbalance(
     return false;
 }
 
+/** @brief Evaluate requests/sec skew across shards. */
 bool ShardLoadDetector::detectRequestImbalance(
     const std::map<std::string, ShardLoadMetrics>& loads,
     LoadImbalanceResult& result
 ) const {
     std::vector<double> request_rates;
     std::vector<std::string> shard_ids;
+    request_rates.reserve(loads.size());
+    shard_ids.reserve(loads.size());
+
+    std::unordered_set<std::string> hotspot_index(
+        result.hotspot_shards.begin(), result.hotspot_shards.end());
     
     for (const auto& [shard_id, metrics] : loads) {
         request_rates.push_back(static_cast<double>(metrics.requests_per_sec));
@@ -192,17 +246,16 @@ bool ShardLoadDetector::detectRequestImbalance(
     double imbalance_ratio = (max_rate - min_rate) / avg_rate;
     
     if (imbalance_ratio > config_.request_imbalance_threshold) {
-        if (!result.reason.empty()) result.reason += "; ";
-        result.reason += "Request imbalance (" + 
-                        std::to_string(static_cast<int>(imbalance_ratio * 100)) + "% variance)";
+        std::ostringstream reason_stream;
+        reason_stream << "Request imbalance ("
+                      << static_cast<int>(imbalance_ratio * 100)
+                      << "% variance)";
+        appendReasonClause(result.reason, reason_stream.str());
         
         // Identify hotspots (above 150% of average)
         for (size_t i = 0; i < request_rates.size(); i++) {
             if (request_rates[i] > avg_rate * 1.5) {
-                if (std::find(result.hotspot_shards.begin(), result.hotspot_shards.end(), 
-                             shard_ids[i]) == result.hotspot_shards.end()) {
-                    result.hotspot_shards.push_back(shard_ids[i]);
-                }
+                addHotspotIfAbsent(result.hotspot_shards, hotspot_index, shard_ids[i]);
             }
         }
         
@@ -212,12 +265,18 @@ bool ShardLoadDetector::detectRequestImbalance(
     return false;
 }
 
+/** @brief Evaluate per-shard p99 latency outliers against cluster average. */
 bool ShardLoadDetector::detectLatencyDegradation(
     const std::map<std::string, ShardLoadMetrics>& loads,
     LoadImbalanceResult& result
 ) const {
     std::vector<double> latencies;
     std::vector<std::string> shard_ids;
+    latencies.reserve(loads.size());
+    shard_ids.reserve(loads.size());
+
+    std::unordered_set<std::string> hotspot_index(
+        result.hotspot_shards.begin(), result.hotspot_shards.end());
     
     for (const auto& [shard_id, metrics] : loads) {
         latencies.push_back(metrics.p99_latency_ms);
@@ -234,14 +293,12 @@ bool ShardLoadDetector::detectLatencyDegradation(
     
     for (size_t i = 0; i < latencies.size(); i++) {
         if (latencies[i] > avg_latency * config_.latency_degradation_threshold) {
-            if (!result.reason.empty()) result.reason += "; ";
-            result.reason += "Latency degradation on " + shard_ids[i] + 
-                           " (" + std::to_string(static_cast<int>(latencies[i])) + "ms p99)";
-            
-            if (std::find(result.hotspot_shards.begin(), result.hotspot_shards.end(), 
-                         shard_ids[i]) == result.hotspot_shards.end()) {
-                result.hotspot_shards.push_back(shard_ids[i]);
-            }
+            std::ostringstream reason_stream;
+            reason_stream << "Latency degradation on " << shard_ids[i]
+                          << " (" << static_cast<int>(latencies[i]) << "ms p99)";
+            appendReasonClause(result.reason, reason_stream.str());
+
+            addHotspotIfAbsent(result.hotspot_shards, hotspot_index, shard_ids[i]);
             
             degradation_found = true;
         }
@@ -250,35 +307,34 @@ bool ShardLoadDetector::detectLatencyDegradation(
     return degradation_found;
 }
 
+/** @brief Detect shards above CPU or storage exhaustion thresholds. */
 bool ShardLoadDetector::detectResourceExhaustion(
     const std::map<std::string, ShardLoadMetrics>& loads,
     LoadImbalanceResult& result
 ) const {
     bool exhaustion_found = false;
+    std::unordered_set<std::string> hotspot_index(
+        result.hotspot_shards.begin(), result.hotspot_shards.end());
     
     for (const auto& [shard_id, metrics] : loads) {
         if (metrics.cpu_usage_percent > config_.cpu_exhaustion_threshold * 100.0) {
-            if (!result.reason.empty()) result.reason += "; ";
-            result.reason += "CPU exhaustion on " + shard_id + 
-                           " (" + std::to_string(static_cast<int>(metrics.cpu_usage_percent)) + "%)";
-            
-            if (std::find(result.hotspot_shards.begin(), result.hotspot_shards.end(), 
-                         shard_id) == result.hotspot_shards.end()) {
-                result.hotspot_shards.push_back(shard_id);
-            }
+            std::ostringstream reason_stream;
+            reason_stream << "CPU exhaustion on " << shard_id
+                          << " (" << static_cast<int>(metrics.cpu_usage_percent) << "%)";
+            appendReasonClause(result.reason, reason_stream.str());
+
+            addHotspotIfAbsent(result.hotspot_shards, hotspot_index, shard_id);
             
             exhaustion_found = true;
         }
         
         if (metrics.storage_usage_percent > config_.storage_exhaustion_threshold * 100.0) {
-            if (!result.reason.empty()) result.reason += "; ";
-            result.reason += "Storage exhaustion on " + shard_id + 
-                           " (" + std::to_string(static_cast<int>(metrics.storage_usage_percent)) + "%)";
-            
-            if (std::find(result.hotspot_shards.begin(), result.hotspot_shards.end(), 
-                         shard_id) == result.hotspot_shards.end()) {
-                result.hotspot_shards.push_back(shard_id);
-            }
+            std::ostringstream reason_stream;
+            reason_stream << "Storage exhaustion on " << shard_id
+                          << " (" << static_cast<int>(metrics.storage_usage_percent) << "%)";
+            appendReasonClause(result.reason, reason_stream.str());
+
+            addHotspotIfAbsent(result.hotspot_shards, hotspot_index, shard_id);
             
             exhaustion_found = true;
         }
@@ -287,6 +343,7 @@ bool ShardLoadDetector::detectResourceExhaustion(
     return exhaustion_found;
 }
 
+/** @brief Build simple hotspot-to-cold-shard migration recommendations. */
 void ShardLoadDetector::generateRebalanceRecommendations(
     const std::map<std::string, ShardLoadMetrics>& loads,
     LoadImbalanceResult& result
@@ -332,6 +389,7 @@ void ShardLoadDetector::generateRebalanceRecommendations(
     THEMIS_INFO("Generated {} rebalance recommendations", result.recommendations.size());
 }
 
+/** @brief Compute weighted composite shard load score. */
 double ShardLoadDetector::calculateLoad(const ShardLoadMetrics& metrics) const {
     // Weighted load score
     double storage_weight = 0.4;
@@ -351,6 +409,7 @@ double ShardLoadDetector::calculateLoad(const ShardLoadMetrics& metrics) const {
            (cpu_score * cpu_weight);
 }
 
+/** @brief Compute standard deviation across numeric vector. */
 double ShardLoadDetector::calculateVariance(const std::vector<double>& values) const {
     if (values.empty()) return 0.0;
     
@@ -367,6 +426,7 @@ double ShardLoadDetector::calculateVariance(const std::vector<double>& values) c
     return std::sqrt(variance);
 }
 
+/** @brief Return latest load metrics for shard id if present. */
 std::optional<ShardLoadMetrics> ShardLoadDetector::getShardLoad(const std::string& shard_id) const {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -378,11 +438,13 @@ std::optional<ShardLoadMetrics> ShardLoadDetector::getShardLoad(const std::strin
     return std::nullopt;
 }
 
+/** @brief Return copy of latest load metrics map for all tracked shards. */
 std::map<std::string, ShardLoadMetrics> ShardLoadDetector::getAllShardLoads() const {
     std::lock_guard<std::mutex> lock(mutex_);
     return shard_loads_;
 }
 
+/** @brief Record rebalance trigger and start cooldown interval. */
 void ShardLoadDetector::recordRebalanceTriggered() {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -397,6 +459,7 @@ void ShardLoadDetector::recordRebalanceTriggered() {
                config_.rebalance_cooldown.count() / 1000);
 }
 
+/** @brief Return whether detector currently suppresses actions during cooldown window. */
 bool ShardLoadDetector::isInCooldown() const {
     if (last_rebalance_time_ == std::chrono::system_clock::time_point::min()) {
         return false;
@@ -410,6 +473,7 @@ bool ShardLoadDetector::isInCooldown() const {
     return elapsed < config_.rebalance_cooldown;
 }
 
+/** @brief Return detector counters, tracking state and metric staleness diagnostics. */
 nlohmann::json ShardLoadDetector::getStatistics() const {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -441,6 +505,7 @@ nlohmann::json ShardLoadDetector::getStatistics() const {
 // Load Forecasting
 // ──────────────────────────────────────────────────────────────────────────────
 
+/** @brief Fit linear trend model over value series (index-based x-axis). */
 std::pair<double, double> ShardLoadDetector::linearRegression(const std::vector<double>& values) {
     if (values.size() < 2) {
         return {0.0, values.empty() ? 0.0 : values[0]};
@@ -467,6 +532,7 @@ std::pair<double, double> ShardLoadDetector::linearRegression(const std::vector<
     return {slope, intercept};
 }
 
+/** @brief Forecast shard load at future horizon using linear-trend extrapolation. */
 std::optional<LoadForecast> ShardLoadDetector::forecastLoad(
     const std::string& shard_id,
     std::chrono::minutes horizon

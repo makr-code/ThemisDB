@@ -1,3 +1,14 @@
+/**
+ * @file jit_aggregation.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
  * ThemisDB | File: jit_aggregation.h | Version: 0.0.15 | Last Modified: 2026-05-31 12:17:24
  * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 213
@@ -84,7 +95,7 @@ namespace analytics {
  *   // Calls >= hot_threshold: specialised path (jit_hits++)
  *   ColumnBatch result = jit.aggregate(batch, specs);
  *
- *   auto& s = jit.stats();
+ *   auto s = jit.stats();
  *   std::cout << "JIT hits: " << s.jit_hits << "\n";
  * @endcode
  */
@@ -193,7 +204,7 @@ public:
     };
 
     /** @brief Return a snapshot of the current statistics. */
-    const Stats& stats() const noexcept;
+    Stats stats() const noexcept;
 
     /** @brief Reset statistics counters (does not invalidate compiled code). */
     void resetStats() noexcept;

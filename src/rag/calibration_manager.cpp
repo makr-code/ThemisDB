@@ -1,19 +1,12 @@
-/*
- * ThemisDB | File: calibration_manager.cpp | Version: 0.0.13 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 500
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=5, H=4, M=7, L=1
- * PR History (last 5): #5126 docs(rag): sync QUALITY_CON... (2026-05-14) | #3583 feat(rag): implement BatchE... (2026-03-12)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file calibration_manager.cpp
- * @brief Calibration manager for RAG Judge evaluations
- *
- * Implements temperature scaling, Platt scaling, and isotonic regression
- * to align judge scores with human annotations. Tracks calibration metrics
- * (ECE, Brier score, correlation, MAE, RMSE) and supports model persistence.
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.13
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=3, H=2, M=6, L=1
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include "rag/calibration_manager.h"

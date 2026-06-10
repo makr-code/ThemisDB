@@ -1,3 +1,14 @@
+/**
+ * @file llm_model_storage.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=4; TODO=1, Stub=1, Unimpl=0, Mock=2, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
  * ThemisDB | File: llm_model_storage.h | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
  * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 96/100 | Lines: 347
@@ -47,6 +58,7 @@ struct LLMModelMetadata {
     std::string quantization;          // "Q4_K_M", "Q8_0", "FP16", etc.
     size_t size_bytes = 0;            // Model file size
     std::string checksum;              // SHA256 hash
+    std::string checksum_type = "sha256"; // Checksum algorithm type
     
     // Model parameters
     int64_t parameter_count = 0;       // Number of parameters (e.g., 7B)
@@ -96,6 +108,7 @@ struct LLMModelMetadata {
             {"quantization", quantization},
             {"size_bytes", size_bytes},
             {"checksum", checksum},
+            {"checksum_type", checksum_type},
             {"parameter_count", parameter_count},
             {"context_length", context_length},
             {"vocabulary_size", vocabulary_size},

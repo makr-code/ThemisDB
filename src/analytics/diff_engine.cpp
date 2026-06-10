@@ -1,3 +1,14 @@
+/**
+ * @file diff_engine.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 84/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=5, M=12, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
  * ThemisDB | File: diff_engine.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:49:01
  * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 99/100 | Lines: 624
@@ -177,8 +188,14 @@ DiffEngine::DiffResult DiffEngine::computeDiff(uint64_t from_sequence, uint64_t 
         // Wait while the same range is already being computed by another caller.
         // After waking, check the cache first — the in-flight caller will have
         // populated it before removing the key from inflight_keys_.
+        // 30-second timeout guards against a stalled computing thread.
         while (inflight_keys_.count(cache_key)) {
-            inflight_cv_.wait(lock);
+            if (inflight_cv_.wait_for(lock, std::chrono::seconds(30)) == std::cv_status::timeout) {
+                // Computing thread appears stalled; remove the stale in-flight
+                // marker so this caller (and future callers) can recompute.
+                inflight_keys_.erase(cache_key);
+                break;
+            }
         }
 
         // Check cache (possibly populated by the caller we just waited for)

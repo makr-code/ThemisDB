@@ -1,28 +1,12 @@
-/*
- * ThemisDB | File: active_vram_allocator.cpp | Version: 0.0.13 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 95/100 | Lines: 876
- * Gap Summary: total=5; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=2, Debt=0, C=1, H=27, M=5, L=0
- * PR History (last 5): #4370 [WIP] Update llm documentat... (2026-03-21) | #3802 [LLM] AdaptiveVRAMAllocator... (2026-03-12) | #3695 feat(llm): implement Active... (2026-03-12)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file active_vram_allocator.cpp
- * @brief Production GPU VRAM allocator with OOM recovery strategies.
- *
- * Implements ActiveVRAMAllocator (LLM-MISSING-001):
- * - Real GPU memory allocation via GPUMemoryManager (cudaMalloc / fallback)
- * - LRU-based eviction to free stale allocations on OOM
- * - Defragmentation via GPUMemoryManager::defragment()
- * - CPU spilling for last-resort memory recovery
- * - Waste / fragmentation reporting via Stats
- * - OOM callback notifications
- *
- * Recovery strategy order on OOM:
- *   1. evictLRU()       — free the oldest unused VRAM allocation
- *   2. defragment()     — compact free fragments
- *   3. spillLRUToCPU()  — migrate the oldest allocation to CPU memory
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.13
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 95/100
+ * @note Gap Summary: total=5; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=2, Debt=0, C=0, H=13, M=5, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include "llm/active_vram_allocator.h"

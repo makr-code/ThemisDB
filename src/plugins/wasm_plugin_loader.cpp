@@ -1,37 +1,12 @@
-/*
- * ThemisDB | File: wasm_plugin_loader.cpp | Version: 0.0.13 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 88/100 | Lines: 527
- * Gap Summary: total=5; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=1, Debt=0, C=1, H=4, M=1, L=0
- * PR History (last 5): #4678 feat: replace production st... (2026-04-15) | #4256 feat(plugins): upgrade Plug... (2026-03-15)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file wasm_plugin_loader.cpp
- * @brief WASM Plugin Loader — selects the WASM runtime and instantiates
- *        WASM-backed plugins requested by PluginManifest::runtime == "wasm".
- *
- * Architecture:
- *   WasmPluginLoader sits alongside plugin_manager.cpp and is invoked from
- *   PluginManager::loadPlugin() whenever the manifest's `runtime` field is
- *   set to "wasm".  For "native" manifests the existing dlopen path is used
- *   unchanged.
- *
- *   The loader:
- *     1. Verifies the WASM module SHA-256 hash against manifest.sha256.
- *     2. Checks that the WASM runtime edition gate passes (Enterprise+).
- *     3. Instantiates the module via the configured runtime backend.
- *     4. Returns a WasmHostAPI wrapper that implements IThemisPlugin.
- *
- * Compile-time guard:
- *   The full implementation is compiled only when THEMIS_WASM_SUPPORT is
- *   defined.  When the macro is absent the public API still links (returning
- *   appropriate "not supported" errors) so that call-sites compile uniformly.
- *
- * @see include/plugins/wasm_host_api.h
- * @see src/plugins/plugin_manager.cpp
- * @see src/plugins/plugin_system_edition.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.13
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 88/100
+ * @note Gap Summary: total=5; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=1, Debt=0, C=0, H=1, M=1, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include "plugins/wasm_host_api.h"

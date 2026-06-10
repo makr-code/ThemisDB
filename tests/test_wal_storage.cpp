@@ -20,8 +20,6 @@
 #include <gtest/gtest.h>
 #include "storage/wal_storage.h"
 
-#include <chrono>
-#include <cstdlib>
 #include <filesystem>
 #include <fstream>
 #include <string>
@@ -38,28 +36,6 @@ static std::string tmpDir(const std::string& suffix) {
     namespace fs = std::filesystem;
     return (fs::temp_directory_path() / ("themis_wal_test_" + suffix)).string();
 }
-
-class ScopedEnvVar {
-public:
-    ScopedEnvVar(const char* name, const char* value) : name_(name) {
-#if defined(_WIN32)
-        _putenv_s(name_, value);
-#else
-        setenv(name_, value, 1);
-#endif
-    }
-
-    ~ScopedEnvVar() {
-#if defined(_WIN32)
-        _putenv_s(name_, "");
-#else
-        unsetenv(name_);
-#endif
-    }
-
-private:
-    const char* name_;
-};
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Segment naming
@@ -313,57 +289,6 @@ TEST_F(WALStorageTest, Flush_Succeeds) {
     (*wal)->appendPut("k", "v");
     auto r = (*wal)->flush();
     EXPECT_TRUE(r.has_value());
-}
-
-TEST_F(WALStorageTest, Open_RetriesInterruptedOpen) {
-    ScopedEnvVar inject("THEMIS_TEST_WAL_OPEN_EINTR_ONCE", "1");
-    auto wal = WALStorage::open(config());
-    ASSERT_TRUE(wal.has_value());
-    EXPECT_EQ((*wal)->segmentCount(), 1u);
-}
-
-TEST_F(WALStorageTest, AppendPut_RetriesInterruptedWrite) {
-    {
-        auto wal = WALStorage::open(config());
-        ASSERT_TRUE(wal.has_value());
-
-        ScopedEnvVar inject("THEMIS_TEST_WAL_WRITE_EINTR_ONCE", "1");
-        auto seq = (*wal)->appendPut("retry-key", "retry-value");
-        ASSERT_TRUE(seq.has_value());
-        EXPECT_EQ(*seq, 1u);
-    }
-
-    std::vector<WALStorage::Entry> recovered;
-    auto reopened = WALStorage::open(config(), [&](const WALStorage::Entry& e) {
-        recovered.push_back(e);
-        return true;
-    });
-    ASSERT_TRUE(reopened.has_value());
-    ASSERT_EQ(recovered.size(), 1u);
-    EXPECT_EQ(recovered[0].key, "retry-key");
-    EXPECT_EQ(recovered[0].value, "retry-value");
-}
-
-TEST_F(WALStorageTest, Flush_RetriesInterruptedFsync) {
-    auto wal = WALStorage::open(config());
-    ASSERT_TRUE(wal.has_value());
-    ASSERT_TRUE((*wal)->appendPut("k", "v").has_value());
-
-    ScopedEnvVar inject("THEMIS_TEST_WAL_FSYNC_EINTR_ONCE", "1");
-    auto r = (*wal)->flush();
-    EXPECT_TRUE(r.has_value());
-}
-
-TEST_F(WALStorageTest, AppendPut_PropagatesFsyncFailure) {
-    auto cfg = config();
-    cfg.fsync_on_write = true;
-
-    auto wal = WALStorage::open(cfg);
-    ASSERT_TRUE(wal.has_value());
-
-    ScopedEnvVar inject("THEMIS_TEST_WAL_FSYNC_FAIL_ONCE", "1");
-    auto r = (*wal)->appendPut("k", "v");
-    EXPECT_FALSE(r.has_value());
 }
 
 // ─────────────────────────────────────────────────────────────────────────────

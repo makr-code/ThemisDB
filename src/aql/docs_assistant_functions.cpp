@@ -1,15 +1,12 @@
-/*
- * ThemisDB | File: docs_assistant_functions.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 563
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=2, H=4, M=7, L=0
- * PR History (last 5): #4220 feat(aql): wire detectInten... (2026-03-14) | #3479 [Docs-Audit] src/aql: Fix s... (2026-03-12) | #370 Integrate themis_help_lora ... (2026-03-11)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file docs_assistant_functions.cpp
- * @brief Implementation of AQL documentation assistant functions with LoRA support
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=3, M=3, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include "aql/docs_assistant_functions.h"

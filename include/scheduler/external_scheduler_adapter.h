@@ -1,43 +1,12 @@
-/*
- * ThemisDB | File: external_scheduler_adapter.h | Version: 0.0.15
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file external_scheduler_adapter.h
- * @brief Integration adapters for external schedulers: Kubernetes CronJob and Apache Airflow.
- *
- * ExternalSchedulerAdapter converts ThemisDB ScheduledTask definitions to and from
- * formats used by external orchestration platforms. It also generates ready-to-use
- * manifests / DAG definitions so that external schedulers can trigger task execution
- * via the ThemisDB HTTP API.
- *
- * ### Kubernetes CronJob integration
- * The adapter generates a Kubernetes CronJob manifest (JSON or YAML) that launches a
- * lightweight HTTP call to the ThemisDB task-scheduler REST endpoint
- * (`POST /api/v1/scheduler/tasks/{id}/execute`). The ThemisDB operator deploys the
- * manifest once; Kubernetes then owns the scheduling cadence.
- *
- * Reverse direction: given a raw Kubernetes CronJob manifest (JSON), the adapter
- * creates a matching ThemisDB ScheduledTask so the same schedule can be mirrored
- * inside ThemisDB.
- *
- * ### Apache Airflow integration
- * The adapter generates a self-contained Python DAG file that can be dropped into
- * an Airflow dags/ folder. Each ThemisDB task becomes an HttpOperator that POSTs to
- * the same REST endpoint. Task `dependencies` are translated into Airflow task
- * dependencies (``>>``), preserving the DAG structure.
- *
- * ⚠️ SECURITY NOTE
- * - Generated manifests / DAGs may contain ThemisDB endpoint URLs. Treat them as
- *   configuration artefacts and store them securely.
- * - Bearer-token authentication is supported for both Kubernetes CronJob and Airflow
- *   specs so that the external scheduler can authenticate against ThemisDB's API.
- * - Do **not** embed plain-text secrets in Kubernetes manifests; use Kubernetes Secrets
- *   or Airflow Connections instead.
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once

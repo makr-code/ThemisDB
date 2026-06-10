@@ -1,3 +1,14 @@
+/**
+ * @file jwt_validator.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=4, M=4, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
  * ThemisDB | File: jwt_validator.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
  * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 932
@@ -37,6 +48,14 @@ namespace themis {
 namespace auth {
 
 namespace {
+/**
+ * @brief libcurl write callback that appends received bytes to a std::string.
+ * @param ptr Input buffer from libcurl.
+ * @param size Element size.
+ * @param nmemb Element count.
+ * @param userdata std::string* output accumulator.
+ * @return Number of bytes consumed.
+ */
 size_t curlWriteToString(char *ptr, size_t size, size_t nmemb, void *userdata) {
     auto total = size * nmemb;
     auto *out  = static_cast<std::string *>(userdata);
@@ -45,6 +64,10 @@ size_t curlWriteToString(char *ptr, size_t size, size_t nmemb, void *userdata) {
 }
 } // namespace
 
+/**
+ * @brief Construct validator from JWKS URL with permissive issuer/audience checks.
+ * @param jwks_url JWKS endpoint URL.
+ */
 JWTValidator::JWTValidator(const std::string &jwks_url)
     : cfg_{JWTValidatorConfig{
           .jwks_url                    = jwks_url,
@@ -59,6 +82,11 @@ JWTValidator::JWTValidator(const std::string &jwks_url)
       worker_pool_(std::make_unique<AuthWorkerThreadPool>(AuthWorkerThreadPool::kMinThreads,
                                                           AuthWorkerThreadPool::kMaxThreads)) {}
 
+/**
+ * @brief Construct validator from explicit runtime configuration.
+ * @param cfg Validation and cache configuration.
+ * @throws std::runtime_error if required issuer/audience constraints are missing.
+ */
 JWTValidator::JWTValidator(const JWTValidatorConfig &cfg)
     : cfg_(cfg), jwks_url_(cfg.jwks_url), jwks_cache_time_(std::chrono::system_clock::time_point::min()),
       worker_pool_(std::make_unique<AuthWorkerThreadPool>(AuthWorkerThreadPool::kMinThreads,
@@ -85,6 +113,11 @@ JWTValidator::JWTValidator(const JWTValidatorConfig &cfg)
     }
 }
 
+/**
+ * @brief Decode Base64URL text into raw bytes.
+ * @param input Base64URL encoded payload.
+ * @return Decoded bytes, or empty vector on decode failure.
+ */
 std::vector<uint8_t> JWTValidator::decodeBase64Url(const std::string &input) {
     std::string base64 = input;
     std::replace(base64.begin(), base64.end(), '-', '+');
@@ -114,11 +147,21 @@ std::vector<uint8_t> JWTValidator::decodeBase64Url(const std::string &input) {
     return decoded;
 }
 
+/**
+ * @brief Decode Base64URL text into string payload.
+ * @param input Base64URL encoded text.
+ * @return Decoded string.
+ */
 std::string JWTValidator::decodeBase64UrlToString(const std::string &input) {
     auto bytes = decodeBase64Url(input);
     return std::string(reinterpret_cast<const char *>(bytes.data()), bytes.size());
 }
 
+/**
+ * @brief Fetch JWKS with cache TTL and single-flight refresh behavior.
+ * @return Validated JWKS JSON document.
+ * @throws std::runtime_error if JWKS retrieval or validation fails.
+ */
 nlohmann::json JWTValidator::fetchJWKS() {
     auto now = std::chrono::system_clock::now();
 
@@ -296,6 +339,12 @@ nlohmann::json JWTValidator::fetchJWKS() {
     return jwks_cache_;
 }
 
+/**
+ * @brief Locate JWK by key id in a JWKS document.
+ * @param jwks JWKS JSON.
+ * @param kid Key id to match.
+ * @return Pointer to matching JWK object, or nullptr.
+ */
 const nlohmann::json *JWTValidator::findJwkForKid(const nlohmann::json &jwks, const std::string &kid) const {
     if (!jwks.contains("keys")) {
         return nullptr;
@@ -308,6 +357,13 @@ const nlohmann::json *JWTValidator::findJwkForKid(const nlohmann::json &jwks, co
     return nullptr;
 }
 
+/**
+ * @brief Compatibility wrapper for RSA SHA-256 signature verification.
+ * @param header_payload JWT signing input.
+ * @param signature Decoded signature bytes.
+ * @param jwk RSA key material.
+ * @return true when signature verification succeeds.
+ */
 bool JWTValidator::verifySignatureRS256(const std::string &header_payload, const std::vector<uint8_t> &signature,
                                         const nlohmann::json &jwk) {
     return verifySignatureRSA(header_payload, signature, jwk, "RS256");

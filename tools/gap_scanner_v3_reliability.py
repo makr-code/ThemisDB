@@ -93,96 +93,6 @@ class ReliabilityGapScanner:
             'expires_after', 'expires_at', 'deadline', 'milliseconds', 'seconds',
         ]
         return any(tok in context for tok in timeout_tokens)
-    
-    def _is_sync_only_operation(self, line: str) -> bool:
-        """WHITELIST: Identify sync-only operations that don't need timeouts.
-        
-        Sync operations (local computation, no blocking I/O) don't need timeouts.
-        Returns True if this is a safe sync operation (should be whitelisted).
-        """
-        l_lower = line.lower()
-        
-        # WHITELIST 1: Local synchronous operations
-        # (computations, in-memory data structures, no blocking calls)
-        sync_patterns = [
-            'for_each(', 'std::find', 'std::sort', 'std::copy',
-            'std::accumulate', 'std::transform', 'std::filter',
-            'vector.push_back', 'vector.pop_back', 'map[',
-            'obj.field', 'obj.method()', '.get()', '.size()',
-            'std::lock_guard', 'scoped_lock',  # These are synchronization, not blocking I/O
-        ]
-        for pattern in sync_patterns:
-            if pattern in l_lower:
-                return True
-        
-        # WHITELIST 2: Synchronous file reads with known-small sizes (like PEM certs)
-        if self._is_local_pem_read(line):
-            return True
-        
-        # WHITELIST 3: Constructor/destructor operations
-        if '::~' in line or 'destructor' in l_lower or '__init__' in l_lower:
-            return True
-        
-        # WHITELIST 4: Configuration/setup operations (happen at startup)
-        if 'config' in l_lower or 'init' in l_lower or 'setup' in l_lower or 'start' in l_lower:
-            # But NOT for RPC/network calls in setup
-            if not any(rpc in l_lower for rpc in ['grpc', 'http', 'socket', 'query']):
-                return True
-        
-        return False
-    
-    def _is_handler_or_entry_point(self, func_name: str, line: str) -> bool:
-        """WHITELIST: Check if this is a handler/entry point function that SHOULD have health checks.
-        
-        Returns True if this looks like a handler function (not internal utility).
-        """
-        l_lower = line.lower() + func_name.lower()
-        
-        # HANDLER PATTERNS: These should have health checks
-        handler_patterns = [
-            'handle', 'process', 'execute', 'serve', 'dispatch',
-            'rpc', 'grpc', 'http', 'endpoint', 'api',
-            'request', 'query', 'command',
-        ]
-        
-        is_handler = any(p in l_lower for p in handler_patterns)
-        
-        if not is_handler:
-            return False  # Not a handler
-        
-        # SKIP INTERNAL UTILITIES: Even if they have handler-like names
-        skip_patterns = [
-            '::detail::', '::internal::', '::impl::',
-            '_internal', '__impl', '_impl',
-            'private:', 'protected:',
-        ]
-        is_internal = any(p in line for p in skip_patterns)
-        
-        return is_handler and not is_internal
-    
-    def _should_skip_no_health_check(self, line: str, func_name: str) -> bool:
-        """WHITELIST: Skip NO_HEALTH_CHECK for non-handler functions.
-        
-        Returns True if this line should be whitelisted (NOT flagged).
-        """
-        # WHITELIST 1: Internal utilities/data processors (not entry points)
-        if not self._is_handler_or_entry_point(func_name, line):
-            return True
-        
-        # WHITELIST 2: Functions with explicit health check markers
-        if 'health' in line.lower() or 'check' in line.lower() or 'status' in line.lower():
-            return True
-        
-        # WHITELIST 3: Already has init or set in same context
-        if 'init' in line.lower() or 'set' in line.lower():
-            return True
-        
-        # WHITELIST 4: Critical path marker (async, timeout, deadline)
-        critical_markers = ['timeout', 'deadline', 'async', 'critical']
-        if any(m in line.lower() for m in critical_markers):
-            return True
-        
-        return False
 
     def _is_local_pem_read(self, line: str) -> bool:
         """Ignore local cert/key file reads that are not network blocking calls."""
@@ -273,11 +183,6 @@ class ReliabilityGapScanner:
                 if pattern.search(line):
                     if block_type == 'file_io' and self._is_local_pem_read(line):
                         continue
-                    
-                    # WHITELIST: Skip sync-only operations that don't need timeout
-                    if self._is_sync_only_operation(line):
-                        continue
-                    
                     # Check if timeout is specified
                     has_timeout = self._has_timeout_context(lines, line_num - 1)
                     
@@ -335,18 +240,6 @@ class ReliabilityGapScanner:
                 # "Status" as a return type or namespace symbol.
                 looks_like_declaration = ';' in line and '(' not in line
                 if looks_like_declaration and '=' not in line and 'return' not in line:
-                    # Extract function name context (look backwards for function signature)
-                    func_name = ''
-                    for i in range(line_num - 1, max(0, line_num - 30), -1):
-                        func_match = re.search(r'(\w+)\s*\(', lines[i])
-                        if func_match:
-                            func_name = func_match.group(1)
-                            break
-                    
-                    # Check if we should skip this based on whitelist
-                    if self._should_skip_no_health_check(line, func_name):
-                        continue  # Whitelisted - not a handler or already checked
-                    
                     # Possible uninitialized status
                     next_context = ''.join(lines[line_num:min(len(lines), line_num+3)])
                     if 'init' not in next_context.lower() and 'set' not in next_context.lower():
@@ -356,8 +249,8 @@ class ReliabilityGapScanner:
                             gap_type=ReliabilityGapType.NO_HEALTH_CHECK,
                             snippet=line.strip()[:100],
                             severity='MEDIUM',
-                            description=f'Handler function "{func_name}" — status field but no health check',
-                            remediation='Initialize status and implement periodic health checks for handler functions'
+                            description='Status field defined but no initialization or health check',
+                            remediation='Initialize status to UNKNOWN and implement periodic health checks'
                         )
                         gaps.append(gap)
         

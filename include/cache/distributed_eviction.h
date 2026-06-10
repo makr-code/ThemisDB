@@ -1,30 +1,12 @@
-/*
- * ThemisDB | File: distributed_eviction.h | Version: 0.0.10 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 204
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * PR History (last 5): #4476 feat(cache): Phase 6 distri... (2026-04-12)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
-// Copyright 2025 ThemisDB
-// Licensed under MIT License
-
 /**
  * @file distributed_eviction.h
- * @brief Cross-node coordinated eviction interface for clustered deployments.
- *
- * `IDistributedEviction` allows a cache node to broadcast eviction decisions
- * to all peers in a cluster.  This is complementary to `IRemoteCachePeer`
- * (which handles data-change invalidation) — distributed eviction is
- * triggered by capacity pressure, not by data mutation.
- *
- * Design constraints:
- *   - All methods are thread-safe; implementations serialise access internally.
- *   - `evict()` is fire-and-forget; callers must not block on peer ACKs.
- *   - Implementations must degrade gracefully when some peers are unreachable.
- *   - Listeners registered via `registerEvictionListener()` are called on a
- *     background delivery thread; they must not perform blocking I/O.
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.10
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 94/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once

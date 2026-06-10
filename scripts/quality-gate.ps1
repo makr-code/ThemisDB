@@ -55,12 +55,14 @@ Examples:
 
 $script:Root = Split-Path -Parent $PSScriptRoot
 $script:ReportPath = Join-Path $script:Root $ReportsDir
+$script:CtestLogsPath = Join-Path $script:Root "logs"
 $script:CompileCommandsPath = Join-Path $script:Root ("build-" + $ConfigurePreset + "\compile_commands.json")
 $script:BuildDirFallback = Join-Path $script:Root "build"
 $script:BuildDirForCompile = if (Test-Path $script:CompileCommandsPath) { Split-Path -Parent $script:CompileCommandsPath } else { $script:BuildDirFallback }
 $script:Failures = New-Object System.Collections.Generic.List[string]
 
 New-Item -ItemType Directory -Force -Path $script:ReportPath | Out-Null
+New-Item -ItemType Directory -Force -Path $script:CtestLogsPath | Out-Null
 
 function Write-Info {
     param([string]$Message)
@@ -177,6 +179,8 @@ function Invoke-External {
     if ($LASTEXITCODE -ne 0) {
         throw "Command returned exit code $LASTEXITCODE. See $targetLog"
     }
+
+    return $targetLog
 }
 
 function Get-SourceFiles {
@@ -227,7 +231,11 @@ try {
     }
 
     Invoke-Step -Name "CTest" -Skip:$SkipTests -Action {
-        Invoke-External -Command "ctest" -Arguments @("--preset", $TestPreset, "--output-on-failure", "-j", "1", "--timeout", "60") -LogFile "03-ctest.log"
+        $ctestReportLog = Invoke-External -Command "ctest" -Arguments @("--preset", $TestPreset, "--output-on-failure", "-j", "1", "--timeout", "60") -LogFile "03-ctest.log"
+        $timestamp = Get-Date -Format "yyyyMMdd_HHmmss"
+        $ctestDebugLog = Join-Path $script:CtestLogsPath ("ctest-" + $TestPreset + "-" + $timestamp + ".log")
+        Copy-Item -LiteralPath $ctestReportLog -Destination $ctestDebugLog -Force
+        Write-Info "CTest debug log written: $ctestDebugLog"
     }
 
     Invoke-Step -Name "clang-tidy" -Skip:($SkipClangTidy -or -not $clangTidyAvailable) -Action {

@@ -1,3 +1,14 @@
+/**
+ * @file sse_connection_manager.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=3, M=0, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
  * ThemisDB | File: sse_connection_manager.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
  * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 448
@@ -15,6 +26,12 @@
 namespace themis {
 namespace server {
 
+/**
+ * @brief Construct SSE manager with explicit connection policy.
+ * @param changefeed Changefeed source.
+ * @param ioc io_context for timer scheduling.
+ * @param config Runtime connection policy.
+ */
 SseConnectionManager::SseConnectionManager(
     std::shared_ptr<Changefeed> changefeed,
     boost::asio::io_context& ioc,
@@ -36,17 +53,29 @@ SseConnectionManager::SseConnectionManager(
     );
 }
 
-// Delegating constructor with default config
+/**
+ * @brief Construct SSE manager with default connection policy.
+ * @param changefeed Changefeed source.
+ * @param ioc io_context for timer scheduling.
+ */
 SseConnectionManager::SseConnectionManager(
     std::shared_ptr<Changefeed> changefeed,
     boost::asio::io_context& ioc
 )
     : SseConnectionManager(std::move(changefeed), ioc, ConnectionConfig{}) {}
 
+/** @brief Destructor; calls shutdown(). */
 SseConnectionManager::~SseConnectionManager() {
     shutdown();
 }
 
+/**
+ * @brief Register a client connection for SSE event streaming.
+ * @param from_seq Initial sequence cursor for replay.
+ * @param key_prefix Optional key prefix filter.
+ * @param event_types Optional event-type filter set.
+ * @return Unique connection id.
+ */
 uint64_t SseConnectionManager::registerConnection(
     uint64_t from_seq,
     const std::string& key_prefix,
@@ -88,6 +117,10 @@ uint64_t SseConnectionManager::registerConnection(
     return conn_id;
 }
 
+/**
+ * @brief Unregister and deactivate a client connection.
+ * @param conn_id Connection id.
+ */
 void SseConnectionManager::unregisterConnection(uint64_t conn_id) {
     bool stop_polling = false;
     std::unique_lock<std::shared_mutex> lock(connections_mutex_);
@@ -117,6 +150,12 @@ void SseConnectionManager::unregisterConnection(uint64_t conn_id) {
     }
 }
 
+/**
+ * @brief Drain formatted SSE events for a connection.
+ * @param conn_id Connection id.
+ * @param max_events Maximum events to return.
+ * @return Vector of SSE formatted event lines.
+ */
 std::vector<std::string> SseConnectionManager::pollEvents(
     uint64_t conn_id,
     size_t   max_events
@@ -186,6 +225,12 @@ std::vector<std::string> SseConnectionManager::pollEvents(
     return events;
 }
 
+/**
+ * @brief Drain raw changefeed events for at-least-once delivery tracking.
+ * @param conn_id Connection id.
+ * @param max_events Maximum events to return.
+ * @return Raw change events in ascending sequence order.
+ */
 std::vector<Changefeed::ChangeEvent> SseConnectionManager::pollRawEvents(
     uint64_t conn_id,
     size_t max_events
@@ -247,6 +292,11 @@ std::vector<Changefeed::ChangeEvent> SseConnectionManager::pollRawEvents(
     return raw_events;
 }
 
+/**
+ * @brief Determine whether a heartbeat should be sent now.
+ * @param conn_id Connection id.
+ * @return true when heartbeat interval elapsed.
+ */
 bool SseConnectionManager::needsHeartbeat(uint64_t conn_id) const {
     std::shared_lock<std::shared_mutex> lock(connections_mutex_);
 
@@ -262,6 +312,10 @@ bool SseConnectionManager::needsHeartbeat(uint64_t conn_id) const {
     return elapsed >= config_.heartbeat_interval_ms;
 }
 
+/**
+ * @brief Record heartbeat emission timestamp for a connection.
+ * @param conn_id Connection id.
+ */
 void SseConnectionManager::recordHeartbeat(uint64_t conn_id) {
     std::unique_lock<std::shared_mutex> lock(connections_mutex_);
     
@@ -272,6 +326,10 @@ void SseConnectionManager::recordHeartbeat(uint64_t conn_id) {
     }
 }
 
+/**
+ * @brief Get manager-level cumulative statistics.
+ * @return Statistics snapshot.
+ */
 SseConnectionManager::ConnectionStats SseConnectionManager::getStats() const {
     std::shared_lock<std::shared_mutex> lock(connections_mutex_);
     
@@ -284,6 +342,9 @@ SseConnectionManager::ConnectionStats SseConnectionManager::getStats() const {
     return s;
 }
 
+/**
+ * @brief Stop polling and tear down all active connections.
+ */
 void SseConnectionManager::shutdown() {
     THEMIS_INFO("SSE Connection Manager shutting down...");
     
@@ -310,6 +371,9 @@ void SseConnectionManager::shutdown() {
     THEMIS_INFO("SSE Connection Manager shutdown complete");
 }
 
+/**
+ * @brief Background poll loop scheduled via timer to fill connection buffers.
+ */
 void SseConnectionManager::backgroundPollTask() {
     if (!running_) {
         return;

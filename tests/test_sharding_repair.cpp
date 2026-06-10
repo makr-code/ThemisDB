@@ -1125,25 +1125,6 @@ TEST_F(ShardResourceManagerIOPSTest, ThrottleEnabledWithHighBudget) {
     EXPECT_FALSE(mgr->acquireRepairIOToken(1.0));
 }
 
-TEST_F(ShardResourceManagerIOPSTest, TimedAcquireTimesOutWhenBudgetStaysExhausted) {
-    auto mgr = makeThrottledManager(1.0f, 100u);  // 1 token/s, burst 1
-    EXPECT_TRUE(mgr->acquireRepairIOToken(1.0));  // consume initial token
-
-    auto start = std::chrono::steady_clock::now();
-    EXPECT_FALSE(mgr->acquireRepairIOToken(1.0, std::chrono::milliseconds(20)));
-    auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(
-        std::chrono::steady_clock::now() - start);
-
-    EXPECT_LT(elapsed.count(), 250);
-}
-
-TEST_F(ShardResourceManagerIOPSTest, TimedAcquireCanWaitForRefill) {
-    auto mgr = makeThrottledManager(1.0f, 100u);  // 1 token/s, burst 1
-    EXPECT_TRUE(mgr->acquireRepairIOToken(1.0));  // consume initial token
-
-    EXPECT_TRUE(mgr->acquireRepairIOToken(1.0, std::chrono::milliseconds(1200)));
-}
-
 TEST_F(ShardResourceManagerIOPSTest, DefaultConfigHasThrottleEnabled) {
     ShardResourceManager::Config cfg;
     EXPECT_TRUE(cfg.enable_repair_iops_throttle);

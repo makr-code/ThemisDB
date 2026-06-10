@@ -1,43 +1,12 @@
-/*
- * ThemisDB | File: tensor_fingerprint_graph.h | Version: 1.0.0
- * Maturity: 🟢 PRODUCTION-READY | Score: 89/100
- * Gap Summary: total=10; TODO=1, Stub=6, Unimpl=0, Mock=1, Sim=2, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
- * @file tensor/tensor_fingerprint_graph.h
- * @brief Adapter similarity graph with TT-exact and fingerprint-approximate lookup.
- *
- * ## Overview (paper §Adapter Sovereignty)
- *
- * When many LoRA/PEFT adapters are stored as TT graphs inside ThemisDB,
- * the `TensorFingerprintGraph` provides two lookup modes:
- * - `findSimilar()` computes cosine similarity in the TT domain via
- *   TT inner products (exact ranking in compressed space).
- * - `findSimilarByFingerprint()` computes cosine similarity on a compact
- *   first-core fingerprint vector (fast approximate ranking).
- *
- * Each adapter is fingerprinted by the column means of its first
- * TT-core (`G_0`), yielding a compact float32 vector that approximates
- * the dominant variance direction of the adapter.  Similarity is then
- * measured by cosine distance on these fingerprints.
- *
- * ### Why column-mean of G_0?
- * The first TT-core `G_0 ∈ ℝ^{n₁ × r₁}` captures the leading inter-
- * mode correlations.  Its column means (per output rank) approximate
- * the first singular vector scaled by `r₁`, which is equivalent to
- * a rank-1 sketch of the adapter.  This is O(n₁ · r₁) to compute
- * and O(r₁) to store — negligible compared to the full adapter.
- *
- * ## Thread Safety
- * All public methods are thread-safe via shared_mutex.
- *
- * ## References
- * - Holtz, S. et al. (2012). SIAM J. Sci. Comput. — TT inner-product.
- * - Hu, E. et al. (2022). LoRA: Low-Rank Adaptation.  ICLR.
- * - ThemisDB Research Group (2026). §Adapter Sovereignty. Pre-print.
+ * @file tensor_fingerprint_graph.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 1.0.0
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 94/100
+ * @note Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once
@@ -72,6 +41,9 @@ struct FingerprintEntry {
 
     /// Column means of G_0 (first TT-core); length = r₁ of the first core.
     std::vector<float> fingerprint;
+
+    /// Cached squared L2 norm of `fingerprint` for query-time fast path.
+    float fingerprint_sq_norm = 0.0f;
 
     /// Frobenius norm of the first TT-core (used for normalisation).
     float first_core_norm = 0.0f;
@@ -156,6 +128,9 @@ public:
      * @param k          Maximum number of results to return.
      * @return           Sorted list (descending score) of similar adapters.
      *                   Empty if query_key is not registered or k == 0.
+    *
+    * @note Complexity: O(N * C_ip) for N candidates and TT inner-product cost C_ip.
+    *       With `setExactSimilarityFn()`, complexity becomes O(N * C_backend).
      */
     [[nodiscard]] std::vector<SimilarityResult>
         findSimilar(const std::string& query_key, std::size_t k) const;
@@ -169,6 +144,9 @@ public:
      * @param fingerprint  Query fingerprint vector.
      * @param k            Maximum number of results to return.
      * @param tenant_id    If non-empty, restrict results to this tenant.
+    *
+    * @note Complexity: O(N * D_overlap) where D_overlap is the shared prefix
+    *       length of compared fingerprints. Missing dimensions are treated as zeros.
      */
     [[nodiscard]] std::vector<SimilarityResult>
         findSimilarByFingerprint(const std::vector<float>& fingerprint,
@@ -206,16 +184,18 @@ public:
                                                    const std::string& key_b)>;
 
     /**
-     * @brief Install an exact-similarity function replacing cosine fingerprint.
+     * @brief Install an exact-similarity function for key-based similarity queries.
      *
-     * When set, findSimilarByFingerprint() delegates per-pair scoring to this
-     * function instead of computing cosine similarity on stored fingerprints.
+     * When set, findSimilar() delegates per-pair scoring to this function
+     * instead of computing TT cosine similarity via inner products.
+     * findSimilarByFingerprint() remains a fingerprint-only approximate path.
+     *
      * @param fn Callable receiving two adapter keys and returning a score in [0, 1].
      */
     static void setExactSimilarityFn(ExactSimilarityFn fn);
 
     /**
-     * @brief Remove the exact-similarity override (reverts to cosine fingerprint).
+     * @brief Remove the exact-similarity override (reverts to TT cosine path).
      */
     static void clearExactSimilarityFn();
 
@@ -231,9 +211,17 @@ private:
     static float cosineSimilarity(const std::vector<float>& a,
                                    const std::vector<float>& b) noexcept;
 
+    /// Cosine similarity with explicit zero-padding semantics and cached norms.
+    /// Returns 0.0 if either vector has near-zero norm.
+    static float cosineSimilarityZeroPadded(const std::vector<float>& a,
+                                            float                    a_sq_norm,
+                                            const std::vector<float>& b,
+                                            float                    b_sq_norm) noexcept;
+
     mutable std::shared_mutex mutex_;
     std::unordered_map<std::string, FingerprintEntry> entries_;
     std::unordered_map<std::string, storage::TTTrain> trains_;
+    std::unordered_map<std::string, double>           train_self_ip_;
 
     mutable std::shared_mutex stats_mutex_;
     mutable GraphStats        stats_;

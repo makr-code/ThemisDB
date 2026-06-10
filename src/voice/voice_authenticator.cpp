@@ -1,42 +1,12 @@
-/*
- * ThemisDB | File: voice_authenticator.cpp | Version: 0.0.15 | Last Modified: 2026-05-31 20:06:47
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 755
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=4, M=5, L=2
- * PR History (last 5): #2605 [voice] Implement speaker v... (2026-03-12)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file voice_authenticator.cpp
- * @brief Voice biometric authentication implementation.
- *
- * Feature Extraction (32-dimensional vector)
- * ------------------------------------------
- * The audio is split into 8 equal sub-bands.  For each sub-band:
- *   - RMS energy (normalised)         → 8 values
- *   - Zero-crossing rate              → 8 values
- * Global spectral features:
- *   - Spectral centroid               → 1 value
- *   - Spectral spread                 → 1 value
- *   - Spectral skewness               → 1 value
- *   - Spectral kurtosis               → 1 value
- * Global temporal features:
- *   - Overall RMS energy              → 1 value
- *   - Crest factor (peak / RMS)       → 1 value
- *   - Peak amplitude                  → 1 value
- *   - Spectral flatness (Wiener)      → 1 value
- * Delta sub-band RMS features (consecutive differences):
- *   - delta[i] = rms[i+1] - rms[i]   → 7 values, + 1 padding = 8 values
- *
- * Total: 8 + 8 + 4 + 4 + 8 = 32 dimensions.
- *
- * Profiles are stored as the L2-normalised mean over all enrollment samples.
- * Verification is computed as cosine similarity between the normalised probe
- * vector and the stored profile vector; the decision threshold defaults to 0.72.
- *
- * @author ThemisDB Team
- * @date February 2026
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=1, M=3, L=1
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include "voice/voice_auth.h"

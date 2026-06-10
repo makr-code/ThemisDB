@@ -1,38 +1,22 @@
-/*
- * ThemisDB | File: i_feedback_plugin.h | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 250
- * Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * PR History (last 5): #368 [REFACTOR] Simplified feedb... (2026-03-11)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 #pragma once
-
-#include <string>
-#include <memory>
-#include <optional>
-#include <nlohmann/json.hpp>
 
 /**
  * @file i_feedback_plugin.h
- * @brief Plugin interface for feedback validation and preprocessing
- * 
- * This interface enables optional custom validation, preprocessing, and filtering
- * logic for user feedback in the LoRA continuous learning system.
- * 
- * The simplified feedback system stores all feedback in the relational collection
- * with graph links to adapters. Validation and filtering are optional and can be
- * implemented via plugins for:
- * - Spam detection
- * - Content filtering
- * - Privacy checks (PII detection)
- * - Quality scoring
- * - Custom analytics
- * - Pre-training data transformations
- * 
- * This design separates concerns and allows customization without modifying core code.
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 94/100
+ * @note Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
+
+#include <nlohmann/json.hpp>
+
+#include <cstddef>
+#include <optional>
+#include <string>
+#include <vector>
 
 namespace themis {
 namespace llm {

@@ -1,3 +1,14 @@
+/**
+ * @file http_server.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
  * ThemisDB | File: http_server.h | Version: 0.0.47
  * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
@@ -313,6 +324,7 @@ public:
         std::shared_ptr<sharding::ShardTopology> shard_topology = nullptr
     );
 
+    /** @brief Destructor performs graceful server shutdown. */
     ~HttpServer();
 
     /**
@@ -446,6 +458,10 @@ public:
         sharding_manager_ = mgr;
     }
 
+    /**
+     * @brief Inject shard repair engine and wire metrics handler integration.
+     * @param engine Shared shard repair engine instance.
+     */
     void setShardRepairEngine(std::shared_ptr<sharding::ShardRepairEngine> engine) {
         shard_repair_engine_ = std::move(engine);
         // Lazily construct the repair REST API handler the first time a real
@@ -1131,6 +1147,9 @@ private:
     std::shared_ptr<sharding::ReplicationCoordinator> replication_coordinator_;
     std::shared_ptr<sharding::MultiPrimaryCoordinator> multi_primary_coordinator_;
     std::shared_ptr<sharding::HealthMonitor> health_monitor_;
+    /**
+     * @brief Construct HTTP server with extended sharding coordination dependencies.
+     */
     std::string wal_shared_secret_;
     std::string wal_hmac_secret_;
 

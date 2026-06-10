@@ -1,3 +1,14 @@
+/**
+ * @file rebalance_operation.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
  * ThemisDB | File: rebalance_operation.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
  * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 148
@@ -14,6 +25,10 @@
 namespace themis {
 namespace sharding {
 
+/**
+ * @brief Construct rebalance operation and validate static configuration.
+ * @param config Source/target/token-range and execution options.
+ */
 RebalanceOperation::RebalanceOperation(const RebalanceOperationConfig& config)
     : config_(config), state_(RebalanceState::PLANNED) {
     
@@ -29,6 +44,7 @@ RebalanceOperation::RebalanceOperation(const RebalanceOperationConfig& config)
     progress_.total_records = 0; // Will be updated during execution
 }
 
+/** @brief Start operation after state and operator validation checks pass. */
 bool RebalanceOperation::start(const std::string& operator_signature) {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -49,10 +65,12 @@ bool RebalanceOperation::start(const std::string& operator_signature) {
     return true;
 }
 
+/** @brief Transition operation from IN_PROGRESS to COMPLETED. */
 bool RebalanceOperation::complete() {
     return transitionState(RebalanceState::IN_PROGRESS, RebalanceState::COMPLETED);
 }
 
+/** @brief Mark operation as FAILED and capture error message. */
 bool RebalanceOperation::fail(const std::string& error_message) {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -71,24 +89,29 @@ bool RebalanceOperation::fail(const std::string& error_message) {
     return true;
 }
 
+/** @brief Transition operation from FAILED to ROLLED_BACK. */
 bool RebalanceOperation::rollback() {
     return transitionState(RebalanceState::FAILED, RebalanceState::ROLLED_BACK);
 }
 
+/** @brief Return current operation state. */
 RebalanceState RebalanceOperation::getState() const {
     return state_.load();
 }
 
+/** @brief Return current operation progress snapshot. */
 RebalanceProgress RebalanceOperation::getProgress() const {
     std::lock_guard<std::mutex> lock(mutex_);
     return progress_;
 }
 
+/** @brief Install callback invoked whenever progress is updated. */
 void RebalanceOperation::setProgressCallback(ProgressCallback callback) {
     std::lock_guard<std::mutex> lock(mutex_);
     progress_callback_ = std::move(callback);
 }
 
+/** @brief Update migrated-record counters and estimated completion timestamp. */
 void RebalanceOperation::updateProgress(uint64_t records_migrated, uint64_t bytes_transferred) {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -117,6 +140,7 @@ void RebalanceOperation::updateProgress(uint64_t records_migrated, uint64_t byte
     }
 }
 
+/** @brief Validate operator signature/certificate presence for authorization. */
 bool RebalanceOperation::validateOperator(const std::string& operator_signature) {
     // In a real implementation, this would:
     // 1. Load operator certificate from config_.operator_cert_path
@@ -137,6 +161,7 @@ bool RebalanceOperation::validateOperator(const std::string& operator_signature)
     return true;
 }
 
+/** @brief Perform atomic state transition with expected-from guard. */
 bool RebalanceOperation::transitionState(RebalanceState from, RebalanceState to) {
     std::lock_guard<std::mutex> lock(mutex_);
     

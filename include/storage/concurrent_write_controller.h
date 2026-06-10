@@ -1,55 +1,12 @@
-/*
- * ThemisDB | File: concurrent_write_controller.h | Version: 0.0.10
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file concurrent_write_controller.h
- * @brief Bounded, FIFO-fair write concurrency controller for the storage layer.
- *
- * ## Motivation (PERF-D6 / P-6)
- *
- * Under 10 concurrent HTTP clients the storage layer exhibits a coefficient of
- * variation (CV) of ~20.74 % for write latency.  The root cause is uncontrolled
- * lock contention: many threads compete simultaneously for the same RocksDB
- * write-commit mutex, causing some requests to race to the front while others
- * wait much longer — producing high variance.
- *
- * ## Solution
- *
- * `ConcurrentWriteController` is a counting semaphore with FIFO wakeup
- * semantics.  It limits the number of concurrent writers to
- * `Config::max_concurrent_writes`.  Excess writers block in a FIFO queue and
- * are woken in order, converting the "thundering herd" into orderly, bounded
- * concurrency.
- *
- * Expected outcome:
- *  - CV drops from ~20.74 % to < 5 % under 10 concurrent clients.
- *  - P99 latency remains predictable (no outliers from contested locks).
- *
- * ## Usage
- *
- * ```cpp
- * ConcurrentWriteController wc; // default config
- *
- * // --- Acquire / Release (manual) ---
- * auto guard = wc.acquire();    // blocks if at capacity; RAII, auto-releases
- * // ... perform write ...
- * // guard destructor releases the slot and wakes the next waiter
- *
- * // --- Stats ---
- * auto s = wc.getStats();
- * printf("queue_depth=%zu avg_wait_us=%lld\n", s.queue_depth, s.avg_wait_us);
- * ```
- *
- * ## Thread Safety
- * All public methods are thread-safe.
- *
- * Copyright (c) 2025 ThemisDB Project
- * SPDX-License-Identifier: Apache-2.0
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.10
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once

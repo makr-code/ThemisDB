@@ -1,37 +1,28 @@
-/*
- * ThemisDB | File: llm_plugin_interface.h | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 595
- * Gap Summary: total=7; TODO=1, Stub=5, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * PR History (last 5): #2965 [llm] Implement multi-modal... (2026-03-12) | #2962 feat(llm): Implement JSON s... (2026-03-12) | #105 Add plugin-based LLM integr... (2026-03-11)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 #pragma once
-
-#include "plugins/plugin_interface.h"
-#include "llm/json_schema_converter.h"
-#include "llm/context_window_budget.h"
-#include <string>
-#include <vector>
-#include <memory>
-#include <mutex>
-#include <optional>
-#include <functional>
-#include <nlohmann/json.hpp>
 
 /**
  * @file llm_plugin_interface.h
- * @brief Plugin interface for LLM backends in ThemisDB
- * 
- * This interface enables plugin-based LLM integration for v1.3.0, supporting:
- * - Multiple LLM backends (llama.cpp, vLLM, etc.)
- * - LoRA adapter management
- * - Distributed reasoning capabilities
- * - Zero-copy memory access where possible
- * 
- * Based on AI_ECOSYSTEM_SHARDING_ARCHITECTURE.md design document.
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 94/100
+ * @note Gap Summary: total=7; TODO=1, Stub=5, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
+
+#include "llm/json_schema_converter.h"
+#include "plugins/plugin_interface.h"
+
+#include <cstdint>
+#include <functional>
+#include <memory>
+#include <mutex>
+#include <optional>
+#include <string>
+#include <vector>
+
+#include <nlohmann/json.hpp>
 
 namespace themis {
 namespace llm {

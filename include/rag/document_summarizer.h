@@ -1,39 +1,12 @@
-/*
- * ThemisDB | File: document_summarizer.h | Version: 0.0.15
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file document_summarizer.h
- * @brief Multi-document summarization before context injection (RAG Phase 3)
- *
- * Provides DocumentSummarizer for condensing multiple retrieved documents
- * into a compact summary before they are injected into the LLM context
- * window.  This reduces token consumption and keeps the most relevant
- * information front and center.
- *
- * Two summarization strategies are supported:
- *  - **EXTRACTIVE**: selects and concatenates the most query-relevant
- *    sentences from each document.  No LLM required; <2 ms for 10 documents.
- *  - **ABSTRACTIVE**: calls the configured LLM via LLMIntegration to
- *    produce a fluent, compressed summary.  Requires a connected LLM engine.
- *  - **AUTO**: uses ABSTRACTIVE when a LLM engine is available, falls back
- *    to EXTRACTIVE automatically.
- *
- * Integration with existing RAG components:
- * @code
- *   // After reranking, before building the final prompt:
- *   DocumentSummarizer summarizer;
- *   auto summary = summarizer.summarizeMultiple(rerank_result.documents, query);
- *   // summary.combined_summary is ready for injection into the LLM prompt
- * @endcode
- *
- * Compatible document types:
- *  - themis::rag::judge::RetrievedDocument  (from rag_judge.h)
- *  - themis::rag::streaming::StreamedDocument (from streaming_retriever.h)
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once

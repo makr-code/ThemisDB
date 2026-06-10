@@ -1,3 +1,14 @@
+/**
+ * @file cross_shard_transaction.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=5; TODO=1, Stub=3, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
  * ThemisDB | File: cross_shard_transaction.h | Version: 0.0.47 | Last Modified: 2026-06-02 09:57:38
  * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 741
@@ -50,76 +61,76 @@ using TransactionSnapshotManager = ::sharding::TransactionSnapshotManager;
  * @brief Transaction protocol type
  */
 enum class TransactionProtocol {
-    TWO_PHASE_COMMIT,      // 2PC - blocking but strongly consistent
-    THREE_PHASE_COMMIT,    // 3PC - non-blocking variant
-    SAGA,                  // SAGA - compensating transactions for long-running txns
-    PERCOLATOR,            // Percolator - optimistic concurrency for distributed writes
-    CALVIN                 // Calvin - deterministic distributed transactions via pre-ordering
+    TWO_PHASE_COMMIT,   ///< 2PC: blocking but strongly consistent.
+    THREE_PHASE_COMMIT, ///< 3PC: non-blocking variant with pre-commit stage.
+    SAGA,               ///< SAGA with compensating actions.
+    PERCOLATOR,         ///< Percolator optimistic protocol for distributed writes.
+    CALVIN              ///< Calvin deterministic protocol via pre-ordering.
 };
 
 /**
  * @brief Transaction isolation level
  */
 enum class IsolationLevel {
-    READ_UNCOMMITTED,      // Dirty reads allowed
-    READ_COMMITTED,        // Read only committed data
-    REPEATABLE_READ,       // Consistent reads within transaction
-    SNAPSHOT_ISOLATION,    // MVCC snapshot isolation
-    SERIALIZABLE          // Fully serializable
+    READ_UNCOMMITTED,   ///< Dirty reads allowed.
+    READ_COMMITTED,     ///< Reads only committed data.
+    REPEATABLE_READ,    ///< Repeatable reads within a transaction.
+    SNAPSHOT_ISOLATION, ///< MVCC snapshot isolation.
+    SERIALIZABLE        ///< Fully serializable execution.
 };
 
 /**
  * @brief Transaction state
  */
 enum class TransactionState {
-    ACTIVE,                // Transaction is active
-    PREPARING,             // Preparing to commit (2PC phase 1)
-    PREPARED,              // All participants ready to commit
-    COMMITTING,            // Committing changes
-    COMMITTED,             // Transaction committed successfully
-    ABORTING,              // Aborting transaction
-    ABORTED,               // Transaction aborted
-    UNKNOWN                // State unknown (coordinator failure)
+    ACTIVE,      ///< Transaction is active.
+    PREPARING,   ///< Phase 1 prepare in progress.
+    PREPARED,    ///< All participants prepared.
+    COMMITTING,  ///< Commit decision being applied.
+    COMMITTED,   ///< Commit completed successfully.
+    ABORTING,    ///< Abort decision being applied.
+    ABORTED,     ///< Abort completed.
+    UNKNOWN      ///< State unknown, usually after coordinator failure.
 };
 
 enum class DeadlockVictimPolicy {
-    YOUNGEST,              // Abort most recently started txn in cycle
-    OLDEST,                // Abort longest-running txn in cycle
-    RANDOM                 // Abort random txn in cycle
+    YOUNGEST,  ///< Abort most recently started transaction in cycle.
+    OLDEST,    ///< Abort longest-running transaction in cycle.
+    RANDOM     ///< Abort random transaction in cycle.
 };
 
 /**
  * @brief Shard participant in a transaction
  */
 struct ShardParticipant {
-    std::string shard_id;                    // Shard identifier
-    std::string endpoint;                    // Shard endpoint
-    std::vector<std::string> operations;     // Operations on this shard
-    bool prepared = false;                   // Prepared for commit
-    bool committed = false;                  // Committed
-    bool aborted = false;                    // Aborted
-    std::string error_message;               // Error message if failed
+    std::string shard_id;                 ///< Shard identifier.
+    std::string endpoint;                 ///< Participant RPC endpoint.
+    std::vector<std::string> operations;  ///< Serialized operations for shard.
+    bool prepared = false;                ///< True when prepare acknowledged.
+    bool committed = false;               ///< True when commit acknowledged.
+    bool aborted = false;                 ///< True when abort acknowledged.
+    std::string error_message;            ///< Participant-specific failure detail.
 };
 
 /**
  * @brief Cross-shard transaction metadata
  */
 struct CrossShardTransaction {
-    std::string transaction_id;              // Global transaction ID
-    TransactionProtocol protocol;            // Transaction protocol
-    IsolationLevel isolation_level;          // Isolation level
-    TransactionState state;                  // Current state
+    std::string transaction_id;              ///< Global transaction ID.
+    TransactionProtocol protocol;            ///< Selected transaction protocol.
+    IsolationLevel isolation_level;          ///< Requested isolation level.
+    TransactionState state;                  ///< Current transaction state.
     std::chrono::system_clock::time_point start_time;
     std::chrono::system_clock::time_point end_time;
-    std::map<std::string, ShardParticipant> participants;  // Shard ID -> participant
-    nlohmann::json metadata;                 // Additional metadata
+    std::map<std::string, ShardParticipant> participants;  ///< Participants keyed by shard ID.
+    nlohmann::json metadata;                 ///< Additional protocol metadata.
     
     // MVCC timestamps for snapshot isolation
-    int64_t snapshot_timestamp = 0;          // Read timestamp (start of transaction)
-    int64_t commit_timestamp = 0;            // Commit timestamp (end of transaction)
+    int64_t snapshot_timestamp = 0;          ///< Snapshot/read timestamp at begin.
+    int64_t commit_timestamp = 0;            ///< Commit timestamp assigned on decision.
     
     // Compensation data (for SAGA)
-    std::map<std::string, nlohmann::json> compensations;
+    std::map<std::string, nlohmann::json> compensations; ///< Compensation payloads for SAGA.
     
     nlohmann::json toJson() const {
         nlohmann::json j = {
@@ -161,50 +172,50 @@ struct CrossShardTransactionConfig {
         std::string blocking_transaction_id;
     };
 
-    TransactionProtocol default_protocol = TransactionProtocol::TWO_PHASE_COMMIT;
-    IsolationLevel default_isolation = IsolationLevel::SNAPSHOT_ISOLATION;
+    TransactionProtocol default_protocol = TransactionProtocol::TWO_PHASE_COMMIT; ///< Default protocol.
+    IsolationLevel default_isolation = IsolationLevel::SNAPSHOT_ISOLATION;        ///< Default isolation.
     
     // 2PC/3PC settings
-    std::chrono::milliseconds prepare_timeout{5000};
-    std::chrono::milliseconds commit_timeout{5000};
-    std::chrono::milliseconds abort_timeout{5000};
+    std::chrono::milliseconds prepare_timeout{5000}; ///< Prepare-phase timeout.
+    std::chrono::milliseconds commit_timeout{5000};  ///< Commit-phase timeout.
+    std::chrono::milliseconds abort_timeout{5000};   ///< Abort-phase timeout.
     
     // SAGA settings
-    bool saga_enable_compensation = true;
-    std::chrono::milliseconds saga_step_timeout{10000};
+    bool saga_enable_compensation = true;             ///< Enable SAGA compensation flow.
+    std::chrono::milliseconds saga_step_timeout{10000}; ///< Timeout per SAGA step.
     
     // Percolator settings
-    std::chrono::milliseconds percolator_lock_timeout{1000};
-    uint32_t percolator_max_retries = 3;
+    std::chrono::milliseconds percolator_lock_timeout{1000}; ///< Percolator lock timeout.
+    uint32_t percolator_max_retries = 3;                     ///< Percolator retry count.
     
     // Generic lock timeout (used by multiple protocols)
-    std::chrono::milliseconds lock_timeout{5000};
+    std::chrono::milliseconds lock_timeout{5000}; ///< Generic coordinator mutex timeout.
     
     // Calvin settings
-    std::chrono::milliseconds calvin_epoch_duration{10};   // Epoch batch window (default 10ms)
-    bool calvin_enable_deterministic_lock_order = true;    // Sort locks by key for deadlock-free acquisition
+    std::chrono::milliseconds calvin_epoch_duration{10}; ///< Calvin epoch batch window.
+    bool calvin_enable_deterministic_lock_order = true; ///< Sort locks by key for deadlock-free acquisition.
     
     // Deadlock detection
-    bool enable_deadlock_detection = true;
-    std::chrono::milliseconds deadlock_detection_interval{1000};
-    DeadlockVictimPolicy deadlock_victim_policy = DeadlockVictimPolicy::YOUNGEST;
+    bool enable_deadlock_detection = true;                           ///< Enable deadlock detector thread.
+    std::chrono::milliseconds deadlock_detection_interval{1000};     ///< Deadlock scan interval.
+    DeadlockVictimPolicy deadlock_victim_policy = DeadlockVictimPolicy::YOUNGEST; ///< Victim choice policy.
     
     // Transaction timeout
-    std::chrono::milliseconds transaction_timeout{30000};
+    std::chrono::milliseconds transaction_timeout{30000}; ///< Global transaction timeout.
     
     // Transaction log path (defaults to /var/lib/themisdb/transaction_log.jsonl)
-    std::string transaction_log_path = "/var/lib/themisdb/transaction_log.jsonl";
+    std::string transaction_log_path = "/var/lib/themisdb/transaction_log.jsonl"; ///< Absolute transaction log path.
     
     // Persistence settings (Phase 2.3.3 - Transaction Durability)
-    bool enable_persistence = false;                // Enable WAL-based persistence
-    std::string data_dir;                           // Base directory for WAL and snapshots
-    uint64_t snapshot_interval = 1000;              // Create snapshot every N operations
-    size_t max_snapshots = 10;                      // Maximum snapshots to retain
+    bool enable_persistence = false; ///< Enable WAL/snapshot persistence backend.
+    std::string data_dir;            ///< Base directory for WAL and snapshots.
+    uint64_t snapshot_interval = 1000; ///< Snapshot cadence in operation count.
+    size_t max_snapshots = 10;       ///< Maximum retained snapshots.
 
     // Coordinator identity — set to DistributedCoordinator::getLocalShardId()
     // before constructing CrossShardTransactionCoordinator so that audit records
     // and snapshots carry the real node ID instead of a placeholder.
-    std::string coordinator_id;                     // Actual coordinator node identifier
+    std::string coordinator_id; ///< Actual coordinator node identifier.
 
     // Cluster-wide deadlock detection — shard endpoints to poll.
     // Map of shard_id -> gRPC endpoint (e.g. "shard1" -> "shard1:50051").
@@ -212,7 +223,7 @@ struct CrossShardTransactionConfig {
     // deadlock_detection_interval to collect their local wait-for edges and
     // merge them into the cluster-wide graph alongside any edges explicitly
     // reported via reportDistributedWait().
-    std::map<std::string, std::string> shard_endpoints;
+    std::map<std::string, std::string> shard_endpoints; ///< Shard ID to endpoint map for wait-edge polling.
 
     // Optional override used to collect per-shard wait-for edges during
     // deadlock detection. Primarily intended for deterministic tests and
@@ -246,12 +257,19 @@ struct BackendRecoveryStats {
  */
 class CrossShardTransactionCoordinator : public themis::transaction::IInDoubtRecoveryCoordinator {
 public:
+    /**
+     * @brief Construct cross-shard coordinator with optional TrueTime source.
+     * @param config Coordinator behavior and timeout settings.
+     * @param consensus Consensus module for replicated coordinator decisions.
+     * @param truetime Optional TrueTime provider; created lazily when null.
+     */
     explicit CrossShardTransactionCoordinator(
         const CrossShardTransactionConfig& config,
         std::shared_ptr<ConsensusModule> consensus,
         std::shared_ptr<themis::sharding::TrueTime> truetime = nullptr
     );
     
+    /** @brief Stop background worker threads and release resources. */
     ~CrossShardTransactionCoordinator();
     
     /**
@@ -562,44 +580,44 @@ private:
      */
     void createPeriodicSnapshot();
     
-    CrossShardTransactionConfig config_;
-    std::shared_ptr<ConsensusModule> consensus_;
-    std::shared_ptr<themis::sharding::TrueTime> truetime_;
+    CrossShardTransactionConfig config_; ///< Runtime coordinator configuration.
+    std::shared_ptr<ConsensusModule> consensus_; ///< Consensus dependency for replicated decisions.
+    std::shared_ptr<themis::sharding::TrueTime> truetime_; ///< Time source for MVCC/external consistency.
     
     // Transaction log file
-    std::string transaction_log_path_;
+    std::string transaction_log_path_; ///< Absolute transaction log file path.
     
     // Phase 2.3.3: WAL and Snapshot infrastructure
-    std::unique_ptr<TransactionWAL> transaction_wal_;
-    std::unique_ptr<TransactionSnapshotManager> snapshot_manager_;
-    std::atomic<uint64_t> operations_since_snapshot_{0};
-    LSN last_applied_lsn_{0, 0};
+    std::unique_ptr<TransactionWAL> transaction_wal_; ///< WAL backend for durability/recovery.
+    std::unique_ptr<TransactionSnapshotManager> snapshot_manager_; ///< Snapshot backend for recovery acceleration.
+    std::atomic<uint64_t> operations_since_snapshot_{0}; ///< Operation count since last snapshot.
+    LSN last_applied_lsn_{0, 0}; ///< Last WAL LSN applied during recovery.
     
     // State
-    mutable std::timed_mutex transactions_mutex_;
-    std::map<std::string, CrossShardTransaction> transactions_;
-    std::map<std::string, std::set<std::string>> distributed_wait_for_edges_;
-    mutable std::mutex decision_mutex_;
-    std::set<std::string> terminal_decisions_in_progress_;
+    mutable std::timed_mutex transactions_mutex_; ///< Protects transaction map and wait-edge graph.
+    std::map<std::string, CrossShardTransaction> transactions_; ///< Active transaction registry.
+    std::map<std::string, std::set<std::string>> distributed_wait_for_edges_; ///< Cross-shard wait-for edges.
+    mutable std::mutex decision_mutex_; ///< Protects terminal decision guard set.
+    std::set<std::string> terminal_decisions_in_progress_; ///< Transactions currently in commit/abort finalization.
     
     // Callbacks
     mutable std::mutex callbacks_mutex_;
     std::function<void(const std::string&, TransactionState, TransactionState)> 
-        on_state_change_callback_;
+        on_state_change_callback_; ///< Optional state transition callback.
 
     /// Injected 3PC PreCommit RPC callback (CST-6).
     /// Protected by callbacks_mutex_.
-    PreCommitRpcFn precommit_callback_;
+    PreCommitRpcFn precommit_callback_; ///< Optional injected PreCommit RPC callback.
     
     // Background thread
-    std::atomic<bool> running_;
-    std::thread deadlock_detection_thread_;
+    std::atomic<bool> running_;         ///< Lifecycle flag for background workers.
+    std::thread deadlock_detection_thread_; ///< Distributed deadlock detector thread.
     
     // Statistics
-    std::atomic<uint64_t> total_transactions_;
-    std::atomic<uint64_t> committed_transactions_;
-    std::atomic<uint64_t> aborted_transactions_;
-    std::atomic<uint64_t> deadlocked_transactions_;
+    std::atomic<uint64_t> total_transactions_;     ///< Total started transactions.
+    std::atomic<uint64_t> committed_transactions_; ///< Successfully committed transactions.
+    std::atomic<uint64_t> aborted_transactions_;   ///< Aborted transactions.
+    std::atomic<uint64_t> deadlocked_transactions_; ///< Deadlock victim count.
 };
 
 // ============================================================================

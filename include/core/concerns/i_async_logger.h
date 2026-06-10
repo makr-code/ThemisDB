@@ -1,10 +1,12 @@
-/*
- * ThemisDB | File: i_async_logger.h | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 93/100 | Lines: 217
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * PR History (last 5): none
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
+/**
+ * @file i_async_logger.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.1
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 93/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once
@@ -46,7 +48,9 @@ namespace concerns {
  *
  * Returned futures represent independent asynchronous operations.  The
  * underlying `ILogger` implementation must be thread-safe if multiple async
- * calls can be in-flight concurrently.
+ * calls can be in-flight concurrently. Any exception thrown by the sync
+ * implementation is stored in the future and rethrown when the caller waits
+ * on it.
  *
  * ## Usage
  *
@@ -72,8 +76,10 @@ public:
      *
      * @param level   Severity level.
      * @param message Log text.
-     * @return A future that becomes ready once the record has been dispatched
-     *         to the underlying sink.
+    * @return A future that becomes ready once the record has been dispatched
+    *         to the underlying sink.
+    * @throws std::system_error if the implementation cannot start the async
+    *         task.
      */
     virtual std::future<void> logAsync(Level level, std::string_view message) {
         return std::async(std::launch::async,
@@ -85,7 +91,9 @@ public:
     /**
      * @brief Asynchronously log at TRACE level.
      * @param message Log text.
-     * @return Future that resolves when the record is dispatched.
+    * @return Future that resolves when the record is dispatched.
+    * @throws std::system_error if the implementation cannot start the async
+    *         task.
      */
     virtual std::future<void> traceAsync(std::string_view message) {
         return logAsync(Level::TRACE, message);
@@ -94,7 +102,9 @@ public:
     /**
      * @brief Asynchronously log at DEBUG level.
      * @param message Log text.
-     * @return Future that resolves when the record is dispatched.
+    * @return Future that resolves when the record is dispatched.
+    * @throws std::system_error if the implementation cannot start the async
+    *         task.
      */
     virtual std::future<void> debugAsync(std::string_view message) {
         return logAsync(Level::DEBUG, message);
@@ -103,7 +113,9 @@ public:
     /**
      * @brief Asynchronously log at INFO level.
      * @param message Log text.
-     * @return Future that resolves when the record is dispatched.
+    * @return Future that resolves when the record is dispatched.
+    * @throws std::system_error if the implementation cannot start the async
+    *         task.
      */
     virtual std::future<void> infoAsync(std::string_view message) {
         return logAsync(Level::INFO, message);
@@ -112,7 +124,9 @@ public:
     /**
      * @brief Asynchronously log at WARN level.
      * @param message Log text.
-     * @return Future that resolves when the record is dispatched.
+    * @return Future that resolves when the record is dispatched.
+    * @throws std::system_error if the implementation cannot start the async
+    *         task.
      */
     virtual std::future<void> warnAsync(std::string_view message) {
         return logAsync(Level::WARN, message);
@@ -121,7 +135,9 @@ public:
     /**
      * @brief Asynchronously log at ERROR level.
      * @param message Log text.
-     * @return Future that resolves when the record is dispatched.
+    * @return Future that resolves when the record is dispatched.
+    * @throws std::system_error if the implementation cannot start the async
+    *         task.
      */
     virtual std::future<void> errorAsync(std::string_view message) {
         return logAsync(Level::ERROR, message);
@@ -130,7 +146,9 @@ public:
     /**
      * @brief Asynchronously log at CRITICAL level.
      * @param message Log text.
-     * @return Future that resolves when the record is dispatched.
+    * @return Future that resolves when the record is dispatched.
+    * @throws std::system_error if the implementation cannot start the async
+    *         task.
      */
     virtual std::future<void> criticalAsync(std::string_view message) {
         return logAsync(Level::CRITICAL, message);
@@ -142,7 +160,9 @@ public:
      * @param level   Severity level.
      * @param message Log text.
      * @param fields  Key/value metadata to include in the JSON output.
-     * @return Future that resolves when the record is dispatched.
+    * @return Future that resolves when the record is dispatched.
+    * @throws std::system_error if the implementation cannot start the async
+    *         task.
      */
     virtual std::future<void> logStructuredAsync(Level level,
                                                   std::string_view message,

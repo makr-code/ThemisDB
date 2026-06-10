@@ -1,28 +1,12 @@
-/*
- * ThemisDB | File: chunk_embed_step.cpp | Version: 1.4.0 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 139
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=2, M=2, L=0
- * PR History (last 5): none
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file chunk_embed_step.cpp
- * @brief `builtin.chunk_embed` — dense embedding for every TextChunk.
- *
- * For each `TextChunk` in `ctx.chunks`, calls `backend->embed(chunk.text)`
- * and appends a `VectorRecord` to `ctx.embeddings`.
- *
- * If the backend is unavailable (`isAvailable() == false`) and
- * `skip_when_unavailable: true` (default), the step is a no-op and succeeds
- * without error.  Set `skip_when_unavailable: false` to treat unavailability
- * as an error.
- *
- * Config keys (all optional):
- *  - `skip_when_unavailable`  bool    default true
- *  - `dims`                   number  NullEmbeddingBackend dimensionality
- *                                     (used only when no backend is injected)
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 1.4.0
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=2, M=2, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include "ingestion/ingestion_step.h"

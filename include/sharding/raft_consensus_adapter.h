@@ -1,3 +1,14 @@
+/**
+ * @file raft_consensus_adapter.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
  * ThemisDB | File: raft_consensus_adapter.h | Version: 0.0.47
  * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
@@ -28,7 +39,13 @@ namespace sharding {
  */
 class RaftConsensusAdapter : public ConsensusModule {
 public:
+    /**
+     * @brief Construct Raft adapter from generic consensus configuration.
+     * @param config Consensus configuration values mapped to Raft settings.
+     */
     explicit RaftConsensusAdapter(const ConsensusConfig& config);
+
+    /** @brief Stop running Raft instance during destruction. */
     ~RaftConsensusAdapter() override;
     
     // ConsensusModule interface
@@ -94,41 +111,45 @@ public:
 private:
     /**
      * @brief Convert RaftState to ConsensusState
+        * @param state Current Raft state object.
+        * @return Equivalent generic consensus state.
      */
     static ConsensusState convertState(const RaftState& state);
     
     /**
      * @brief Convert LogEntry to ConsensusLogEntry
+        * @param entry Raft log entry with serialized command payload.
+        * @return Generic consensus log entry representation.
      */
     static ConsensusLogEntry convertLogEntry(const LogEntry& entry);
-    
-    ConsensusConfig config_;
-    std::unique_ptr<RaftConsensus> raft_;
-    std::string node_id_;
+
+        ConsensusConfig config_;                     ///< Adapter runtime configuration.
+        std::unique_ptr<RaftConsensus> raft_;        ///< Owned Raft engine implementation.
+        std::string node_id_;                        ///< Local node identifier.
     
     // Cluster nodes with synchronization
     mutable std::mutex cluster_mutex_;
-    std::vector<std::string> cluster_nodes_;
+    std::vector<std::string> cluster_nodes_;     ///< Current authoritative cluster member list.
     
     // Callbacks
     mutable std::mutex callbacks_mutex_;
-    std::function<void(const ConsensusLogEntry&)> on_commit_callback_;
-    std::function<void(ConsensusState, ConsensusState)> on_state_change_callback_;
-    std::function<void(const std::string&, const std::string&)> on_leader_change_callback_;
+    std::function<void(const ConsensusLogEntry&)> on_commit_callback_; ///< Commit callback hook.
+    std::function<void(ConsensusState, ConsensusState)> on_state_change_callback_; ///< State-change callback hook.
+    std::function<void(const std::string&, const std::string&)> on_leader_change_callback_; ///< Leader-change callback hook.
     
     // State tracking
     mutable std::mutex state_mutex_;
-    mutable ConsensusState current_state_;
-    std::string current_leader_;
+    mutable ConsensusState current_state_;       ///< Cached adapter state when Raft is unavailable.
+    std::string current_leader_;                 ///< Cached leader identifier.
 
     // Snapshot storage (in-adapter, index-tracked)
     mutable std::mutex snapshot_mutex_;
-    nlohmann::json snapshot_data_;
-    uint64_t snapshot_index_{0};
-    uint64_t snapshot_term_{0};
+    nlohmann::json snapshot_data_;               ///< Last captured/restored snapshot payload.
+    uint64_t snapshot_index_{0};                 ///< Snapshot index metadata.
+    uint64_t snapshot_term_{0};                  ///< Snapshot term metadata.
 
     // Joint-consensus membership tracker (Raft v2)
-    std::unique_ptr<themis::sharding::RaftConfiguration> membership_;
+    std::unique_ptr<themis::sharding::RaftConfiguration> membership_; ///< Membership transition tracker.
 };
 
 } // namespace sharding

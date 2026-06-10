@@ -1,43 +1,20 @@
-/*
- * ThemisDB | File: streaming_handler.h | Version: 0.0.18 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 135
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * PR History (last 5): #2524 [llm] Streaming token outpu... (2026-03-11)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 #pragma once
-
-#include <functional>
-#include <string>
-#include <cstddef>
 
 /**
  * @file streaming_handler.h
- * @brief SSE / chunked-response streaming handler for LLM token output
- *
- * Provides stateless helpers to format individual tokens produced by the
- * inference engine as either:
- *   - Server-Sent Events (SSE) — for HTTP/1.1 and HTTP/2 event streams
- *   - HTTP chunked-transfer encoding — for generic chunked responses
- *
- * Usage (SSE mode):
- * @code
- *   InferenceRequest req;
- *   req.prompt = "Hello";
- *   req.stream_callback = StreamingHandler::makeStreamCallback(
- *       [](const std::string& chunk) { writeToHttpSocket(chunk); },
- *       req.request_id);
- *
- *   auto response = plugin->generate(req);
- *
- *   // Send terminal event
- *   writeToHttpSocket(StreamingHandler::formatDoneEvent(req.request_id));
- * @endcode
- *
- * Thread safety: all public methods are reentrant (no shared mutable state).
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.18
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
+
+#include <atomic>
+#include <functional>
+#include <memory>
+#include <string>
 
 namespace themis {
 namespace llm {

@@ -81,8 +81,8 @@
 
 | Category | Count | Status |
 |----------|-------|--------|
-| Phase 1-4 Gap Detection | **31,720** | ✅ Complete |
-| Phase 5 Gap Detection | **99,694** | ✅ Complete (2026-05-19) |
+| Phase 1-4 Gap Detection (historical snapshot) | **31,720** | ✅ Complete |
+| Phase 5 Gap Detection (historical delta) | **99,694** | ✅ Complete (2026-05-19) |
 | Phase 1-5 Total Gaps (historical) | **155,631** | ✅ Complete |
 | Rescan Baseline (2026-05-27) | **185,190** | ✅ ACTIVE |
 | Phase 6 Estimated Gaps | **6,000–10,000** | ⏳ Q3-Q4 2026 |
@@ -94,14 +94,14 @@
 | ACTIONABLE (C+H, rescan) | 149,306 | — |
 | Modules Scanned | 65 | — |
 | **Top Gap Producers** | — | — |
-| → llm module | 23,737 gaps | 12.8% |
-| → server module | 17,830 gaps | 9.6% |
-| → query module | 15,305 gaps | 8.3% |
+| → Current ranking source | `ROADMAP.md` module status table | Canonical |
+| → Highest-risk modules | server, llm, sharding | See roadmap snapshot |
+| → Historical scanner-heavy ranking | llm, server, query | Kept in historical scanner reports |
 | Estimated Fix Effort | 3,882 weeks | — |
-| Active Scanners | **27** (Phase 1-10) | ✅ |
-| Phase 6 Scanners (Planning) | 5 | ⏳ Q3-Q4 2026 |
-| Phase 7-10 Scanners (Planning) | 9 | ⏳ Q1-Q2 2027 |
-| **Total Project Scope** | 27 scanners | 2027-06-30 |
+| Active Scanners (rescan baseline) | **27** categories | ✅ |
+| Phase 6 Scanners (Planning) | +5 additions | ⏳ Q3-Q4 2026 |
+| Phase 7-10 Scanners (Planning) | +9 additions | ⏳ Q1-Q2 2027 |
+| **Total Project Scope (active + planned)** | 41 scanner initiatives | 2027-06-30 |
 | Existing Scanner Improvements (Planned) | 12 new patterns | ⏳ Q3 2026 |
 
 > Full backlog (276 items incl. features): see `src/ROADMAP.md`.
@@ -193,7 +193,7 @@ Every stub replacement **must** follow these six phases before marking `[x]`:
 > - 🟡 Phase 1-4 Enhancements Planned (Q3 2026, +12 patterns)
 > - 🟡 Phase 6 Design Complete (Q3-Q4 2026, 5 new scanners)
 > 
-> **Execution Timeline:** Phase 5 deployed 2026-05-19, 13 scanners active; Phase 1-4 Enhanced + Phase 6 in Q3-Q4 2026
+> **Execution Timeline:** Phase 5 deployed 2026-05-19; current rescan baseline runs 27 categories; Phase 1-4 Enhanced + Phase 6 in Q3-Q4 2026
 > **Actual & Projected Impact:** 
 > - Phase 1-4: 31,720 gaps (+2,200–3,200 from enhancements = 33,920–34,920 total)
 > - Phase 5: +99,694 gaps (178% increase, completed)
@@ -249,28 +249,10 @@ Every stub replacement **must** follow these six phases before marking `[x]`:
 
 ---
 
-### Phase 5 New Scanners — ✅ COMPLETE (2026-05-19) — 1,270 LOC
-
-| ID | Scanner | Purpose | Patterns | LOC | Complexity | Priority | Status |
-|----|---------|---------|----------|-----|-----------|----------|--------|
-| [x] P5-1 | Type Conversion & Narrowing | CWE-190 Integer Overflow, type mismatches | `int x = size_t val;`, narrowing in initializers | 240 | Medium-High | 🔴 Critical | ✅ DEPLOYED |
-| [x] P5-2 | Input Validation & Bounds | CWE-787 Buffer Overflow, off-by-one errors | Array access w/o check, `memcpy(dst, src, size+1)` | 250 | Medium-High | 🔴 Critical | ✅ DEPLOYED |
-| [x] P5-3 | Exception Safety & Move | CWE-695 Exception handling gaps, broken move semantics | Constructor exceptions, missing `noexcept` | 280 | High | 🟠 High | ✅ DEPLOYED |
-| [x] P5-4 | Uninitialized Variables | CWE-457 Use of uninitialized variable | Member not init, use-before-init patterns | 280 | High | 🟠 High | ✅ DEPLOYED |
-| [x] P5-5 | Virtual Functions & OOP | CWE-250 Missing virtual destructor, object slicing | virt. methods w/o virt. dtor, PIMPL violations | 220 | Medium | 🟡 Medium | ✅ DEPLOYED |
-
-**Phase 5 Actual Gap Contribution:**
-- P5-1 Type Conversion: +15,930 gaps (28.5% of 55,937)
-- P5-2 Input Validation: +8,266 gaps (14.8% of 55,937)
-- P5-3 Exception Safety: +31,247 gaps (estimated, not yet broken down)
-- P5-4 Uninitialized: +27,563 gaps (estimated, not yet broken down)
-- P5-5 OOP Design: +16,688 gaps (estimated, not yet broken down)
-- **Total Phase 5 Impact:** +99,694 new gaps, 178% increase
-
 ### Phase 6 New Scanners (Q3-Q4 2026) — 8 weeks, ~1,480 LOC — 🟡 IN PLANNING
 
 **Timeline:** Week 1-2 (P6-1 ABI + P6-4 Build); Week 3-4 (P6-2 Const); Week 5-6 (P6-3 Templates); Week 7-8 (P6-5 Lifetime) + Week 9 Integration  
-**Expected Impact:** +6,000–10,000 gaps (20–30% more) → **Phase 1-6 Total: ~165,000–185,000 gaps**
+**Expected Impact:** +6,000–10,000 gaps (20–30% more) → **Phase 1-6 Total: ~191,190–195,190 gaps**
 
 **Detailed Design:** [PHASE_6_SCANNER_DESIGN.md](ai_working/PHASE_6_SCANNER_DESIGN.md) — Comprehensive 48–55 detection patterns, implementation phases, success criteria
 

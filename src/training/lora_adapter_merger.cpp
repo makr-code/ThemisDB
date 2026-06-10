@@ -1,22 +1,12 @@
-/*
- * ThemisDB | File: lora_adapter_merger.cpp | Version: 0.0.12 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 402
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=2, M=10, L=0
- * PR History (last 5): #5082 [Docs][training] Update mod... (2026-05-13) | #4405 [WIP] Add AdaLoRA implement... (2026-03-25)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
-// SPDX-License-Identifier: Apache-2.0
-// Copyright (c) 2026 ThemisDB Contributors
-
 /**
  * @file lora_adapter_merger.cpp
- * @brief LoRA adapter composition: linear merge and TIES merging.
- *
- * References:
- *  - TIES-Merging: Yadav et al., 2023 — arXiv:2306.01708
- *  - Linear LoRA merge: Ilharco et al., 2023 (Task Arithmetic) — arXiv:2212.04089
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.12
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=1, M=8, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include "training/lora_adapter_merger.h"

@@ -1,3 +1,14 @@
+/**
+ * @file urn.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
  * ThemisDB | File: urn.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
  * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 122
@@ -24,17 +35,24 @@
 namespace themis::sharding {
 
 namespace {
+    /** @brief Supported model names accepted by URN::isValidModel. */
     // Valid model types
     const std::vector<std::string> VALID_MODELS = {
         "relational", "graph", "vector", "timeseries", "document"
     };
     
+    /** @brief RFC-4122 style UUID regex used for syntax validation. */
     // UUID validation regex: 8-4-4-4-12 hex pattern
     const std::regex UUID_PATTERN(
         "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$"
     );
 }
 
+/**
+ * @brief Parse textual URN and validate model/namespace/collection/uuid.
+ * @param urn_str Candidate URN string.
+ * @return Parsed URN on success, std::nullopt for malformed or unsupported input.
+ */
 std::optional<URN> URN::parse(std::string_view urn_str) {
     // Expected format: urn:themis:{model}:{namespace}:{collection}:{uuid}
     // Minimum length check: "urn:themis:a:b:c:d" = 18 chars minimum
@@ -94,12 +112,17 @@ std::optional<URN> URN::parse(std::string_view urn_str) {
     return urn;
 }
 
+/** @brief Serialize URN components into canonical urn:themis:... format. */
 std::string URN::toString() const {
     std::ostringstream oss;
     oss << "urn:themis:" << model << ":" << namespace_ << ":" << collection << ":" << uuid;
     return oss.str();
 }
 
+/**
+ * @brief Compute deterministic routing hash from UUID component.
+ * @return 64-bit hash value.
+ */
 uint64_t URN::hash() const {
 #ifdef HAS_XXHASH
     // Use xxHash for fast, high-quality hashing
@@ -111,10 +134,12 @@ uint64_t URN::hash() const {
 #endif
 }
 
+/** @brief Validate uuid field against the RFC-4122 textual pattern. */
 bool URN::isValidUUID() const {
     return std::regex_match(uuid, UUID_PATTERN);
 }
 
+/** @brief Validate model against the statically supported model list. */
 bool URN::isValidModel() const {
     return std::find(VALID_MODELS.begin(), VALID_MODELS.end(), model) != VALID_MODELS.end();
 }

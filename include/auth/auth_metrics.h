@@ -1,26 +1,12 @@
-/*
- * ThemisDB | File: auth_metrics.h | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 437
- * Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * PR History (last 5): #4133 feat(auth): Credential Stuf... (2026-03-12) | #4120 feat(auth): TOTP/MFA config... (2026-03-12) | #4105 fix(auth): address LDAP con... (2026-03-12) | #2733 [auth] API key authenticati... (2026-03-12) | #2391 [auth] Implement OAuth 2.0 ... (2026-03-11)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file auth_metrics.h
- * @brief Prometheus metrics for authentication module
- * 
- * Provides comprehensive metrics collection for monitoring:
- * - Authentication attempts (success/failure by method)
- * - Latency distribution (p50/p95/p99)
- * - JWKS cache performance
- * - Rate limiting events
- * - Account lockout events
- * - Error rates by error code
- * 
- * @note Requires Prometheus C++ client library
- * @note Install with: vcpkg install prometheus-cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 94/100
+ * @note Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once

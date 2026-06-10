@@ -1,58 +1,12 @@
-/*
- * ThemisDB | File: hnsw_tt_bridge.h | Version: 1.0.0
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
- * @file tensor/hnsw_tt_bridge.h
- * @brief HnswTTBridge — hybrid HNSW navigation over Tensor-Train storage.
- *
- * ## The HNSW-on-TT-Cores Pattern
- *
- * This class implements the "two-layer" architecture described in
- * `research/HNSW_FAISS_TT_BOUNDARY_ANALYSIS.md §HYBRID regime`:
- *
- * ```
- *  Query (flat vector)
- *        │
- *        ▼
- *  ┌──────────────────────────────────────────────────────┐
- *  │  HNSW Navigation Layer (src/index)                  │
- *  │  • Graph built over first-core sketches only         │
- *  │  • Sketch dim: min(n_1, 64)  — small footprint       │
- *  │  • Candidate set size: ef_search (configurable)      │
- *  └──────────────────────────────────────────────────────┘
- *        │  top-k candidates (IDs only)
- *        ▼
- *  ┌──────────────────────────────────────────────────────┐
- *  │  TT Re-Ranking Layer (src/tensor)                   │
- *  │  • TT-cosine similarity: O(d · r²) per candidate    │
- *  │  • Full TT-train loaded from TensorNetworkStorage    │
- *  │  • Result sorted by TT-domain cosine distance        │
- *  └──────────────────────────────────────────────────────┘
- *        │
- *        ▼
- *  Final k results (with exact TT-domain distances)
- * ```
- *
- * ## When to use
- *
- * According to the boundary analysis the HYBRID regime is optimal when:
- *
- *   κ ∈ [2×, 6×)  — moderate compressibility
- *   dim ∈ [1024, 16384]
- *   n ≥ 500 K
- *
- * For κ ≥ 6× the pure TT-index is preferred (use `TensorIndexManager`).
- * For κ < 2× the standard HNSW backend (use `src/index`) is preferred.
- *
- * ## Scientific basis
- * - Malkov & Yashunin 2020 (HNSW, DOI:10.1109/TPAMI.2018.2889473)
- * - Oseledets 2011 (TT-SVD)
- * - Boundary analysis: `research/HNSW_FAISS_TT_BOUNDARY_ANALYSIS.md`
+ * @file hnsw_tt_bridge.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 1.0.0
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once

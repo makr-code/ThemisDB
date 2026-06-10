@@ -1,42 +1,12 @@
-/*
- * ThemisDB | File: adversarial_tester.h | Version: 0.0.13
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file adversarial_tester.h
- * @brief Adversarial Robustness Testing for RAG systems.
- *
- * Systematically tests RAG robustness against adversarial inputs, including
- * query perturbations, document poisoning, prompt injection, context overflow,
- * and sycophantic queries.
- *
- * Corresponds to roadmap item 10 "Adversarial Robustness Testing" (v1.18.0).
- *
- * ## Usage
- * ```cpp
- * #include "rag/adversarial_tester.h"
- *
- * using namespace themis::rag::adversarial;
- *
- * AdversarialTesterConfig cfg;
- * AdversarialTester tester(cfg);
- *
- * // Supply base queries and documents
- * tester.addBaseQuery("What is the capital of France?", "Paris");
- * tester.addBaseDocument({"doc1", "France is a country in Western Europe.", 1.0, {}});
- *
- * // Run full robustness suite
- * RAGJudge judge;
- * auto report = tester.testRobustness(judge);
- * std::cout << "Robustness score: " << report.robustness_score << "\n";
- * for (const auto& v : report.vulnerabilities) {
- *     std::cout << "  Vulnerability: " << v << "\n";
- * }
- * ```
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.13
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once

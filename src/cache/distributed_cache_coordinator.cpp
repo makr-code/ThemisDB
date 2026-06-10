@@ -1,30 +1,12 @@
-/*
- * ThemisDB | File: distributed_cache_coordinator.cpp | Version: 0.0.15 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 88/100 | Lines: 915
- * Gap Summary: total=10; TODO=1, Stub=6, Unimpl=0, Mock=1, Sim=2, Debt=0, C=3, H=11, M=10, L=0
- * PR History (last 5): #4209 feat(cache): RedisCacheCoor... (2026-03-14) | #3473 docs(cache): sync src/cache... (2026-03-12) | #2911 feat(cache): implement Redi... (2026-03-12)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
-// Copyright 2025 ThemisDB
-// Licensed under MIT License
-
 /**
  * @file distributed_cache_coordinator.cpp
- * @brief Redis-compatible distributed cache coordination protocol (Phase 4).
- *
- * Implements RedisCacheCoordinator using the Redis RESP (REdis Serialization
- * Protocol) wire format over POSIX TCP sockets.  No external Redis client
- * library is required.
- *
- * Design:
- *   - Publisher connection: a single persistent TCP socket protected by a
- *     mutex; used for PUBLISH commands.
- *   - Subscriber connection: a dedicated background thread opens its own TCP
- *     socket, issues SUBSCRIBE, and forwards messages to registered callbacks.
- *   - Graceful degradation: every I/O failure is caught; the local cache
- *     operation always completes regardless of coordinator state.
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 88/100
+ * @note Gap Summary: total=10; TODO=1, Stub=6, Unimpl=0, Mock=1, Sim=2, Debt=0, C=2, H=7, M=8, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include "cache/distributed_cache_coordinator.h"

@@ -1,21 +1,12 @@
-/*
- * ThemisDB | File: voice_assistant_llm.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 21:44:57
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 278
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=3, H=8, M=6, L=0
- * PR History (last 5): #204 Complete llama.cpp implemen... (2026-03-11)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file voice_assistant_llm.cpp
- * @brief Voice Assistant LLM Integration Implementation (Issue #4)
- * 
- * Uses LlamaWrapper for unified llama.cpp integration.
- * Provides voice command processing with natural language understanding.
- * 
- * @author ThemisDB Team / GitHub Copilot
- * @date January 2026
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=3, H=7, M=3, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include "voice/voice_assistant.h"
@@ -163,7 +154,33 @@ json VoiceAssistant::generateSummary(const std::string& transcript) {
 
     const auto transcript_outcome = sanitizePromptFragment(transcript);
     if (!transcript_outcome.allowed) {
+        VoiceAuditEntry entry;
+        entry.event_type = "voice_prompt_blocked";
+        entry.action = "generate_summary";
+        entry.resource = "voice_assistant_llm";
+        entry.timestamp_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+            std::chrono::system_clock::now().time_since_epoch()).count();
+        entry.success = false;
+        entry.details = "Summary transcript blocked by shared prompt policy";
+        entry.metadata = {
+            {"blocked_rule", transcript_outcome.blocked_rule},
+            {"blocked_reason", transcript_outcome.blocked_reason}
+        };
+        voice_security_manager_.logEvent(entry);
         return kBlockedPromptMarker;
+    }
+
+    if (transcript_outcome.changed) {
+        VoiceAuditEntry entry;
+        entry.event_type = "voice_prompt_sanitization";
+        entry.action = "generate_summary";
+        entry.resource = "voice_assistant_llm";
+        entry.timestamp_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+            std::chrono::system_clock::now().time_since_epoch()).count();
+        entry.success = true;
+        entry.details = "Summary transcript sanitized before LLM dispatch";
+        entry.metadata = {{"transcript_sanitized", true}};
+        voice_security_manager_.logEvent(entry);
     }
     
     // Build prompt for summary generation
@@ -195,7 +212,33 @@ json VoiceAssistant::extractKeyPoints(const std::string& transcript) {
 
     const auto transcript_outcome = sanitizePromptFragment(transcript);
     if (!transcript_outcome.allowed) {
+        VoiceAuditEntry entry;
+        entry.event_type = "voice_prompt_blocked";
+        entry.action = "extract_key_points";
+        entry.resource = "voice_assistant_llm";
+        entry.timestamp_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+            std::chrono::system_clock::now().time_since_epoch()).count();
+        entry.success = false;
+        entry.details = "Key-point transcript blocked by shared prompt policy";
+        entry.metadata = {
+            {"blocked_rule", transcript_outcome.blocked_rule},
+            {"blocked_reason", transcript_outcome.blocked_reason}
+        };
+        voice_security_manager_.logEvent(entry);
         return json::array();
+    }
+
+    if (transcript_outcome.changed) {
+        VoiceAuditEntry entry;
+        entry.event_type = "voice_prompt_sanitization";
+        entry.action = "extract_key_points";
+        entry.resource = "voice_assistant_llm";
+        entry.timestamp_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+            std::chrono::system_clock::now().time_since_epoch()).count();
+        entry.success = true;
+        entry.details = "Key-point transcript sanitized before LLM dispatch";
+        entry.metadata = {{"transcript_sanitized", true}};
+        voice_security_manager_.logEvent(entry);
     }
     
     // Build prompt for key points extraction
@@ -240,7 +283,33 @@ json VoiceAssistant::extractActionItems(const std::string& transcript) {
 
     const auto transcript_outcome = sanitizePromptFragment(transcript);
     if (!transcript_outcome.allowed) {
+        VoiceAuditEntry entry;
+        entry.event_type = "voice_prompt_blocked";
+        entry.action = "extract_action_items";
+        entry.resource = "voice_assistant_llm";
+        entry.timestamp_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+            std::chrono::system_clock::now().time_since_epoch()).count();
+        entry.success = false;
+        entry.details = "Action-item transcript blocked by shared prompt policy";
+        entry.metadata = {
+            {"blocked_rule", transcript_outcome.blocked_rule},
+            {"blocked_reason", transcript_outcome.blocked_reason}
+        };
+        voice_security_manager_.logEvent(entry);
         return json::array();
+    }
+
+    if (transcript_outcome.changed) {
+        VoiceAuditEntry entry;
+        entry.event_type = "voice_prompt_sanitization";
+        entry.action = "extract_action_items";
+        entry.resource = "voice_assistant_llm";
+        entry.timestamp_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+            std::chrono::system_clock::now().time_since_epoch()).count();
+        entry.success = true;
+        entry.details = "Action-item transcript sanitized before LLM dispatch";
+        entry.metadata = {{"transcript_sanitized", true}};
+        voice_security_manager_.logEvent(entry);
     }
     
     // Build prompt for action items extraction

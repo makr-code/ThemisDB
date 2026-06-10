@@ -1,3 +1,14 @@
+/**
+ * @file usb_admin_authenticator.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 84/100
+ * @note Gap Summary: total=10; TODO=1, Stub=5, Unimpl=1, Mock=1, Sim=2, Debt=0, C=0, H=0, M=3, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
  * ThemisDB | File: usb_admin_authenticator.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
  * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 87/100 | Lines: 753
@@ -20,6 +31,7 @@
 #include <openssl/err.h>
 #include <openssl/hmac.h>
 #include <openssl/rand.h>
+#include <memory>
 
 #if defined(__linux__)
 #include <sys/stat.h>
@@ -31,6 +43,25 @@
 
 namespace themis {
 namespace security {
+
+namespace {
+
+// ── RAII Wrappers for OpenSSL objects ─────────────────────────────────────────
+struct BIO_Deleter {
+    void operator()(BIO* p) const { if (p) BIO_free_all(p); }
+};
+struct EVP_PKEY_Deleter {
+    void operator()(EVP_PKEY* p) const { if (p) EVP_PKEY_free(p); }
+};
+struct EVP_MD_CTX_Deleter {
+    void operator()(EVP_MD_CTX* p) const { if (p) EVP_MD_CTX_free(p); }
+};
+
+using BIO_ptr        = std::unique_ptr<BIO, BIO_Deleter>;
+using EVP_PKEY_ptr   = std::unique_ptr<EVP_PKEY, EVP_PKEY_Deleter>;
+using EVP_MD_CTX_ptr = std::unique_ptr<EVP_MD_CTX, EVP_MD_CTX_Deleter>;
+
+} // anonymous namespace
 
 // Implementation class
 class USBAdminAuthenticator::Impl {
@@ -438,6 +469,7 @@ std::optional<USBAdminLicense> USBAdminAuthenticator::loadLicenseFromUSB() const
         
         // Parse admin scopes
         if (j.contains("admin_scopes") && j["admin_scopes"].is_array()) {
+            license.admin_scopes.reserve(j["admin_scopes"].size());
             for (const auto& scope : j["admin_scopes"]) {
                 license.admin_scopes.push_back(scope.get<std::string>());
             }
@@ -453,14 +485,14 @@ std::optional<USBAdminLicense> USBAdminAuthenticator::loadLicenseFromUSB() const
 
 // Helper: Base64 decode
 static std::vector<uint8_t> base64Decode(const std::string& encoded) {
-    BIO* b64 = BIO_new(BIO_f_base64());
-    BIO* bmem = BIO_new_mem_buf(encoded.data(), static_cast<int>(encoded.size()));
-    bmem = BIO_push(b64, bmem);
-    BIO_set_flags(bmem, BIO_FLAGS_BASE64_NO_NL);
+    BIO_ptr b64(BIO_new(BIO_f_base64()));
+    BIO_ptr bmem(BIO_new_mem_buf(encoded.data(), static_cast<int>(encoded.size())));
+    BIO* result = BIO_push(b64.release(), bmem.release());
+    BIO_set_flags(result, BIO_FLAGS_BASE64_NO_NL);
     
     std::vector<uint8_t> output(encoded.size());
-    int decoded_size = BIO_read(bmem, output.data(), static_cast<int>(output.size()));
-    BIO_free_all(bmem);
+    int decoded_size = BIO_read(result, output.data(), static_cast<int>(output.size()));
+    BIO_free_all(result);
     
     if (decoded_size < 0) {
         return {};
@@ -505,14 +537,13 @@ bool USBAdminAuthenticator::validateLicenseSignature(const USBAdminLicense& lice
     std::string data_to_verify = data_stream.str();
     
     // Load the embedded public key
-    BIO* key_bio = BIO_new_mem_buf(USB_ADMIN_PUBLIC_KEY_PEM, -1);
+    BIO_ptr key_bio(BIO_new_mem_buf(USB_ADMIN_PUBLIC_KEY_PEM, -1));
     if (!key_bio) {
         THEMIS_ERROR("USBAdminAuthenticator: failed to create BIO for public key");
         return false;
     }
     
-    EVP_PKEY* public_key = PEM_read_bio_PUBKEY(key_bio, nullptr, nullptr, nullptr);
-    BIO_free(key_bio);
+    EVP_PKEY_ptr public_key(PEM_read_bio_PUBKEY(key_bio.get(), nullptr, nullptr, nullptr));
     
     if (!public_key) {
         THEMIS_ERROR("USBAdminAuthenticator: failed to load public key");
@@ -523,22 +554,20 @@ bool USBAdminAuthenticator::validateLicenseSignature(const USBAdminLicense& lice
     std::vector<uint8_t> signature_bytes = base64Decode(license.signature);
     if (signature_bytes.empty()) {
         THEMIS_ERROR("USBAdminAuthenticator: failed to decode signature");
-        EVP_PKEY_free(public_key);
         return false;
     }
     
     // Verify the signature using SHA-256
-    EVP_MD_CTX* ctx = EVP_MD_CTX_new();
+    EVP_MD_CTX_ptr ctx(EVP_MD_CTX_new());
     if (!ctx) {
         THEMIS_ERROR("USBAdminAuthenticator: failed to create EVP context");
-        EVP_PKEY_free(public_key);
         return false;
     }
     
     bool valid = false;
-    if (EVP_DigestVerifyInit(ctx, nullptr, EVP_sha256(), nullptr, public_key) == 1) {
-        if (EVP_DigestVerifyUpdate(ctx, data_to_verify.data(), data_to_verify.size()) == 1) {
-            int verify_result = EVP_DigestVerifyFinal(ctx, signature_bytes.data(), signature_bytes.size());
+    if (EVP_DigestVerifyInit(ctx.get(), nullptr, EVP_sha256(), nullptr, public_key.get()) == 1) {
+        if (EVP_DigestVerifyUpdate(ctx.get(), data_to_verify.data(), data_to_verify.size()) == 1) {
+            int verify_result = EVP_DigestVerifyFinal(ctx.get(), signature_bytes.data(), signature_bytes.size());
             valid = (verify_result == 1);
             
             if (!valid) {
@@ -550,9 +579,6 @@ bool USBAdminAuthenticator::validateLicenseSignature(const USBAdminLicense& lice
     } else {
         THEMIS_ERROR("USBAdminAuthenticator: EVP_DigestVerifyInit failed");
     }
-    
-    EVP_MD_CTX_free(ctx);
-    EVP_PKEY_free(public_key);
     
     return valid;
 }

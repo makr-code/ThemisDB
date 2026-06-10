@@ -1,31 +1,12 @@
-/*
- * ThemisDB | File: language_detector.h | Version: 0.1.0
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
-#pragma once
-
 /**
  * @file language_detector.h
- * @brief Toolbox language detection API (ISO 639-1).
- *
- * Provides a stable `ILanguageDetector` interface and a heuristic
- * `DefaultLanguageDetector` implementation.  The default implementation
- * detects language by counting stopword matches from `utils::Stopwords`.
- *
- * ## Free function (simplest usage)
- * @code
- * std::string lang = themis::toolbox::detectLanguage("Der Hund bellt laut.");
- * // -> "de"
- * @endcode
- *
- * ## Replacing the detector (tests or custom logic)
- * @code
- * class MyDetector : public themis::toolbox::ILanguageDetector { … };
- * @endcode
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.1.0
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include <memory>
@@ -134,6 +115,8 @@ private:
  * @param text UTF-8 text sample.
  * @return ISO 639-1 language code ("en", "de") or "und" when undetermined.
  */
+
+#pragma once
 std::string detectLanguage(std::string_view text);
 
 } // namespace toolbox

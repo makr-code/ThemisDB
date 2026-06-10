@@ -1,21 +1,12 @@
-/*
- * ThemisDB | File: test_sd_plugin_registrar.cpp | Version: 0.0.1 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 96/100 | Lines: 142
- * Gap Summary: total=13; TODO=1, Stub=11, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * PR History (last 5): none
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file test_sd_plugin_registrar.cpp
- * @brief Unit tests for SDPluginAdapter and SDPluginRegistrar
- *
- * Test suite: SDPluginRegistrarTests (12 tests)
- *   Group A (3)  – SDPluginRegistrar::createPlugin: stub mode, empty model_path, non-empty path
- *   Group B (3)  – SDPluginRegistrar::createAdapter: creates adapter, type IMAGE_GENERATION, getInstance
- *   Group C (3)  – SDPluginAdapter IThemisPlugin: name/version, capabilities, initialize/shutdown cycle
- *   Group D (3)  – SDPluginRegistrar::defaultReloadCallback: stub mode, path triggers initialize
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.1
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 95/100
+ * @note Gap Summary: total=13; TODO=1, Stub=11, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include <gtest/gtest.h>

@@ -1,3 +1,14 @@
+/**
+ * @file workload_fingerprint_engine.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.1.0
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
  * ThemisDB | File: workload_fingerprint_engine.cpp | Version: 0.1.0 | Last Modified: 2026-05-31 12:17:24
  * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 220
@@ -44,6 +55,13 @@ void l1Normalise(std::vector<double>& v) {
 // WorkloadFingerprintEngine::classify
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Classify a tenant workload snapshot into OLTP/OLAP/BATCH/MIXED.
+ * @param tenant_id Tenant identifier copied to the output fingerprint.
+ * @param stats Input metrics for the observed window.
+ * @return Fingerprint with normalized probability vector, dominant pattern,
+ *         confidence, and policy recommendation.
+ */
 WorkloadFingerprintEngine::WorkloadFingerprint
 WorkloadFingerprintEngine::classify(
     const std::string&         tenant_id,
@@ -149,6 +167,12 @@ WorkloadFingerprintEngine::classify(
 // WorkloadFingerprintEngine::similarityTo (cosine similarity)
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Compute cosine similarity between two fingerprint vectors.
+ * @param a First fingerprint.
+ * @param b Second fingerprint.
+ * @return Similarity in [0,1], or 0.0 for size mismatch/degenerate vectors.
+ */
 double WorkloadFingerprintEngine::similarityTo(
     const WorkloadFingerprint& a,
     const WorkloadFingerprint& b
@@ -170,6 +194,11 @@ double WorkloadFingerprintEngine::similarityTo(
 // ---------------------------------------------------------------------------
 
 // static
+/**
+ * @brief Derive default resource policy for a dominant workload pattern.
+ * @param pattern Dominant classification outcome.
+ * @return Policy recommendation tuned for the pattern.
+ */
 WorkloadFingerprintEngine::WorkloadFingerprint::PolicyRecommendation
 WorkloadFingerprintEngine::buildPolicy(WorkloadPattern pattern) {
     WorkloadFingerprint::PolicyRecommendation rec;
@@ -205,6 +234,11 @@ WorkloadFingerprintEngine::buildPolicy(WorkloadPattern pattern) {
 }
 
 // static
+/**
+ * @brief Convert enum value to stable textual representation.
+ * @param p Pattern enum.
+ * @return Upper-case name for diagnostics and API payloads.
+ */
 std::string WorkloadFingerprintEngine::patternName(WorkloadPattern p) {
     switch (p) {
         case WorkloadPattern::OLTP:    return "OLTP";

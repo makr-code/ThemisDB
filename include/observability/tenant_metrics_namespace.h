@@ -1,44 +1,12 @@
-/*
- * ThemisDB | File: tenant_metrics_namespace.h | Version: 0.0.10 | Last Modified: 2026-05-20 17:13:04
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 283
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * PR History (last 5): #5056 docs(observability): update... (2026-05-13) | #4503 feat(observability): add pe... (2026-04-12)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file tenant_metrics_namespace.h
- * @brief Per-tenant metric namespacing for ThemisDB observability.
- *
- * `TenantMetricsNamespace` provides isolated metric recording per tenant,
- * preventing cross-tenant cardinality leakage via shared label sets.
- *
- * ## Design Goals
- * - Each tenant gets its own cardinality budget enforced independently.
- * - Metric names are automatically prefixed: `themis_<tenant_id>_<metric>`.
- * - Label sets are scoped to the tenant; a label key/value from tenant A
- *   can never inflate the cardinality count of tenant B.
- * - Thread-safe: all methods acquire an internal shared/unique mutex.
- *
- * ## Usage
- * ```cpp
- * TenantMetricsConfig cfg;
- * cfg.cardinality_limit_per_tenant = 200;
- *
- * TenantMetricsNamespace registry(cfg);
- * registry.registerTenant("acme");
- *
- * registry.increment("acme", "query_total", {{"type", "select"}});
- * registry.setGauge("acme",  "active_connections", 12.0);
- * registry.observeHistogram("acme", "query_latency_ms", 42.5);
- *
- * std::string prom_text = registry.exportTenant("acme");
- * std::string all_text  = registry.exportAll();
- * ```
- *
- * Copyright (c) 2025 ThemisDB Project
- * SPDX-License-Identifier: Apache-2.0
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.10
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 94/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once

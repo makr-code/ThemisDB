@@ -1,36 +1,12 @@
-/*
- * ThemisDB | File: streaming_join.cpp | Version: 0.0.10 | Last Modified: 2026-05-31 12:49:01
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 738
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=10, M=39, L=0
- * PR History (last 5): #4929 [Docs][analytics] Refresh m... (2026-05-10)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file streaming_join.cpp
- * @module Streaming
- * @brief Stream-stream join operators: HashJoin and IntervalJoin.
- *
- * Data flow:
- *   build(ArrowRecordBatch) → internal hash table / probe-side ring buffer
- *   probe(ArrowRecordBatch) → joined ArrowRecordBatch (inner or left-outer)
- *
- * Error paths:
- *   - `std::invalid_argument`: empty join-key column or schema mismatch
- *     between build and probe batches (thrown in build()/probe()).
- *   - Late-arriving rows whose event-time falls outside the IntervalJoin
- *     window are silently dropped (no error; debug-log emitted).
- *   - `HashJoin`: probe rows with no build-side match → absent from output
- *     (inner join) or present with null right-side columns (left-outer).
- *
- * Thread safety: build() and probe() must not be called concurrently on the
- * same instance; each join session owns its state exclusively.
- *
- * Cross-links:
- *   include/analytics/streaming_join.h — public API
- *   src/analytics/streaming_window.cpp — upstream window operators
- *   tests/analytics/test_streaming_join.cpp — SJ-01…SJ-15 coverage
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.10
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=7, M=24, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include "analytics/streaming_join.h"

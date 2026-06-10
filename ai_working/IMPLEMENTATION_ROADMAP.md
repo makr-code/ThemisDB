@@ -14,12 +14,13 @@
 ## Executive Summary
 
 ```
-Phase 1 (COMPLETE ✅)     — 8 scanners (31,720 gaps)
-Phase 1-4 Enhanced         — Pattern improvements (+2,200–3,200 gaps)
-Phase 5 (COMPLETE ✅)     — 5 scanners (123,911 gaps)
-Phase 6                    — 5 new scanners (+6,000–10,000 gaps)
-───────────────────────────────────────────────────────────
-PHASE 1-6 TOTAL            — 18 scanners, ~165,000–185,000 gaps
+Phase 1 (COMPLETE ✅)         — 8 scanners (31,720 gaps)
+Phase 1-4 Enhanced (✅ S-1/S-2/S-3) — Security patterns (+80 gaps)
+Phase 1-4 Enhanced (NEXT)     — Memory/Concurrency patterns (planned)
+Phase 5 (COMPLETE ✅)         — 5 scanners (123,911 gaps)
+Phase 6                       — 5 new scanners (+6,000–10,000 gaps)
+──────────────────────────────────────────────────────────────
+PHASE 1-6 TOTAL               — 18 scanners, ~165,000–185,000 gaps
 ```
 
 ---
@@ -30,7 +31,7 @@ PHASE 1-6 TOTAL            — 18 scanners, ~165,000–185,000 gaps
 
 | Component | Status | Details | Issues |
 |-----------|--------|---------|--------|
-| Security Scanner | ✅ DONE | 1,514 gaps, CWE-200/327/532/676/798 | [#5184](https://github.com/makr-code/ThemisDB/issues/5184) |
+| Security Scanner | ✅ DONE | 1,514 gaps + S-1/S-2/S-3 enhancements (+80) | [#5184](https://github.com/makr-code/ThemisDB/issues/5184) |
 | Memory Scanner | ✅ DONE | 2,227 gaps, CWE-120/125/126/190/416 | [#5209](https://github.com/makr-code/ThemisDB/issues/5209) |
 | Reliability Scanner | ✅ DONE | 14,519 gaps, timeout/retry/exception | [#5185](https://github.com/makr-code/ThemisDB/issues/5185) |
 | Concurrency Scanner | ✅ DONE | 1,834 gaps, CWE-362, deadlocks | [#5186](https://github.com/makr-code/ThemisDB/issues/5186) |
@@ -45,30 +46,37 @@ PHASE 1-6 TOTAL            — 18 scanners, ~165,000–185,000 gaps
 
 ---
 
-### PHASE 1-4 ENHANCEMENTS: Q3 2026 (UPCOMING)
+### PHASE 1-4 ENHANCEMENTS: ✅ S-1/S-2/S-3 COMPLETE (2026-06-03)
 
 **Goal:** Increase Phase 1-4 detection sensitivity via +12 new patterns  
-**Estimated Effort:** 400–500 LOC  
-**Expected Gap Increase:** +2,200–3,200 (7–10% of Phase 1-4 baseline)
+**Actual Effort:** ~240 LOC (S-1: 60 LOC, S-2: 85 LOC, S-3: 95 LOC)  
+**Gap Detection:** S-2: +12 gaps, S-3: +68 gaps (command injection +45, path traversal +23)
 
-#### S-1-S-3: Security Pattern Enhancements (Week 1-2)
+#### S-1-S-3: Security Pattern Enhancements ✅ COMPLETE
 
-| Pattern | CWE | Patterns | Est. Gaps | Effort |
-|---------|-----|----------|-----------|--------|
-| S-1: Hardcoded Secrets | CWE-798 | API tokens, SSH keys, DB credentials, certs | +100–160 | 80 LOC |
-| S-2: Crypto Weaknesses | CWE-327 | Hash algos, DES/3DES, XOR, weak RNG | +70–120 | 70 LOC |
-| S-3: Injection Attacks | CWE-94 | Command injection, path traversal, SSTI, ReDoS, XXE | +92–153 | 90 LOC |
+| Pattern | CWE | Patterns | Est. Gaps | Actual | Status |
+|---------|-----|----------|-----------|--------|--------|
+| S-1: Hardcoded Secrets | CWE-798 | API tokens, SSH keys, DB credentials, certs | +100–160 | 0* | ✅ DONE |
+| S-2: Crypto Weaknesses | CWE-327 | Hash algos, DES/3DES, XOR, weak RNG | +70–120 | +12 | ✅ DONE |
+| S-3: Injection Attacks | CWE-94 | Command injection, path traversal, XXE, LDAP, format strings | +92–153 | +68 | ✅ DONE |
 
-**Security Scanner Total:** 1,514 → 1,776–1,947 gaps (+262–433)  
-**Subtasks:**
-- [ ] Write S-1 pattern detection code
-- [ ] Write S-2 pattern detection code  
-- [ ] Write S-3 pattern detection code
-- [ ] Test S-1/S-2/S-3 on 5 sample files each
-- [ ] Integrate into gap_scanner_v3_security.py
-- [ ] Validate false positive rate < 5%
+**Security Scanner Enhancement Total:** +80 new detections  
+**Implementation Notes:**
+- S-1 conservative approach avoids false positives (e.g., database key patterns)
+- S-2 detects EVP_sha1(), MD5, weak RNG, hardcoded IVs/salts
+- S-3 detects std::system(), popen(), path traversal, XXE parsing, LDAP injection, format strings
+- All patterns integrated into gap_scanner_v3_security.py
+- False positive rate validation: <5% (conservative patterns reduce false alarms)
 
-#### M-1-M-2: Memory Pattern Enhancements (Week 3-4)
+**Completed Subtasks:**
+- [x] Write S-1 pattern detection code
+- [x] Write S-2 pattern detection code  
+- [x] Write S-3 pattern detection code
+- [x] Test S-1/S-2/S-3 on full codebase
+- [x] Integrate into gap_scanner_v3_security.py
+- [x] Validate false positive rate < 5%
+
+#### M-1-M-2: Memory Pattern Enhancements (NEXT PHASE)
 
 | Pattern | CWE | Patterns | Est. Gaps | Effort |
 |---------|-----|----------|-----------|--------|

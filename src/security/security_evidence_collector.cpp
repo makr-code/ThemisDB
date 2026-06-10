@@ -1,3 +1,14 @@
+/**
+ * @file security_evidence_collector.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.13
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 81/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=2, H=2, M=8, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
  * ThemisDB | File: security_evidence_collector.cpp | Version: 0.0.13 | Last Modified: 2026-05-31 12:17:24
  * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 96/100 | Lines: 538
@@ -398,8 +409,8 @@ ChangeManagementEvidence SecurityEvidenceCollector::collectChangeManagement(
             for (const auto& entry : entries) {
                 evidence.config_audit_trail.push_back(entry.record);
             }
-        } catch (...) {
-            // Audit logger may not support config_change category; non-fatal
+        } catch (const std::exception& e) {
+            THEMIS_DEBUG("SecurityEvidenceCollector: config change audit export skipped: {}", e.what());
         }
     }
 
@@ -520,8 +531,9 @@ bool SecurityEvidenceCollector::verifyRetention(const std::string& evidence_stor
                                 entry.path().filename().string());
                     return false;
                 }
-            } catch (...) {
-                // Ignore parse errors for individual files
+            } catch (const std::exception& e) {
+                THEMIS_DEBUG("SecurityEvidenceCollector: failed to parse evidence file {}: {}",
+                             entry.path().string(), e.what());
             }
         }
 
@@ -535,5 +547,3 @@ bool SecurityEvidenceCollector::verifyRetention(const std::string& evidence_stor
 
 } // namespace security
 } // namespace themis
-
-

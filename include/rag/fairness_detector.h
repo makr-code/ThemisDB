@@ -1,25 +1,12 @@
-/*
- * ThemisDB | File: fairness_detector.h | Version: 1.0.0
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=0; TODO=0, Stub=0, Unimpl=0, Mock=0, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file fairness_detector.h
- * @brief Bias and fairness detection for RAG documents
- *
- * Implements bias scoring for retrieved documents using word-embedding
- * projections (PCA-based gender/occupational bias), stereotype density
- * analysis, and optional intersectional bias scoring.
- *
- * Purpose: Quantify corpus biases in RAG to enable ethical audits,
- * filtering, and fairness-aware ranking adjustments.
- *
- * @reference Bolukbasi et al. (2016) "Man is to Computer Programmer
- *            as Woman is to Homemaker: Debiasing Word Embeddings"
- *            NeurIPS 2016, arXiv:1607.06520
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 1.0.0
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once

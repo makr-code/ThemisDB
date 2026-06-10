@@ -1,32 +1,12 @@
-/*
- * ThemisDB | File: dpr_vectorizer.h | Version: 1.0.0
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=0; TODO=0, Stub=0, Unimpl=0, Mock=0, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file dpr_vectorizer.h
- * @brief Dense Passage Retrieval (DPR) bi-encoder vectorizer for RAG
- *
- * Implements DPRVectorizer, a specialized IVectorizer that uses separate
- * query and passage encoders (BERT-based bi-encoder) for improved semantic
- * matching in open-domain QA and RAG systems.
- *
- * Architecture:
- *  - Query Encoder: BERT-based model fine-tuned for query representation
- *  - Passage Encoder: BERT-based model fine-tuned for passage representation
- *  - Both produce fixed-size embeddings (typically 384-768 dim)
- *  - Similarity: cosine distance or inner product over query/passage vectors
- *
- * Performance Targets (Wave A2):
- *  - MRR@10 improvement ≥ +15% vs. BM25-only baseline
- *  - Query latency ≤ 150 ms (single query on GPU)
- *  - Passage encoding ≥ 100 docs/sec (batch_size=32 on GPU)
- *
- * @reference Karpukhin et al. (2021) "Dense Passage Retrieval for Open-Domain QA"
- *            ICLR 2021, arXiv:2004.04906
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 1.0.0
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once

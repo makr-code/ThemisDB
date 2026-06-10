@@ -1,48 +1,12 @@
-/*
- * ThemisDB | File: raft_v2.h | Version: 0.0.13
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file raft_v2.h
- * @brief Full Raft v2 implementation: joint consensus for safe cluster
- *        membership changes.
- *
- * Implements the joint-consensus protocol from the Raft PhD dissertation
- * (Ongaro 2014, §4.3) for the ThemisDB replication module.
- *
- * ## Joint Consensus for Membership Changes
- *
- * Safe membership changes require a two-phase transition:
- *  1. **C_old,new** – both the old and new configuration must agree
- *     (joint consensus).  A log entry carrying C_old,new is committed when
- *     a majority of *both* C_old and C_new acknowledge it.
- *  2. **C_new** – once C_old,new is committed the new configuration is
- *     activated and the old is discarded.  A log entry carrying C_new is
- *     committed by a majority of C_new alone.
- *
- * This ensures that at no point can two disjoint majorities be elected as
- * leaders simultaneously.
- *
- * ## Key Classes
- *
- * | Class | Responsibility |
- * |---|---|
- * | `RaftV2ClusterConfig` | Holds old + new member sets; calculates joint quorum |
- * | `MembershipChangeEntry` | Log entry representing a configuration change |
- * | `MembershipChangeManager` | Orchestrates the two-phase membership transition |
- * | `RaftV2State` | Persistent per-node state (currentTerm, votedFor, log) |
- *
- * ## Compatibility
- *
- * All new fields are additive only; the existing `ReplicationConfig` struct
- * is untouched and continues to work for clusters that do not use dynamic
- * membership changes.
- *
- * Thread Safety: all public methods of all classes are thread-safe.
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.13
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once

@@ -1,10 +1,12 @@
-/*
- * ThemisDB | File: zero_copy_logger.h | Version: 0.0.13 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 246
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * PR History (last 5): #4162 feat(core): Zero-Copy Loggi... (2026-03-13)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
+/**
+ * @file zero_copy_logger.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.1
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once
@@ -36,8 +38,8 @@ namespace concerns {
  *  2. **Pre-allocated thread-local format buffer**: The structured and JSON
  *     log paths (`logStructuredSV`, JSON mode) reuse a `std::string` buffer
  *     that is reserved once per thread at `kDefaultBufferCapacity` bytes.
- *     Subsequent calls `clear()` the buffer — retaining its heap capacity —
- *     so typical log lines cause no heap allocation on the hot path.
+ *     Subsequent calls `clear()` the buffer, retaining its heap capacity, so
+ *     typical log lines cause no heap allocation on the hot path.
  *
  *  3. **Early level-check** (`shouldLog`): callers can guard expensive
  *     message construction behind a level check at zero virtual-dispatch cost.
@@ -52,7 +54,7 @@ namespace concerns {
  *
  * ## Backward compatibility
  * `ZeroCopyLogger` fully implements `ILogger`, so it can be used anywhere an
- * `ILogger` pointer or reference is expected.  The `const std::string&`
+ * `ILogger` pointer or reference is expected. The `const std::string&`
  * virtual overrides delegate to the `string_view` hot-path, so callers that
  * pass `std::string` objects pay at most a `string_view` construction (no
  * copy).
@@ -134,7 +136,7 @@ public:
     /**
      * @brief Emit a structured log line using `string_view` fields.
      *
-     * In JSON mode the output is a single-line JSON object:
+    * In JSON mode the output is a single-line JSON object:
      * ```json
      * {"ts":"…","level":"INFO","message":"…","key":"value",…}
      * ```
@@ -143,9 +145,9 @@ public:
      * Uses the pre-allocated thread-local format buffer — no heap allocation
      * on the hot path once the buffer has been reserved.
      *
-     * PII-sensitive field values (keys containing "password", "secret",
-     * "token", "email", "phone", "ssn", or "credit_card") are redacted to
-     * `"[REDACTED]"`.
+    * PII-sensitive field values (keys containing "password", "secret",
+    * "token", "email", "phone", "ssn", or "credit_card") are redacted to
+    * `"[REDACTED]"`.
      *
      * @param level    Severity level.
      * @param message  Human-readable log text (string_view — zero copy).
@@ -196,9 +198,9 @@ public:
 
     /** Enable or disable JSON-mode structured logging at runtime.
      *
-     *  Thread-safe: `setJsonMode` may be called concurrently with logging
-     *  methods.  The `std::atomic<bool>` ensures a consistent view across
-     *  threads.
+     * Thread-safe: `setJsonMode` may be called concurrently with logging
+     * methods. The `std::atomic<bool>` ensures a consistent view across
+     * threads.
      */
     void setJsonMode(bool enabled) noexcept { json_mode_.store(enabled, std::memory_order_relaxed); }
     bool jsonMode() const noexcept { return json_mode_.load(std::memory_order_relaxed); }

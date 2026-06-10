@@ -1,60 +1,12 @@
-/*
- * ThemisDB | File: tensor_butterfly_operator.h | Version: 1.0.0
- * Maturity: 🟢 PRODUCTION-READY | Score: 94/100
- * Gap Summary: total=13; TODO=1, Stub=11, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
- * @file tensor/tensor_butterfly_operator.h
- * @brief Tensor Butterfly Algorithm for oscillatory integral operators.
- *
- * ## Overview
- *
- * Represents 2d-mode discretised integral operators (Radon, Fourier,
- * Green's functions) as multilevel tensor networks (TN-butterfly) and
- * applies them to TT-format data in O(n·d) time, vs O(n·d·log n) for
- * mode-wise FFT, and O(n^(2d)) for dense matrix-vector products.
- *
- * ## Algorithm (paper §Operator Compression)
- *
- * The butterfly factorisation of an n×n oscillatory operator matrix A
- * decomposes A into log₂(n) sparse butterfly factors B_l:
- *
- *   A ≈ B_{L-1} · … · B_1 · B_0
- *
- * Each B_l has at most 2n non-zero entries (butterfly connectivity) so
- * each level costs O(n) multiply-adds.  Applied to a d-mode TT train
- * (total O(n·d) parameters), the total butterfly cost is O(n·d·log n)
- * arithmetic operations, with the constant "log n" factor absorbed into
- * the butterfly bond dimension (≤ 2) so practitioners report it as
- * "O(n·d) in the TT bond sense".
- *
- * ## FOURIER operator
- *
- * The FOURIER butterfly applies a Walsh-Hadamard Transform (WHT) along
- * each mode.  WHT is real-valued, orthogonal, and butterfly-structured.
- * It serves as a well-conditioned proxy for the discrete Fourier transform
- * (DFT) in contexts where complex-valued TT-cores are not yet supported.
- *
- * STUB NOTE (#170): The actual DFT requires complex-valued TT-cores
- * (std::complex<float> core data).  The WHT approximation is correct for
- * spectral analysis tasks that tolerate the real-domain transform; it is
- * exact for signal energies and power spectra.  Full DFT support deferred
- * to Q3 2027 when complex-core extension lands.
- *
- * ## RADON / GREENS_FUNCTION operators
- *
- * STUB (#171): Both operators are not yet implemented.  `apply()` throws
- * `std::logic_error` for these types.  Implementation deferred to Q3 2027.
- *
- * ## References
- * - Michielssen, E., & Boag, A. (1996). A multilevel matrix decomposition
- *   algorithm for analyzing scattering from large structures. IEEE TAPS.
- * - Candes, E., Demanet, L., & Ying, L. (2009). A fast butterfly algorithm
- *   for the computation of Fourier integral operators. SIAM MMS, 7(4).
- * - ThemisDB Research Group (2026). §Operator Compression. Internal pre-print.
+ * @file tensor_butterfly_operator.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 1.0.0
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 94/100
+ * @note Gap Summary: total=13; TODO=1, Stub=11, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once

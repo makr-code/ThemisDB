@@ -32,14 +32,14 @@ This document covers planned enhancements to the **public header contract** in `
 
 | Interface | Declared In | Consumer | Status |
 |-----------|------------|----------|--------|
-| `ConfigValidator::validate()` | `config_validator.h` | Server entrypoint, tests | ✅ Stable |
-| `StorageInitializer::initialize()` | `storage_initialization.h` | Server entrypoint, tests | ✅ Stable |
-| `SecurityInitializer::initialize()` | `security_initialization.h` | Server entrypoint, tests | ✅ Stable |
-| `IndexInitializer::initialize()` | `index_initialization.h` | Server entrypoint, tests | ✅ Stable |
+| `ConfigValidator::*` validation helpers | `config_validator.h` | Server entrypoint, tests | ✅ Stable |
+| `StorageInitializationBuilder::build()` | `storage_initialization.h` | Server entrypoint, tests | ✅ Stable |
+| `SecurityLayerBuilder::build()` | `security_initialization.h` | Server entrypoint, tests | ✅ Stable |
+| `IndexInitializationBuilder::build()` | `index_initialization.h` | Server entrypoint, tests | ✅ Stable |
 | `QueryEngineBuilder::build()` | `query_engine_builder.h` | Server entrypoint, tests | ✅ Stable |
-| `HealthProbe::markReady()` | `health_probe.h` | HTTP health endpoint | ✅ Stable |
-| `ConfigHotReloader::start()` | `config_hot_reloader.h` | Server runtime | ✅ Stable |
-| `ProductionModeGuard` constructor | `production_mode.h` | Production server entrypoint | ✅ Stable |
+| `IHealthProbeRegistry::checkAll()` | `health_probe.h` | HTTP health endpoint | ✅ Stable |
+| `IConfigHotReloader::watch()` / `reload()` | `config_hot_reloader.h` | Server runtime | ✅ Stable |
+| `ProductionMode::*` checks | `production_mode.h` | Production server entrypoint | ✅ Stable |
 
 ---
 
@@ -54,9 +54,9 @@ This document covers planned enhancements to the **public header contract** in `
 ### Medium-Term (Q4 2026)
 
 - `shutdown_coordinator.h` — reverse-order graceful shutdown; ensures WAL flush before index close before security teardown.
-- Deprecation marker `[[deprecated("Use bootstrap_orchestrator instead")]]` on direct initializer calls once orchestrator is stable.
+- Deprecation marker `[[deprecated("Use bootstrap_orchestrator instead")]]` on direct initializer-builder entry points once orchestrator is stable.
 
 ### Long-Term
 
-- Compile-time enforcement that `ProductionModeGuard` is always constructed before `HealthProbe::markReady()` (static analysis / concept constraint).
+- Compile-time enforcement that production safety checks run before health readiness is published (static analysis / concept constraint).
 - Header-level API versioning annotations for embedder ABI compatibility tracking.

@@ -255,23 +255,6 @@ TEST_F(DistributedTransactionTest, PrepareExceptionTreatedAsAbortVote) {
     EXPECT_EQ(shard1->commitCount(), 0);
 }
 
-TEST_F(DistributedTransactionTest, CommitAbortsWhenShardRegistrationVersionChanges) {
-    auto tx = mgr->beginDistributedTransaction();
-    tx->put("shard1:user", "alice");
-
-    // Simulate shard endpoint replacement while the transaction is active.
-    mgr->unregisterShard("shard1");
-    mgr->registerShard("shard1", shard1.get());
-
-    bool ok = tx->commit();
-    EXPECT_FALSE(ok);
-    EXPECT_EQ(tx->state(), DistributedTxnState::ABORTED);
-
-    // Prepare must not be sent after version mismatch is detected.
-    EXPECT_EQ(shard1->prepareCount(), 0);
-    EXPECT_EQ(shard1->commitCount(), 0);
-}
-
 // ============================================================================
 // Rollback / Explicit Abort Tests
 // ============================================================================

@@ -1,10 +1,12 @@
-/*
- * ThemisDB | File: i_audit_log.h | Version: 0.0.13 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 229
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * PR History (last 5): #3570 feat(core): dynamic log lev... (2026-03-12)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
+/**
+ * @file i_audit_log.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.1
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 94/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once
@@ -127,6 +129,8 @@ struct AuditEvent {
  *   and, if possible, surfaced through `isHealthy()`.
  * - Implementations that buffer events MUST flush on `flush()` and
  *   `shutdown()` to ensure no records are silently discarded.
+ * - `shutdown()` may be called multiple times; later calls should be safe and
+ *   idempotent.
  */
 class IAuditLog {
 public:
@@ -150,23 +154,26 @@ public:
     /**
      * @brief Flush buffered events to the underlying sink.
      *
-     * Call before process suspension to ensure pending records are not
-     * lost.  No-op for implementations with synchronous writes.
+    * Call before process suspension to ensure pending records are not
+    * lost.  No-op for implementations with synchronous writes.
+    * Implementations that batch writes should treat this as a best-effort
+    * durability point and report failures through health checks.
      */
     virtual void flush() noexcept {}
 
     /**
      * @brief Shut down the audit log and release resources.
      *
-     * Flushes any buffered events before teardown.  After shutdown(),
-     * calls to record() are silently dropped.
+    * Flushes any buffered events before teardown.  After shutdown(),
+    * calls to record() are silently dropped or ignored by the implementation.
      */
     virtual void shutdown() noexcept {}
 
     /**
      * @brief Probe whether the audit log backend is reachable and healthy.
      *
-     * @return ProbeResult with ok=true when the backend can accept writes.
+    * @return ProbeResult with ok=true when the backend can accept writes,
+    *         ok=false otherwise.
      */
     virtual ProbeResult isHealthy() const { return ProbeResult::healthy(); }
 };

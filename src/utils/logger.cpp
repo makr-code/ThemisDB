@@ -1,3 +1,14 @@
+/**
+ * @file logger.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=2, M=3, L=2
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
  * ThemisDB | File: logger.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
  * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 280
@@ -7,9 +18,9 @@
  * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
-// Focused test binaries may compile this TU directly instead of linking themis_base.
-// In that mode, export symbols from this TU to allow static member definitions.
-#if defined(THEMIS_TEST_BUILD) && !defined(THEMIS_BASE_EXPORTS)
+// This implementation TU defines Logger symbols, so force export semantics
+// to keep declaration/definition DLL attributes consistent in all build modes.
+#ifndef THEMIS_BASE_EXPORTS
 #define THEMIS_BASE_EXPORTS
 #endif
 
@@ -31,8 +42,6 @@
 
 namespace themis {
 namespace utils {
-
-LogMetrics Logger::metrics_{};
 
 namespace {
 /// Minimal JSON-string escape for embedding a value inside "…".
@@ -61,6 +70,8 @@ std::string jsonEscapeTraceId(const std::string& s) {
 // ─────────────────────────────────────────────────────────────────────────────
 // Private helper
 // ─────────────────────────────────────────────────────────────────────────────
+
+LogMetrics Logger::metrics_{};
 
 spdlog::level::level_enum Logger::toSpdlogLevel(Level level) {
     switch (level) {

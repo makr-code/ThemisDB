@@ -1,3 +1,14 @@
+/**
+ * @file adalora_tt_bridge.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 1.0.0
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=5, M=3, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
  * ThemisDB | File: adalora_tt_bridge.cpp | Version: 1.0.0 | Last Modified: 2026-06-01 19:36:06
  * Author: makr | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 456

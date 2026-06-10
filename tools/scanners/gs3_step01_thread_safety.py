@@ -157,12 +157,12 @@ class ThreadSafetyScanner(BaseGapScanner):
                     ))
             
             # Pattern 2: Double lock (no unlock between locks)
-            if re.search(r'\.lock\()', line):
+            if re.search(r'\.lock\(\)', line):
                 for i in range(line_no, min(len(lines), line_no + 8)):
-                    if i != line_no - 1 and re.search(r'\.lock\()', lines[i]):
+                    if i != line_no - 1 and re.search(r'\.lock\(\)', lines[i]):
                         # Check if there's an unlock between
                         has_unlock = any(
-                            re.search(r'\.unlock\()', lines[j])
+                            re.search(r'\.unlock\(\)', lines[j])
                             for j in range(line_no - 1, i)
                         )
                         if not has_unlock:

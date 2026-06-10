@@ -27,6 +27,18 @@ The tensor module composes tensor index management, bridge-oriented ingestion/ru
 | fingerprint contract | observable insert/query/neighbour/export behavior |
 | structural contract | bounded behavior for tensor helper and transformation paths |
 
+## Performance Expectations
+
+- `TensorFingerprintGraph::findSimilar` targets bounded query latency under candidate growth by
+  caching per-adapter self inner-products and avoiding repeated norm recomputation.
+- `TensorFingerprintGraph::findSimilarByFingerprint` uses cached fingerprint squared norms and
+  overlap-only dot products with explicit zero-padding semantics for dimension mismatch.
+- `AdapterRepository::store` overwrite path updates aggregate stats in O(1) and must not inflate
+  `total_adapters` on idempotent key replacement.
+- Baseline SLO envelope (release profile, reference CI hardware):
+  - key-based similarity at 10k candidates: p95 <= 80 ms, p99 <= 140 ms
+  - fingerprint similarity at 10k candidates: p95 <= 15 ms, p99 <= 30 ms
+
 ## Failure Semantics
 
 - tensor index lifecycle and route mismatches are explicit.

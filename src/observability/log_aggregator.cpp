@@ -1,22 +1,12 @@
-/*
- * ThemisDB | File: log_aggregator.cpp | Version: 0.0.13 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 498
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=10, M=12, L=7
- * PR History (last 5): #3795 feat(observability): LogAgg... (2026-03-12) | #3783 feat(observability): implem... (2026-03-12) | #3577 [MODULE] network + observab... (2026-03-12)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file log_aggregator.cpp
- * @brief Standalone LogAggregator implementation.
- *
- * Provides:
- *   - In-process ring buffer of structured log entries
- *   - Optional file sink (append-only JSON Lines format)
- *   - Trace-context correlation via logWithContext()
- *   - Per-level counters published to MetricsCollector
- *   - Configurable entry callback for downstream sinks
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.13
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 94/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=7, M=5, L=7
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include "observability/log_aggregator.h"

@@ -1,52 +1,12 @@
-/*
- * ThemisDB | File: crdt_types.h | Version: 0.0.13
- * Maturity: 🟢 PRODUCTION-READY | Score: 96/100
- * Gap Summary: total=4; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=1, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file crdt_types.h
- * @brief Standalone, type-safe Conflict-free Replicated Data Type (CRDT)
- *        library for the ThemisDB replication module.
- *
- * All CRDT types in this header are:
- *  - **Idempotent** – applying the same update twice has the same effect as
- *    applying it once.
- *  - **Commutative** – the order in which updates from different nodes are
- *    merged does not affect the final state.
- *  - **Associative** – merging three states in any grouping yields the same
- *    result.
- *
- * ## Available Types
- *
- * | Class | Category | Description |
- * |---|---|---|
- * | `GrowOnlyCounter`     | Counter | Monotonically increasing per-node counter |
- * | `PNCounter`           | Counter | Increment/decrement counter |
- * | `LWWRegister<T>`      | Register | Last-Write-Wins register (timestamp-based) |
- * | `MVRegister<T>`       | Register | Multi-Value register (preserves concurrent writes) |
- * | `GrowOnlySet<T>`      | Set | Elements can only be added |
- * | `TwoPSet<T>`          | Set | Add/remove with tombstones (removed elements cannot be re-added) |
- * | `ORSet<T>`            | Set | Observed-Remove set (re-add after remove supported) |
- * | `LWWMap<K,V>`         | Map | Map with LWW semantics per key |
- * | `RGArray<T>`          | Sequence | Replicated Growable Array (ordered sequence) |
- * | `EnableWinsFlag`      | Flag | Concurrent enable+disable resolves to enabled |
- * | `DisableWinsFlag`     | Flag | Concurrent enable+disable resolves to disabled |
- *
- * ## Thread Safety
- *
- * All types are **not** internally thread-safe.  Callers must provide external
- * synchronisation when sharing instances across threads.  This matches standard
- * C++ container semantics and avoids locking overhead when single-threaded use
- * is sufficient.
- *
- * ## Merge Complexity Targets
- *
- * As per FUTURE_ENHANCEMENTS.md, merge operations must add ≤ 1 µs per
- * operation for GrowOnlyCounter and LWWRegister.  All types target O(n) in
- * the number of participants/elements.
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.13
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 96/100
+ * @note Gap Summary: total=4; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=1, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once

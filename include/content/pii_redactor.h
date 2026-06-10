@@ -1,21 +1,12 @@
-/*
- * ThemisDB | File: pii_redactor.h | Version: 0.1.0 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 170
- * Gap Summary: total=5; TODO=1, Stub=3, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * PR History (last 5): none
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file pii_redactor.h
- * @brief Content-level PII detection and redaction interface.
- *
- * IPIIRedactor detects and redacts Personally Identifiable Information (PII)
- * before content is stored or indexed, supporting multiple redaction strategies
- * from simple masking to reversible tokenisation.
- *
- * Compliance: GDPR Art. 25 (data minimisation by design), CCPA, HIPAA §164.514.
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.1.0
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 94/100
+ * @note Gap Summary: total=5; TODO=1, Stub=3, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once

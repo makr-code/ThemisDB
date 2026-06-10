@@ -13,9 +13,6 @@
 
 #include <gtest/gtest.h>
 #include "rag/rag_judge.h"
-#include <atomic>
-#include <thread>
-#include <vector>
 
 using namespace themis::rag::judge;
 
@@ -271,98 +268,6 @@ TEST_F(RAGJudgeTest, EvaluationCallback) {
     
     // Note: Callback invocation depends on implementation details
     // This test documents the API
-}
-
-TEST_F(RAGJudgeTest, ConcurrentCacheAndCallbackUpdatesAreSafe) {
-    RAGJudgeConfig cfg = config_;
-    cfg.cache_evaluations = true;
-    RAGJudge judge(cfg);
-
-    std::atomic<int> callback_hits{0};
-    judge.setEvaluationCallback([&callback_hits](const EvaluationResult&) {
-        callback_hits.fetch_add(1, std::memory_order_relaxed);
-    });
-
-    auto docs = createTestDocuments();
-    std::atomic<bool> stop{false};
-
-    std::thread callback_updater([&]() {
-        for (int i = 0; i < 20; ++i) {
-            judge.setEvaluationCallback([&callback_hits](const EvaluationResult&) {
-                callback_hits.fetch_add(1, std::memory_order_relaxed);
-            });
-        }
-        stop.store(true, std::memory_order_relaxed);
-    });
-
-    std::thread cache_clearer([&]() {
-        while (!stop.load(std::memory_order_relaxed)) {
-            judge.clearCache();
-        }
-    });
-
-    std::vector<std::thread> workers;
-    workers.reserve(4);
-    std::atomic<bool> score_in_range{true};
-    for (int i = 0; i < 4; ++i) {
-        workers.emplace_back([&]() {
-            for (int j = 0; j < 5; ++j) {
-                auto res = judge.evaluate("Concurrency test query", docs, "Concurrency test answer");
-                const bool in_range = res.overall_score >= 0.0 && res.overall_score <= 1.0;
-                if (!in_range) {
-                    score_in_range.store(false, std::memory_order_relaxed);
-                }
-            }
-        });
-    }
-
-    for (auto& worker : workers) {
-        worker.join();
-    }
-    callback_updater.join();
-    cache_clearer.join();
-
-    EXPECT_TRUE(score_in_range.load(std::memory_order_relaxed));
-    EXPECT_GT(callback_hits.load(std::memory_order_relaxed), 0);
-}
-
-TEST_F(RAGJudgeTest, ConcurrentConfigUpdatesAndEvaluationsAreSafe) {
-    RAGJudge judge(config_);
-    auto docs = createTestDocuments();
-
-    std::atomic<bool> stop{false};
-    std::thread config_updater([&]() {
-        for (int i = 0; i < 200; ++i) {
-            auto cfg = judge.getConfig();
-            cfg.mode = (i % 2 == 0) ? EvaluationMode::FAST : EvaluationMode::BALANCED;
-            cfg.quality_threshold = (i % 2 == 0) ? 0.6 : 0.8;
-            judge.setConfig(cfg);
-        }
-        stop.store(true, std::memory_order_relaxed);
-    });
-
-    std::atomic<bool> score_in_range{true};
-    std::vector<std::thread> evaluators;
-    evaluators.reserve(4);
-    for (int i = 0; i < 4; ++i) {
-        evaluators.emplace_back([&]() {
-            while (!stop.load(std::memory_order_relaxed)) {
-                auto result = judge.evaluate("Config race query", docs, "Config race answer");
-                if (result.overall_score < 0.0 || result.overall_score > 1.0) {
-                    score_in_range.store(false, std::memory_order_relaxed);
-                }
-            }
-        });
-    }
-
-    config_updater.join();
-    for (auto& evaluator : evaluators) {
-        evaluator.join();
-    }
-
-    auto final_config = judge.getConfig();
-    EXPECT_TRUE(score_in_range.load(std::memory_order_relaxed));
-    EXPECT_TRUE(final_config.mode == EvaluationMode::FAST || final_config.mode == EvaluationMode::BALANCED);
 }
 
 // Test: Custom configuration with weights

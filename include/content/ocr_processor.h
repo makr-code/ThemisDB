@@ -1,25 +1,12 @@
-/*
- * ThemisDB | File: ocr_processor.h | Version: 0.0.15 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 90/100 | Lines: 177
- * Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * PR History (last 5): #4480 fix(content): implement Ocr... (2026-04-12) | #3788 feat(content): add 300-DPI ... (2026-03-12) | #3787 feat(content): default ocr_... (2026-03-12) | #3129 [WIP] Implement Tesseract O... (2026-03-12)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file ocr_processor.h
- * @brief OCR Content Processor for ThemisDB
- *
- * Extracts text from images using Tesseract OCR.
- * Supported input formats: JPEG, PNG, TIFF, BMP, GIF.
- *
- * Build with -DTHEMIS_ENABLE_OCR=ON to enable Tesseract support.
- * Without Tesseract, isAvailable() returns false and extract() returns a
- * result with ok=false; the caller may treat this as a skipped stage.
- *
- * @author ThemisDB Team
- * @date February 2026
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 90/100
+ * @note Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once

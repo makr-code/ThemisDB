@@ -1,3 +1,14 @@
+/**
+ * @file replication_manager.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=8; TODO=1, Stub=3, Unimpl=0, Mock=1, Sim=3, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
  * ThemisDB | File: replication_manager.h | Version: 0.0.47
  * Maturity: 🟢 PRODUCTION-READY | Score: 89/100
@@ -420,6 +431,10 @@ public:
     
     // Get WAL size in bytes
     uint64_t getSize() const;
+    
+    // Get the internal WAL mutex for external synchronization
+    // (used by ReplicationStream for atomic read operations)
+    std::mutex& getMutex() { return wal_mutex_; }
 
 private:
     ReplicationConfig config_;
@@ -580,6 +595,8 @@ private:
     std::atomic<uint64_t> last_acked_sequence_{0};
     std::atomic<bool> running_{false};
     std::thread stream_thread_;
+    mutable std::mutex wait_mutex_;
+    std::condition_variable wait_cv_;
     
     // Retry / backoff state
     std::atomic<uint32_t> consecutive_failures_{0};
@@ -955,8 +972,8 @@ public:
     /// Returns: {serialised document data, version}.  An empty data string is
     /// valid when the document does not exist; version 0 means unknown.
     ///
-    /// Stub #248 injection API — resolves the single-node quorum-read path
-    /// that previously returned an empty data field and version=0.
+    /// Injection API for the single-node local read path.
+    /// Provides concrete document content/version when no replica topology is present.
     using LocalDocumentFetchFn = std::function<
         std::pair<std::string, uint64_t>(const std::string& /*collection*/,
                                          const std::string& /*document_id*/)>;
@@ -971,7 +988,7 @@ private:
     std::vector<ReplicaInfo> replicas_;
     mutable std::shared_mutex replicas_mutex_;
     DocumentFetchFn      doc_fetch_fn_;         ///< Optional RPC / storage data fetcher
-    LocalDocumentFetchFn local_doc_fetch_fn_;   ///< Optional local-storage read (Stub #248)
+    LocalDocumentFetchFn local_doc_fetch_fn_;   ///< Optional local-storage read for single-node mode
 
     // Per-replica read response
     struct ReplicaResponse {

@@ -1,17 +1,12 @@
-/*
- * ThemisDB | File: multi_step_rag.cpp | Version: 0.0.10 | Last Modified: 2026-05-31 19:05:19
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 508
- * Gap Summary: total=6; TODO=1, Stub=4, Unimpl=0, Mock=1, Sim=0, Debt=0, C=2, H=16, M=16, L=0
- * PR History (last 5): none
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file multi_step_rag.cpp
- * @brief Multi-step RAG orchestration — Map-Reduce and Iterative strategies.
- *
- * See include/rag/multi_step_rag.h for the public interface.
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.10
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 93/100
+ * @note Gap Summary: total=6; TODO=1, Stub=4, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=7, M=10, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include "rag/multi_step_rag.h"

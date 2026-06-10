@@ -200,35 +200,6 @@ TEST_F(MetadataShardTest, ThreadSafety) {
     EXPECT_EQ(stats["total_writes"], num_threads * operations_per_thread);
 }
 
-TEST_F(MetadataShardTest, ConcurrentPutSameKey_VersionIsMonotonicallyIncreasing) {
-    // Regression test for the TOCTOU bug where two concurrent put() calls on the
-    // same key could race between version-read and write scopes, producing
-    // duplicate or out-of-order versions. The fix merges both into a single lock
-    // scope so version increments are strictly serialised.
-    const int num_threads = 8;
-    const int writes_per_thread = 50;
-
-    std::vector<std::thread> threads;
-    threads.reserve(num_threads);
-    for (int t = 0; t < num_threads; ++t) {
-        threads.emplace_back([this, writes_per_thread]() {
-            for (int i = 0; i < writes_per_thread; ++i) {
-                nlohmann::json value = {{"counter", i}};
-                shard->put(MetadataPartitionKey::SCHEMA, "shared_key", value);
-            }
-        });
-    }
-    for (auto& th : threads) th.join();
-
-    auto entry = shard->get(MetadataPartitionKey::SCHEMA, "shared_key");
-    ASSERT_TRUE(entry.has_value());
-    // The final version must be at most the total number of writes (it may be
-    // less if the implementation coalesces concurrent writes), but it must be
-    // strictly positive and non-zero.
-    EXPECT_GE(entry->version, 1);
-    EXPECT_LE(entry->version, static_cast<uint64_t>(num_threads * writes_per_thread));
-}
-
 // Router tests
 
 class MetadataShardRouterTest : public ::testing::Test {

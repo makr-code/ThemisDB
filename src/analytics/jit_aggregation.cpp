@@ -1,3 +1,14 @@
+/**
+ * @file jit_aggregation.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=3, H=5, M=1, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
  * ThemisDB | File: jit_aggregation.cpp | Version: 0.0.15 | Last Modified: 2026-05-31 12:49:01
  * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 605
@@ -46,6 +57,7 @@
 #include <algorithm>
 #include <functional>
 #include <limits>
+#include <mutex>
 #include <optional>
 #include <spdlog/spdlog.h>
 #include <sstream>
@@ -295,6 +307,10 @@ static ColumnBatch specialisedAggregateGroupBy(const ColumnBatch &input, const s
         std::string key = makeGroupKeyJit(input, group_cols, row);
 
         auto it = groups.find(key);
+        // NOTE: Iterator invalidation is safe here. If the key is not found,
+        // we emplace it and immediately re-fetch the iterator (line 302).
+        // If the key already exists, the iterator remains valid. For unordered_map,
+        // insertion does not invalidate iterators to existing elements.
         if (it == groups.end()) {
             groups.emplace(key, std::vector<JitAggState>(specs.size()));
             key_order.push_back(key);
@@ -395,16 +411,19 @@ class JITAggregationCompiler::Impl {
     // -------------------------------------------------------------------------
 
     ColumnBatch aggregate(const ColumnBatch &input, const std::vector<AggregateSpec> &specs) {
-        ++stats_.total_calls;
-
-        // Dense materialisation before aggregation.
+        // Dense materialisation before the lock (expensive but lock-free).
         ColumnBatch dense = input.materialize();
 
         if (!config_.enable_jit || specs.empty()) {
+            std::lock_guard<std::mutex> lk(cache_mutex_);
+            ++stats_.total_calls;
             return genericAggregate(dense, specs);
         }
 
         const std::string key = JITAggregationCompiler::makeSpecKey(specs);
+
+        std::lock_guard<std::mutex> lk(cache_mutex_);
+        ++stats_.total_calls;
 
         // --- hot-path lookup ---
         auto it = cache_.find(key);
@@ -433,31 +452,37 @@ class JITAggregationCompiler::Impl {
     // -------------------------------------------------------------------------
 
     bool isCompiled(const std::string &key) const {
+        std::lock_guard<std::mutex> lk(cache_mutex_);
         return cache_.count(key) > 0;
     }
 
     size_t callCount(const std::string &key) const {
+        std::lock_guard<std::mutex> lk(cache_mutex_);
         auto it = call_counts_.find(key);
         return it != call_counts_.end() ? it->second : 0;
     }
 
     void invalidate(const std::string &key) {
+        std::lock_guard<std::mutex> lk(cache_mutex_);
         cache_.erase(key);
         call_counts_.erase(key);
         stats_.cache_size = cache_.size();
     }
 
     void invalidateAll() {
+        std::lock_guard<std::mutex> lk(cache_mutex_);
         cache_.clear();
         call_counts_.clear();
         stats_.cache_size = 0;
     }
 
-    const Stats &stats() const noexcept {
+    Stats stats() const noexcept {
+        std::lock_guard<std::mutex> lk(cache_mutex_);
         return stats_;
     }
 
     void resetStats() noexcept {
+        std::lock_guard<std::mutex> lk(cache_mutex_);
         stats_.total_calls      = 0;
         stats_.jit_hits         = 0;
         stats_.jit_compilations = 0;
@@ -533,6 +558,9 @@ class JITAggregationCompiler::Impl {
     Config config_;
     Stats stats_;
 
+    // Protects cache_, call_counts_, and stats_ from concurrent access.
+    mutable std::mutex cache_mutex_;
+
     // call_counts_: tracks how many times a spec-set has been invoked.
     std::unordered_map<std::string, size_t> call_counts_;
 
@@ -589,7 +617,7 @@ void JITAggregationCompiler::invalidateAll() {
     impl_->invalidateAll();
 }
 
-const JITAggregationCompiler::Stats &JITAggregationCompiler::stats() const noexcept {
+JITAggregationCompiler::Stats JITAggregationCompiler::stats() const noexcept {
     return impl_->stats();
 }
 

@@ -1,20 +1,12 @@
-/*
- * ThemisDB | File: replug_retriever.cpp | Version: 0.0.12 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 405
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=5, M=4, L=0
- * PR History (last 5): none
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file replug_retriever.cpp
- * @brief REPLUG-style co-trained retriever+LLM document scoring and fusion.
- *
- * Implements REPLUG (Shi et al., 2023, arXiv:2301.12652):
- *   - LLM-scored document ranking via pluggable ILLMScorer
- *   - Interpolation fusion of retrieval and LLM scores
- *   - Optional REPLUG-LSR weight update via KL-divergence gradient
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.12
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=1, M=1, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include "rag/replug_retriever.h"

@@ -1,0 +1,17 @@
+{
+  "module": "whisper",
+  "total_gaps": 6,
+  "categories": {
+    "Other": {
+      "count": 6,
+      "critical": 0,
+      "high": 0,
+      "medium": 0,
+      "samples": [
+        "total",
+        "severity_critical",
+        "severity_high"
+      ]
+    }
+  }
+}

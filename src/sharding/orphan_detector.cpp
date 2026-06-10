@@ -1,3 +1,14 @@
+/**
+ * @file orphan_detector.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=0, M=6, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
  * ThemisDB | File: orphan_detector.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
  * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 168
@@ -16,7 +27,12 @@ namespace sharding {
 
 namespace {
 
-/// Returns true when @p txn is in an orphanable state as configured by @p cfg.
+/**
+ * @brief Return true when transaction state is configured as orphanable.
+ * @param txn Transaction record to evaluate.
+ * @param cfg Detector configuration with enabled state filters.
+ * @return True when transaction state is selected for orphan checks.
+ */
 bool isOrphanableState(
     const themisdb::sharding::CrossShardTransaction& txn,
     const OrphanDetector::Config& cfg)
@@ -30,15 +46,22 @@ bool isOrphanableState(
 
 } // anonymous namespace
 
+/** @brief Construct detector with per-call coordinator mode only. */
 OrphanDetector::OrphanDetector(const Config& config)
     : config_(config) {
 }
 
+/** @brief Construct detector with optional distributed coordinator backend. */
 OrphanDetector::OrphanDetector(const Config& config,
                                themis::sharding::DistributedCoordinator* dist_coordinator)
     : config_(config), distributed_coordinator_(dist_coordinator) {
 }
 
+/**
+ * @brief Scan active transactions and return IDs classified as orphaned.
+ * @param coordinator Fallback transaction coordinator for active transaction scan.
+ * @return List of orphaned transaction IDs.
+ */
 std::vector<std::string> OrphanDetector::detectOrphans(
     const std::shared_ptr<themisdb::sharding::CrossShardTransactionCoordinator>& coordinator) {
     
@@ -82,6 +105,12 @@ std::vector<std::string> OrphanDetector::detectOrphans(
     return orphaned_txns;
 }
 
+/**
+ * @brief Check one transaction for orphan condition.
+ * @param transaction_id Transaction identifier.
+ * @param coordinator Fallback coordinator used when distributed coordinator is absent.
+ * @return True when transaction exceeds timeout and is in configured orphanable state.
+ */
 bool OrphanDetector::isOrphaned(
     const std::string& transaction_id,
     const std::shared_ptr<themisdb::sharding::CrossShardTransactionCoordinator>& coordinator) {
@@ -113,6 +142,11 @@ bool OrphanDetector::isOrphaned(
     return isOrphanableState(txn, config_);
 }
 
+/**
+ * @brief Abort stale Percolator transactions to reclaim orphaned locks.
+ * @param coordinator Coordinator used to enumerate and abort transactions.
+ * @return Number of stale Percolator transactions successfully aborted.
+ */
 size_t OrphanDetector::cleanPercolatorLocks(
     const std::shared_ptr<themisdb::sharding::CrossShardTransactionCoordinator>& coordinator) {
 

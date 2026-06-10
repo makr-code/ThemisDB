@@ -1,71 +1,12 @@
-/*
- * ThemisDB | File: tensor_ingestion_bridge.h | Version: 1.0.0
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
-#pragma once
-
 /**
  * @file tensor_ingestion_bridge.h
- * @brief Concrete `ITensorDecompositionBackend` that delegates to
- *        `TensorTrainDecomposer`.
- *
- * This is the **only** class that bridges the `ingestion` module and the
- * `storage` tensor infrastructure.  It lives in `tensor/` so the `ingestion/`
- * module never needs to include any `storage/` or `tensor/` headers.
- *
- * ## Dependency flow (SoC / DIP compliant)
- * @code
- *   ingestion/  →  ITensorDecompositionBackend   (abstract, ingestion/)
- *                         ↑ implemented by
- *   tensor/     →  TensorIngestionBridge          (concrete, tensor/)
- *                         ↓ calls
- *               →  storage::TensorTrainDecomposer::decompose()
- * @endcode
- *
- * ## Wiring (main.cpp / server bootstrap)
- * @code
- * #include "tensor/tensor_ingestion_bridge.h"
- * #include "ingestion/builtin_step_factories.h"
- *
- * auto bridge = std::make_shared<themis::tensor::TensorIngestionBridge>();
- * bridge->setEpsilon(0.01);          // optional: override global ε
- * bridge->setMaxRank(64);            // optional: cap bond dimension
- * bridge->setMinKappa(1.3);          // optional: override κ-gate
- *
- * auto step = ingestion::builtin::createChunkTtDecomposeStep(bridge);
- * // register step in WorkflowEngine profile AFTER builtin.chunk_embed
- * @endcode
- *
- * ## κ-gate implementation
- *
- * `shouldDecompose()` estimates the compressibility κ as:
- *   κ = dense_elements / pilot_tt_params
- * where `pilot_tt_params` is the total parameters of a TT-decomposition with
- * a very tight pilot_eps (= eps / 10, capped at 0.001) on the same embedding.
- * If the pilot decomposition itself would exceed the input size (κ < min_kappa),
- * we skip the full decomposition.
- *
- * For large embeddings (dim > 8192) the pilot is run on a randomly sampled
- * reshape to keep the pilot cost O(√dim) instead of O(dim).
- *
- * ## Thread safety
- *
- * `TensorTrainDecomposer` is stateless and thread-safe after construction.
- * `TensorIngestionBridge` adds no mutable state beyond configuration fields
- * set before any concurrent use.  All public methods are safe to call from
- * multiple ingestion threads simultaneously.
- *
- * ## Scientific basis
- *
- * - Oseledets (2011) TT-SVD: SIAM J. Sci. Comput. 33(5), 2295-2317
- * - Edge et al. (2024) GraphRAG — offline pre-computation pattern
- * - Jiang et al. (2023) FLARE — pre-computed cores needed for ≤90 ms retrieval
- * - research/HNSW_FAISS_TT_BOUNDARY_ANALYSIS.md §κ-boundary
- * - research/ADALORA_TT_BRIDGE_RESEARCH.md §3.1 (zero-copy rationale)
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 1.0.0
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include "ingestion/inference_backend.h"

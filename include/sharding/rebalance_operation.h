@@ -1,3 +1,14 @@
+/**
+ * @file rebalance_operation.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
  * ThemisDB | File: rebalance_operation.h | Version: 0.0.47
  * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
@@ -18,7 +29,7 @@
 namespace themis {
 namespace sharding {
 
-// State of a rebalance operation
+/** @brief Lifecycle states for one rebalance operation instance. */
 enum class RebalanceState {
     PLANNED,        // Initial state, not started
     IN_PROGRESS,    // Currently executing
@@ -27,7 +38,7 @@ enum class RebalanceState {
     ROLLED_BACK     // Rolled back after failure
 };
 
-// Progress information for a rebalance operation
+/** @brief Mutable progress snapshot for a running rebalance operation. */
 struct RebalanceProgress {
     uint64_t records_migrated = 0;
     uint64_t total_records = 0;
@@ -37,7 +48,7 @@ struct RebalanceProgress {
     std::chrono::system_clock::time_point estimated_completion;
 };
 
-// Configuration for rebalance operations
+/** @brief Immutable execution configuration for a rebalance operation. */
 struct RebalanceOperationConfig {
     std::string source_shard_id;
     std::string target_shard_id;
@@ -62,36 +73,38 @@ struct RebalanceOperationConfig {
  */
 class RebalanceOperation {
 public:
+    /** @brief Optional callback notified after progress updates. */
     using ProgressCallback = std::function<void(const RebalanceProgress&)>;
 
+    /** @brief Construct operation and validate basic shard/token-range invariants. */
     explicit RebalanceOperation(const RebalanceOperationConfig& config);
     ~RebalanceOperation() = default;
 
-    // Start the rebalance operation with operator signature
+    /** @brief Start operation after operator signature validation. */
     bool start(const std::string& operator_signature);
 
-    // Complete the operation successfully
+    /** @brief Mark operation as completed from IN_PROGRESS state. */
     bool complete();
 
-    // Mark operation as failed
+    /** @brief Mark operation as failed with terminal error message. */
     bool fail(const std::string& error_message);
 
-    // Rollback the operation
+    /** @brief Transition failed operation into rolled-back state. */
     bool rollback();
 
-    // Get current state
+    /** @brief Return current atomic operation state. */
     RebalanceState getState() const;
 
-    // Get progress information
+    /** @brief Return current progress snapshot copy. */
     RebalanceProgress getProgress() const;
 
-    // Set progress callback
+    /** @brief Install callback invoked after progress updates. */
     void setProgressCallback(ProgressCallback callback);
 
-    // Update progress (called by data migrator)
+    /** @brief Update migration counters and recompute completion estimate. */
     void updateProgress(uint64_t records_migrated, uint64_t bytes_transferred);
 
-    // Validate operator certificate and signature
+    /** @brief Validate operator signature and authorization material. */
     bool validateOperator(const std::string& operator_signature);
 
 private:
@@ -105,7 +118,7 @@ private:
     std::string error_message_;
     bool operator_validated_ = false;
 
-    // Internal state transitions
+    /** @brief Perform guarded state transition using atomic compare-exchange. */
     bool transitionState(RebalanceState from, RebalanceState to);
 };
 

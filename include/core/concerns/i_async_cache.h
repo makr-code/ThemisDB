@@ -1,10 +1,12 @@
-/*
- * ThemisDB | File: i_async_cache.h | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 96/100 | Lines: 171
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * PR History (last 5): none
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
+/**
+ * @file i_async_cache.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.1
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 96/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once
@@ -44,6 +46,8 @@ namespace concerns {
  *
  * The underlying `ICache` implementation must be thread-safe if multiple
  * async operations can be in-flight concurrently.
+ * Exceptions thrown by synchronous cache methods are captured by the returned
+ * future and rethrown when callers wait on it.
  *
  * ## Usage
  *
@@ -72,6 +76,7 @@ public:
      * @param key Cache key.
      * @return A future that resolves to the cached `CacheEntry` if present
      *         and not expired, or `std::nullopt` on a cache miss.
+    * @throws std::system_error if the async task cannot be launched.
      */
     virtual std::future<std::optional<CacheEntry>> getAsync(std::string_view key) {
         return std::async(std::launch::async,
@@ -87,6 +92,7 @@ public:
      * @param entry  Value to store.
      * @param ttl_ms Entry TTL in milliseconds (0 = default TTL).
      * @return A future that resolves to true on success, false on failure.
+    * @throws std::system_error if the async task cannot be launched.
      */
     virtual std::future<bool> putAsync(std::string_view key,
                                         const CacheEntry& entry,
@@ -104,6 +110,7 @@ public:
      * @param key Key of the entry to remove.
      * @return A future that resolves when the entry has been removed (or was
      *         already absent).
+    * @throws std::system_error if the async task cannot be launched.
      */
     virtual std::future<void> invalidateAsync(std::string_view key) {
         return std::async(std::launch::async,

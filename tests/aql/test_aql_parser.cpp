@@ -1,0 +1,561 @@
+/*
+ * ThemisDB | File: test_aql_parser.cpp | Version: 0.0.47
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Status: Production Ready
+ * (Automatisch generiert, Änderungen werden überschrieben)
+ */
+
+#include <gtest/gtest.h>
+#include "query/aql_parser.h"
+#include <iostream>
+
+using namespace themis::query;
+
+// Disable legacy AQL parser tests
+#if 0
+
+// ============================================================================
+// Basic Syntax Tests
+// ============================================================================
+
+TEST(AQLParserTest, SimpleForClause) {
+    AQLParser parser;
+    auto result = parser.parse("FOR doc IN users RETURN doc");
+    
+    ASSERT_TRUE(result.has_value()) << result.error().message();
+    ASSERT_TRUE(result.has_value());
+    
+    EXPECT_EQ((*result)->for_node.variable, "doc");
+    EXPECT_EQ((*result)->for_node.collection, "users");
+    EXPECT_TRUE((*result)->filters.empty());
+    EXPECT_EQ((*result)->sort, nullptr);
+    EXPECT_EQ((*result)->limit, nullptr);
+    EXPECT_NE((*result)->return_node, nullptr);
+}
+
+TEST(AQLParserTest, ForWithEqualityFilter) {
+    AQLParser parser;
+    auto result = parser.parse("FOR user IN users FILTER user.age == 25 RETURN user");
+    
+    ASSERT_TRUE(result.has_value()) << result.error().message();
+    ASSERT_TRUE(result.has_value());
+    
+    EXPECT_EQ((*result)->for_node.variable, "user");
+    EXPECT_EQ((*result)->for_node.collection, "users");
+    EXPECT_EQ((*result)->filters.size(), 1);
+    
+    // Print AST as JSON for debugging
+    std::cout << "AST: " << (*result)->toJSON().dump(2) << std::endl;
+}
+
+TEST(AQLParserTest, ForWithRangeFilter) {
+    AQLParser parser;
+    auto result = parser.parse("FOR doc IN products FILTER doc.price > 100.0 RETURN doc");
+    
+    ASSERT_TRUE(result.has_value()) << result.error().message();
+    EXPECT_EQ((*result)->filters.size(), 1);
+}
+
+TEST(AQLParserTest, ForWithMultipleFilters) {
+    AQLParser parser;
+    auto result = parser.parse(
+        "FOR u IN users "
+        "FILTER u.age > 18 "
+        "FILTER u.city == \"Berlin\" "
+        "RETURN u"
+    );
+    
+    ASSERT_TRUE(result.has_value()) << result.error().message();
+    EXPECT_EQ((*result)->filters.size(), 2);
+}
+
+TEST(AQLParserTest, ForWithAndFilter) {
+    AQLParser parser;
+    auto result = parser.parse(
+        "FOR u IN users FILTER u.age > 18 AND u.city == \"Berlin\" RETURN u"
+    );
+    
+    ASSERT_TRUE(result.has_value()) << result.error().message();
+    EXPECT_EQ((*result)->filters.size(), 1);
+    
+    // Verify it's a binary AND operation
+    auto& filter = (*result)->filters[0];
+    EXPECT_EQ(filter->condition->getType(), ASTNodeType::BinaryOp);
+}
+
+TEST(AQLParserTest, ForWithSort) {
+    AQLParser parser;
+    auto result = parser.parse(
+        "FOR doc IN users SORT doc.age DESC RETURN doc"
+    );
+    
+    ASSERT_TRUE(result.has_value()) << result.error().message();
+    ASSERT_NE((*result)->sort, nullptr);
+    EXPECT_EQ((*result)->sort->specifications.size(), 1);
+    EXPECT_FALSE((*result)->sort->specifications[0].ascending);
+}
+
+TEST(AQLParserTest, ForWithMultiColumnSort) {
+    AQLParser parser;
+    auto result = parser.parse(
+        "FOR doc IN users SORT doc.city ASC, doc.age DESC RETURN doc"
+    );
+    
+    ASSERT_TRUE(result.has_value()) << result.error().message();
+    ASSERT_NE((*result)->sort, nullptr);
+    EXPECT_EQ((*result)->sort->specifications.size(), 2);
+    EXPECT_TRUE((*result)->sort->specifications[0].ascending);
+    EXPECT_FALSE((*result)->sort->specifications[1].ascending);
+}
+
+TEST(AQLParserTest, ForWithLimitCount) {
+    AQLParser parser;
+    auto result = parser.parse("FOR doc IN users LIMIT 10 RETURN doc");
+    
+    ASSERT_TRUE(result.has_value()) << result.error().message();
+    ASSERT_NE((*result)->limit, nullptr);
+    EXPECT_EQ((*result)->limit->offset, 0);
+    EXPECT_EQ((*result)->limit->count, 10);
+}
+
+TEST(AQLParserTest, ForWithLimitOffsetCount) {
+    AQLParser parser;
+    auto result = parser.parse("FOR doc IN users LIMIT 20, 10 RETURN doc");
+    
+    ASSERT_TRUE(result.has_value()) << result.error().message();
+    ASSERT_NE((*result)->limit, nullptr);
+    EXPECT_EQ((*result)->limit->offset, 20);
+    EXPECT_EQ((*result)->limit->count, 10);
+}
+
+TEST(AQLParserTest, CompleteQuery) {
+    AQLParser parser;
+    auto result = parser.parse(
+        "FOR user IN users "
+        "FILTER user.age > 18 AND user.city == \"Berlin\" "
+        "SORT user.created_at DESC "
+        "LIMIT 10 "
+        "RETURN user"
+    );
+    
+    ASSERT_TRUE(result.has_value()) << result.error().message();
+    
+    EXPECT_EQ((*result)->for_node.variable, "user");
+    EXPECT_EQ((*result)->for_node.collection, "users");
+    EXPECT_EQ((*result)->filters.size(), 1);
+    EXPECT_NE((*result)->sort, nullptr);
+    EXPECT_NE((*result)->limit, nullptr);
+    EXPECT_NE((*result)->return_node, nullptr);
+    
+    std::cout << "Complete Query AST:\n" << (*result)->toJSON().dump(2) << std::endl;
+}
+
+// ============================================================================
+// Literal Tests
+// ============================================================================
+
+TEST(AQLParserTest, StringLiteral) {
+    AQLParser parser;
+    auto result = parser.parse("FOR doc IN users FILTER doc.name == \"Alice\" RETURN doc");
+    
+    ASSERT_TRUE(result.has_value()) << result.error().message();
+}
+
+TEST(AQLParserTest, IntegerLiteral) {
+    AQLParser parser;
+    auto result = parser.parse("FOR doc IN users FILTER doc.age == 25 RETURN doc");
+    
+    ASSERT_TRUE(result.has_value()) << result.error().message();
+}
+
+TEST(AQLParserTest, FloatLiteral) {
+    AQLParser parser;
+    auto result = parser.parse("FOR doc IN products FILTER doc.price == 99.99 RETURN doc");
+    
+    ASSERT_TRUE(result.has_value()) << result.error().message();
+}
+
+TEST(AQLParserTest, BooleanLiteral) {
+    AQLParser parser;
+    auto result = parser.parse("FOR doc IN users FILTER doc.active == true RETURN doc");
+    
+    ASSERT_TRUE(result.has_value()) << result.error().message();
+}
+
+TEST(AQLParserTest, NullLiteral) {
+    AQLParser parser;
+    auto result = parser.parse("FOR doc IN users FILTER doc.deleted_at == null RETURN doc");
+    
+    ASSERT_TRUE(result.has_value()) << result.error().message();
+}
+
+// ============================================================================
+// Operator Tests
+// ============================================================================
+
+TEST(AQLParserTest, ComparisonOperators) {
+    AQLParser parser;
+    
+    std::vector<std::string> queries = {
+        "FOR doc IN users FILTER doc.age == 25 RETURN doc",
+        "FOR doc IN users FILTER doc.age != 25 RETURN doc",
+        "FOR doc IN users FILTER doc.age < 25 RETURN doc",
+        "FOR doc IN users FILTER doc.age <= 25 RETURN doc",
+        "FOR doc IN users FILTER doc.age > 25 RETURN doc",
+        "FOR doc IN users FILTER doc.age >= 25 RETURN doc"
+    };
+    
+    for (const auto& query : queries) {
+        auto result = parser.parse(query);
+        EXPECT_TRUE(result.has_value()) << "Failed to parse: " << query 
+                                     << "\nError: " << result.error.toString();
+    }
+}
+
+TEST(AQLParserTest, LogicalOperators) {
+    AQLParser parser;
+    
+    auto result1 = parser.parse("FOR doc IN users FILTER doc.age > 18 AND doc.active == true RETURN doc");
+    ASSERT_TRUE(result1.success) << result1.error.toString();
+    
+    auto result2 = parser.parse("FOR doc IN users FILTER doc.age < 18 OR doc.age > 65 RETURN doc");
+    ASSERT_TRUE(result2.success) << result2.error.toString();
+}
+
+TEST(AQLParserTest, MembershipInArray) {
+    AQLParser parser;
+    auto result = parser.parse("FOR doc IN users FILTER doc.role IN [\"admin\", \"analyst\"] RETURN doc");
+    ASSERT_TRUE(result.has_value()) << result.error().message();
+    ASSERT_EQ((*result)->filters.size(), 1);
+    // Expect BinaryOp IN at filter root
+    auto cond = (*result)->filters[0]->condition;
+    ASSERT_EQ(cond->getType(), ASTNodeType::BinaryOp);
+}
+
+TEST(AQLParserTest, MembershipInVariable) {
+    AQLParser parser;
+    auto result = parser.parse("FOR u IN users LET allowed = [\"de\", \"us\"] FILTER u.country IN allowed RETURN u");
+    ASSERT_TRUE(result.has_value()) << result.error().message();
+    ASSERT_EQ((*result)->filters.size(), 1);
+}
+
+// ============================================================================
+// Field Access Tests
+// ============================================================================
+
+TEST(AQLParserTest, SimpleFieldAccess) {
+    AQLParser parser;
+    auto result = parser.parse("FOR doc IN users FILTER doc.age > 18 RETURN doc");
+    
+    ASSERT_TRUE(result.has_value()) << result.error().message();
+}
+
+TEST(AQLParserTest, NestedFieldAccess) {
+    AQLParser parser;
+    auto result = parser.parse("FOR doc IN users FILTER doc.address.city == \"Berlin\" RETURN doc");
+    
+    ASSERT_TRUE(result.has_value()) << result.error().message();
+    
+    std::cout << "Nested Field AST:\n" << (*result)->toJSON().dump(2) << std::endl;
+}
+
+// ============================================================================
+// Error Tests
+// ============================================================================
+
+TEST(AQLParserTest, EmptyQuery) {
+    AQLParser parser;
+    auto result = parser.parse("");
+    
+    EXPECT_FALSE(result.has_value());
+}
+
+TEST(AQLParserTest, MissingINKeyword) {
+    AQLParser parser;
+    auto result = parser.parse("FOR doc users RETURN doc");
+    
+    EXPECT_FALSE(result.has_value());
+}
+
+TEST(AQLParserTest, MissingCollection) {
+    AQLParser parser;
+    auto result = parser.parse("FOR doc IN RETURN doc");
+    
+    EXPECT_FALSE(result.has_value());
+}
+
+TEST(AQLParserTest, InvalidOperator) {
+    AQLParser parser;
+    auto result = parser.parse("FOR doc IN users FILTER doc.age === 25 RETURN doc");
+    
+    EXPECT_FALSE(result.has_value());
+}
+
+// ============================================================================
+// Whitespace Tests
+// ============================================================================
+
+TEST(AQLParserTest, MinimalWhitespace) {
+    AQLParser parser;
+    auto result = parser.parse("FOR doc IN users FILTER doc.age>18 RETURN doc");
+    
+    ASSERT_TRUE(result.has_value()) << result.error().message();
+}
+
+TEST(AQLParserTest, ExtraWhitespace) {
+    AQLParser parser;
+    auto result = parser.parse(
+        "  FOR   doc   IN   users   "
+        "FILTER   doc.age   >   18   "
+        "RETURN   doc  "
+    );
+    
+    ASSERT_TRUE(result.has_value()) << result.error().message();
+}
+
+TEST(AQLParserTest, Newlines) {
+    AQLParser parser;
+    auto result = parser.parse(
+        "FOR doc IN users\n"
+        "FILTER doc.age > 18\n"
+        "SORT doc.created_at DESC\n"
+        "LIMIT 10\n"
+        "RETURN doc"
+    );
+    
+    ASSERT_TRUE(result.has_value()) << result.error().message();
+}
+
+// ============================================================================
+// Case Insensitivity Tests
+// ============================================================================
+
+TEST(AQLParserTest, KeywordsCaseInsensitive) {
+    AQLParser parser;
+    
+    auto result1 = parser.parse("for doc in users filter doc.age > 18 return doc");
+    EXPECT_TRUE(result1.success) << result1.error.toString();
+    
+    auto result2 = parser.parse("For Doc In Users Filter Doc.Age > 18 Return Doc");
+    EXPECT_TRUE(result2.success) << result2.error.toString();
+    
+    auto result3 = parser.parse("FOR DOC IN USERS FILTER DOC.AGE > 18 RETURN DOC");
+    EXPECT_TRUE(result3.success) << result3.error.toString();
+}
+
+// ============================================================================
+// LET & Projection Tests (MVP)
+// ============================================================================
+
+TEST(AQLParserTest, LetSimpleBindingVariable) {
+    AQLParser parser;
+    auto result = parser.parse("FOR u IN users LET c = u.city RETURN c");
+
+    ASSERT_TRUE(result.has_value()) << result.error().message();
+    ASSERT_TRUE(result.has_value());
+    ASSERT_EQ((*result)->let_nodes.size(), 1);
+    EXPECT_EQ((*result)->let_nodes[0].variable, "c");
+    ASSERT_NE((*result)->return_node, nullptr);
+    EXPECT_EQ((*result)->return_node->expression->getType(), ASTNodeType::Variable);
+}
+
+TEST(AQLParserTest, ReturnObjectConstructWithLets) {
+    AQLParser parser;
+    auto result = parser.parse("FOR u IN users LET c = u.city RETURN {name: u.name, city: c}");
+
+    ASSERT_TRUE(result.has_value()) << result.error().message();
+    ASSERT_TRUE(result.has_value());
+    ASSERT_EQ((*result)->let_nodes.size(), 1);
+    ASSERT_NE((*result)->return_node, nullptr);
+    EXPECT_EQ((*result)->return_node->expression->getType(), ASTNodeType::ObjectConstruct);
+}
+
+TEST(AQLParserTest, ReturnArrayLiteral) {
+    AQLParser parser;
+    auto result = parser.parse("FOR u IN users RETURN [u.name, u.age]");
+
+    ASSERT_TRUE(result.has_value()) << result.error().message();
+    ASSERT_NE((*result)->return_node, nullptr);
+    EXPECT_EQ((*result)->return_node->expression->getType(), ASTNodeType::ArrayLiteral);
+}
+
+TEST(AQLParserTest, MultipleLetsOrder) {
+    AQLParser parser;
+    auto result = parser.parse("FOR u IN users LET a = u.name LET b = a RETURN b");
+
+    ASSERT_TRUE(result.has_value()) << result.error().message();
+    ASSERT_EQ((*result)->let_nodes.size(), 2);
+    EXPECT_EQ((*result)->let_nodes[0].variable, "a");
+    EXPECT_EQ((*result)->let_nodes[1].variable, "b");
+    ASSERT_NE((*result)->return_node, nullptr);
+    EXPECT_EQ((*result)->return_node->expression->getType(), ASTNodeType::Variable);
+}
+
+TEST(AQLParserTest, LetUsedInFilter) {
+    AQLParser parser;
+    auto result = parser.parse("FOR u IN users LET c = u.city FILTER c == \"Berlin\" RETURN u");
+
+    ASSERT_TRUE(result.has_value()) << result.error().message();
+    ASSERT_EQ((*result)->let_nodes.size(), 1);
+    ASSERT_EQ((*result)->filters.size(), 1);
+}
+
+TEST(AQLParserTest, DoubleForEqualityJoinParsing) {
+    AQLParser parser;
+    auto result = parser.parse("FOR u IN users FOR o IN orders FILTER u._key == o.user_id RETURN u");
+
+    ASSERT_TRUE(result.has_value()) << result.error().message();
+    ASSERT_FALSE((*result)->for_nodes.empty());
+    ASSERT_EQ((*result)->for_nodes.size(), 2);
+}
+
+// ============================================================================
+// Graph Traversal Tests
+// ============================================================================
+
+TEST(AQLParserTest, GraphTraversalWithTypeFilter) {
+    AQLParser parser;
+    auto result = parser.parse("FOR v IN 1..2 OUTBOUND \"users/1\" TYPE \"follows\" GRAPH \"social\" RETURN v");
+
+    ASSERT_TRUE(result.has_value()) << result.error().message();
+    ASSERT_TRUE(result.has_value());
+    // For compatibility, collection is set to "graph"
+    EXPECT_EQ((*result)->for_node.collection, "graph");
+    ASSERT_NE((*result)->traversal, nullptr);
+    EXPECT_EQ((*result)->traversal->minDepth, 1);
+    EXPECT_EQ((*result)->traversal->maxDepth, 2);
+    EXPECT_EQ((*result)->traversal->startVertex, "users/1");
+    EXPECT_EQ((*result)->traversal->graphName, "social");
+    EXPECT_EQ((*result)->traversal->edgeType, "follows");
+}
+
+TEST(AQLParserTest, GraphTraversalWithoutType) {
+    AQLParser parser;
+    auto result = parser.parse("FOR v IN 2..3 INBOUND \"users/42\" GRAPH \"g\" RETURN v");
+
+    ASSERT_TRUE(result.has_value()) << result.error().message();
+    ASSERT_NE((*result)->traversal, nullptr);
+    EXPECT_EQ((*result)->traversal->minDepth, 2);
+    EXPECT_EQ((*result)->traversal->maxDepth, 3);
+    EXPECT_EQ((*result)->traversal->edgeType, "");
+}
+
+// ============================================================================
+// Vector Search Function Tests
+// ============================================================================
+
+TEST(AQLParserTest, VectorSearchFunctionCall) {
+    AQLParser parser;
+    auto result = parser.parse("FOR doc IN products LET similar = VECTOR_SEARCH(\"products\", doc.embedding, 10) RETURN similar");
+
+    ASSERT_TRUE(result.has_value()) << result.error().message();
+    ASSERT_TRUE(result.has_value());
+    ASSERT_EQ((*result)->let_nodes.size(), 1);
+    EXPECT_EQ((*result)->let_nodes[0].variable, "similar");
+    ASSERT_NE((*result)->let_nodes[0].expression, nullptr);
+    EXPECT_EQ((*result)->let_nodes[0].expression->getType(), ASTNodeType::FunctionCall);
+}
+
+TEST(AQLParserTest, VectorSearchInLet) {
+    AQLParser parser;
+    auto result = parser.parse("FOR doc IN products LET results = VECTOR_SEARCH(\"products\", doc.embedding, 5) RETURN results");
+
+    ASSERT_TRUE(result.has_value()) << result.error().message();
+    ASSERT_EQ((*result)->let_nodes.size(), 1);
+    EXPECT_EQ((*result)->let_nodes[0].variable, "results");
+    ASSERT_NE((*result)->let_nodes[0].expression, nullptr);
+    // Verify the expression is a function call
+    EXPECT_EQ((*result)->let_nodes[0].expression->getType(), ASTNodeType::FunctionCall);
+}
+
+// ============================================================================
+// Content/File Helper Function Tests
+// ============================================================================
+
+TEST(AQLParserTest, ContentMetaFunction) {
+    AQLParser parser;
+    auto result = parser.parse("FOR doc IN documents LET meta = CONTENT_META(doc._key) RETURN meta");
+
+    ASSERT_TRUE(result.has_value()) << result.error().message();
+    ASSERT_EQ((*result)->let_nodes.size(), 1);
+    EXPECT_EQ((*result)->let_nodes[0].variable, "meta");
+    ASSERT_NE((*result)->let_nodes[0].expression, nullptr);
+    EXPECT_EQ((*result)->let_nodes[0].expression->getType(), ASTNodeType::FunctionCall);
+}
+
+TEST(AQLParserTest, ContentChunksFunction) {
+    AQLParser parser;
+    auto result = parser.parse("FOR doc IN documents LET chunks = CONTENT_CHUNKS(doc._key) RETURN chunks");
+
+    ASSERT_TRUE(result.has_value()) << result.error().message();
+    ASSERT_EQ((*result)->let_nodes.size(), 1);
+    EXPECT_EQ((*result)->let_nodes[0].variable, "chunks");
+    ASSERT_NE((*result)->let_nodes[0].expression, nullptr);
+    EXPECT_EQ((*result)->let_nodes[0].expression->getType(), ASTNodeType::FunctionCall);
+}
+
+TEST(AQLParserTest, ContentFunctionsInReturn) {
+    AQLParser parser;
+    auto result = parser.parse("FOR doc IN documents RETURN {meta: CONTENT_META(doc._key), chunks: CONTENT_CHUNKS(doc._key)}");
+
+    ASSERT_TRUE(result.has_value()) << result.error().message();
+    ASSERT_NE((*result)->return_node, nullptr);
+    EXPECT_EQ((*result)->return_node->expression->getType(), ASTNodeType::ObjectConstruct);
+}
+
+TEST(AQLParserTest, ModulusOperator) {
+    AQLParser parser;
+    auto result = parser.parse("FOR doc IN numbers FILTER doc.value % 2 == 0 RETURN doc");
+
+    ASSERT_TRUE(result.has_value()) << result.error().message();
+    ASSERT_EQ((*result)->filters.size(), 1);
+    // Verify the filter contains a modulus operation
+    auto cond = (*result)->filters[0]->condition;
+    ASSERT_EQ(cond->getType(), ASTNodeType::BinaryOp);
+}
+
+TEST(AQLParserTest, ModulusInReturn) {
+    AQLParser parser;
+    auto result = parser.parse("FOR doc IN numbers RETURN {value: doc.num, remainder: doc.num % 10}");
+
+    ASSERT_TRUE(result.has_value()) << result.error().message();
+    ASSERT_NE((*result)->return_node, nullptr);
+    EXPECT_EQ((*result)->return_node->expression->getType(), ASTNodeType::ObjectConstruct);
+}
+
+#endif // legacy AQL parser tests
+
+TEST(AQLParserTest, DISABLED_AQLParserLegacy) {
+    GTEST_SKIP() << "Skipping legacy AQL parser tests";
+}
+
+// ============================================================================
+// Traversal depth input validation (issue #5177)
+// ============================================================================
+
+// Negative min depth must be rejected
+TEST(AQLParserTest, TraversalNegativeMinDepthIsError) {
+    AQLParser parser;
+    auto result = parser.parse(
+        "FOR v IN -1..2 OUTBOUND \"users/1\" GRAPH \"g\" RETURN v");
+    EXPECT_FALSE(result.has_value());
+}
+
+// Max depth exceeding kMaxTraversalDepth (1000) must be rejected
+TEST(AQLParserTest, TraversalExceedingMaxDepthIsError) {
+    AQLParser parser;
+    auto result = parser.parse(
+        "FOR v IN 1..1001 OUTBOUND \"users/1\" GRAPH \"g\" RETURN v");
+    EXPECT_FALSE(result.has_value());
+}
+
+// Max depth exactly at kMaxTraversalDepth (1000) must be accepted
+TEST(AQLParserTest, TraversalAtDepthBoundaryIsAccepted) {
+    AQLParser parser;
+    auto result = parser.parse(
+        "FOR v IN 1..1000 OUTBOUND \"users/1\" GRAPH \"g\" RETURN v");
+    EXPECT_TRUE(result.has_value());
+}
+
+

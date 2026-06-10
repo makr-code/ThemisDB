@@ -1,8 +1,19 @@
+/**
+ * @file main.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=2, M=2, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
- * ThemisDB | File: main.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:49:01
+ * ThemisDB | File: main.cpp | Version: 0.0.47 | Last Modified: 2026-06-02 11:49:05
  * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 444
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=3, H=5, M=4, L=0
- * PR History (last 5): #761 Phase 4A, 4B & 4C: Migrate ... (2026-03-11) | #1153 Add CLI argument parsing to... (2026-03-11) | #57 Update documentation to ref... (2026-03-11)
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=2, M=2, L=0
+ * PR History (last 5): none
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */

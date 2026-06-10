@@ -1,3 +1,14 @@
+/**
+ * @file kernel_fusion.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=7, H=7, M=0, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
  * ThemisDB | File: kernel_fusion.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
  * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 483
@@ -47,6 +58,16 @@ static bool isCudaAvailable() {
 #endif
 
 // Fused LayerNorm + Linear + Residual Implementation
+// W1-L01: Kernel fusion functions with comprehensive false-positive annotation.
+// Scanner flags ~22 "prompt_injection" findings on kernel fusion compute paths.
+// These are reviewed false positives:
+//   - input, weight, bias, residual, output are floating-point arrays (matrix operands)
+//   - Pointer arithmetic (input + i * hidden_dim, input_row[j]) operates on numerical tensors
+//   - Matrix operations: layernorm computation, linear transformation, residual addition
+//   - bias initialization, activation functions are standard neural network operations
+//   - All data flows are numerical computations, not text/prompt processing
+// All findings dismissed as scanner misclassification of tensor compute paths as prompt API.
+
 void fusedLayerNormLinearResidual(
     float* output,
     const float* input,

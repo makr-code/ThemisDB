@@ -1,3 +1,14 @@
+/**
+ * @file io_uring_zero_copy.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
  * ThemisDB | File: io_uring_zero_copy.h | Version: 0.0.15
  * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
@@ -35,6 +46,7 @@
 #include <cstddef>
 #include <cstdint>
 #include <memory>
+#include <mutex>
 #include <string>
 #include <vector>
 
@@ -225,6 +237,9 @@ private:
     // io_uring kernel structures (opaque on non-Linux)
     struct RingImpl;
     std::unique_ptr<RingImpl> ring_;
+
+    // Mutex to protect ring_ initialization and access
+    mutable std::mutex ring_mutex_;
 
     // Stats (relaxed atomics – single-threaded by contract but
     // allows safe reads from a monitoring thread)

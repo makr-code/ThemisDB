@@ -1,42 +1,12 @@
-/*
- * ThemisDB | File: test_llama_cpp_plugin.cpp | Version: 0.0.10 | Last Modified: 2026-05-31 16:19:03
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 96/100 | Lines: 770
- * Gap Summary: total=22; TODO=1, Stub=20, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=0, M=3, L=0
- * PR History (last 5): none
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file test_llama_cpp_plugin.cpp
- * @brief Unit tests for the llama_cpp LLM plugin
- *
- * Test suite: LlamaCppPluginFocusedTests (57 tests)
- *   Group A (3)  – loadModel: succeeds, double-load, unload
- *   Group B (3)  – getModelInfo: before/after load, model_id
- *   Group C (3)  – isModelLoaded: initially false, after load, after unload
- *   Group D (3)  – generate: uninit returns error, stub echoes prompt, success flag
- *   Group E (4)  – generateRAG: prepends context, calls generate internally,
- *                  respects explicit context-window override for response budget
- *   Group F (3)  – embed: returns empty when not loaded, non-empty when loaded
- *   Group G (3)  – LoRA: loadLoRA, listLoRAs, unloadLoRA
- *   Group H (3)  – LoRA: duplicate id replaced, unload nonexistent returns false
- *   Group I (3)  – getCapabilities: supports_lora, supports_embeddings, plugin_version
- *   Group J (3)  – getMemoryStats / getPerformanceStats keys and inference_count
- *   Group K (5)  – generateStream: callback invoked, no callback path, uninit error,
- *                  callback exception swallowed, response text matches
- *   Group L (5)  – generateBatch: empty input, single request, multiple requests,
- *                  error propagation, order preserved
- *   Group M (4)  – capabilities v2.1.0: supports_streaming, supports_batching,
- *                  plugin_version, getPluginVersion()
- *   Group N (6)  – registrar: createPlugin stub/config, defaultReloadCallback,
- *                  reload with empty path, generate after registrar load,
- *                  InferenceResponse trace_id/span_id echo
- *   Group O (3)  – structured error when no model loaded: success=false, stub sanity,
- *                  error_message contains "not loaded"
- *   Group P (3)  – Phase 5 concurrency hardening: P1 8-thread generate() no race,
- *                  P2 4-thread generateBatch() correct count, P3 LoRA+generate() race
- *                  — 3 + 3 + 3 = 9 total for O+P; grand total A-P = 56
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.10
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 95/100
+ * @note Gap Summary: total=22; TODO=1, Stub=20, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=0, M=3, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include <gtest/gtest.h>

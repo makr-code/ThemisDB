@@ -1,70 +1,12 @@
-/*
- * ThemisDB | File: kernel_bypass.h | Version: 0.0.9 | Last Modified: 2026-05-31 12:49:01
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 615
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * PR History (last 5): #4615 feat(network): Kernel Bypas... (2026-04-13)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file kernel_bypass.h
- * @brief Kernel bypass networking for ultra-low latency applications.
- *
- * Provides two independent bypass paths:
- *
- * 1. **DPDKServer** (guarded by `THEMIS_ENABLE_DPDK`)
- *    - User-space PMD poll-mode driver; bypasses the kernel TCP/IP stack
- *      entirely for maximum throughput on 10G/40G/100G NICs.
- *    - Supports CPU core pinning, NUMA-local memory allocation, and
- *      huge-page backing for the packet buffer pool (mbuf pool).
- *    - Configurable RX/TX queue count for multi-queue RSS.
- *    - Target: 1–10 µs one-way latency, 100 Gbps line rate.
- *
- * 2. **IoUringServer** (guarded by `THEMIS_ENABLE_IO_URING` + Linux)
- *    - io_uring with `IORING_SETUP_SQPOLL` for kernel-side SQ polling;
- *      eliminates `io_uring_enter()` syscalls on the hot path.
- *    - Multi-operation submission (accept, recv, send) batched into a
- *      single ring; zero per-operation syscalls in steady state.
- *    - Target: 10–50 µs round-trip, 10 Gbps throughput.
- *
- * Both servers expose a uniform `start()` / `stop()` / `isRunning()`
- * interface.  When the required build flag is absent the implementation
- * falls through to a safe, documented no-op that sets an error flag
- * accessible via `lastError()`.
- *
- * Supporting utilities
- * --------------------
- * - **CpuPinner** — pin calling thread or a target thread to a logical
- *   CPU core; query NUMA node for a core.
- * - **NumaAllocator** — NUMA-aware `allocate()` / `free()` wrappers
- *   backed by `libnuma` when available.
- * - **ZeroCopyDmaBuffer** — huge-page-backed, DMA-capable buffer for
- *   use with DPDK mbufs or io_uring fixed buffers.
- *
- * Usage (DPDK):
- * @code
- *   DPDKServer::Config cfg;
- *   cfg.port         = 8772;
- *   cfg.pci_address  = "0000:05:00.0";
- *   cfg.num_rx_queues = 4;
- *   cfg.num_tx_queues = 4;
- *   cfg.cpu_core_mask = 0x0F;   // cores 0-3
- *   cfg.huge_pages_mb = 2048;
- *   DPDKServer srv(cfg, storage, index_mgr);
- *   srv.start();
- * @endcode
- *
- * Usage (io_uring):
- * @code
- *   IoUringServer::Config cfg;
- *   cfg.port             = 8773;
- *   cfg.ring_size        = 4096;
- *   cfg.sq_thread_cpu    = 2;
- *   cfg.sq_thread_idle_ms = 1000;
- *   IoUringServer srv(cfg, storage, index_mgr);
- *   srv.start();
- * @endcode
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.9
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 94/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once

@@ -1,59 +1,12 @@
-/*
- * ThemisDB | File: opentelemetry_tracer.h | Version: 0.0.13 | Last Modified: 2026-05-20 17:13:04
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 378
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * PR History (last 5): #5056 docs(observability): update... (2026-05-13) | #4163 feat(observability): OpenTe... (2026-03-13)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
-#pragma once
-
 /**
  * @file opentelemetry_tracer.h
- * @brief OpenTelemetry Full Integration tracer for ThemisDB (v1.6.0).
- *
- * Provides `OpenTelemetryTracer`, a production-ready ITracer implementation
- * that adds:
- *   - W3C Trace Context propagation (traceparent/tracestate headers)
- *   - W3C Baggage propagation for tenant/user context
- *   - Multiple exporter back-ends: OTLP (gRPC/HTTP), Jaeger, Zipkin
- *   - Automatic instrumentation helpers: recordException(), recordMetrics()
- *   - In-process span ring buffer for local diagnostics
- *   - MetricsCollector integration (span counters / gauges)
- *
- * ### Usage
- * ```cpp
- * OTelConfig cfg;
- * cfg.service_name    = "themisdb";
- * cfg.endpoint        = "http://otel-collector:4317";
- * cfg.exporters       = {"otlp", "jaeger"};
- * cfg.resource_attributes = {{"deployment.environment", "production"}};
- *
- * OpenTelemetryTracer tracer(cfg);
- *
- * // Baggage: carry tenant context across service calls
- * OpenTelemetryTracer::setBaggageItem("tenant-id", "acme");
- * OpenTelemetryTracer::setBaggageItem("user-id",   "u-42");
- *
- * // Start a root span
- * auto span = tracer.startSpan("db.query");
- * span->setAttribute("db.operation", "SELECT");
- *
- * // Attach metrics snapshot
- * SpanMetrics snap;
- * snap.cpu_usage_percent = 45.2;
- * tracer.recordMetrics(*span, snap);
- *
- * span->end();
- *
- * // Outbound call: inject trace context + baggage
- * std::map<std::string, std::string> outbound;
- * tracer.injectContext(outbound);
- * ```
- *
- * ### Thread Safety
- * All public methods are thread-safe.
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.13
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include "core/concerns/i_tracer.h"

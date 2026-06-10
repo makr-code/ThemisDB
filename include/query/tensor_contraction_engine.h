@@ -1,39 +1,12 @@
-/*
- * ThemisDB | File: tensor_contraction_engine.h | Version: 1.0.0
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file tensor_contraction_engine.h
- * @brief Algebraic query engine operating directly on TT-compressed tensors.
- *
- * Implements the "Computing in the Compressed Domain" paradigm: standard
- * linear-algebra operations are performed on TT-trains **without ever
- * reconstructing the full dense tensor**.
- *
- * ### Supported operations and complexity
- *
- * | Operation                  | Complexity (dense) | Complexity (TT)       |
- * |----------------------------|--------------------|------------------------|
- * | Inner product ⟨A, B⟩       | O(n^d)             | O(d · n · r³)         |
- * | Frobenius norm ‖A‖_F       | O(n^d)             | O(d · n · r³)         |
- * | Cosine similarity          | O(n^d)             | O(d · n · r³)         |
- * | Subtensor slice A[dim=k]   | O(n^{d-1})         | O(d · n · r²)         |
- * | TT-rounding (recompress)   | —                  | O(d · r³ · n)         |
- * | Hadamard product A ⊙ B     | O(n^d)             | O(d · n · r₁²·r₂²)   |
- *
- * ### References
- * - Holtz, S., Rohwedder, T., & Schneider, R. (2012). The alternating linear
- *   scheme for tensor optimization in the TT-format.
- *   SIAM J. Sci. Comput., 34(2), A683–A713.
- * - Bigoni, D., Engsig-Karup, A. P., & Marzouk, Y. M. (2016).
- *   Spectral tensor-train decomposition.
- *   SIAM J. Sci. Comput., 38(4), A2405–A2439.
- * - Roberts, C. et al. (2019). TensorNetwork: A Library for Physics and ML.
- *   arXiv:1905.01330.
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 1.0.0
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once

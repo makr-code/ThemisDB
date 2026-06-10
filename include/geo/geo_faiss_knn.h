@@ -1,42 +1,14 @@
-/*
- * ThemisDB | File: geo_faiss_knn.h | Version: 0.0.9 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 140
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * PR History (last 5): #5166 Complete GPU geospatial res... (2026-05-19)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 #pragma once
 
 /**
  * @file geo_faiss_knn.h
- * @brief FAISS-GPU bridge for GPU-accelerated spatial k-NN queries.
- *
- * `GeoFaissKnn` provides nearest-neighbour and within-radius geo queries
- * over a pre-built point dataset by projecting WGS-84 coordinates into
- * ECEF 3D space (float32) and delegating to the FAISS GPU FLAT_L2 index.
- *
- * **Coordinate projection**
- * Points are projected to the unit sphere in ECEF:
- *   x = cos(lat) × cos(lon)
- *   y = cos(lat) × sin(lon)
- *   z = sin(lat)
- * Euclidean (chord) distance in this space approximates geodesic distance
- * with < 0.5 % error for distances ≤ 5000 km, which is sufficient for
- * k-NN cluster assignment and ST_DWITHIN nearest-N queries.
- *
- * **Fallback behaviour**
- * When CUDA is not available the CPU FAISS FLAT_L2 index is used instead,
- * maintaining API compatibility.  The `getBackendName()` method reports
- * whether GPU or CPU execution is active.
- *
- * **Thread safety**
- * `build()` is not thread-safe.  `knnSearch()` and `radiusSearch()` may
- * be called concurrently from multiple threads after `build()` completes.
- *
- * @see include/acceleration/faiss_gpu_backend.h
- * @see include/geo/spatial_join.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.9
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include "utils/geo/ewkb.h"

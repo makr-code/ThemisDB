@@ -1,3 +1,18 @@
+/**
+ * @file wal_grpc_service.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @author makr-code
+ * @version 0.0.47
+ * @date 2026-06-02 20:56:29
+ * @note Maturity: 🟡 RELEASE-CANDIDATE
+ * @note Score: 78/100
+ * @note Lines: 283
+ * @note Gap Summary: total=5; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=1, Debt=0, C=0, H=3, M=1, L=0
+ * @note PR History (last 5): none
+ * @note Status: Release Candidate
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
  * ThemisDB | File: wal_grpc_service.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
  * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 81/100 | Lines: 282

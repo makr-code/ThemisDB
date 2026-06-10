@@ -1,40 +1,28 @@
-/*
- * ThemisDB | File: grpc_plugin.h | Version: 0.0.13 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 278
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * PR History (last 5): #5069 docs(rpc_grpc): refresh mod... (2026-05-13) | #4827 refactor: flatten plugin/ h... (2026-05-04) | #4719 docs: decongest docs root v... (2026-04-19) | #4111 feat: migrate plugins to fl... (2026-03-12)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
+/**
+ * @file grpc_plugin.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.13
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 94/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once
 
 #include "plugins/rpc_plugin_interface.h"
+
 #include <grpcpp/grpcpp.h>
+
 #include <atomic>
 #include <chrono>
 #include <cstdint>
-#include <functional>
-#include <map>
 #include <memory>
 #include <mutex>
 #include <string>
 #include <unordered_map>
 #include <vector>
-
-/**
- * @file grpc_plugin.h
- * @brief gRPC Plugin Implementation for ThemisDB
- * 
- * This plugin provides gRPC server functionality for ThemisDB,
- * enabling high-performance RPC communication with:
- * - HTTP/2 multiplexing
- * - Protocol Buffers serialization
- * - Native mTLS support
- * - Bidirectional streaming
- * 
- * Part of ThemisDB v1.3.0
- */
 
 namespace themis {
 namespace plugins {

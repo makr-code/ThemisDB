@@ -1,39 +1,12 @@
-/*
- * ThemisDB | File: context_window_budget.h | Version: 0.0.10 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 232
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * PR History (last 5): none
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file context_window_budget.h
- * @brief Central token-budget model for RAG inference with llama.cpp (and any ILLMPlugin).
- *
- * Problem:
- *   LLM context windows are finite. When building RAG prompts the available
- *   token space must be split between:
- *     - the system / instruction prompt,
- *     - the user query,
- *     - the retrieved context chunks, and
- *     - the model's answer.
- *
- *   Without an explicit budget, naive concatenation of context documents can
- *   overflow the model's context window, silently truncating the prompt or
- *   crashing the inference backend.
- *
- * Solution:
- *   ContextWindowBudget::compute() decomposes the window into the four regions
- *   above and guarantees that at least `reserved_response_tokens` tokens are
- *   always available for the model's answer.
- *
- * Token estimation:
- *   Without access to the actual llama.cpp tokenizer at compile time we use
- *   the heuristic  tokens ≈ ceil(chars / 3.5), which is conservative
- *   (safer than /4) because many sub-word tokenizers produce 3–4 chars/token
- *   for typical prose.  When LLAMA_TOKENIZER is selected (future), callers
- *   should supply a pre-computed token count instead.
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.10
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once

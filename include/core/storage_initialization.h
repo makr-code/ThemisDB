@@ -1,3 +1,14 @@
+/**
+ * @file storage_initialization.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
  * ThemisDB | File: storage_initialization.h | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
  * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 135
@@ -34,12 +45,19 @@ namespace themis {
  */
 class StorageEngineBuilder {
 public:
+    /**
+     * @brief Construct an empty builder.
+     *
+     * Required dependencies are supplied explicitly before build(). The
+     * builder does not allocate any backend resources on its own.
+     */
     StorageEngineBuilder() = default;
     
     /**
      * @brief Set the expression evaluator
      * 
-     * @param eval Expression evaluator implementation
+     * @param eval Expression evaluator implementation. If null, build() will
+     *        fail fast with a descriptive runtime error.
      * @return Reference to this builder for chaining
      */
     StorageEngineBuilder& withEvaluator(IExpressionEvaluatorPtr eval) {
@@ -50,7 +68,8 @@ public:
     /**
      * @brief Set the field encryption provider
      * 
-     * @param enc Field encryption implementation
+     * @param enc Field encryption implementation. A null value is accepted at
+     *        assignment time but rejected during build().
      * @return Reference to this builder for chaining
      */
     StorageEngineBuilder& withEncryption(IFieldEncryptionPtr enc) {
@@ -61,7 +80,8 @@ public:
     /**
      * @brief Set the key provider
      * 
-     * @param provider Key provider implementation
+     * @param provider Key provider implementation. A null value is accepted at
+     *        assignment time but rejected during build().
      * @return Reference to this builder for chaining
      */
     StorageEngineBuilder& withKeyProvider(IKeyProviderPtr provider) {
@@ -72,7 +92,8 @@ public:
     /**
      * @brief Set the index manager
      * 
-     * @param index Index manager implementation
+     * @param index Index manager implementation. May be null to disable index
+     *        integration in the constructed storage engine.
      * @return Reference to this builder for chaining
      */
     StorageEngineBuilder& withIndexManager(IIndexManagerPtr index) {
@@ -83,8 +104,10 @@ public:
     /**
      * @brief Build the StorageEngine instance
      * 
-     * @return Shared pointer to configured StorageEngine
-     * @throws std::runtime_error if required dependencies are missing
+        * @return Shared pointer to configured StorageEngine.
+        * @throws std::runtime_error if a required dependency is missing. The
+        *         builder validates the evaluator, encryption provider, and key
+        *         provider before constructing the engine.
      */
     std::shared_ptr<StorageEngine> build() {
         // Validate required dependencies
@@ -107,11 +130,11 @@ public:
     /**
      * @brief Create a builder with standard default implementations
      * 
-     * Returns a builder pre-configured with default implementations
-     * of all dependencies. You can override individual components
-     * before calling build().
+     * Returns a builder pre-configured with default implementations of all
+     * dependencies. Callers can override individual components before calling
+     * build().
      * 
-     * @return Builder with default implementations
+     * @return Builder with default implementations.
      */
     static StorageEngineBuilder standard() {
         StorageEngineBuilder builder;

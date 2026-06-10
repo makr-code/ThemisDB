@@ -1,52 +1,12 @@
-/*
- * ThemisDB | File: modality_parser.h | Version: 0.0.13
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
-// SPDX-License-Identifier: Apache-2.0
-// Copyright (c) 2026 ThemisDB Contributors
-
-#pragma once
-
 /**
  * @file modality_parser.h
- * @brief Multi-modality legal document parser (Phase 3).
- *
- * Provides per-modality content extraction for legal documents:
- *   - TextClauseExtractor   – plain-text legal clauses
- *   - TableExtractor        – structured tables (damages schedules, etc.)
- *   - CitationExtractor     – statutory and case-law citations
- *   - OCRExtractor          – scanned pages via optional OCR (gated by
- *                             THEMIS_ENABLE_OCR build flag)
- *   - ModalityDetector      – orchestrates the above, auto-detects modality
- *
- * Each extractor produces @c TrainingSample records with the appropriate
- * @c ContentModality tag so that the training pipeline can apply
- * modality-specific confidence thresholds.
- *
- * Example usage:
- * @code
- * ModalityParserConfig cfg;
- * cfg.language_code = "de";
- *
- * ModalityDetector detector(cfg);
- *
- * // Auto-detect and extract all modalities from a document
- * auto result = detector.parseDocument(raw_text, "doc_123");
- * for (const auto& sample : result.samples)
- *     std::cout << sample.input << "  [" << (int)sample.modality << "]\n";
- *
- * // Batch processing
- * std::vector<TrainingSample> all_samples;
- * std::vector<std::pair<std::string,std::string>> docs = {
- *     {"text content …", "doc_1"},
- *     {"| Col A | Col B |\n| 1 | 2 |", "doc_2"},
- * };
- * detector.parseBatch(docs, all_samples);
- * @endcode
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.13
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include "training/auto_labeler.h"

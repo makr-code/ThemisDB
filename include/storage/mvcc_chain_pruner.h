@@ -1,61 +1,12 @@
-/*
- * ThemisDB | File: mvcc_chain_pruner.h | Version: 0.0.1
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file mvcc_chain_pruner.h
- * @brief Bridge between MVCCStore garbage collection and TemporalTierManager.
- *
- * ## Problem
- *
- * The `MVCCStore` accumulates per-key version chains for every committed write.
- * Without pruning, these chains grow unboundedly and increase:
- *  - RAM footprint (each VersionEntry is ~400 B + value payload)
- *  - Scan cost for snapshot reads (O(N) prefix scan over all versions)
- *  - GC latency when `gcAllBefore` eventually runs
- *
- * The `TemporalTierManager` provides a three-tier LSM (Hot / Warm / Cold) for
- * committed historical versions with O(log h) hot reads, O(1) warm-miss
- * detection via Bloom filters, and only key-metadata in RAM for cold entries.
- *
- * ## Solution
- *
- * `MVCCChainPruner` wires the two together:
- *
- *   1. Scans MVCC versions below a caller-supplied GC horizon.
- *   2. Converts each version to a `VersionedDocument` (sys_time = [ts, next_ts)).
- *   3. Inserts the document into the TemporalTierManager (migrate).
- *   4. Deletes the version from the MVCC store (prune).
- *
- * Crucially the migration happens **before** deletion, so no history is lost.
- * The most-recent N versions (configurable via `Config::min_versions_to_keep`)
- * are always retained in the MVCC store to serve ongoing snapshot reads.
- *
- * ## Effect on MVCC chain length
- *
- *   Before pruning:  [v1, v2, v3, v4, v5]  (all in MVCC)
- *   GC horizon = ts(v3), min_keep = 1
- *   After pruning:   [v5]                  (in MVCC, i.e. serving snapshot reads)
- *                    [v1, v2, v3, v4]      (in TemporalTierManager, AS-OF queries)
- *
- * The MVCC chain is reduced from 5 to 1 entry.  Hot-path reads remain O(1).
- * Historical AS-OF queries are served by the tier manager at O(log h) or
- * O(log N)+I/O depending on which tier the version landed in.
- *
- * ## Thread safety
- *
- * `MVCCChainPruner` itself is stateless after construction (all mutable state
- * is in `MVCCStore` and `TemporalTierManager`, which are both thread-safe).
- * Multiple threads may call `pruneKey()` concurrently for **different** keys.
- * Concurrent calls for the **same** key are safe but may produce duplicate
- * tier inserts; the caller is responsible for serialising per-key if needed.
- *
- * Copyright (c) 2025 VCC-URN Project
- * SPDX-License-Identifier: Apache-2.0
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.1
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once

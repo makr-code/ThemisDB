@@ -1,21 +1,12 @@
-/*
- * ThemisDB | File: async_ingestion_worker.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 1077
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=5, H=5, M=12, L=0
- * PR History (last 5): #4296 feat(content): YAML config ... (2026-03-16) | #3737 feat(content): implement ba... (2026-03-12)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file async_ingestion_worker.cpp
- * @brief Asynchronous Ingestion Worker Implementation
- *
- * Background worker pool for development, testing, and showcase.
- * Processes ingestion jobs in parallel threads.
- *
- * @author ThemisDB Team
- * @date January 2026
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=3, M=4, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include "content/async_ingestion_worker.h"

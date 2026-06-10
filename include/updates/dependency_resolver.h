@@ -1,56 +1,12 @@
-/*
- * ThemisDB | File: dependency_resolver.h | Version: 0.0.13
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
-// SPDX-License-Identifier: Apache-2.0
-// Copyright (c) 2026 ThemisDB Contributors
-
 /**
  * @file dependency_resolver.h
- * @brief Dependency resolution engine for the Updates module (v1.6.0).
- *
- * Implements the "Dependency Resolution Engine" roadmap item.
- * Provides automatic resolution of update dependencies with:
- *   - Dependency graph construction
- *   - Topological sort for correct update order
- *   - Cycle detection
- *   - Minimum version constraints (>=, <=, >, <, ==, != with compound AND)
- *   - Conflict resolution (explicit conflicts list per dependency)
- *   - Automatic backfill of missing (not-installed) dependencies
- *
- * Usage:
- * @code
- *   DependencyResolver resolver;
- *
- *   // Register what ThemisDB 1.5.0 depends on
- *   resolver.addDependency("1.5.0", {
- *       .package = "themis-storage",
- *       .version_constraint = ">=1.4.0,<2.0.0"
- *   });
- *   resolver.addDependency("1.5.0", {
- *       .package = "themis-query",
- *       .version_constraint = ">=1.4.5"
- *   });
- *
- *   // Register cascading dependencies (themis-query 1.4.5 depends on themis-storage)
- *   resolver.addPackageDependency("themis-query", "1.4.5", {
- *       .package = "themis-storage",
- *       .version_constraint = ">=1.4.0"
- *   });
- *
- *   // Resolve given current installed versions
- *   auto result = resolver.resolve("1.5.0",
- *       {{"themis-storage", "1.3.0"}, {"themis-query", "1.3.0"}});
- *   if (result.success) {
- *       for (const auto& step : result.steps) {
- *           engine->applyHotReload(step.to_version);
- *       }
- *   }
- * @endcode
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.13
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once

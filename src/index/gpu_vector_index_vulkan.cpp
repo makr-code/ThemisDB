@@ -1,20 +1,12 @@
-/*
- * ThemisDB | File: gpu_vector_index_vulkan.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 87/100 | Lines: 1037
- * Gap Summary: total=5; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=1, Debt=0, C=2, H=8, M=11, L=0
- * PR History (last 5): #1104 Update GPU master tracking ... (2026-03-11) | #1098 Implement Vulkan backend fo... (2026-03-11) | #994 Build system integration fo... (2026-03-11) | #1088 Remove incomplete GPU vecto... (2026-03-11)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
- * Vulkan Backend Implementation for GPU Vector Index
- * 
- * Provides cross-platform GPU-accelerated vector similarity search using Vulkan compute shaders.
- * Supports NVIDIA, AMD, Intel, and Apple GPUs through native Vulkan or MoltenVK.
- * 
  * @file gpu_vector_index_vulkan.cpp
- * @brief Vulkan compute backend for vector indexing
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 87/100
+ * @note Gap Summary: total=5; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=1, Debt=0, C=2, H=5, M=10, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include "index/gpu_vector_index.h"

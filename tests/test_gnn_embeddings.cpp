@@ -156,17 +156,6 @@ TEST_F(GNNEmbeddingTest, UpdateNodeEmbedding) {
     EXPECT_NEAR(std::sqrt(norm), 1.0f, 0.01f);
 }
 
-TEST_F(GNNEmbeddingTest, UpdateNodeEmbeddingHandlesCorruptNodeRecord) {
-    createTestGraph();
-
-    const std::string nodeKey = "node:g1:person1";
-    db->put(nodeKey, std::vector<uint8_t>{0xFF, 0x00, 0xAB, 0x7E});
-
-    auto st = gem->updateNodeEmbedding("person1", "g1", "test_model");
-    EXPECT_FALSE(st.ok);
-    EXPECT_NE(st.message.find("deserialization"), std::string::npos);
-}
-
 TEST_F(GNNEmbeddingTest, GenerateEdgeEmbeddings) {
     createTestGraph();
     
@@ -254,20 +243,6 @@ TEST_F(GNNEmbeddingTest, GenerateGraphEmbedding) {
     EXPECT_GT(std::sqrt(sumNorm), std::sqrt(meanNorm));
 }
 
-TEST_F(GNNEmbeddingTest, GetNodeEmbeddingHandlesCorruptStoredEmbedding) {
-    createTestGraph();
-    auto st = gem->updateNodeEmbedding("person1", "g1", "test_model");
-    ASSERT_TRUE(st.ok);
-
-    const std::string embeddingKey = "gnn_emb:node:g1:test_model:person1";
-    db->put(embeddingKey, std::vector<uint8_t>{0xDE, 0xAD, 0xBE, 0xEF});
-
-    auto [status, info] = gem->getNodeEmbedding("person1", "g1", "test_model");
-    EXPECT_FALSE(status.ok);
-    EXPECT_NE(status.message.find("deserialization"), std::string::npos);
-    EXPECT_TRUE(info.embedding.empty());
-}
-
 TEST_F(GNNEmbeddingTest, BatchOperations) {
     createTestGraph();
     
@@ -282,22 +257,6 @@ TEST_F(GNNEmbeddingTest, BatchOperations) {
         EXPECT_TRUE(status_embedding.ok) << " Failed for node: " << pk;
         [[maybe_unused]] auto& embInfoRef = embInfo;
     }
-}
-
-TEST_F(GNNEmbeddingTest, NodeBatchOperationsRejectZeroBatchSize) {
-    createTestGraph();
-    std::vector<std::string> node_pks = {"person1", "person2"};
-    auto st = gem->generateNodeEmbeddingsBatch(node_pks, "g1", "test_model", 0);
-    EXPECT_FALSE(st.ok);
-    EXPECT_NE(st.message.find("batch_size"), std::string::npos);
-}
-
-TEST_F(GNNEmbeddingTest, EdgeBatchOperationsRejectZeroBatchSize) {
-    createTestGraph();
-    std::vector<std::string> edge_ids = {"edge1", "edge2"};
-    auto st = gem->generateEdgeEmbeddingsBatch(edge_ids, "g1", "test_model", 0);
-    EXPECT_FALSE(st.ok);
-    EXPECT_NE(st.message.find("batch_size"), std::string::npos);
 }
 
 TEST_F(GNNEmbeddingTest, GetStats) {

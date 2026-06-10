@@ -1,41 +1,15 @@
-/*
- * ThemisDB | File: compute_future.h | Version: 0.0.12 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 338
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * PR History (last 5): #4338 [WIP] Update documentation ... (2026-03-19)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
+/**
+ * @file compute_future.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.12
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 94/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once
-
-/**
- * @file compute_future.h
- * @brief Lightweight async-result handle for the acceleration compute pipeline.
- *
- * This header is intentionally free of GPU SDK headers and may be included in
- * any translation unit regardless of whether THEMIS_ENABLE_GPU is defined.
- *
- * ## Provided types
- * - `CancellationToken` — shared, copyable token that propagates cancellation
- *   requests from callers to the kernel execution path.
- * - `DispatchStats` — latency and queue introspection data attached to every
- *   completed `ComputeFuture`.
- * - `ComputeFuture<T>` — move-only future wrapper around `std::shared_future<T>`
- *   with `get()`, `cancel()`, `then()` (register-before-ready continuation),
- *   and `stats()` accessors.
- *
- * ## Thread safety
- * - `CancellationToken::cancel()` is safe to call concurrently from any thread.
- * - `ComputeFuture::get()` may block; it is safe to call from any thread.
- * - `ComputeFuture::cancel()` forwards to the shared `CancellationToken` and is
- *   therefore also safe from any thread.
- * - `ComputeFuture::then()` must be registered **before** the future becomes ready.
- *   Calling it after the backing shared_future completes has undefined behaviour.
- *
- * Copyright (c) 2025 VCC-URN Project
- * SPDX-License-Identifier: Apache-2.0
- */
 
 #include <atomic>
 #include <cstdint>

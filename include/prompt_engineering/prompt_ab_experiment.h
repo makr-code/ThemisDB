@@ -1,59 +1,12 @@
-/*
- * ThemisDB | File: prompt_ab_experiment.h | Version: 0.0.12
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file prompt_ab_experiment.h
- * @brief Public A/B experiment framework for prompt template variants (Phase 5 / v1.9.0).
- *
- * Provides deterministic per-request traffic splitting and automated winner
- * promotion for prompt template A/B experiments.
- *
- * Key types
- * ---------
- *
- * - **`ExperimentVariant`** — `CONTROL` or `TREATMENT`.
- * - **`ExperimentContext`** — carries `request_id` and `experiment_id` into
- *   the render path; `PromptABExperimentFramework::assignVariant()` returns
- *   the appropriate variant.
- * - **`PromptExperiment`** — experiment descriptor: template ID, control and
- *   treatment version IDs, `split_pct` (0–100 % of traffic to TREATMENT),
- *   `min_samples`, `confidence_level`, timestamps.  `toJson()` / `fromJson()`.
- * - **`ExperimentOutcome`** — a single scored observation: experiment_id,
- *   variant, score, request_id, timestamp.  `toJson()`.
- * - **`ExperimentStatus`** — `RUNNING`, `WINNER_CONTROL`, `WINNER_TREATMENT`,
- *   `INCONCLUSIVE`, `COMPLETED`.
- * - **`PromptABExperimentFramework`** — orchestrates experiments:
- *     * `create()` / `stop()` / `getExperiment()` / `listExperiments()`
- *     * `assignVariant(context)` — deterministic via MurmurHash3 seed 0x9747b28c
- *     * `recordOutcome(experiment_id, variant, score, request_id)` — appends
- *       score; triggers significance check once `min_samples` per variant are
- *       reached.
- *     * `checkSignificance(experiment_id)` — Welch t-test; when both variants
- *       have ≥ `min_samples` scores and p < `(1 − confidence_level)`, sets
- *       status to `WINNER_CONTROL` or `WINNER_TREATMENT`.
- *     * `promoteWinner(experiment_id)` — returns the winning version ID.
- *     * `getStatus(experiment_id)` / `getSummary(experiment_id)` (`toJson()`).
- *
- * Variant assignment
- * ------------------
- *
- * Given `request_id`, variant = TREATMENT iff
- * `murmur3_32(request_id, 0x9747b28c) % 100 < split_pct`.
- * The 32-bit MurmurHash3 body is inlined; no external hash library is required.
- *
- * Scientific grounding
- * --------------------
- *
- * - Box & Tiao (1973) "Bayesian Inference in Statistical Analysis" (Welch t-test).
- * - Kohavi, Longbotham et al. (2009) "Controlled experiments on the web"
- *   [Knowl. Inf. Syst. 18(1):5–36, DOI:10.1007/s10115-008-0194-x].
- * - Kohavi & Thomke (2017) "The surprising power of online experiments"
- *   [HBR, Sept.–Oct. 2017].
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.12
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once

@@ -1,41 +1,12 @@
-/*
- * ThemisDB | File: tensor_network_storage_engine.h | Version: 1.0.0
- * Maturity: 🟢 PRODUCTION-READY | Score: 94/100
- * Gap Summary: total=6; TODO=1, Stub=4, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file tensor_network_storage_engine.h
- * @brief RocksDB-backed storage for Tensor-Train compressed tensors.
- *
- * `TensorNetworkStorageEngine` stores multi-dimensional tensors as TT-chains
- * (optionally quantised) in RocksDB using a structured key schema.  It
- * provides a transparent compression/decompression layer so that callers
- * interact only with raw `std::vector<float>` / mode-size pairs.
- *
- * ### Key schema
- * ```
- * __ttn__:<tenant>:<collection>:<field>:meta:<version>   → QuantizedTrain header
- * __ttn__:<tenant>:<collection>:<field>:G<k>:<version>   → QuantizedCore k bytes
- * ```
- * The `__ttn__` prefix namespaces tensor-network keys away from regular data.
- *
- * ### Versioning
- * Each `put()` call increments a monotonic version counter.  Past versions
- * can be retrieved via `getVersion()`.  `compact()` removes all versions
- * below a retention threshold.
- *
- * ### StorageLayoutAdvisor integration
- * The advisor recognises `LayoutType::TENSOR_NETWORK` as a new layout hint.
- * Collections with high float64 aggregation patterns and low point-lookup
- * ratios are candidates for TT compression.
- *
- * ### Thread safety
- * All public methods are protected by an internal `std::shared_mutex`:
- * - `get()` / `getVersion()` use shared (read) locks.
- * - `put()` / `remove()` / `compact()` use exclusive (write) locks.
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 1.0.0
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 94/100
+ * @note Gap Summary: total=6; TODO=1, Stub=4, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once
@@ -423,7 +394,7 @@ private:
                                TensorFieldKeyHash> version_cache_;
 
     std::size_t currentVersion(const TensorFieldKey& k) const;
-    void incrementVersion(const TensorFieldKey& k);
+    void setVersion(const TensorFieldKey& k, std::size_t version);
     void eraseVersion(const TensorFieldKey& k);
 
     // ─── Persistence helpers ──────────────────────────────────────────────

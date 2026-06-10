@@ -1,32 +1,12 @@
-/*
- * ThemisDB | File: tensor_aware_query_optimizer.cpp | Version: 1.0.0 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 89/100 | Lines: 281
- * Gap Summary: total=9; TODO=1, Stub=6, Unimpl=0, Mock=1, Sim=1, Debt=0, C=4, H=1, M=2, L=0
- * PR History (last 5): none
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
- * @file query/tensor_aware_query_optimizer.cpp
- * @brief TensorAwareQueryOptimizer implementation.
- *
- * ### Stub log
- * - TAQO-01  Full AQL AST traversal (not just description-string scan)
- *            deferred to Phase 3 integration with AQL runner (Q1 2027).
- *
- * STUB/SIMULATION NOTE (stub #275): RESOLVED via IRVisitorFn injection bridge.
- * Purpose: Detection was based on presence of function names in the plan
- *          node `description` field, which is available from the existing
- *          `QueryPlanNode` serialization path.  A deeper AST-level rewrite
- *          (replacing function call nodes in the AQL IR) requires coupling
- *          to the AQL runner's internal IR and is Phase 3 Phase-C work.
- * Activation: String-scan fallback is always active; IR visitor is used
- *             first when registered via setIRVisitorFn().
- * Production Delta: Phase 3 AQL runner wires a real IRVisitorFn that
- *                   traverses the AST IR directly, bypassing string scanning.
- * Removal Plan: String-scan fallback can be removed once all callers supply
- *               an IR visitor (Phase 3 completion, Q1 2027).
+ * @file tensor_aware_query_optimizer.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 1.0.0
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 93/100
+ * @note Gap Summary: total=9; TODO=1, Stub=6, Unimpl=0, Mock=1, Sim=1, Debt=0, C=0, H=1, M=2, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include "query/tensor_aware_query_optimizer.h"

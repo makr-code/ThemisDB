@@ -1,19 +1,12 @@
-/*
- * ThemisDB | File: tensor_fingerprint_graph.cpp | Version: 1.0.0 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 331
- * Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=1, M=1, L=0
- * PR History (last 5): none
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
- * @file tensor/tensor_fingerprint_graph.cpp
- * @brief TensorFingerprintGraph implementation.
- *
- * findSimilar() uses TT-domain cosine similarity via
- * TensorTrainDecomposer::innerProduct().  findSimilarByFingerprint()
- * retains the compact first-core fingerprint approximation.
+ * @file tensor_fingerprint_graph.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 1.0.0
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 93/100
+ * @note Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=1, M=0, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include "tensor/tensor_fingerprint_graph.h"
@@ -90,6 +83,23 @@ float TensorFingerprintGraph::cosineSimilarity(const std::vector<float>& a,
     return dot / (std::sqrt(norm_a) * std::sqrt(norm_b));
 }
 
+float TensorFingerprintGraph::cosineSimilarityZeroPadded(
+        const std::vector<float>& a,
+        float                     a_sq_norm,
+        const std::vector<float>& b,
+        float                     b_sq_norm) noexcept {
+    if (a.empty() || b.empty()) return 0.0f;
+    if (a_sq_norm < 1e-12f || b_sq_norm < 1e-12f) return 0.0f;
+
+    const std::size_t overlap = std::min(a.size(), b.size());
+    float dot = 0.0f;
+    for (std::size_t i = 0; i < overlap; ++i) {
+        dot += a[i] * b[i];
+    }
+
+    return dot / (std::sqrt(a_sq_norm) * std::sqrt(b_sq_norm));
+}
+
 // ============================================================================
 // addAdapter()
 // ============================================================================
@@ -114,6 +124,9 @@ bool TensorFingerprintGraph::addAdapter(const std::string&        adapter_key,
         fp = G0.data;
     }
 
+    float fp_sq_norm = 0.0f;
+    for (float v : fp) fp_sq_norm += v * v;
+
     // Frobenius norm of the first core data.
     float norm = 0.0f;
     for (float v : G0.data) norm += v * v;
@@ -125,13 +138,18 @@ bool TensorFingerprintGraph::addAdapter(const std::string&        adapter_key,
     entry.base_model_id  = base_model_id;
     entry.tenant_id      = tenant_id;
     entry.fingerprint    = std::move(fp);
+    entry.fingerprint_sq_norm = fp_sq_norm;
     entry.first_core_norm = norm;
     entry.exact_train    = train;
+
+    const double train_self_ip =
+        storage::TensorTrainDecomposer::innerProduct(train, train);
 
     {
         std::unique_lock lock(mutex_);
         entries_[adapter_key] = std::move(entry);
         trains_[adapter_key] = train;
+        train_self_ip_[adapter_key] = train_self_ip;
     }
     {
         std::unique_lock slock(stats_mutex_);
@@ -148,6 +166,7 @@ bool TensorFingerprintGraph::removeAdapter(const std::string& adapter_key) {
     std::unique_lock lock(mutex_);
     const bool removed = entries_.erase(adapter_key) > 0;
     trains_.erase(adapter_key);
+    train_self_ip_.erase(adapter_key);
     if (removed) {
         std::unique_lock slock(stats_mutex_);
         stats_.total_adapters = entries_.size();
@@ -168,6 +187,9 @@ TensorFingerprintGraph::findSimilarByFingerprint(
     if (fingerprint.empty() || k == 0) return {};
 
     std::vector<SimilarityResult> results;
+    float query_sq_norm = 0.0f;
+    for (float v : fingerprint) query_sq_norm += v * v;
+    std::size_t comparisons = 0;
 
     {
         std::shared_lock lock(mutex_);
@@ -177,20 +199,12 @@ TensorFingerprintGraph::findSimilarByFingerprint(
             if (!tenant_id.empty() && ent.tenant_id != tenant_id) continue;
             if (ent.fingerprint.empty()) continue;
 
-            // Pad shorter fingerprint with zeros if dimensions differ.
-            float sim = 0.0f;
-            if (ent.fingerprint.size() == fingerprint.size()) {
-                sim = cosineSimilarity(fingerprint, ent.fingerprint);
-            } else {
-                // Align to min length — treats missing dims as zero.
-                const std::size_t len = std::min(fingerprint.size(),
-                                                  ent.fingerprint.size());
-                std::vector<float> qa(fingerprint.begin(),
-                                       fingerprint.begin() + len);
-                std::vector<float> qb(ent.fingerprint.begin(),
-                                       ent.fingerprint.begin() + len);
-                sim = cosineSimilarity(qa, qb);
-            }
+            const float sim = cosineSimilarityZeroPadded(
+                fingerprint,
+                query_sq_norm,
+                ent.fingerprint,
+                ent.fingerprint_sq_norm);
+            ++comparisons;
 
             SimilarityResult sr;
             sr.adapter_key    = ent.adapter_key;
@@ -211,7 +225,7 @@ TensorFingerprintGraph::findSimilarByFingerprint(
     {
         std::unique_lock slock(stats_mutex_);
         ++stats_.total_query_calls;
-        stats_.total_comparisons += entries_.size();
+        stats_.total_comparisons += comparisons;
     }
 
     return results;
@@ -228,34 +242,71 @@ TensorFingerprintGraph::findSimilar(const std::string& query_key,
 
     storage::TTTrain query_train;
     std::vector<std::pair<std::string, FingerprintEntry>> candidates;
+    double query_self_ip = 0.0;
     {
         std::shared_lock lock(mutex_);
         const auto it_train = trains_.find(query_key);
         if (it_train == trains_.end()) return {};
         query_train = it_train->second;
+
+        const auto it_query_self = train_self_ip_.find(query_key);
+        if (it_query_self != train_self_ip_.end()) {
+            query_self_ip = it_query_self->second;
+        } else {
+            query_self_ip =
+                storage::TensorTrainDecomposer::innerProduct(query_train, query_train);
+        }
+
         candidates.reserve(entries_.size() > 0 ? entries_.size() - 1 : 0);
         for (const auto& [key, entry] : entries_) {
             if (key == query_key) continue;
             candidates.emplace_back(key, entry);
         }
     }
-
-    const double query_self_ip =
-        storage::TensorTrainDecomposer::innerProduct(query_train, query_train);
     if (!std::isfinite(query_self_ip) || query_self_ip <= 0.0) return {};
+
+    const auto exact_similarity_fn = getExactSimilarityFn();
 
     std::vector<SimilarityResult> results;
     results.reserve(candidates.size());
     std::size_t comparisons = 0;
-    {
+    if (exact_similarity_fn) {
+        for (const auto& [key, entry] : candidates) {
+            double score = 0.0;
+            try {
+                score = static_cast<double>(exact_similarity_fn(query_key, key));
+            } catch (...) {
+                continue;
+            }
+            if (!std::isfinite(score)) {
+                continue;
+            }
+            score = std::clamp(score, -1.0, 1.0);
+
+            SimilarityResult sr;
+            sr.adapter_key = entry.adapter_key;
+            sr.domain = entry.domain;
+            sr.base_model_id = entry.base_model_id;
+            sr.score = static_cast<float>(score);
+            results.push_back(std::move(sr));
+            ++comparisons;
+        }
+    } else {
         std::shared_lock lock(mutex_);
         for (const auto& [key, entry] : candidates) {
             const auto it_train = trains_.find(key);
             if (it_train == trains_.end()) continue;
             const auto& other_train = it_train->second;
 
-            const double other_self_ip =
-                storage::TensorTrainDecomposer::innerProduct(other_train, other_train);
+            double other_self_ip = 0.0;
+            const auto it_other_self = train_self_ip_.find(key);
+            if (it_other_self != train_self_ip_.end()) {
+                other_self_ip = it_other_self->second;
+            } else {
+                other_self_ip =
+                    storage::TensorTrainDecomposer::innerProduct(other_train, other_train);
+            }
+
             if (!std::isfinite(other_self_ip) || other_self_ip <= 0.0) {
                 continue;
             }

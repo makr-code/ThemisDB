@@ -1,3 +1,14 @@
+/**
+ * @file raft_consensus_adapter.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=1, M=1, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
  * ThemisDB | File: raft_consensus_adapter.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
  * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 656
@@ -19,16 +30,24 @@
 namespace themisdb {
 namespace sharding {
 
+/** @brief Construct adapter with initial follower cached state. */
 RaftConsensusAdapter::RaftConsensusAdapter(const ConsensusConfig& config)
     : config_(config)
     , current_state_(ConsensusState::FOLLOWER)
 {
 }
 
+/** @brief Ensure Raft engine is stopped before object teardown. */
 RaftConsensusAdapter::~RaftConsensusAdapter() {
     stop();
 }
 
+/**
+ * @brief Initialize underlying Raft engine and membership tracker.
+ * @param node_id Local node identifier.
+ * @param cluster_nodes Initial cluster members.
+ * @return True when Raft engine construction succeeds.
+ */
 bool RaftConsensusAdapter::initialize(
     const std::string& node_id,
     const std::vector<std::string>& cluster_nodes
@@ -64,6 +83,7 @@ bool RaftConsensusAdapter::initialize(
     }
 }
 
+/** @brief Start underlying Raft engine. */
 bool RaftConsensusAdapter::start() {
     if (!raft_) {
         spdlog::error("Raft not initialized");
@@ -79,20 +99,24 @@ bool RaftConsensusAdapter::start() {
     }
 }
 
+/** @brief Stop underlying Raft engine if initialized. */
 void RaftConsensusAdapter::stop() {
     if (raft_) {
         raft_->stop();
     }
 }
 
+/** @brief Return leadership status from underlying Raft engine. */
 bool RaftConsensusAdapter::isLeader() const {
     return raft_ && raft_->isLeader();
 }
 
+/** @brief Return current known leader ID from Raft engine. */
 std::string RaftConsensusAdapter::getLeaderId() const {
     return raft_ ? raft_->getLeaderId() : "";
 }
 
+/** @brief Return current consensus state, using cache when engine unavailable. */
 ConsensusState RaftConsensusAdapter::getState() const {
     // Get state from Raft without holding our own lock to avoid lock ordering issues
     // RaftState::getState() has its own internal synchronization
@@ -105,6 +129,7 @@ ConsensusState RaftConsensusAdapter::getState() const {
     return current_state_;
 }
 
+/** @brief Map Raft-specific state enum to generic consensus state enum. */
 ConsensusState RaftConsensusAdapter::convertState(const RaftState& state) {
     // Extract the actual RaftNodeState from RaftState and convert to ConsensusState
     RaftNodeState node_state = state.getState();
@@ -121,6 +146,12 @@ ConsensusState RaftConsensusAdapter::convertState(const RaftState& state) {
     }
 }
 
+/**
+ * @brief Propose operation payload to Raft leader.
+ * @param operation Operation type identifier.
+ * @param data Operation payload.
+ * @return Expected log index for the proposal or nullopt on failure.
+ */
 std::optional<uint64_t> RaftConsensusAdapter::propose(
     const std::string& operation,
     const nlohmann::json& data
@@ -154,6 +185,12 @@ std::optional<uint64_t> RaftConsensusAdapter::propose(
     }
 }
 
+/**
+ * @brief Wait until requested log index is committed or timeout elapses.
+ * @param log_index Target log index.
+ * @param timeout Maximum wait duration.
+ * @return True when commit index reaches target.
+ */
 bool RaftConsensusAdapter::waitForCommit(
     uint64_t log_index,
     std::chrono::milliseconds timeout
@@ -185,6 +222,7 @@ bool RaftConsensusAdapter::waitForCommit(
     return false;
 }
 
+/** @brief Read committed Raft log entries in requested index window. */
 std::vector<ConsensusLogEntry> RaftConsensusAdapter::readLog(
     uint64_t start_index,
     std::optional<uint64_t> end_index
@@ -228,6 +266,7 @@ std::vector<ConsensusLogEntry> RaftConsensusAdapter::readLog(
     return result;
 }
 
+/** @brief Return committed index from underlying Raft log. */
 uint64_t RaftConsensusAdapter::getCommitIndex() const {
     if (!raft_) {
         return 0;
@@ -236,6 +275,7 @@ uint64_t RaftConsensusAdapter::getCommitIndex() const {
     return raft_->getRaftState().getLog().getCommitIndex();
 }
 
+/** @brief Return last log index from underlying Raft log. */
 uint64_t RaftConsensusAdapter::getLastLogIndex() const {
     if (!raft_) {
         return 0;
@@ -244,6 +284,12 @@ uint64_t RaftConsensusAdapter::getLastLogIndex() const {
     return raft_->getRaftState().getLog().getLastLogIndex();
 }
 
+/**
+ * @brief Add a node via two-phase Raft joint-consensus reconfiguration.
+ * @param node_id Node ID to add.
+ * @param endpoint Node endpoint metadata passed in config commands.
+ * @return True when reconfiguration commits successfully.
+ */
 bool RaftConsensusAdapter::addNode(
     const std::string& node_id,
     const std::string& endpoint
@@ -354,6 +400,11 @@ bool RaftConsensusAdapter::addNode(
     return true;
 }
 
+/**
+ * @brief Remove a node via two-phase Raft joint-consensus reconfiguration.
+ * @param node_id Node ID to remove.
+ * @return True when reconfiguration commits successfully.
+ */
 bool RaftConsensusAdapter::removeNode(const std::string& node_id) {
     if (!raft_ || !isLeader()) {
         spdlog::warn("Cannot remove node: not leader or Raft not initialized");
@@ -463,6 +514,11 @@ bool RaftConsensusAdapter::removeNode(const std::string& node_id) {
     return true;
 }
 
+/**
+ * @brief Initiate best-effort leadership transfer by stepping down locally.
+ * @param target_node_id Target node expected to assume leadership.
+ * @return True when local step-down operation succeeds.
+ */
 bool RaftConsensusAdapter::transferLeadership(const std::string& target_node_id) {
     if (!raft_ || !isLeader()) {
         spdlog::warn("transferLeadership: not leader or Raft not initialized");
@@ -508,6 +564,7 @@ bool RaftConsensusAdapter::transferLeadership(const std::string& target_node_id)
     return true;
 }
 
+/** @brief Capture in-adapter snapshot metadata from current committed state. */
 bool RaftConsensusAdapter::takeSnapshot(const nlohmann::json& snapshot_data) {
     if (!raft_) {
         spdlog::warn("takeSnapshot: Raft not initialized");
@@ -528,6 +585,7 @@ bool RaftConsensusAdapter::takeSnapshot(const nlohmann::json& snapshot_data) {
     return true;
 }
 
+/** @brief Restore in-adapter snapshot metadata and optionally force follower mode. */
 bool RaftConsensusAdapter::restoreSnapshot(const nlohmann::json& snapshot_data) {
     if (snapshot_data.is_null() || snapshot_data.empty()) {
         spdlog::error("restoreSnapshot: snapshot_data is null or empty");
@@ -564,6 +622,7 @@ bool RaftConsensusAdapter::restoreSnapshot(const nlohmann::json& snapshot_data) 
     return true;
 }
 
+/** @brief Collect runtime adapter statistics. */
 ConsensusStats RaftConsensusAdapter::getStats() const {
     ConsensusStats stats{};
     
@@ -584,6 +643,7 @@ ConsensusStats RaftConsensusAdapter::getStats() const {
     return stats;
 }
 
+/** @brief Return structured adapter status payload for diagnostics APIs. */
 nlohmann::json RaftConsensusAdapter::getStatus() const {
     auto stats = getStats();
 
@@ -612,6 +672,7 @@ nlohmann::json RaftConsensusAdapter::getStatus() const {
     };
 }
 
+/** @brief Register callback invoked on committed entries. */
 void RaftConsensusAdapter::onCommit(
     std::function<void(const ConsensusLogEntry&)> callback
 ) {
@@ -619,6 +680,7 @@ void RaftConsensusAdapter::onCommit(
     on_commit_callback_ = std::move(callback);
 }
 
+/** @brief Register callback invoked on consensus-state transitions. */
 void RaftConsensusAdapter::onStateChange(
     std::function<void(ConsensusState, ConsensusState)> callback
 ) {
@@ -626,6 +688,7 @@ void RaftConsensusAdapter::onStateChange(
     on_state_change_callback_ = std::move(callback);
 }
 
+/** @brief Register callback invoked on leader changes. */
 void RaftConsensusAdapter::onLeaderChange(
     std::function<void(const std::string&, const std::string&)> callback
 ) {
@@ -633,6 +696,7 @@ void RaftConsensusAdapter::onLeaderChange(
     on_leader_change_callback_ = std::move(callback);
 }
 
+/** @brief Convert serialized Raft entry payload into generic consensus entry. */
 ConsensusLogEntry RaftConsensusAdapter::convertLogEntry(const LogEntry& entry) {
     ConsensusLogEntry consensus_entry;
     consensus_entry.index = entry.index;

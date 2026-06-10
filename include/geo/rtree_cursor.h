@@ -1,31 +1,14 @@
-/*
- * ThemisDB | File: rtree_cursor.h | Version: 0.0.1 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 216
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * PR History (last 5): #5166 Complete GPU geospatial res... (2026-05-19) | #4483 feat(geo): Add 6 abstract i... (2026-04-09)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 #pragma once
 
 /**
  * @file rtree_cursor.h
- * @brief Pull-based R-tree cursor API for range and k-NN spatial traversal.
- *
- * Implements the planned `IRTreeCursor` and `IGeoIndex` interfaces from
- * FUTURE_ENHANCEMENTS.md §"R-tree Cursor API".
- *
- * Design constraints (per FUTURE_ENHANCEMENTS.md):
- *  - `IRTreeCursor` is pull-based and single-threaded per instance.
- *  - Parallel traversal uses multiple cursors opened independently.
- *  - Cursor invalidated if the underlying index is mutated; `next()` returns
- *    `CursorStatus::STALE` thereafter.
- *  - `openRangeCursor(bbox)` — iterate all entries whose MBR overlaps bbox.
- *  - `openKNNCursor(point, k)` — iterate the k nearest entries by MBR centroid.
- *  - `estimatedResultCount()` for query planning.
- *
- * Target: v2.5.0
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.1
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include "utils/geo/ewkb.h"

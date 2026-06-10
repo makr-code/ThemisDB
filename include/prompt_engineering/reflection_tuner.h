@@ -1,52 +1,12 @@
-/*
- * ThemisDB | File: reflection_tuner.h | Version: 0.0.12
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file reflection_tuner.h
- * @brief Reflection Tuning for dynamic, self-aware LLM prompt improvement.
- *
- * Implements iterative self-critique and revision cycles for LLM responses,
- * grounded in the following peer-reviewed research:
- *
- * - Madaan et al. (NeurIPS 2023) "Self-Refine: Iterative Refinement with
- *   Self-Feedback" — generate → critique → refine loop.
- * - Shinn et al. (NeurIPS 2023) "Reflexion: Language Agents with Verbal
- *   Reinforcement Learning" — episodic verbal reflection memory.
- * - Bai et al. (Anthropic, 2022) "Constitutional AI: Harmlessness from AI
- *   Feedback" — principle-guided critique and revision.
- * - Li et al. (2023) "Reflection-Tuning: Recycling Data for Better
- *   Instruction Tuning" — reflection as data augmentation for fine-tuning.
- *
- * @note Risk mitigation: As reported in "Reflection Tuning bei KI:
- *   Selbstkritik bis hin zur Halluzination" (Golem.de, 2026-03), reflection
- *   cycles can amplify hallucinations when the model confidently critiques
- *   correct information.  The `ReflectionHallucinationGuard` detects quality
- *   divergence and halts the cycle before errors are compounded.
- *
- * ## Architecture
- *
- *  ┌──────────────────────────────────────────────────────┐
- *  │                   ReflectionTuner                    │
- *  │                                                      │
- *  │  tune(prompt, initial_response)                      │
- *  │  ┌────────────────────────────────────────────────┐  │
- *  │  │ for iter in [0, max_iterations):               │  │
- *  │  │   ctx  = SelfAwareContext::fromResponse(resp)  │  │
- *  │  │   crit = provider.critique(prompt, resp, ctx)  │  │
- *  │  │   resp = provider.revise(prompt, resp, crit)   │  │
- *  │  │   score= provider.score(prompt, resp)          │  │
- *  │  │   if guard.shouldHalt(steps) → break (guard)   │  │
- *  │  │   if shouldConverge(result)  → break (ok)      │  │
- *  │  └────────────────────────────────────────────────┘  │
- *  └──────────────────────────────────────────────────────┘
- *
- * All classes are pure computation helpers; no LLM inference or network I/O
- * is performed by the module itself.
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.12
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once

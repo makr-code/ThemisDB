@@ -1,45 +1,12 @@
-/*
- * ThemisDB | File: tenant_update_scheduler.h | Version: 0.0.13
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
-// SPDX-License-Identifier: Apache-2.0
-// Copyright (c) 2026 ThemisDB Contributors
-
 /**
  * @file tenant_update_scheduler.h
- * @brief Multi-tenant update scheduling (v1.8.0, Issue #262).
- *
- * Implements per-tenant maintenance windows, blackout periods, priority
- * tiers, update consent, and per-tenant rollback tracking.
- *
- * Usage:
- * @code
- *   TenantUpdateScheduler scheduler;
- *
- *   scheduler.setMaintenanceWindow("tenant-123", {
- *       .days = {"Saturday", "Sunday"},
- *       .start_time = "02:00",
- *       .end_time   = "06:00",
- *       .timezone   = "America/New_York"
- *   });
- *
- *   scheduler.setUpdatePolicy("tenant-123", {
- *       .auto_update = false,
- *       .critical_auto_update = true,
- *       .notification_lead_time = std::chrono::hours(24)
- *   });
- *
- *   if (scheduler.canUpdateNow("tenant-123")) {
- *       engine->applyHotReload("1.5.0");
- *   } else {
- *       auto next = scheduler.getNextMaintenanceWindow("tenant-123");
- *       LOG_INFO("Next maintenance window: {}", next);
- *   }
- * @endcode
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.13
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once

@@ -1,21 +1,12 @@
-/*
- * ThemisDB | File: i_maintenance_task_handler.h | Version: 0.0.13 | Last Modified: 2026-05-31 12:49:01
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 62
- * Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * PR History (last 5): #4124 feat(maintenance): implemen... (2026-03-12)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file i_maintenance_task_handler.h
- * @brief Interface for pluggable maintenance task execution handlers.
- *
- * Modules that own the real implementation of a delegated maintenance task
- * (e.g. StorageModule for STORAGE_COMPACTION) implement this interface and
- * register an instance with the DatabaseMaintenanceOrchestrator via
- * registerTaskHandler().  executeTask() invokes the registered handler
- * instead of immediately succeeding as a stub.
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.13
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once

@@ -1,52 +1,14 @@
-/*
- * ThemisDB | File: adversarial_prompt_tester.h | Version: 0.0.1
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file adversarial_prompt_tester.h
- * @brief Adversarial prompt testing framework for LLM safety regression.
- *
- * ## Purpose
- *
- * `SimpleAdversarialTester` runs a configurable battery of adversarial test
- * cases against the `PromptInjectionDetector` and produces a structured
- * `AdversarialTestReport`.  The framework is designed for CI regression
- * pipelines: every test case asserts whether a given attack payload should
- * be **blocked** by the injection detector, and the report tracks pass/fail
- * per case as well as an aggregate block rate.
- *
- * ## Attack categories (OWASP LLM Top 10 aligned)
- *
- * | Category            | Description                                             |
- * |---------------------|---------------------------------------------------------|
- * | `JAILBREAK`         | Attempts to make the model ignore safety constraints.   |
- * | `ROLE_OVERRIDE`     | "Act as DAN / pretend you are…" instructions.           |
- * | `INDIRECT_INJECTION`| Malicious content injected via retrieved context/tools. |
- * | `PROMPT_LEAKING`    | Requests to reveal the system prompt verbatim.          |
- * | `DATA_EXTRACTION`   | Attempts to extract training data or PII.               |
- *
- * ## Usage
- * ```cpp
- * SimpleAdversarialTester tester;
- * tester.loadDefaultTestSuite();           // OWASP-aligned built-in cases
- *
- * // Optionally add custom cases:
- * tester.addTestCase({"CUSTOM-01", AttackCategory::JAILBREAK,
- *                     "My custom payload", true});
- *
- * auto report = tester.runAll();
- * std::cout << "Block rate: " << report.blockRate() * 100 << " %\n";
- * if (!report.passed(0.95)) { // fail CI
- * }
- * ```
- *
- * Copyright (c) 2026 ThemisDB Project
- * SPDX-License-Identifier: Apache-2.0
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.1
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
+
 #pragma once
 
 #include <functional>

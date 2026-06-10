@@ -1,3 +1,14 @@
+/**
+ * @file load_shedder.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
  * ThemisDB | File: load_shedder.h | Version: 0.0.47
  * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
@@ -23,6 +34,9 @@ namespace server {
  */
 class LoadShedder {
 public:
+    /**
+     * @brief Runtime thresholds and feature toggle for load shedding.
+     */
     struct Config {
         double cpu_threshold = 0.95;       ///< CPU usage threshold (0.0-1.0)
         double memory_threshold = 0.90;    ///< Memory usage threshold (0.0-1.0)
@@ -30,14 +44,22 @@ public:
         bool enable_shedding = true;       ///< Enable/disable load shedding
     };
     
+    /**
+     * @brief Request priority classes used by shedding policy.
+     */
     enum class Priority { HIGH, NORMAL, LOW };
     
+    /**
+     * @brief Construct shedder with static policy configuration.
+     * @param config Threshold and toggle configuration.
+     */
     explicit LoadShedder(const Config& config);
     
     /**
      * @brief Check if request should be rejected
      * @param prio Request priority
-     * @return true if request should be rejected (rate limited)
+    * @return true if request should be rejected (shed), false otherwise.
+    * @note HIGH priority is always admitted by policy.
      */
     bool shouldReject(Priority prio) const;
     
@@ -50,7 +72,8 @@ public:
     void updateLoad(double cpu_usage, double memory_usage, size_t queue_depth);
     
     /**
-     * @brief Get current load factor (0.0-1.0)
+    * @brief Get current normalized load factor.
+    * @return Weighted load in [0.0, 1.0] based on CPU, memory, and queue depth.
      */
     double getCurrentLoad() const;
     

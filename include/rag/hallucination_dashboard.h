@@ -1,39 +1,12 @@
-/*
- * ThemisDB | File: hallucination_dashboard.h | Version: 0.0.15
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file hallucination_dashboard.h
- * @brief Hallucination rate tracking dashboard for the RAG evaluation pipeline
- *
- * Records per-query faithfulness scores from RAG evaluations and computes
- * rolling-window statistics to monitor hallucination rates over time.
- *
- * A "hallucination event" is defined as any evaluation whose faithfulness
- * score falls below the configured @c faithfulness_threshold (default 0.8).
- * The hallucination rate is the fraction of such events in the current window.
- *
- * Features:
- *  - Thread-safe recording and querying via a single mutex
- *  - Sliding window (configurable size, default 200 evaluations)
- *  - Per-snapshot statistics: rate, mean faithfulness, trend, min/max
- *  - Configurable alert threshold with optional alert callback
- *  - CSV export for offline analysis
- *  - Human-readable report via printReport()
- *
- * Integration:
- * @code
- *   HallucinationDashboard dashboard;
- *   // after each RAG evaluation:
- *   dashboard.record(eval_result);
- *   // periodically check for alerts:
- *   auto snap = dashboard.snapshot();
- *   if (snap.alert_triggered) { ... }
- * @endcode
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once

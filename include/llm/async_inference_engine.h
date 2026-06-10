@@ -1,51 +1,35 @@
-/*
- * ThemisDB | File: async_inference_engine.h | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 427
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * PR History (last 5): #4332 Implement AIOrchestrator to... (2026-03-19) | #3284 [llm] Implement prompt inje... (2026-03-12) | #2964 feat(llm): Request deduplic... (2026-03-12) | #416 [DOCS] Create comprehensive... (2026-03-11) | #995 Library usage analysis, Inf... (2026-03-11)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 #pragma once
+
+/**
+ * @file async_inference_engine.h
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
 
 #include "llm/inference_handle.h"
 #include "llm/llm_plugin_interface.h"
 #include "llm/llm_response_cache.h"
 #include "llm/prompt_policy.h"
 #include "llm/shared_worker_pool.h"
-#include <thread>
-#include <algorithm>
-#include <deque>
-#include <memory>
-#include <vector>
-#include <mutex>
-#include <shared_mutex>
-#include <condition_variable>
-#include <atomic>
-#include <future>
-#include <functional>
-#include <chrono>
 
-/**
- * @file async_inference_engine.h
- * @brief Asynchronous inference engine for ThemisDB
- * 
- * Runs LLM inference in separate thread pool, independent from ThemisDB's
- * main operations. Ensures inference doesn't block database operations.
- * 
- * Key features:
- * - Dedicated thread pool for inference
- * - Non-blocking request submission
- * - Priority queue for request scheduling
- * - Backpressure handling
- * - Cancellation support
- * 
- * Architecture:
- * - Main ThemisDB thread submits requests → returns immediately
- * - Inference threads process requests asynchronously
- * - Results returned via std::future or callback
- */
+#include <atomic>
+#include <chrono>
+#include <condition_variable>
+#include <cstddef>
+#include <functional>
+#include <future>
+#include <memory>
+#include <mutex>
+#include <queue>
+#include <shared_mutex>
+#include <string>
+#include <thread>
+#include <vector>
 
 namespace themis {
 namespace llm {

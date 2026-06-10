@@ -1,3 +1,14 @@
+/**
+ * @file plugin_manager.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=5, H=6, M=25, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
  * ThemisDB | File: plugin_manager.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
  * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 1586
@@ -48,6 +59,11 @@ constexpr auto RELOAD_UNLOAD_DELAY_MS = std::chrono::milliseconds(50);
 // Platform-specific DLL loading (reused from acceleration/plugin_loader.cpp)
 // ============================================================================
 
+/**
+ * @brief Platform-specific dynamic library loading wrapper.
+ * @param path Shared library path.
+ * @return Native module handle or nullptr on load failure.
+ */
 void* PluginManager::loadLibrary(const std::string& path) {
 #ifdef _WIN32
     return LoadLibraryA(path.c_str());
@@ -56,6 +72,12 @@ void* PluginManager::loadLibrary(const std::string& path) {
 #endif
 }
 
+/**
+ * @brief Resolve an exported symbol from a loaded shared library.
+ * @param handle Native module handle returned by loadLibrary().
+ * @param symbolName Exported symbol name.
+ * @return Symbol address or nullptr when symbol is unavailable.
+ */
 void* PluginManager::getSymbol(void* handle, const std::string& symbolName) {
 #ifdef _WIN32
     return reinterpret_cast<void*>(GetProcAddress(static_cast<HMODULE>(handle), symbolName.c_str()));
@@ -64,6 +86,10 @@ void* PluginManager::getSymbol(void* handle, const std::string& symbolName) {
 #endif
 }
 
+/**
+ * @brief Unload a previously loaded shared library.
+ * @param handle Native module handle. nullptr is ignored.
+ */
 void PluginManager::unloadLibrary(void* handle) {
     if (!handle) return;
     
@@ -78,6 +104,12 @@ void PluginManager::unloadLibrary(void* handle) {
 // Security & Hashing
 // ============================================================================
 
+/**
+ * @brief Compute SHA-256 digest for a file path.
+ * @param path File to hash.
+ * @return Lower-case hex SHA-256 digest, or empty string on failure.
+ * @note Failures include file-open errors and OpenSSL digest API failures.
+ */
 std::string PluginManager::calculateFileHash(const std::string& path) {
     std::ifstream file(path, std::ios::binary);
     if (!file) {
@@ -118,6 +150,13 @@ std::string PluginManager::calculateFileHash(const std::string& path) {
     return ss.str();
 }
 
+/**
+ * @brief Verify plugin binary against security policy.
+ * @param path Candidate plugin library path.
+ * @param error_message Output details when verification fails.
+ * @return true when policy validation succeeds; false otherwise.
+ * @note Production builds require signatures; development builds may allow unsigned plugins.
+ */
 bool PluginManager::verifyPlugin(const std::string& path, std::string& error_message) {
     using namespace themis::acceleration;
     
@@ -141,6 +180,12 @@ bool PluginManager::verifyPlugin(const std::string& path, std::string& error_mes
 // Manifest Signature Verification
 // ============================================================================
 
+/**
+ * @brief Verify detached manifest signature according to build-mode policy.
+ * @param manifest_path Path to plugin manifest file.
+ * @param error_message Output detail for failure reason.
+ * @return true when signature checks pass (or are optional in current mode).
+ */
 bool PluginManager::verifyManifestSignature(const std::string& manifest_path, std::string& error_message) {
     // Signature verification strategy:
     // 1. Check for manifest_path + ".sig" file (digital signature)

@@ -1,0 +1,1642 @@
+{
+  "summary": {
+    "source_file": "ai_working/gap_scan_results_src.json",
+    "sample_size": 120,
+    "assessment_counts": {
+      "?": 57,
+      "FP": 48,
+      "TP": 15
+    },
+    "assessment_rates": {
+      "?": 0.475,
+      "FP": 0.4,
+      "TP": 0.125
+    },
+    "method": "rule-based fachliche Erstbewertung (konservative TP-Einstufung)"
+  },
+  "items": [
+    {
+      "file": "plugins/plugin_hot_plug_monitor.cpp",
+      "line": 261,
+      "severity": "HIGH",
+      "type": "pointer_arithmetic_unbounded",
+      "scope": "plugins",
+      "description": "Pointer/array access without bounds validation",
+      "scanner": "Uniform::phase1_memory_safety",
+      "assessment": "?",
+      "confidence": 0.5,
+      "reason": "Potenziell echt, aber ohne vollständigen Guard-Kontext nicht sicher beurteilbar."
+    },
+    {
+      "file": "content/office_processor.cpp",
+      "line": 162,
+      "severity": "HIGH",
+      "type": "pointer_arithmetic_unbounded",
+      "scope": "content",
+      "description": "Pointer/array access without bounds validation",
+      "scanner": "Uniform::phase1_memory_safety",
+      "assessment": "?",
+      "confidence": 0.5,
+      "reason": "Potenziell echt, aber ohne vollständigen Guard-Kontext nicht sicher beurteilbar."
+    },
+    {
+      "file": "llm/model_loader.cpp",
+      "line": 958,
+      "severity": "HIGH",
+      "type": "pointer_arithmetic_unbounded",
+      "scope": "llm",
+      "description": "Pointer/array access without bounds validation",
+      "scanner": "Uniform::phase1_memory_safety",
+      "assessment": "?",
+      "confidence": 0.5,
+      "reason": "Potenziell echt, aber ohne vollständigen Guard-Kontext nicht sicher beurteilbar."
+    },
+    {
+      "file": "sharding/secure_transport_client.cpp",
+      "line": 180,
+      "severity": "HIGH",
+      "type": "pointer_arithmetic_unbounded",
+      "scope": "sharding",
+      "description": "Pointer/array access without bounds validation",
+      "scanner": "Uniform::phase1_memory_safety",
+      "assessment": "?",
+      "confidence": 0.5,
+      "reason": "Potenziell echt, aber ohne vollständigen Guard-Kontext nicht sicher beurteilbar."
+    },
+    {
+      "file": "content/language_detector.cpp",
+      "line": 202,
+      "severity": "HIGH",
+      "type": "pointer_arithmetic_unbounded",
+      "scope": "content",
+      "description": "Pointer/array access without bounds validation",
+      "scanner": "Uniform::phase1_memory_safety",
+      "assessment": "?",
+      "confidence": 0.5,
+      "reason": "Potenziell echt, aber ohne vollständigen Guard-Kontext nicht sicher beurteilbar."
+    },
+    {
+      "file": "server/postgres_session.cpp",
+      "line": 1365,
+      "severity": "HIGH",
+      "type": "pointer_arithmetic_unbounded",
+      "scope": "server",
+      "description": "Pointer/array access without bounds validation",
+      "scanner": "Uniform::phase1_memory_safety",
+      "assessment": "?",
+      "confidence": 0.5,
+      "reason": "Potenziell echt, aber ohne vollständigen Guard-Kontext nicht sicher beurteilbar."
+    },
+    {
+      "file": "llm/lora_framework/vulkan_buffer.cpp",
+      "line": 229,
+      "severity": "HIGH",
+      "type": "pointer_arithmetic_unbounded",
+      "scope": "llm",
+      "description": "Pointer/array access without bounds validation",
+      "scanner": "Uniform::phase1_memory_safety",
+      "assessment": "FP",
+      "confidence": 0.62,
+      "reason": "Heuristik triggert häufig auf kontrollierte Buffer-/Container-Zugriffe in Performance-Code."
+    },
+    {
+      "file": "content/geo_processor.cpp",
+      "line": 486,
+      "severity": "HIGH",
+      "type": "pointer_arithmetic_unbounded",
+      "scope": "content",
+      "description": "Pointer/array access without bounds validation",
+      "scanner": "Uniform::phase1_memory_safety",
+      "assessment": "FP",
+      "confidence": 0.62,
+      "reason": "Heuristik triggert häufig auf kontrollierte Buffer-/Container-Zugriffe in Performance-Code."
+    },
+    {
+      "file": "security/hsm_key_provider_adapter.cpp",
+      "line": 316,
+      "severity": "HIGH",
+      "type": "pointer_arithmetic_unbounded",
+      "scope": "security",
+      "description": "Pointer/array access without bounds validation",
+      "scanner": "Uniform::phase1_memory_safety",
+      "assessment": "?",
+      "confidence": 0.5,
+      "reason": "Potenziell echt, aber ohne vollständigen Guard-Kontext nicht sicher beurteilbar."
+    },
+    {
+      "file": "transaction/distributed_saga.cpp",
+      "line": 397,
+      "severity": "HIGH",
+      "type": "pointer_arithmetic_unbounded",
+      "scope": "transaction",
+      "description": "Pointer/array access without bounds validation",
+      "scanner": "Uniform::phase1_memory_safety",
+      "assessment": "?",
+      "confidence": 0.5,
+      "reason": "Potenziell echt, aber ohne vollständigen Guard-Kontext nicht sicher beurteilbar."
+    },
+    {
+      "file": "process/process_graph_rag.cpp",
+      "line": 244,
+      "severity": "HIGH",
+      "type": "pointer_arithmetic_unbounded",
+      "scope": "process",
+      "description": "Pointer/array access without bounds validation",
+      "scanner": "Uniform::phase1_memory_safety",
+      "assessment": "?",
+      "confidence": 0.5,
+      "reason": "Potenziell echt, aber ohne vollständigen Guard-Kontext nicht sicher beurteilbar."
+    },
+    {
+      "file": "index/cuda_hnsw_graph_traversal.cpp",
+      "line": 558,
+      "severity": "HIGH",
+      "type": "pointer_arithmetic_unbounded",
+      "scope": "index",
+      "description": "Pointer/array access without bounds validation",
+      "scanner": "Uniform::phase1_memory_safety",
+      "assessment": "FP",
+      "confidence": 0.62,
+      "reason": "Heuristik triggert häufig auf kontrollierte Buffer-/Container-Zugriffe in Performance-Code."
+    },
+    {
+      "file": "llm/gguf_loader.cpp",
+      "line": 614,
+      "severity": "HIGH",
+      "type": "pointer_arithmetic_unbounded",
+      "scope": "llm",
+      "description": "Pointer/array access without bounds validation",
+      "scanner": "Uniform::phase1_memory_safety",
+      "assessment": "?",
+      "confidence": 0.5,
+      "reason": "Potenziell echt, aber ohne vollständigen Guard-Kontext nicht sicher beurteilbar."
+    },
+    {
+      "file": "sharding/transaction_wal.cpp",
+      "line": 348,
+      "severity": "HIGH",
+      "type": "pointer_arithmetic_unbounded",
+      "scope": "sharding",
+      "description": "Pointer/array access without bounds validation",
+      "scanner": "Uniform::phase1_memory_safety",
+      "assessment": "?",
+      "confidence": 0.5,
+      "reason": "Potenziell echt, aber ohne vollständigen Guard-Kontext nicht sicher beurteilbar."
+    },
+    {
+      "file": "content/geo_processor.cpp",
+      "line": 825,
+      "severity": "HIGH",
+      "type": "pointer_arithmetic_unbounded",
+      "scope": "content",
+      "description": "Pointer/array access without bounds validation",
+      "scanner": "Uniform::phase1_memory_safety",
+      "assessment": "FP",
+      "confidence": 0.62,
+      "reason": "Heuristik triggert häufig auf kontrollierte Buffer-/Container-Zugriffe in Performance-Code."
+    },
+    {
+      "file": "utils/memory/pool_allocator.cpp",
+      "line": 831,
+      "severity": "HIGH",
+      "type": "pointer_arithmetic_unbounded",
+      "scope": "utils",
+      "description": "Pointer/array access without bounds validation",
+      "scanner": "Uniform::phase1_memory_safety",
+      "assessment": "FP",
+      "confidence": 0.62,
+      "reason": "Heuristik triggert häufig auf kontrollierte Buffer-/Container-Zugriffe in Performance-Code."
+    },
+    {
+      "file": "sharding/signed_request.cpp",
+      "line": 108,
+      "severity": "HIGH",
+      "type": "pointer_arithmetic_unbounded",
+      "scope": "sharding",
+      "description": "Pointer/array access without bounds validation",
+      "scanner": "Uniform::phase1_memory_safety",
+      "assessment": "?",
+      "confidence": 0.5,
+      "reason": "Potenziell echt, aber ohne vollständigen Guard-Kontext nicht sicher beurteilbar."
+    },
+    {
+      "file": "llm/lora_framework/paged_memory_manager.cpp",
+      "line": 191,
+      "severity": "HIGH",
+      "type": "pointer_arithmetic_unbounded",
+      "scope": "llm",
+      "description": "Pointer/array access without bounds validation",
+      "scanner": "Uniform::phase1_memory_safety",
+      "assessment": "FP",
+      "confidence": 0.62,
+      "reason": "Heuristik triggert häufig auf kontrollierte Buffer-/Container-Zugriffe in Performance-Code."
+    },
+    {
+      "file": "llm/lora_framework/vulkan_pipeline.cpp",
+      "line": 107,
+      "severity": "HIGH",
+      "type": "pointer_arithmetic_unbounded",
+      "scope": "llm",
+      "description": "Pointer/array access without bounds validation",
+      "scanner": "Uniform::phase1_memory_safety",
+      "assessment": "FP",
+      "confidence": 0.62,
+      "reason": "Heuristik triggert häufig auf kontrollierte Buffer-/Container-Zugriffe in Performance-Code."
+    },
+    {
+      "file": "acceleration/vec_knn.cpp",
+      "line": 265,
+      "severity": "HIGH",
+      "type": "pointer_arithmetic_unbounded",
+      "scope": "acceleration",
+      "description": "Pointer/array access without bounds validation",
+      "scanner": "Uniform::phase1_memory_safety",
+      "assessment": "?",
+      "confidence": 0.5,
+      "reason": "Potenziell echt, aber ohne vollständigen Guard-Kontext nicht sicher beurteilbar."
+    },
+    {
+      "file": "llm/feedback_store.cpp",
+      "line": 453,
+      "severity": "HIGH",
+      "type": "delete_without_nullptr",
+      "scope": "llm",
+      "description": "Delete without nullifying pointer — use-after-free risk",
+      "scanner": "Uniform::phase1_memory_safety",
+      "assessment": "FP",
+      "confidence": 0.6,
+      "reason": "delete_without_nullptr: häufiges Heuristik-FP-Muster in bisherigen Reviews."
+    },
+    {
+      "file": "server/task_scheduler_api_handler.cpp",
+      "line": 602,
+      "severity": "CRITICAL",
+      "type": "new_without_raii",
+      "scope": "server",
+      "description": "Raw new() without RAII wrapper — potential memory leak",
+      "scanner": "Uniform::phase1_memory_safety",
+      "assessment": "TP",
+      "confidence": 0.75,
+      "reason": "new_without_raii: typischerweise sicherheits-/korrektheitsrelevant ohne zusätzlichen Kontext."
+    },
+    {
+      "file": "storage/wal_storage.cpp",
+      "line": 192,
+      "severity": "CRITICAL",
+      "type": "array_bounds_violation",
+      "scope": "storage",
+      "description": "Array bounds violation: loop 8 > array size 0",
+      "scanner": "Uniform::phase1_memory_safety",
+      "assessment": "TP",
+      "confidence": 0.75,
+      "reason": "array_bounds_violation: typischerweise sicherheits-/korrektheitsrelevant ohne zusätzlichen Kontext."
+    },
+    {
+      "file": "api/graphql.cpp",
+      "line": 789,
+      "severity": "MEDIUM",
+      "type": "shared_ptr_cycle",
+      "scope": "api",
+      "description": "Bidirectional shared_ptr — potential reference cycle leak",
+      "scanner": "Uniform::phase1_memory_safety",
+      "assessment": "FP",
+      "confidence": 0.6,
+      "reason": "shared_ptr_cycle: häufiges Heuristik-FP-Muster in bisherigen Reviews."
+    },
+    {
+      "file": "llm/gpu_memory_manager.cpp",
+      "line": 1188,
+      "severity": "HIGH",
+      "type": "unchecked_malloc",
+      "scope": "llm",
+      "description": "Unchecked malloc() — missing null pointer check",
+      "scanner": "Uniform::phase1_memory_safety",
+      "assessment": "FP",
+      "confidence": 0.6,
+      "reason": "unchecked_malloc: häufiges Heuristik-FP-Muster in bisherigen Reviews."
+    },
+    {
+      "file": "server/llm_grpc_service.cpp",
+      "line": 180,
+      "severity": "HIGH",
+      "type": "no_retry_logic",
+      "scope": "server",
+      "description": "RPC/network call without retry logic — transient failures will propagate",
+      "scanner": "Uniform::phase1_error_handling",
+      "assessment": "?",
+      "confidence": 0.55,
+      "reason": "Kann TP sein, aber hängt von Upstream-Retry/Idempotenz ab."
+    },
+    {
+      "file": "llm/async_inference_engine.cpp",
+      "line": 274,
+      "severity": "HIGH",
+      "type": "no_retry_logic",
+      "scope": "llm",
+      "description": "RPC/network call without retry logic — transient failures will propagate",
+      "scanner": "Uniform::phase1_error_handling",
+      "assessment": "?",
+      "confidence": 0.55,
+      "reason": "Kann TP sein, aber hängt von Upstream-Retry/Idempotenz ab."
+    },
+    {
+      "file": "server/websocket_session.cpp",
+      "line": 341,
+      "severity": "HIGH",
+      "type": "no_retry_logic",
+      "scope": "server",
+      "description": "RPC/network call without retry logic — transient failures will propagate",
+      "scanner": "Uniform::phase1_error_handling",
+      "assessment": "?",
+      "confidence": 0.55,
+      "reason": "Kann TP sein, aber hängt von Upstream-Retry/Idempotenz ab."
+    },
+    {
+      "file": "geo/gpu_backend_production.cpp",
+      "line": 83,
+      "severity": "CRITICAL",
+      "type": "blocking_no_timeout",
+      "scope": "geo",
+      "description": "Blocking operation without timeout — can block indefinitely",
+      "scanner": "Uniform::phase1_error_handling",
+      "assessment": "TP",
+      "confidence": 0.75,
+      "reason": "blocking_no_timeout: typischerweise sicherheits-/korrektheitsrelevant ohne zusätzlichen Kontext."
+    },
+    {
+      "file": "tensor/hiss_structural_search.cpp",
+      "line": 443,
+      "severity": "HIGH",
+      "type": "uncaught_exception",
+      "scope": "tensor",
+      "description": "Exception thrown without try/catch context",
+      "scanner": "Uniform::phase1_error_handling",
+      "assessment": "FP",
+      "confidence": 0.68,
+      "reason": "Exception-Throw in API/Service-Layern ist häufig bewusst; kein klarer Fehlpfadbeleg im Sample."
+    },
+    {
+      "file": "llm/llama_wrapper.cpp",
+      "line": 3043,
+      "severity": "HIGH",
+      "type": "uncaught_exception",
+      "scope": "llm",
+      "description": "Exception thrown without try/catch context",
+      "scanner": "Uniform::phase1_error_handling",
+      "assessment": "FP",
+      "confidence": 0.68,
+      "reason": "Exception-Throw in API/Service-Layern ist häufig bewusst; kein klarer Fehlpfadbeleg im Sample."
+    },
+    {
+      "file": "timeseries/encrypted_chunk_store.cpp",
+      "line": 190,
+      "severity": "HIGH",
+      "type": "uncaught_exception",
+      "scope": "timeseries",
+      "description": "Exception thrown without try/catch context",
+      "scanner": "Uniform::phase1_error_handling",
+      "assessment": "FP",
+      "confidence": 0.68,
+      "reason": "Exception-Throw in API/Service-Layern ist häufig bewusst; kein klarer Fehlpfadbeleg im Sample."
+    },
+    {
+      "file": "auth/webauthn_authenticator.cpp",
+      "line": 270,
+      "severity": "HIGH",
+      "type": "uncaught_exception",
+      "scope": "auth",
+      "description": "Exception thrown without try/catch context",
+      "scanner": "Uniform::phase1_error_handling",
+      "assessment": "FP",
+      "confidence": 0.68,
+      "reason": "Exception-Throw in API/Service-Layern ist häufig bewusst; kein klarer Fehlpfadbeleg im Sample."
+    },
+    {
+      "file": "security/vcc_pki_client.cpp",
+      "line": 260,
+      "severity": "HIGH",
+      "type": "uncaught_exception",
+      "scope": "security",
+      "description": "Exception thrown without try/catch context",
+      "scanner": "Uniform::phase1_error_handling",
+      "assessment": "FP",
+      "confidence": 0.68,
+      "reason": "Exception-Throw in API/Service-Layern ist häufig bewusst; kein klarer Fehlpfadbeleg im Sample."
+    },
+    {
+      "file": "llm/inline_training_engine.cpp",
+      "line": 955,
+      "severity": "HIGH",
+      "type": "uncaught_exception",
+      "scope": "llm",
+      "description": "Exception thrown without try/catch context",
+      "scanner": "Uniform::phase1_error_handling",
+      "assessment": "FP",
+      "confidence": 0.68,
+      "reason": "Exception-Throw in API/Service-Layern ist häufig bewusst; kein klarer Fehlpfadbeleg im Sample."
+    },
+    {
+      "file": "query/adaptive_join.cpp",
+      "line": 235,
+      "severity": "HIGH",
+      "type": "uncaught_exception",
+      "scope": "query",
+      "description": "Exception thrown without try/catch context",
+      "scanner": "Uniform::phase1_error_handling",
+      "assessment": "FP",
+      "confidence": 0.68,
+      "reason": "Exception-Throw in API/Service-Layern ist häufig bewusst; kein klarer Fehlpfadbeleg im Sample."
+    },
+    {
+      "file": "observability/metric_aggregator.cpp",
+      "line": 192,
+      "severity": "HIGH",
+      "type": "uncaught_exception",
+      "scope": "observability",
+      "description": "Exception thrown without try/catch context",
+      "scanner": "Uniform::phase1_error_handling",
+      "assessment": "FP",
+      "confidence": 0.68,
+      "reason": "Exception-Throw in API/Service-Layern ist häufig bewusst; kein klarer Fehlpfadbeleg im Sample."
+    },
+    {
+      "file": "query/let_evaluator.cpp",
+      "line": 1076,
+      "severity": "HIGH",
+      "type": "uncaught_exception",
+      "scope": "query",
+      "description": "Exception thrown without try/catch context",
+      "scanner": "Uniform::phase1_error_handling",
+      "assessment": "FP",
+      "confidence": 0.68,
+      "reason": "Exception-Throw in API/Service-Layern ist häufig bewusst; kein klarer Fehlpfadbeleg im Sample."
+    },
+    {
+      "file": "training/ada_lora_adapter.cpp",
+      "line": 323,
+      "severity": "HIGH",
+      "type": "uncaught_exception",
+      "scope": "training",
+      "description": "Exception thrown without try/catch context",
+      "scanner": "Uniform::phase1_error_handling",
+      "assessment": "FP",
+      "confidence": 0.68,
+      "reason": "Exception-Throw in API/Service-Layern ist häufig bewusst; kein klarer Fehlpfadbeleg im Sample."
+    },
+    {
+      "file": "replication/replication_manager.cpp",
+      "line": 5242,
+      "severity": "MEDIUM",
+      "type": "generic_catch",
+      "scope": "replication",
+      "description": "Generic catch(...) — specific exception types ignored",
+      "scanner": "Uniform::phase1_error_handling",
+      "assessment": "FP",
+      "confidence": 0.63,
+      "reason": "Catch-all ist oft bewusstes Boundary-Handling; ohne Schlucken/Maskieren schwer als TP zu markieren."
+    },
+    {
+      "file": "index/advanced_vector_index.cpp",
+      "line": 456,
+      "severity": "MEDIUM",
+      "type": "generic_catch",
+      "scope": "index",
+      "description": "Generic catch(...) — specific exception types ignored",
+      "scanner": "Uniform::phase1_error_handling",
+      "assessment": "FP",
+      "confidence": 0.63,
+      "reason": "Catch-all ist oft bewusstes Boundary-Handling; ohne Schlucken/Maskieren schwer als TP zu markieren."
+    },
+    {
+      "file": "server/monitoring_api_handler.cpp",
+      "line": 720,
+      "severity": "MEDIUM",
+      "type": "generic_catch",
+      "scope": "server",
+      "description": "Generic catch(...) — specific exception types ignored",
+      "scanner": "Uniform::phase1_error_handling",
+      "assessment": "FP",
+      "confidence": 0.63,
+      "reason": "Catch-all ist oft bewusstes Boundary-Handling; ohne Schlucken/Maskieren schwer als TP zu markieren."
+    },
+    {
+      "file": "server/llm_api_handler.cpp",
+      "line": 1193,
+      "severity": "MEDIUM",
+      "type": "generic_catch",
+      "scope": "server",
+      "description": "Generic catch(...) — specific exception types ignored",
+      "scanner": "Uniform::phase1_error_handling",
+      "assessment": "FP",
+      "confidence": 0.63,
+      "reason": "Catch-all ist oft bewusstes Boundary-Handling; ohne Schlucken/Maskieren schwer als TP zu markieren."
+    },
+    {
+      "file": "transaction/branch_manager.cpp",
+      "line": 734,
+      "severity": "MEDIUM",
+      "type": "generic_catch",
+      "scope": "transaction",
+      "description": "Generic catch(...) — specific exception types ignored",
+      "scanner": "Uniform::phase1_error_handling",
+      "assessment": "FP",
+      "confidence": 0.63,
+      "reason": "Catch-all ist oft bewusstes Boundary-Handling; ohne Schlucken/Maskieren schwer als TP zu markieren."
+    },
+    {
+      "file": "llm/shared_worker_pool.cpp",
+      "line": 132,
+      "severity": "MEDIUM",
+      "type": "primitive_no_volatile",
+      "scope": "llm",
+      "description": "Primitive shared across threads without volatile",
+      "scanner": "Uniform::phase1_thread_safety",
+      "assessment": "FP",
+      "confidence": 0.6,
+      "reason": "primitive_no_volatile: häufiges Heuristik-FP-Muster in bisherigen Reviews."
+    },
+    {
+      "file": "llm/model_loader.cpp",
+      "line": 212,
+      "severity": "CRITICAL",
+      "type": "double_lock",
+      "scope": "llm",
+      "description": "Double lock without unlock (potential deadlock)",
+      "scanner": "Uniform::phase1_thread_safety",
+      "assessment": "TP",
+      "confidence": 0.75,
+      "reason": "double_lock: typischerweise sicherheits-/korrektheitsrelevant ohne zusätzlichen Kontext."
+    },
+    {
+      "file": "cache/semantic_cache.cpp",
+      "line": 80,
+      "severity": "CRITICAL",
+      "type": "thread_join_no_timeout",
+      "scope": "cache",
+      "description": "Thread join/wait without timeout (blocking indefinitely)",
+      "scanner": "Uniform::phase1_thread_safety",
+      "assessment": "TP",
+      "confidence": 0.75,
+      "reason": "thread_join_no_timeout: typischerweise sicherheits-/korrektheitsrelevant ohne zusätzlichen Kontext."
+    },
+    {
+      "file": "security/embedded_user_registration_plugin.cpp",
+      "line": 367,
+      "severity": "HIGH",
+      "type": "shared_state_no_sync",
+      "scope": "security",
+      "description": "Shared state accessed without synchronization",
+      "scanner": "Uniform::phase1_thread_safety",
+      "assessment": "TP",
+      "confidence": 0.75,
+      "reason": "shared_state_no_sync: typischerweise sicherheits-/korrektheitsrelevant ohne zusätzlichen Kontext."
+    },
+    {
+      "file": "analytics/expert_system_engine.cpp",
+      "line": 336,
+      "severity": "HIGH",
+      "type": "explicit_lock_unlock",
+      "scope": "analytics",
+      "description": "Explicit lock/unlock without RAII guard",
+      "scanner": "Uniform::phase1_thread_safety",
+      "assessment": "?",
+      "confidence": 0.55,
+      "reason": "explicit_lock_unlock: keine robuste Kategoriezuordnung möglich; manuelle Prüfung nötig."
+    },
+    {
+      "file": "server/rpc/rpc_service_impl.cpp",
+      "line": 714,
+      "severity": "HIGH",
+      "type": "explicit_delete",
+      "scope": "server",
+      "description": "Explicit delete statement (prefer smart pointers)",
+      "scanner": "Uniform::phase1_raii",
+      "assessment": "TP",
+      "confidence": 0.75,
+      "reason": "explicit_delete: typischerweise sicherheits-/korrektheitsrelevant ohne zusätzlichen Kontext."
+    },
+    {
+      "file": "acceleration/faiss_gpu_backend.cpp",
+      "line": 248,
+      "severity": "CRITICAL",
+      "type": "unwrapped_resource",
+      "scope": "acceleration",
+      "description": "Raw pointer allocated without RAII wrapper",
+      "scanner": "Uniform::phase1_raii",
+      "assessment": "TP",
+      "confidence": 0.75,
+      "reason": "unwrapped_resource: typischerweise sicherheits-/korrektheitsrelevant ohne zusätzlichen Kontext."
+    },
+    {
+      "file": "temporal/temporal_cdc.cpp",
+      "line": 314,
+      "severity": "HIGH",
+      "type": "manual_cleanup_in_destructor",
+      "scope": "temporal",
+      "description": "Manual resource cleanup in destructor (should use RAII wrapper)",
+      "scanner": "Uniform::phase1_raii",
+      "assessment": "TP",
+      "confidence": 0.75,
+      "reason": "manual_cleanup_in_destructor: typischerweise sicherheits-/korrektheitsrelevant ohne zusätzlichen Kontext."
+    },
+    {
+      "file": "utils/lz4_codec.cpp",
+      "line": 43,
+      "severity": "MEDIUM",
+      "type": "cast_to_smaller_type",
+      "scope": "utils",
+      "description": "Explicit cast to int detected (verify no overflow on source)",
+      "scanner": "Uniform::type_conversion",
+      "assessment": "?",
+      "confidence": 0.55,
+      "reason": "cast_to_smaller_type: keine robuste Kategoriezuordnung möglich; manuelle Prüfung nötig."
+    },
+    {
+      "file": "query/functions/fulltext_functions.cpp",
+      "line": 284,
+      "severity": "HIGH",
+      "type": "arithmetic_overflow",
+      "scope": "query",
+      "description": "Arithmetic operation result assigned to variable (potential overflow)",
+      "scanner": "Uniform::type_conversion",
+      "assessment": "TP",
+      "confidence": 0.75,
+      "reason": "arithmetic_overflow: typischerweise sicherheits-/korrektheitsrelevant ohne zusätzlichen Kontext."
+    },
+    {
+      "file": "content/pipeline/multimodal_chunker.cpp",
+      "line": 150,
+      "severity": "CRITICAL",
+      "type": "multiplication_overflow",
+      "scope": "content",
+      "description": "Multi-factor multiplication detected (CWE-190, likely overflow risk)",
+      "scanner": "Uniform::type_conversion",
+      "assessment": "TP",
+      "confidence": 0.75,
+      "reason": "multiplication_overflow: typischerweise sicherheits-/korrektheitsrelevant ohne zusätzlichen Kontext."
+    },
+    {
+      "file": "llm/distributed_training_coordinator.cpp",
+      "line": 228,
+      "severity": "MEDIUM",
+      "type": "shift_overflow",
+      "scope": "llm",
+      "description": "Shift operation detected (verify shift count < bitwidth)",
+      "scanner": "Uniform::type_conversion",
+      "assessment": "?",
+      "confidence": 0.55,
+      "reason": "shift_overflow: keine robuste Kategoriezuordnung möglich; manuelle Prüfung nötig."
+    },
+    {
+      "file": "query/functions/fulltext_functions.cpp",
+      "line": 784,
+      "severity": "CRITICAL",
+      "type": "function_return_truncation",
+      "scope": "query",
+      "description": "Function return (malloc, read, size()) assigned to smaller int type",
+      "scanner": "Uniform::type_conversion",
+      "assessment": "TP",
+      "confidence": 0.75,
+      "reason": "function_return_truncation: typischerweise sicherheits-/korrektheitsrelevant ohne zusätzlichen Kontext."
+    },
+    {
+      "file": "query/statistical_aggregator.cpp",
+      "line": 58,
+      "severity": "HIGH",
+      "type": "unchecked_array_index",
+      "scope": "query",
+      "description": "Array index not validated before access",
+      "scanner": "Uniform::input_validation",
+      "assessment": "TP",
+      "confidence": 0.75,
+      "reason": "unchecked_array_index: typischerweise sicherheits-/korrektheitsrelevant ohne zusätzlichen Kontext."
+    },
+    {
+      "file": "themis/wire_protocol_server.cpp",
+      "line": 767,
+      "severity": "CRITICAL",
+      "type": "unchecked_memcpy",
+      "scope": "themis",
+      "description": "memcpy size parameter not validated (potential buffer overflow)",
+      "scanner": "Uniform::input_validation",
+      "assessment": "TP",
+      "confidence": 0.75,
+      "reason": "unchecked_memcpy: typischerweise sicherheits-/korrektheitsrelevant ohne zusätzlichen Kontext."
+    },
+    {
+      "file": "index/graph_analytics.cpp",
+      "line": 655,
+      "severity": "HIGH",
+      "type": "user_controlled_size",
+      "scope": "index",
+      "description": "Allocation size not validated (potential DoS or overflow)",
+      "scanner": "Uniform::input_validation",
+      "assessment": "TP",
+      "confidence": 0.75,
+      "reason": "user_controlled_size: typischerweise sicherheits-/korrektheitsrelevant ohne zusätzlichen Kontext."
+    },
+    {
+      "file": "content/content_manager.cpp",
+      "line": 1158,
+      "severity": "HIGH",
+      "type": "resource_leaked_in_exception",
+      "scope": "content",
+      "description": "Exception before delete causes resource leak",
+      "scanner": "Uniform::exception_safety",
+      "assessment": "?",
+      "confidence": 0.55,
+      "reason": "resource_leaked_in_exception: keine robuste Kategoriezuordnung möglich; manuelle Prüfung nötig."
+    },
+    {
+      "file": "core/concerns/concerns_context.cpp",
+      "line": 464,
+      "severity": "HIGH",
+      "type": "resource_leaked_in_exception",
+      "scope": "core",
+      "description": "Exception before delete causes resource leak",
+      "scanner": "Uniform::exception_safety",
+      "assessment": "?",
+      "confidence": 0.55,
+      "reason": "resource_leaked_in_exception: keine robuste Kategoriezuordnung möglich; manuelle Prüfung nötig."
+    },
+    {
+      "file": "cdc/tenant_buffer_manager.cpp",
+      "line": 344,
+      "severity": "HIGH",
+      "type": "resource_leaked_in_exception",
+      "scope": "cdc",
+      "description": "Exception before delete causes resource leak",
+      "scanner": "Uniform::exception_safety",
+      "assessment": "?",
+      "confidence": 0.55,
+      "reason": "resource_leaked_in_exception: keine robuste Kategoriezuordnung möglich; manuelle Prüfung nötig."
+    },
+    {
+      "file": "plugins/plugin_manager.cpp",
+      "line": 1129,
+      "severity": "HIGH",
+      "type": "resource_leaked_in_exception",
+      "scope": "plugins",
+      "description": "Exception before delete causes resource leak",
+      "scanner": "Uniform::exception_safety",
+      "assessment": "?",
+      "confidence": 0.55,
+      "reason": "resource_leaked_in_exception: keine robuste Kategoriezuordnung möglich; manuelle Prüfung nötig."
+    },
+    {
+      "file": "stable_diffusion/tests/test_sd_plugin.cpp",
+      "line": 419,
+      "severity": "HIGH",
+      "type": "resource_leaked_in_exception",
+      "scope": "stable_diffusion",
+      "description": "Exception before delete causes resource leak",
+      "scanner": "Uniform::exception_safety",
+      "assessment": "?",
+      "confidence": 0.55,
+      "reason": "resource_leaked_in_exception: keine robuste Kategoriezuordnung möglich; manuelle Prüfung nötig."
+    },
+    {
+      "file": "security/hsm_provider_pkcs11.cpp",
+      "line": 174,
+      "severity": "HIGH",
+      "type": "resource_leaked_in_exception",
+      "scope": "security",
+      "description": "Exception before delete causes resource leak",
+      "scanner": "Uniform::exception_safety",
+      "assessment": "?",
+      "confidence": 0.55,
+      "reason": "resource_leaked_in_exception: keine robuste Kategoriezuordnung möglich; manuelle Prüfung nötig."
+    },
+    {
+      "file": "auth/jwks_security.cpp",
+      "line": 36,
+      "severity": "HIGH",
+      "type": "resource_leaked_in_exception",
+      "scope": "auth",
+      "description": "Exception before delete causes resource leak",
+      "scanner": "Uniform::exception_safety",
+      "assessment": "?",
+      "confidence": 0.55,
+      "reason": "resource_leaked_in_exception: keine robuste Kategoriezuordnung möglich; manuelle Prüfung nötig."
+    },
+    {
+      "file": "content/stt_processor.cpp",
+      "line": 337,
+      "severity": "MEDIUM",
+      "type": "missing_move_constructor_defaulted",
+      "scope": "content",
+      "description": "Missing move ctor prevents efficient rvalue transfers",
+      "scanner": "Uniform::exception_safety",
+      "assessment": "?",
+      "confidence": 0.55,
+      "reason": "missing_move_constructor_defaulted: keine robuste Kategoriezuordnung möglich; manuelle Prüfung nötig."
+    },
+    {
+      "file": "cdc/outbox.cpp",
+      "line": 225,
+      "severity": "CRITICAL",
+      "type": "exception_in_destructor",
+      "scope": "cdc",
+      "description": "Destructors must be noexcept; exceptions here cause std::terminate()",
+      "scanner": "Uniform::exception_safety",
+      "assessment": "?",
+      "confidence": 0.55,
+      "reason": "exception_in_destructor: keine robuste Kategoriezuordnung möglich; manuelle Prüfung nötig."
+    },
+    {
+      "file": "auth/jwt_validator.cpp",
+      "line": 159,
+      "severity": "HIGH",
+      "type": "unsafe_move_assignment",
+      "scope": "auth",
+      "description": "Move assignment must guarantee strong exception safety",
+      "scanner": "Uniform::exception_safety",
+      "assessment": "?",
+      "confidence": 0.55,
+      "reason": "unsafe_move_assignment: keine robuste Kategoriezuordnung möglich; manuelle Prüfung nötig."
+    },
+    {
+      "file": "utils/audit_logger.cpp",
+      "line": 47,
+      "severity": "CRITICAL",
+      "type": "broken_raii_in_assignment",
+      "scope": "utils",
+      "description": "Broken RAII: undefined behavior and memory corruption",
+      "scanner": "Uniform::exception_safety",
+      "assessment": "?",
+      "confidence": 0.55,
+      "reason": "broken_raii_in_assignment: keine robuste Kategoriezuordnung möglich; manuelle Prüfung nötig."
+    },
+    {
+      "file": "aql/aql_model_router.cpp",
+      "line": 142,
+      "severity": "MEDIUM",
+      "type": "uninitialized_member_field",
+      "scope": "aql",
+      "description": "Default constructor does not initialize POD members",
+      "scanner": "Uniform::uninitialized",
+      "assessment": "?",
+      "confidence": 0.55,
+      "reason": "uninitialized_member_field: keine robuste Kategoriezuordnung möglich; manuelle Prüfung nötig."
+    },
+    {
+      "file": "analytics/streaming_join.cpp",
+      "line": 65,
+      "severity": "HIGH",
+      "type": "uninitialized_array",
+      "scope": "analytics",
+      "description": "Array contains garbage values; use with zeros or explicit init",
+      "scanner": "Uniform::uninitialized",
+      "assessment": "?",
+      "confidence": 0.55,
+      "reason": "uninitialized_array: keine robuste Kategoriezuordnung möglich; manuelle Prüfung nötig."
+    },
+    {
+      "file": "sharding/signed_request.cpp",
+      "line": 105,
+      "severity": "CRITICAL",
+      "type": "uninitialized_pointer",
+      "scope": "sharding",
+      "description": "Undefined behavior: potential null-pointer dereference",
+      "scanner": "Uniform::uninitialized",
+      "assessment": "?",
+      "confidence": 0.55,
+      "reason": "uninitialized_pointer: keine robuste Kategoriezuordnung möglich; manuelle Prüfung nötig."
+    },
+    {
+      "file": "auth/jwks_security.cpp",
+      "line": 46,
+      "severity": "HIGH",
+      "type": "pointer_without_null_check",
+      "scope": "auth",
+      "description": "Potential null-pointer dereference",
+      "scanner": "Uniform::uninitialized",
+      "assessment": "?",
+      "confidence": 0.55,
+      "reason": "pointer_without_null_check: keine robuste Kategoriezuordnung möglich; manuelle Prüfung nötig."
+    },
+    {
+      "file": "server/query_api_handler.cpp",
+      "line": 2578,
+      "severity": "HIGH",
+      "type": "conditional_initialization_use",
+      "scope": "server",
+      "description": "Use outside conditional block may use uninitialized value",
+      "scanner": "Uniform::uninitialized",
+      "assessment": "?",
+      "confidence": 0.55,
+      "reason": "conditional_initialization_use: keine robuste Kategoriezuordnung möglich; manuelle Prüfung nötig."
+    },
+    {
+      "file": "analytics/automl.cpp",
+      "line": 952,
+      "severity": "MEDIUM",
+      "type": "missing_override_keyword",
+      "scope": "analytics",
+      "description": "C++11: override keyword improves code clarity and catches errors",
+      "scanner": "Uniform::virtual_oop",
+      "assessment": "?",
+      "confidence": 0.55,
+      "reason": "missing_override_keyword: keine robuste Kategoriezuordnung möglich; manuelle Prüfung nötig."
+    },
+    {
+      "file": "sharding/cloud_backup.cpp",
+      "line": 69,
+      "severity": "MEDIUM",
+      "type": "pure_virtual_unimplemented",
+      "scope": "sharding",
+      "description": "Ensure all derived classes provide implementation",
+      "scanner": "Uniform::virtual_oop",
+      "assessment": "?",
+      "confidence": 0.55,
+      "reason": "pure_virtual_unimplemented: keine robuste Kategoriezuordnung möglich; manuelle Prüfung nötig."
+    },
+    {
+      "file": "toolbox/toolbox_builder.cpp",
+      "line": 246,
+      "severity": "HIGH",
+      "type": "virtual_call_in_ctor_dtor",
+      "scope": "toolbox",
+      "description": "If this member function is virtual, dispatch in ctor/dtor can be unsafe",
+      "scanner": "Uniform::virtual_oop",
+      "assessment": "?",
+      "confidence": 0.55,
+      "reason": "virtual_call_in_ctor_dtor: keine robuste Kategoriezuordnung möglich; manuelle Prüfung nötig."
+    },
+    {
+      "file": "rag/batch_evaluator.cpp",
+      "line": 420,
+      "severity": "HIGH",
+      "type": "hardcoded_output",
+      "scope": "rag",
+      "description": "Hardcoded std::cout/printf instead of structured logging",
+      "scanner": "Uniform::audit_logging",
+      "assessment": "FP",
+      "confidence": 0.6,
+      "reason": "hardcoded_output: häufiges Heuristik-FP-Muster in bisherigen Reviews."
+    },
+    {
+      "file": "demo_encryption.cpp",
+      "line": 131,
+      "severity": "HIGH",
+      "type": "hardcoded_output",
+      "scope": "demo_encryption.cpp",
+      "description": "Hardcoded std::cout/printf instead of structured logging",
+      "scanner": "Uniform::audit_logging",
+      "assessment": "FP",
+      "confidence": 0.6,
+      "reason": "hardcoded_output: häufiges Heuristik-FP-Muster in bisherigen Reviews."
+    },
+    {
+      "file": "llm/lora_framework/multi_gpu_trainer.cpp",
+      "line": 147,
+      "severity": "HIGH",
+      "type": "hardcoded_output",
+      "scope": "llm",
+      "description": "Hardcoded std::cout/printf instead of structured logging",
+      "scanner": "Uniform::audit_logging",
+      "assessment": "FP",
+      "confidence": 0.6,
+      "reason": "hardcoded_output: häufiges Heuristik-FP-Muster in bisherigen Reviews."
+    },
+    {
+      "file": "demo_encryption.cpp",
+      "line": 186,
+      "severity": "CRITICAL",
+      "type": "sensitive_data_logging",
+      "scope": "demo_encryption.cpp",
+      "description": "Potential PII/credential logging: phone",
+      "scanner": "Uniform::audit_logging",
+      "assessment": "?",
+      "confidence": 0.55,
+      "reason": "sensitive_data_logging: keine robuste Kategoriezuordnung möglich; manuelle Prüfung nötig."
+    },
+    {
+      "file": "server/cache_admin_api_handler.cpp",
+      "line": 167,
+      "severity": "CRITICAL",
+      "type": "missing_audit_log",
+      "scope": "server",
+      "description": "Security function \"authorize\" without audit log",
+      "scanner": "Uniform::audit_logging",
+      "assessment": "?",
+      "confidence": 0.55,
+      "reason": "missing_audit_log: keine robuste Kategoriezuordnung möglich; manuelle Prüfung nötig."
+    },
+    {
+      "file": "storage/rocksdb_wrapper.cpp",
+      "line": 1515,
+      "severity": "MEDIUM",
+      "type": "getsnapshot\\(\\)",
+      "scope": "storage",
+      "description": "Deprecated API: GetSnapshot\\(\\) → Use recent API version",
+      "scanner": "Uniform::deprecated_apis",
+      "assessment": "?",
+      "confidence": 0.55,
+      "reason": "getsnapshot\\(\\): keine robuste Kategoriezuordnung möglich; manuelle Prüfung nötig."
+    },
+    {
+      "file": "training/lora_data_selection.cpp",
+      "line": 929,
+      "severity": "MEDIUM",
+      "type": "string_concat_loop",
+      "scope": "training",
+      "description": "String concatenation in loop (use std::stringstream)",
+      "scanner": "Uniform::performance_patterns",
+      "assessment": "?",
+      "confidence": 0.55,
+      "reason": "string_concat_loop: keine robuste Kategoriezuordnung möglich; manuelle Prüfung nötig."
+    },
+    {
+      "file": "process/process_community_detector.cpp",
+      "line": 60,
+      "severity": "MEDIUM",
+      "type": "missing_vector_reserve",
+      "scope": "process",
+      "description": "vector::push_back in loop without prior reserve()",
+      "scanner": "Uniform::performance_patterns",
+      "assessment": "FP",
+      "confidence": 0.67,
+      "reason": "Performance-Hinweis, aber fachlich oft akzeptabel; kein funktionaler Fehler."
+    },
+    {
+      "file": "projects/project_template.cpp",
+      "line": 255,
+      "severity": "MEDIUM",
+      "type": "missing_vector_reserve",
+      "scope": "projects",
+      "description": "vector::push_back in loop without prior reserve()",
+      "scanner": "Uniform::performance_patterns",
+      "assessment": "FP",
+      "confidence": 0.67,
+      "reason": "Performance-Hinweis, aber fachlich oft akzeptabel; kein funktionaler Fehler."
+    },
+    {
+      "file": "importers/federated_learning.cpp",
+      "line": 48,
+      "severity": "MEDIUM",
+      "type": "missing_vector_reserve",
+      "scope": "importers",
+      "description": "vector::push_back in loop without prior reserve()",
+      "scanner": "Uniform::performance_patterns",
+      "assessment": "FP",
+      "confidence": 0.67,
+      "reason": "Performance-Hinweis, aber fachlich oft akzeptabel; kein funktionaler Fehler."
+    },
+    {
+      "file": "server/monitoring_api_handler.cpp",
+      "line": 1388,
+      "severity": "MEDIUM",
+      "type": "missing_vector_reserve",
+      "scope": "server",
+      "description": "vector::push_back in loop without prior reserve()",
+      "scanner": "Uniform::performance_patterns",
+      "assessment": "FP",
+      "confidence": 0.67,
+      "reason": "Performance-Hinweis, aber fachlich oft akzeptabel; kein funktionaler Fehler."
+    },
+    {
+      "file": "metadata/schema_consistency_checker.cpp",
+      "line": 173,
+      "severity": "MEDIUM",
+      "type": "missing_vector_reserve",
+      "scope": "metadata",
+      "description": "vector::push_back in loop without prior reserve()",
+      "scanner": "Uniform::performance_patterns",
+      "assessment": "FP",
+      "confidence": 0.67,
+      "reason": "Performance-Hinweis, aber fachlich oft akzeptabel; kein funktionaler Fehler."
+    },
+    {
+      "file": "transaction/distributed_saga.cpp",
+      "line": 962,
+      "severity": "MEDIUM",
+      "type": "missing_vector_reserve",
+      "scope": "transaction",
+      "description": "vector::push_back in loop without prior reserve()",
+      "scanner": "Uniform::performance_patterns",
+      "assessment": "FP",
+      "confidence": 0.67,
+      "reason": "Performance-Hinweis, aber fachlich oft akzeptabel; kein funktionaler Fehler."
+    },
+    {
+      "file": "sharding/gpu_erasure_coder_opencl.cpp",
+      "line": 500,
+      "severity": "MEDIUM",
+      "type": "missing_vector_reserve",
+      "scope": "sharding",
+      "description": "vector::push_back in loop without prior reserve()",
+      "scanner": "Uniform::performance_patterns",
+      "assessment": "FP",
+      "confidence": 0.67,
+      "reason": "Performance-Hinweis, aber fachlich oft akzeptabel; kein funktionaler Fehler."
+    },
+    {
+      "file": "updates/delta_update_engine.cpp",
+      "line": 254,
+      "severity": "MEDIUM",
+      "type": "missing_vector_reserve",
+      "scope": "updates",
+      "description": "vector::push_back in loop without prior reserve()",
+      "scanner": "Uniform::performance_patterns",
+      "assessment": "FP",
+      "confidence": 0.67,
+      "reason": "Performance-Hinweis, aber fachlich oft akzeptabel; kein funktionaler Fehler."
+    },
+    {
+      "file": "sharding/distributed_transaction.cpp",
+      "line": 732,
+      "severity": "MEDIUM",
+      "type": "missing_vector_reserve",
+      "scope": "sharding",
+      "description": "vector::push_back in loop without prior reserve()",
+      "scanner": "Uniform::performance_patterns",
+      "assessment": "FP",
+      "confidence": 0.67,
+      "reason": "Performance-Hinweis, aber fachlich oft akzeptabel; kein funktionaler Fehler."
+    },
+    {
+      "file": "server/wal_api_handler.cpp",
+      "line": 203,
+      "severity": "MEDIUM",
+      "type": "missing_vector_reserve",
+      "scope": "server",
+      "description": "vector::push_back in loop without prior reserve()",
+      "scanner": "Uniform::performance_patterns",
+      "assessment": "FP",
+      "confidence": 0.67,
+      "reason": "Performance-Hinweis, aber fachlich oft akzeptabel; kein funktionaler Fehler."
+    },
+    {
+      "file": "updates/update_history_logger.cpp",
+      "line": 123,
+      "severity": "MEDIUM",
+      "type": "missing_vector_reserve",
+      "scope": "updates",
+      "description": "vector::push_back in loop without prior reserve()",
+      "scanner": "Uniform::performance_patterns",
+      "assessment": "FP",
+      "confidence": 0.67,
+      "reason": "Performance-Hinweis, aber fachlich oft akzeptabel; kein funktionaler Fehler."
+    },
+    {
+      "file": "security/rbac.cpp",
+      "line": 598,
+      "severity": "MEDIUM",
+      "type": "missing_vector_reserve",
+      "scope": "security",
+      "description": "vector::push_back in loop without prior reserve()",
+      "scanner": "Uniform::performance_patterns",
+      "assessment": "FP",
+      "confidence": 0.67,
+      "reason": "Performance-Hinweis, aber fachlich oft akzeptabel; kein funktionaler Fehler."
+    },
+    {
+      "file": "ingestion/steps/ner_step.cpp",
+      "line": 195,
+      "severity": "MEDIUM",
+      "type": "missing_vector_reserve",
+      "scope": "ingestion",
+      "description": "vector::push_back in loop without prior reserve()",
+      "scanner": "Uniform::performance_patterns",
+      "assessment": "FP",
+      "confidence": 0.67,
+      "reason": "Performance-Hinweis, aber fachlich oft akzeptabel; kein funktionaler Fehler."
+    },
+    {
+      "file": "prompt_engineering/self_improvement_orchestrator.cpp",
+      "line": 145,
+      "severity": "MEDIUM",
+      "type": "missing_vector_reserve",
+      "scope": "prompt_engineering",
+      "description": "vector::push_back in loop without prior reserve()",
+      "scanner": "Uniform::performance_patterns",
+      "assessment": "FP",
+      "confidence": 0.67,
+      "reason": "Performance-Hinweis, aber fachlich oft akzeptabel; kein funktionaler Fehler."
+    },
+    {
+      "file": "query/cte_subquery.cpp",
+      "line": 578,
+      "severity": "MEDIUM",
+      "type": "missing_vector_reserve",
+      "scope": "query",
+      "description": "vector::push_back in loop without prior reserve()",
+      "scanner": "Uniform::performance_patterns",
+      "assessment": "FP",
+      "confidence": 0.67,
+      "reason": "Performance-Hinweis, aber fachlich oft akzeptabel; kein funktionaler Fehler."
+    },
+    {
+      "file": "auth/jwt_key_rotation_manager.cpp",
+      "line": 207,
+      "severity": "MEDIUM",
+      "type": "missing_vector_reserve",
+      "scope": "auth",
+      "description": "vector::push_back in loop without prior reserve()",
+      "scanner": "Uniform::performance_patterns",
+      "assessment": "FP",
+      "confidence": 0.67,
+      "reason": "Performance-Hinweis, aber fachlich oft akzeptabel; kein funktionaler Fehler."
+    },
+    {
+      "file": "content/adapters/format_extractor_factory.cpp",
+      "line": 60,
+      "severity": "MEDIUM",
+      "type": "missing_vector_reserve",
+      "scope": "content",
+      "description": "vector::push_back in loop without prior reserve()",
+      "scanner": "Uniform::performance_patterns",
+      "assessment": "FP",
+      "confidence": 0.67,
+      "reason": "Performance-Hinweis, aber fachlich oft akzeptabel; kein funktionaler Fehler."
+    },
+    {
+      "file": "importers/postgres_importer.cpp",
+      "line": 564,
+      "severity": "MEDIUM",
+      "type": "missing_vector_reserve",
+      "scope": "importers",
+      "description": "vector::push_back in loop without prior reserve()",
+      "scanner": "Uniform::performance_patterns",
+      "assessment": "FP",
+      "confidence": 0.67,
+      "reason": "Performance-Hinweis, aber fachlich oft akzeptabel; kein funktionaler Fehler."
+    },
+    {
+      "file": "training/lora_data_selection.cpp",
+      "line": 370,
+      "severity": "MEDIUM",
+      "type": "missing_vector_reserve",
+      "scope": "training",
+      "description": "vector::push_back in loop without prior reserve()",
+      "scanner": "Uniform::performance_patterns",
+      "assessment": "FP",
+      "confidence": 0.67,
+      "reason": "Performance-Hinweis, aber fachlich oft akzeptabel; kein funktionaler Fehler."
+    },
+    {
+      "file": "server/review_scheduling_api_handler.cpp",
+      "line": 220,
+      "severity": "MEDIUM",
+      "type": "unnecessary_copy",
+      "scope": "server",
+      "description": "Unnecessary copy: use auto& for container element access",
+      "scanner": "Uniform::performance_patterns",
+      "assessment": "?",
+      "confidence": 0.55,
+      "reason": "unnecessary_copy: keine robuste Kategoriezuordnung möglich; manuelle Prüfung nötig."
+    },
+    {
+      "file": "transaction/deadlock_predictor.cpp",
+      "line": 326,
+      "severity": "HIGH",
+      "type": "nested_loop_find",
+      "scope": "transaction",
+      "description": "O(n²) pattern: linear search inside nested loop",
+      "scanner": "Uniform::performance_patterns",
+      "assessment": "?",
+      "confidence": 0.55,
+      "reason": "nested_loop_find: keine robuste Kategoriezuordnung möglich; manuelle Prüfung nötig."
+    },
+    {
+      "file": "index/graph_analytics.cpp",
+      "line": 224,
+      "severity": "MEDIUM",
+      "type": "map_vs_unordered_map",
+      "scope": "index",
+      "description": "std::map used only for lookups (consider std::unordered_map)",
+      "scanner": "Uniform::performance_patterns",
+      "assessment": "?",
+      "confidence": 0.55,
+      "reason": "map_vs_unordered_map: keine robuste Kategoriezuordnung möglich; manuelle Prüfung nötig."
+    },
+    {
+      "file": "transaction/distributed_transaction_manager.cpp",
+      "line": 641,
+      "severity": "HIGH",
+      "type": "lock_in_loop",
+      "scope": "transaction",
+      "description": "Mutex lock acquired per iteration (move outside loop)",
+      "scanner": "Uniform::performance_patterns",
+      "assessment": "?",
+      "confidence": 0.55,
+      "reason": "lock_in_loop: keine robuste Kategoriezuordnung möglich; manuelle Prüfung nötig."
+    },
+    {
+      "file": "process/vcc_vpb_importer.cpp",
+      "line": 265,
+      "severity": "HIGH",
+      "type": "regex_in_loop",
+      "scope": "process",
+      "description": "std::regex compiled in loop (compile once, reuse)",
+      "scanner": "Uniform::performance_patterns",
+      "assessment": "?",
+      "confidence": 0.55,
+      "reason": "regex_in_loop: keine robuste Kategoriezuordnung möglich; manuelle Prüfung nötig."
+    },
+    {
+      "file": "index/gpu_memory_oversubscription.cpp",
+      "line": 42,
+      "severity": "HIGH",
+      "type": "unchecked_cuda_call",
+      "scope": "index",
+      "description": "CUDA call cudaMalloc() without error checking",
+      "scanner": "Uniform::gpu_memory",
+      "assessment": "?",
+      "confidence": 0.55,
+      "reason": "unchecked_cuda_call: keine robuste Kategoriezuordnung möglich; manuelle Prüfung nötig."
+    },
+    {
+      "file": "geo/gpu_backend_hip.cpp",
+      "line": 91,
+      "severity": "CRITICAL",
+      "type": "use_after_free_gpu",
+      "scope": "geo",
+      "description": "Use of freed GPU memory: d_lats",
+      "scanner": "Uniform::gpu_memory",
+      "assessment": "?",
+      "confidence": 0.55,
+      "reason": "use_after_free_gpu: keine robuste Kategoriezuordnung möglich; manuelle Prüfung nötig."
+    },
+    {
+      "file": "gpu/unified_memory.cpp",
+      "line": 13,
+      "severity": "CRITICAL",
+      "type": "gpu_memory_leak",
+      "scope": "gpu",
+      "description": "GPU memory allocated without RAII wrapper or guaranteed cleanup",
+      "scanner": "Uniform::gpu_memory",
+      "assessment": "?",
+      "confidence": 0.55,
+      "reason": "gpu_memory_leak: keine robuste Kategoriezuordnung möglich; manuelle Prüfung nötig."
+    },
+    {
+      "file": "llm/lora_framework/kernels/hip_fused_kernels.cpp",
+      "line": 222,
+      "severity": "CRITICAL",
+      "type": "missing_sync_threads",
+      "scope": "llm",
+      "description": "Shared memory access in CUDA kernel without __syncthreads()",
+      "scanner": "Uniform::gpu_memory",
+      "assessment": "?",
+      "confidence": 0.55,
+      "reason": "missing_sync_threads: keine robuste Kategoriezuordnung möglich; manuelle Prüfung nötig."
+    },
+    {
+      "file": "sharding/metadata_shard.cpp",
+      "line": 149,
+      "severity": "HIGH",
+      "type": "unspecified_consistency",
+      "scope": "sharding",
+      "description": "Read without explicit consistency level (replication lag unknown)",
+      "scanner": "Uniform::distributed_consistency",
+      "assessment": "?",
+      "confidence": 0.55,
+      "reason": "unspecified_consistency: keine robuste Kategoriezuordnung möglich; manuelle Prüfung nötig."
+    },
+    {
+      "file": "replication/replication_manager.cpp",
+      "line": 3425,
+      "severity": "CRITICAL",
+      "type": "missing_version_tracking",
+      "scope": "replication",
+      "description": "Concurrent update without version vector or causal ordering",
+      "scanner": "Uniform::distributed_consistency",
+      "assessment": "?",
+      "confidence": 0.55,
+      "reason": "missing_version_tracking: keine robuste Kategoriezuordnung möglich; manuelle Prüfung nötig."
+    },
+    {
+      "file": "replication/conflict_resolution.cpp",
+      "line": 597,
+      "severity": "HIGH",
+      "type": "undefined_conflict_resolution",
+      "scope": "replication",
+      "description": "Merge without explicit conflict resolution strategy",
+      "scanner": "Uniform::distributed_consistency",
+      "assessment": "?",
+      "confidence": 0.55,
+      "reason": "undefined_conflict_resolution: keine robuste Kategoriezuordnung möglich; manuelle Prüfung nötig."
+    },
+    {
+      "file": "replication/replication_manager.cpp",
+      "line": 2958,
+      "severity": "CRITICAL",
+      "type": "missing_consensus",
+      "scope": "replication",
+      "description": "Write without consensus/replication acknowledgment",
+      "scanner": "Uniform::distributed_consistency",
+      "assessment": "?",
+      "confidence": 0.55,
+      "reason": "missing_consensus: keine robuste Kategoriezuordnung möglich; manuelle Prüfung nötig."
+    },
+    {
+      "file": "sharding/paxos_consensus.cpp",
+      "line": 491,
+      "severity": "MEDIUM",
+      "type": "stale_read_undocumented",
+      "scope": "sharding",
+      "description": "Eventual/stale read without documentation of correctness",
+      "scanner": "Uniform::distributed_consistency",
+      "assessment": "?",
+      "confidence": 0.55,
+      "reason": "stale_read_undocumented: keine robuste Kategoriezuordnung möglich; manuelle Prüfung nötig."
+    },
+    {
+      "file": "server/llm_api_handler.cpp",
+      "line": 898,
+      "severity": "CRITICAL",
+      "type": "model_integrity_gap",
+      "scope": "server",
+      "description": "Model loading without integrity verification (poisoning risk)",
+      "scanner": "Uniform::llm_ai_safety",
+      "assessment": "?",
+      "confidence": 0.55,
+      "reason": "model_integrity_gap: keine robuste Kategoriezuordnung möglich; manuelle Prüfung nötig."
+    }
+  ],
+  "by_type": {
+    "pointer_arithmetic_unbounded": {
+      "?": 13,
+      "FP": 7
+    },
+    "delete_without_nullptr": {
+      "FP": 1
+    },
+    "new_without_raii": {
+      "TP": 1
+    },
+    "array_bounds_violation": {
+      "TP": 1
+    },
+    "shared_ptr_cycle": {
+      "FP": 1
+    },
+    "unchecked_malloc": {
+      "FP": 1
+    },
+    "no_retry_logic": {
+      "?": 3
+    },
+    "blocking_no_timeout": {
+      "TP": 1
+    },
+    "uncaught_exception": {
+      "FP": 10
+    },
+    "generic_catch": {
+      "FP": 5
+    },
+    "primitive_no_volatile": {
+      "FP": 1
+    },
+    "double_lock": {
+      "TP": 1
+    },
+    "thread_join_no_timeout": {
+      "TP": 1
+    },
+    "shared_state_no_sync": {
+      "TP": 1
+    },
+    "explicit_lock_unlock": {
+      "?": 1
+    },
+    "explicit_delete": {
+      "TP": 1
+    },
+    "unwrapped_resource": {
+      "TP": 1
+    },
+    "manual_cleanup_in_destructor": {
+      "TP": 1
+    },
+    "cast_to_smaller_type": {
+      "?": 1
+    },
+    "arithmetic_overflow": {
+      "TP": 1
+    },
+    "multiplication_overflow": {
+      "TP": 1
+    },
+    "shift_overflow": {
+      "?": 1
+    },
+    "function_return_truncation": {
+      "TP": 1
+    },
+    "unchecked_array_index": {
+      "TP": 1
+    },
+    "unchecked_memcpy": {
+      "TP": 1
+    },
+    "user_controlled_size": {
+      "TP": 1
+    },
+    "resource_leaked_in_exception": {
+      "?": 7
+    },
+    "missing_move_constructor_defaulted": {
+      "?": 1
+    },
+    "exception_in_destructor": {
+      "?": 1
+    },
+    "unsafe_move_assignment": {
+      "?": 1
+    },
+    "broken_raii_in_assignment": {
+      "?": 1
+    },
+    "uninitialized_member_field": {
+      "?": 1
+    },
+    "uninitialized_array": {
+      "?": 1
+    },
+    "uninitialized_pointer": {
+      "?": 1
+    },
+    "pointer_without_null_check": {
+      "?": 1
+    },
+    "conditional_initialization_use": {
+      "?": 1
+    },
+    "missing_override_keyword": {
+      "?": 1
+    },
+    "pure_virtual_unimplemented": {
+      "?": 1
+    },
+    "virtual_call_in_ctor_dtor": {
+      "?": 1
+    },
+    "hardcoded_output": {
+      "FP": 3
+    },
+    "sensitive_data_logging": {
+      "?": 1
+    },
+    "missing_audit_log": {
+      "?": 1
+    },
+    "getsnapshot\\(\\)": {
+      "?": 1
+    },
+    "string_concat_loop": {
+      "?": 1
+    },
+    "missing_vector_reserve": {
+      "FP": 19
+    },
+    "unnecessary_copy": {
+      "?": 1
+    },
+    "nested_loop_find": {
+      "?": 1
+    },
+    "map_vs_unordered_map": {
+      "?": 1
+    },
+    "lock_in_loop": {
+      "?": 1
+    },
+    "regex_in_loop": {
+      "?": 1
+    },
+    "unchecked_cuda_call": {
+      "?": 1
+    },
+    "use_after_free_gpu": {
+      "?": 1
+    },
+    "gpu_memory_leak": {
+      "?": 1
+    },
+    "missing_sync_threads": {
+      "?": 1
+    },
+    "unspecified_consistency": {
+      "?": 1
+    },
+    "missing_version_tracking": {
+      "?": 1
+    },
+    "undefined_conflict_resolution": {
+      "?": 1
+    },
+    "missing_consensus": {
+      "?": 1
+    },
+    "stale_read_undocumented": {
+      "?": 1
+    },
+    "model_integrity_gap": {
+      "?": 1
+    }
+  }
+}

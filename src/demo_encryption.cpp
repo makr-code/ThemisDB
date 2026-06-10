@@ -1,48 +1,39 @@
-/*
- * ThemisDB | File: demo_encryption.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:49:01
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 96/100 | Lines: 480
- * Gap Summary: total=15; TODO=1, Stub=1, Unimpl=0, Mock=11, Sim=2, Debt=0, C=13, H=132, M=0, L=0
- * PR History (last 5): #57 Update documentation to ref... (2026-03-11)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
-#include "storage/rocksdb_wrapper.h"
-#include "security/mock_key_provider.h"
-#include "security/vault_key_provider.h"
-#include "security/encryption.h"
-#include "document/encrypted_entities.h"
-#include <nlohmann/json.hpp>
-#include <iostream>
-#include <chrono>
-#include <iomanip>
-#include <memory>
-
-using namespace themis;
-using json = nlohmann::json;
-
 /**
  * @file demo_encryption.cpp
- * 
- * End-to-End Encryption Demo
- * 
- * Demonstrates:
- * 1. Setting up encryption with MockKeyProvider or VaultKeyProvider
- * 2. Creating User entities with encrypted PII
- * 3. Persisting encrypted data to RocksDB
- * 4. Retrieving and decrypting data
- * 5. Key rotation simulation
- * 6. Performance metrics
- * 
- * Usage:
- *   # With MockKeyProvider (no dependencies)
- *   ./themis_demo_encryption mock
- * 
- *   # With Vault (requires running Vault instance)
- *   export VAULT_ADDR=http://localhost:8200
- *   export VAULT_TOKEN=myroot
- *   ./themis_demo_encryption vault
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 95/100
+ * @note Gap Summary: total=15; TODO=1, Stub=1, Unimpl=0, Mock=11, Sim=2, Debt=0, C=8, H=70, M=0, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
+
+#include "document/encrypted_entities.h"
+#include "security/encryption.h"
+#include "security/key_provider.h"
+#include "security/mock_key_provider.h"
+#include "security/vault_key_provider.h"
+#include "storage/rocksdb_wrapper.h"
+
+#include <chrono>
+#include <cstdint>
+#include <cstdlib>
+#include <exception>
+#include <iostream>
+#include <memory>
+#include <string>
+#include <vector>
+
+using nlohmann::json;
+using themis::Customer;
+using themis::RocksDBWrapper;
+using themis::User;
+using themis::EncryptedField;
+using themis::FieldEncryption;
+using themis::KeyProvider;
+using themis::MockKeyProvider;
+using themis::VaultKeyProvider;
 
 class EncryptionDemo {
 public:

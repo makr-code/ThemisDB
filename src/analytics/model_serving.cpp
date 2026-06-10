@@ -1,3 +1,14 @@
+/**
+ * @file model_serving.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 86/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=9, M=1, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
  * ThemisDB | File: model_serving.cpp | Version: 0.0.15 | Last Modified: 2026-05-31 12:49:01
  * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 409
@@ -398,6 +409,15 @@ std::string ModelServingEngine::serializeModel(const std::string &name, const st
 // ============================================================================
 // loadModel
 // ============================================================================
+// SECURITY WARNING: Model integrity
+// This method deserializes a model from untrusted input without verification.
+// If serialized_data comes from an untrusted source or network, an attacker
+// could provide a poisoned model that produces adversarial outputs.
+// Recommendations:
+// 1. Verify data integrity (e.g., HMAC/signature validation)
+// 2. Only load models from authenticated/encrypted sources
+// 3. Consider cryptographic signing of model artifacts
+// 4. Implement a model auditing/rollback mechanism
 
 void ModelServingEngine::loadModel(const std::string &name, const std::string &version,
                                    const std::string &serialized_data) {

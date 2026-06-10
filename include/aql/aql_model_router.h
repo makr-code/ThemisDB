@@ -1,28 +1,12 @@
-/*
- * ThemisDB | File: aql_model_router.h | Version: 0.0.9 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 185
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * PR History (last 5): #4625 docs(aql): Close all remain... (2026-04-13)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file aql_model_router.h
- * @brief Multi-model routing interface for AQL queries.
- *
- * Classifies an AQL query into one or more QueryModelType categories by
- * scanning for keyword patterns and selects the best-matching ModelRoute
- * from a priority-ordered registry.  When the primary route is disabled or
- * absent the router automatically falls back to the next enabled route.
- *
- * Compile guards: no external dependencies; always compiled.
- * GPU-accelerated inference back-ends are activated at runtime via the model
- * alias string — no separate compile flag is required.
- *
- * @see IModelRouter
- * @see AQLModelRouter
- * @see themis::aql::QueryModelType
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.9
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 94/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once

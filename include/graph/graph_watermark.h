@@ -1,24 +1,12 @@
-/*
- * ThemisDB | File: graph_watermark.h | Version: 0.0.1 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 148
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * PR History (last 5): none
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
-#pragma once
-
 /**
  * @file graph_watermark.h
- * @brief Graph watermarking and fingerprint detection for data provenance.
- *
- * Phase 8.1: Graph Watermarking & Fingerprinting
- *
- * Embeds imperceptible watermarks into graph snapshots by adding a small
- * number of synthetic "watermark nodes" with provenance metadata. Enables
- * detection of unauthorised graph exports by computing Jaccard similarity
- * between the suspect graph and registered fingerprints.
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.1
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include <cstdint>

@@ -1,3 +1,14 @@
+/**
+ * @file distributed_transaction.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=2, H=29, M=28, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
  * ThemisDB | File: distributed_transaction.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
  * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 93/100 | Lines: 958
@@ -61,10 +72,12 @@
 namespace themis::sharding {
 
 // Helper: return the configured coordinator ID, falling back to "default"
+/** @brief Return coordinator label used in metrics, defaulting to "default". */
 static inline std::string coordinatorLabel(const DistributedTransactionCoordinator::Config& cfg) {
     return cfg.coordinator_id.empty() ? "default" : cfg.coordinator_id;
 }
 
+/** @brief Construct distributed transaction coordinator and initialize recovery WAL. */
 DistributedTransactionCoordinator::DistributedTransactionCoordinator(
     std::shared_ptr<TrueTime> truetime,
     const Config& config
@@ -86,6 +99,7 @@ DistributedTransactionCoordinator::DistributedTransactionCoordinator(
     }
 }
 
+/** @brief Begin new distributed transaction with selected participants and isolation. */
 std::string DistributedTransactionCoordinator::beginTransaction(
     const std::vector<std::string>& shard_ids,
     DistributedIsolationLevel isolation_level
@@ -132,6 +146,7 @@ std::string DistributedTransactionCoordinator::beginTransaction(
     return txn_id;
 }
 
+/** @brief Append one shard-targeted operation to an active transaction. */
 bool DistributedTransactionCoordinator::addOperation(
     const std::string& txn_id,
     const std::string& shard_id,
@@ -158,6 +173,7 @@ bool DistributedTransactionCoordinator::addOperation(
     return true;
 }
 
+/** @brief Commit transaction via Percolator or 2PC depending on configuration. */
 bool DistributedTransactionCoordinator::commit(const std::string& txn_id) {
     std::unique_lock<std::timed_mutex> lock(mutex_);
     
@@ -351,6 +367,7 @@ bool DistributedTransactionCoordinator::commit(const std::string& txn_id) {
     return committed;
 }
 
+/** @brief Abort transaction and propagate abort to all participants. */
 bool DistributedTransactionCoordinator::abort(const std::string& txn_id) {
     std::lock_guard<std::timed_mutex> lock(mutex_);
     
@@ -379,6 +396,7 @@ bool DistributedTransactionCoordinator::abort(const std::string& txn_id) {
     return true;
 }
 
+/** @brief Execute read-only snapshot operations without 2PC locking. */
 nlohmann::json DistributedTransactionCoordinator::executeReadOnly(
     const std::vector<std::string>& shard_ids,
     [[maybe_unused]] const nlohmann::json& operations
@@ -427,6 +445,7 @@ nlohmann::json DistributedTransactionCoordinator::executeReadOnly(
     return results;
 }
 
+/** @brief Return current state for transaction ID when present. */
 std::optional<TransactionState> DistributedTransactionCoordinator::getTransactionState(
     const std::string& txn_id
 ) const {
@@ -440,6 +459,7 @@ std::optional<TransactionState> DistributedTransactionCoordinator::getTransactio
     return it->second.state;
 }
 
+/** @brief Return coordinator counters and active transaction count as JSON. */
 nlohmann::json DistributedTransactionCoordinator::getStatistics() const {
     return nlohmann::json{
         {"total_transactions", total_transactions_.load()},
@@ -450,6 +470,7 @@ nlohmann::json DistributedTransactionCoordinator::getStatistics() const {
     };
 }
 
+/** @brief Register/replace shard ID to endpoint mapping used for RPC routing. */
 void DistributedTransactionCoordinator::setShardEndpointMap(
     std::unordered_map<std::string, std::string> map)
 {
@@ -457,6 +478,7 @@ void DistributedTransactionCoordinator::setShardEndpointMap(
     shard_endpoint_map_ = std::move(map);
 }
 
+/** @brief Execute prepare phase in parallel across all participants. */
 bool DistributedTransactionCoordinator::preparePhase(DistributedTransaction& txn) {
     // Send prepare to all participants in parallel with an explicit timeout so
     // that a slow or stuck shard cannot block the coordinator indefinitely.
@@ -498,6 +520,7 @@ bool DistributedTransactionCoordinator::preparePhase(DistributedTransaction& txn
     return all_prepared.load();
 }
 
+/** @brief Execute commit phase in parallel across all participants. */
 bool DistributedTransactionCoordinator::commitPhase(DistributedTransaction& txn) {
     // Send commit to all participants in parallel with an explicit timeout so
     // that a slow or stuck shard cannot block the coordinator indefinitely.
@@ -539,6 +562,7 @@ bool DistributedTransactionCoordinator::commitPhase(DistributedTransaction& txn)
     return all_committed.load();
 }
 
+/** @brief Send PREPARE RPC to one participant and record vote result. */
 bool DistributedTransactionCoordinator::sendPrepare(
     TransactionParticipant& participant,
     const std::string& txn_id
@@ -579,6 +603,7 @@ bool DistributedTransactionCoordinator::sendPrepare(
     }
 }
 
+/** @brief Send COMMIT RPC with commit timestamp to one participant. */
 bool DistributedTransactionCoordinator::sendCommit(
     TransactionParticipant& participant,
     const std::string& txn_id,
@@ -610,6 +635,7 @@ bool DistributedTransactionCoordinator::sendCommit(
     }
 }
 
+/** @brief Send ABORT RPC to one participant. */
 bool DistributedTransactionCoordinator::sendAbort(
     TransactionParticipant& participant,
     const std::string& txn_id
@@ -640,6 +666,7 @@ bool DistributedTransactionCoordinator::sendAbort(
     }
 }
 
+/** @brief Generate random hexadecimal transaction identifier. */
 std::string DistributedTransactionCoordinator::generateTransactionId() {
     static std::random_device rd;
     static std::mt19937_64 gen(rd());
@@ -650,6 +677,7 @@ std::string DistributedTransactionCoordinator::generateTransactionId() {
     return oss.str();
 }
 
+/** @brief Remove completed transactions older than configured retention horizon. */
 void DistributedTransactionCoordinator::cleanupOldTransactions() {
     std::lock_guard<std::timed_mutex> lock(mutex_);
     
@@ -669,12 +697,14 @@ void DistributedTransactionCoordinator::cleanupOldTransactions() {
     }
 }
 
+/** @brief Compute capped exponential backoff delay for retry attempt. */
 uint64_t DistributedTransactionCoordinator::calculateBackoffDelay(uint32_t retry_count) const {
     // Exponential backoff: base_ms * 2^retry_count, capped at max_backoff_ms
     uint64_t delay = config_.retry_backoff_base_ms * (1ULL << retry_count);
     return std::min(delay, config_.max_backoff_ms);
 }
 
+/** @brief Retry commit phase with exponential backoff until success or cap. */
 bool DistributedTransactionCoordinator::retryCommitPhase(DistributedTransaction& txn) {
     // First attempt
     bool committed = commitPhase(txn);
@@ -713,6 +743,7 @@ bool DistributedTransactionCoordinator::retryCommitPhase(DistributedTransaction&
     return false;
 }
 
+/** @brief Persist terminal transaction state for crash recovery and audit. */
 void DistributedTransactionCoordinator::logTransactionForRecovery(
     const DistributedTransaction& txn
 ) {
@@ -760,6 +791,7 @@ void DistributedTransactionCoordinator::logTransactionForRecovery(
     }
 }
 
+/** @brief Persist PREPARED marker to recover in-doubt transactions after crash. */
 void DistributedTransactionCoordinator::logPreparedStateForRecovery(
     const DistributedTransaction& txn
 ) {
@@ -806,6 +838,7 @@ void DistributedTransactionCoordinator::logPreparedStateForRecovery(
     }
 }
 
+/** @brief Recover in-doubt transactions by replaying WAL entries. */
 void DistributedTransactionCoordinator::recoverTransactions() {
     if (!wal_manager_) {
         return; // WAL not enabled
@@ -917,6 +950,7 @@ void DistributedTransactionCoordinator::recoverTransactions() {
 // ---------------------------------------------------------------------------
 // Percolator-style commit path (used for SNAPSHOT_ISOLATION transactions)
 // ---------------------------------------------------------------------------
+/** @brief Execute Percolator-style commit path for snapshot-isolated transaction. */
 bool DistributedTransactionCoordinator::percolatorCommit(DistributedTransaction& txn) {
     // Percolator protocol skips the global prepare / vote round.
     // Instead it:

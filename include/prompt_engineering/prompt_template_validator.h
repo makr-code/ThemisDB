@@ -1,43 +1,12 @@
-/*
- * ThemisDB | File: prompt_template_validator.h | Version: 0.0.12
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file prompt_template_validator.h
- * @brief Structural validator for serialised PromptTemplate JSON documents.
- *
- * `PromptTemplateValidator` checks that a `nlohmann::json` object produced by
- * `PromptTemplate::toJson()` satisfies a configurable set of field-presence and
- * type rules.  It is independent of the `PromptManager` struct hierarchy so that
- * external tooling (CI pipelines, admin APIs, import/export layer) can validate
- * raw JSON payloads without linking the full `PromptManager`.
- *
- * ## Validation rules (always enforced)
- *
- * | Field         | Rule                                       |
- * |---------------|--------------------------------------------|
- * | `id`          | string, non-empty                          |
- * | `name`        | string, non-empty                          |
- * | `version`     | string, non-empty                          |
- * | `content`     | string, non-empty                          |
- * | `description` | string (may be empty – warning only)       |
- * | `active`      | boolean                                    |
- * | `images`      | array; each element must have `alt_text`   |
- * | `metadata`    | object or null                             |
- *
- * Additional field rules can be supplied at construction time via `FieldRule`
- * entries; unknown extra fields in the payload are ignored.
- *
- * ## Usage
- * ```cpp
- * PromptTemplateValidator v;
- * auto result = v.validate(my_json);
- * if (!result.valid) { for (auto& e : result.errors) { ... } }
- * ```
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.12
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once

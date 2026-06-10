@@ -1,47 +1,22 @@
-/*
- * ThemisDB | File: lookup_decoder.h | Version: 1.0.0 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 198
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * PR History (last 5): none
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 #pragma once
-
-#include <vector>
-#include <unordered_map>
-#include <mutex>
-#include <cstddef>
-#include <cstdint>
 
 /**
  * @file lookup_decoder.h
- * @brief Prompt Lookup Decoding — n-gram based speculation without a draft model.
- *
- * Implements the algorithm described in:
- *   Fu et al., "Break the Sequential Dependency of LLM Inference Using
- *   Lookahead Decoding", arXiv 2023 (https://arxiv.org/abs/2312.11462).
- *
- * Inspiration: llama.cpp/examples/lookup.
- *
- * Algorithm:
- *   1. Build an n-gram index from the prompt (and optionally from generated
- *      tokens via updateFromTokens()).
- *   2. At each decode step, extract the last `ngram_max` tokens as a query
- *      suffix.  Probe the index from longest to shortest (ngram_max → ngram_min).
- *   3. On a hit, return the recorded continuation as draft candidates.
- *   4. Draft candidates are verified by the standard SpeculativeDecoder::verify()
- *      loop; no separate draft model is required.
- *
- * Three usage modes (matching llama.cpp/examples/lookup):
- *   - Context-only: rebuilt from each request's prompt tokens.
- *   - Dynamic:       updated from every generated token via updateFromTokens();
- *                    persists for the lifetime of the decoder object.
- *   - Static import: pre-loaded from an external corpus via loadStaticNgrams().
- *
- * Thread-safety: all public methods acquire the internal mutex.
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 1.0.0
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
+
+#include <cstddef>
+#include <deque>
+#include <mutex>
+#include <string>
+#include <unordered_map>
+#include <vector>
 
 namespace themis {
 namespace llm {

@@ -1,7 +1,18 @@
+/**
+ * @file compute_backend.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.15
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=0, M=2, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
- * ThemisDB | File: compute_backend.cpp | Version: 0.0.15 | Last Modified: 2026-05-31 12:49:01
+ * ThemisDB | File: compute_backend.cpp | Version: 0.0.15 | Last Modified: 2026-06-02 11:49:05
  * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 116
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=1, M=2, L=0
+ * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=0, M=2, L=0
  * PR History (last 5): #4928 [Docs][acceleration] Aktual... (2026-05-10)
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)

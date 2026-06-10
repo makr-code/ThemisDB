@@ -1,63 +1,12 @@
-/*
- * ThemisDB | File: streaming_join.h | Version: 0.0.10 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 364
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * PR History (last 5): none
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file streaming_join.h
- * @brief IStreamingJoin — multi-stream join operator for streaming analytics.
- *
- * Provides two concrete join strategies on top of the existing `ColumnBatch`
- * data model (see `analytics/columnar_execution.h`):
- *
- *   1. **HashJoin** — equi-join on one or more key columns.  Builds a hash
- *      table from the "build" side and probes it with every "probe" batch.
- *      Inner and left-outer join semantics are both supported.
- *
- *   2. **IntervalJoin** — time-based join that matches rows from two streams
- *      whose event-time columns fall within a configurable time interval
- *      `[probe_time - before, probe_time + after]`.  Useful for CEP event
- *      correlation across streams (e.g. join "clicks" with "impressions"
- *      within ±5 seconds).
- *
- * ### Usage — HashJoin
- * @code
- * // Build side (e.g. small dimension table):
- * HashJoin join(HashJoin::Config{
- *     .join_keys    = {"user_id"},
- *     .join_type    = JoinType::Inner,
- *     .build_select = {"user_id", "name"},
- *     .probe_select = {"user_id", "event"},
- * });
- * join.build(dimension_batches.begin(), dimension_batches.end());
- * ColumnBatch result = join.probe(fact_batch);
- * @endcode
- *
- * ### Usage — IntervalJoin
- * @code
- * IntervalJoin join(IntervalJoin::Config{
- *     .join_keys   = {"session_id"},
- *     .time_column = "event_time_ms",
- *     .before_ms   = 5000,
- *     .after_ms    = 5000,
- *     .join_type   = JoinType::Inner,
- * });
- * join.addBuildEvent(left_batch);
- * ColumnBatch result = join.probe(right_batch);
- * @endcode
- *
- * ### Thread safety
- * `build()` / `addBuildEvent()` and `probe()` must not be called concurrently.
- * The recommended pattern is to build first (single-threaded or
- * synchronized), then probe from multiple threads using independent
- * `HashJoin` / `IntervalJoin` instances or after copying the built state.
- *
- * Copyright (c) 2025 ThemisDB Project
- * SPDX-License-Identifier: Apache-2.0
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.10
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #pragma once

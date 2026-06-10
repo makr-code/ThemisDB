@@ -1,3 +1,14 @@
+/**
+ * @file quorum_manager.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=3, M=5, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
  * ThemisDB | File: quorum_manager.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
  * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 286
@@ -18,6 +29,7 @@
 namespace themisdb {
 namespace sharding {
 
+/** @brief Build a success result payload for quorum operations. */
 QuorumResult QuorumResult::successful(size_t acks, size_t required,
                                      const std::vector<std::string>& nodes,
                                      std::chrono::milliseconds lat) {
@@ -30,6 +42,7 @@ QuorumResult QuorumResult::successful(size_t acks, size_t required,
     return result;
 }
 
+/** @brief Build a failed quorum result payload with error message. */
 QuorumResult QuorumResult::failed(const std::string& error) {
     QuorumResult result;
     result.success = false;
@@ -40,9 +53,16 @@ QuorumResult QuorumResult::failed(const std::string& error) {
     return result;
 }
 
+/** @brief Initialize manager with immutable startup configuration copy. */
 QuorumManager::QuorumManager(const QuorumConfig& config)
     : config_(config) {}
 
+/**
+ * @brief Execute write operation across targets and enforce write quorum.
+ * @param operation Per-node write callable returning true on success.
+ * @param target_nodes Nodes participating in the write fan-out.
+ * @return Quorum result with acknowledged and failed node breakdown.
+ */
 QuorumResult QuorumManager::executeWrite(WriteOperation operation,
                                         const std::vector<std::string>& target_nodes) {
     if (!config_.enable_quorum_enforcement) {
@@ -110,6 +130,12 @@ QuorumResult QuorumManager::executeWrite(WriteOperation operation,
     }
 }
 
+/**
+ * @brief Execute read operation across targets and enforce read quorum.
+ * @param operation Per-node read callable returning payload when successful.
+ * @param target_nodes Nodes participating in the read fan-out.
+ * @return Quorum result describing whether read quorum was achieved.
+ */
 QuorumResult QuorumManager::executeRead(ReadOperation operation,
                                        const std::vector<std::string>& target_nodes) {
     if (!config_.enable_quorum_enforcement) {
@@ -172,27 +198,32 @@ QuorumResult QuorumManager::executeRead(ReadOperation operation,
     }
 }
 
+/** @brief Compute required acknowledgments for writes under current config. */
 size_t QuorumManager::getWriteQuorumSize(size_t total_nodes) const {
     std::lock_guard<std::mutex> lock(config_mutex_);
     return calculateQuorumSize(config_.write_quorum, config_.custom_write_quorum, total_nodes);
 }
 
+/** @brief Compute required acknowledgments for reads under current config. */
 size_t QuorumManager::getReadQuorumSize(size_t total_nodes) const {
     std::lock_guard<std::mutex> lock(config_mutex_);
     return calculateQuorumSize(config_.read_quorum, config_.custom_read_quorum, total_nodes);
 }
 
+/** @brief Determine whether selected read/write quorum can be satisfied. */
 bool QuorumManager::isQuorumAchievable(size_t available_nodes, bool is_write) const {
     size_t required = is_write ? getWriteQuorumSize(available_nodes) 
                                : getReadQuorumSize(available_nodes);
     return available_nodes >= required;
 }
 
+/** @brief Replace runtime configuration under mutex protection. */
 void QuorumManager::updateConfig(const QuorumConfig& config) {
     std::lock_guard<std::mutex> lock(config_mutex_);
     config_ = config;
 }
 
+/** @brief Reset all atomic counters used for operational statistics. */
 void QuorumManager::resetStatistics() {
     stats_.total_writes = 0;
     stats_.successful_writes = 0;
@@ -203,6 +234,7 @@ void QuorumManager::resetStatistics() {
     stats_.quorum_timeouts = 0;
 }
 
+/** @brief Resolve quorum size from configured policy and node cardinality. */
 size_t QuorumManager::calculateQuorumSize(QuorumType type, size_t custom_size,
                                          size_t total_nodes) const {
     switch (type) {
@@ -219,6 +251,14 @@ size_t QuorumManager::calculateQuorumSize(QuorumType type, size_t custom_size,
     }
 }
 
+/**
+ * @brief Await asynchronous node operations until timeout or early quorum completion.
+ * @tparam T Future result payload type.
+ * @param futures Node-bound futures.
+ * @param required_acks Successful acknowledgments required for early completion.
+ * @param timeout Maximum wait duration for the overall batch.
+ * @return Completed node/result tuples collected before timeout.
+ */
 template<typename T>
 std::vector<std::pair<std::string, T>> QuorumManager::waitForOperations(
     std::vector<std::pair<std::string, std::future<T>>>& futures,

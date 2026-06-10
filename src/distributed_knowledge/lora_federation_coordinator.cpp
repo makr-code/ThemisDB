@@ -1,34 +1,12 @@
-/*
- * ThemisDB | File: lora_federation_coordinator.cpp | Version: 0.0.1 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 566
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=6, M=6, L=1
- * PR History (last 5): #4753 feat(projects): InMemoryPro... (2026-04-21)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
-// Copyright 2026 ThemisDB — Licensed under MIT License
-
 /**
  * @file lora_federation_coordinator.cpp
- * @brief Ebene B — Federated LoRA gradient aggregation implementation.
- *
- * Implements `LoRAFederationCoordinator` using FedAvg / FedProx / median
- * aggregation and calibrated Gaussian noise for (ε, δ)-differential privacy.
- *
- * Aggregation delegates to the numeric logic in
- * `FederatedImportCoordinator::FederatedAggregator` through an equivalent
- * in-process implementation (the importer's class is not directly reusable
- * without its PostgreSQL dependencies, so the same algorithm is applied here
- * with the same DP formula).
- *
- * DP noise formula (Gaussian mechanism):
- *   σ = sensitivity * sqrt(2 * ln(1.25 / δ)) / ε
- *
- * References:
- *   McMahan et al. (2017). Communication-Efficient Learning of Deep Networks
- *   from Decentralised Data. AISTATS 2017.
- *   Dwork & Roth (2014). The Algorithmic Foundations of Differential Privacy.
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.1
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 100/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=4, M=2, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
  */
 
 #include "distributed_knowledge/lora_federation_coordinator.h"

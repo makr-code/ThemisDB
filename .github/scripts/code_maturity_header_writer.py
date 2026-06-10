@@ -31,10 +31,15 @@ from typing import Dict, List, Optional, Tuple, Any
 
 
 _RE_AUTOGEN_HEADER_BLOCK = re.compile(
-    r'^\s*(//\s*THEMIS_GAP_STATS:.*\n)?/\*[\s\S]*?(ThemisDB \| File:|ThemisDB - Hybrid Database System)[\s\S]*?\*/\s*',
+    r'^\s*(//\s*THEMIS_GAP_STATS:.*\n)?/\*[\s\S]*?@file\s+[\w./\\-]+[\s\S]*?\*/\s*',
     re.MULTILINE,
 )
 _RE_LEGACY_GAP_LINE_GLOBAL = re.compile(r'^\s*//\s*THEMIS_GAP_STATS:.*\n?', re.MULTILINE)
+
+
+def _debug_log(stage: str, message: str) -> None:
+    timestamp = datetime.now().strftime('%H:%M:%S')
+    print(f"[DEBUG {timestamp}] {stage}: {message}", flush=True)
 
 
 def strip_generated_header(content: str) -> str:
@@ -73,12 +78,15 @@ class CodeMaturityScanner:
 
     def scan(self, repo_root: str = "."):
         repo_root = Path(repo_root)
-        files = self._find_files(repo_root)
+        files = list(self._find_files(repo_root))
+        _debug_log('scanner', f'Found {len(files)} candidate files under {repo_root}')
         results = []
-        for file in files:
+        for index, file in enumerate(files, start=1):
             maturity = self._analyze_file(file)
             if maturity:
                 results.append(maturity)
+            if index == 1 or index % 250 == 0 or index == len(files):
+                _debug_log('scanner', f'Analyzed {index}/{len(files)} files')
         return results
 
     def _find_files(self, repo_root: Path):
@@ -154,9 +162,11 @@ class CodeMaturityDispatcher:
         self.min_score = min_score
 
     def dispatch(self, repo_root: str = "."):
+        _debug_log('dispatcher', f'Start dispatch with min_score={self.min_score}')
         scan_results = self.scanner.scan(repo_root)
         # Policy: Nur Dateien mit Score < min_score (nicht production-ready)
         to_update = [r for r in scan_results if r['score'] < self.min_score]
+        _debug_log('dispatcher', f'Selected {len(to_update)} files for header updates out of {len(scan_results)} scanned files')
         return to_update
 
 # --- Updater ---
@@ -165,23 +175,32 @@ class CodeMaturityDispatcher:
 class CodeMaturityUpdater:
     """Schreibt/aktualisiert kompakten Maturity-Header mit maschinenlesbaren GAP_STATS."""
     LEAN_HEADER_TEMPLATE = (
-        """/*
- * ThemisDB | File: {file} | Version: {version}
- * Maturity: {level} | Score: {score}/100
- * Gap Summary: total={gaps}; TODO={todo}, Stub={stub}, Unimpl={unimpl}, Mock={mock}, Sim={sim}, Debt={debt}, C={ext_critical}, H={ext_high}, M={ext_medium}, L={ext_low}
- * Status: {status}
- * (Automatisch generiert, Änderungen werden überschrieben)
+        """/**
+ * @file {file}
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version {version}
+ * @note Maturity: {level}
+ * @note Score: {score}/100
+ * @note Gap Summary: total={gaps}; TODO={todo}, Stub={stub}, Unimpl={unimpl}, Mock={mock}, Sim={sim}, Debt={debt}, C={ext_critical}, H={ext_high}, M={ext_medium}, L={ext_low}
+ * @note Status: {status}
+ * @note This block is auto-generated and will be overwritten.
  */"""
     )
 
     EXTENDED_HEADER_TEMPLATE = (
-        """/*
- * ThemisDB | File: {file} | Version: {version} | Last Modified: {last_modified}
- * Author: {author} | Maturity: {level} | Score: {score}/100 | Lines: {total_lines}
- * Gap Summary: total={gaps}; TODO={todo}, Stub={stub}, Unimpl={unimpl}, Mock={mock}, Sim={sim}, Debt={debt}, C={ext_critical}, H={ext_high}, M={ext_medium}, L={ext_low}
- * PR History (last 5): {pr_info}
- * Status: {status}
- * (Automatisch generiert, Änderungen werden überschrieben)
+        """/**
+ * @file {file}
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @author {author}
+ * @version {version}
+ * @date {last_modified}
+ * @note Maturity: {level}
+ * @note Score: {score}/100
+ * @note Lines: {total_lines}
+ * @note Gap Summary: total={gaps}; TODO={todo}, Stub={stub}, Unimpl={unimpl}, Mock={mock}, Sim={sim}, Debt={debt}, C={ext_critical}, H={ext_high}, M={ext_medium}, L={ext_low}
+ * @note PR History (last 5): {pr_info}
+ * @note Status: {status}
+ * @note This block is auto-generated and will be overwritten.
  */"""
     )
 
@@ -203,16 +222,22 @@ class CodeMaturityUpdater:
 
     def update(self, repo_root: str = "."):
         repo_root_path = Path(repo_root).resolve()
+        _debug_log('updater', f'Load external gap details from {repo_root_path / "ai_working"}')
         self.external_gap_details = self._load_external_gap_details(repo_root_path)
+        _debug_log('updater', f'Loaded external gap details for {len(self.external_gap_details)} files')
         to_update = self.dispatcher.dispatch(str(repo_root_path))
+        _debug_log('updater', f'Start header updates for {len(to_update)} files')
         updated = []
-        for entry in to_update:
+        total = len(to_update)
+        for index, entry in enumerate(to_update, start=1):
             file_path = entry['file']
             score = entry['score']
             level = entry['level']
             try:
                 self._write_header(repo_root_path, Path(file_path), score, level)
                 updated.append(file_path)
+                if index == 1 or index % 100 == 0 or index == total:
+                    _debug_log('updater', f'Updated {index}/{total}: {Path(file_path).name}')
             except Exception as e:
                 print(f"[FAIL] Header-Update für {file_path}: {e}")
         print(f"[OK] {len(updated)} Header aktualisiert.")

@@ -244,6 +244,51 @@ if(THEMIS_ENABLE_PROCESS_MINING_TESTS AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/te
 endif()
 
 # ============================================================================
+# Focused integration test registrations migrated from root tests/CMakeLists
+# ============================================================================
+
+foreach(_src_name
+        test_content_processing
+        test_cross_functional_plugin_query_metrics
+        test_distributed_training_e2e
+        test_graphql_e2e
+        test_rpc_database_operations
+)
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/${_src_name}.cpp")
+        add_integration_test(
+            ${_src_name}_focused
+            ${_src_name}.cpp
+        )
+        set_tests_properties(${_src_name}_focused PROPERTIES
+            LABELS "integration;focused;unit"
+            TIMEOUT 300
+        )
+    endif()
+endforeach()
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_cross_functional_voice_observability.cpp")
+    add_integration_test(
+        test_cross_functional_voice_observability_focused
+        test_cross_functional_voice_observability.cpp
+    )
+    set_tests_properties(test_cross_functional_voice_observability_focused PROPERTIES
+        LABELS "integration;voice;observability;focused"
+        TIMEOUT 300
+    )
+endif()
+
+if(THEMIS_ENABLE_PROCESS_MINING_TESTS AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_process_mining_e2e.cpp")
+    add_integration_test(
+        test_process_mining_e2e_focused
+        test_process_mining_e2e.cpp
+    )
+    set_tests_properties(test_process_mining_e2e_focused PROPERTIES
+        LABELS "integration;process-mining;e2e;focused"
+        TIMEOUT 600
+    )
+endif()
+
+# ============================================================================
 # Integration Test Summary
 # ============================================================================
 

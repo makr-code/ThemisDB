@@ -1,3 +1,14 @@
+/**
+ * @file urn_resolver.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=3, H=0, M=3, L=0
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
  * ThemisDB | File: urn_resolver.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
  * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 121
@@ -12,6 +23,9 @@
 
 namespace themis::sharding {
 
+/**
+ * @brief Construct resolver with topology, ring and optional local shard id.
+ */
 URNResolver::URNResolver(
     std::shared_ptr<ShardTopology> topology,
     std::shared_ptr<ConsistentHashRing> hash_ring,
@@ -21,6 +35,11 @@ URNResolver::URNResolver(
     local_shard_id_(local_shard_id) {
 }
 
+/**
+ * @brief Resolve the primary shard for a URN.
+ * @param urn Parsed URN value.
+ * @return Primary shard info or std::nullopt when mapping/topology lookup fails.
+ */
 std::optional<ShardInfo> URNResolver::resolvePrimary(const URN& urn) const {
     // Get shard ID from consistent hash ring
     std::string shard_id = hash_ring_->getShardForURN(urn);
@@ -33,6 +52,12 @@ std::optional<ShardInfo> URNResolver::resolvePrimary(const URN& urn) const {
     return topology_->getShard(shard_id);
 }
 
+/**
+ * @brief Resolve primary plus healthy replica shards for a URN.
+ * @param urn Parsed URN value.
+ * @param replica_count Requested replica count in addition to primary.
+ * @return Vector with primary first followed by healthy successors.
+ */
 std::vector<ShardInfo> URNResolver::resolveReplicas(const URN& urn, size_t replica_count) const {
     std::vector<ShardInfo> result;
     
@@ -59,6 +84,11 @@ std::vector<ShardInfo> URNResolver::resolveReplicas(const URN& urn, size_t repli
     return result;
 }
 
+/**
+ * @brief Check whether URN resolves to current local shard id.
+ * @param urn Parsed URN value.
+ * @return true when local shard id is configured and matches primary owner.
+ */
 bool URNResolver::isLocal(const URN& urn) const {
     if (local_shard_id_.empty()) {
         return false; // No local shard configured
@@ -68,10 +98,20 @@ bool URNResolver::isLocal(const URN& urn) const {
     return shard_id == local_shard_id_;
 }
 
+/**
+ * @brief Resolve shard identifier only.
+ * @param urn Parsed URN value.
+ * @return Shard id string or empty when no mapping exists.
+ */
 std::string URNResolver::getShardId(const URN& urn) const {
     return hash_ring_->getShardForURN(urn);
 }
 
+/**
+ * @brief Resolve owning shard for an arbitrary partition key.
+ * @param key Non-empty partition key.
+ * @return Shard id or empty string for invalid/unknown mapping.
+ */
 std::string URNResolver::getShardForKey(
     const std::string& /*collection*/,
     const std::string& key
@@ -85,6 +125,12 @@ std::string URNResolver::getShardForKey(
     return node.value_or(std::string{});
 }
 
+/**
+ * @brief Resolve candidate shards for a key range.
+ * @param min_key Inclusive lower key bound.
+ * @param max_key Inclusive upper key bound.
+ * @return Deduplicated shard id list; falls back to healthy shards when ring range is empty.
+ */
 std::vector<std::string> URNResolver::getShardsForKeyRange(
     const std::string& /*collection*/,
     const std::string& min_key,
@@ -106,14 +152,17 @@ std::vector<std::string> URNResolver::getShardsForKeyRange(
     return shards;
 }
 
+/** @brief Return all shards from topology cache. */
 std::vector<ShardInfo> URNResolver::getAllShards() const {
     return topology_->getAllShards();
 }
 
+/** @brief Return healthy shard subset from topology cache. */
 std::vector<ShardInfo> URNResolver::getHealthyShards() const {
     return topology_->getHealthyShards();
 }
 
+/** @brief Refresh topology state from backing metadata store. */
 void URNResolver::refreshTopology() {
     topology_->refresh();
 }

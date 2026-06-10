@@ -1,3 +1,14 @@
+/**
+ * @file replica_topology.cpp
+ * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @version 0.0.47
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 85/100
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready
+ * @note This block is auto-generated and will be overwritten.
+ */
+
 /*
  * ThemisDB | File: replica_topology.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
  * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 89
@@ -15,6 +26,11 @@
 
 namespace themis::sharding {
 
+/**
+ * @brief Parse and load replica-set definitions from JSON array.
+ * @param config JSON array containing shard topology records.
+ * @return true when at least one valid shard replica set was loaded.
+ */
 bool ReplicaTopology::loadFromJson(const nlohmann::json& config) {
     std::lock_guard<std::mutex> lock(mutex_);
     

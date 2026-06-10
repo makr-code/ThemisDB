@@ -796,7 +796,7 @@ TEST(ImplA2, LiveSignalProvidersDriveLoopTelemetry) {
             "prompt_live",
             "query_" + std::to_string(i),
             "response",
-            themis::prompt_engineering::FeedbackType::USER_POSITIVE,
+            themis::prompt_engineering::FeedbackType::POSITIVE,
             "",
             0.7
         );

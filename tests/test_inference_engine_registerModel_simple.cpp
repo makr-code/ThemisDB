@@ -4,7 +4,7 @@
 #include <vector>
 
 #include "llm/inference_engine_enhanced.h"
-#include "llm/shared_worker_pool.h"
+#include "threading/shared_worker_pool.h"
 
 /**
  * Simplified focused tests for InferenceEngineEnhanced::registerModel fail-closed guard
@@ -14,6 +14,7 @@
  */
 
 using namespace themis::llm;
+using namespace themis::threading;
 
 class InferenceEngineEnhancedRegisterModelTest : public ::testing::Test {
 protected:
@@ -24,12 +25,11 @@ protected:
         // Minimal config for test
         InferenceEngineEnhanced::Config config;
         config.max_batch_size = 1;
+        config.max_sequence_length = 512;
         config.enable_speculative_decoding = false;
 
         // Create shared worker pool
-        SharedWorkerPool::Config pool_cfg;
-        pool_cfg.num_threads = 2;
-        pool_ = std::make_shared<SharedWorkerPool>(pool_cfg);  // 2 worker threads
+        pool_ = std::make_shared<SharedWorkerPool>(2);  // 2 worker threads
 
         // Create engine
         engine_ = std::make_shared<InferenceEngineEnhanced>(config, pool_);

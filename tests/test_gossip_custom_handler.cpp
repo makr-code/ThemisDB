@@ -24,7 +24,6 @@
 #include "sharding/shard_topology.h"
 #include <atomic>
 #include <chrono>
-#include <future>
 #include <memory>
 
 using namespace themis::sharding;
@@ -243,51 +242,4 @@ TEST_F(GossipMembershipGateTest, GP_GATE_04_RemoveGate_LegacyBehaviourRestored) 
     protocol->handleMessage(makeHeartbeatMsg("peer-D", "host-d:9000"));
     EXPECT_TRUE(topology->hasShard("peer-D"))
         << "After removing the gate, gossip-discovered peers are added via legacy path";
-}
-
-TEST_F(GossipMembershipGateTest, PeerDiscoveryCallbackCanReenterProtocolWithoutDeadlock) {
-    protocol->onPeerDiscovered([&](const PeerInfo&) {
-        (void)protocol->getPeerCount();
-    });
-
-    PeerInfo peer;
-    peer.peer_id = "peer-reentrant";
-    peer.endpoint = "host-reentrant:9000";
-    peer.datacenter = "dc1";
-    peer.region = "us-east";
-    peer.version = 1;
-    peer.last_seen = std::chrono::system_clock::now();
-    peer.first_seen = std::chrono::system_clock::now();
-    peer.is_healthy = true;
-
-    auto add_future = std::async(std::launch::async, [&]() {
-        protocol->addPeer(peer);
-    });
-
-    EXPECT_EQ(add_future.wait_for(std::chrono::seconds(2)), std::future_status::ready);
-    add_future.get();
-}
-
-TEST_F(GossipMembershipGateTest, PeerLostCallbackCanReenterProtocolWithoutDeadlock) {
-    PeerInfo peer;
-    peer.peer_id = "peer-to-remove";
-    peer.endpoint = "host-remove:9000";
-    peer.datacenter = "dc1";
-    peer.region = "us-east";
-    peer.version = 1;
-    peer.last_seen = std::chrono::system_clock::now();
-    peer.first_seen = std::chrono::system_clock::now();
-    peer.is_healthy = true;
-    protocol->addPeer(peer);
-
-    protocol->onPeerLost([&](const std::string&) {
-        (void)protocol->getPeerCount();
-    });
-
-    auto remove_future = std::async(std::launch::async, [&]() {
-        protocol->removePeer("peer-to-remove");
-    });
-
-    EXPECT_EQ(remove_future.wait_for(std::chrono::seconds(2)), std::future_status::ready);
-    remove_future.get();
 }

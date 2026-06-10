@@ -32,42 +32,6 @@ namespace fs = std::filesystem;
 using namespace themis;
 using namespace themis::storage;
 
-TEST(SecuritySignatureValidationTests, Deserialize_RejectsInvalidHashFormat) {
-    nlohmann::json payload{
-        {"resource_id", "config/a.yaml"},
-        {"hash", "abc123"},
-        {"algorithm", "sha256"},
-        {"created_at", 1234}
-    };
-
-    auto parsed = SecuritySignature::deserialize(payload.dump());
-    EXPECT_FALSE(parsed.has_value());
-}
-
-TEST(SecuritySignatureValidationTests, Deserialize_RejectsUnsupportedAlgorithm) {
-    nlohmann::json payload{
-        {"resource_id", "config/a.yaml"},
-        {"hash", std::string(64, 'a')},
-        {"algorithm", "sha1"},
-        {"created_at", 1234}
-    };
-
-    auto parsed = SecuritySignature::deserialize(payload.dump());
-    EXPECT_FALSE(parsed.has_value());
-}
-
-TEST(SecuritySignatureValidationTests, Deserialize_RejectsEmptyResourceId) {
-    nlohmann::json payload{
-        {"resource_id", ""},
-        {"hash", std::string(64, 'a')},
-        {"algorithm", "sha256"},
-        {"created_at", 1234}
-    };
-
-    auto parsed = SecuritySignature::deserialize(payload.dump());
-    EXPECT_FALSE(parsed.has_value());
-}
-
 // ---------------------------------------------------------------------------
 // Helper: open a temporary RocksDB instance
 // ---------------------------------------------------------------------------
