@@ -122,6 +122,20 @@
   finding category=thread_join_no_timeout; status=fixed; bounded shutdown joins
   via utils/thread_join_utils.h.
 
+### W5-LLM (2026-06-10)
+- vision_config.cpp / vision_config.h:
+  finding category=data_race; status=fixed; documented fresh-object construction,
+  switched factory allocation to std::make_shared, and added a release-fence on
+  shared-pointer publication so readers only observe fully initialized configs.
+- lora_framework/kernels/directx_kernels.cpp:
+  finding category=data_race; status=fixed; added a dedicated DX state mutex and
+  std::lock_guard coverage for global DirectX context, descriptor, shader-cache,
+  and pipeline-cache access.
+- model_loader.cpp / model_loader.h / llama_wrapper.h:
+  finding category=model_integrity_gap; status=fixed; added SHA-256 checksum
+  verification before model load, documented supported checksum config keys, and
+  downgraded missing expected hashes to an explicit security warning.
+
 ## File Overview
 
 | File | Findings | Critical | High | Medium | Low |
@@ -3903,14 +3917,14 @@ Total findings: 84
 
     }
 
-#else
+`#else`
 - Line 654: severity=HIGH; category=unchecked_malloc
   Description: Unchecked malloc() — missing null pointer check
   Remediation: Review finding and apply recommended module-specific fix.
   Scanner: Uniform::phase1_memory_safety
   Context: }
 
-#else
+`#else`
 
     // Simulation mode: always use regular malloc
 
@@ -3918,7 +3932,7 @@ Total findings: 84
 
     pinned = false;
 
-#endif
+`#endif`
 - Line 659: severity=HIGH; category=db_connection_leak
   Description: Resource acquired but not released — potential leak
   Remediation: Review finding and apply recommended module-specific fix.
@@ -4019,7 +4033,7 @@ Total findings: 84
 
         }
 
-#else
+`#else`
 
         new_ptr = std::malloc(total_ram);
 - Line 1194: severity=HIGH; category=unchecked_malloc
@@ -4500,7 +4514,7 @@ Total findings: 82
   Scanner: Uniform::phase1_memory_safety
   Context: case acceleration::BackendType::VULKAN:
 
-#ifdef THEMIS_ENABLE_VULKAN
+`#ifdef THEMIS_ENABLE_VULKAN`
 
         {
 
@@ -4535,7 +4549,7 @@ Total findings: 82
 
     }
 
-#endif
+`#endif`
 
     backend_context_ = nullptr;
 - Line 495: severity=HIGH; category=explicit_delete
@@ -8369,11 +8383,11 @@ Total findings: 27
 
     }
 
-#else
+`#else`
 
     throw std::runtime_error("VisionEncoder: LLM support not enabled (THEMIS_ENABLE_LLM=OFF)");
 
-#endif
+`#endif`
 
 }
 - Line 26: severity=MEDIUM; category=uninitialized_member_field

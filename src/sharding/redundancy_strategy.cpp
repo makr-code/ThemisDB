@@ -1958,7 +1958,7 @@ WriteResult RedundancyStrategy::writeGeoMirror(
 
     std::vector<std::string> candidates;
     candidates.push_back(*primary_opt);
-    auto replicas = ring.getReplicaNodes(document_id, config_.replication_factor - 1);
+    auto replicas = ring.getReplicaNodes(document_id, replication_factor - 1);
     candidates.insert(candidates.end(), replicas.begin(), replicas.end());
     const std::unordered_set<std::string> write_failed_set(
         geo.failed_regions.begin(), geo.failed_regions.end());
@@ -2102,7 +2102,7 @@ WriteResult RedundancyStrategy::writeGeoMirror(
 
     // Fall back to global write-concern check
     bool success = false;
-    switch (config_.write_concern) {
+    switch (write_concern) {
         case WriteConcern::ONE:
             success = successful >= 1;
             break;
@@ -2158,7 +2158,7 @@ ReadResult RedundancyStrategy::readGeoMirror(
 
     std::vector<std::string> candidates;
     candidates.push_back(*primary_opt);
-    auto replicas = ring.getReplicaNodes(document_id, config_.replication_factor - 1);
+    auto replicas = ring.getReplicaNodes(document_id, replication_factor - 1);
     candidates.insert(candidates.end(), replicas.begin(), replicas.end());
 
     // Remove candidates that belong to failed-out regions
@@ -2291,6 +2291,7 @@ ReadResult RedundancyStrategy::readGeoMirror(
 
     ReadResult result;
     result.document_id = document_id;
+    result.version_token = makeVersionToken();
     result.source_shard = selected_shard;
     result.from_replica = (selected_shard != *primary_opt);
     result.chunks_read = 1;
