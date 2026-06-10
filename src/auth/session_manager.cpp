@@ -42,6 +42,27 @@ std::string hashSessionId(const std::string &session_id) {
     return oss.str();
 }
 
+/**
+ * @brief Compare two session IDs using constant-time comparison.
+ *
+ * Prevents timing attacks that could infer whether a session ID is "close"
+ * to a valid one by measuring comparison time. Uses CRYPTO_memcmp for
+ * constant-time byte-by-byte comparison.
+ *
+ * @param id1 First session ID
+ * @param id2 Second session ID
+ * @return true if both session IDs are equal, false otherwise
+ */
+bool constantTimeSessionIdEquals(const std::string &id1, const std::string &id2) noexcept {
+    if (id1.size() != id2.size()) {
+        return false;
+    }
+    if (id1.empty()) {
+        return true;
+    }
+    return CRYPTO_memcmp(id1.data(), id2.data(), id1.size()) == 0;
+}
+
 } // anonymous namespace
 
 // ---------------------------------------------------------------------------
@@ -216,7 +237,8 @@ int SessionManager::terminateAllOtherSessions(const std::string &user_id, const 
         // `id` is the SHA-256 hash of the original token; compare against
         // info.session_id (which holds the original token) so that the raw
         // keep_session_id can be matched correctly.
-        if (info.user_id == user_id && info.session_id != keep_session_id) {
+        // Use constant-time comparison to prevent timing attacks on session IDs.
+        if (info.user_id == user_id && !constantTimeSessionIdEquals(info.session_id, keep_session_id)) {
             to_erase.push_back(id);
         }
     }

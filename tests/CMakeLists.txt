@@ -13259,6 +13259,58 @@ else()
     message(STATUS "LDAP Connection Pool tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_ldap_connection_pool.cpp")
 endif()
 
+# Async HTTP Authentication Tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_http_auth_async.cpp")
+    message(STATUS "Adding Async HTTP Authentication tests")
+
+    add_executable(test_http_auth_async
+        test_http_auth_async.cpp
+    )
+
+    target_link_libraries(test_http_auth_async PRIVATE
+        themis_core
+        GTest::gtest
+        GTest::gtest_main
+        Threads::Threads
+        CURL::libcurl
+    )
+
+    target_compile_definitions(test_http_auth_async PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME AsyncHTTPAuthTests COMMAND test_http_auth_async)
+    message(STATUS "  HTTP async tests enabled")
+else()
+    message(STATUS "Async HTTP Authentication tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_http_auth_async.cpp")
+endif()
+
+# Distributed Token Blacklist Tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_distributed_token_blacklist.cpp")
+    message(STATUS "Adding Distributed Token Blacklist tests")
+
+    add_executable(test_distributed_token_blacklist
+        test_distributed_token_blacklist.cpp
+    )
+
+    target_link_libraries(test_distributed_token_blacklist PRIVATE
+        themis_core
+        GTest::gtest
+        GTest::gtest_main
+        Threads::Threads
+        RocksDB::RocksDB
+    )
+
+    target_compile_definitions(test_distributed_token_blacklist PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME DistributedTokenBlacklistTests COMMAND test_distributed_token_blacklist)
+    message(STATUS "  Distributed token blacklist tests enabled")
+else()
+    message(STATUS "Distributed Token Blacklist tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_distributed_token_blacklist.cpp")
+endif()
+
 # MFA Authenticator Tests
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_mfa_authenticator.cpp")
     message(STATUS "Adding MFA Authenticator tests")

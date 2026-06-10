@@ -456,3 +456,127 @@ TEST_F(KidRevocationTest, ChecksConfigDenylist) {
         validator_with_denylist->parseAndValidate(token);
     }, std::runtime_error);
 }
+
+// ============================================================================
+// Enhanced Validation Tests - Mandatory Issuer and Audience
+// ============================================================================
+
+TEST_F(JWTValidationTest, RejectsMissingIssuerWhenRequired) {
+    // Create config with mandatory issuer validation
+    JWTValidatorConfig config;
+    config.jwks_url = "https://test.example.com/jwks";
+    config.expected_issuer = "https://test.example.com";
+    config.expected_audience = "test-audience";
+    config.require_issuer_validation = true;  // Mandatory issuer validation
+    
+    auto validator_strict = std::make_unique<JWTValidator>(config);
+    auto jwks = create_jwks(rsa_fixture_->rsa, kid_);
+    validator_strict->setJWKSForTesting(jwks);
+    
+    auto now = std::chrono::system_clock::now();
+    auto exp = now + std::chrono::hours(1);
+    
+    nlohmann::json header = {
+        {"alg", "RS256"},
+        {"typ", "JWT"},
+        {"kid", kid_}
+    };
+    
+    // Missing "iss" claim
+    nlohmann::json payload = {
+        {"sub", "user123"},
+        {"aud", "test-audience"},
+        {"exp", std::chrono::duration_cast<std::chrono::seconds>(exp.time_since_epoch()).count()}
+    };
+    
+    std::string token = createToken(header, payload);
+    
+    EXPECT_THROW({
+        try {
+            validator_strict->parseAndValidate(token);
+        } catch (const std::runtime_error& e) {
+            EXPECT_NE(std::string(e.what()).find("Missing required iss claim"), std::string::npos);
+            throw;
+        }
+    }, std::runtime_error);
+}
+
+TEST_F(JWTValidationTest, RejectsMissingAudienceWhenRequired) {
+    // Create config with mandatory audience validation
+    JWTValidatorConfig config;
+    config.jwks_url = "https://test.example.com/jwks";
+    config.expected_issuer = "https://test.example.com";
+    config.expected_audience = "test-audience";
+    config.require_audience_validation = true;  // Mandatory audience validation
+    
+    auto validator_strict = std::make_unique<JWTValidator>(config);
+    auto jwks = create_jwks(rsa_fixture_->rsa, kid_);
+    validator_strict->setJWKSForTesting(jwks);
+    
+    auto now = std::chrono::system_clock::now();
+    auto exp = now + std::chrono::hours(1);
+    
+    nlohmann::json header = {
+        {"alg", "RS256"},
+        {"typ", "JWT"},
+        {"kid", kid_}
+    };
+    
+    // Missing "aud" claim
+    nlohmann::json payload = {
+        {"sub", "user123"},
+        {"iss", "https://test.example.com"},
+        {"exp", std::chrono::duration_cast<std::chrono::seconds>(exp.time_since_epoch()).count()}
+    };
+    
+    std::string token = createToken(header, payload);
+    
+    EXPECT_THROW({
+        try {
+            validator_strict->parseAndValidate(token);
+        } catch (const std::runtime_error& e) {
+            EXPECT_NE(std::string(e.what()).find("Audience mismatch"), std::string::npos);
+            throw;
+        }
+    }, std::runtime_error);
+}
+
+TEST_F(JWTValidationTest, AcceptsValidTokenWithMandatoryValidation) {
+    // Create config with mandatory issuer and audience validation
+    JWTValidatorConfig config;
+    config.jwks_url = "https://test.example.com/jwks";
+    config.expected_issuer = "https://test.example.com";
+    config.expected_audience = "test-audience";
+    config.require_issuer_validation = true;
+    config.require_audience_validation = true;
+    
+    auto validator_strict = std::make_unique<JWTValidator>(config);
+    auto jwks = create_jwks(rsa_fixture_->rsa, kid_);
+    validator_strict->setJWKSForTesting(jwks);
+    
+    auto now = std::chrono::system_clock::now();
+    auto exp = now + std::chrono::hours(1);
+    
+    nlohmann::json header = {
+        {"alg", "RS256"},
+        {"typ", "JWT"},
+        {"kid", kid_}
+    };
+    
+    // Valid token with both iss and aud claims
+    nlohmann::json payload = {
+        {"sub", "user123"},
+        {"iss", "https://test.example.com"},
+        {"aud", "test-audience"},
+        {"exp", std::chrono::duration_cast<std::chrono::seconds>(exp.time_since_epoch()).count()}
+    };
+    
+    std::string token = createToken(header, payload);
+    
+    EXPECT_NO_THROW({
+        JWTClaims claims = validator_strict->parseAndValidate(token);
+        EXPECT_EQ(claims.sub, "user123");
+        EXPECT_EQ(claims.issuer, "https://test.example.com");
+        EXPECT_EQ(claims.audience[0], "test-audience");
+    });
+}
