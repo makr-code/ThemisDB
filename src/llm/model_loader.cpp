@@ -20,6 +20,7 @@
 
 #include "llm/model_loader.h"
 #include "llm/gguf_loader.h"
+#include "utils/checksum_utils.h"
 #include "utils/error_registry.h"
 #include "utils/expected.h"
 #include <spdlog/spdlog.h>
@@ -110,7 +111,68 @@ private:
     LlamaLoadLogCaptureState state_;
 };
 
+std::string normalizeChecksum(std::string checksum) {
+    checksum.erase(std::remove_if(checksum.begin(), checksum.end(), [](unsigned char ch) {
+        return std::isspace(ch) != 0;
+    }), checksum.end());
+    std::transform(checksum.begin(), checksum.end(), checksum.begin(), [](unsigned char ch) {
+        return static_cast<char>(std::tolower(ch));
+    });
+    return checksum;
+}
+
+std::string getExpectedModelChecksum(const json& config) {
+    for (const char* key : {"expected_checksum", "model_checksum", "checksum", "sha256"}) {
+        if (config.contains(key) && config[key].is_string()) {
+            return normalizeChecksum(config[key].get<std::string>());
+        }
+    }
+
+    if (config.contains("integrity") && config["integrity"].is_object()) {
+        const auto& integrity = config["integrity"];
+        for (const char* key : {"expected_checksum", "model_checksum", "checksum", "sha256"}) {
+            if (integrity.contains(key) && integrity[key].is_string()) {
+                return normalizeChecksum(integrity[key].get<std::string>());
+            }
+        }
+    }
+
+    return {};
+}
+
 } // namespace
+
+bool LazyModelLoader::verifyModelChecksum(
+    const std::string& model_id,
+    const std::string& model_path,
+    const json& config
+) const {
+    const fs::path resolved_path = fs::absolute(fs::path(model_path));
+    const std::string expected_checksum = getExpectedModelChecksum(config);
+
+    if (expected_checksum.empty()) {
+        spdlog::warn("[SECURITY] Model {} has no expected SHA-256 checksum; loading without enforced integrity verification: {}",
+                     model_id, resolved_path.string());
+        return true;
+    }
+
+    const std::string calculated_checksum = normalizeChecksum(
+        ::themis::utils::calculateSHA256(resolved_path.string()));
+    if (calculated_checksum.empty()) {
+        spdlog::error("Failed to calculate SHA-256 checksum for model {} at {}",
+                      model_id, resolved_path.string());
+        return false;
+    }
+
+    if (calculated_checksum != expected_checksum) {
+        spdlog::error("Model checksum verification failed for {}: expected SHA-256 {}, calculated {}",
+                      resolved_path.string(), expected_checksum, calculated_checksum);
+        return false;
+    }
+
+    spdlog::info("Model checksum verified for {} ({})", model_id, resolved_path.string());
+    return true;
+}
 
 LazyModelLoader::LazyModelLoader(const Config& config)
     : config_(config) {
@@ -651,13 +713,8 @@ Result<CachedModel*> LazyModelLoader::loadModelInternal(
     const json& config
 ) {
     // Already locked by caller
-    // W1-L01: Model loading with integrity checks. File existence validated (line 649).
-    // Model format validation delegated to llama.cpp library (llama_load_model_from_file validates GGUF header).
-    // Integrity verification happens at multiple levels:
-    //   1. File existence check (fs::exists)
-    //   2. GGUF format validation in llama.cpp
-    //   3. Error status propagation from llama API
-    // Reviewed as appropriate for this cache/loader architecture.
+    // Verify the model path and, when available, the caller-provided SHA-256
+    // checksum before handing the file to llama.cpp.
     spdlog::info("Loading model: {} from {}", model_id, model_path);
 
     auto model = std::make_unique<CachedModel>();
@@ -667,14 +724,22 @@ Result<CachedModel*> LazyModelLoader::loadModelInternal(
     model->last_used = std::chrono::system_clock::now();
     model->use_count = 1;
 
+    const fs::path model_file_path = fs::absolute(fs::path(model_path));
+
     // Check if file exists
-    if (!fs::exists(model_path)) {
-        errors::logError(errors::ErrorCode::ERR_LLM_MODEL_NOT_FOUND, model_path);
+    if (!fs::exists(model_file_path) || !fs::is_regular_file(model_file_path)) {
+        errors::logError(errors::ErrorCode::ERR_LLM_MODEL_NOT_FOUND, model_file_path.string());
         return Err<CachedModel*>(errors::ErrorCode::ERR_LLM_MODEL_NOT_FOUND, 
-            fmt::format("Model file not found: {}", model_path));
+            fmt::format("Model file not found: {}", model_file_path.string()));
     }
 
-    size_t size_bytes = static_cast<size_t>(fs::file_size(model_path));
+    if (!verifyModelChecksum(model_id, model_file_path.string(), config)) {
+        errors::logError(errors::ErrorCode::ERR_LLM_MODEL_LOAD_FAILED, model_file_path.string());
+        return Err<CachedModel*>(errors::ErrorCode::ERR_LLM_MODEL_LOAD_FAILED,
+            fmt::format("Model checksum verification failed: {}", model_file_path.string()));
+    }
+
+    size_t size_bytes = static_cast<size_t>(fs::file_size(model_file_path));
 
     // Initialize llama.cpp model parameters
     llama_model_params model_params = llama_model_default_params();
@@ -771,7 +836,7 @@ Result<CachedModel*> LazyModelLoader::loadModelInternal(
             load_params.n_gpu_layers = layers;
             attempted_gpu_layers.push_back(layers);
             spdlog::info("{}: trying llama_load_model_from_file with n_gpu_layers={}", stage, layers);
-            auto* loaded = llama_load_model_from_file(model_path.c_str(), load_params);
+            auto* loaded = llama_load_model_from_file(model_file_path.string().c_str(), load_params);
             if (loaded != nullptr) {
                 applied_gpu_layers = layers;
                 if (requested_gpu_layers > 0 && applied_gpu_layers != requested_gpu_layers) {
@@ -799,7 +864,7 @@ Result<CachedModel*> LazyModelLoader::loadModelInternal(
             GGUFLoader gguf_loader;
             
             // Parse the GGUF file
-            if (gguf_loader.parseFile(model_path)) {
+            if (gguf_loader.parseFile(model_file_path.string())) {
                 spdlog::info("✓ Custom GGUFLoader: GGUF file parsed successfully");
                 
                 // Get metadata for validation

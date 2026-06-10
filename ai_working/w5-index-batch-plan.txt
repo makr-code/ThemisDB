@@ -1,0 +1,6 @@
+W5 Index batch plan
+- Scope: src/index/secondary_index.cpp, src/index/vector_index.cpp, src/index/graph_index.cpp, src/index/MODULE_GAPS.md.
+- Secondary index: remove nested metadata loader lambdas that capture manager state; materialize metadata snapshots directly in updateIndexesForDelete_ overloads.
+- Vector index: harden critical sections by snapshotting cache/index state before nested callbacks and by avoiding repeated direct member access patterns flagged as data races/null misuse in add/search/reindex paths.
+- Graph index: replace nested temporal-field lambdas with non-capturing/local helper logic so temporal scans do not close over mutable state; preserve topologyLoaded_ atomic behavior.
+- Validation: run docs lint for MODULE_GAPS.md, inspect git diff, secret scan touched files, commit requested message, run CodeQL checker, report progress.

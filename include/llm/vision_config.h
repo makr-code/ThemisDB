@@ -268,17 +268,31 @@ struct VisionPipelineConfig {
 class VisionConfig {
 public:
     /**
-     * @brief Load configuration from YAML file
+     * @brief Load configuration from a YAML file into a fully initialized object.
+     * @param config_path Path to the YAML configuration document.
+     * @return Shared configuration instance with defaults applied to missing
+     *         fields.
+     * @throws std::runtime_error When YAML parsing fails.
+     * @note The returned shared pointer is published only after construction has
+     *       completed, so callers never observe partially initialized state.
      */
     static std::shared_ptr<VisionConfig> loadFromFile(const std::string& config_path);
     
     /**
-     * @brief Load configuration from JSON
+     * @brief Load configuration from a JSON object into a fully initialized object.
+     * @param config JSON object containing configuration overrides.
+     * @return Shared configuration instance with defaults preserved for omitted
+     *         fields.
+     * @note The returned shared pointer is published only after construction has
+     *       completed, so callers never observe partially initialized state.
      */
     static std::shared_ptr<VisionConfig> loadFromJson(const nlohmann::json& config);
     
     /**
-     * @brief Get default configuration
+     * @brief Get the default configuration instance.
+     * @return Shared configuration instance containing production defaults.
+     * @note The returned shared pointer is published only after construction has
+     *       completed, so callers never observe partially initialized state.
      */
     static std::shared_ptr<VisionConfig> getDefault();
     

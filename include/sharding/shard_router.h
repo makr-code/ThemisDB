@@ -52,6 +52,7 @@ struct ShardResult {
     bool success;                   // true if successful
     std::string error_msg;          // Error message if failed
     uint64_t execution_time_ms;     // Execution time
+    uint64_t version_token = 0;     // Monotonic version metadata propagated into merged results
 };
 
 /**
@@ -187,7 +188,8 @@ public:
      * Phase 2: Lookup in second collection
      * @param query Query string
      * @param join_field Field to join on
-     * @return Joined results
+     * @return Joined results with monotonic mergeVersion/version_token metadata so
+     *         callers can detect stale merged snapshots across shards.
      */
     nlohmann::json executeCrossShardJoin(
         const std::string& query,
@@ -250,7 +252,8 @@ private:
      * Merge results from multiple shards
      * Combines data arrays and handles errors
      * @param results Results from shards
-     * @return Merged result
+     * @return Merged result with mergeVersion/version_token metadata derived from
+     *         shard payload versions or a local monotonic clock fallback.
      */
     nlohmann::json mergeResults(const std::vector<ShardResult>& results);
     

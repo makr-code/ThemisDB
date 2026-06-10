@@ -21,11 +21,25 @@
 #include "llm/vision_config.h"
 #include "utils/logger.h"
 #include <yaml-cpp/yaml.h>
+#include <atomic>
 #include <fstream>
 #include <sstream>
 
 namespace themis {
 namespace llm {
+
+namespace {
+
+std::shared_ptr<VisionConfig> publishVisionConfig(std::shared_ptr<VisionConfig> vision_config) {
+    // The factory populates a freshly created VisionConfig that is not shared
+    // with other threads until the shared_ptr is returned to the caller.
+    // Publish that hand-off with release semantics so readers observe the
+    // fully initialized configuration after they acquire the shared pointer.
+    std::atomic_thread_fence(std::memory_order_release);
+    return vision_config;
+}
+
+} // namespace
 
 // =====================================================
 // ModelLicense Implementation
@@ -79,7 +93,7 @@ std::shared_ptr<VisionConfig> VisionConfig::loadFromFile(const std::string& conf
     try {
         YAML::Node config = YAML::LoadFile(config_path);
         
-        auto vision_config = std::shared_ptr<VisionConfig>(new VisionConfig());
+        auto vision_config = std::make_shared<VisionConfig>();
         
         // Load API configuration
         if (config["vision"]["api"]) {
@@ -366,7 +380,7 @@ std::shared_ptr<VisionConfig> VisionConfig::loadFromFile(const std::string& conf
         spdlog::info("  - Monitoring: {}", vision_config->monitoring_config_.enabled ? "enabled" : "disabled");
         spdlog::info("  - Sandboxing: {}", vision_config->security_config_.sandboxing.enabled ? "enabled" : "disabled");
         
-        return vision_config;
+        return publishVisionConfig(vision_config);
         
     } catch (const YAML::Exception& e) {
         spdlog::error("Failed to load vision configuration: {}", e.what());
@@ -540,11 +554,11 @@ std::shared_ptr<VisionConfig> VisionConfig::loadFromJson(const nlohmann::json& c
                  vision_config->api_version_,
                  static_cast<int>(vision_config->api_stability_));
 
-    return vision_config;
+    return publishVisionConfig(vision_config);
 }
 
 std::shared_ptr<VisionConfig> VisionConfig::getDefault() {
-    auto config = std::shared_ptr<VisionConfig>(new VisionConfig());
+    auto config = std::make_shared<VisionConfig>();
     
     // Set reasonable defaults
     config->api_stability_ = VisionAPIStability::STABLE;
@@ -592,7 +606,7 @@ std::shared_ptr<VisionConfig> VisionConfig::getDefault() {
     
     spdlog::info("Using default vision configuration");
     
-    return config;
+    return publishVisionConfig(config);
 }
 
 bool VisionConfig::validate(std::string& error_message) const {

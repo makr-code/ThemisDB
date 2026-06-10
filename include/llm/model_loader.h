@@ -144,8 +144,12 @@ public:
      * 
      * @param model_id Unique model identifier
      * @param model_path Path to model file (if not loaded)
-     * @param load_config Optional loading configuration
-     * @return Model handle or nullptr on failure
+     * @param load_config Optional loading configuration. Supports SHA-256
+     *        integrity keys `expected_checksum`, `model_checksum`, or `checksum`.
+     *        When no expected checksum is provided, the loader emits a security
+     *        warning and continues with a non-blocking integrity check.
+     * @return Model handle or nullptr on failure, including checksum mismatches
+     *         or digest calculation failures when an expected checksum is supplied
      */
     CachedModel* getOrLoadModel(
         const std::string& model_id,
@@ -158,7 +162,11 @@ public:
      * 
      * Loads a model asynchronously in the background.
      * Useful for warming up the cache before actual requests.
+     * Applies the same SHA-256 integrity verification rules as getOrLoadModel().
      * 
+     * @param model_id Unique model identifier
+     * @param model_path Path to model file
+     * @param load_config Optional loading configuration with checksum hints
      * @return true if preload started successfully
      */
     bool preloadModel(
@@ -177,8 +185,11 @@ public:
      * @param model_path Path to model file
      * @param progress_cb Optional callback for progress updates
      * @param cancel_token Optional cancellation token
-     * @param load_config Optional loading configuration
-     * @return Future that resolves to model handle or nullptr on failure
+     * @param load_config Optional loading configuration, including optional
+     *        SHA-256 checksum hints via `expected_checksum`, `model_checksum`,
+     *        or `checksum`
+     * @return Future that resolves to model handle or nullptr on failure,
+     *         including checksum mismatches when an expected hash is supplied
      */
     std::future<CachedModel*> loadAsync(
         const std::string& model_id,
@@ -290,6 +301,11 @@ private:
         const std::string& model_path,
         const json& config
     );
+    [[nodiscard]] bool verifyModelChecksum(
+        const std::string& model_id,
+        const std::string& model_path,
+        const json& config
+    ) const;
     
     bool hasCapacity(size_t vram_mb, size_t ram_mb) const;
     void updateMemoryUsage();
