@@ -88,6 +88,17 @@
 - batch_evaluator.cpp: thread_join_no_timeout → fixed; workers_ in stop() now use
   bounded shutdown joins via utils/thread_join_utils.h.
 
+### W5-RAG (2026-06-10)
+- reranker.cpp: added SHA-256 model verification with optional `.sha256` sidecar
+  checks, tightened cache synchronization, and refreshed loadModel()/rerank()
+  API docs.
+- rag_ingestion_bridge.cpp: wrapped ingestion-path dependency use in RAII local
+  shared_ptr snapshots with exception guards to prevent leak-prone partial
+  failure paths.
+- knowledge_gap_detector.cpp: added mutex-guarded state snapshots for config and
+  callbacks, and removed the raw `std::tm*` time-conversion path flagged by the
+  critical ownership finding.
+
 ## File Overview
 
 | File | Findings | Critical | High | Medium | Low |
