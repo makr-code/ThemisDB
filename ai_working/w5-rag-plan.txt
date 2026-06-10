@@ -1,0 +1,6 @@
+Task: W5-RAG batch hardening
+- Inspect and fix reranker model integrity verification using SHA-256 sidecars and explicit warning path.
+- Harden reranker cache/config synchronization and update public Doxygen for loadModel/rerank.
+- Make rag_ingestion_bridge exception-safe with RAII-style local ownership/snapshots and noexcept-safe cleanup behavior.
+- Fix knowledge_gap_detector critical concurrency/ownership issues with mutex-guarded shared state and targeted RAII-safe refactors.
+- Update src/rag/MODULE_GAPS.md remediation log, lint it, then commit and report progress.

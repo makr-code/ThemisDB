@@ -114,6 +114,17 @@
   bounded shutdown joins with utils/thread_join_utils.h::joinThreadWithin()
   and detach-on-timeout warning logs.
 
+### W5-Sharding (2026-06-10)
+- shard_router.cpp: mergeResults() and cross-shard join paths now emit
+  mergeVersion/version_token metadata derived from shard payload versions with a
+  steady_clock fallback.
+- stream_protocol.cpp: synchronized callback/task snapshots, listener/coordinator
+  access, retry queue/chunk-ack reads, and receive-side chunk completion checks
+  to eliminate critical concurrency races in session/plan execution.
+- redundancy_strategy.cpp: guarded geo failover/config snapshots with
+  shared_mutex, made failed-region updates atomic, and added read-side
+  version_token metadata for merged replica/chunk reads.
+
 ## File Overview
 
 | File | Findings | Critical | High | Medium | Low |
