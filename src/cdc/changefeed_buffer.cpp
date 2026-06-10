@@ -40,9 +40,13 @@ ChangefeedBuffer::ChangefeedBuffer(Changefeed* changefeed,
     rate_limit_window_start_ = std::chrono::steady_clock::now();
 }
 
-ChangefeedBuffer::~ChangefeedBuffer() {
-    if (running_.load()) {
-        stop();
+ChangefeedBuffer::~ChangefeedBuffer() noexcept {
+    try {
+        if (running_.load()) {
+            stop();
+        }
+    } catch (...) {
+        // Destructors must not throw while draining the background flush thread.
     }
 }
 
@@ -71,7 +75,8 @@ void ChangefeedBuffer::stop() {
     // Wake up flush thread
     flush_cv_.notify_all();
     
-    // Wait for flush thread to finish
+    // Safe blocking join: the worker only waits on flush_cv_. After clearing
+    // running_ and notifying above, the thread wakes promptly and exits.
     if (flush_thread_.joinable()) {
         flush_thread_.join();
     }

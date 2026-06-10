@@ -153,7 +153,10 @@ public:
     explicit ChangefeedBuffer(Changefeed* changefeed, 
                               ChangefeedBufferConfig config = ChangefeedBufferConfig{});
     
-    ~ChangefeedBuffer();
+    /**
+     * @brief Destructor - stops the background flush thread and suppresses shutdown exceptions.
+     */
+    ~ChangefeedBuffer() noexcept;
     
     // Non-copyable, non-movable (contains threads)
     ChangefeedBuffer(const ChangefeedBuffer&) = delete;

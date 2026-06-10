@@ -125,9 +125,9 @@ public:
                        const ChangefeedBufferConfig& default_config = ChangefeedBufferConfig());
     
     /**
-     * @brief Destructor - stops all tenant buffers
+     * @brief Destructor - stops all tenant buffers and suppresses shutdown exceptions.
      */
-    ~TenantBufferManager();
+    ~TenantBufferManager() noexcept;
     
     /**
      * @brief Start buffer management

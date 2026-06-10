@@ -3,6 +3,12 @@
 > Auto-generated from ai_working\gap_scan_results.json.
 > This file is overwritten on each regeneration.
 
+## Manual Resolution Status
+
+- [x] `performance/phase3/bwtree.cpp`: resolved the critical `new_without_delete`, `new_without_raii`, and `smart_ptr_misuse` findings by wrapping root and delta allocations in `std::unique_ptr` and releasing ownership only after successful CAS publication.
+- [x] `performance/wisckey.cpp`: resolved the critical `data_race` finding by storing `current_offset_` in `std::atomic<uint64_t>` and documented the known `std::fstream` timeout limitation plus local-SSD mitigation for the flagged file I/O paths.
+- [x] `performance/ligra.cpp`: resolved the critical `blocking_no_timeout`, `no_timeout`, and `thread_join_no_timeout` findings by documenting that joins wait only on bounded worker-thread CPU work.
+
 ## Scan Snapshot
 
 - Module: performance
