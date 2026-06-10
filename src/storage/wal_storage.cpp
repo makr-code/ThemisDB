@@ -39,6 +39,7 @@
 #include <sstream>
 #include <stdexcept>
 #include <iomanip>
+#include <utility>
 
 #include <fcntl.h>
 #if defined(_WIN32)
@@ -121,6 +122,47 @@ static themis_ssize_t themis_write_fd(int fd, const void* data, size_t len) {
     }
 }
 #endif
+
+class ScopedFileDescriptor {
+public:
+    explicit ScopedFileDescriptor(int fd = -1) noexcept : fd_(fd) {}
+
+    ~ScopedFileDescriptor() {
+        if (fd_ >= 0) {
+            themis_close_fd(fd_);
+        }
+    }
+
+    ScopedFileDescriptor(const ScopedFileDescriptor&) = delete;
+    ScopedFileDescriptor& operator=(const ScopedFileDescriptor&) = delete;
+
+    ScopedFileDescriptor(ScopedFileDescriptor&& other) noexcept
+        : fd_(std::exchange(other.fd_, -1)) {}
+
+    ScopedFileDescriptor& operator=(ScopedFileDescriptor&& other) noexcept {
+        if (this != &other) {
+            reset();
+            fd_ = std::exchange(other.fd_, -1);
+        }
+        return *this;
+    }
+
+    int get() const noexcept { return fd_; }
+
+    void reset(int fd = -1) noexcept {
+        if (fd_ >= 0) {
+            themis_close_fd(fd_);
+        }
+        fd_ = fd;
+    }
+
+    int release() noexcept {
+        return std::exchange(fd_, -1);
+    }
+
+private:
+    int fd_;
+};
 
 static bool write_all_fd(int fd, const void* data, size_t len) {
     const uint8_t* ptr = static_cast<const uint8_t*>(data);
@@ -246,6 +288,7 @@ uint64_t WALStorage::parseSegmentId(const std::string& filename) {
 WALStorage::WALStorage(const Config& cfg) : config_(cfg) {}
 
 WALStorage::~WALStorage() {
+    std::lock_guard<std::mutex> lock(mutex_);
     if (fd_ >= 0) {
         (void)themis_fsync_fd(fd_);
         themis_close_fd(fd_);
@@ -425,8 +468,9 @@ Result<void> WALStorage::openNewSegment(uint64_t segment_id) {
     std::string path = config_.dir + "/" + segmentName(segment_id);
     // O_APPEND ensures atomic position tracking; O_CREAT creates if absent.
     // O_CLOEXEC prevents FD leaks in forked child processes (W1-S02 hardening).
-    fd_ = themis_open_fd(path.c_str(), O_WRONLY | O_CREAT | O_APPEND | O_CLOEXEC, 0644);
-    if (fd_ < 0) {
+    ScopedFileDescriptor next_fd(
+        themis_open_fd(path.c_str(), O_WRONLY | O_CREAT | O_APPEND | O_CLOEXEC, 0644));
+    if (next_fd.get() < 0) {
         return ErrVoid(errors::ErrorCode::ERR_STORAGE_DISK_FULL,
                        "cannot open WAL segment '" + path + "': " +
                            std::strerror(errno));
@@ -436,7 +480,7 @@ Result<void> WALStorage::openNewSegment(uint64_t segment_id) {
     // POSIX `struct stat` is a plain system struct with no resources — the
     // missing-destructor scanner alert on this line is a false positive.
     struct stat st{};
-    if (::fstat(fd_, &st) == 0) {
+    if (::fstat(next_fd.get(), &st) == 0) {
         segment_bytes_ = static_cast<uint64_t>(st.st_size);
     } else {
         segment_bytes_ = 0;
@@ -447,6 +491,7 @@ Result<void> WALStorage::openNewSegment(uint64_t segment_id) {
         segments_.push_back(segment_id);
     }
 
+    fd_ = next_fd.release();
     return OkVoid();
 }
 

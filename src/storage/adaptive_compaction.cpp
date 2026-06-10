@@ -22,6 +22,8 @@
 // Licensed under MIT License
 
 #include "storage/adaptive_compaction.h"
+#include "utils/logger.h"
+#include "utils/thread_join_utils.h"
 
 #include <algorithm>
 #include <cmath>
@@ -82,8 +84,9 @@ void AdaptiveCompactionScheduler::stopSampling() {
         sample_stop_.store(true, std::memory_order_relaxed);
         sample_cv_.notify_all();
     }
-    if (sample_thread_.joinable()) {
-        sample_thread_.join();
+    if (sample_thread_.joinable() &&
+        !utils::joinThreadWithin(sample_thread_)) {
+        THEMIS_WARN("AdaptiveCompactionScheduler: sampling thread exceeded shutdown timeout");
     }
 }
 

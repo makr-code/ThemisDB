@@ -13,6 +13,7 @@
 #include "rag/prompt_injection_detector.h"
 #include "llm/prompt_safety_utils.h"
 #include "utils/logger.h"
+#include "utils/thread_join_utils.h"
 
 #include <algorithm>
 #include <cctype>
@@ -665,7 +666,10 @@ void BatchEvaluator::stop() {
     stop_requested_.store(true);
     queue_cv_.notify_all();
     for (auto& w : workers_) {
-        if (w.joinable()) w.join();
+        // @note thread_join_no_timeout (W4): bounded join via joinThreadWithin helper.
+        if (w.joinable() && !themis::utils::joinThreadWithin(w)) {
+            THEMIS_WARN("[BatchEvaluator] worker thread did not finish within shutdown deadline; detaching.");
+        }
     }
     workers_.clear();
 }

@@ -22,8 +22,10 @@
 // Licensed under MIT License
 
 #include "storage/compaction_manager.h"
-#include <stdexcept>
 #include "utils/error_registry.h"
+#include "utils/logger.h"
+#include "utils/thread_join_utils.h"
+#include <stdexcept>
 
 #include <regex>
 #include <sstream>
@@ -122,8 +124,9 @@ void CompactionManager::stopBackgroundGC() {
         bg_stop_.store(true, std::memory_order_relaxed);
         bg_cv_.notify_all();
     }
-    if (bg_thread_.joinable()) {
-        bg_thread_.join();
+    if (bg_thread_.joinable() &&
+        !utils::joinThreadWithin(bg_thread_)) {
+        THEMIS_WARN("CompactionManager: background GC thread exceeded shutdown timeout");
     }
 }
 
@@ -258,4 +261,3 @@ CompactionManager::Stats CompactionManager::stats() const {
 }
 
 } // namespace themis
-

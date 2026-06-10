@@ -1,0 +1,6 @@
+W5 storage batch plan (2026-06-10)
+- Inspect rocksdb_wrapper, wal_storage, nvme_manager headers/sources and MODULE_GAPS findings.
+- rocksdb_wrapper: add a dedicated mutex for options/write/read config option objects and document the SequenceU64IncrementMergeOperator false-positive existing_value access.
+- wal_storage: make segment open/close exception-safe with RAII and close-path locking so fd_/segment state cannot race with writers.
+- nvme_manager: guard io_uring ring state reads/writes/teardown with ring_mutex_ to eliminate reported shared-state races.
+- Update MODULE_GAPS remediation log, run docs lint on MODULE_GAPS.md, inspect diff, then commit and report progress.

@@ -29,11 +29,20 @@
 #include <iomanip>
 #include <stdexcept>
 #include <functional>  // std::hash
+#include <utility>
+#include <algorithm>
 
 namespace themis {
 namespace rag {
 
 namespace {
+
+constexpr std::size_t kMaxDocumentChars = 5u * 1024u * 1024u; // 5 MiB
+constexpr std::size_t kMaxCollectionChars = 256u;
+constexpr std::size_t kMaxMimeChars = 128u;
+constexpr std::size_t kMaxFilenameChars = 512u;
+constexpr std::size_t kMaxChunkSnippetChars = 128u * 1024u; // 128 KiB
+constexpr std::size_t kMaxMetadataValueChars = 16u * 1024u; // 16 KiB
 
 std::string trimCopy(const std::string& in) {
     const auto begin = in.find_first_not_of(" \t\r\n");
@@ -42,6 +51,23 @@ std::string trimCopy(const std::string& in) {
     }
     const auto end = in.find_last_not_of(" \t\r\n");
     return in.substr(begin, end - begin + 1);
+}
+
+std::string truncateCopy(const std::string& in, std::size_t max_chars) {
+    if (in.size() <= max_chars) {
+        return in;
+    }
+    return in.substr(0, max_chars);
+}
+
+bool hasControlCharacters(const std::string& value) {
+    return std::any_of(value.begin(), value.end(), [](unsigned char c) {
+        return c < 32u && c != '\t' && c != '\r' && c != '\n';
+    });
+}
+
+std::string boundedMetadataValue(const std::string& value) {
+    return truncateCopy(trimCopy(value), kMaxMetadataValueChars);
 }
 
 } // namespace
@@ -64,7 +90,7 @@ RAGIngestionBridge::RAGIngestionBridge(
     }
 }
 
-RAGIngestionBridge::~RAGIngestionBridge() = default;
+RAGIngestionBridge::~RAGIngestionBridge() noexcept = default;
 
 RAGIngestionBridge::RAGIngestionBridge(RAGIngestionBridge&&) noexcept = default;
 RAGIngestionBridge& RAGIngestionBridge::operator=(RAGIngestionBridge&&) noexcept = default;
@@ -79,11 +105,20 @@ IndexResult RAGIngestionBridge::indexDocument(
     const std::string& mime,
     const std::string& filename)
 {
+    const auto toolbox = toolbox_;
+    const auto vector_writer = vector_writer_;
+    const auto graph_writer = graph_writer_;
+
+    try {
+        const std::string trimmed_collection = trimCopy(collection);
+        const std::string trimmed_mime = trimCopy(mime);
+        const std::string trimmed_filename = trimCopy(filename);
+
     spdlog::info(
         "RAGIngestionBridge::indexDocument start: collection='{}' mime='{}' filename='{}' text_chars={}",
-        collection,
-        mime,
-        filename,
+        trimmed_collection,
+        trimmed_mime,
+        trimmed_filename,
         text.size());
 
     if (text.empty()) {
@@ -93,22 +128,53 @@ IndexResult RAGIngestionBridge::indexDocument(
             .error = "empty input"
         };
     }
+    if (text.size() > kMaxDocumentChars) {
+        spdlog::warn("RAGIngestionBridge::indexDocument rejected: text too large ({})", text.size());
+        return IndexResult{
+            .ok    = false,
+            .error = "input too large"
+        };
+    }
+    if (trimmed_collection.empty() || trimmed_collection.size() > kMaxCollectionChars ||
+        hasControlCharacters(trimmed_collection)) {
+        spdlog::warn("RAGIngestionBridge::indexDocument rejected: invalid collection");
+        return IndexResult{
+            .ok    = false,
+            .error = "invalid collection"
+        };
+    }
+    if (trimmed_mime.empty() || trimmed_mime.size() > kMaxMimeChars ||
+        hasControlCharacters(trimmed_mime)) {
+        spdlog::warn("RAGIngestionBridge::indexDocument rejected: invalid mime");
+        return IndexResult{
+            .ok    = false,
+            .error = "invalid mime"
+        };
+    }
+    if (trimmed_filename.empty() || trimmed_filename.size() > kMaxFilenameChars ||
+        hasControlCharacters(trimmed_filename)) {
+        spdlog::warn("RAGIngestionBridge::indexDocument rejected: invalid filename");
+        return IndexResult{
+            .ok    = false,
+            .error = "invalid filename"
+        };
+    }
 
     // Derive a stable document ID from collection + text
     const std::string doc_hash = computeDocHash(text);
-    const std::string doc_id   = collection + "/" + doc_hash;
+    const std::string doc_id   = trimmed_collection + "/" + doc_hash;
 
     // Build an ExtractionContext and run the workflow
     ingestion::ExtractionContext ctx;
-    ctx.manifest.detected_mime  = mime;
-    ctx.manifest.filename_stem  = filename;
+    ctx.manifest.detected_mime  = trimmed_mime;
+    ctx.manifest.filename_stem  = trimmed_filename;
     ctx.manifest.extension      = "";
     ctx.raw_text                = text;
 
     ingestion::BaseEntitySet entity_set;
     bool used_workflow_fallback = false;
 
-    if (auto engine = toolbox_->workflowEngine()) {
+    if (auto engine = toolbox->workflowEngine()) {
         auto result = engine->execute(ctx);
         if (result) {
             entity_set = result.value();
@@ -129,11 +195,11 @@ IndexResult RAGIngestionBridge::indexDocument(
     if (used_workflow_fallback) {
         spdlog::info(
             "RAGIngestionBridge::indexDocument using fallback workflow path for collection='{}'",
-            collection);
+            trimmed_collection);
         entity_set.source_file_id = doc_id;
         entity_set.quality_score = 0.0;
 
-        auto entities = toolbox_->extractEntities(text);
+        auto entities = toolbox->extractEntities(text);
         for (auto& entity : entities) {
             if (entity.source_file_id.empty()) {
                 entity.source_file_id = doc_id;
@@ -144,8 +210,8 @@ IndexResult RAGIngestionBridge::indexDocument(
         ingestion::VectorRecord fallback_chunk;
         fallback_chunk.chunk_id = doc_id + "#0";
         fallback_chunk.source_file_id = doc_id;
-        fallback_chunk.text_snippet = text;
-        fallback_chunk.metadata["collection"] = collection;
+        fallback_chunk.text_snippet = truncateCopy(text, kMaxChunkSnippetChars);
+        fallback_chunk.metadata["collection"] = trimmed_collection;
         fallback_chunk.metadata["source"] = doc_id;
         entity_set.chunks.push_back(std::move(fallback_chunk));
     }
@@ -154,35 +220,48 @@ IndexResult RAGIngestionBridge::indexDocument(
     std::size_t entity_count = entity_set.nodes.size();
 
     // Write vector chunks (stamp each chunk's source_file_id with our doc_id)
-    if (vector_writer_ && !entity_set.chunks.empty()) {
-        std::vector<ingestion::VectorRecord> stamped_chunks = entity_set.chunks;
+    if (vector_writer && !entity_set.chunks.empty()) {
+        // Move chunks into the write buffer to avoid an extra full-vector copy
+        // in the indexing hot path.
+        std::vector<ingestion::VectorRecord> stamped_chunks = std::move(entity_set.chunks);
         for (auto& chunk : stamped_chunks) {
             if (chunk.source_file_id.empty()) {
                 chunk.source_file_id = doc_id;
             }
             // Inject canonical retrieval metadata for downstream RAG consumers.
-            chunk.metadata["collection"] = collection;
+            chunk.metadata["collection"] = trimmed_collection;
+
+            const auto source_it = chunk.metadata.find("source");
+            const auto content_it = chunk.metadata.find("content");
+            const std::string trimmed_source =
+                source_it == chunk.metadata.end() ? std::string{} : trimCopy(source_it->second);
+            const std::string trimmed_content =
+                content_it == chunk.metadata.end() ? std::string{} : trimCopy(content_it->second);
 
             const std::string canonical_source =
-                trimCopy(chunk.metadata["source"]).empty()
+                trimmed_source.empty()
                     ? chunk.source_file_id
-                    : trimCopy(chunk.metadata["source"]);
+                    : trimmed_source;
             const std::string canonical_content =
-                trimCopy(chunk.metadata["content"]).empty()
+                trimmed_content.empty()
                     ? trimCopy(chunk.text_snippet)
-                    : trimCopy(chunk.metadata["content"]);
+                    : trimmed_content;
 
             if (!canonical_source.empty()) {
-                chunk.metadata["source"] = canonical_source;
+                chunk.metadata["source"] = boundedMetadataValue(canonical_source);
             }
             if (!canonical_content.empty()) {
-                chunk.metadata["content"] = canonical_content;
-                chunk.metadata["text"] = canonical_content;
-                chunk.metadata["body"] = canonical_content;
+                const std::string bounded_content = boundedMetadataValue(canonical_content);
+                chunk.metadata["content"] = bounded_content;
+                chunk.metadata["text"] = bounded_content;
+                chunk.metadata["body"] = bounded_content;
+            }
+            if (chunk.text_snippet.size() > kMaxChunkSnippetChars) {
+                chunk.text_snippet.resize(kMaxChunkSnippetChars);
             }
         }
 
-        auto write_result = vector_writer_->writeVectors(stamped_chunks);
+        auto write_result = vector_writer->writeVectors(stamped_chunks);
         if (write_result) {
             vector_count = stamped_chunks.size();
             spdlog::debug(
@@ -191,18 +270,18 @@ IndexResult RAGIngestionBridge::indexDocument(
         } else {
             spdlog::warn(
                 "RAGIngestionBridge::indexDocument vector write failed for collection='{}'",
-                collection);
+                trimmed_collection);
         }
         // Write failure is non-fatal: we still return a partial result
     }
 
     // Write graph entities / relations
-    if (graph_writer_) {
+    if (graph_writer) {
         if (!entity_set.nodes.empty()) {
-            static_cast<void>(graph_writer_->writeEntities(entity_set.nodes));
+            static_cast<void>(graph_writer->writeEntities(entity_set.nodes));
         }
         if (!entity_set.edges.empty()) {
-            static_cast<void>(graph_writer_->writeRelations(entity_set.edges));
+            static_cast<void>(graph_writer->writeRelations(entity_set.edges));
         }
     }
 
@@ -216,21 +295,30 @@ IndexResult RAGIngestionBridge::indexDocument(
     return IndexResult{
         .ok           = true,
         .doc_id       = doc_id,
-        .collection   = collection,
+        .collection   = trimmed_collection,
         .entity_count = entity_count,
         .vector_count = vector_count
     };
+    } catch (const std::exception& ex) {
+        spdlog::error("RAGIngestionBridge::indexDocument exception: {}", ex.what());
+        return IndexResult{.ok = false, .error = ex.what()};
+    } catch (...) {
+        spdlog::error("RAGIngestionBridge::indexDocument exception: unknown failure");
+        return IndexResult{.ok = false, .error = "unknown indexing failure"};
+    }
 }
 
 std::size_t RAGIngestionBridge::enrichRetrievedDocuments(
     std::vector<judge::RetrievedDocument>& docs)
 {
+    const auto toolbox = toolbox_;
+    std::size_t enriched = 0;
     spdlog::info(
         "RAGIngestionBridge::enrichRetrievedDocuments start: docs={}",
         docs.size());
 
-    std::size_t enriched = 0;
-    for (auto& doc : docs) {
+    try {
+        for (auto& doc : docs) {
         const std::string canonical_id = trimCopy(doc.id);
         const std::string canonical_content = trimCopy(doc.content);
 
@@ -257,7 +345,7 @@ std::size_t RAGIngestionBridge::enrichRetrievedDocuments(
             continue;
         }
 
-        auto entities = toolbox_->extractEntities(doc.metadata["content"]);
+        auto entities = toolbox->extractEntities(doc.metadata["content"]);
         if (entities.empty()) {
             continue;
         }
@@ -268,17 +356,33 @@ std::size_t RAGIngestionBridge::enrichRetrievedDocuments(
         }
     }
 
-    spdlog::info(
-        "RAGIngestionBridge::enrichRetrievedDocuments complete: docs={} enriched={}",
-        docs.size(),
-        enriched);
+        spdlog::info(
+            "RAGIngestionBridge::enrichRetrievedDocuments complete: docs={} enriched={}",
+            docs.size(),
+            enriched);
 
-    return enriched;
+        return enriched;
+    } catch (const std::exception& ex) {
+        spdlog::error("RAGIngestionBridge::enrichRetrievedDocuments exception: {}", ex.what());
+        return enriched;
+    } catch (...) {
+        spdlog::error("RAGIngestionBridge::enrichRetrievedDocuments exception: unknown failure");
+        return enriched;
+    }
 }
 
 std::vector<ingestion::BaseEntity>
 RAGIngestionBridge::extractEntitiesForContext(const std::string& text) {
-    return toolbox_->extractEntities(text);
+    const auto toolbox = toolbox_;
+    try {
+        return toolbox->extractEntities(text);
+    } catch (const std::exception& ex) {
+        spdlog::error("RAGIngestionBridge::extractEntitiesForContext exception: {}", ex.what());
+        return {};
+    } catch (...) {
+        spdlog::error("RAGIngestionBridge::extractEntitiesForContext exception: unknown failure");
+        return {};
+    }
 }
 
 // ─────────────────────────────────────────────────────────────────────────────

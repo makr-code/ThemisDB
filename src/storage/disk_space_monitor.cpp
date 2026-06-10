@@ -19,6 +19,7 @@
  */
 
 #include "storage/disk_space_monitor.h"
+#include "utils/thread_join_utils.h"
 #include <spdlog/spdlog.h>
 #include <algorithm>
 #include <numeric>
@@ -101,8 +102,9 @@ void DiskSpaceMonitor::stopMonitoring() {
     
     should_stop_ = true;
     
-    if (monitor_thread_.joinable()) {
-        monitor_thread_.join();
+    if (monitor_thread_.joinable() &&
+        !themis::utils::joinThreadWithin(monitor_thread_)) {
+        spdlog::warn("DiskSpaceMonitor: monitor thread exceeded shutdown timeout");
     }
     
     monitoring_active_ = false;
@@ -640,4 +642,3 @@ std::string getDirectory(const std::string& path) {
 
 } // namespace storage
 } // namespace themis
-

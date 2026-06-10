@@ -363,10 +363,13 @@ public:
         const std::vector<float>& query, size_t k) {
         
         if (!initialized_ || query.size() != static_cast<size_t>(dimension_)) {
+            THEMIS_WARN("VulkanVectorIndexBackend::searchIndices: uninitialized or query dimension mismatch (initialized={} dim={} expected={})",
+                        initialized_, query.size(), static_cast<size_t>(dimension_));
             return {};
         }
-        
+
         if (num_vectors_ == 0) {
+            THEMIS_DEBUG("VulkanVectorIndexBackend::searchIndices: no vectors loaded (num_vectors_=0)");
             return {};
         }
         
@@ -543,6 +546,8 @@ public:
     std::vector<std::vector<std::pair<float, size_t>>> searchBatchIndices(
         const std::vector<std::vector<float>>& queries, size_t k) {
         if (queries.empty() || !initialized_) {
+            THEMIS_DEBUG("VulkanVectorIndexBackend::searchBatchIndices: empty queries or not initialized (queries={} initialized={})",
+                        queries.size(), initialized_);
             return {};
         }
 
@@ -939,10 +944,12 @@ public:
             try {
                 initialized_ = fn(dimension);
             } catch (...) {
+                THEMIS_WARN("VulkanVectorIndexBackend::initialize: exception during initialization");
                 initialized_ = false;
             }
             return initialized_;
         }
+        THEMIS_DEBUG("VulkanVectorIndexBackend::initialize: no initialize function registered");
         return false;
     }
 
@@ -955,15 +962,22 @@ public:
             fn = VulkanVectorIndexBackend::uploadFnStorage();
         }
         if (fn) {
-            try { return fn(vectors); } catch (...) { return false; }
+            try { return fn(vectors); } catch (...) { THEMIS_ERROR("VulkanVectorIndexBackend::uploadVectors: exception in upload function"); return false; }
         }
+        THEMIS_DEBUG("VulkanVectorIndexBackend::uploadVectors: no upload function registered");
         return false;
     }
 
     std::vector<std::pair<float, size_t>> searchIndices(
-        const std::vector<float>&, size_t) { return {}; }
+        const std::vector<float>& query, size_t k) {
+        THEMIS_DEBUG("VulkanVectorIndexBackend::searchIndices: stub backend - returning empty result (dim={}, k={})", query.size(), k);
+        return {};
+    }
     std::vector<std::vector<std::pair<float, size_t>>> searchBatchIndices(
-        const std::vector<std::vector<float>>&, size_t) { return {}; }
+        const std::vector<std::vector<float>>& queries, size_t k) {
+        THEMIS_DEBUG("VulkanVectorIndexBackend::searchBatchIndices: stub backend - returning empty batch result (queries={} k={})", queries.size(), k);
+        return {};
+    }
 
     std::vector<GPUVectorIndex::SearchResult> search(
         const std::vector<float>& query, size_t k) {
@@ -973,8 +987,9 @@ public:
             fn = VulkanVectorIndexBackend::searchFnStorage();
         }
         if (fn) {
-            try { return fn(query, k); } catch (...) { return {}; }
+            try { return fn(query, k); } catch (...) { THEMIS_ERROR("VulkanVectorIndexBackend::search: exception in search function"); return {}; }
         }
+        THEMIS_DEBUG("VulkanVectorIndexBackend::search: no search function registered");
         return {};
     }
 
@@ -986,8 +1001,9 @@ public:
             fn = VulkanVectorIndexBackend::searchBatchFnStorage();
         }
         if (fn) {
-            try { return fn(queries, k); } catch (...) { return {}; }
+            try { return fn(queries, k); } catch (...) { THEMIS_ERROR("VulkanVectorIndexBackend::searchBatch: exception in searchBatch function"); return {}; }
         }
+        THEMIS_DEBUG("VulkanVectorIndexBackend::searchBatch: no searchBatch function registered");
         return {};
     }
 

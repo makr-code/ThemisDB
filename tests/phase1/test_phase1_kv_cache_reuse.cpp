@@ -19,7 +19,7 @@
 #include <gtest/gtest.h>
 #include "llm/llama_wrapper.h"
 #include "llm/llm_prefix_cache.h"
-#include "utils/mock_clock.h"
+#include "../utils/mock_clock.h"
 #include <filesystem>
 #include <cstdlib>
 #include <chrono>

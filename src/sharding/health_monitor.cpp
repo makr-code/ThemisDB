@@ -19,6 +19,8 @@
  */
 
 #include "sharding/health_monitor.h"
+#include "utils/logger.h"
+#include "utils/thread_join_utils.h"
 #include <algorithm>
 #include <stdexcept>
 
@@ -111,8 +113,9 @@ void HealthMonitor::stop() {
         return;  // Already stopped
     }
     
-    if (monitor_thread_.joinable()) {
-        monitor_thread_.join();
+    // thread_join_no_timeout (W4): bounded join via joinThreadWithin
+    if (!themis::utils::joinThreadWithin(monitor_thread_)) {
+        THEMIS_WARN("[HealthMonitor] monitor thread did not finish within shutdown deadline; detaching.");
     }
 }
 

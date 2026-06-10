@@ -19,6 +19,7 @@
  */
 
 #include "llama_cpp/llama_cpp_plugin.h"
+#include "llm/json_schema_converter.h"
 #include <stdexcept>
 #include "rag/rag_context_assembler.h"
 #include <algorithm>
@@ -206,6 +207,17 @@ llm::InferenceResponse LlamaCppPlugin::generate(const llm::InferenceRequest& req
         return response;
     }
 
+    // Per-request cancellation check: reject before starting inference.
+    if (request.cancellation_token &&
+        request.cancellation_token->load(std::memory_order_acquire)) {
+        ++error_count_;
+        response.success       = false;
+        response.error_message = "Request cancelled";
+        response.trace_id      = request.trace_id;
+        response.span_id       = request.span_id;
+        return response;
+    }
+
 #ifdef THEMIS_LLM_ENABLED
     if (w) {
         ++inference_count_;
@@ -300,7 +312,27 @@ llm::InferenceResponse LlamaCppPlugin::generate(const llm::InferenceRequest& req
     // Test-only path: retain the old echo behaviour when the test macro is set.
     {
         ++inference_count_;
-        const std::string text = "[stub:" + request.prompt.substr(0, 40) + "]";
+
+        // When tools are provided, synthesize a minimal stub tool-call JSON so
+        // tests can verify the tool-calling path without a real model.
+        std::string text;
+        if (!request.tools.empty()) {
+            const auto& first_tool = request.tools.front();
+            nlohmann::json tool_call_json = {
+                {"name", first_tool.name},
+                {"arguments", first_tool.parameters.contains("properties")
+                    ? nlohmann::json::object()
+                    : nlohmann::json::object()}
+            };
+            text = tool_call_json.dump();
+            auto parsed = llm::JsonSchemaConverter::parseToolCall(text);
+            if (parsed.has_value()) {
+                response.tool_calls.push_back(std::move(parsed.value()));
+            }
+        } else {
+            text = "[stub:" + request.prompt.substr(0, 40) + "]";
+        }
+
         if (request.stream_callback) {
             try {
                 request.stream_callback(text);
@@ -524,7 +556,7 @@ llm::LLMCapabilities LlamaCppPlugin::getCapabilities() const {
     cap.supports_lora          = true;
     cap.supports_embeddings    = true;
     cap.supports_rag           = true;
-    cap.supports_function_call = false;
+    cap.supports_function_call = true;
     cap.plugin_version         = "2.1.0";
     return cap;
 }

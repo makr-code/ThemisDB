@@ -15,6 +15,7 @@
 #include <vector>
 #include <memory>
 #include <functional>
+#include <mutex>
 #include <optional>
 
 namespace themis {
@@ -288,14 +289,27 @@ public:
         const std::vector<std::string>& best_path);
 
 private:
-    ToTConfig                            config_;
+    mutable std::mutex                    mutex_;
+    ToTConfig                             config_;
     std::shared_ptr<IToTThoughtGenerator> generator_;
     std::shared_ptr<IToTEvaluator>        evaluator_;
-
+ 
     // Internal search implementations
-    ToTResult solveBFS(const std::string& problem);
-    ToTResult solveDFS(const std::string& problem);
-    ToTResult solveBeam(const std::string& problem);
+    ToTResult solveBFS(
+        const std::string& problem,
+        const ToTConfig& config,
+        const std::shared_ptr<IToTThoughtGenerator>& generator,
+        const std::shared_ptr<IToTEvaluator>& evaluator);
+    ToTResult solveDFS(
+        const std::string& problem,
+        const ToTConfig& config,
+        const std::shared_ptr<IToTThoughtGenerator>& generator,
+        const std::shared_ptr<IToTEvaluator>& evaluator);
+    ToTResult solveBeam(
+        const std::string& problem,
+        const ToTConfig& config,
+        const std::shared_ptr<IToTThoughtGenerator>& generator,
+        const std::shared_ptr<IToTEvaluator>& evaluator);
 
     // Shared helpers
     ToTNode makeNode(const std::string& thought,

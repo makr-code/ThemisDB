@@ -19,6 +19,8 @@
  */
 
 #include "sharding/shard_resource_manager.h"
+#include "utils/logger.h"
+#include "utils/thread_join_utils.h"
 #include <thread>
 #include <algorithm>
 #include <numeric>
@@ -205,8 +207,9 @@ void ShardResourceManager::stop() {
         return; // Not running
     }
     
-    if (monitoring_thread_.joinable()) {
-        monitoring_thread_.join();
+    // thread_join_no_timeout (W4): bounded join via joinThreadWithin
+    if (!themis::utils::joinThreadWithin(monitoring_thread_)) {
+        THEMIS_WARN("[ShardResourceManager] monitoring thread did not finish within shutdown deadline; detaching.");
     }
 }
 

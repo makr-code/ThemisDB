@@ -23,6 +23,7 @@
 #include "storage/rocksdb_wrapper.h"
 #include "index/index_manager.h"
 #include "index/vector_index.h"
+#include "utils/thread_join_utils.h"
 #include "utils/logger.h"
 #include <sstream>
 #include <iomanip>
@@ -82,8 +83,9 @@ Result<void> IndexMaintenanceManager::stop() {
     
     cv_.notify_all();
     
-    if (maintenance_thread_.joinable()) {
-        maintenance_thread_.join();
+    if (maintenance_thread_.joinable() &&
+        !utils::joinThreadWithin(maintenance_thread_)) {
+        THEMIS_WARN("IndexMaintenanceManager: maintenance thread exceeded shutdown timeout");
     }
     
     THEMIS_INFO("Index maintenance background thread stopped");
@@ -933,4 +935,3 @@ Result<MaintenanceJobStatus> IndexMaintenanceManager::vectorIncrementalReindex(
 }
 
 } // namespace themis
-

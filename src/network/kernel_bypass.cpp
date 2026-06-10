@@ -16,6 +16,7 @@
 #include <cassert>
 #include <cerrno>
 #include <cstring>
+#include <future>
 #include <new>
 #include <stdexcept>
 #include <system_error>
@@ -74,6 +75,31 @@ static int themis_io_uring_register(int fd, unsigned opcode,
 
 namespace themis {
 namespace network {
+
+namespace {
+
+constexpr int kShutdownJoinTimeoutMs = 5000;
+
+/// @brief Join @p t within @p timeout_ms; log and detach on timeout.
+static void timedJoin(std::thread& t,
+                      int timeout_ms = kShutdownJoinTimeoutMs) noexcept {
+    if (!t.joinable()) return;
+    std::promise<void> done;
+    auto fut = done.get_future();
+    std::thread watcher([inner = std::move(t), p = std::move(done)]() mutable {
+        if (inner.joinable()) inner.join();
+        p.set_value();
+    });
+    watcher.detach();
+    if (fut.wait_for(std::chrono::milliseconds(timeout_ms)) !=
+            std::future_status::ready) {
+        // thread_join_no_timeout: detach on deadline to avoid indefinite block
+        THEMIS_WARN("Thread did not finish within {} ms during shutdown; detaching.",
+                    timeout_ms);
+    }
+}
+
+} // namespace
 
 // =============================================================================
 // CpuPinner
@@ -578,7 +604,7 @@ bool DPDKServer::start() {
 void DPDKServer::stop() {
     if (!running_.exchange(false, std::memory_order_acq_rel)) return;
     for (auto& t : workers_) {
-        if (t.joinable()) t.join();
+        timedJoin(t);
     }
     workers_.clear();
 
@@ -942,7 +968,7 @@ void IoUringServer::stop() {
 #endif
 
     for (auto& t : workers_) {
-        if (t.joinable()) t.join();
+        timedJoin(t);
     }
     workers_.clear();
     teardown();

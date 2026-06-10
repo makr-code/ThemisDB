@@ -22,6 +22,8 @@
 #include <stdexcept>
 #include "sharding/shard_topology.h"
 #include "sharding/mtls_client.h"
+#include "utils/logger.h"
+#include "utils/thread_join_utils.h"
 #include <random>
 #include <algorithm>
 #include <sstream>
@@ -87,12 +89,13 @@ void GossipProtocol::stop() {
     
     running_.store(false);
     
-    if (gossip_thread_.joinable()) {
-        gossip_thread_.join();
+    // thread_join_no_timeout (W4): bounded join via joinThreadWithin
+    if (!themis::utils::joinThreadWithin(gossip_thread_)) {
+        THEMIS_WARN("[GossipProtocol] gossip thread did not finish within shutdown deadline; detaching.");
     }
     
-    if (cleanup_thread_.joinable()) {
-        cleanup_thread_.join();
+    if (!themis::utils::joinThreadWithin(cleanup_thread_)) {
+        THEMIS_WARN("[GossipProtocol] cleanup thread did not finish within shutdown deadline; detaching.");
     }
 }
 

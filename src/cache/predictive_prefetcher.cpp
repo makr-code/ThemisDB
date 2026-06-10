@@ -25,6 +25,7 @@
 #include <stdexcept>
 #include "storage/rocksdb_wrapper.h"
 #include "observability/metrics_collector.h"
+#include "utils/logger.h"
 #include <algorithm>
 #include <utility>
 

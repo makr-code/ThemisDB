@@ -12,6 +12,13 @@
 - Actionable Findings (Critical + High): 101
 - Affected Files: 14
 
+## Manual Resolution Updates
+
+- 2026-06-10 (pending scanner refresh):
+  - Resolved `cdc/changefeed.cpp` critical findings for `SequenceIncrementOperator` destructor coverage, documented RocksDB-owned immutable `Slice` access in `Merge()`, and made retention-thread shutdown interruptible before `join()`.
+  - Resolved `cdc/changefeed_buffer.cpp` critical findings by making the destructor `noexcept` and documenting the stop-signal + notify + `join()` shutdown path.
+  - Resolved `cdc/tenant_buffer_manager.cpp` critical findings by making the destructor `noexcept` and staging `ChangefeedBuffer` ownership in local `std::unique_ptr` instances before publishing tenant state.
+
 ## Severity Summary
 
 | Severity | Count |
@@ -84,27 +91,27 @@
 Total findings: 48
 
 - Line 43: severity=CRITICAL; category=missing_dtor
-  Description: Class SequenceIncrementOperator allocates resources but has no destructor
+  Description: Class SequenceIncrementOperator allocates resources but has no destructor [resolved in source 2026-06-10; pending scanner refresh]
   Remediation: Review finding and apply recommended module-specific fix.
   Scanner: Uniform::raii
   Context: class/struct SequenceIncrementOperator
 - Line 48: severity=CRITICAL; category=data_race
-  Description: Shared data access without lock protection
+  Description: Shared data access without lock protection [resolved in source 2026-06-10; RocksDB immutable Slice access documented; pending scanner refresh]
   Remediation: Review finding and apply recommended module-specific fix.
   Scanner: Uniform::concurrency
   Context: if (existing_value != nullptr && !existing_value->empty()) {
 - Line 49: severity=CRITICAL; category=data_race
-  Description: Shared data access without lock protection
+  Description: Shared data access without lock protection [resolved in source 2026-06-10; RocksDB immutable Slice access documented; pending scanner refresh]
   Remediation: Review finding and apply recommended module-specific fix.
   Scanner: Uniform::concurrency
   Context: if (existing_value->size() == sizeof(uint64_t)) {
 - Line 55: severity=CRITICAL; category=data_race
-  Description: Shared data access without lock protection
+  Description: Shared data access without lock protection [resolved in source 2026-06-10; RocksDB immutable Slice access documented; pending scanner refresh]
   Remediation: Review finding and apply recommended module-specific fix.
   Scanner: Uniform::concurrency
   Context: base = std::stoull(std::string(existing_value->data(),
 - Line 1076: severity=CRITICAL; category=thread_join_no_timeout
-  Description: Thread join/wait without timeout (blocking indefinitely)
+  Description: Thread join/wait without timeout (blocking indefinitely) [resolved in source 2026-06-10; shutdown wait is now interruptible before join; pending scanner refresh]
   Remediation: Review finding and apply recommended module-specific fix.
   Scanner: Uniform::phase1_thread_safety
   Context: retention_thread_.join();
@@ -567,16 +574,16 @@ Total findings: 10
 Total findings: 10
 
 - Line 26: severity=CRITICAL; category=exception_in_destructor
-  Description: Destructors must be noexcept; exceptions here cause std::terminate()
+  Description: Destructors must be noexcept; exceptions here cause std::terminate() [resolved in source 2026-06-10; pending scanner refresh]
   Remediation: Review finding and apply recommended module-specific fix.
   Scanner: Uniform::exception_safety
 - Line 179: severity=CRITICAL; category=smart_ptr_misuse
-  Description: Raw new without immediate wrapping in smart pointer
+  Description: Raw new without immediate wrapping in smart pointer [resolved in source 2026-06-10; pending scanner refresh]
   Remediation: Review finding and apply recommended module-specific fix.
   Scanner: Uniform::raii
   Context: THEMIS_INFO("Created new tenant: {}", config.tenant_id);
 - Line 356: severity=CRITICAL; category=smart_ptr_misuse
-  Description: Raw new without immediate wrapping in smart pointer
+  Description: Raw new without immediate wrapping in smart pointer [resolved in source 2026-06-10; pending scanner refresh]
   Remediation: Review finding and apply recommended module-specific fix.
   Scanner: Uniform::raii
   Context: THEMIS_INFO("Auto-created buffer for new tenant: {}", tenant_id);
@@ -615,7 +622,7 @@ Total findings: 10
 Total findings: 9
 
 - Line 65: severity=CRITICAL; category=thread_join_no_timeout
-  Description: Thread join/wait without timeout (blocking indefinitely)
+  Description: Thread join/wait without timeout (blocking indefinitely) [resolved in source 2026-06-10; stop-signal + notify + join documented; pending scanner refresh]
   Remediation: Review finding and apply recommended module-specific fix.
   Scanner: Uniform::phase1_thread_safety
   Context: flush_thread_.join();

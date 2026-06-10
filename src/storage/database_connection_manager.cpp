@@ -19,6 +19,7 @@
  */
 
 #include "storage/database_connection_manager.h"
+#include "utils/thread_join_utils.h"
 #include <spdlog/spdlog.h>
 #include <random>
 #include <algorithm>
@@ -586,8 +587,14 @@ void ConnectionKeepalive::stop() {
         spdlog::error("Keepalive exception: {}", e.what());
     }
     
-    if (keepalive_thread_.joinable()) {
-        keepalive_thread_.join();
+    {
+        std::lock_guard<std::mutex> lock(stop_mutex_);
+        stop_cv_.notify_all();
+    }
+
+    if (keepalive_thread_.joinable() &&
+        !themis::utils::joinThreadWithin(keepalive_thread_)) {
+        spdlog::warn("ConnectionKeepalive: keepalive thread exceeded shutdown timeout");
     }
     
     running_ = false;
@@ -609,7 +616,11 @@ size_t ConnectionKeepalive::getFailureCount() const {
 
 void ConnectionKeepalive::keepaliveLoop() {
     while (!should_stop_.load()) {
-        std::this_thread::sleep_for(interval_);
+        std::unique_lock<std::mutex> lock(stop_mutex_);
+        stop_cv_.wait_for(lock, interval_, [this] {
+            return should_stop_.load();
+        });
+        lock.unlock();
         
         if (should_stop_.load()) {
             break;

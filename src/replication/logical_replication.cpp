@@ -498,6 +498,7 @@ std::string LogicalReplicationManager::documentIdFromChange(const LogicalChange&
             return v.is_string() ? v.get<std::string>() : v.dump();
         }
     }
+    THEMIS_DEBUG("LogicalReplicationManager::documentIdFromChange: no document id found in change; returning empty string");
     return {};
 }
 
@@ -712,7 +713,10 @@ std::string LogicalReplicationManager::slotStatePath(const std::string& slot_nam
     fs::path base = config_.wal_directory.empty()
                         ? fs::path()
                         : fs::path(config_.wal_directory) / "logical_slots";
-    if (base.empty()) return {};
+    if (base.empty()) {
+        THEMIS_WARN("LogicalReplicationManager::slotStatePath: wal_directory not configured; returning empty path");
+        return {};
+    }
     if (slot_name.empty()) return base.string();
     return (base / (slot_name + ".json")).string();
 }
@@ -724,7 +728,10 @@ LogicalReplicationManager::Stats LogicalReplicationManager::getStats() const {
 
 std::string LogicalReplicationManager::collectionKey(const std::string& collection,
                                                      const std::string& document_id) {
-    if (collection.empty() || document_id.empty()) return {};
+    if (collection.empty() || document_id.empty()) {
+        THEMIS_WARN("LogicalReplicationManager::collectionKey: empty collection or document_id; returning empty key");
+        return {};
+    }
     return collection + ":" + document_id;
 }
 

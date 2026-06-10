@@ -140,6 +140,8 @@ public:
     std::vector<SearchResult> searchOversubscribed(const std::vector<float>& query, size_t k) {
         if (!oversubManager || vectorData.empty() ||
             query.size() != static_cast<size_t>(dimension)) {
+            THEMIS_DEBUG("GPUVectorIndex::searchOversubscribed - no oversub manager or empty data or dim mismatch (oversubManager={} vector_count={} query_dim={} expected_dim={})",
+                        static_cast<bool>(oversubManager), vectorData.size(), query.size(), dimension);
             return {};
         }
 
@@ -594,6 +596,7 @@ public:
     
     std::vector<SearchResult> search(const std::vector<float>& query, size_t k) {
         if (!initialized) {
+            THEMIS_WARN("GPUVectorIndex::search called on uninitialized index");
             return {};
         }
 
@@ -657,6 +660,8 @@ public:
     
     std::vector<SearchResult> searchCPU(const std::vector<float>& query, size_t k) {
         if (vectorData.empty() || query.size() != static_cast<size_t>(dimension)) {
+            THEMIS_DEBUG("GPUVectorIndex::searchCPU - empty data or dimension mismatch (vectors={} query_dim={} expected_dim={})",
+                        vectorData.size(), query.size(), static_cast<size_t>(dimension));
             return {};
         }
         
@@ -692,6 +697,8 @@ public:
     // CUDA backend search functions (currently not used, Vulkan is active)
     std::vector<SearchResult> searchGPU(const std::vector<float>& query, size_t k) {
         if (!cudaBackend || vectorData.empty() || query.size() != static_cast<size_t>(dimension)) {
+            THEMIS_WARN("GPUVectorIndex::searchGPU - invalid state (cudaBackend={} vectors={} query_dim={} expected_dim={})",
+                        static_cast<bool>(cudaBackend), vectorData.size(), query.size(), static_cast<size_t>(dimension));
             return {};
         }
         
@@ -748,6 +755,8 @@ public:
         const std::vector<std::vector<float>>& queries, size_t k) {
         
         if (!cudaBackend || vectorData.empty() || queries.empty()) {
+            THEMIS_DEBUG("GPUVectorIndex::searchBatchGPU - invalid state (cudaBackend={} vectors={} queries={})",
+                        static_cast<bool>(cudaBackend), vectorData.size(), queries.size());
             return {};
         }
         
@@ -843,6 +852,8 @@ public:
     std::vector<SearchResult> searchHIP(const std::vector<float>& query, size_t k) {
         if (!hipBackend || vectorData.empty() ||
             query.size() != static_cast<size_t>(dimension)) {
+            THEMIS_DEBUG("GPUVectorIndex::searchHIP - invalid state (hipBackend={} vectors={} query_dim={} expected_dim={})",
+                        static_cast<bool>(hipBackend), vectorData.size(), query.size(), static_cast<size_t>(dimension));
             return {};
         }
 
@@ -889,6 +900,8 @@ public:
         const std::vector<std::vector<float>>& queries, size_t k) {
 
         if (!hipBackend || vectorData.empty() || queries.empty()) {
+            THEMIS_DEBUG("GPUVectorIndex::searchBatchHIP - invalid state (hipBackend={} vectors={} queries={})",
+                        static_cast<bool>(hipBackend), vectorData.size(), queries.size());
             return {};
         }
 
@@ -1249,6 +1262,7 @@ std::vector<std::vector<GPUVectorIndex::SearchResult>> GPUVectorIndex::searchBat
                 }
                 return results;
             }
+            THEMIS_WARN("GPUVectorIndex::searchBatch: HIP backend failed and CPU fallback disabled");
             return {};
         }
         case Backend::CUDA: {
@@ -1269,6 +1283,7 @@ std::vector<std::vector<GPUVectorIndex::SearchResult>> GPUVectorIndex::searchBat
                 }
                 return results;
             }
+            THEMIS_WARN("GPUVectorIndex::searchBatch: CUDA backend failed and CPU fallback disabled");
             return {};
         }
         case Backend::CPU:

@@ -22,6 +22,7 @@
 #include "storage/rocksdb_wrapper.h"
 #include "utils/cron_parser.h"
 #include "utils/logger.h"
+#include "utils/thread_join_utils.h"
 
 #include <yaml-cpp/yaml.h>
 #include <rocksdb/db.h>
@@ -320,8 +321,9 @@ Result<void> IndexAnalyzer::startScheduled() {
 void IndexAnalyzer::stopScheduled() {
     if (!running_.exchange(false)) return;  // already stopped
     cv_.notify_all();
-    if (scheduler_thread_.joinable()) {
-        scheduler_thread_.join();
+    if (scheduler_thread_.joinable() &&
+        !utils::joinThreadWithin(scheduler_thread_)) {
+        THEMIS_WARN("IndexAnalyzer: scheduler thread exceeded shutdown timeout");
     }
     THEMIS_INFO("IndexAnalyzer: cron scheduler stopped");
 }
@@ -594,4 +596,3 @@ IndexRecommendation IndexAnalyzer::classify(double frag_pct,
 }
 
 } // namespace themis
-

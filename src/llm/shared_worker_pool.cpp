@@ -19,6 +19,8 @@
  */
 
 #include "llm/shared_worker_pool.h"
+#include "utils/logger.h"
+#include "utils/thread_join_utils.h"
 #include <stdexcept>
 #include <spdlog/spdlog.h>
 
@@ -117,7 +119,10 @@ void SharedWorkerPool::shutdown() {
 
     for (auto& worker : workers_) {
         if (worker.joinable()) {
-            worker.join();
+            // thread_join_no_timeout (W4): bounded join via joinThreadWithin
+            if (!themis::utils::joinThreadWithin(worker)) {
+                THEMIS_WARN("[SharedWorkerPool] thread did not finish within shutdown deadline; detaching.");
+            }
         }
     }
     workers_.clear();

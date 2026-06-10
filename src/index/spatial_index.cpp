@@ -139,7 +139,10 @@ std::vector<std::pair<uint64_t, uint64_t>> MortonEncoder::getRanges(
     uint32_t qy_hi = normalizeCoord(
         std::min(query_bbox.maxy, total_bounds.maxy), total_bounds.miny, total_bounds.maxy);
 
-    if (qx_lo > qx_hi || qy_lo > qy_hi) return {};
+    if (qx_lo > qx_hi || qy_lo > qy_hi) {
+        THEMIS_DEBUG("MortonEncoder::getRanges - clipped query bbox is empty after normalization");
+        return {};
+    }
 
     // Quadtree node: x0/y0 are the inclusive low corners; `bits` is the number
     // of free bits per dimension (32 = root covering [0, 2^32-1], 0 = leaf).
@@ -920,7 +923,10 @@ std::vector<SpatialResult> SpatialIndexManager::searchIntersects(
     metrics_.query_count++;
 
     auto config = getConfig(table);
-    if (!config) return {};
+    if (!config) {
+        THEMIS_WARN("SpatialIndexManager::searchIntersects - missing config for table {}", std::string(table));
+        return {};
+    }
 
     // ── Fast path: use in-memory R-tree when available ───────────────────
     // ensureRTree() builds the R-tree lazily from per-PK RocksDB keys on the
@@ -1135,7 +1141,10 @@ std::vector<SpatialResult> SpatialIndexManager::searchContains(
     // unused parameter
 
     auto config = getConfig(table);
-    if (!config) return {};
+    if (!config) {
+        THEMIS_WARN("SpatialIndexManager::searchWithin - missing config for table {}", std::string(table));
+        return {};
+    }
 
     // ── Fast path: use the R-tree's point-containment query directly ─────
     // GeoRTree::contains(x, y) issues a zero-area bounding-box query and
@@ -1246,10 +1255,16 @@ std::vector<SpatialResult> SpatialIndexManager::searchKNN(
     [[maybe_unused]] std::optional<double> z
 ) const {
     // unused parameter — reserved for future 3D distance filtering
-    if (k == 0) return {};
+    if (k == 0) {
+        THEMIS_DEBUG("SpatialIndexManager::searchKNN - k==0, returning empty result");
+        return {};
+    }
 
     auto config = getConfig(table);
-    if (!config) return {};
+    if (!config) {
+        THEMIS_WARN("SpatialIndexManager::searchKNN - missing config for table {}", std::string(table));
+        return {};
+    }
 
     // Ensure the R-tree is built before we start querying.
     ensureRTree(table);

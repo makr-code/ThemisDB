@@ -294,6 +294,7 @@ private:
 
     mutable NVMeCapabilities capabilities_;
     mutable std::once_flag   capabilities_once_;  ///< Guards one-time detection
+    mutable std::mutex       state_mutex_;         ///< Guards cached capabilities/config reads used across threads
     mutable std::mutex       zone_mutex_;          ///< Serialises zone management calls
     mutable std::mutex       ring_mutex_;          ///< Serialises io_uring ring operations
 

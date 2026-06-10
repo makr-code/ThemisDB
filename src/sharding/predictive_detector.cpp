@@ -23,6 +23,8 @@
  */
 
 #include "sharding/predictive_detector.h"
+#include "utils/logger.h"
+#include "utils/thread_join_utils.h"
 #include <algorithm>
 #include <array>
 #include <numeric>
@@ -158,8 +160,9 @@ void PredictiveFailureDetector::stop() {
         return;  // Already stopped
     }
     
-    if (monitoring_thread_.joinable()) {
-        monitoring_thread_.join();
+    // thread_join_no_timeout (W4): bounded join via joinThreadWithin
+    if (!themis::utils::joinThreadWithin(monitoring_thread_)) {
+        THEMIS_WARN("[PredictiveFailureDetector] monitoring thread did not finish within shutdown deadline; detaching.");
     }
 }
 

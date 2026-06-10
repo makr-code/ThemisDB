@@ -43,6 +43,52 @@ static constexpr const char* API_MIGRATE_FETCH = "/api/v1/data/migrate/fetch";
 static constexpr const char* API_MIGRATE_WRITE = "/api/v1/data/migrate/write";
 static constexpr const char* API_QUERY = "/api/v1/query";
 
+namespace {
+
+uint64_t makeMergeVersionToken() {
+    return static_cast<uint64_t>(
+        std::chrono::steady_clock::now().time_since_epoch().count());
+}
+
+uint64_t extractVersionToken(const nlohmann::json& payload) {
+    if (payload.is_object()) {
+        for (const char* key : {"mergeVersion", "version_token", "versionToken", "version"}) {
+            auto it = payload.find(key);
+            if (it != payload.end() && it->is_number_unsigned()) {
+                return it->get<uint64_t>();
+            }
+            if (it != payload.end() && it->is_number_integer()) {
+                const auto value = it->get<int64_t>();
+                if (value >= 0) {
+                    return static_cast<uint64_t>(value);
+                }
+            }
+        }
+
+        uint64_t nested_version = 0;
+        for (const auto& [_, value] : payload.items()) {
+            nested_version = std::max(nested_version, extractVersionToken(value));
+        }
+        return nested_version;
+    }
+
+    if (payload.is_array()) {
+        uint64_t nested_version = 0;
+        for (const auto& item : payload) {
+            nested_version = std::max(nested_version, extractVersionToken(item));
+        }
+        return nested_version;
+    }
+
+    return 0;
+}
+
+uint64_t resolveShardResultVersion(const ShardResult& result) {
+    return std::max(result.version_token, extractVersionToken(result.data));
+}
+
+} // namespace
+
 /** @brief Parse URL query string (`?a=b&c=d`) into key/value map. */
 static std::map<std::string, std::string> parseQueryParams(const std::string& path) {
     std::map<std::string, std::string> params;
@@ -661,6 +707,10 @@ nlohmann::json ShardRouter::executeCrossShardJoin(
 
         size_t total_right_rows  = 0;
         size_t total_matched_rows = 0;
+        uint64_t merge_version = makeMergeVersionToken();
+        for (const auto& shard_result : left_results) {
+            merge_version = std::max(merge_version, resolveShardResultVersion(shard_result));
+        }
         nlohmann::json joined_rows = nlohmann::json::array();
 
         if (!right_collection.empty()) {
@@ -668,8 +718,11 @@ nlohmann::json ShardRouter::executeCrossShardJoin(
             const std::string right_query =
                 "FOR doc IN " + right_collection + " RETURN doc";
             auto right_results = scatterGather(right_query);
-
             for (const auto& shard_result : right_results) {
+                merge_version = std::max(merge_version, resolveShardResultVersion(shard_result));
++                const uint64_t shard_version = resolveShardResultVersion(shard_result));
+                if (!shard_result.success || !shard_result.data.is_array()) continue;
+                for (const auto& right_row : shard_result.data) {
                 if (!shard_result.success || !shard_result.data.is_array()) continue;
                 for (const auto& right_row : shard_result.data) {
                     total_right_rows++;
@@ -689,6 +742,11 @@ nlohmann::json ShardRouter::executeCrossShardJoin(
                             const std::string rk = "right_" + k;
                             if (!merged.contains(rk)) merged[rk] = v;
                         }
+                        const uint64_t row_merge_version = std::max(
+                            merge_version,
+                            std::max(extractVersionToken(left_row), extractVersionToken(right_row)));
+                        merged["mergeVersion"] = row_merge_version;
+                        merged["version_token"] = row_merge_version;
                         joined_rows.push_back(std::move(merged));
                         ++total_matched_rows;
                     }
@@ -702,6 +760,8 @@ nlohmann::json ShardRouter::executeCrossShardJoin(
             {"left_rows",    total_left_rows},
             {"right_rows",   total_right_rows},
             {"matched_rows", total_matched_rows},
+            {"mergeVersion", merge_version},
+            {"version_token", merge_version},
             {"data",         std::move(joined_rows)}
         };
         
@@ -730,10 +790,13 @@ nlohmann::json ShardRouter::executeCrossShardJoin(
         
         // Phase 2: Merge results from all shards
         nlohmann::json merged = mergeResults(results);
+        const uint64_t merge_version = merged.value("mergeVersion", makeMergeVersionToken());
         
         nlohmann::json result = {
             {"join_type", "co_located"},
             {"join_field", join_field},
+            {"mergeVersion", merge_version},
+            {"version_token", merge_version},
             {"data", merged}
         };
         
@@ -1020,8 +1083,10 @@ nlohmann::json ShardRouter::mergeResults(const std::vector<ShardResult>& results
     merged["shard_count"] = results.size();
     
     size_t success_count = 0;
+    uint64_t merge_version = makeMergeVersionToken();
     
     for (const auto& result : results) {
+        merge_version = std::max(merge_version, resolveShardResultVersion(result));
         if (result.success) {
             success_count++;
             
@@ -1048,6 +1113,8 @@ nlohmann::json ShardRouter::mergeResults(const std::vector<ShardResult>& results
     
     merged["success_count"] = success_count;
     merged["error_count"] = results.size() - success_count;
+    merged["mergeVersion"] = merge_version;
+    merged["version_token"] = merge_version;
     
     return merged;
 }

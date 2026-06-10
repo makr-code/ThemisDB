@@ -1,0 +1,5 @@
+W5-Sharding implementation plan
+- Inspect shard_router merge/cross-shard join paths and add merged version metadata propagation.
+- Inspect stream_protocol critical data-race hotspots and guard shared session/task state with existing mutexes/atomics.
+- Inspect redundancy_strategy critical data-race/version-tracking hotspots and add minimal synchronization/version metadata.
+- Update MODULE_GAPS remediation log, run docs lint, verify targeted files via git diff, secret scan, and commit.

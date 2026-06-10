@@ -65,11 +65,17 @@ public:
     std::vector<std::string> lookup(std::string_view value) const override {
         if (is_partial_) {
             auto [st, keys] = manager_->scanKeysEqualPartial(table_name_, field_name_, value);
-            if (!st.ok) return {};
+            if (!st.ok) {
+                THEMIS_WARN("SecondaryIndexAdapter::lookup: scanKeysEqualPartial failed for {}.{}", table_name_, field_name_);
+                return {};
+            }
             return keys;
         }
         auto [st, keys] = manager_->scanKeysEqual(table_name_, field_name_, value);
-        if (!st.ok) return {};
+        if (!st.ok) {
+            THEMIS_WARN("SecondaryIndexAdapter::lookup: scanKeysEqual failed for {}.{}", table_name_, field_name_);
+            return {};
+        }
         return keys;
     }
 
@@ -85,7 +91,10 @@ public:
             lower, upper,
             /*includeLower=*/true, /*includeUpper=*/false,
             kDefaultRangeScanLimit, reversed);
-        if (!st.ok) return {};
+        if (!st.ok) {
+            THEMIS_WARN("SecondaryIndexAdapter::rangeScan: scanKeysRange failed for {}.{}", table_name_, field_name_);
+            return {};
+        }
         return keys;
     }
 
@@ -141,7 +150,10 @@ public:
         const IExpressionEvaluator* /*filter*/ = nullptr) const override {
 
         auto [status, results] = manager_->searchKnn(query_vector, k);
-        if (!status.ok) return {};
+        if (!status.ok) {
+            THEMIS_WARN("VectorIndexAdapter::search: underlying searchKnn failed: {}", status.message);
+            return {};
+        }
         std::vector<VectorSearchResult> out;
         out.reserve(results.size());
         for (const auto& r : results) {
@@ -157,7 +169,10 @@ public:
 
         auto [status, results] = manager_->searchKnnRadius(
             query_vector, max_distance, /*max_results=*/0, /*whitelist=*/nullptr);
-        if (!status.ok) return {};
+        if (!status.ok) {
+            THEMIS_WARN("VectorIndexAdapter::rangeSearch: underlying searchKnnRadius failed: {}", status.message);
+            return {};
+        }
         std::vector<VectorSearchResult> out;
         out.reserve(results.size());
         for (const auto& r : results) {
@@ -619,7 +634,9 @@ std::vector<std::string> IndexManager::listIndexes() const {
     for (const auto& [name, type] : index_types_) {
         indices.push_back(name);
     }
-    
+    if (indices.empty()) {
+        THEMIS_DEBUG("IndexManager::listIndexes: no indexes registered");
+    }
     return indices;
 }
 

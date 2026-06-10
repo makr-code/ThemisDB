@@ -96,7 +96,8 @@ public:
                std::string* new_value,
                rocksdb::Logger* /*logger*/) const override {
         // data_race scanner alert: RocksDB invokes merge operators with
-        // per-call immutable Slice views; this function mutates only local state.
+        // per-call immutable Slice views that are owned by the current Merge() call;
+        // this function mutates only stack/local state and touches no shared members.
         // null_dereference scanner alert (line 90): existing_value is explicitly
         // null-checked before any dereference — false positive.
         // size_assumption scanner alerts (lines 91-92, 105-111): sizeof(uint64_t)
@@ -248,11 +249,12 @@ RocksDBWrapper& RocksDBWrapper::operator=(RocksDBWrapper&& other) noexcept {
     return *this;
 }
 
-// configureOptions() accesses config_ and options_ members without a lock.
-// This is safe because it is called only from the constructor
-// (RocksDBWrapper::RocksDBWrapper(), line 126), which is single-threaded.
-// Data-race scanner alerts on this function are false positives.
+// configureOptions() runs during construction before publication to other
+// threads, but it also takes options_mutex_ so later option snapshots (open(),
+// statistics export) see a consistently configured set of RocksDB options.
 void RocksDBWrapper::configureOptions() {
+    std::lock_guard<std::mutex> options_lock(options_mutex_);
+
     // Optional: auto-apply Phase 2H tuning for high concurrency when enabled
     if (config_.enable_high_parallel_tuning) {
         if (config_.max_background_compactions <= 0) config_.max_background_compactions = 8;
@@ -640,10 +642,13 @@ bool RocksDBWrapper::open() {
     // List existing column families to open them all
     std::vector<std::string> cf_names;
     rocksdb::DBOptions db_opts;
-    db_opts.create_if_missing = options_->create_if_missing;
-    db_opts.create_missing_column_families = options_->create_missing_column_families;
-    db_opts.max_open_files = options_->max_open_files;
-    db_opts.max_background_jobs = options_->max_background_jobs;
+    {
+        std::lock_guard<std::mutex> options_lock(options_mutex_);
+        db_opts.create_if_missing = options_->create_if_missing;
+        db_opts.create_missing_column_families = options_->create_missing_column_families;
+        db_opts.max_open_files = options_->max_open_files;
+        db_opts.max_background_jobs = options_->max_background_jobs;
+    }
     rocksdb::Status list_status = rocksdb::DB::ListColumnFamilies(
         db_opts, 
         config_.db_path, 
@@ -1978,8 +1983,12 @@ std::string RocksDBWrapper::getStats() const {
     
     // Get statistics counters if available
     std::string stats_counters;
-    if (options_->statistics) {
-        auto stats = options_->statistics;
+    std::shared_ptr<rocksdb::Statistics> stats;
+    {
+        std::lock_guard<std::mutex> options_lock(options_mutex_);
+        stats = options_->statistics;
+    }
+    if (stats) {
         // data_race scanner alert: RocksDB statistics counters are internally
         // synchronized/atomic and safe for concurrent reads.
         uint64_t block_cache_hit = stats->getTickerCount(rocksdb::BLOCK_CACHE_HIT);
@@ -2389,7 +2398,16 @@ uint32_t RocksDBWrapper::getBackupCount(const std::string& backup_dir) const {
 }
 
 std::string RocksDBWrapper::exportStatisticsJSON() const {
-    if (!db_ || !options_->statistics) {
+    if (!db_) {
+        return "{}";
+    }
+
+    std::shared_ptr<rocksdb::Statistics> stats;
+    {
+        std::lock_guard<std::mutex> options_lock(options_mutex_);
+        stats = options_->statistics;
+    }
+    if (!stats) {
         return "{}";
     }
     
@@ -2397,7 +2415,6 @@ std::string RocksDBWrapper::exportStatisticsJSON() const {
         json stats_obj;
         
         // Export key RocksDB statistics
-        auto stats = options_->statistics;
         
         stats_obj["bytes_written"] = stats->getTickerCount(rocksdb::BYTES_WRITTEN);
         stats_obj["bytes_read"] = stats->getTickerCount(rocksdb::BYTES_READ);
@@ -2422,7 +2439,16 @@ std::string RocksDBWrapper::exportStatisticsJSON() const {
 }
 
 uint64_t RocksDBWrapper::getStatistic(const std::string& ticker_name) const {
-    if (!db_ || !options_->statistics) {
+    if (!db_) {
+        return 0;
+    }
+
+    std::shared_ptr<rocksdb::Statistics> stats;
+    {
+        std::lock_guard<std::mutex> options_lock(options_mutex_);
+        stats = options_->statistics;
+    }
+    if (!stats) {
         return 0;
     }
     
@@ -2446,7 +2472,7 @@ uint64_t RocksDBWrapper::getStatistic(const std::string& ticker_name) const {
     
     auto it = ticker_map.find(ticker_name);
     if (it != ticker_map.end()) {
-        return options_->statistics->getTickerCount(it->second);
+        return stats->getTickerCount(it->second);
     }
     
     return 0;

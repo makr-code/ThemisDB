@@ -1439,10 +1439,47 @@ HttpServer::HttpServer(
     {
         std::string retention_path = "config/retention_policies.yaml";
         auto resolved = themis::config::ConfigPathResolver::tryResolve(retention_path);
+
+        // Fallback: if resolution failed (tests may run with a CWD inside a temp
+        // directory), attempt to locate the config by walking up ancestor
+        // directories relative to the process CWD and the source file location.
+        if (!resolved) {
+            std::vector<std::string> candidates = {
+                "config/data_management/retention_policies.yaml",
+                "config/retention_policies.yaml"
+            };
+
+            auto try_find_in_ancestors = [&](const std::filesystem::path& start) -> std::optional<std::string> {
+                std::filesystem::path p = start;
+                for (int i = 0; i < 8 && !p.empty(); ++i) {
+                    for (const auto& c : candidates) {
+                        auto cand = p / c;
+                        if (std::filesystem::exists(cand)) return cand.string();
+                    }
+                    p = p.parent_path();
+                }
+                return std::nullopt;
+            };
+
+            // 1) search from current_path()
+            if (auto s = try_find_in_ancestors(std::filesystem::current_path())) {
+                resolved = *s;
+            }
+
+            // 2) search from compile-time source location as a last resort
+            if (!resolved) {
+                std::filesystem::path src = std::filesystem::path(__FILE__).parent_path().parent_path();
+                if (auto s = try_find_in_ancestors(src)) {
+                    resolved = *s;
+                }
+            }
+        }
+
         auto retention_mgr = std::make_shared<vcc::RetentionManager>(
             resolved.value_or(retention_path));
         retention_api_ = std::make_unique<server::RetentionApiHandler>(retention_mgr);
-        THEMIS_INFO("RetentionApiHandler initialized (endpoints: /api/retention/*)");
+        THEMIS_INFO("RetentionApiHandler initialized (endpoints: /api/retention/*), using {}",
+                    resolved.value_or(retention_path));
     }
 
     // Initialize SAGA Audit Log API Handler
