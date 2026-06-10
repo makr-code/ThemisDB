@@ -22,6 +22,8 @@
 #include "sharding/shard_topology.h"
 #include "sharding/remote_executor.h"
 #include "sharding/prometheus_metrics.h"
+#include "utils/logger.h"
+#include "utils/thread_join_utils.h"
 #include <sstream>
 #include <iomanip>
 #include <random>
@@ -86,12 +88,13 @@ void CloudAgent::stop() {
     running_.store(false);
     cv_.notify_all();
     
-    if (worker_thread_.joinable()) {
-        worker_thread_.join();
+    // thread_join_no_timeout (W4): bounded join via joinThreadWithin
+    if (!themis::utils::joinThreadWithin(worker_thread_)) {
+        THEMIS_WARN("[CloudAgent] worker thread did not finish within shutdown deadline; detaching.");
     }
     
-    if (health_thread_.joinable()) {
-        health_thread_.join();
+    if (!themis::utils::joinThreadWithin(health_thread_)) {
+        THEMIS_WARN("[CloudAgent] health thread did not finish within shutdown deadline; detaching.");
     }
 }
 

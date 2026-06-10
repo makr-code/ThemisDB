@@ -29,6 +29,8 @@
 #include <stdexcept>
 #include "sharding/shard_resource_manager.h"
 #include "utils/expected.h"
+#include "utils/logger.h"
+#include "utils/thread_join_utils.h"
 #include <spdlog/spdlog.h>
 #include <algorithm>
 #include <future>
@@ -101,11 +103,12 @@ void ShardRepairEngine::stop() {
     // Wake up the repair worker so it can exit
     repair_cv_.notify_all();
 
-    if (scan_thread_.joinable()) {
-        scan_thread_.join();
+    // thread_join_no_timeout (W4): bounded join via joinThreadWithin
+    if (!themis::utils::joinThreadWithin(scan_thread_)) {
+        THEMIS_WARN("[ShardRepairEngine] scan thread did not finish within shutdown deadline; detaching.");
     }
-    if (repair_thread_.joinable()) {
-        repair_thread_.join();
+    if (!themis::utils::joinThreadWithin(repair_thread_)) {
+        THEMIS_WARN("[ShardRepairEngine] repair thread did not finish within shutdown deadline; detaching.");
     }
 
     spdlog::info("ShardRepairEngine stopped");

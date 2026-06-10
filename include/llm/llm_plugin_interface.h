@@ -17,6 +17,7 @@
 #include <cstdint>
 #include <functional>
 #include <memory>
+#include <atomic>
 #include <mutex>
 #include <optional>
 #include <string>
@@ -181,6 +182,15 @@ struct InferenceRequest {
     // tenants with identical prompts share a single cache entry, leaking
     // inference results across tenant boundaries.
     std::string tenant_id;
+
+    // Per-request cancellation token.
+    // The caller creates a shared atomic<bool> initialised to false and passes
+    // it here.  The inference path checks this flag before starting (and, where
+    // the underlying engine supports it, during) generation.  When the flag is
+    // set to true the generate() call returns an error response with
+    // success=false and error_message="Request cancelled".
+    // When nullptr (the default) no cancellation is active.
+    std::shared_ptr<std::atomic<bool>> cancellation_token;
 };
 
 /**

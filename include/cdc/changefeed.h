@@ -158,7 +158,10 @@ public:
                         rocksdb::ColumnFamilyHandle* cf = nullptr,
                         RetentionPolicy retention = RetentionPolicy::defaults());
 
-    ~Changefeed();
+    /**
+     * @brief Destructor - stops the retention cleanup worker.
+     */
+    ~Changefeed() noexcept;
 
     /**
      * @brief Record a change event

@@ -84,6 +84,19 @@
 | timestamp_sorting_unstable | 1 |
 | use_after_free_gpu | 1 |
 
+## Remediation Log
+
+> Manually tracked fixes applied after last scanner run (2026-06-04).
+
+### W4-index-storage (2026-06-10)
+- vector_auto_buffer.cpp, graph_auto_buffer.cpp: thread_join_no_timeout →
+  bounded shutdown joins via utils/thread_join_utils.h for flush_thread_.
+
+### W5-Index (2026-06-10)
+- secondary_index.cpp: materialized metadata snapshots in both delete-update paths to remove deferred lambda captures over shared index state.
+- vector_index.cpp: stabilized label assignment/vector pointer usage in reindex/add paths and switched hot search branches to local snapshots for critical data_race findings.
+- graph_index.cpp: replaced temporal field parsing lambdas with a shared helper so time-range scans no longer capture edge state by reference.
+
 ## File Overview
 
 | File | Findings | Critical | High | Medium | Low |
@@ -320,7 +333,7 @@ Total findings: 170
   Scanner: Uniform::phase1_memory_safety
   Context: if (!maybeValue) continue;
 
-			
+
 
 			// We need to find the TTL index entry, but we don't know the exact timestamp
 
@@ -550,7 +563,7 @@ Total findings: 170
   Scanner: Uniform::phase1_memory_safety
   Context: if (!maybeValue) continue;
 
-			
+
 
 			// We need to find the TTL index entry, but we don't know the exact timestamp
 
@@ -948,15 +961,15 @@ Total findings: 170
   Description: Generic catch(...) — specific exception types ignored
   Remediation: Review finding and apply recommended module-specific fix.
   Scanner: Uniform::phase1_error_handling
-  Context: try { 
+  Context: try {
 
-			oldEntity = std::make_unique<BaseEntity>(BaseEntity::deserialize(pk, *oldBlob)); 
+			oldEntity = std::make_unique<BaseEntity>(BaseEntity::deserialize(pk, *oldBlob));
 
 		}
 
-		catch (...) { 
+		catch (...) {
 
-			THEMIS_WARN("put(mvcc): alte Entity für PK={} nicht deserialisierbar", pk); 
+			THEMIS_WARN("put(mvcc): alte Entity für PK={} nicht deserialisierbar", pk);
 
 		}
 
@@ -1210,7 +1223,7 @@ Total findings: 83
   Scanner: Uniform::phase1_memory_safety
   Context: // Release the HNSW index to avoid memory leaks
 
-#ifdef THEMIS_HNSW_ENABLED
+# ifdef THEMIS_HNSW_ENABLED
 
 	if (hnswIndex_) {
 
@@ -1247,7 +1260,7 @@ Total findings: 83
 
 	}
 
-#endif
+# endif
 - Line 273: severity=HIGH; category=explicit_delete
   Description: Explicit delete statement (prefer smart pointers)
   Remediation: Review finding and apply recommended module-specific fix.
@@ -1428,7 +1441,7 @@ Total findings: 83
 
 		}
 
-#endif
+# endif
 - Line 878: severity=MEDIUM; category=uncaught_exception
   Description: Generic catch(...) — specific exception types ignored
   Remediation: Review finding and apply recommended module-specific fix.
@@ -1448,7 +1461,7 @@ Total findings: 83
 
 			}
 
-#endif
+# endif
 
 			++stats.added;
 - Line 908: severity=MEDIUM; category=uncaught_exception
@@ -1472,7 +1485,7 @@ Total findings: 83
 
 			}
 
-#endif
+# endif
 - Line 920: severity=MEDIUM; category=uncaught_exception
   Description: Generic catch(...) — specific exception types ignored
   Remediation: Review finding and apply recommended module-specific fix.
@@ -1492,7 +1505,7 @@ Total findings: 83
 
 	}
 
-#endif
+# endif
 
 	// ScaNN / DiskANN alternative ANN backend
 - Line 1086: severity=MEDIUM; category=uncaught_exception
@@ -1514,7 +1527,7 @@ Total findings: 83
 
 	}
 
-#endif
+# endif
 
 	// ScaNN / DiskANN alternative ANN backend
 - Line 1168: severity=MEDIUM; category=uncaught_exception
@@ -1677,7 +1690,7 @@ Total findings: 83
 
 	} catch (...) {}
 
-	
+
 
 	if (quantMode == "sq8") {
 
@@ -2123,7 +2136,7 @@ Total findings: 45
 
     );
 
-    
+
 
     // Storage improvement: Also delete per-PK key
 
@@ -3231,7 +3244,7 @@ Total findings: 24
   Scanner: Uniform::phase1_memory_safety
   Context: AdvancedVectorIndex::~AdvancedVectorIndex() {
 
-#ifdef THEMIS_HAS_FAISS
+# ifdef THEMIS_HAS_FAISS
 
     if (index_) {
 
@@ -3241,7 +3254,7 @@ Total findings: 24
 
     }
 
-#endif
+# endif
 - Line 66: severity=HIGH; category=explicit_delete
   Description: Explicit delete statement (prefer smart pointers)
   Remediation: Review finding and apply recommended module-specific fix.
@@ -3473,7 +3486,7 @@ Total findings: 23
 
         }
 
-        
+
 
         auto targetsStr = entity.getFieldAsString("targets");
 - Line 1829: severity=MEDIUM; category=uncaught_exception
@@ -3495,7 +3508,7 @@ Total findings: 23
 
         }
 
-        
+
 
         // Parse sync type
 - Line 1843: severity=MEDIUM; category=uncaught_exception
@@ -3723,7 +3736,7 @@ Total findings: 11
   Scanner: Uniform::phase1_memory_safety
   Context: int best_cluster = 0;
 
-            
+
 
             for (int j = 0; j < k; ++j) {
 
@@ -3744,7 +3757,7 @@ Total findings: 11
   Scanner: Uniform::phase1_memory_safety
   Context: counts[cluster]++;
 
-            
+
 
             for (int d = 0; d < subvector_dim_; ++d) {
 

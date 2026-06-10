@@ -24,6 +24,8 @@
 #include "sharding/paxos_consensus.h"
 #include "sharding/paxos_wal.h"
 #include "sharding/paxos_snapshot.h"
+#include "utils/logger.h"
+#include "utils/thread_join_utils.h"
 #include <spdlog/spdlog.h>
 #include <fstream>
 #include <cstring>  // for strerror
@@ -122,11 +124,19 @@ void PaxosConsensus::stop() {
     // Wake up threads
     proposal_cv_.notify_all();
     
-    // Join threads
-    if (proposer_thread_.joinable()) proposer_thread_.join();
-    if (acceptor_thread_.joinable()) acceptor_thread_.join();
-    if (learner_thread_.joinable()) learner_thread_.join();
-    if (election_thread_.joinable()) election_thread_.join();
+    // thread_join_no_timeout (W4): bounded join via joinThreadWithin
+    if (!themis::utils::joinThreadWithin(proposer_thread_)) {
+        THEMIS_WARN("[PaxosConsensus] proposer thread did not finish within shutdown deadline; detaching.");
+    }
+    if (!themis::utils::joinThreadWithin(acceptor_thread_)) {
+        THEMIS_WARN("[PaxosConsensus] acceptor thread did not finish within shutdown deadline; detaching.");
+    }
+    if (!themis::utils::joinThreadWithin(learner_thread_)) {
+        THEMIS_WARN("[PaxosConsensus] learner thread did not finish within shutdown deadline; detaching.");
+    }
+    if (!themis::utils::joinThreadWithin(election_thread_)) {
+        THEMIS_WARN("[PaxosConsensus] election thread did not finish within shutdown deadline; detaching.");
+    }
     
     // Save state
     if (config_.enable_persistence) {

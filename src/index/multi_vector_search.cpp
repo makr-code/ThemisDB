@@ -22,6 +22,7 @@
 #include "index/vector_index.h"
 #include "utils/expected.h"
 #include "utils/error_registry.h"
+#include "utils/logger.h"
 #include <algorithm>
 #include <chrono>
 #include <limits>
@@ -37,7 +38,10 @@ namespace {
 
 // Helper function to normalize scores to [0, 1]
 std::vector<float> normalizeScores(const std::vector<float>& scores) {
-    if (scores.empty()) return {};
+    if (scores.empty()) {
+        THEMIS_DEBUG("normalizeScores called with empty scores");
+        return {};
+    }
     
     float min_score = *std::min_element(scores.begin(), scores.end());
     float max_score = *std::max_element(scores.begin(), scores.end());

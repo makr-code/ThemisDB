@@ -22,6 +22,8 @@
 // Licensed under MIT License
 
 #include "sharding/truetime.h"
+#include "utils/logger.h"
+#include "utils/thread_join_utils.h"
 #include <thread>
 #include <sstream>
 #include <algorithm>
@@ -183,8 +185,9 @@ void TrueTime::stopSyncThread() {
         return; // Not running
     }
     
-    if (sync_thread_.joinable()) {
-        sync_thread_.join();
+    // thread_join_no_timeout (W4): bounded join via joinThreadWithin
+    if (!themis::utils::joinThreadWithin(sync_thread_)) {
+        THEMIS_WARN("[TrueTime] sync thread did not finish within shutdown deadline; detaching.");
     }
 }
 

@@ -22,6 +22,7 @@
 #include "storage/rocksdb_wrapper.h"
 #include "utils/expected.h"
 #include "utils/tracing.h"
+#include "utils/logger.h"
 #include <fmt/format.h>
 #include <spdlog/spdlog.h>
 #include <stdexcept>
@@ -214,6 +215,7 @@ public:
     
     std::vector<std::string> listIndexes() const override {
         // Default implementation: empty list
+        THEMIS_DEBUG("Default StorageEngine::listIndexes: returning empty index list (default manager)");
         return {};
     }
     

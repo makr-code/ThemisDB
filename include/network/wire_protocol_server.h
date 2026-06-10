@@ -535,6 +535,7 @@ private:
     
     // Authentication state
     std::atomic<bool> authenticated_{false};
+    std::atomic<bool> closed_{false};
     std::string username_;
     std::string client_ip_;
 
@@ -563,4 +564,3 @@ private:
 
 } // namespace network
 } // namespace themis
-

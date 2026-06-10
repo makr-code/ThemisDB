@@ -20,6 +20,7 @@
 
 #include "llm/decision_record_yaml_processor.h"
 #include "utils/logger.h"
+#include "utils/thread_join_utils.h"
 
 #include <yaml-cpp/yaml.h>
 
@@ -53,7 +54,10 @@ DecisionRecordYamlProcessor::~DecisionRecordYamlProcessor() {
     }
     cv_.notify_one();
     if (thread_.joinable()) {
-        thread_.join();
+        // thread_join_no_timeout (W4): bounded join via joinThreadWithin
+        if (!themis::utils::joinThreadWithin(thread_)) {
+            THEMIS_WARN("[DecisionRecordYamlProcessor] thread did not finish within shutdown deadline; detaching.");
+        }
     }
     THEMIS_INFO("DecisionRecordYamlProcessor stopped "
                 "(written={}, dropped={}, errors={})",

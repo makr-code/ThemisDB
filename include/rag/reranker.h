@@ -47,6 +47,15 @@ struct CrossEncoderConfig {
     /// Enable GPU inference when an ONNX model is loaded.
     bool use_gpu = false;
 
+    /// Require model checksum verification before accepting loadModel().
+    /// When enabled, loadModel() expects either expected_model_checksum or
+    /// "<model_path>.sha256" to be present and matching.
+    bool require_model_checksum = false;
+
+    /// Optional expected checksum for the model file (hex FNV-1a 64-bit).
+    /// If set, it takes precedence over a ".sha256" sidecar file.
+    std::string expected_model_checksum;
+
     /// Cache re-ranking scores for (query, document-id) pairs to avoid
     /// re-scoring identical inputs within the same reranker instance.
     bool enable_score_cache = true;
@@ -125,16 +134,22 @@ public:
     ~CrossEncoderReranker();
 
     /**
-     * @brief Re-rank candidate documents for a given query
+     * @brief Re-rank candidate documents for a given query.
      *
-     * Scores every candidate against the query and returns the top-k results
-     * sorted in descending relevance order.  The @c similarity_score field of
-     * each returned document is replaced with the cross-encoder relevance score.
+     * Scores every candidate against the query, optionally reuses the internal
+     * score cache for repeated `(query, document-id)` pairs, and returns the
+     * top-k results sorted in descending relevance order. The
+     * @c similarity_score field of each returned document is replaced with the
+     * cross-encoder relevance score.
      *
-     * @param query        Natural-language query
-     * @param candidates   Initial retrieval results (any order, any count)
-     * @param top_k        Number of documents to return; 0 uses config default
-     * @return             Re-rank result with sorted documents and score details
+     * Empty input, oversized queries/documents, or excessive candidate counts
+     * are rejected fail-closed and return an empty result instead of attempting
+     * partial scoring.
+     *
+     * @param query        Natural-language query.
+     * @param candidates   Initial retrieval results (any order, any count).
+     * @param top_k        Number of documents to return; 0 uses config default.
+     * @return             Re-rank result with sorted documents and score details.
      */
     RerankResult rerank(
         const std::string& query,
@@ -169,9 +184,18 @@ public:
     ) const;
 
     /**
-     * @brief Load (or replace) the ONNX cross-encoder model
-     * @param model_path Path to the ONNX model file
-     * @return           true if loading succeeded
+     * @brief Load (or replace) the ONNX cross-encoder model.
+     *
+     * The loader canonicalises @p model_path, rejects symlinks, requires a
+     * regular `.onnx` file, validates bounded file size and permissions, and
+     * computes a SHA-256 digest before accepting the model. When a
+     * `<model_path>.sha256` sidecar exists, the digest must match; when the
+     * sidecar is absent, the loader emits a warning and proceeds.
+     *
+     * @param model_path Path to the ONNX model file.
+     * @return           `true` when the model passed validation and was loaded;
+     *                   `false` on invalid paths, checksum mismatches, or other
+     *                   integrity/safety failures.
      */
     bool loadModel(const std::string& model_path);
 

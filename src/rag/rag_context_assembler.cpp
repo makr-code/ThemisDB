@@ -114,6 +114,7 @@ AssembledContext RAGContextAssembler::assemble(
 
     // ── Step 3 & 4: Greedy fill with optional truncation ────────────────────
     size_t remaining = budget.available_context_tokens;
+    result.chunks_used.reserve(ordered.size());
 
     for (size_t i = 0; i < ordered.size() && remaining > 0u; ++i) {
         const RetrievedChunk& chunk     = *ordered[i];

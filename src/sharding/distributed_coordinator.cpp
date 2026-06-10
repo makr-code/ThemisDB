@@ -20,6 +20,7 @@
 
 #include "sharding/distributed_coordinator.h"
 #include "utils/logger.h"
+#include "utils/thread_join_utils.h"
 #include <algorithm>
 #include <random>
 #include <sstream>
@@ -159,15 +160,15 @@ void DistributedCoordinator::stop() {
     
     THEMIS_INFO("Stopping DistributedCoordinator");
     
-    // Join threads
-    if (election_thread_.joinable()) {
-        election_thread_.join();
+    // thread_join_no_timeout (W4): bounded join via joinThreadWithin
+    if (!themis::utils::joinThreadWithin(election_thread_)) {
+        THEMIS_WARN("[DistributedCoordinator] election thread did not finish within shutdown deadline; detaching.");
     }
-    if (heartbeat_thread_.joinable()) {
-        heartbeat_thread_.join();
+    if (!themis::utils::joinThreadWithin(heartbeat_thread_)) {
+        THEMIS_WARN("[DistributedCoordinator] heartbeat thread did not finish within shutdown deadline; detaching.");
     }
-    if (task_executor_thread_.joinable()) {
-        task_executor_thread_.join();
+    if (!themis::utils::joinThreadWithin(task_executor_thread_)) {
+        THEMIS_WARN("[DistributedCoordinator] task executor thread did not finish within shutdown deadline; detaching.");
     }
     
     THEMIS_INFO("DistributedCoordinator stopped");

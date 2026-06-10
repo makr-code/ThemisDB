@@ -20,6 +20,7 @@
 
 #include "index/index_compression.h"
 #include "utils/hash_util.h"
+#include "utils/logger.h"
 
 #include <algorithm>
 #include <cassert>
@@ -165,7 +166,10 @@ uint32_t DictionaryCodec::encode(std::string_view value) const {
 }
 
 std::string DictionaryCodec::decode(uint32_t code) const {
-    if (code == kMissCode || code >= id_to_string_.size()) return {};
+    if (code == kMissCode || code >= id_to_string_.size()) {
+        THEMIS_DEBUG("DictionaryCodec::decode: code {} out of range (size={})", code, id_to_string_.size());
+        return {};
+    }
     return id_to_string_[code];
 }
 
@@ -197,7 +201,10 @@ std::vector<PrefixBlock> PrefixCompressor::compress(
     size_t min_prefix_len)
 {
     std::vector<PrefixBlock> blocks;
-    if (sorted_keys.empty()) return blocks;
+    if (sorted_keys.empty()) {
+        THEMIS_DEBUG("PrefixCompressor::compress called with empty input");
+        return blocks;
+    }
 
     PrefixBlock current;
     current.prefix   = sorted_keys[0];
@@ -283,6 +290,7 @@ std::vector<int64_t> DeltaEncoder::decode(const DeltaBlock& block) {
     // so callers must avoid encoding sequences that start with 0 (i.e. use
     // positive integer PKs, which is the normal case for database primary keys).
     if (block.deltas.empty() && block.base == 0) {
+        THEMIS_DEBUG("DeltaEncoder::decode: empty block -> returning empty sequence");
         return {};
     }
     std::vector<int64_t> result;

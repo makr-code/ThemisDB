@@ -37,6 +37,30 @@
 
 namespace themis {
 
+namespace {
+
+std::optional<int64_t> parseTemporalFieldForEdge(const BaseEntity& edge,
+                                                 std::string_view field,
+                                                 std::string_view edge_id,
+                                                 std::string_view context) {
+	auto as_int = edge.getFieldAsInt(field);
+	if (as_int.has_value()) return as_int;
+	auto as_str = edge.getFieldAsString(field);
+	if (!as_str.has_value()) return std::nullopt;
+	try {
+		size_t pos = 0;
+		int64_t parsed = std::stoll(*as_str, &pos, 10);
+		if (pos == as_str->size()) return parsed;
+	} catch (const std::exception& e) {
+		THEMIS_DEBUG("{}: invalid temporal field '{}' on edge {}: {}", context, field, edge_id, e.what());
+	} catch (...) {
+		THEMIS_DEBUG("{}: invalid temporal field '{}' on edge {} with unknown error", context, field, edge_id);
+	}
+	return std::nullopt;
+}
+
+} // namespace
+
 // static
 std::vector<uint8_t> GraphIndexManager::toBytes(std::string_view sv) {
 	return std::vector<uint8_t>(sv.begin(), sv.end());
@@ -1678,24 +1702,8 @@ GraphIndexManager::getEdgesInTimeRange(int64_t range_start_ms, int64_t range_end
 		if (!blob.has_value()) return true;
 
 		BaseEntity edge = BaseEntity::deserialize(edgeId, *blob);
-		auto parseTemporalField = [&edge, &edgeId](std::string_view field) -> std::optional<int64_t> {
-			auto as_int = edge.getFieldAsInt(field);
-			if (as_int.has_value()) return as_int;
-			auto as_str = edge.getFieldAsString(field);
-			if (!as_str.has_value()) return std::nullopt;
-			try {
-				size_t pos = 0;
-				int64_t parsed = std::stoll(*as_str, &pos, 10);
-				if (pos == as_str->size()) return parsed;
-			} catch (const std::exception& e) {
-				THEMIS_DEBUG("getEdgesInTimeRange: invalid temporal field '{}' on edge {}: {}", field, edgeId, e.what());
-			} catch (...) {
-				THEMIS_DEBUG("getEdgesInTimeRange: invalid temporal field '{}' on edge {} with unknown error", field, edgeId);
-			}
-			return std::nullopt;
-		};
-		std::optional<int64_t> valid_from = parseTemporalField("valid_from");
-		std::optional<int64_t> valid_to = parseTemporalField("valid_to");
+		std::optional<int64_t> valid_from = parseTemporalFieldForEdge(edge, "valid_from", edgeId, "getEdgesInTimeRange");
+		std::optional<int64_t> valid_to = parseTemporalFieldForEdge(edge, "valid_to", edgeId, "getEdgesInTimeRange");
 
 		// Check if edge is in time range
 		bool match = require_full_containment 
@@ -1740,24 +1748,8 @@ GraphIndexManager::getOutEdgesInTimeRange(std::string_view fromPk, int64_t range
 		if (!blob.has_value()) return true;
 
 		BaseEntity edge = BaseEntity::deserialize(edgeId, *blob);
-		auto parseTemporalField = [&edge, &edgeId](std::string_view field) -> std::optional<int64_t> {
-			auto as_int = edge.getFieldAsInt(field);
-			if (as_int.has_value()) return as_int;
-			auto as_str = edge.getFieldAsString(field);
-			if (!as_str.has_value()) return std::nullopt;
-			try {
-				size_t pos = 0;
-				int64_t parsed = std::stoll(*as_str, &pos, 10);
-				if (pos == as_str->size()) return parsed;
-			} catch (const std::exception& e) {
-				THEMIS_DEBUG("getOutEdgesInTimeRange: invalid temporal field '{}' on edge {}: {}", field, edgeId, e.what());
-			} catch (...) {
-				THEMIS_DEBUG("getOutEdgesInTimeRange: invalid temporal field '{}' on edge {} with unknown error", field, edgeId);
-			}
-			return std::nullopt;
-		};
-		std::optional<int64_t> valid_from = parseTemporalField("valid_from");
-		std::optional<int64_t> valid_to = parseTemporalField("valid_to");
+		std::optional<int64_t> valid_from = parseTemporalFieldForEdge(edge, "valid_from", edgeId, "getOutEdgesInTimeRange");
+		std::optional<int64_t> valid_to = parseTemporalFieldForEdge(edge, "valid_to", edgeId, "getOutEdgesInTimeRange");
 
 		// Check if edge is in time range
 		bool match = require_full_containment 

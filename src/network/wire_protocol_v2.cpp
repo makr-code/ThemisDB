@@ -23,11 +23,13 @@
 
 #include "themis/network/wire_protocol_v2.hpp"
 #include "network/connection_compression.h"
+#include "utils/logger.h"
 
 #include <atomic>
 #include <chrono>
 #include <cstring>
 #include <iostream>
+#include <future>
 #include <mutex>
 #include <sstream>
 #include <thread>
@@ -51,6 +53,31 @@ using tcp     = net::ip::tcp;
 // =============================================================================
 // Internal helpers
 // =============================================================================
+
+namespace {
+
+constexpr int kShutdownJoinTimeoutMs = 5000;
+
+/// @brief Join @p t within @p timeout_ms; log and detach on timeout.
+static void timedJoin(std::thread& t,
+                      int timeout_ms = kShutdownJoinTimeoutMs) noexcept {
+    if (!t.joinable()) return;
+    std::promise<void> done;
+    auto fut = done.get_future();
+    std::thread watcher([inner = std::move(t), p = std::move(done)]() mutable {
+        if (inner.joinable()) inner.join();
+        p.set_value();
+    });
+    watcher.detach();
+    if (fut.wait_for(std::chrono::milliseconds(timeout_ms)) !=
+            std::future_status::ready) {
+        // thread_join_no_timeout: detach on deadline to avoid indefinite block
+        THEMIS_WARN("Thread did not finish within {} ms during shutdown; detaching.",
+                    timeout_ms);
+    }
+}
+
+} // namespace
 
 static uint32_t htonl32(uint32_t v) { return htonl(v); }
 static uint32_t ntohl32(uint32_t v) { return ntohl(v); }
@@ -674,7 +701,7 @@ public:
         if (!running_.exchange(false)) return;
         io_context_.stop();
         for (auto& t : io_threads_)
-            if (t.joinable()) t.join();
+            timedJoin(t);
         io_threads_.clear();
         acceptor_.close();
     }

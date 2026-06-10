@@ -80,6 +80,25 @@
 | size_assumption | 1 |
 | timestamp_sorting_unstable | 1 |
 
+## Remediation Log
+
+> Manually tracked fixes applied after last scanner run (2026-06-04).
+
+### W4-RAG (2026-06-10)
+- batch_evaluator.cpp: thread_join_no_timeout → fixed; workers_ in stop() now use
+  bounded shutdown joins via utils/thread_join_utils.h.
+
+### W5-RAG (2026-06-10)
+- reranker.cpp: added SHA-256 model verification with optional `.sha256` sidecar
+  checks, tightened cache synchronization, and refreshed loadModel()/rerank()
+  API docs.
+- rag_ingestion_bridge.cpp: wrapped ingestion-path dependency use in RAII local
+  shared_ptr snapshots with exception guards to prevent leak-prone partial
+  failure paths.
+- knowledge_gap_detector.cpp: added mutex-guarded state snapshots for config and
+  callbacks, and removed the raw `std::tm*` time-conversion path flagged by the
+  critical ownership finding.
+
 ## File Overview
 
 | File | Findings | Critical | High | Medium | Low |
@@ -1955,7 +1974,7 @@ Total findings: 14
 
     metrics.push_back(faithfulness);
 
-    
+
 
     // Relevance metric
 - Line 412: severity=HIGH; category=pointer_arithmetic_unbounded
@@ -1987,7 +2006,7 @@ Total findings: 14
 
     metrics.push_back(overall);
 
-    
+
 
     // Latency metric
 - Line 421: severity=HIGH; category=pointer_arithmetic_unbounded
@@ -2004,7 +2023,7 @@ Total findings: 14
 
     metrics.push_back(latency);
 
-    
+
 
     return metrics;
 - Line 47: severity=MEDIUM; category=missing_move_constructor_defaulted
@@ -2564,7 +2583,7 @@ Total findings: 10
   Scanner: Uniform::phase1_error_handling
   Context: }
 
-            
+
 
             return score;
 

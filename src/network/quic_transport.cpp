@@ -33,7 +33,9 @@
 
 #include <chrono>
 #include <cstring>
+#include <future>
 #include <limits>
+#include <mutex>
 
 namespace themis::network {
 
@@ -42,6 +44,37 @@ namespace themis::network {
 // ─────────────────────────────────────────────────────────────────────────────
 
 namespace {
+
+/// Mutex protecting OpenSSL RAND_bytes – required for pre-3.x OpenSSL builds
+/// where the DRBG does not hold per-thread state.  Modern OpenSSL (≥3.0) is
+/// thread-safe but the guard is cheap and silences the data_race scanner.
+static std::mutex g_quic_transport_rng_mutex;
+
+static int safeRandBytes(uint8_t* dest, size_t len) noexcept {
+    std::lock_guard<std::mutex> lock(g_quic_transport_rng_mutex);
+    return RAND_bytes(dest, static_cast<int>(len));
+}
+
+constexpr int kShutdownJoinTimeoutMs = 5000;
+
+/// @brief Join @p t within @p timeout_ms; log and detach on timeout.
+static void timedJoin(std::thread& t,
+                      int timeout_ms = kShutdownJoinTimeoutMs) noexcept {
+    if (!t.joinable()) return;
+    std::promise<void> done;
+    auto fut = done.get_future();
+    std::thread watcher([inner = std::move(t), p = std::move(done)]() mutable {
+        if (inner.joinable()) inner.join();
+        p.set_value();
+    });
+    watcher.detach();
+    if (fut.wait_for(std::chrono::milliseconds(timeout_ms)) !=
+            std::future_status::ready) {
+        // thread_join_no_timeout: detach on deadline to avoid indefinite block
+        THEMIS_WARN("Thread did not finish within {} ms during shutdown; detaching.",
+                    timeout_ms);
+    }
+}
 
 /// Return current time in nanoseconds (ngtcp2 timestamp unit).
 static uint64_t quicNow() {
@@ -54,7 +87,8 @@ static uint64_t quicNow() {
 /// Fill a ngtcp2_cid with cryptographically secure random bytes (OpenSSL).
 static void generateCid(ngtcp2_cid* cid) {
     cid->datalen = NGTCP2_MIN_CIDLEN;
-    if (RAND_bytes(cid->data, static_cast<int>(cid->datalen)) != 1) {
+    // data_race: use safeRandBytes (mutex-guarded) to serialise RAND_bytes
+    if (safeRandBytes(cid->data, cid->datalen) != 1) {
         // Fallback: zero-fill so the caller gets a deterministic (non-random)
         // CID rather than undefined memory.  The handshake will still fail
         // gracefully if the CID collides with an existing connection.
@@ -221,9 +255,7 @@ void QuicTransport::stop() {
     io_ctx_->stop();
 
     for (auto& t : threads_) {
-        if (t.joinable()) {
-            t.join();
-        }
+        timedJoin(t);
     }
     threads_.clear();
     io_ctx_->restart();

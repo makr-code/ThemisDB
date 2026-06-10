@@ -45,12 +45,23 @@
 #include <set>
 #include <future>
 #include <numeric>
+#include <cerrno>
 #include <lz4.h>
 #include <zstd.h>
 #include <snappy.h>
 
+#ifdef _WIN32
+#include <io.h>
+#include <fcntl.h>
+#else
+#include <fcntl.h>
+#include <unistd.h>
+#endif
+
 namespace themisdb {
 namespace replication {
+
+namespace fs = std::filesystem;
 
 // ============================================================================
 // Distributed Consistency Model
@@ -142,6 +153,34 @@ bool executeWithTimeout(uint32_t timeout_ms, Func operation) {
         THEMIS_ERROR("I/O operation threw exception after timeout wait: {}", e.what());
         return false;
     }
+}
+
+/**
+ * @brief Join a thread with a shutdown timeout.
+ *
+ * Sets @p t to a moved-from (non-joinable) state after the call.
+ * If the thread does not exit within @p timeout_ms milliseconds a warning
+ * is logged and the join watcher is detached so shutdown does not block
+ * indefinitely (thread_join_no_timeout).
+ *
+ * @param t          Thread to join; moved-from on return.
+ * @param timeout_ms Maximum milliseconds to wait before detaching.
+ */
+static void timedJoin(std::thread& t, int timeout_ms = 5000) noexcept {
+    if (!t.joinable()) return;
+    std::promise<void> done;
+    auto fut = done.get_future();
+    std::thread watcher([inner = std::move(t), p = std::move(done)]() mutable {
+        if (inner.joinable()) inner.join();
+        p.set_value();
+    });
+    watcher.detach();
+    if (fut.wait_for(std::chrono::milliseconds(timeout_ms)) !=
+            std::future_status::ready) {
+        THEMIS_WARN("Thread did not finish within {} ms during shutdown; detaching.",
+                    timeout_ms);
+    }
+    // t is now moved-from (not joinable)
 }
 
 }  // namespace
@@ -243,7 +282,7 @@ std::optional<WALEntry> WALEntry::deserialize(const std::vector<uint8_t>& data) 
         return val;
     };
     
-    auto readString = [&data, &pos](uint32_t max_len = 1024u * 1024u * 100u) -> std::string {
+    auto readString = [&data, &pos](uint32_t max_len) -> std::string {
         // BATCH D FIX: Length validation before allocation
         if (pos + 4 > data.size()) {
             THEMIS_ERROR("WALEntry::deserialize: insufficient bytes for string length at offset {}", pos);
@@ -284,11 +323,11 @@ std::optional<WALEntry> WALEntry::deserialize(const std::vector<uint8_t>& data) 
         );
         
         // BATCH B FIX: Catch exceptions from string parsing
-        entry.operation = readString();
-        entry.collection = readString();
-        entry.document_id = readString();
-        entry.data = readString();
-        entry.checksum = readString();
+        entry.operation = readString(MAX_STRING_LENGTH);
+        entry.collection = readString(MAX_STRING_LENGTH);
+        entry.document_id = readString(MAX_STRING_LENGTH);
+        entry.data = readString(MAX_STRING_LENGTH);
+        entry.checksum = readString(MAX_STRING_LENGTH);
         
         // BATCH D FIX: Validate critical fields are not empty
         if (entry.checksum.empty()) {
@@ -513,7 +552,8 @@ std::vector<WALEntry> WALManager::readFrom(uint64_t start_sequence, uint32_t lim
                     if (ifs.eof() || len == 0) break;
                     
                     // BATCH D FIX: Guard against oversized or corrupt length fields
-                    if (len > 64 * 1024 * 1024) {
+                    // Use unsigned literals to avoid signed multiplication overflow (CWE-190).
+                    if (len > 64u * 1024u * 1024u) {
                         THEMIS_ERROR("WAL segment {}: corrupt record length {}, stopping read", 
                                    segment_path, len);
                         break;
@@ -588,11 +628,47 @@ void WALManager::truncateBefore(uint64_t sequence) {
 }
 
 void WALManager::sync() {
-    // BATCH D ANNOTATION: Stub implementation placeholder
-    // Purpose: Force synchronization of all open WAL file handles to persistent storage
-    // TODO: Implement proper fsync() or platform-specific calls to flush pending writes
-    // For production: Consider async background sync thread to avoid blocking writes
-    // Current behavior: No-op (safe but async writes may be lost on crash)
+    // Purpose: Force synchronization of all WAL files to persistent storage.
+    // Minimal portable implementation: iterate WAL files and call fsync/_commit
+    // on each file descriptor. This provides a best-effort durability guarantee
+    // and is preferable to a silent no-op.
+    std::error_code ec;
+    const fs::path dir(config_.wal_directory);
+    if (dir.empty() || !fs::exists(dir, ec)) {
+        if (ec) THEMIS_WARN("WALManager::sync: wal directory inaccessible: {}", ec.message());
+        return;
+    }
+
+    for (const auto& entry : fs::directory_iterator(dir, ec)) {
+        if (ec) {
+            THEMIS_WARN("WALManager::sync: directory iteration error: {}", ec.message());
+            break;
+        }
+        if (entry.path().extension() != ".log") continue;
+
+        // Open file descriptor and fsync it
+#ifdef _WIN32
+        int fd = ::_open(entry.path().string().c_str(), _O_RDONLY | _O_BINARY);
+        if (fd < 0) {
+            THEMIS_WARN("WALManager::sync: cannot open {}: {}", entry.path().string(), strerror(errno));
+            continue;
+        }
+        if (::_commit(fd) != 0) {
+            THEMIS_WARN("WALManager::sync: commit failed for {}", entry.path().string());
+        }
+        ::_close(fd);
+#else
+        int fd = ::open(entry.path().c_str(), O_RDONLY | O_CLOEXEC);
+        if (fd < 0) {
+            THEMIS_WARN("WALManager::sync: cannot open {}: {}", entry.path().string(), strerror(errno));
+            continue;
+        }
+        if (::fsync(fd) != 0) {
+            THEMIS_WARN("WALManager::sync: fsync failed for {}: {}", entry.path().string(), strerror(errno));
+        }
+        ::close(fd);
+#endif
+    }
 }
 
 uint64_t WALManager::getSize() const {
@@ -654,9 +730,7 @@ LeaderElection::LeaderElection(
 LeaderElection::~LeaderElection() {
     running_.store(false);
     election_cv_.notify_all();
-    if (election_thread_.joinable()) {
-        election_thread_.join();
-    }
+    timedJoin(election_thread_);
 }
 
 void LeaderElection::start() {
@@ -924,6 +998,7 @@ void ReplicationStream::start() {
 
 void ReplicationStream::stop() {
     running_.store(false);
+    timedJoin(stream_thread_);
     wait_cv_.notify_all();
     if (stream_thread_.joinable()) {
         stream_thread_.join();
@@ -1124,15 +1199,9 @@ void ReplicationManager::shutdown() {
     
     running_.store(false);
     
-    if (heartbeat_thread_.joinable()) {
-        heartbeat_thread_.join();
-    }
-    if (compaction_thread_.joinable()) {
-        compaction_thread_.join();
-    }
-    if (health_monitor_thread_.joinable()) {
-        health_monitor_thread_.join();
-    }
+    timedJoin(heartbeat_thread_);
+    timedJoin(compaction_thread_);
+    timedJoin(health_monitor_thread_);
     
     for (auto& stream : streams_) {
         stream->stop();
@@ -3140,10 +3209,11 @@ std::optional<MMWriteEntry> MMWriteEntry::deserialize(const std::vector<uint8_t>
             v = (v << 8) | raw[pos];
         return v;
     };
+    bool parse_ok = true;
     auto readString = [&]() -> std::string {
-        if (pos + 4 > raw.size()) return {};
+        if (pos + 4 > raw.size()) { parse_ok = false; THEMIS_WARN("MMWriteEntry::deserialize: truncated while reading string length at offset {}", pos); return {}; }
         uint32_t len = readUint32();
-        if (pos + len > raw.size()) return {};
+        if (pos + len > raw.size()) { parse_ok = false; THEMIS_WARN("MMWriteEntry::deserialize: truncated while reading string payload (len={}) at offset {}", len, pos); return {}; }
         std::string s(raw.begin() + pos, raw.begin() + pos + len);
         pos += len;
         return s;
@@ -3161,6 +3231,11 @@ std::optional<MMWriteEntry> MMWriteEntry::deserialize(const std::vector<uint8_t>
     e.hlc.physical = readUint64();
     e.hlc.logical  = readUint32();
     e.hlc.node_id  = readString();
+
+    if (!parse_ok) {
+        THEMIS_WARN("MMWriteEntry::deserialize: input truncated or malformed");
+        return std::nullopt;
+    }
 
     return e;
 }
@@ -3242,9 +3317,9 @@ void MultiMasterReplicationManager::stop() {
 
     writes_cv_.notify_all();
 
-    if (replication_thread_.joinable()) replication_thread_.join();
-    if (heartbeat_thread_.joinable())   heartbeat_thread_.join();
-    if (sync_thread_.joinable())        sync_thread_.join();
+    timedJoin(replication_thread_);
+    timedJoin(heartbeat_thread_);
+    timedJoin(sync_thread_);
 
     THEMIS_INFO("MultiMasterReplicationManager stopped (node_id={})", config_.node_id);
 }
@@ -3961,7 +4036,7 @@ ParallelReplicationWorker::~ParallelReplicationWorker() {
     running_.store(false);
     queue_cv_.notify_all();
     for (auto& t : workers_) {
-        if (t.joinable()) t.join();
+        timedJoin(t);
     }
 }
 
@@ -4150,6 +4225,7 @@ QuorumReadManager::QuorumReadResult QuorumReadManager::read(
             // The request is treated as successful for availability, but payload/version
             // remain empty/zero. Callers that require content must inject
             // setLocalDocumentFetchFn() during startup.
+            THEMIS_WARN("QuorumRead single-node: no local_doc_fetch_fn_ injected; returning empty payload");
             sr.version = 0;
         }
 
@@ -4503,7 +4579,10 @@ std::vector<uint8_t> CompressedReplicationStream::compress(
     const std::vector<uint8_t>& data,
     CompressionAlgorithm algo) const
 {
-    if (data.empty()) return {};
+    if (data.empty()) {
+        THEMIS_WARN("CompressedReplicationStream::compress called with empty data");
+        return {};
+    }
 
     switch (algo) {
         case CompressionAlgorithm::NONE:
@@ -4558,7 +4637,10 @@ std::vector<uint8_t> CompressedReplicationStream::decompress(
     const std::vector<uint8_t>& compressed,
     CompressionAlgorithm algo) const
 {
-    if (compressed.empty()) return {};
+    if (compressed.empty()) {
+        THEMIS_WARN("CompressedReplicationStream::decompress called with empty input");
+        return {};
+    }
 
     switch (algo) {
         case CompressionAlgorithm::NONE:
@@ -4679,7 +4761,7 @@ BatchedAckTracker::BatchedAckTracker(const AckBatchConfig& config)
 BatchedAckTracker::~BatchedAckTracker() {
     running_.store(false);
     flush_cv_.notify_all();
-    if (flush_thread_.joinable()) flush_thread_.join();
+    timedJoin(flush_thread_);
 }
 
 void BatchedAckTracker::recordApplied(uint64_t sequence_number) {
@@ -5408,9 +5490,15 @@ std::string WALArchivalManager::archivePath(uint64_t segment_id) const {
 /* static */ std::vector<uint8_t> WALArchivalManager::hexToBytes(
     const std::string& hex) {
     // Validate: must be non-empty, even-length, and contain only hex digits
-    if (hex.empty() || hex.size() % 2 != 0) return {};
+    if (hex.empty() || hex.size() % 2 != 0) {
+        THEMIS_WARN("WALArchivalManager::hexToBytes: invalid hex length (size={})", hex.size());
+        return {};
+    }
     for (char c : hex) {
-        if (!std::isxdigit(static_cast<unsigned char>(c))) return {};
+        if (!std::isxdigit(static_cast<unsigned char>(c))) {
+            THEMIS_WARN("WALArchivalManager::hexToBytes: invalid hex char '{}' in input", c);
+            return {};
+        }
     }
     std::vector<uint8_t> bytes;
     bytes.reserve(hex.size() / 2);
@@ -5466,7 +5554,10 @@ std::string WALArchivalManager::archivePath(uint64_t segment_id) const {
     const std::vector<uint8_t>& data,
     const std::vector<uint8_t>& key) {
     // Minimum: IV(12) + Tag(16) = 28 bytes
-    if (data.size() < 28) return std::nullopt;
+    if (data.size() < 28) {
+        THEMIS_WARN("WALArchival: decryptAesGcm: input too small (size={})", data.size());
+        return std::nullopt;
+    }
 
     const uint8_t* iv      = data.data();
     const uint8_t* tag_ptr = data.data() + 12;
@@ -5477,7 +5568,10 @@ std::string WALArchivalManager::archivePath(uint64_t segment_id) const {
     int len = 0, plain_len = 0;
 
     EVP_CIPHER_CTX* ctx = EVP_CIPHER_CTX_new();
-    if (!ctx) return std::nullopt;
+    if (!ctx) {
+        THEMIS_ERROR("WALArchival: EVP_CIPHER_CTX_new failed during decryption");
+        return std::nullopt;
+    }
 
     EVP_DecryptInit_ex(ctx, EVP_aes_256_gcm(), nullptr, nullptr, nullptr);
     EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_SET_IVLEN, 12, nullptr);
@@ -6541,6 +6635,7 @@ BidirectionalReplicationManager::resolveWrite(
 
     case ConflictResolution::CUSTOM:
         // Return an empty placeholder; the application must call resolveConflict().
+        THEMIS_WARN("resolveWrite: ConflictResolution::CUSTOM used — application must call resolveConflict() to supply a resolution");
         return {};
 
     default:

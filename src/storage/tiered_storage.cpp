@@ -20,6 +20,7 @@
 
 #include "storage/tiered_storage.h"
 #include "utils/logger.h"
+#include "utils/thread_join_utils.h"
 
 #include <filesystem>
 #include <fstream>
@@ -185,7 +186,10 @@ bool TieredStorageManager::writeToTier(const std::string& key,
 std::string TieredStorageManager::readFromTier(const std::string& key,
                                                 StorageTierLevel tier) const {
     const std::string path = keyFilePath(key, tier);
-    if (!fs::exists(path)) return {};
+    if (!fs::exists(path)) {
+        THEMIS_DEBUG("TieredStorageManager::readFromTier: path '{}' does not exist for key '{}', tier={}", path, key, static_cast<int>(tier));
+        return {};
+    }
     try {
         std::ifstream f(path, std::ios::binary);
         return std::string(std::istreambuf_iterator<char>(f),
@@ -428,8 +432,9 @@ void TieredStorageManager::stopMigrationWorker() {
         std::lock_guard lock(worker_mutex_);
         worker_cv_.notify_all();
     }
-    if (worker_thread_.joinable()) {
-        worker_thread_.join();
+    if (worker_thread_.joinable() &&
+        !utils::joinThreadWithin(worker_thread_)) {
+        THEMIS_WARN("TieredStorage: migration worker exceeded shutdown timeout");
     }
 }
 
@@ -457,4 +462,3 @@ TieredStorageManager::Stats TieredStorageManager::stats() const {
 
 } // namespace storage
 } // namespace themis
-

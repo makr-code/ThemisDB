@@ -1720,40 +1720,17 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForDelete_(std
 		fulltextConfigsCache = metadata.fulltext_configs;
 	}
 
-	// Helper: load a column-name set from cache or DB.
-	auto getIndexedCols = [&]() -> std::unordered_set<std::string> {
-		if (hasCachedMetadata) return indexedColsCache;
-		return loadIndexedColumns_(table);
-	};
-	auto getRangeCols = [&]() -> std::unordered_set<std::string> {
-		if (hasCachedMetadata) return rangeColsCache;
-		return loadRangeIndexedColumns_(table);
-	};
-	auto getSparseCols = [&]() -> std::unordered_set<std::string> {
-		if (hasCachedMetadata) return sparseColsCache;
-		return loadSparseIndexedColumns_(table);
-	};
-	auto getGeoCols = [&]() -> std::unordered_set<std::string> {
-		if (hasCachedMetadata) return geoColsCache;
-		return loadGeoIndexedColumns_(table);
-	};
-	auto getTTLCols = [&]() -> std::unordered_set<std::string> {
-		if (hasCachedMetadata) return ttlColsCache;
-		return loadTTLIndexedColumns_(table);
-	};
-	auto getFulltextCols = [&]() -> std::unordered_set<std::string> {
-		if (hasCachedMetadata) return fulltextColsCache;
-		return loadFulltextIndexedColumns_(table);
-	};
-	auto getPartialCols = [&]() -> std::unordered_map<std::string, std::string> {
-		if (hasCachedMetadata) return partialColsCache;
-		return loadPartialIndexedColumns_(table);
-	};
+	const auto indexedCols = hasCachedMetadata ? indexedColsCache : loadIndexedColumns_(table);
+	const auto rangeCols = hasCachedMetadata ? rangeColsCache : loadRangeIndexedColumns_(table);
+	const auto sparseCols = hasCachedMetadata ? sparseColsCache : loadSparseIndexedColumns_(table);
+	const auto geoCols = hasCachedMetadata ? geoColsCache : loadGeoIndexedColumns_(table);
+	const auto ttlCols = hasCachedMetadata ? ttlColsCache : loadTTLIndexedColumns_(table);
+	const auto fulltextCols = hasCachedMetadata ? fulltextColsCache : loadFulltextIndexedColumns_(table);
+	const auto partialCols = hasCachedMetadata ? partialColsCache : loadPartialIndexedColumns_(table);
 
 	if (!oldEntityOpt) {
 		// Falls keine alte Entity, können wir die spezifischen Index-Keys nicht sicher bestimmen.
 		// Defensive strategy: alle Index-Prefixe für diesen PK löschen via Scan.
-		auto indexedCols = getIndexedCols();
 		for (const auto& col : indexedCols) {
 			std::string prefix;
 			if (col.find('+') == std::string::npos) {
@@ -1777,7 +1754,6 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForDelete_(std
 			});
 		}
 		// Auch alle Range-Index-Einträge mit diesem PK für diese Tabelle entfernen
-		auto rangeCols = getRangeCols();
 		for (const auto& rcol : rangeCols) {
 			std::string rprefix = std::string("ridx:") + std::string(table) + ":" + rcol + ":";
 			db_.scanPrefix(rprefix, [&pk, &batch](std::string_view key, std::string_view /*val*/){
@@ -1792,7 +1768,6 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForDelete_(std
 			});
 		}
 		// Partial index entries löschen (via Scan, da Wert unbekannt)
-		auto partialCols = getPartialCols();
 		for (const auto& [pcol, ppred] : partialCols) {
 			std::string pprefix = makePartialIndexPrefix(table, pcol);
 			db_.scanPrefix(pprefix, [&pk, &batch](std::string_view key, std::string_view) {
@@ -1807,9 +1782,7 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForDelete_(std
 	}
 
 	// Zielgerichtet löschen basierend auf alten Feldwerten.
-	// Load all metadata sets ONCE outside any inner loop.
-	auto indexedCols = getIndexedCols();
-	auto rangeCols   = getRangeCols();   // hoisted — was incorrectly called inside the loop below
+	// Metadata sets were materialized once above to avoid deferred state captures.
 
 	for (const auto& col : indexedCols) {
 		if (col.find('+') == std::string::npos) {
@@ -1870,7 +1843,6 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForDelete_(std
 
 	// Sparse-Indizes löschen
 	{
-		auto sparseCols = getSparseCols();
 		for (const auto& scol : sparseCols) {
 			auto maybe = oldEntityOpt->extractField(scol);
 			if (!maybe || isNullOrEmpty_(*maybe)) continue; // War nicht im Index
@@ -1882,7 +1854,6 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForDelete_(std
 
 	// Geo-Indizes löschen
 	{
-		auto geoCols = getGeoCols();
 		for (const auto& gcol : geoCols) {
 			std::string latField = gcol + "_lat";
 			std::string lonField = gcol + "_lon";
@@ -1908,7 +1879,6 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForDelete_(std
 
 	// TTL-Indizes löschen
 	{
-		auto ttlCols = getTTLCols();
 		for (const auto& tcol : ttlCols) {
 			auto maybeValue = oldEntityOpt->extractField(tcol);
 			if (!maybeValue) continue;
@@ -1933,7 +1903,6 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForDelete_(std
 
 	// Fulltext-Indizes löschen
 	{
-		auto fulltextCols = getFulltextCols();
 		for (const auto& fcol : fulltextCols) {
 			auto maybeText = oldEntityOpt->extractField(fcol);
 			if (!maybeText || isNullOrEmpty_(maybeText)) continue;
@@ -1971,7 +1940,6 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForDelete_(std
 
 	// Partial (filtered) indexes löschen
 	{
-		auto partialCols = getPartialCols();
 		for (const auto& [pcol, ppred] : partialCols) {
 			auto maybe = oldEntityOpt->extractField(pcol);
 			if (!maybe) continue;
@@ -4472,39 +4440,17 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForDelete_(
 		fulltextConfigsCache = metadata.fulltext_configs;
 	}
 
-	auto getIndexedCols = [&]() -> std::unordered_set<std::string> {
-		if (hasCachedMetadata) return indexedColsCache;
-		return loadIndexedColumns_(table);
-	};
-	auto getRangeCols = [&]() -> std::unordered_set<std::string> {
-		if (hasCachedMetadata) return rangeColsCache;
-		return loadRangeIndexedColumns_(table);
-	};
-	auto getSparseCols = [&]() -> std::unordered_set<std::string> {
-		if (hasCachedMetadata) return sparseColsCache;
-		return loadSparseIndexedColumns_(table);
-	};
-	auto getGeoCols = [&]() -> std::unordered_set<std::string> {
-		if (hasCachedMetadata) return geoColsCache;
-		return loadGeoIndexedColumns_(table);
-	};
-	auto getTTLCols = [&]() -> std::unordered_set<std::string> {
-		if (hasCachedMetadata) return ttlColsCache;
-		return loadTTLIndexedColumns_(table);
-	};
-	auto getFulltextCols = [&]() -> std::unordered_set<std::string> {
-		if (hasCachedMetadata) return fulltextColsCache;
-		return loadFulltextIndexedColumns_(table);
-	};
-	auto getPartialCols = [&]() -> std::unordered_map<std::string, std::string> {
-		if (hasCachedMetadata) return partialColsCache;
-		return loadPartialIndexedColumns_(table);
-	};
+	const auto indexedCols = hasCachedMetadata ? indexedColsCache : loadIndexedColumns_(table);
+	const auto rangeCols = hasCachedMetadata ? rangeColsCache : loadRangeIndexedColumns_(table);
+	const auto sparseCols = hasCachedMetadata ? sparseColsCache : loadSparseIndexedColumns_(table);
+	const auto geoCols = hasCachedMetadata ? geoColsCache : loadGeoIndexedColumns_(table);
+	const auto ttlCols = hasCachedMetadata ? ttlColsCache : loadTTLIndexedColumns_(table);
+	const auto fulltextCols = hasCachedMetadata ? fulltextColsCache : loadFulltextIndexedColumns_(table);
+	const auto partialCols = hasCachedMetadata ? partialColsCache : loadPartialIndexedColumns_(table);
 
 	if (!oldEntityOpt) {
 		// Falls keine alte Entity, können wir die spezifischen Index-Keys nicht sicher bestimmen.
 		// Defensive strategy: alle Index-Prefixe für diesen PK löschen via Scan.
-		auto indexedCols = getIndexedCols();
 		for (const auto& col : indexedCols) {
 			std::string prefix;
 			if (col.find('+') == std::string::npos) {
@@ -4528,7 +4474,6 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForDelete_(
 			});
 		}
 		// Auch alle Range-Index-Einträge mit diesem PK für diese Tabelle entfernen
-		auto rangeCols = getRangeCols();
 		for (const auto& rcol : rangeCols) {
 			std::string rprefix = std::string("ridx:") + std::string(table) + ":" + rcol + ":";
 			db_.scanPrefix(rprefix, [&pk, &txn](std::string_view key, std::string_view /*val*/){
@@ -4543,7 +4488,6 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForDelete_(
 			});
 		}
 		// Partial index entries löschen (via Scan, da Wert unbekannt)
-		auto partialCols = getPartialCols();
 		for (const auto& [pcol, ppred] : partialCols) {
 			std::string pprefix = makePartialIndexPrefix(table, pcol);
 			db_.scanPrefix(pprefix, [&pk, &txn](std::string_view key, std::string_view) {
@@ -4558,9 +4502,7 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForDelete_(
 	}
 
 	// Zielgerichtet löschen basierend auf alten Feldwerten.
-	// Load all metadata sets ONCE outside any inner loop.
-	auto indexedCols = getIndexedCols();
-	auto rangeCols   = getRangeCols();   // hoisted — was incorrectly called inside the loop below
+	// Metadata sets were materialized once above to avoid deferred state captures.
 
 	for (const auto& col : indexedCols) {
 		if (col.find('+') == std::string::npos) {
@@ -4621,7 +4563,6 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForDelete_(
 
 	// Sparse-Indizes löschen
 	{
-		auto sparseCols = getSparseCols();
 		for (const auto& scol : sparseCols) {
 			auto maybe = oldEntityOpt->extractField(scol);
 			if (!maybe || isNullOrEmpty_(*maybe)) continue; // War nicht im Index
@@ -4633,7 +4574,6 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForDelete_(
 
 	// Geo-Indizes löschen
 	{
-		auto geoCols = getGeoCols();
 		for (const auto& gcol : geoCols) {
 			std::string latField = gcol + "_lat";
 			std::string lonField = gcol + "_lon";
@@ -4659,7 +4599,6 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForDelete_(
 
 	// TTL-Indizes löschen
 	{
-		auto ttlCols = getTTLCols();
 		for (const auto& tcol : ttlCols) {
 			auto maybeValue = oldEntityOpt->extractField(tcol);
 			if (!maybeValue) continue;
@@ -4684,7 +4623,6 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForDelete_(
 
 	// Fulltext-Indizes löschen
 	{
-		auto fulltextCols = getFulltextCols();
 		for (const auto& fcol : fulltextCols) {
 			auto maybeText = oldEntityOpt->extractField(fcol);
 			if (!maybeText || isNullOrEmpty_(maybeText)) continue;
@@ -4722,7 +4660,6 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForDelete_(
 
 	// Partial (filtered) indexes löschen
 	{
-		auto partialCols = getPartialCols();
 		for (const auto& [pcol, ppred] : partialCols) {
 			auto maybe = oldEntityOpt->extractField(pcol);
 			if (!maybe) continue;

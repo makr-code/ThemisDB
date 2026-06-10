@@ -22,6 +22,8 @@
 // Licensed under MIT License
 
 #include "sharding/raft_consensus.h"
+#include "utils/logger.h"
+#include "utils/thread_join_utils.h"
 #include <algorithm>
 #include <iostream>
 
@@ -65,15 +67,15 @@ void RaftConsensus::stop() {
     // Wake up all threads
     cv_.notify_all();
     
-    // Join threads
-    if (heartbeat_thread_.joinable()) {
-        heartbeat_thread_.join();
+    // thread_join_no_timeout (W4): bounded join via joinThreadWithin
+    if (!themis::utils::joinThreadWithin(heartbeat_thread_)) {
+        THEMIS_WARN("[RaftConsensus] heartbeat thread did not finish within shutdown deadline; detaching.");
     }
-    if (election_thread_.joinable()) {
-        election_thread_.join();
+    if (!themis::utils::joinThreadWithin(election_thread_)) {
+        THEMIS_WARN("[RaftConsensus] election thread did not finish within shutdown deadline; detaching.");
     }
-    if (partition_detector_thread_.joinable()) {
-        partition_detector_thread_.join();
+    if (!themis::utils::joinThreadWithin(partition_detector_thread_)) {
+        THEMIS_WARN("[RaftConsensus] partition detector thread did not finish within shutdown deadline; detaching.");
     }
 }
 

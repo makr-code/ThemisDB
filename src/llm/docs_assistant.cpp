@@ -12,6 +12,7 @@
 #include "llm/docs_assistant.h"
 #include "llm/embedded_llm.h"
 #include "llm/llm_plugin_manager.h"
+#include "utils/logger.h"
 #include <spdlog/spdlog.h>
 #include <fstream>
 #include <algorithm>

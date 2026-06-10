@@ -143,35 +143,42 @@ Total findings: 54
 
 - Line 58: severity=CRITICAL; category=missing_dtor
   Description: Class BuddyAllocator allocates resources but has no destructor
+  RESOLVED: BuddyAllocator now declares an explicit noexcept destructor and releases its backing pool via RAII-owned storage.
   Remediation: Review finding and apply recommended module-specific fix.
   Scanner: Uniform::raii
   Context: class/struct BuddyAllocator
 - Line 65: severity=CRITICAL; category=missing_dtor
   Description: Class BuddyAllocator allocates resources but has no destructor
+  RESOLVED: BuddyAllocator now declares an explicit noexcept destructor and releases its backing pool via RAII-owned storage.
   Remediation: Review finding and apply recommended module-specific fix.
   Scanner: Uniform::raii
   Context: class/struct BuddyAllocator
 - Line 354: severity=CRITICAL; category=missing_dtor
   Description: Class SlabAllocator allocates resources but has no destructor
+  RESOLVED: SlabAllocator now declares an explicit noexcept destructor and owns slabs through smart pointers for automatic cleanup.
   Remediation: Review finding and apply recommended module-specific fix.
   Scanner: Uniform::raii
   Context: class/struct SlabAllocator
 - Line 374: severity=CRITICAL; category=exception_in_destructor
   Description: Destructors must be noexcept; exceptions here cause std::terminate()
+  RESOLVED: Slab and allocator teardown paths now use noexcept destructors backed by std::unique_ptr-managed storage.
   Remediation: Review finding and apply recommended module-specific fix.
   Scanner: Uniform::exception_safety
 - Line 419: severity=CRITICAL; category=missing_dtor
   Description: Class SlabAllocator allocates resources but has no destructor
+  RESOLVED: SlabAllocator now declares an explicit noexcept destructor and owns slabs through smart pointers for automatic cleanup.
   Remediation: Review finding and apply recommended module-specific fix.
   Scanner: Uniform::raii
   Context: class/struct SlabAllocator
 - Line 465: severity=CRITICAL; category=new_without_delete
   Description: Raw new without RAII wrapper — potential memory leak
+  RESOLVED: New slab creation now uses std::make_unique with ownership transferred into the slab list only after successful allocation setup.
   Remediation: Review finding and apply recommended module-specific fix.
   Scanner: Uniform::memory
   Context: Slab* new_slab = new Slab(object_size, objects_per_slab);
 - Line 465: severity=CRITICAL; category=new_without_raii
   Description: Raw new() without RAII wrapper — potential memory leak
+  RESOLVED: New slab creation now uses std::make_unique with ownership transferred into the slab list only after successful allocation setup.
   Remediation: Review finding and apply recommended module-specific fix.
   Scanner: Uniform::phase1_memory_safety
   Context: return nullptr;  // Hit slab limit
@@ -189,11 +196,13 @@ Total findings: 54
         slab_count++;
 - Line 465: severity=CRITICAL; category=smart_ptr_misuse
   Description: Raw new without immediate wrapping in smart pointer
+  RESOLVED: New slab creation is immediately wrapped in std::unique_ptr and linked with move ownership semantics.
   Remediation: Review finding and apply recommended module-specific fix.
   Scanner: Uniform::raii
   Context: Slab* new_slab = new Slab(object_size, objects_per_slab);
 - Line 465: severity=CRITICAL; category=unwrapped_resource
   Description: Raw pointer allocated without RAII wrapper
+  RESOLVED: Slab list ownership is now RAII-managed with std::unique_ptr for both slab nodes and slab buffers.
   Remediation: Review finding and apply recommended module-specific fix.
   Scanner: Uniform::phase1_raii
   Context: Slab* new_slab = new Slab(object_size, objects_per_slab);

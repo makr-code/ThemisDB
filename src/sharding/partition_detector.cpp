@@ -22,6 +22,8 @@
 // Licensed under MIT License
 
 #include "sharding/partition_detector.h"
+#include "utils/logger.h"
+#include "utils/thread_join_utils.h"
 #include <algorithm>
 #include <thread>
 #include <condition_variable>
@@ -53,8 +55,9 @@ void PartitionDetector::stop() {
         return;  // Already stopped
     }
     
-    if (health_check_thread_.joinable()) {
-        health_check_thread_.join();
+    // thread_join_no_timeout (W4): bounded join via joinThreadWithin
+    if (!themis::utils::joinThreadWithin(health_check_thread_)) {
+        THEMIS_WARN("[PartitionDetector] health check thread did not finish within shutdown deadline; detaching.");
     }
 }
 

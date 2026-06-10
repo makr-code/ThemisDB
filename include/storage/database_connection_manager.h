@@ -22,6 +22,7 @@
 #include <string>
 #include <memory>
 #include <chrono>
+#include <condition_variable>
 #include <functional>
 #include <mutex>
 #include <atomic>
@@ -324,6 +325,8 @@ private:
     std::atomic<bool> running_{false};
     std::atomic<bool> should_stop_{false};
     std::thread keepalive_thread_;
+    mutable std::mutex stop_mutex_;
+    std::condition_variable stop_cv_;
     std::atomic<size_t> keepalive_count_{0};
     std::atomic<size_t> failure_count_{0};
     

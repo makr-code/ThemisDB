@@ -17,6 +17,7 @@ foreach(_src IN LISTS GOSSIP_MODULE_TEST_SOURCES)
     target_include_directories(${_target} PRIVATE
         ${THEMIS_ROOT_DIR}/include
         ${THEMIS_ROOT_DIR}/src
+        ${CMAKE_BINARY_DIR}/proto_generated
     )
     target_link_libraries(${_target} PRIVATE
         ${TEST_LIBS}

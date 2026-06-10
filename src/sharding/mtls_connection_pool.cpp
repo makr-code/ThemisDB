@@ -19,6 +19,8 @@
  */
 
 #include "sharding/mtls_connection_pool.h"
+#include "utils/logger.h"
+#include "utils/thread_join_utils.h"
 #include <iostream>
 #include <algorithm>
 #include <openssl/ssl.h>
@@ -59,8 +61,9 @@ EndpointConnectionPool::~EndpointConnectionPool() {
     
     // Stop cleanup thread
     running_ = false;
-    if (cleanup_thread_.joinable()) {
-        cleanup_thread_.join();
+    // thread_join_no_timeout (W4): bounded join via joinThreadWithin
+    if (!themis::utils::joinThreadWithin(cleanup_thread_)) {
+        THEMIS_WARN("[EndpointConnectionPool] cleanup thread did not finish within shutdown deadline; detaching.");
     }
 }
 
