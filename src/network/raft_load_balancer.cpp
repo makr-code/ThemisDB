@@ -28,6 +28,7 @@
 #include <cmath>
 #include <functional>
 #include <numeric>
+#include <future>
 #include <random>
 #include <sstream>
 #include <stdexcept>
@@ -35,6 +36,31 @@
 
 namespace themis {
 namespace network {
+
+namespace {
+
+constexpr int kShutdownJoinTimeoutMs = 5000;
+
+/// @brief Join @p t within @p timeout_ms; log and detach on timeout.
+static void timedJoin(std::thread& t,
+                      int timeout_ms = kShutdownJoinTimeoutMs) noexcept {
+    if (!t.joinable()) return;
+    std::promise<void> done;
+    auto fut = done.get_future();
+    std::thread watcher([inner = std::move(t), p = std::move(done)]() mutable {
+        if (inner.joinable()) inner.join();
+        p.set_value();
+    });
+    watcher.detach();
+    if (fut.wait_for(std::chrono::milliseconds(timeout_ms)) !=
+            std::future_status::ready) {
+        // thread_join_no_timeout: detach after deadline to avoid indefinite block
+        THEMIS_WARN("Thread did not finish within {} ms during shutdown; detaching.",
+                    timeout_ms);
+    }
+}
+
+} // namespace
 
 // =============================================================================
 // Backend – move operations
@@ -116,8 +142,8 @@ void RaftLoadBalancer::stop() {
     }
     shutdown_cv_.notify_all();
 
-    if (health_check_thread_.joinable()) health_check_thread_.join();
-    if (raft_thread_.joinable())         raft_thread_.join();
+    if (health_check_thread_.joinable()) timedJoin(health_check_thread_);
+    if (raft_thread_.joinable())         timedJoin(raft_thread_);
 
     // Reset started_ so that start() can be called again after stop().
     started_.store(false, std::memory_order_release);

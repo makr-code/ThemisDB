@@ -28,11 +28,37 @@
 
 #include <chrono>
 #include <cstdlib>
+#include <future>
 #include <stdexcept>
 #include <string>
 #include <thread>
 
 namespace themis::network {
+
+namespace {
+
+constexpr int kShutdownJoinTimeoutMs = 5000;
+
+/// @brief Join @p t within @p timeout_ms; log and detach on timeout.
+static void timedJoin(std::thread& t,
+                      int timeout_ms = kShutdownJoinTimeoutMs) noexcept {
+    if (!t.joinable()) return;
+    std::promise<void> done;
+    auto fut = done.get_future();
+    std::thread watcher([inner = std::move(t), p = std::move(done)]() mutable {
+        if (inner.joinable()) inner.join();
+        p.set_value();
+    });
+    watcher.detach();
+    if (fut.wait_for(std::chrono::milliseconds(timeout_ms)) !=
+            std::future_status::ready) {
+        // thread_join_no_timeout: detach on deadline to avoid indefinite block
+        THEMIS_WARN("Thread did not finish within {} ms during shutdown; detaching.",
+                    timeout_ms);
+    }
+}
+
+} // namespace
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Construction / Destruction
@@ -143,6 +169,14 @@ void ServiceMeshIntegration::serveProbe(tcp::socket socket) {
                 "Content-Length: 9\r\n"
                 "Connection: close\r\n\r\n"
                 "Not Found";
+            // no_timeout: set SO_SNDTIMEO so synchronous write doesn't block forever
+#ifdef __linux__
+            {
+                struct timeval tv{5, 0};  // 5 s send deadline
+                ::setsockopt(socket.native_handle(), SOL_SOCKET, SO_SNDTIMEO,
+                             reinterpret_cast<const char*>(&tv), sizeof(tv));
+            }
+#endif
             boost::asio::write(socket, net::buffer(resp), ec);
             return;
         }
@@ -154,6 +188,14 @@ void ServiceMeshIntegration::serveProbe(tcp::socket socket) {
             "Connection: close\r\n\r\n" +
             body;
 
+        // no_timeout: set SO_SNDTIMEO so synchronous write doesn't block forever
+#ifdef __linux__
+        {
+            struct timeval tv{5, 0};  // 5 s send deadline
+            ::setsockopt(socket.native_handle(), SOL_SOCKET, SO_SNDTIMEO,
+                         reinterpret_cast<const char*>(&tv), sizeof(tv));
+        }
+#endif
         boost::asio::write(socket, net::buffer(resp), ec);
 
     } catch (const std::exception& ex) {
@@ -248,9 +290,7 @@ void ServiceMeshIntegration::stop() {
     }
 
     for (auto& t : threads_) {
-        if (t.joinable()) {
-            t.join();
-        }
+        timedJoin(t);
     }
     threads_.clear();
 
