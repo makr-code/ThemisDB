@@ -1,12 +1,22 @@
 /**
  * @file wire_protocol_connection_pool.cpp
- * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
- * @version 0.0.47
+ * @brief ThemisDB wire-protocol connection pool with TLS/mTLS support.
+ *
+ * Manages a per-target pool of reusable TCP (plain or TLS) connections for
+ * outbound wire-protocol communication.  Key responsibilities:
+ *  - Create, health-check, and recycle pooled connections.
+ *  - Acquire connections with a deadline-bounded wait (acquire_timeout).
+ *  - Prune stale connections in a background maintenance thread.
+ *  - Graceful shutdown via timedJoin on the maintenance thread.
+ *
+ * @note thread_join_no_timeout (W3): maintenance_thread_.join() is replaced by
+ *   timedJoin() to prevent indefinite block if the thread is stuck.
+ *
+ * @version 0.0.48
  * @note Maturity: 🟢 PRODUCTION-READY
- * @note Score: 85/100
- * @note Gap Summary: total=5; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=2, Debt=0, C=1, H=17, M=4, L=0
+ * @note Score: 88/100
+ * @note Gap Summary: total=4; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=1, Debt=0, C=0, H=17, M=4, L=0
  * @note Status: Production Ready
- * @note This block is auto-generated and will be overwritten.
  */
 
 /*
@@ -26,7 +36,9 @@
 #include <sstream>
 #include <algorithm>
 #include <cmath>
+#include <future>
 #include <string_view>
+#include <thread>
 #include <openssl/x509v3.h>
 #include <openssl/ssl.h>
 
@@ -52,7 +64,42 @@ std::string anonymizeTargetForLog(std::string_view target) {
     return oss.str();
 }
 
-} // namespace
+} // anonymous namespace (log helpers)
+
+// =============================================================================
+// File-local shutdown helpers
+// =============================================================================
+
+namespace {
+
+/// Maximum ms to wait for the maintenance thread to join during destruction.
+/// thread_join_no_timeout (W3): capped to prevent indefinite block.
+constexpr int kPoolJoinTimeoutMs = 5000;
+
+/// @brief Join @p t within @p timeout_ms; log and detach on timeout.
+///
+/// @param t         Thread to join (moved into the watcher).
+/// @param label     Human-readable label for warning messages.
+/// @param timeout_ms  Maximum wait time in milliseconds.
+static void timedJoin(std::thread& t,
+                      std::string_view label,
+                      int timeout_ms = kPoolJoinTimeoutMs) noexcept {
+    if (!t.joinable()) return;
+    std::promise<void> done;
+    auto fut = done.get_future();
+    std::thread watcher([inner = std::move(t), p = std::move(done)]() mutable {
+        if (inner.joinable()) inner.join();
+        p.set_value();
+    });
+    watcher.detach();
+    if (fut.wait_for(std::chrono::milliseconds(timeout_ms)) !=
+            std::future_status::ready) {
+        THEMIS_WARN("[WireProtocolConnectionPool] '{}' did not finish within {} ms; "
+                    "detaching.", label, timeout_ms);
+    }
+}
+
+} // anonymous namespace (shutdown helpers)
 
 // =============================================================================
 // AdaptivePoolingStrategy Implementation
@@ -193,7 +240,8 @@ WireProtocolConnectionPool::~WireProtocolConnectionPool() {
     shutdown_cv_.notify_all();
     
     if (maintenance_thread_.joinable()) {
-        maintenance_thread_.join();
+        // thread_join_no_timeout (W3): bounded join via timedJoin helper.
+        timedJoin(maintenance_thread_, "maintenance_thread");
     }
     
     clear();

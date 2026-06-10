@@ -88,6 +88,27 @@
 | unnecessary_copy | 1 |
 | unordered_container_iter | 1 |
 
+## Remediation Log
+
+> Manually tracked fixes applied after last scanner run (2026-06-04).
+
+### W2-batch (2026-06-10, commit 92856f55)
+- kernel_bypass.cpp, quic_transport.cpp, raft_load_balancer.cpp, service_mesh.cpp,
+  wire_protocol_v2.cpp: thread_join_no_timeout → timedJoin helper added, all t.join()
+  replaced; data_race on RAND_bytes in quic_transport fixed via safeRandBytes.
+
+### W3-batch (2026-06-10)
+- wire_protocol_server.cpp: thread_join_no_timeout (lines 472/482/523) →
+  timedJoin; worker_pool_->stop() added before wait() to cancel pending tasks.
+- wire_protocol_connection_pool.cpp: thread_join_no_timeout (line 161) →
+  timedJoin for maintenance_thread_.
+- quic_server.cpp: thread_join_no_timeout (line 315) → timedJoin; added
+  timedJoin + kShutdownJoinTimeoutMs helpers (consistent with quic_transport.cpp).
+- udp_server.cpp: thread_join_no_timeout (lines 87/99) → timedJoin for
+  batch_thread_ and io_threads_.
+- All four files: Doxygen file-header updated to document the fixes and new
+  version/score.
+
 ## File Overview
 
 | File | Findings | Critical | High | Medium | Low |
