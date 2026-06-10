@@ -114,6 +114,16 @@
   bounded shutdown joins with utils/thread_join_utils.h::joinThreadWithin()
   and detach-on-timeout warning logs.
 
+### W5-Sharding (2026-06-10)
+- shard_router.cpp: mergeResults() and cross-shard join outputs now emit
+  mergeVersion/version_token metadata derived from shard results.
+- stream_protocol.cpp: callback, task, listener, retry-queue, and completion
+  state accesses now use copy-under-lock or mutex-guarded snapshots to close
+  critical data-race paths.
+- redundancy_strategy.cpp: geo failover state updates now use shared/unique lock
+  snapshots, and geo/mirror/stripe read paths now propagate stable
+  version_token metadata.
+
 ## File Overview
 
 | File | Findings | Critical | High | Medium | Low |
@@ -6575,7 +6585,7 @@ Total findings: 12
 
 void ShardRPCServer::wait() {
 
-#if THEMIS_HAS_SHARD_GRPC
+    #if THEMIS_HAS_SHARD_GRPC
 
     if (impl_->server) {
 

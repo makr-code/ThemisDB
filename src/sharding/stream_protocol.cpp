@@ -1192,31 +1192,55 @@ void StreamTransferTask::transferLoop() {
         }
         
         if (!running_) break;
-        
-        // Process pending retries
-        while (!pending_retries_.empty()) {
-            uint32_t chunk_index = pending_retries_.front();
-            pending_retries_.pop();
-            
+
+        for (;;) {
+            uint32_t chunk_index = 0;
+            {
+                std::lock_guard<std::mutex> lock(mutex_);
+                if (pending_retries_.empty()) {
+                    break;
+                }
+                chunk_index = pending_retries_.front();
+                pending_retries_.pop();
+            }
+
             if (auto chunk = createChunk(chunk_index)) {
                 sendChunk(*chunk);
             }
         }
         
-        // Send next chunk
-        if (next_chunk_to_send_ < chunks_acked_.size()) {
-            if (!chunks_acked_[next_chunk_to_send_]) {
-                if (auto chunk = createChunk(next_chunk_to_send_)) {
-                    if (sendChunk(*chunk)) {
-                        next_chunk_to_send_++;
-                    }
+        uint32_t chunk_index = 0;
+        bool has_chunk = false;
+        bool already_acked = false;
+        bool transfer_complete = false;
+        {
+            std::lock_guard<std::mutex> lock(progress_mutex_);
+            if (next_chunk_to_send_ < chunks_acked_.size()) {
+                chunk_index = next_chunk_to_send_;
+                already_acked = chunks_acked_[chunk_index];
+                has_chunk = true;
+                if (already_acked) {
+                    ++next_chunk_to_send_;
                 }
             } else {
-                next_chunk_to_send_++;
+                transfer_complete = true;
             }
-        } else {
+        }
+
+        if (transfer_complete) {
             complete_ = true;
             break;
+        }
+
+        if (has_chunk && !already_acked) {
+            if (auto chunk = createChunk(chunk_index)) {
+                if (sendChunk(*chunk)) {
+                    std::lock_guard<std::mutex> lock(progress_mutex_);
+                    if (next_chunk_to_send_ == chunk_index) {
+                        ++next_chunk_to_send_;
+                    }
+                }
+            }
         }
         
         std::this_thread::sleep_for(std::chrono::milliseconds(10));
@@ -1432,20 +1456,22 @@ bool StreamReceiveTask::onChunkReceived(const StreamChunk& chunk) {
             return false;
         }
 
-        // Check if this is the next expected chunk
         if (chunk.chunk_index == next_expected_chunk_) {
             if (!writeChunk(chunk)) {
-                requestRetry(chunk.chunk_index);
+                chunks_received_[chunk.chunk_index] = false;
+                std::cerr << "Failed to write chunk " << chunk.chunk_index
+                          << " for file " << file_.file_id << std::endl;
                 failed_ = true;
                 return false;
             }
             chunks_received_[chunk.chunk_index] = true;
             next_expected_chunk_++;
             
-            // Write any buffered out-of-order chunks
             while (out_of_order_chunks_.count(next_expected_chunk_)) {
                 if (!writeChunk(out_of_order_chunks_[next_expected_chunk_])) {
-                    requestRetry(next_expected_chunk_);
+                    chunks_received_[next_expected_chunk_] = false;
+                    std::cerr << "Failed to flush buffered chunk " << next_expected_chunk_
+                              << " for file " << file_.file_id << std::endl;
                     failed_ = true;
                     return false;
                 }
@@ -1454,23 +1480,17 @@ bool StreamReceiveTask::onChunkReceived(const StreamChunk& chunk) {
                 next_expected_chunk_++;
             }
         } else {
-            // Buffer out-of-order chunk
             out_of_order_chunks_[chunk.chunk_index] = chunk;
             chunks_received_[chunk.chunk_index] = true;
         }
-    }
-    
-    // Check if all chunks received
-    bool all_received = true;
-    for (bool received : chunks_received_) {
-        if (!received) {
-            all_received = false;
-            break;
+
+        const bool all_received = std::all_of(
+            chunks_received_.begin(), chunks_received_.end(), [](bool received) {
+                return received;
+            });
+        if (all_received) {
+            complete_ = true;
         }
-    }
-    
-    if (all_received) {
-        complete_ = true;
     }
     
     return true;
