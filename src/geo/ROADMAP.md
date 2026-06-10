@@ -13,6 +13,8 @@ Production geo runtime exists across CPU/GPU backends, spatial indexing, GeoJSON
 - [~] hardening backend fallback parity for degraded and mixed-capability runtime paths (Target: Q3 2026)
 - [~] benchmark stabilization for geo CPU/GPU, indexing, and join hot paths (Target: Q3 2026)
 - [~] diagnostics consistency improvements for validation and backend-switch incidents (Target: Q3 2026)
+- [~] GPU geospatial backend CUDA: Haversine distance and point-in-polygon kernels (Target: Q3 2026)
+- [~] GPU geospatial backend HIP: AMD ROCm feature-parity implementation (Target: Q3 2026)
 
 ## Planned Features
 

@@ -13,6 +13,8 @@ Production index runtime exists across vector/secondary/spatial/graph indexing, 
 - [~] hardening backend parity and deterministic fallback across mixed GPU/runtime capabilities (Target: Q3 2026)
 - [~] benchmark stabilization for vector search, rebuild, spatial, and quantization hot paths (Target: Q3 2026)
 - [~] diagnostics consistency for lifecycle, rebuild, and distributed index incidents (Target: Q3 2026)
+- [~] GPU vector index CUDA backend: L2, cosine, inner-product kernels (Target: Q4 2026)
+- [~] GPU vector index HIP backend: AMD ROCm support with feature-parity (Target: Q4 2026)
 
 ## Planned Features
 

@@ -13,6 +13,9 @@ Production GPU runtime exists across device discovery, allocation/governance, ba
 - [~] hardening topology-aware and peer-transfer edge behavior under mixed runtime capabilities (Target: Q3 2026)
 - [~] benchmark stabilization for core allocation, backend, and acceleration hot paths (Target: Q3 2026)
 - [~] diagnostics consistency for quota denials, backend degradation, and fallback incidents (Target: Q3 2026)
+- [~] GPU query accelerator kernel launchers for common query types (Target: Q4 2026)
+- [~] GPU vector index CUDA backend integration and optimization (Target: Q4 2026)
+- [~] GPU vector index HIP backend feature-parity (Target: Q4 2026)
 
 ## Planned Features
 
