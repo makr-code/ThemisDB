@@ -43,6 +43,52 @@ namespace auth {
 
 namespace {
 
+void auditLDAPValidationFailure(themis::utils::AuditLogger* audit_logger,
+                                const std::string& username,
+                                const std::string& reason)
+{
+    AuthAuditLogger audit(audit_logger);
+    audit.logLDAPFailure(username, reason);
+}
+
+void validateLDAPCredentialsOrThrow(themis::utils::AuditLogger* audit_logger,
+                                    const std::string& username,
+                                    const std::string& password)
+{
+    if (username.empty()) {
+        auditLDAPValidationFailure(audit_logger, username, "empty_username");
+        throw AuthException(AuthError(
+            AuthErrorCode::AUTH_INVALID_CREDENTIALS,
+            "Authentication failed",
+            "LDAP: username must not be empty"
+        ));
+    }
+    if (username.size() > MAX_LDAP_USERNAME_LENGTH) {
+        auditLDAPValidationFailure(audit_logger, username, "username_too_long");
+        throw AuthException(AuthError(
+            AuthErrorCode::AUTH_INVALID_CREDENTIALS,
+            "Authentication failed",
+            "LDAP: username exceeds maximum length"
+        ));
+    }
+    if (password.empty()) {
+        auditLDAPValidationFailure(audit_logger, username, "empty_password");
+        throw AuthException(AuthError(
+            AuthErrorCode::AUTH_INVALID_CREDENTIALS,
+            "Authentication failed",
+            "LDAP: password must not be empty (anonymous bind not permitted)"
+        ));
+    }
+    if (password.size() > MAX_LDAP_PASSWORD_LENGTH) {
+        auditLDAPValidationFailure(audit_logger, username, "password_too_long");
+        throw AuthException(AuthError(
+            AuthErrorCode::AUTH_INVALID_CREDENTIALS,
+            "Authentication failed",
+            "LDAP: password exceeds maximum length"
+        ));
+    }
+}
+
 std::mutex& ldapBindFnMutex()
 {
     static std::mutex mutex;
@@ -281,36 +327,7 @@ std::string LDAPAuthenticator::buildGroupSearchFilter(const std::string& dn,
 LDAPAuthResult LDAPAuthenticator::authenticate(const std::string& username,
                                                const std::string& password)
 {
-    // --- Input validation ---------------------------------------------------
-    if (username.empty()) {
-        throw AuthException(AuthError(
-            AuthErrorCode::AUTH_INVALID_CREDENTIALS,
-            "Authentication failed",
-            "LDAP: username must not be empty"
-        ));
-    }
-    if (username.size() > MAX_LDAP_USERNAME_LENGTH) {
-        throw AuthException(AuthError(
-            AuthErrorCode::AUTH_INVALID_CREDENTIALS,
-            "Authentication failed",
-            "LDAP: username exceeds maximum length"
-        ));
-    }
-    if (password.empty()) {
-        // Reject anonymous/unauthenticated binds for direct-bind auth
-        throw AuthException(AuthError(
-            AuthErrorCode::AUTH_INVALID_CREDENTIALS,
-            "Authentication failed",
-            "LDAP: password must not be empty (anonymous bind not permitted)"
-        ));
-    }
-    if (password.size() > MAX_LDAP_PASSWORD_LENGTH) {
-        throw AuthException(AuthError(
-            AuthErrorCode::AUTH_INVALID_CREDENTIALS,
-            "Authentication failed",
-            "LDAP: password exceeds maximum length"
-        ));
-    }
+    validateLDAPCredentialsOrThrow(audit_logger_, username, password);
 
     if (!initialized_) {
         AuthAuditLogger audit(audit_logger_);
@@ -334,34 +351,7 @@ std::future<LDAPAuthResult> LDAPAuthenticator::authenticateAsync(
 {
     // Validate inputs synchronously on the caller's thread to give fast
     // feedback for invalid arguments — no need to dispatch to the pool.
-    if (username.empty()) {
-        throw AuthException(AuthError(
-            AuthErrorCode::AUTH_INVALID_CREDENTIALS,
-            "Authentication failed",
-            "LDAP: username must not be empty"
-        ));
-    }
-    if (username.size() > MAX_LDAP_USERNAME_LENGTH) {
-        throw AuthException(AuthError(
-            AuthErrorCode::AUTH_INVALID_CREDENTIALS,
-            "Authentication failed",
-            "LDAP: username exceeds maximum length"
-        ));
-    }
-    if (password.empty()) {
-        throw AuthException(AuthError(
-            AuthErrorCode::AUTH_INVALID_CREDENTIALS,
-            "Authentication failed",
-            "LDAP: password must not be empty (anonymous bind not permitted)"
-        ));
-    }
-    if (password.size() > MAX_LDAP_PASSWORD_LENGTH) {
-        throw AuthException(AuthError(
-            AuthErrorCode::AUTH_INVALID_CREDENTIALS,
-            "Authentication failed",
-            "LDAP: password exceeds maximum length"
-        ));
-    }
+    validateLDAPCredentialsOrThrow(audit_logger_, username, password);
 
     // Dispatch the blocking LDAP bind to the worker pool so the caller is
     // never stalled by network latency (P99 ≤ 50 ms goal from the roadmap).

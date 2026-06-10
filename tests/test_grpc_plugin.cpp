@@ -15,6 +15,9 @@ using namespace themis::plugins;
 using namespace themis::plugins::rpc;
 using namespace themis::plugins::rpc::grpc_plugin;
 
+extern "C" themis::plugins::IThemisPlugin* createPlugin();
+extern "C" void destroyPlugin(themis::plugins::IThemisPlugin* plugin);
+
 // ============================================================================
 // GRPCPlugin Interface Tests
 // ============================================================================
@@ -104,6 +107,17 @@ TEST_F(GRPCPluginTest, CreateServerMultipleTimes) {
     EXPECT_NE(nullptr, s2);
     // Each call must return a distinct instance
     EXPECT_NE(s1.get(), s2.get());
+}
+
+TEST(GRPCPluginExportsTest, CreateAndDestroyPluginLifecycle) {
+    auto* exported_plugin = createPlugin();
+    ASSERT_NE(nullptr, exported_plugin);
+    EXPECT_STREQ("grpc", exported_plugin->getName());
+    EXPECT_NO_THROW(destroyPlugin(exported_plugin));
+}
+
+TEST(GRPCPluginExportsTest, DestroyPluginNullSafe) {
+    EXPECT_NO_THROW(destroyPlugin(nullptr));
 }
 
 // ============================================================================
@@ -291,10 +305,24 @@ TEST_F(GRPCServerKeepaliveTest, InvalidKeepaliveValueFallsBackToDefault) {
     EXPECT_TRUE(true);
 }
 
+TEST_F(GRPCServerKeepaliveTest, OutOfRangeKeepaliveValueFallsBackToDefault) {
+    auto cfg = makeKeepaliveConfig(
+        50092,
+        "999999999999999999999999999",
+        "888888888888888888888888888");
+    ASSERT_TRUE(server->initialize(cfg));
+    EXPECT_NO_THROW({
+        bool started = server->start();
+        if (started) {
+            server->stop();
+        }
+    });
+}
+
 TEST_F(GRPCServerKeepaliveTest, EmptyKeepaliveUsesDefaults) {
     RPCServerConfig cfg;
     cfg.host = "127.0.0.1";
-    cfg.port = 50092;
+    cfg.port = 50091;
     cfg.tls_enabled = false;
     ASSERT_TRUE(server->initialize(cfg));
     bool started = server->start();
@@ -340,25 +368,41 @@ TEST_F(GRPCServerMultiPortTest, AdminAddressEmptyWhenNoAdminPort) {
 TEST_F(GRPCServerMultiPortTest, AdminAddressSetWhenAdminPortConfigured) {
     RPCServerConfig cfg;
     cfg.host = "127.0.0.1";
-    cfg.port = 50089;
+    cfg.port = 50090;
     cfg.tls_enabled = false;
-    cfg.extra_config["admin_port"] = "50088";
+    cfg.extra_config["admin_port"] = "50089";
     ASSERT_TRUE(server->initialize(cfg));
     bool started = server->start();
     if (started) {
-        EXPECT_EQ("127.0.0.1:50088", server->getAdminAddress());
+        EXPECT_EQ("127.0.0.1:50089", server->getAdminAddress());
         server->stop();
     }
+}
+
+TEST_F(GRPCServerMultiPortTest, InvalidAdminPortLeavesAdminAddressEmpty) {
+    RPCServerConfig cfg;
+    cfg.host = "127.0.0.1";
+    cfg.port = 50089;
+    cfg.tls_enabled = false;
+    cfg.extra_config["admin_port"] = "999999999999999999999999999";
+    ASSERT_TRUE(server->initialize(cfg));
+    EXPECT_NO_THROW({
+        bool started = server->start();
+        EXPECT_TRUE(server->getAdminAddress().empty());
+        if (started) {
+            server->stop();
+        }
+    });
 }
 
 TEST_F(GRPCServerMultiPortTest, PrimaryAddressUnaffectedByAdminPort) {
     RPCServerConfig cfg;
     cfg.host = "127.0.0.1";
-    cfg.port = 50087;
+    cfg.port = 50088;
     cfg.tls_enabled = false;
-    cfg.extra_config["admin_port"] = "50086";
+    cfg.extra_config["admin_port"] = "50087";
     ASSERT_TRUE(server->initialize(cfg));
-    EXPECT_EQ("127.0.0.1:50087", server->getAddress());
+    EXPECT_EQ("127.0.0.1:50088", server->getAddress());
     server->start();
     server->stop();
 }
@@ -417,4 +461,3 @@ TEST_F(GRPCServerTlsReloadTest, ReloadTlsReturnsFalseOnBadCertPath) {
         server->stop();
     }
 }
-
