@@ -165,6 +165,36 @@ bool isBlankString(std::string_view value) {
     });
 }
 
+std::size_t escapedJsonStringLength(std::string_view value) {
+    std::size_t escaped_length = 0;
+    for (unsigned char ch : value) {
+        switch (ch) {
+            case '\"':
+            case '\\':
+            case '\b':
+            case '\f':
+            case '\n':
+            case '\r':
+            case '\t':
+                escaped_length += 2;
+                break;
+            default:
+                escaped_length += (ch < 0x20u) ? 6u : 1u;
+                break;
+        }
+    }
+    return escaped_length;
+}
+
+bool isAuthTokenPayloadWithinLimit(std::string_view token) {
+    constexpr std::size_t kAuthTokenJsonOverhead = sizeof("{\"token\":\"\"}") - 1;
+    if (kAuthTokenJsonOverhead > kMaxAuthPayloadBytes) {
+        return false;
+    }
+    const std::size_t escaped_token_length = escapedJsonStringLength(token);
+    return escaped_token_length <= (kMaxAuthPayloadBytes - kAuthTokenJsonOverhead);
+}
+
 bool isUnsignedIntegerString(std::string_view value) {
     return !value.empty() && std::all_of(value.begin(), value.end(), [](unsigned char ch) {
         return std::isdigit(ch) != 0;
@@ -420,10 +450,9 @@ void WireProtocolServer::start() {
         return;
     }
 
-    if (config_.require_auth &&
-        json{{"token", config_.auth_token}}.dump().size() > kMaxAuthPayloadBytes) {
+    if (config_.require_auth && !isAuthTokenPayloadWithinLimit(config_.auth_token)) {
         std::cerr << "[WireProtocol] Invalid configuration: configured authentication secret "
-                     "length exceeds AUTH payload limit after JSON serialization. "
+                     "length exceeds AUTH payload limit. "
                      "Server will not start." << std::endl;
         return;
     }
@@ -1350,41 +1379,44 @@ void WireProtocolServer::Session::asyncWriteResponse(const std::vector<uint8_t>&
     auto self = shared_from_this();
     auto data_copy = data;  // capture by value so the caller's buffer can be freed
     net::dispatch(socket_.get_executor(), [this, self, data_copy = std::move(data_copy)]() {
-        std::lock_guard<std::mutex> lock(write_mutex_);
-        write_queue_.push_back(std::move(data_copy));
-        if (!write_in_progress_) {
-            write_in_progress_ = true;
+        bool should_start_write = false;
+        {
+            std::lock_guard<std::mutex> lock(write_mutex_);
+            write_queue_.push_back(std::move(data_copy));
+            if (!write_in_progress_) {
+                write_in_progress_ = true;
+                should_start_write = true;
+            }
+        }
+
+        if (should_start_write) {
             doWrite();
         }
     });
 }
 
 void WireProtocolServer::Session::doWrite() {
-    // Must be called with write_mutex_ already locked OR from async callback
-    if (write_queue_.empty()) {
-        write_in_progress_ = false;
-        return;
+    std::shared_ptr<std::vector<uint8_t>> write_buffer;
+    {
+        std::lock_guard<std::mutex> lock(write_mutex_);
+        if (write_queue_.empty()) {
+            write_in_progress_ = false;
+            return;
+        }
+        write_buffer = std::make_shared<std::vector<uint8_t>>(std::move(write_queue_.front()));
+        write_queue_.pop_front();
     }
-    
+
     auto self = shared_from_this();
-    auto& front = write_queue_.front();
-    
     net::async_write(
         socket_,
-        net::buffer(front),
-        [this, self](const boost::system::error_code& ec, std::size_t bytes) {
+        net::buffer(*write_buffer),
+        [this, self, write_buffer](const boost::system::error_code& ec, std::size_t bytes) {
             if (!ec) {
                 bytes_sent_.fetch_add(bytes, std::memory_order_relaxed);
                 server_->qos_manager_.recordBytesSent(session_id_, bytes);
-                
-                std::lock_guard<std::mutex> lock(write_mutex_);
-                write_queue_.pop_front();
-                
-                if (!write_queue_.empty()) {
-                    doWrite();  // Continue with next message
-                } else {
-                    write_in_progress_ = false;
-                }
+
+                doWrite();  // Continue with next message or release in-progress flag
             } else {
                 std::lock_guard<std::mutex> lock(write_mutex_);
                 write_in_progress_ = false;

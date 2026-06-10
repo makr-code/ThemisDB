@@ -109,6 +109,16 @@
 - All four files: Doxygen file-header updated to document the fixes and new
   version/score.
 
+### W4-batch (2026-06-10)
+- wire_protocol_server.cpp: sensitive_data_logging remediation for startup auth
+  payload validation by replacing token JSON serialization with size-only
+  escaped-length accounting (no secret material serialization).
+- wire_protocol_server.cpp: async write hardening by decoupling async_write buffer
+  lifetime from mutable deque storage (`shared_ptr` buffer + pop-before-write),
+  preventing queue mutation races while preserving write ordering.
+- tests/test_themis_wire_protocol_server.cpp: added auth payload size mirror
+  boundary tests to lock in backward-compatible payload-limit behavior.
+
 ## File Overview
 
 | File | Findings | Critical | High | Medium | Low |

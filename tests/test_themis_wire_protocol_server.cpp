@@ -19,6 +19,7 @@
 #include "themis/network/wire_protocol_server.hpp"
 
 #include <boost/asio.hpp>
+#include <nlohmann/json.hpp>
 #include <algorithm>
 #include <cctype>
 #include <chrono>
@@ -1120,6 +1121,36 @@ TEST(WireProtocolV1ThemisErrorCodes, StorageUnavailableUses503) {
 
 namespace {
 
+using json = nlohmann::json;
+
+constexpr std::size_t kMaxAuthPayloadBytesMirror = 16u * 1024u;
+constexpr std::size_t kAuthTokenJsonOverheadMirror = sizeof("{\"token\":\"\"}") - 1;
+
+std::size_t escapedJsonStringLengthMirror(std::string_view value) {
+    std::size_t escaped_length = 0;
+    for (unsigned char ch : value) {
+        switch (ch) {
+            case '\"':
+            case '\\':
+            case '\b':
+            case '\f':
+            case '\n':
+            case '\r':
+            case '\t':
+                escaped_length += 2;
+                break;
+            default:
+                escaped_length += (ch < 0x20u) ? 6u : 1u;
+                break;
+        }
+    }
+    return escaped_length;
+}
+
+std::size_t authPayloadSizeForTokenMirror(std::string_view token) {
+    return kAuthTokenJsonOverheadMirror + escapedJsonStringLengthMirror(token);
+}
+
 /// Local mirror of the sanitizeForMessage function from wire_protocol_server.cpp.
 /// Replaces control characters (< 0x20) and DEL (0x7F) with '?'.
 std::string sanitizeForMessageMirror(const std::string& s) {
@@ -1136,6 +1167,31 @@ std::string sanitizeForMessageMirror(const std::string& s) {
 }
 
 } // anonymous namespace
+
+TEST(WireProtocolV1ThemisAuthPayloadLimit, MirrorMatchesJsonDumpSizeForEscapedToken) {
+    std::string token = "plain\"quoted\\path\nline\tend";
+    token.push_back('\x1F');
+    token += "UTF8_ä";
+
+    const std::size_t legacy_json_dump_size = json{{"token", token}}.dump().size();
+    EXPECT_EQ(authPayloadSizeForTokenMirror(token), legacy_json_dump_size);
+}
+
+TEST(WireProtocolV1ThemisAuthPayloadLimit, BoundaryAtPayloadLimitIsAccepted) {
+    ASSERT_LT(kAuthTokenJsonOverheadMirror, kMaxAuthPayloadBytesMirror);
+    const std::size_t token_size = kMaxAuthPayloadBytesMirror - kAuthTokenJsonOverheadMirror;
+    const std::string token(token_size, 'a');
+
+    EXPECT_EQ(authPayloadSizeForTokenMirror(token), kMaxAuthPayloadBytesMirror);
+}
+
+TEST(WireProtocolV1ThemisAuthPayloadLimit, OverLimitPayloadIsRejected) {
+    ASSERT_LT(kAuthTokenJsonOverheadMirror, kMaxAuthPayloadBytesMirror);
+    const std::size_t token_size = (kMaxAuthPayloadBytesMirror - kAuthTokenJsonOverheadMirror) + 1u;
+    const std::string token(token_size, 'a');
+
+    EXPECT_GT(authPayloadSizeForTokenMirror(token), kMaxAuthPayloadBytesMirror);
+}
 
 TEST(WireProtocolV1ThemisSanitize, PrintableStringUnchanged) {
     EXPECT_EQ(sanitizeForMessageMirror("users"), "users");
@@ -1248,4 +1304,3 @@ TEST(DeprecatedWireSessionBridgeTest, NullptrClearIsIdempotent) {
 #elif defined(__GNUC__)
 #pragma GCC diagnostic pop
 #endif
-
