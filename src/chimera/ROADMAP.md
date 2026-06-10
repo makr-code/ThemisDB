@@ -13,6 +13,11 @@ Production adapter runtime exists for the current ThemisDB adapter implementatio
 - [~] hardening parity between simulation-mode and engine-backed dispatch paths (Target: Q3 2026)
 - [~] benchmark stabilization for adapter request/response compatibility pathways (Target: Q3 2026)
 - [~] diagnostics consistency improvements for capability and dispatch failure classes (Target: Q3 2026)
+- [~] v1.1.0: Production ThemisDB Adapter Integration with connection pooling (Target: Q3 2026)
+- [~] v1.1.0: Transaction Management with ACID properties and savepoints (Target: Q3 2026)
+- [~] v1.1.0: Error Recovery with exponential backoff retry strategy (Target: Q3 2026)
+- [~] v1.1.0: Batch Operation Optimization for throughput (Target: Q3 2026)
+- [~] v1.2.0: MongoDB/Qdrant/Neo4j Real Driver Integration (Target: Q4 2026)
 
 ## Planned Features
 
