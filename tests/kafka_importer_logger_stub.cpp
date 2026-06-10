@@ -21,6 +21,8 @@
 namespace themis {
 namespace utils {
 
+LogMetrics Logger::metrics_{};
+
 // ---------------------------------------------------------------------------
 // Stub implementations of non-template Logger methods
 // ---------------------------------------------------------------------------

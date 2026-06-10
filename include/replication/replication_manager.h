@@ -595,6 +595,8 @@ private:
     std::atomic<uint64_t> last_acked_sequence_{0};
     std::atomic<bool> running_{false};
     std::thread stream_thread_;
+    mutable std::mutex wait_mutex_;
+    std::condition_variable wait_cv_;
     
     // Retry / backoff state
     std::atomic<uint32_t> consecutive_failures_{0};

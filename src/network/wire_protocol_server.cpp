@@ -80,6 +80,8 @@ constexpr std::size_t kDefaultBpmnHistoryEvents = 1000;
 constexpr std::size_t kMaxBpmnHistoryEvents = 10000;
 constexpr uint32_t kMaxWireFrameSizeMb =
     static_cast<uint32_t>(std::numeric_limits<uint32_t>::max() / (1024u * 1024u));
+constexpr int kBindListenMaxRetries = 3;
+constexpr auto kBindListenRetryBaseDelay = std::chrono::milliseconds(100);
 
 bool hasControlCharacters(std::string_view value) {
     return std::any_of(value.begin(), value.end(), [](unsigned char ch) {
@@ -432,25 +434,63 @@ void WireProtocolServer::start() {
     }
 
     tcp::endpoint endpoint(bind_addr, config_.port);
-    acceptor_->open(endpoint.protocol());
-    acceptor_->set_option(tcp::acceptor::reuse_address(true));
+    boost::system::error_code setup_ec;
+    for (int attempt = 1; attempt <= kBindListenMaxRetries; ++attempt) {
+        boost::system::error_code ec;
 
-    // Enable dual-stack (IPV6_V6ONLY=0) when binding to an IPv6 socket and
-    // ipv6_dual_stack is requested.  This allows a single listener to accept
-    // both IPv4-mapped and native IPv6 clients without a second socket.
-    if (endpoint.address().is_v6() && config_.ipv6_dual_stack) {
-        net::ip::v6_only v6only_opt(false);
-        boost::system::error_code v6ec;
-        acceptor_->set_option(v6only_opt, v6ec);
-        // Non-fatal: some platforms (e.g. OpenBSD) do not support dual-stack.
-        if (v6ec) {
-            std::cerr << "[WireProtocol] Note: dual-stack (IPV6_V6ONLY=0) not supported"
-                         " on this platform, proceeding with IPv6-only socket.\n";
+        if (acceptor_->is_open()) {
+            acceptor_->close(ec);
+            ec.clear();
+        }
+
+        acceptor_->open(endpoint.protocol(), ec);
+        if (!ec) {
+            acceptor_->set_option(tcp::acceptor::reuse_address(true), ec);
+        }
+
+        // Enable dual-stack (IPV6_V6ONLY=0) when binding to an IPv6 socket and
+        // ipv6_dual_stack is requested.  This allows a single listener to accept
+        // both IPv4-mapped and native IPv6 clients without a second socket.
+        if (!ec && endpoint.address().is_v6() && config_.ipv6_dual_stack) {
+            net::ip::v6_only v6only_opt(false);
+            boost::system::error_code v6ec;
+            acceptor_->set_option(v6only_opt, v6ec);
+            // Non-fatal: some platforms (e.g. OpenBSD) do not support dual-stack.
+            if (v6ec) {
+                std::cerr << "[WireProtocol] Note: dual-stack (IPV6_V6ONLY=0) not supported"
+                             " on this platform, proceeding with IPv6-only socket.\n";
+            }
+        }
+
+        if (!ec) {
+            acceptor_->bind(endpoint, ec);
+        }
+        if (!ec) {
+            acceptor_->listen(config_.tcp_backlog, ec);
+        }
+
+        if (!ec) {
+            setup_ec.clear();
+            break;
+        }
+
+        setup_ec = ec;
+        std::cerr << "[WireProtocol] Listener setup failed on attempt "
+                  << attempt << "/" << kBindListenMaxRetries
+                  << ": " << setup_ec.message() << std::endl;
+
+        if (attempt < kBindListenMaxRetries) {
+            std::this_thread::sleep_for(kBindListenRetryBaseDelay * attempt);
         }
     }
 
-    acceptor_->bind(endpoint);
-    acceptor_->listen(config_.tcp_backlog);
+    if (setup_ec) {
+        std::cerr << "[WireProtocol] Startup failed: unable to bind/listen on "
+                  << endpoint.address().to_string() << ":" << endpoint.port()
+                  << " after " << kBindListenMaxRetries << " attempts: "
+                  << setup_ec.message() << std::endl;
+        return;
+    }
 
     running_.store(true, std::memory_order_release);
 

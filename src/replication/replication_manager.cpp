@@ -882,6 +882,7 @@ void ReplicationStream::start() {
 
 void ReplicationStream::stop() {
     running_.store(false);
+    wait_cv_.notify_all();
     if (stream_thread_.joinable()) {
         stream_thread_.join();
     }
@@ -918,8 +919,14 @@ void ReplicationStream::streamLoop() {
         // Apply exponential backoff when the follower is not responsive
         uint32_t backoff = computeBackoffMs();
         if (backoff > 0) {
-            std::this_thread::sleep_for(std::chrono::milliseconds(backoff));
-            if (!running_.load()) break;
+            std::unique_lock<std::mutex> lk(wait_mutex_);
+            wait_cv_.wait_for(
+                lk,
+                std::chrono::milliseconds(backoff),
+                [this] { return !running_.load(); });
+            if (!running_.load()) {
+                break;
+            }
         }
 
         // BATCH A FIX: Wrap WAL read operations in mutex-protected critical section
@@ -945,7 +952,13 @@ void ReplicationStream::streamLoop() {
             }
         }
         
-        std::this_thread::sleep_for(std::chrono::milliseconds(config_.batch_timeout_ms));
+        {
+            std::unique_lock<std::mutex> lk(wait_mutex_);
+            wait_cv_.wait_for(
+                lk,
+                std::chrono::milliseconds(config_.batch_timeout_ms),
+                [this] { return !running_.load(); });
+        }
     }
 }
 

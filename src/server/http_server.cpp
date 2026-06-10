@@ -4770,6 +4770,18 @@ http::response<http::string_body> HttpServer::routeRequest(
 
     http::response<http::string_body> response;
 
+    auto ensure_handler_ready = [&](const char* handler_name, const void* handler_ptr) {
+        if (handler_ptr != nullptr) {
+            return true;
+        }
+        THEMIS_ERROR("HTTP route aborted: {} not initialized", handler_name);
+        response = makeErrorResponse(
+            http::status::service_unavailable,
+            std::string(handler_name) + " not initialized",
+            req);
+        return false;
+    };
+
     try {
         switch (classifyRoute(req)) {
             case Route::Health:
@@ -4986,6 +4998,9 @@ http::response<http::string_body> HttpServer::routeRequest(
                 response = *auth_err;
                 break;
             }
+            if (!ensure_handler_ready("WAL API handler", wal_api_.get())) {
+                break;
+            }
             response = wal_api_->handleApply(req);
             break;
         case Route::Config:
@@ -4997,6 +5012,9 @@ http::response<http::string_body> HttpServer::routeRequest(
                 response = *auth_err;
                 break;
             }
+            if (!ensure_handler_ready("Admin API handler", admin_api_.get())) {
+                break;
+            }
             response = admin_api_->handleBackup(req);
             break;
         case Route::AdminRestorePost:
@@ -5005,31 +5023,58 @@ http::response<http::string_body> HttpServer::routeRequest(
                 response = *auth_err;
                 break;
             }
+            if (!ensure_handler_ready("Admin API handler", admin_api_.get())) {
+                break;
+            }
             response = admin_api_->handleRestore(req);
             break;
         case Route::EntitiesGet:
+            if (!ensure_handler_ready("Entity API handler", entity_api_.get())) {
+                break;
+            }
             response = entity_api_->handleGet(req);
             break;
         case Route::EntitiesPut:
+            if (!ensure_handler_ready("Entity API handler", entity_api_.get())) {
+                break;
+            }
             response = entity_api_->handlePut(req);
             break;
         case Route::EntitiesDelete:
+            if (!ensure_handler_ready("Entity API handler", entity_api_.get())) {
+                break;
+            }
             response = entity_api_->handleDelete(req);
             break;
         case Route::EntitiesPost:
+            if (!ensure_handler_ready("Entity API handler", entity_api_.get())) {
+                break;
+            }
             response = entity_api_->handlePut(req);
             break;
         case Route::EntitiesBatchPost:
+            if (!ensure_handler_ready("Entity API handler", entity_api_.get())) {
+                break;
+            }
             response = entity_api_->handleBatch(req);
             break;
         case Route::V2DocumentsBulkPost:
+            if (!ensure_handler_ready("Entity API handler", entity_api_.get())) {
+                break;
+            }
             response = entity_api_->handleBulkNdjson(req);
             break;
         case Route::QueryPost:
+            if (!ensure_handler_ready("Query API handler", query_api_.get())) {
+                break;
+            }
             response = query_api_->handleQuery(req);
             recordContinuousLearningQueryTelemetry(req, response, start, false);
             break;
         case Route::QueryAqlPost: {
+            if (!ensure_handler_ready("Query API handler", query_api_.get())) {
+                break;
+            }
             // AQL payload validation before handling
             if (validator_) {
                 try {
@@ -5049,38 +5094,68 @@ http::response<http::string_body> HttpServer::routeRequest(
             break;
         }
         case Route::QueryStreamSseGet:
+            if (!ensure_handler_ready("Query API handler", query_api_.get())) {
+                break;
+            }
             response = query_api_->handleQueryStreamSse(req);
             break;
         case Route::IndexCreatePost:
+            if (!ensure_handler_ready("Index API handler", index_api_.get())) {
+                break;
+            }
             response = index_api_->handleCreate(req);
             break;
         case Route::IndexDropPost:
+            if (!ensure_handler_ready("Index API handler", index_api_.get())) {
+                break;
+            }
             response = index_api_->handleDrop(req);
             break;
         case Route::IndexStatsGet:
+            if (!ensure_handler_ready("Index API handler", index_api_.get())) {
+                break;
+            }
             response = index_api_->handleStats(req);
             break;
         case Route::IndexRebuildPost:
+            if (!ensure_handler_ready("Index API handler", index_api_.get())) {
+                break;
+            }
             response = index_api_->handleRebuild(req);
             break;
         case Route::IndexReindexPost:
+            if (!ensure_handler_ready("Index API handler", index_api_.get())) {
+                break;
+            }
             response = index_api_->handleReindex(req);
             break;
             
         // G5: Spatial Index Management handlers
         case Route::SpatialIndexCreatePost:
+            if (!ensure_handler_ready("Spatial API handler", spatial_api_.get())) {
+                break;
+            }
             response = spatial_api_->handleIndexCreate(req);
             applyGovernanceHeaders(req, response);
             break;
         case Route::SpatialIndexRebuildPost:
+            if (!ensure_handler_ready("Spatial API handler", spatial_api_.get())) {
+                break;
+            }
             response = spatial_api_->handleIndexRebuild(req);
             applyGovernanceHeaders(req, response);
             break;
         case Route::SpatialIndexStatsGet:
+            if (!ensure_handler_ready("Spatial API handler", spatial_api_.get())) {
+                break;
+            }
             response = spatial_api_->handleIndexStats(req);
             applyGovernanceHeaders(req, response);
             break;
         case Route::SpatialIndexMetricsGet:
+            if (!ensure_handler_ready("Spatial API handler", spatial_api_.get())) {
+                break;
+            }
             response = spatial_api_->handleMetrics(req);
             applyGovernanceHeaders(req, response);
             break;
