@@ -2368,6 +2368,8 @@ set(THEMIS_CORE_SOURCES
     ../src/auth/totp_secret_encryption.cpp
     ../src/auth/jwt_key_rotation_manager.cpp
     ../src/auth/principal_validator.cpp
+    ../src/auth/http_auth_async.cpp
+    ../src/auth/distributed_token_blacklist.cpp
     ../src/governance/policy_engine.cpp
     ../src/governance/opa_adapter.cpp
     ../src/governance/policy_manager.cpp

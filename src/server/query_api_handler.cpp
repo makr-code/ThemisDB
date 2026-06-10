@@ -67,6 +67,7 @@
 #include <ctime>
 #include <algorithm>
 #include <chrono>
+#include <cmath>
 #include <cstring>
 
 namespace themis {
@@ -89,6 +90,17 @@ static inline void portable_gmtime_r_impl(const time_t* t, std::tm* out) {
 #else
     gmtime_r(t, out);
 #endif
+}
+
+static inline bool nearly_equal(double lhs, double rhs,
+                                double abs_epsilon = 1e-12,
+                                double rel_epsilon = 1e-9) {
+    const double diff = std::fabs(lhs - rhs);
+    if (diff <= abs_epsilon) {
+        return true;
+    }
+    const double scale = std::max(std::fabs(lhs), std::fabs(rhs));
+    return diff <= (scale * rel_epsilon);
 }
 
 QueryApiHandler::QueryApiHandler(
@@ -225,10 +237,12 @@ http::response<http::string_body> QueryApiHandler::handleQuery(
         }
         
         span.setAttribute("query.table", table);
-        
+         
         std::vector<themis::PredicateEq> preds;
         if (body.contains("predicates")) {
-            for (const auto& p : body["predicates"]) {
+            const auto& pred_array = body["predicates"];
+            preds.reserve(pred_array.size());
+            for (const auto& p : pred_array) {
                 if (!p.contains("column") || !p.contains("value")) {
                     span.setStatus(false, "Invalid predicate");
                     return makeErrorResponse(http::status::bad_request, "Each predicate needs 'column' and 'value'", req);
@@ -242,7 +256,9 @@ http::response<http::string_body> QueryApiHandler::handleQuery(
         // Range predicates (optional)
         std::vector<themis::PredicateRange> rpreds;
         if (body.contains("range")) {
-            for (const auto& r : body["range"]) {
+            const auto& range_array = body["range"];
+            rpreds.reserve(range_array.size());
+            for (const auto& r : range_array) {
                 if (!r.contains("column")) {
                     return makeErrorResponse(http::status::bad_request, "Each range needs 'column'", req);
                 }
@@ -521,7 +537,9 @@ http::response<http::string_body> QueryApiHandler::handleQuery(
                     auto coll = schema["collections"][table];
                     enabled = coll.contains("encryption") && coll["encryption"].value("enabled", false);
                     if (enabled && coll["encryption"].contains("fields")) {
-                        for (auto& f : coll["encryption"]["fields"]) if (f.is_string()) fields.push_back(f.get<std::string>());
+                        const auto& fields_array = coll["encryption"]["fields"];
+                        fields.reserve(fields_array.size());
+                        for (auto& f : fields_array) if (f.is_string()) fields.push_back(f.get<std::string>());
                         context_type = coll["encryption"].value("context_type", "user");
                     }
                 }
@@ -594,7 +612,11 @@ http::response<http::string_body> QueryApiHandler::handleQuery(
             json j = {{"table", table}, {"count", res.second.size()}, {"entities", applyMasking(entities, req)}, {"decrypted", decrypt}};
             if (explain && !plan_json.is_null()) j["plan"] = plan_json;
             if (stream && ChunkedResponseWriter::shouldUseChunkedTransfer(req, entities.size())) {
-                std::vector<nlohmann::json> entity_items(entities.begin(), entities.end());
+                std::vector<nlohmann::json> entity_items;
+                entity_items.reserve(entities.size());
+                for (const auto& e : entities) {
+                    entity_items.push_back(e);
+                }
                 ChunkedWriterConfig cfg;
                 return ChunkedResponseWriter::fromJsonVector(req, http::status::ok, entity_items, cfg);
             }
@@ -1276,8 +1298,8 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                     double lit = b.get<double>();
                     double aval; if (!toDouble(a, aval)) return false;
                     switch (op) {
-                        case SimplePred::Op::Eq:  return aval == lit;
-                        case SimplePred::Op::Neq: return aval != lit;
+                        case SimplePred::Op::Eq:  return nearly_equal(aval, lit);
+                        case SimplePred::Op::Neq: return !nearly_equal(aval, lit);
                         case SimplePred::Op::Lt:  return aval <  lit;
                         case SimplePred::Op::Lte: return aval <= lit;
                         case SimplePred::Op::Gt:  return aval >  lit;
@@ -3037,8 +3059,20 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                         return false;
                     };
                     switch (bo->op) {
-                        case BinaryOperator::Eq:  return left == right;
-                        case BinaryOperator::Neq: return left != right;
+                        case BinaryOperator::Eq:  {
+                            double a, b;
+                            if (toNumber(left, a) && toNumber(right, b)) {
+                                return nearly_equal(a, b);
+                            }
+                            return left == right;
+                        }
+                        case BinaryOperator::Neq: {
+                            double a, b;
+                            if (toNumber(left, a) && toNumber(right, b)) {
+                                return !nearly_equal(a, b);
+                            }
+                            return left != right;
+                        }
                         case BinaryOperator::Lt:  return left < right;
                         case BinaryOperator::Lte: return left <= right;
                         case BinaryOperator::Gt:  return left > right;
@@ -3060,7 +3094,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                         case BinaryOperator::Mul: {
                             double a,b; if (toNumber(left,a) && toNumber(right,b)) return a*b; return nullptr; }
                         case BinaryOperator::Div: {
-                            double a,b; if (toNumber(left,a) && toNumber(right,b) && b!=0.0) return a/b; return nullptr; }
+                            double a,b; if (toNumber(left,a) && toNumber(right,b) && !nearly_equal(b, 0.0)) return a/b; return nullptr; }
                         default: return nullptr;
                     }
                 }
@@ -3738,4 +3772,3 @@ http::response<http::string_body> QueryApiHandler::handleQueryStreamSse(
 
 } // namespace server
 } // namespace themis
-

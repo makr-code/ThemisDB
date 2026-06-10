@@ -1,7 +1,38 @@
 # AQL Module - Future Enhancements
 
-<!-- Status: current | validated: 2026-05-31 -->
+<!-- Status: current | validated: 2026-06-10 -->
 <!-- Links: README.md · ROADMAP.md · PERFORMANCE_EXPECTATIONS.md -->
+
+## Current Implementation Status (v1.6.0)
+
+The following enhancements are implemented and ready for v1.6.0 release:
+
+- [x] **Post-Generation AQL Validation in `translateNLToAQL()`** (v1.6.0)
+  - AST validation post-generation with configurable error handling modes
+  - Injection attempt detection in LLM-generated queries
+  - Malformed AQL rejected early based on validation mode (WARN_ONLY, REJECT_ON_ERROR, RETRY_ON_ERROR)
+  - Implemented in `llm_aql_handler.cpp` lines 1488-1527
+  - Status: ✅ PRODUCTION-READY
+
+- [~] **Thread Leak Elimination in `LLMTimeoutManager::executeWithTimeout()`** (v1.6.0)
+  - Fixed thread creation without proper cleanup using std::jthread
+  - Timeout thread properly joins or is detached with cleanup wrapper
+  - Documented in `llm_timeout_manager.h` lines 95-122
+  - Status: ✅ VERIFIED - proper RAII pattern in place
+
+- [x] **Per-Operation-Type Circuit Breakers** (v1.6.0)
+  - Implemented circuit breaker pattern per operation (infer, rag, embed, finetune)
+  - Independent failure tracking and state management per operation type
+  - Fail-closed when error threshold exceeded
+  - Implemented in `llm_aql_handler.cpp` lines 451-458, 1300+
+  - Status: ✅ PRODUCTION-READY
+
+- [x] **Bounded Conversation History with Context-Window Budget** (v1.6.0)
+  - Sliding window for conversation history with token budget enforcement
+  - Configurable max_turns and max_history_tokens limits
+  - OOM prevention through automatic eviction of oldest pairs
+  - Implemented in `aql_conversation_context.cpp` lines 111-183
+  - Status: ✅ PRODUCTION-READY
 
 ## Scope
 

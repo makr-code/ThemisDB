@@ -427,4 +427,24 @@ std::shared_ptr<Expression> parseUnary() {
 
 ---
 
-*All critical findings resolved — 0 S0, 0 S1, 0 S2 open. REL-20..22, UNINIT-21, TC-16..19 closed 2026-05-27. PERF-06 closed 2026-05-27.*
+*All critical findings resolved — 0 S0, 0 S1, 0 S2 open. REL-20..22, UNINIT-21, TC-16..19 closed 2026-05-27. PERF-06 closed 2026-05-27. DET-01..03, PERF-AQL-01 closed 2026-06-03.*
+
+---
+
+## DET-01..03 — Floating-point exact comparison in sort comparators (2026-06-03)
+
+| ID | File | Function / Comparator | Description | Status |
+|----|------|-----------------------|-------------|--------|
+| DET-01 | `src/query/query_engine.cpp` | selectivity sort (~L2540) | `a.selectivity == b.selectivity` exact `double` comparison — non-deterministic across platforms | ✅ fixed — replaced with `std::abs(a.selectivity - b.selectivity) < kSelEps` (ε = 1e-9) |
+| DET-02 | `src/query/query_engine.cpp` | geo-boosted score sort (~L4699) | `scoreA == scoreB` exact `double` comparison | ✅ fixed — replaced with `std::abs(scoreA - scoreB) < kScoreEps` (ε = 1e-9) |
+| DET-03 | `src/query/query_engine.cpp` | BM25 sort (~L4706) | `a.score == b.score` exact `double` comparison | ✅ fixed — replaced with `std::abs(a.score - b.score) < kBm25Eps` (ε = 1e-9) |
+
+## PERF-AQL-01 — `vector::push_back` without `reserve()` in AQL filter translation (2026-06-03)
+
+| ID | File | Location | Description | Status |
+|----|------|----------|-------------|--------|
+| PERF-AQL-01a | `src/query/aql_translator.cpp` | ~L143 | `extraPreds.push_back` in filter loop — no prior `reserve()` | ✅ fixed |
+| PERF-AQL-01b | `src/query/aql_translator.cpp` | ~L412 | `extraPreds.push_back` in filter loop — no prior `reserve()` | ✅ fixed |
+| PERF-AQL-01c | `src/query/aql_translator.cpp` | ~L594 | `extraPreds.push_back` in filter loop — no prior `reserve()` | ✅ fixed |
+
+**Fix applied:** `extraPreds.reserve(ast->filters.size())` added before each filter-iteration loop.

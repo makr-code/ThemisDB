@@ -23,10 +23,12 @@
 #include "utils/logger.h"
 #include <fstream>
 #include <sstream>
+#include <iomanip>
 #include <chrono>
 #include <algorithm>
 #include <thread>
 #include <future>
+#include <unordered_map>
 #include <unordered_set>
 #include <cinttypes>
 
@@ -502,9 +504,15 @@ json PostgreSQLImporter::getSourceSchema(const std::string& source_path) {
             } else if (current_sql.find("CREATE TYPE") != std::string::npos) {
                 std::smatch tm;
                 if (std::regex_search(current_sql, tm, kEnumTypeRe)) {
-                    custom_type_map_[tm[1].str()] = "string";
+                    {
+                        std::lock_guard<std::mutex> lock(custom_type_map_mutex_);
+                        custom_type_map_[tm[1].str()] = "string";
+                    }
                 } else if (std::regex_search(current_sql, tm, kCompositeTypeRe)) {
-                    custom_type_map_[tm[1].str()] = "object";
+                    {
+                        std::lock_guard<std::mutex> lock(custom_type_map_mutex_);
+                        custom_type_map_[tm[1].str()] = "object";
+                    }
                 }
             } else if (current_sql.find("CREATE INDEX") != std::string::npos ||
                        current_sql.find("CREATE UNIQUE INDEX") != std::string::npos) {
@@ -771,11 +779,17 @@ bool PostgreSQLImporter::parseDumpFile(const std::string& file_path, const Impor
             else if (current_sql.find("CREATE TYPE") != std::string::npos) {
                 std::smatch tm;
                 if (std::regex_search(current_sql, tm, kEnumTypeRe)) {
-                    custom_type_map_[tm[1].str()] = "string";
+                    {
+                        std::lock_guard<std::mutex> lock(custom_type_map_mutex_);
+                        custom_type_map_[tm[1].str()] = "string";
+                    }
                     stats.custom_types_processed++;
                     THEMIS_DEBUG("Registered enum type: {} -> string", tm[1].str());
                 } else if (std::regex_search(current_sql, tm, kCompositeTypeRe)) {
-                    custom_type_map_[tm[1].str()] = "object";
+                    {
+                        std::lock_guard<std::mutex> lock(custom_type_map_mutex_);
+                        custom_type_map_[tm[1].str()] = "object";
+                    }
                     stats.custom_types_processed++;
                     THEMIS_DEBUG("Registered composite type: {} -> object", tm[1].str());
                 }
@@ -1425,6 +1439,7 @@ bool PostgreSQLImporter::parseAlterTableForeignKey(const std::string& sql,
 bool PostgreSQLImporter::validateForeignKeyReferences(const ImportOptions& /*options*/,
                                                        ImportStats& stats) {
     bool all_valid = true;
+    std::unordered_map<std::string, std::unordered_set<std::string>> target_column_cache;
     for (const auto& [tname, tschema] : schemas_) {
         for (const auto& fk : tschema.foreign_keys) {
             if (fk.ref_table.empty()) continue;
@@ -1440,12 +1455,19 @@ bool PostgreSQLImporter::validateForeignKeyReferences(const ImportOptions& /*opt
                 stats.structured_errors.push_back(err);
                 stats.warnings.push_back(err.message);
             } else {
-                // Validate target column(s) exist
-                const auto& target = schemas_.at(fk.ref_table);
+                // Validate target column(s) exist — cache a set for O(1) lookup
+                auto cache_it = target_column_cache.find(fk.ref_table);
+                if (cache_it == target_column_cache.end()) {
+                    const auto& target = schemas_.at(fk.ref_table);
+                    cache_it = target_column_cache.emplace(
+                        fk.ref_table,
+                        std::unordered_set<std::string>(target.columns.begin(),
+                                                        target.columns.end())).first;
+                }
+                const auto& target_col_set = cache_it->second;
                 for (const auto& col : fk.ref_columns) {
                     if (col.empty()) continue;
-                    if (std::find(target.columns.begin(), target.columns.end(), col)
-                            == target.columns.end()) {
+                    if (target_col_set.find(col) == target_col_set.end()) {
                         all_valid = false;
                         ImportError err;
                         err.code     = ImportErrorCode::UNKNOWN_TABLE;
@@ -2111,10 +2133,13 @@ std::string PostgreSQLImporter::mapPostgreSQLTypeToThemis(const std::string& pg_
 
     // Check custom types discovered from CREATE TYPE statements in the dump.
     // Check both the original and lowercased form of the type name.
-    auto ct = custom_type_map_.find(pg_type);
-    if (ct != custom_type_map_.end()) return ct->second;
-    ct = custom_type_map_.find(lower_type);
-    if (ct != custom_type_map_.end()) return ct->second;
+    {
+        std::lock_guard<std::mutex> lock(custom_type_map_mutex_);
+        auto ct = custom_type_map_.find(pg_type);
+        if (ct != custom_type_map_.end()) return ct->second;
+        ct = custom_type_map_.find(lower_type);
+        if (ct != custom_type_map_.end()) return ct->second;
+    }
 
     // Array types
     if (lower_type.back() == ']' || lower_type.find("[]") != std::string::npos ||
@@ -2384,11 +2409,18 @@ uint64_t PostgreSQLImporter::computeRowHash(const std::string& raw_row,
     }
     // Hash only the key column values, separated by a non-printable sentinel
     static constexpr char kDeltaHashFieldSep = '\x01';
+    std::unordered_map<std::string, size_t> schema_column_index;
+    schema_column_index.reserve(schema_columns.size());
+    for (size_t i = 0; i < schema_columns.size(); ++i) {
+        schema_column_index.emplace(schema_columns[i], i);
+    }
+
     std::string key_data;
+    key_data.reserve(key_columns.size() * 8);
     for (const auto& kc : key_columns) {
-        auto it = std::find(schema_columns.begin(), schema_columns.end(), kc);
-        if (it != schema_columns.end()) {
-            size_t idx = static_cast<size_t>(it - schema_columns.begin());
+        auto it = schema_column_index.find(kc);
+        if (it != schema_column_index.end()) {
+            size_t idx = it->second;
             if (idx < values.size()) {
                 key_data += values[idx];
             }
@@ -2416,11 +2448,10 @@ void PostgreSQLImporter::saveDeltaHashes(const std::string& delta_hash_file,
                                           const std::unordered_set<uint64_t>& hashes) {
     std::ofstream f(delta_hash_file, std::ios::trunc);
     if (!f) return;
+    f << std::hex << std::setfill('0');
     for (uint64_t h : hashes) {
         // Write as 16-character zero-padded hex
-        char buf[17];
-        std::snprintf(buf, sizeof(buf), "%016" PRIx64, h);
-        f << buf << "\n";
+        f << std::setw(16) << h << "\n";
     }
 }
 
@@ -2467,6 +2498,5 @@ extern "C" {
         delete plugin;
     }
 }
-
 
 

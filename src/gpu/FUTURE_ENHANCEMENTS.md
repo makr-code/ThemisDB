@@ -25,8 +25,32 @@
 | acceleration interfaces | bounded query/training acceleration with fallback behavior |
 | operations interfaces | stable telemetry/profiling/admin/coordination behavior |
 
-## Implementation Notes
+## Implementation Notes (v1.4.0)
 
+### GPU Query Accelerator (In Progress)
+- CUDA kernel launchers for common query types (filter, join, aggregation)
+- HIP backend support for AMD GPUs
+- Deterministic query result parity with CPU execution
+- GPU memory management and stream orchestration
+- Circuit-breaker fallback for unsupported operations
+
+### GPU Vector Index Backend (In Progress)
+- CUDA kernels for vector similarity: L2 (Euclidean), cosine distance, inner product
+- HIP kernels as AMD GPU alternative
+- Device memory optimization for large indices
+- Batch search operations with RAFT/FAISS integration
+- GPU/CPU result parity within tolerance (< 1e-3 relative error)
+
+### Geospatial GPU Backend (In Progress)
+- CUDA Haversine distance kernel (spherical earth, < 0.5% error)
+- CUDA point-in-polygon kernel (ray-casting, batch support)
+- HIP equivalents for AMD ROCm support
+- OpenCL path for broader GPU compatibility
+- Geometry validation with deterministic fallback
+
+---
+
+### Broader Hardening (v1.4.0+)
 - tighten parity and edge handling across CUDA/ROCm/Vulkan and fallback modes.
 - standardize diagnostics for quota denials, capability mismatch, and runtime degradation.
 - expand resilience tests for prolonged acceleration load and mixed tenant pressure.

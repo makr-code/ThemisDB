@@ -15,6 +15,11 @@
 #include <algorithm>
 #include <future>
 #include <chrono>
+#include <filesystem>
+#include <fstream>
+#include <memory>
+
+#include "utils/audit_logger.h"
 
 using namespace themis::auth;
 
@@ -45,6 +50,46 @@ LDAPConfig makeConfig(bool with_groups = false)
 }
 
 } // anonymous namespace
+
+class LDAPAuthenticatorAuditTest : public ::testing::Test {
+protected:
+    static themis::utils::AuditLoggerConfig makeAuditConfig(const std::string& log_path)
+    {
+        themis::utils::AuditLoggerConfig cfg;
+        cfg.enabled           = true;
+        cfg.encrypt_then_sign = false;
+        cfg.log_path          = log_path;
+        cfg.key_id            = "test";
+        cfg.enable_hash_chain = false;
+        cfg.enable_siem       = false;
+        return cfg;
+    }
+
+    void SetUp() override
+    {
+        temp_dir_ = std::filesystem::current_path() / ".test-artifacts" / "ldap_audit" /
+                    ::testing::UnitTest::GetInstance()->current_test_info()->name();
+        std::filesystem::remove_all(temp_dir_);
+        std::filesystem::create_directories(temp_dir_);
+        log_path_ = (temp_dir_ / "ldap_audit.jsonl").string();
+        logger_ = std::make_unique<themis::utils::AuditLogger>(nullptr, nullptr, makeAuditConfig(log_path_));
+    }
+
+    void TearDown() override
+    {
+        std::filesystem::remove_all(temp_dir_);
+    }
+
+    std::string readLog() const
+    {
+        std::ifstream input(log_path_);
+        return std::string(std::istreambuf_iterator<char>(input), std::istreambuf_iterator<char>());
+    }
+
+    std::filesystem::path temp_dir_;
+    std::string log_path_;
+    std::unique_ptr<themis::utils::AuditLogger> logger_;
+};
 
 // ===========================================================================
 // Construction / initialization
@@ -233,6 +278,39 @@ TEST(LDAPAuthenticatorTest, AuthenticateThrowsWhenPasswordTooLong)
         auth.authenticate("jdoe", long_password),
         AuthException
     );
+}
+
+TEST_F(LDAPAuthenticatorAuditTest, AuthenticateInvalidPasswordAuditLoggedWithoutSecret)
+{
+    LDAPAuthenticator auth;
+    ASSERT_TRUE(auth.initialize(makeConfig()));
+    auth.setAuditLogger(logger_.get());
+
+    const std::string sensitive_fragment = "TopSecretLDAPPassword";
+    const std::string long_password = sensitive_fragment +
+        std::string(MAX_LDAP_PASSWORD_LENGTH + 1, 'x');
+
+    EXPECT_THROW(auth.authenticate("jdoe", long_password), AuthException);
+
+    logger_->flush();
+    const std::string log_contents = readLog();
+    EXPECT_NE(log_contents.find("password_too_long"), std::string::npos);
+    EXPECT_NE(log_contents.find("jdoe"), std::string::npos);
+    EXPECT_EQ(log_contents.find(sensitive_fragment), std::string::npos);
+}
+
+TEST_F(LDAPAuthenticatorAuditTest, AuthenticateNotInitializedFailureAuditLogged)
+{
+    LDAPAuthenticator auth;
+    auth.setAuditLogger(logger_.get());
+
+    const auto result = auth.authenticate("jdoe", "password");
+    EXPECT_FALSE(result.success);
+
+    logger_->flush();
+    const std::string log_contents = readLog();
+    EXPECT_NE(log_contents.find("not_initialized"), std::string::npos);
+    EXPECT_NE(log_contents.find("jdoe"), std::string::npos);
 }
 
 // ===========================================================================
@@ -570,6 +648,25 @@ TEST(LDAPAuthenticatorAsyncTest, ThrowsOnOversizedUsernameSync)
         (void)auth.authenticateAsync(long_user, "password"),
         AuthException
     );
+}
+
+TEST_F(LDAPAuthenticatorAuditTest, AuthenticateAsyncInvalidPasswordAuditLoggedWithoutSecret)
+{
+    LDAPAuthenticator auth;
+    ASSERT_TRUE(auth.initialize(makeConfig()));
+    auth.setAuditLogger(logger_.get());
+
+    const std::string sensitive_fragment = "AsyncSecretLDAPPassword";
+    const std::string long_password = sensitive_fragment +
+        std::string(MAX_LDAP_PASSWORD_LENGTH + 1, 'y');
+
+    EXPECT_THROW((void)auth.authenticateAsync("jdoe", long_password), AuthException);
+
+    logger_->flush();
+    const std::string log_contents = readLog();
+    EXPECT_NE(log_contents.find("password_too_long"), std::string::npos);
+    EXPECT_NE(log_contents.find("jdoe"), std::string::npos);
+    EXPECT_EQ(log_contents.find(sensitive_fragment), std::string::npos);
 }
 
 // authenticateAsync() returns a valid std::future (not initialized) even

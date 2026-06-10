@@ -151,6 +151,7 @@ AQLTranslator::TranslationResult AQLTranslator::translate(const std::shared_ptr<
 
                             std::shared_ptr<Expression> spatialExpr;
                             std::vector<std::shared_ptr<Expression>> extraPreds;
+                            extraPreds.reserve(ast->filters.size());
                             for (const auto& filter : ast->filters) {
                                 if (!filter || !filter->condition) {
                                     continue;
@@ -420,6 +421,7 @@ AQLTranslator::TranslationResult AQLTranslator::translate(const std::shared_ptr<
 
                 std::shared_ptr<Expression> spatialExpr;
                 std::vector<std::shared_ptr<Expression>> extraPreds;
+                extraPreds.reserve(ast->filters.size());
                 for (const auto& filter : ast->filters) {
                     if (!filter || !filter->condition) {
                         continue;
@@ -549,7 +551,8 @@ AQLTranslator::TranslationResult AQLTranslator::translate(const std::shared_ptr<
                 return finalizeResult(TranslationResult::SuccessContentGeo(std::move(cq)));
             }
 
-            // Backward compatibility: treat legacy FunctionCall nodes for SIMILARITY/PROXIMITY
+            // Compat path: handle FunctionCall nodes for SIMILARITY/PROXIMITY.
+            // TODO: Remove once all callers emit the canonical VectorQuery AST node.
             if (spec.expression->getType() == ASTNodeType::FunctionCall) {
                 auto func = std::static_pointer_cast<FunctionCallExpr>(spec.expression);
                 std::string name = func->name;
@@ -602,6 +605,7 @@ AQLTranslator::TranslationResult AQLTranslator::translate(const std::shared_ptr<
 
                     std::shared_ptr<Expression> spatialExpr;
                     std::vector<std::shared_ptr<Expression>> extraPreds;
+                    extraPreds.reserve(ast->filters.size());
                     for (const auto& filter : ast->filters) {
                         if (!filter || !filter->condition) {
                             continue;

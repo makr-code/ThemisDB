@@ -64,6 +64,20 @@
 - documentation set is synchronized to source-verifiable claims.
 - changelog/roadmap role separation is aligned to module governance pattern.
 
+## Performance Fixes (2026-06-03)
+
+### PERF-IMP-01 · O(n²) FK-column lookup — `postgres_importer.cpp` — fixed 2026-06-03
+
+`SchemaImporter::buildForeignKeyMap()` iterated FK columns with `std::find` inside two nested loops over schemas and FK definitions, producing O(n²) behaviour for wide schemas.
+
+**Fix applied:** A `std::unordered_set<std::string> target_col_set` is constructed once from `target.columns` before the inner loop; the `std::find` call is replaced with an O(1) `target_col_set.count()` check.
+
+### PERF-IMP-02 · `vector::push_back` without `reserve()` — `flatfile_importer.cpp` — fixed 2026-06-03
+
+Two JSON row-parsing loops in `FlatFileImporter` called `cols.push_back` / `vals.push_back` without a prior `reserve()`, causing repeated reallocations for every row.
+
+**Fix applied:** `cols.reserve(obj.size())` and `vals.reserve(obj.size())` added immediately before each loop site (L473 and L923 areas).
+
 ## Compliance Snapshot
 
 | Requirement | Status |

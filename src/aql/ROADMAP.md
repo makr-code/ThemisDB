@@ -10,7 +10,7 @@ Production AQL-assistance surfaces exist across translation, validation, tooling
 
 ## In Progress
 
-- [~] hardening of generated-query safety and degraded-mode behaviors (Target: Q3 2026)
+- [x] hardening of generated-query safety and degraded-mode behaviors (Target: Q3 2026) **COMPLETED v1.6.0**
 - [~] performance gate consolidation for AQL assistance benchmark paths (Target: Q3 2026)
 - [~] consistency hardening across helper and bridge integration surfaces (Target: Q3 2026)
 
@@ -33,8 +33,12 @@ Production AQL-assistance surfaces exist across translation, validation, tooling
 - [ ] define explicit failure contracts for unsupported provider/capability modes (Target: Q3 2026)
 
 ### Phase 2: Core Implementation
-- [ ] complete remaining hardening in translation and bridge execution paths (Target: Q4 2026)
-- [ ] align helper components to shared bounded runtime contracts (Target: Q4 2026)
+- [x] complete remaining hardening in translation and bridge execution paths (Target: Q4 2026) **COMPLETED v1.6.0**
+  - [x] Post-generation AQL validation with injection detection
+  - [x] Thread leak elimination in LLMTimeoutManager
+  - [x] Per-operation-type circuit breakers
+  - [x] Bounded conversation history with token budget
+- [~] align helper components to shared bounded runtime contracts (Target: Q4 2026)
 
 ### Phase 3: Error Handling and Edge Cases
 - [ ] standardize fail-closed behavior for malformed/generated query edge cases (Target: Q4 2026)
