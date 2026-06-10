@@ -197,6 +197,21 @@ violating the CORS specification.
 - Admin PII eviction endpoint wired (`AdminCachePiiEvictDelete`) — March 2026
 - Redis-backed rate limiter with EVALSHA Lua script implemented — March 2026
 
+#### ✅ HS-10 · `requireScope()` / `requireAccess()` / `handlePiiRevealByUuid()` — `authorize()` calls without audit log — fixed 2026-06-03
+
+`auth_->authorize()` was invoked in three security-gating functions (`requireScope`, `requireAccess`, `handlePiiRevealByUuid`) without recording the authorization decision to the structured audit log.  Both granted and denied decisions were invisible to security monitoring.
+
+**Fix applied:** Each `authorize()` call site now writes a structured `nlohmann::json` entry (`event=authorization`, `scope`, `user_id`, `authorized`, `reason`) to `audit_logger_->logEvent()` immediately after the call — matching the pattern used for rate-limiter anomaly events.  The calls are guarded by `if (audit_logger_)` to remain safe when the logger is absent.
+
+#### ✅ HS-11 · `query_api_handler.cpp` — deterministic float equality + near-zero divisor guard — fixed 2026-06-03
+
+Floating-point checks in AQL predicate/expression evaluation used exact equality/inequality comparisons (`==`, `!=`) and a strict `b != 0.0` division guard. This can produce unstable behavior for numerically equivalent values represented with tiny precision drift.
+
+**Fix applied:** Query API numeric comparisons now use a shared `nearly_equal()` helper (absolute + relative epsilon). The helper is applied to:
+- `SimplePred::Op::Eq` / `SimplePred::Op::Neq` numeric predicate evaluation
+- `BinaryOperator::Eq` / `BinaryOperator::Neq` when both sides are numeric
+- `BinaryOperator::Div` zero-divisor guard (`!nearly_equal(b, 0.0)`)
+
 ### Open (carried forward)
 - HTTP/3 QUIC: CPU quota enforcement for WASM handlers planned (v1.6.0)
 

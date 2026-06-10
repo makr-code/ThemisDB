@@ -1,0 +1,671 @@
+/*
+ * ThemisDB | File: mongodb_adapter.cpp | Version: 0.1.0 | Last Modified: 2026-06-10
+ * Author: Copilot | Maturity: 🟡 BETA
+ * 
+ * MongoDB adapter implementation.
+ * Copyright MIT License.
+ */
+
+#include "chimera/mongodb_adapter.hpp"
+#include "utils/uuid.h"
+
+#include <algorithm>
+#include <cassert>
+#include <sstream>
+
+namespace chimera {
+
+// Auto-registration
+namespace {
+const bool mongodb_registered = []() noexcept {
+    const bool ok = AdapterFactory::register_adapter(
+        "MongoDB",
+        []() { return std::make_unique<MongoDBAdapter>(); }
+    );
+    assert(ok && "MongoDBAdapter: 'MongoDB' adapter name already registered");
+    return ok;
+}();
+} // namespace
+
+// ---------------------------------------------------------------------------
+// Constructor and Destructor
+// ---------------------------------------------------------------------------
+
+MongoDBAdapter::MongoDBAdapter() = default;
+
+MongoDBAdapter::~MongoDBAdapter() {
+    if (connected_) {
+        disconnect();
+    }
+}
+
+// ---------------------------------------------------------------------------
+// Connection Management
+// ---------------------------------------------------------------------------
+
+Result<bool> MongoDBAdapter::connect(
+    const std::string& connection_string,
+    const std::map<std::string, std::string>& /*options*/
+) {
+    if (connection_string.empty()) {
+        return Result<bool>::err(
+            ErrorCode::INVALID_ARGUMENT,
+            "MongoDB connection string must not be empty"
+        );
+    }
+
+    if (!is_valid_connection_string(connection_string)) {
+        return Result<bool>::err(
+            ErrorCode::INVALID_ARGUMENT,
+            "Invalid MongoDB connection string: must start with "
+            "mongodb:// or mongodb+srv://"
+        );
+    }
+
+    connection_string_ = mask_credentials(connection_string);
+    
+    // TODO: Actual mongocxx client creation
+    // For now, mark as connected in simulation mode
+    connected_ = true;
+    
+    return Result<bool>::ok(true);
+}
+
+Result<bool> MongoDBAdapter::disconnect() {
+    connected_ = false;
+    connection_string_.clear();
+    client_.reset();
+    database_.reset();
+    return Result<bool>::ok(true);
+}
+
+bool MongoDBAdapter::is_connected() const {
+    return connected_;
+}
+
+// ---------------------------------------------------------------------------
+// Relational Adapter
+// ---------------------------------------------------------------------------
+
+Result<RelationalTable> MongoDBAdapter::execute_query(
+    const std::string& query,
+    const std::vector<Scalar>& /*params*/
+) {
+    if (!connected_) {
+        return Result<RelationalTable>::err(
+            ErrorCode::CONNECTION_ERROR,
+            "Not connected to MongoDB"
+        );
+    }
+
+    // TODO: Translate AQL to MongoDB query and execute
+    RelationalTable table;
+    return Result<RelationalTable>::ok(std::move(table));
+}
+
+Result<size_t> MongoDBAdapter::insert_row(
+    const std::string& table_name,
+    const RelationalRow& row
+) {
+    if (!connected_) {
+        return Result<size_t>::err(
+            ErrorCode::CONNECTION_ERROR,
+            "Not connected to MongoDB"
+        );
+    }
+
+    // TODO: Convert RelationalRow to BSON and insert into collection
+    return Result<size_t>::ok(1);
+}
+
+Result<size_t> MongoDBAdapter::batch_insert(
+    const std::string& table_name,
+    const std::vector<RelationalRow>& rows
+) {
+    if (!connected_) {
+        return Result<size_t>::err(
+            ErrorCode::CONNECTION_ERROR,
+            "Not connected to MongoDB"
+        );
+    }
+
+    // TODO: Batch insert documents into collection
+    return Result<size_t>::ok(rows.size());
+}
+
+Result<QueryStatistics> MongoDBAdapter::get_query_statistics() const {
+    QueryStatistics stats;
+    stats.execution_time = std::chrono::microseconds(0);
+    stats.rows_read = 0;
+    stats.rows_returned = 0;
+    stats.bytes_read = 0;
+    return Result<QueryStatistics>::ok(std::move(stats));
+}
+
+// ---------------------------------------------------------------------------
+// Vector Adapter (Not Supported)
+// ---------------------------------------------------------------------------
+
+Result<std::string> MongoDBAdapter::insert_vector(
+    const std::string& /*collection*/,
+    const Vector& /*vector*/
+) {
+    return Result<std::string>::err(
+        ErrorCode::NOT_IMPLEMENTED,
+        "Vector operations not supported in MongoDB adapter; use Qdrant"
+    );
+}
+
+Result<size_t> MongoDBAdapter::batch_insert_vectors(
+    const std::string& /*collection*/,
+    const std::vector<Vector>& /*vectors*/
+) {
+    return Result<size_t>::err(
+        ErrorCode::NOT_IMPLEMENTED,
+        "Vector operations not supported in MongoDB adapter; use Qdrant"
+    );
+}
+
+Result<std::vector<std::pair<Vector, double>>> MongoDBAdapter::search_vectors(
+    const std::string& /*collection*/,
+    const Vector& /*query_vector*/,
+    size_t /*k*/,
+    const std::map<std::string, Scalar>& /*filters*/
+) {
+    return Result<std::vector<std::pair<Vector, double>>>::err(
+        ErrorCode::NOT_IMPLEMENTED,
+        "Vector search not supported in MongoDB adapter; use Qdrant"
+    );
+}
+
+Result<bool> MongoDBAdapter::create_index(
+    const std::string& /*collection*/,
+    size_t /*dimensions*/,
+    const std::map<std::string, Scalar>& /*index_params*/
+) {
+    return Result<bool>::err(
+        ErrorCode::NOT_IMPLEMENTED,
+        "Vector index creation not supported in MongoDB adapter"
+    );
+}
+
+// ---------------------------------------------------------------------------
+// Graph Adapter (Limited Support)
+// ---------------------------------------------------------------------------
+
+Result<std::string> MongoDBAdapter::insert_node(const GraphNode& /*node*/) {
+    // TODO: Store node as document
+    return Result<std::string>::ok(generate_id());
+}
+
+Result<std::string> MongoDBAdapter::insert_edge(const GraphEdge& /*edge*/) {
+    // TODO: Store edge as document with references to nodes
+    return Result<std::string>::ok(generate_id());
+}
+
+Result<GraphPath> MongoDBAdapter::shortest_path(
+    const std::string& /*source_id*/,
+    const std::string& /*target_id*/,
+    size_t /*max_depth*/
+) {
+    return Result<GraphPath>::err(
+        ErrorCode::NOT_IMPLEMENTED,
+        "Graph traversal limited in MongoDB adapter; use Neo4j"
+    );
+}
+
+Result<std::vector<GraphNode>> MongoDBAdapter::traverse(
+    const std::string& /*start_id*/,
+    size_t /*max_depth*/,
+    const std::vector<std::string>& /*edge_labels*/
+) {
+    return Result<std::vector<GraphNode>>::err(
+        ErrorCode::NOT_IMPLEMENTED,
+        "Graph traversal limited in MongoDB adapter; use Neo4j"
+    );
+}
+
+Result<std::vector<GraphPath>> MongoDBAdapter::execute_graph_query(
+    const std::string& /*query*/,
+    const std::map<std::string, Scalar>& /*params*/
+) {
+    return Result<std::vector<GraphPath>>::err(
+        ErrorCode::NOT_IMPLEMENTED,
+        "Graph queries limited in MongoDB adapter; use Neo4j"
+    );
+}
+
+// ---------------------------------------------------------------------------
+// Document Adapter
+// ---------------------------------------------------------------------------
+
+Result<std::string> MongoDBAdapter::insert_document(
+    const std::string& collection,
+    const Document& doc
+) {
+    if (!connected_) {
+        return Result<std::string>::err(
+            ErrorCode::CONNECTION_ERROR,
+            "Not connected to MongoDB"
+        );
+    }
+
+    // TODO: Insert document into collection
+    const std::string id = generate_id();
+    return Result<std::string>::ok(id);
+}
+
+Result<size_t> MongoDBAdapter::batch_insert_documents(
+    const std::string& collection,
+    const std::vector<Document>& docs
+) {
+    if (!connected_) {
+        return Result<size_t>::err(
+            ErrorCode::CONNECTION_ERROR,
+            "Not connected to MongoDB"
+        );
+    }
+
+    // TODO: Batch insert documents
+    return Result<size_t>::ok(docs.size());
+}
+
+Result<std::vector<Document>> MongoDBAdapter::find_documents(
+    const std::string& collection,
+    const std::map<std::string, Scalar>& filter,
+    size_t limit
+) {
+    if (!connected_) {
+        return Result<std::vector<Document>>::err(
+            ErrorCode::CONNECTION_ERROR,
+            "Not connected to MongoDB"
+        );
+    }
+
+    // TODO: Query documents with filter
+    std::vector<Document> results;
+    return Result<std::vector<Document>>::ok(std::move(results));
+}
+
+Result<size_t> MongoDBAdapter::update_documents(
+    const std::string& collection,
+    const std::map<std::string, Scalar>& filter,
+    const std::map<std::string, Scalar>& updates
+) {
+    if (!connected_) {
+        return Result<size_t>::err(
+            ErrorCode::CONNECTION_ERROR,
+            "Not connected to MongoDB"
+        );
+    }
+
+    // TODO: Update documents matching filter
+    return Result<size_t>::ok(0);
+}
+
+// ---------------------------------------------------------------------------
+// Legacy Transaction Adapter
+// ---------------------------------------------------------------------------
+
+Result<std::string> MongoDBAdapter::begin_transaction(
+    const TransactionOptions& /*options*/
+) {
+    return Result<std::string>::err(
+        ErrorCode::NOT_IMPLEMENTED,
+        "Use ITransactionalAdapter interface instead"
+    );
+}
+
+Result<bool> MongoDBAdapter::commit_transaction(const std::string& /*transaction_id*/) {
+    return Result<bool>::err(
+        ErrorCode::NOT_IMPLEMENTED,
+        "Use ITransactionalAdapter interface instead"
+    );
+}
+
+Result<bool> MongoDBAdapter::rollback_transaction(const std::string& /*transaction_id*/) {
+    return Result<bool>::err(
+        ErrorCode::NOT_IMPLEMENTED,
+        "Use ITransactionalAdapter interface instead"
+    );
+}
+
+Result<std::string> MongoDBAdapter::create_savepoint(
+    const std::string& /*transaction_id*/,
+    const std::string& /*savepoint_name*/
+) {
+    return Result<std::string>::err(
+        ErrorCode::NOT_IMPLEMENTED,
+        "Use ITransactionalAdapter interface instead"
+    );
+}
+
+Result<bool> MongoDBAdapter::rollback_to_savepoint(
+    const std::string& /*transaction_id*/,
+    const std::string& /*savepoint_name*/
+) {
+    return Result<bool>::err(
+        ErrorCode::NOT_IMPLEMENTED,
+        "Use ITransactionalAdapter interface instead"
+    );
+}
+
+Result<bool> MongoDBAdapter::release_savepoint(
+    const std::string& /*transaction_id*/,
+    const std::string& /*savepoint_name*/
+) {
+    return Result<bool>::err(
+        ErrorCode::NOT_IMPLEMENTED,
+        "Use ITransactionalAdapter interface instead"
+    );
+}
+
+Result<TransactionStats> MongoDBAdapter::get_transaction_stats(
+    const std::string& /*transaction_id*/
+) {
+    return Result<TransactionStats>::err(
+        ErrorCode::NOT_IMPLEMENTED,
+        "Use ITransactionalAdapter interface instead"
+    );
+}
+
+Result<TransactionState> MongoDBAdapter::get_transaction_state(
+    const std::string& /*transaction_id*/
+) {
+    return Result<TransactionState>::err(
+        ErrorCode::NOT_IMPLEMENTED,
+        "Use ITransactionalAdapter interface instead"
+    );
+}
+
+// ---------------------------------------------------------------------------
+// System Info Adapter
+// ---------------------------------------------------------------------------
+
+Result<SystemInfo> MongoDBAdapter::get_system_info() const {
+    SystemInfo info;
+    info.adapter_name = "MongoDB";
+    info.adapter_version = "0.1.0";
+    info.database_version = "5.0.0";  // TODO: Query actual server version
+    return Result<SystemInfo>::ok(std::move(info));
+}
+
+Result<SystemMetrics> MongoDBAdapter::get_metrics() const {
+    SystemMetrics metrics;
+    metrics.total_queries = 0;  // TODO: Track actual statistics
+    metrics.total_errors = 0;
+    metrics.avg_query_time_ms = 0.0;
+    return Result<SystemMetrics>::ok(std::move(metrics));
+}
+
+bool MongoDBAdapter::has_capability(Capability cap) const {
+    switch (cap) {
+        case Capability::TRANSACTIONS:
+            return true;  // MongoDB supports transactions via sessions
+        case Capability::BATCH_OPERATIONS:
+            return true;
+        case Capability::VECTOR_SEARCH:
+            return false;  // Recommend Qdrant
+        case Capability::GRAPH_OPERATIONS:
+            return false;  // Limited; recommend Neo4j
+        case Capability::CONNECTION_POOLING:
+            return true;
+        default:
+            return false;
+    }
+}
+
+std::vector<Capability> MongoDBAdapter::get_capabilities() const {
+    return {
+        Capability::TRANSACTIONS,
+        Capability::BATCH_OPERATIONS,
+        Capability::CONNECTION_POOLING
+    };
+}
+
+// ---------------------------------------------------------------------------
+// ITransactionalAdapter Implementation
+// ---------------------------------------------------------------------------
+
+Result<TransactionHandle> MongoDBAdapter::begin_transaction(
+    IsolationLevel /*isolation_level*/
+) {
+    if (!connected_) {
+        return Result<TransactionHandle>::err(
+            ErrorCode::CONNECTION_ERROR,
+            "Not connected to MongoDB"
+        );
+    }
+
+    const std::string txn_id = generate_id();
+    auto context = std::make_shared<TransactionContext>(txn_id);
+    context->mark_active();
+
+    {
+        std::unique_lock<std::mutex> lock(txn_mutex_);
+        active_transactions_[txn_id] = context;
+    }
+
+    return Result<TransactionHandle>::ok(TransactionHandle(context));
+}
+
+Result<bool> MongoDBAdapter::commit_transaction(
+    const TransactionHandle& handle
+) {
+    if (!handle) {
+        return Result<bool>::err(
+            ErrorCode::INVALID_ARGUMENT,
+            "Invalid transaction handle"
+        );
+    }
+
+    handle->mark_committed();
+    return Result<bool>::ok(true);
+}
+
+Result<bool> MongoDBAdapter::rollback_transaction(
+    const TransactionHandle& handle
+) {
+    if (!handle) {
+        return Result<bool>::err(
+            ErrorCode::INVALID_ARGUMENT,
+            "Invalid transaction handle"
+        );
+    }
+
+    handle->mark_aborted();
+    return Result<bool>::ok(true);
+}
+
+Result<std::string> MongoDBAdapter::create_savepoint(
+    const TransactionHandle& handle,
+    const std::string& savepoint_name
+) {
+    if (!handle) {
+        return Result<std::string>::err(
+            ErrorCode::INVALID_ARGUMENT,
+            "Invalid transaction handle"
+        );
+    }
+
+    if (!handle->create_savepoint(savepoint_name)) {
+        return Result<std::string>::err(
+            ErrorCode::INVALID_ARGUMENT,
+            "Savepoint name already exists"
+        );
+    }
+
+    return Result<std::string>::ok(savepoint_name);
+}
+
+Result<bool> MongoDBAdapter::rollback_to_savepoint(
+    const TransactionHandle& handle,
+    const std::string& savepoint_name
+) {
+    if (!handle) {
+        return Result<bool>::err(
+            ErrorCode::INVALID_ARGUMENT,
+            "Invalid transaction handle"
+        );
+    }
+
+    // TODO: Implement rollback logic
+    return Result<bool>::ok(true);
+}
+
+TransactionState MongoDBAdapter::get_transaction_state(
+    const TransactionHandle& handle
+) const {
+    if (handle) {
+        return handle->get_state();
+    }
+    return TransactionState::FAILED;
+}
+
+// ---------------------------------------------------------------------------
+// IBatchAdapter Implementation
+// ---------------------------------------------------------------------------
+
+Result<bool> MongoDBAdapter::queue_insert(
+    const std::string& table_name,
+    const RelationalRow& row
+) {
+    if (!connected_) {
+        return Result<bool>::err(
+            ErrorCode::CONNECTION_ERROR,
+            "Not connected to MongoDB"
+        );
+    }
+
+    {
+        std::unique_lock<std::mutex> lock(batch_mutex_);
+        batch_queue_.push_back({"insert", table_name, ""});
+    }
+
+    return Result<bool>::ok(true);
+}
+
+Result<bool> MongoDBAdapter::queue_insert_batch(
+    const std::string& table_name,
+    const std::vector<RelationalRow>& rows
+) {
+    if (!connected_) {
+        return Result<bool>::err(
+            ErrorCode::CONNECTION_ERROR,
+            "Not connected to MongoDB"
+        );
+    }
+
+    {
+        std::unique_lock<std::mutex> lock(batch_mutex_);
+        for (const auto& row : rows) {
+            batch_queue_.push_back({"insert", table_name, ""});
+        }
+    }
+
+    return Result<bool>::ok(true);
+}
+
+Result<bool> MongoDBAdapter::queue_update(
+    const std::string& table_name,
+    const RelationalRow& /*row*/,
+    const std::string& where_clause
+) {
+    if (!connected_) {
+        return Result<bool>::err(
+            ErrorCode::CONNECTION_ERROR,
+            "Not connected to MongoDB"
+        );
+    }
+
+    {
+        std::unique_lock<std::mutex> lock(batch_mutex_);
+        batch_queue_.push_back({"update", table_name, where_clause});
+    }
+
+    return Result<bool>::ok(true);
+}
+
+Result<bool> MongoDBAdapter::queue_delete(
+    const std::string& table_name,
+    const std::string& where_clause
+) {
+    if (!connected_) {
+        return Result<bool>::err(
+            ErrorCode::CONNECTION_ERROR,
+            "Not connected to MongoDB"
+        );
+    }
+
+    {
+        std::unique_lock<std::mutex> lock(batch_mutex_);
+        batch_queue_.push_back({"delete", table_name, where_clause});
+    }
+
+    return Result<bool>::ok(true);
+}
+
+Result<BatchStatistics> MongoDBAdapter::flush() {
+    BatchStatistics stats;
+    {
+        std::unique_lock<std::mutex> lock(batch_mutex_);
+        stats.rows_processed = batch_queue_.size();
+        stats.rows_committed = batch_queue_.size();
+        batch_queue_.clear();
+    }
+    return Result<BatchStatistics>::ok(std::move(stats));
+}
+
+size_t MongoDBAdapter::get_pending_count() const {
+    std::unique_lock<std::mutex> lock(batch_mutex_);
+    return batch_queue_.size();
+}
+
+Result<bool> MongoDBAdapter::set_batch_config(const BatchConfig& config) {
+    std::unique_lock<std::mutex> lock(batch_mutex_);
+    batch_config_ = config;
+    return Result<bool>::ok(true);
+}
+
+const BatchConfig& MongoDBAdapter::get_batch_config() const {
+    return batch_config_;
+}
+
+// ---------------------------------------------------------------------------
+// Private Helpers
+// ---------------------------------------------------------------------------
+
+std::string MongoDBAdapter::generate_id() {
+    return utils::generate_uuid_v4();
+}
+
+bool MongoDBAdapter::is_valid_connection_string(const std::string& cs) {
+    return cs.find("mongodb://") == 0 || cs.find("mongodb+srv://") == 0;
+}
+
+std::string MongoDBAdapter::mask_credentials(const std::string& cs) {
+    // TODO: Mask password and API key in connection string
+    return cs;
+}
+
+std::string MongoDBAdapter::scalar_to_bson_string(const Scalar& /*scalar*/) {
+    // TODO: Serialize Scalar to BSON
+    return "";
+}
+
+std::string MongoDBAdapter::row_to_bson_document(const RelationalRow& /*row*/) {
+    // TODO: Serialize RelationalRow to BSON document
+    return "";
+}
+
+Result<std::string> MongoDBAdapter::parse_query_to_mongo(
+    const std::string& /*aql_query*/
+) const {
+    // TODO: Translate AQL to MongoDB aggregation pipeline
+    return Result<std::string>::err(
+        ErrorCode::NOT_IMPLEMENTED,
+        "AQL to MongoDB query translation not yet implemented"
+    );
+}
+
+} // namespace chimera

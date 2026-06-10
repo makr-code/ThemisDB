@@ -403,22 +403,40 @@ void LockFreeMetrics::applyObservation(const HistoObservation &obs) noexcept {
 // ---------------------------------------------------------------------------
 
 void LockFreeMetrics::startFlushThread() {
+    if (flush_interval_.count() <= 0) {
+        running_.store(false, std::memory_order_release);
+        return;
+    }
+
     running_.store(true, std::memory_order_release);
     flush_thread_ = std::thread(&LockFreeMetrics::flushLoop, this);
 }
 
 void LockFreeMetrics::stopFlushThread() noexcept {
     running_.store(false, std::memory_order_release);
+    flush_wait_cv_.notify_all();
     if (flush_thread_.joinable()) {
         flush_thread_.join();
     }
 }
 
 void LockFreeMetrics::flushLoop() noexcept {
+    std::unique_lock<std::mutex> wait_lock(flush_wait_mu_);
     while (running_.load(std::memory_order_acquire)) {
-        std::this_thread::sleep_for(flush_interval_);
+        const bool stop_requested =
+            flush_wait_cv_.wait_for(wait_lock, flush_interval_, [this] {
+                return !running_.load(std::memory_order_acquire);
+            });
+        if (stop_requested) {
+            break;
+        }
+
+        wait_lock.unlock();
         drainAllRings();
+        wait_lock.lock();
     }
+    wait_lock.unlock();
+
     // Drain once more after the stop signal.
     drainAllRings();
 }

@@ -14,6 +14,22 @@ Production authentication runtime exists across JWT/OIDC, Kerberos, MFA, OAuth, 
 - [~] benchmark and release-gate consolidation for token/session hot paths (Target: Q3 2026)
 - [~] consistency hardening for async/provider-integration reliability (Target: Q3 2026)
 
+## v1.2.0 Async Operations & Connection Pooling (Completed)
+
+- [x] async/non-blocking LDAP authentication calls (authenticateAsync with AuthWorkerThreadPool)
+- [x] async/non-blocking HTTP authentication calls (new AsyncHTTPAuth class)
+- [x] LDAP connection pooling with health checks and reuse (LDAPConnectionPool)
+- [x] HTTP retry logic with exponential backoff for transient failures
+- [x] Thread-safe worker pool for concurrent auth operations
+
+## v1.3.0 Token Blacklist Persistence & Distributed Support (In Progress)
+
+- [x] Token blacklist persistence to RocksDB (RocksDBTokenBlacklist)
+- [~] Distributed token blacklist with cluster synchronization (DistributedTokenBlacklist)
+- [~] Atomic blacklist validation during cluster sync
+- [~] Leader election for distributed deployments
+- [~] Comprehensive test coverage for distributed scenarios
+
 ## Planned Features
 
 ### Short-term (3-6 months)

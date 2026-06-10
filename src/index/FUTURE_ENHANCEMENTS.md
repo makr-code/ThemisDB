@@ -25,8 +25,26 @@
 | lifecycle interfaces | stable rebuild/tiering/distribution behavior |
 | optimization interfaces | bounded adaptive/replay-driven tuning behavior |
 
-## Implementation Notes
+## Implementation Notes (v1.4.0)
 
+### GPU Vector Index Backend - CUDA (In Progress)
+- Implemented CUDA kernels for vector similarity operations:
+  - L2 (squared Euclidean) distance computation
+  - Cosine distance with normalization
+  - Inner product (max-IP search)
+- Batch vector search with Thrust library for efficient sorting/reduction
+- Device memory management with GPU memory manager
+- Stream-based async kernel execution
+- FAISS/RAFT integration for advanced search algorithms
+
+### GPU Vector Index Backend - HIP (In Progress)
+- HIP equivalent kernels for AMD GPU support
+- Rocm Thrust for AMD device operations
+- hipBLAS for matrix operations (dot product, GEMM)
+- HIP stream management and device memory allocation
+- Feature-parity with CUDA backend
+
+### Broader Hardening (v1.4.0+)
 - tighten parity across CPU/GPU/vector backends and fallback pathways.
 - standardize diagnostics for rebuild/tiering/distribution incidents.
 - expand resilience tests for prolonged retrieval/update workloads.

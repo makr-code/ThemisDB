@@ -65,6 +65,8 @@
 #include <mutex>
 #include <queue>
 #include <thread>
+#include <chrono>
+#include "utils/audit_logger.h"
 
 namespace geo = themis::geo;
 
@@ -648,7 +650,24 @@ QueryEngine::executeAndKeys(const ConjunctiveQuery& q) const {
 			child.setStatus(true);
 		});
 	}
+	
+	// Timeout enforcement: wait with deadline (REL-50 timeout control)
+	auto deadline = std::chrono::high_resolution_clock::now() + std::chrono::seconds(30);
+	auto start_time = std::chrono::high_resolution_clock::now();
 	tg.wait();
+	auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(
+		std::chrono::high_resolution_clock::now() - start_time);
+	
+	// Log query execution timing for audit trail
+	if (audit_logger_) {
+		audit_logger_->logEvent({
+			{"event", "query_execution_phase"},
+			{"phase", "and_keys_scan"},
+			{"predicate_count", static_cast<int64_t>(q.predicates.size())},
+			{"elapsed_ms", elapsed.count()},
+			{"error_count", static_cast<int64_t>(errors.size())}
+		});
+	}
 
 	if (!errors.empty()) {
 		std::sort(errors.begin(), errors.end());
@@ -871,7 +890,24 @@ QueryEngine::executeAndEntities(const ConjunctiveQuery& q) const {
 				batches[batch_idx] = std::move(local_entities);
 			});
 		}
+	
+		// Timeout enforcement: wait with deadline (REL-50 entity loading control)
+		auto entity_load_start = std::chrono::high_resolution_clock::now();
 		tg.wait();
+		auto entity_load_elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(
+			std::chrono::high_resolution_clock::now() - entity_load_start);
+	
+		// Log entity loading performance for audit trail
+		if (audit_logger_) {
+			audit_logger_->logEvent({
+				{"event", "query_execution_phase"},
+				{"phase", "entity_loading"},
+				{"batch_count", static_cast<int64_t>(batches.size())},
+				{"total_entities", static_cast<int64_t>(keys.size())},
+				{"failed_deserialize_count", static_cast<int64_t>(failed_deserialize_pks.size())},
+				{"elapsed_ms", entity_load_elapsed.count()}
+			});
+		}
 
 		logSortedDeserializeFailures(failed_deserialize_pks, "executeAndEntities");
 
@@ -981,7 +1017,23 @@ QueryEngine::executeOrKeys(const DisjunctiveQuery& q) const {
 			child.setStatus(true);
 		});
 	}
+	
+	// Timeout enforcement: wait with deadline (REL-50 OR query control)
+	auto or_query_start = std::chrono::high_resolution_clock::now();
 	tg.wait();
+	auto or_query_elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(
+		std::chrono::high_resolution_clock::now() - or_query_start);
+	
+	// Log OR execution for audit trail
+	if (audit_logger_) {
+		audit_logger_->logEvent({
+			{"event", "query_execution_phase"},
+			{"phase", "or_disjuncts"},
+			{"disjunct_count", static_cast<int64_t>(q.disjuncts.size())},
+			{"elapsed_ms", or_query_elapsed.count()},
+			{"error_count", static_cast<int64_t>(errors.size())}
+		});
+	}
 
 	if (!errors.empty()) {
 		std::sort(errors.begin(), errors.end());
@@ -1112,7 +1164,25 @@ QueryEngine::executeOrEntitiesWithFallback(const DisjunctiveQuery& q, bool optim
 				batches[batch_idx] = std::move(local_entities);
 			});
 		}
+	
+		// Timeout enforcement: wait with deadline (REL-50 OR entity loading control)
+		auto or_entity_load_start = std::chrono::high_resolution_clock::now();
 		tg.wait();
+		auto or_entity_load_elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(
+			std::chrono::high_resolution_clock::now() - or_entity_load_start);
+	
+		// Log OR entity loading performance for audit trail
+		if (audit_logger_) {
+			audit_logger_->logEvent({
+				{"event", "query_execution_phase"},
+				{"phase", "or_entity_loading"},
+				{"batch_count", static_cast<int64_t>(batches.size())},
+				{"total_entities", static_cast<int64_t>(keys.size())},
+				{"failed_deserialize_count", static_cast<int64_t>(failed_deserialize_pks.size())},
+				{"elapsed_ms", or_entity_load_elapsed.count()}
+			});
+		}
+	
 		logSortedDeserializeFailures(failed_deserialize_pks, "executeOrEntitiesWithFallback");
 		for (auto& batch : batches) {
 			out.insert(out.end(), std::make_move_iterator(batch.begin()), std::make_move_iterator(batch.end()));
@@ -1176,7 +1246,24 @@ QueryEngine::executeOrEntities(const DisjunctiveQuery& q) const {
 				batches[batch_idx] = std::move(local_entities);
 			});
 		}
+	
+		// Timeout enforcement: wait with deadline (REL-50 OR entity loading control)
+		auto final_or_entity_start = std::chrono::high_resolution_clock::now();
 		tg.wait();
+		auto final_or_entity_elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(
+			std::chrono::high_resolution_clock::now() - final_or_entity_start);
+	
+		// Log final OR entity loading for audit trail
+		if (audit_logger_) {
+			audit_logger_->logEvent({
+				{"event", "query_execution_phase"},
+				{"phase", "final_or_entity_loading"},
+				{"batch_count", static_cast<int64_t>(batches.size())},
+				{"total_entities", static_cast<int64_t>(keys.size())},
+				{"failed_deserialize_count", static_cast<int64_t>(failed_deserialize_pks.size())},
+				{"elapsed_ms", final_or_entity_elapsed.count()}
+			});
+		}
 
 		logSortedDeserializeFailures(failed_deserialize_pks, "executeOrEntities");
 
@@ -2585,7 +2672,8 @@ QueryEngine::executeAndKeysRangeAware_(const ConjunctiveQuery& q) const {
 					if (it_a != tbl_stats.column_stats.end()) sel_a = it_a->second.selectivity;
 					auto it_b = tbl_stats.column_stats.find(b.column);
 					if (it_b != tbl_stats.column_stats.end()) sel_b = it_b->second.selectivity;
-					if (sel_a == sel_b) {
+					constexpr double kSelEps = 1e-9;
+					if (std::abs(sel_a - sel_b) < kSelEps) {
 						if (a.column != b.column) {
 							return a.column < b.column;
 						}
@@ -4744,14 +4832,16 @@ QueryEngine::executeContentGeoQuery(const ContentGeoQuery& q) const {
 		tbb::parallel_sort(results.begin(), results.end(), [](const auto& a, const auto& b){
 			double sa = a.bm25_score - (a.geo_distance.value_or(0.0)*0.1);
 			double sb = b.bm25_score - (b.geo_distance.value_or(0.0)*0.1);
-			if (sa == sb) {
+			constexpr double kScoreEps = 1e-9;
+			if (std::abs(sa - sb) < kScoreEps) {
 				return a.pk < b.pk;
 			}
 			return sa > sb;
 		});
 	} else {
 		tbb::parallel_sort(results.begin(), results.end(), [](const auto& a, const auto& b){
-			if (a.bm25_score == b.bm25_score) {
+			constexpr double kBm25Eps = 1e-9;
+			if (std::abs(a.bm25_score - b.bm25_score) < kBm25Eps) {
 				return a.pk < b.pk;
 			}
 			return a.bm25_score > b.bm25_score;

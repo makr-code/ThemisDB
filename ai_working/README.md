@@ -30,6 +30,13 @@ Dateien hier als Referenz lesen und bei inhaltlichen Änderungen im selben PR mi
 - Priorisierte TODO: `ai_working/CODE_MATURITY_FRAMEWORK_TODO_2026-05-20.md`
 - Aktueller Ausfuehrungsplan nach CTest-Registry-Stabilisierung: `ai_working/MODULE_GAPS_EXECUTION_PLAN_2026-06-08.md`
 
+## Aktuelle Scanner-Referenz (kanonisch)
+
+- Current-Management-Report: `ai_working/GAP_SCANNER_CURRENT_REPORT_2026-06-09.md`
+- Kanonische Scan-Basis: `ai_working/gap_scan_results.json`
+- Scope-Aufbereitung (Themis-core/tests/bench vs third-party): `ai_working/gap_scope_breakdown_20260604.md`
+- Legacy-Archiv alter v3-Reports: `ai_working/archive/gap_scanner_legacy_2026-06-09/`
+
 ## Hierher verschobene AI-Artefakte (2026-05-26)
 
 Folgende Dateien wurden aus dem Root-Verzeichnis und `docs/` hierher verschoben,
