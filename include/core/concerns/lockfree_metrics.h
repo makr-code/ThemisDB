@@ -16,6 +16,7 @@
 #include <atomic>
 #include <array>
 #include <chrono>
+#include <condition_variable>
 #include <cstdint>
 #include <limits>
 #include <memory>
@@ -387,6 +388,8 @@ private:
     std::atomic<bool>         running_{false};
     std::thread               flush_thread_;
     std::chrono::milliseconds flush_interval_;
+    mutable std::mutex        flush_wait_mu_;
+    std::condition_variable   flush_wait_cv_;
 
     void startFlushThread();
     void stopFlushThread() noexcept;

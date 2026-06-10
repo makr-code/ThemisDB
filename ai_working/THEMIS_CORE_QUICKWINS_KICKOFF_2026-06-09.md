@@ -34,6 +34,10 @@ Schneller, risikoarmer Abbau von Critical/High-Gaps im themis_core-Scope mit dir
   - Umsetzung: In `zero_copy_logger.cpp` konservatives `reserve()` im JSON-Escape-Pfad, defensiv initialisierte Stack-Buffer (`char[8]{}`, `char[128]{}`) und sign-sichere Zeichennormalisierung.
   - Validierung: `Build_CMakeTools` fuer Target `themis_server` erfolgreich (inkl. Rebuild von `zero_copy_logger.cpp`).
 
+- [x] QW-core-05: LockFreeMetrics-Flush-Thread Shutdown interruptible machen (thread_join_no_timeout Hardening).
+  - Umsetzung: In `lockfree_metrics` `condition_variable`-basiertes `wait_for` statt reinem `sleep_for` in `flushLoop()`, sofortiges Wake-up in `stopFlushThread()` via `notify_all()`, und kein Start des Flush-Threads bei `flush_interval<=0`.
+  - Validierung: `Build_CMakeTools` fuer Target `themis_server` erfolgreich (result code 0; Rebuild inkl. `lockfree_metrics.cpp`).
+
 ## Akzeptanzkriterien pro Quickwin
 
 - Kompiliert im betroffenen Modul-/Target-Build.
