@@ -738,3 +738,110 @@ TEST(LlamaCppPluginFocusedTests, R2_GenerateFn_ExceptionFailsClosed) {
     EXPECT_NE(response.error_message.find("bridge failed"), std::string::npos);
 }
 
+// ── Group S – Function / Tool Calling ────────────────────────────────────────
+
+/// S1: getCapabilities() reports supports_function_call = true.
+TEST(LlamaCppPluginFocusedTests, S1_CapabilitiesReportsFunctionCallSupport) {
+    LlamaCppPlugin plugin;
+    EXPECT_TRUE(plugin.getCapabilities().supports_function_call);
+}
+
+/// S2: generate() with tools synthesises a stub tool-call JSON response in
+///     THEMIS_LLAMA_CPP_STUB_MODE (the test binary always defines this macro).
+TEST(LlamaCppPluginFocusedTests, S2_StubMode_ToolCallSynthesized) {
+    LlamaCppPlugin plugin;
+    plugin.loadModel("", {});  // stub load
+
+    ToolDefinition tool;
+    tool.name        = "get_weather";
+    tool.description = "Get the weather for a location";
+    tool.parameters  = json::parse(R"({"type":"object","properties":{"location":{"type":"string"}},"required":["location"]})");
+
+    InferenceRequest request;
+    request.prompt = "What is the weather in Berlin?";
+    request.tools  = {tool};
+
+    const auto response = plugin.generate(request);
+    EXPECT_TRUE(response.success);
+    // The stub should have produced a tool call with the right name.
+    ASSERT_FALSE(response.tool_calls.empty())
+        << "Expected at least one parsed tool call in stub mode";
+    EXPECT_EQ(response.tool_calls.front().name, "get_weather");
+}
+
+/// S3: generate() with tools via generate_fn_ bridge passes tools through and
+///     tool_calls populated by the bridge are forwarded unchanged.
+TEST(LlamaCppPluginFocusedTests, S3_BridgeFn_ToolCallsForwarded) {
+    LlamaCppPlugin plugin;
+    plugin.loadModel("", {});
+
+    ToolDefinition tool;
+    tool.name       = "lookup_price";
+    tool.parameters = json::parse(R"({"type":"object","properties":{"item":{"type":"string"}}})");
+
+    plugin.setGenerateFn([&tool](const InferenceRequest& req) -> InferenceResponse {
+        EXPECT_EQ(req.tools.size(), 1u);
+        EXPECT_EQ(req.tools.front().name, tool.name);
+        InferenceResponse resp;
+        resp.success = true;
+        resp.text    = R"({"name":"lookup_price","arguments":{"item":"laptop"}})";
+        ToolCall tc;
+        tc.name       = "lookup_price";
+        tc.arguments  = json::parse(R"({"item":"laptop"})");
+        resp.tool_calls.push_back(std::move(tc));
+        return resp;
+    });
+
+    InferenceRequest request;
+    request.prompt = "How much does a laptop cost?";
+    request.tools  = {tool};
+
+    const auto response = plugin.generate(request);
+    EXPECT_TRUE(response.success);
+    ASSERT_EQ(response.tool_calls.size(), 1u);
+    EXPECT_EQ(response.tool_calls.front().name, "lookup_price");
+    EXPECT_EQ(response.tool_calls.front().arguments.value("item", ""), "laptop");
+}
+
+// ── Group T – Per-Request Cancellation Token ──────────────────────────────────
+
+/// T1: generate() returns cancelled error when token is pre-set to true.
+TEST(LlamaCppPluginFocusedTests, T1_CancellationToken_PreCancelledRejectsRequest) {
+    LlamaCppPlugin plugin;
+    plugin.loadModel("", {});
+    // Wire a bridge so the test can verify the path never reaches generation.
+    bool bridge_called = false;
+    plugin.setGenerateFn([&](const InferenceRequest&) -> InferenceResponse {
+        bridge_called = true;
+        InferenceResponse r;
+        r.success = true;
+        r.text    = "should not reach here";
+        return r;
+    });
+
+    auto cancel_token = std::make_shared<std::atomic<bool>>(true);  // already cancelled
+
+    InferenceRequest request;
+    request.prompt             = "should be cancelled";
+    request.cancellation_token = cancel_token;
+
+    const auto response = plugin.generate(request);
+    EXPECT_FALSE(response.success);
+    EXPECT_NE(response.error_message.find("cancelled"), std::string::npos);
+    EXPECT_FALSE(bridge_called) << "Bridge must not be invoked after cancellation";
+}
+
+/// T2: generate() succeeds normally when token exists but is false.
+TEST(LlamaCppPluginFocusedTests, T2_CancellationToken_NotSetAllowsGeneration) {
+    LlamaCppPlugin plugin;
+    plugin.loadModel("", {});
+
+    auto cancel_token = std::make_shared<std::atomic<bool>>(false);  // not cancelled
+
+    InferenceRequest request;
+    request.prompt             = "hello";
+    request.cancellation_token = cancel_token;
+
+    const auto response = plugin.generate(request);
+    EXPECT_TRUE(response.success);
+}

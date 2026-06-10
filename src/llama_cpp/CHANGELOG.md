@@ -12,7 +12,27 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 - Integration with real llama.cpp via the existing `LlamaWrapper`
 - Real embedding model support (currently returns fixed 384-dim zero vector)
-- Function/tool calling support
+
+## [2.3.0] — 2026-06-10
+
+### Added
+- **Function / tool calling**: `LlamaCppPlugin::getCapabilities().supports_function_call`
+  is now `true`.  When `InferenceRequest::tools` is non-empty:
+  - With `THEMIS_LLM_ENABLED` + a loaded `LlamaWrapper`: tool-call grammar
+    constraint and `JsonSchemaConverter::parseToolCall()` are already handled
+    inside `LlamaWrapper::generate()`.
+  - With an injected `generate_fn_` bridge: tools are forwarded unchanged in
+    the request; bridge-produced `tool_calls` pass through untouched.
+  - In stub / test mode (`THEMIS_LLAMA_CPP_STUB_MODE`): a minimal JSON tool-call
+    for the first tool definition is synthesised, parsed, and stored in
+    `InferenceResponse::tool_calls` so callers and tests can exercise the path
+    without a real model.
+- **Per-request cancellation token**: `InferenceRequest` gains a
+  `std::shared_ptr<std::atomic<bool>> cancellation_token` field (default:
+  `nullptr` = no cancellation).  `LlamaCppPlugin::generate()` checks the token
+  immediately after state acquisition; if already set to `true` the call returns
+  `success=false` + `error_message="Request cancelled"` without starting inference.
+- 5 new unit tests (groups S1–S3, T1–T2) covering tool calling and cancellation.
 
 ## [2.1.0] — 2026-04-10
 
