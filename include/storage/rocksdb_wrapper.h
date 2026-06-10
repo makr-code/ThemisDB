@@ -769,6 +769,7 @@ private:
     std::unique_ptr<rocksdb::TransactionOptions> txn_options_;
     std::unique_ptr<rocksdb::ReadOptions> read_options_;
     std::unique_ptr<rocksdb::WriteOptions> write_options_;
+    mutable std::mutex options_mutex_;
     // Track created column family handles so they can be destroyed before DB close
     std::vector<rocksdb::ColumnFamilyHandle*> cf_handles_;
     // Mutex to protect cf_handles_ from concurrent access (race condition fix #1)

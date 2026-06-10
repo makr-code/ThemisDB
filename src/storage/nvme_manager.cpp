@@ -153,38 +153,62 @@ bool NVMeManager::initialize() {
         return true;  // idempotent
     }
 
+    bool enable_io_uring = false;
+    bool enable_zns = false;
+    bool direct_io_requested = false;
+    uint32_t io_uring_queue_depth = 0;
+    std::string device_path;
+    {
+        std::lock_guard<std::mutex> state_lock(state_mutex_);
+        enable_io_uring = config_.enable_io_uring;
+        enable_zns = config_.enable_zns;
+        direct_io_requested =
+            config_.use_direct_reads || config_.use_direct_io_for_flush_and_compaction;
+        io_uring_queue_depth = config_.io_uring_queue_depth;
+        device_path = config_.device_path;
+    }
+
     THEMIS_INFO("NVMeManager: initialising (io_uring={}, zns={}, direct_io={})",
-                config_.enable_io_uring, config_.enable_zns,
-                config_.use_direct_reads || config_.use_direct_io_for_flush_and_compaction);
+                enable_io_uring, enable_zns, direct_io_requested);
 
     // Detect hardware capabilities first
     auto caps = detectCapabilities();
 
-    if (config_.enable_io_uring) {
+    if (enable_io_uring) {
         if (!caps.io_uring_available) {
             THEMIS_WARN("NVMeManager: io_uring requested but not available "
                         "(kernel {}.{}); disabling",
                         caps.kernel_major, caps.kernel_minor);
+            std::lock_guard<std::mutex> state_lock(state_mutex_);
             config_.enable_io_uring = false;
         } else if (!setupIoUring()) {
             THEMIS_WARN("NVMeManager: io_uring setup failed; disabling");
+            std::lock_guard<std::mutex> state_lock(state_mutex_);
             config_.enable_io_uring = false;
         } else {
             THEMIS_INFO("NVMeManager: io_uring ring ready (queue_depth={})",
-                        config_.io_uring_queue_depth);
+                        io_uring_queue_depth);
         }
     }
 
-    if (config_.enable_zns && !caps.zns_available) {
+    if (enable_zns && !caps.zns_available) {
         THEMIS_WARN("NVMeManager: ZNS requested but device '{}' is not ZNS-capable; disabling",
-                    config_.device_path);
+                    device_path);
+        std::lock_guard<std::mutex> state_lock(state_mutex_);
         config_.enable_zns = false;
     }
 
-    if (config_.num_io_queues == 0) {
-        config_.num_io_queues = caps.hw_queue_count;
+    uint32_t detected_queues = 0;
+    {
+        std::lock_guard<std::mutex> state_lock(state_mutex_);
+        if (config_.num_io_queues == 0) {
+            config_.num_io_queues = caps.hw_queue_count;
+            detected_queues = config_.num_io_queues;
+        }
+    }
+    if (detected_queues > 0) {
         THEMIS_INFO("NVMeManager: auto-detected {} hardware queue pair(s)",
-                    config_.num_io_queues);
+                    detected_queues);
     }
 
     initialized_.store(true, std::memory_order_release);
@@ -293,18 +317,32 @@ NVMeCapabilities NVMeManager::detectCapabilities() const {
                     caps.kernel_major, caps.kernel_minor,
                     caps.device_model.empty() ? "" : " model=" + caps.device_model);
 
+        std::lock_guard<std::mutex> state_lock(state_mutex_);
         capabilities_ = caps;
     });
 
+    std::lock_guard<std::mutex> state_lock(state_mutex_);
     return capabilities_;
 }
 
 bool NVMeManager::isIoUringActive() const noexcept {
 #ifdef THEMIS_ENABLE_IO_URING
 #  ifdef __linux__
-    return initialized_.load(std::memory_order_acquire) &&
-           config_.enable_io_uring &&
-           ring_ && ring_->ring_fd >= 0;
+    if (!initialized_.load(std::memory_order_acquire)) {
+        return false;
+    }
+
+    bool io_uring_enabled = false;
+    {
+        std::lock_guard<std::mutex> state_lock(state_mutex_);
+        io_uring_enabled = config_.enable_io_uring;
+    }
+    if (!io_uring_enabled) {
+        return false;
+    }
+
+    std::lock_guard<std::mutex> ring_lock(ring_mutex_);
+    return ring_ && ring_->ring_fd >= 0;
 #  endif
 #endif
     return false;
@@ -313,6 +351,7 @@ bool NVMeManager::isIoUringActive() const noexcept {
 uint32_t NVMeManager::detectedQueueCount() const noexcept {
     // Returns hw_queue_count from capabilities_ (initialized via
     // std::call_once in detectCapabilities(); defaults to 1 until called).
+    std::lock_guard<std::mutex> state_lock(state_mutex_);
     return capabilities_.hw_queue_count;
 }
 
@@ -581,10 +620,15 @@ uint64_t NVMeManager::getZoneWritePointer([[maybe_unused]] uint64_t zone_offset)
 
 std::pair<bool, bool> NVMeManager::recommendedDirectIOFlags() const {
     auto caps = detectCapabilities();
-    bool direct_reads  = config_.use_direct_reads &&
-                         caps.direct_io_available;
-    bool direct_flush  = config_.use_direct_io_for_flush_and_compaction &&
-                         caps.direct_io_available;
+    bool use_direct_reads = false;
+    bool use_direct_flush = false;
+    {
+        std::lock_guard<std::mutex> state_lock(state_mutex_);
+        use_direct_reads = config_.use_direct_reads;
+        use_direct_flush = config_.use_direct_io_for_flush_and_compaction;
+    }
+    bool direct_reads  = use_direct_reads && caps.direct_io_available;
+    bool direct_flush  = use_direct_flush && caps.direct_io_available;
     return {direct_reads, direct_flush};
 }
 
@@ -644,6 +688,7 @@ uint32_t NVMeManager::readHwQueueCount() const {
 bool NVMeManager::setupIoUring() {
 #ifdef THEMIS_ENABLE_IO_URING
 #  ifdef __linux__
+    std::lock_guard<std::mutex> ring_lock(ring_mutex_);
     auto* ring = ring_.get();
 
     struct io_uring_params params {};
@@ -736,6 +781,7 @@ bool NVMeManager::setupIoUring() {
 void NVMeManager::teardownIoUring() {
 #ifdef THEMIS_ENABLE_IO_URING
 #  ifdef __linux__
+    std::lock_guard<std::mutex> ring_lock(ring_mutex_);
     auto* ring = ring_.get();
     if (ring->cq_mmap != MAP_FAILED) {
         ::munmap(ring->cq_mmap, ring->cq_mmap_size);

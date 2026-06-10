@@ -71,6 +71,28 @@
 
 namespace themis {
 
+namespace {
+
+size_t assignVectorLabelId(std::unordered_map<std::string, size_t>& pkToId,
+                           std::vector<std::string>& idToPk,
+                           const std::string& pk) {
+	auto it = pkToId.find(pk);
+	if (it == pkToId.end()) {
+		const size_t id = idToPk.size();
+		pkToId.emplace(pk, id);
+		idToPk.push_back(pk);
+		return id;
+	}
+
+	const size_t id = it->second;
+	if (id < idToPk.size()) {
+		idToPk[id] = pk;
+	}
+	return id;
+}
+
+} // namespace
+
 VectorIndexManager::VectorIndexManager(RocksDBWrapper& db) : db_(db) {}
 
 VectorIndexManager::~VectorIndexManager() {
@@ -906,16 +928,7 @@ VectorIndexManager::incrementalReindex(float rebuild_threshold, std::string_view
 #ifdef THEMIS_HNSW_ENABLED
 			if (useHnsw_ && !isHnswEncryptionEnabled()) {
 				auto* appr = static_cast<hnswlib::HierarchicalNSW<float>*>(hnswIndex_);
-				size_t id;
-				auto id_it = pkToId_.find(pk);
-				if (id_it == pkToId_.end()) {
-					id = idToPk_.size();
-					pkToId_[pk] = id;
-					idToPk_.push_back(pk);
-				} else {
-					id = id_it->second; // reuse label of a previously deleted entry
-					idToPk_[id] = pk;   // update reverse mapping to the new PK
-				}
+				const size_t id = assignVectorLabelId(pkToId_, idToPk_, pk);
 				try { appr->addPoint(new_vec.data(), id); } catch (...) {}
 			}
 #endif
@@ -928,7 +941,8 @@ VectorIndexManager::incrementalReindex(float rebuild_threshold, std::string_view
 				auto* appr = static_cast<hnswlib::HierarchicalNSW<float>*>(hnswIndex_);
 				auto id_it = pkToId_.find(pk);
 				if (id_it != pkToId_.end()) {
-					try { appr->addPoint(new_vec.data(), id_it->second); } catch (...) {}
+					const auto updated_vec = new_vec;
+					try { appr->addPoint(updated_vec.data(), id_it->second); } catch (...) {}
 				}
 			}
 #endif
@@ -1082,33 +1096,18 @@ VectorIndexManager::Status VectorIndexManager::addEntity(const BaseEntity& e, st
 	std::vector<float> vv = *v;
 	if (metric_ == Metric::COSINE && !isVectorEncryptionEnabled()) normalizeL2(vv);
 	cache_[pk] = vv;
+	const auto* vector_data = vv.data();
 #ifdef THEMIS_HNSW_ENABLED
 	if (useHnsw_ && !isHnswEncryptionEnabled()) {
 		auto* appr = static_cast<hnswlib::HierarchicalNSW<float>*>(hnswIndex_);
-		size_t id;
-		auto it = pkToId_.find(pk);
-		if (it == pkToId_.end()) {
-			id = idToPk_.size();
-			pkToId_[pk] = id;
-			idToPk_.push_back(pk);
-		} else {
-			id = it->second;
-		}
-		try { appr->addPoint(cache_[pk].data(), id); } catch (...) { /* evtl. schon vorhanden */ }
+		const size_t id = assignVectorLabelId(pkToId_, idToPk_, pk);
+		try { appr->addPoint(vector_data, id); } catch (...) { /* evtl. schon vorhanden */ }
 	}
 #endif
 	// ScaNN / DiskANN alternative ANN backend
 	if (ann_backend_) {
-		auto it = pkToId_.find(pk);
-		int64_t ann_id;
-		if (it == pkToId_.end()) {
-			ann_id = static_cast<int64_t>(idToPk_.size());
-			pkToId_[pk] = static_cast<size_t>(ann_id);
-			idToPk_.push_back(pk);
-		} else {
-			ann_id = static_cast<int64_t>(it->second);
-		}
-		const bool added = ann_backend_->add(ann_id, cache_[pk].data(), static_cast<size_t>(dim_));
+		const int64_t ann_id = static_cast<int64_t>(assignVectorLabelId(pkToId_, idToPk_, pk));
+		const bool added = ann_backend_->add(ann_id, vector_data, static_cast<size_t>(dim_));
 		static_cast<void>(added);
 	}
 	return Status::OK();
@@ -1163,34 +1162,19 @@ VectorIndexManager::Status VectorIndexManager::addEntity(const BaseEntity& e, Ro
 	std::vector<float> vv = *v;
 	if (metric_ == Metric::COSINE && !isVectorEncryptionEnabled()) normalizeL2(vv);
 	cache_[pk] = vv;
+	const auto* vector_data = vv.data();
 #ifdef THEMIS_HNSW_ENABLED
 	// Skip live HNSW insertions when HNSW encryption is enabled (index will be saved encrypted)
 	if (useHnsw_ && !isHnswEncryptionEnabled()) {
 		auto* appr = static_cast<hnswlib::HierarchicalNSW<float>*>(hnswIndex_);
-		size_t id;
-		auto it = pkToId_.find(pk);
-		if (it == pkToId_.end()) {
-			id = idToPk_.size();
-			pkToId_[pk] = id;
-			idToPk_.push_back(pk);
-		} else {
-			id = it->second;
-		}
-		try { appr->addPoint(cache_[pk].data(), id); } catch (...) { /* evtl. schon vorhanden */ }
+		const size_t id = assignVectorLabelId(pkToId_, idToPk_, pk);
+		try { appr->addPoint(vector_data, id); } catch (...) { /* evtl. schon vorhanden */ }
 	}
 #endif
 	// ScaNN / DiskANN alternative ANN backend
 	if (ann_backend_) {
-		auto it = pkToId_.find(pk);
-		int64_t ann_id;
-		if (it == pkToId_.end()) {
-			ann_id = static_cast<int64_t>(idToPk_.size());
-			pkToId_[pk] = static_cast<size_t>(ann_id);
-			idToPk_.push_back(pk);
-		} else {
-			ann_id = static_cast<int64_t>(it->second);
-		}
-		const bool added = ann_backend_->add(ann_id, cache_[pk].data(), static_cast<size_t>(dim_));
+		const int64_t ann_id = static_cast<int64_t>(assignVectorLabelId(pkToId_, idToPk_, pk));
+		const bool added = ann_backend_->add(ann_id, vector_data, static_cast<size_t>(dim_));
 		static_cast<void>(added);
 	}
 	return Status::OK();
@@ -1257,6 +1241,9 @@ std::vector<VectorIndexManager::Result>
 VectorIndexManager::bruteForceSearch_(const std::vector<float>& query, size_t k,
 									  const std::vector<std::string>* whitelist) const {
 	std::lock_guard<std::recursive_mutex> stateLock(index_state_mutex_);
+	const size_t expected_dim = static_cast<size_t>(dim_);
+	const size_t cache_size = cache_.size();
+	const std::string object_prefix = objectName_ + ':';
 	// Cache-aware optimized implementation with prefetching and partial sort
 	// Cache Optimization: Cache-blocking for 1536D vectors
 	// - Block size: 8 vectors (~48KB) to fit in L1 cache
@@ -1301,7 +1288,7 @@ VectorIndexManager::bruteForceSearch_(const std::vector<float>& query, size_t k,
 	if (whitelist && !whitelist->empty()) {
 		for (const auto& pk : *whitelist) {
 			auto it = cache_.find(pk);
-			if (it != cache_.end() && it->second.size() == static_cast<size_t>(dim_)) {
+			if (it != cache_.end() && it->second.size() == expected_dim) {
 				consider(pk, it->second);
 			} else {
 				// Lade aus Storage on-demand
@@ -1310,15 +1297,15 @@ VectorIndexManager::bruteForceSearch_(const std::vector<float>& query, size_t k,
 				try {
 					BaseEntity e = BaseEntity::deserialize(pk, *blob);
 					auto vec = e.extractVector("embedding");
-					if (vec && vec->size() == static_cast<size_t>(dim_)) {
+					if (vec && vec->size() == expected_dim) {
 						consider(pk, *vec);
 					} else {
 						auto qbufOpt = e.getField("embedding_q");
 						auto scaleOpt = e.getFieldAsDouble("embedding_scale");
 						if (qbufOpt && scaleOpt) {
 							const auto* by = std::get_if<std::vector<uint8_t>>(&(*qbufOpt));
-							if (by && by->size() == static_cast<size_t>(dim_)) {
-								std::vector<float> v(dim_);
+							if (by && by->size() == expected_dim) {
+								std::vector<float> v(expected_dim);
 								float s = static_cast<float>(*scaleOpt);
 								for (size_t i = 0; i < by->size(); ++i) {
 									int8_t code = static_cast<int8_t>((*by)[i]);
@@ -1335,7 +1322,7 @@ VectorIndexManager::bruteForceSearch_(const std::vector<float>& query, size_t k,
 		// If cache is empty (e.g., after restart and only HNSW was loaded),
 		// fall back to scanning storage to build candidates on-the-fly.
 		if (cache_.empty()) {
-			const std::string prefix = objectName_ + ":";
+			const std::string& prefix = object_prefix;
 			db_.scanPrefix(prefix, [&](std::string_view key, std::string_view value) {
 				std::string pk = KeySchema::extractPrimaryKey(key);
 				std::vector<uint8_t> bytes(value.begin(), value.end());
@@ -1358,15 +1345,15 @@ VectorIndexManager::bruteForceSearch_(const std::vector<float>& query, size_t k,
 						v = std::move(*losslessVec);
 					}
 					else if (auto vecOpt = e.extractVector("embedding")) {
-						if (vecOpt->size() == static_cast<size_t>(dim_)) v = *vecOpt;
+						if (vecOpt->size() == expected_dim) v = *vecOpt;
 					}
 					else {
 						auto qbufOpt = e.getField("embedding_q");
 						auto scaleOpt = e.getFieldAsDouble("embedding_scale");
 						if (qbufOpt && scaleOpt) {
 							const auto* qv = std::get_if<std::vector<uint8_t>>(&(*qbufOpt));
-							if (qv && qv->size() == static_cast<size_t>(dim_)) {
-								v.resize(dim_);
+							if (qv && qv->size() == expected_dim) {
+								v.resize(expected_dim);
 								float s = static_cast<float>(*scaleOpt);
 								for (size_t i = 0; i < qv->size(); ++i) {
 									int8_t code = static_cast<int8_t>((*qv)[i]);
@@ -1376,7 +1363,7 @@ VectorIndexManager::bruteForceSearch_(const std::vector<float>& query, size_t k,
 						}
 					}
 
-					if (v.size() == static_cast<size_t>(dim_)) {
+					if (v.size() == expected_dim) {
 						consider(pk, v);
 					}
 				} catch (...) {
@@ -1392,7 +1379,7 @@ VectorIndexManager::bruteForceSearch_(const std::vector<float>& query, size_t k,
 			constexpr size_t PREFETCH_AHEAD = 2;  // Prefetch 2 blocks ahead
 			
 			std::vector<const std::pair<const std::string, std::vector<float>>*> cache_ptrs;
-			cache_ptrs.reserve(cache_.size());
+			cache_ptrs.reserve(cache_size);
 			for (const auto& entry : cache_) {
 				cache_ptrs.push_back(&entry);
 			}
@@ -1419,7 +1406,7 @@ VectorIndexManager::bruteForceSearch_(const std::vector<float>& query, size_t k,
 				size_t block_end = std::min(block_start + BLOCK_SIZE, cache_ptrs.size());
 				for (size_t i = block_start; i < block_end; ++i) {
 					const auto& [pk, vec] = *cache_ptrs[i];
-					if (vec.size() == static_cast<size_t>(dim_)) {
+					if (vec.size() == expected_dim) {
 						consider(pk, vec);
 					}
 				}
@@ -1443,7 +1430,8 @@ VectorIndexManager::bruteForceSearch_(const std::vector<float>& query, size_t k,
 std::pair<VectorIndexManager::Status, std::vector<VectorIndexManager::Result>>
 VectorIndexManager::searchKnn(const std::vector<float>& query, size_t k, const std::vector<std::string>* whitelist) const {
 	std::lock_guard<std::recursive_mutex> stateLock(index_state_mutex_);
-	if (query.size() != static_cast<size_t>(dim_)) {
+	const size_t expected_dim = static_cast<size_t>(dim_);
+	if (query.size() != expected_dim) {
 		return {Status::Error("searchKnn: Query-Dimension passt nicht"), {}};
 	}
     
@@ -1605,15 +1593,17 @@ VectorIndexManager::searchKnn(const std::vector<float>& query, size_t k, const s
 #endif
 	// Alternative ANN backend (ScaNN / DiskANN)
 	if (ann_backend_ && (!whitelist || whitelist->empty())) {
+		auto* ann_backend = ann_backend_.get();
+		const auto id_to_pk_snapshot = idToPk_;
 		std::vector<float> q = query;
 		if (metric_ == Metric::COSINE) normalizeL2(q);
-		auto raw = ann_backend_->search(q.data(), static_cast<size_t>(dim_), static_cast<int>(k));
+		auto raw = ann_backend->search(q.data(), expected_dim, static_cast<int>(k));
 		std::vector<Result> out;
 		out.reserve(raw.size());
 		for (const auto& r : raw) {
 			size_t idx = static_cast<size_t>(r.id);
-			if (idx < idToPk_.size()) {
-				out.push_back({idToPk_[idx], r.distance});
+			if (idx < id_to_pk_snapshot.size()) {
+				out.push_back({id_to_pk_snapshot[idx], r.distance});
 			}
 		}
 		logAuditEvent_("EMBEDDING_QUERY", objectName_, "searchKnn_ann", out.size());
@@ -1643,7 +1633,8 @@ VectorIndexManager::searchKnnFiltered(
 	size_t candidateMultiplier
 ) const {
 	std::lock_guard<std::recursive_mutex> stateLock(index_state_mutex_);
-	if (query.size() != static_cast<size_t>(dim_)) {
+	const size_t expected_dim = static_cast<size_t>(dim_);
+	if (query.size() != expected_dim) {
 		return {Status::Error("searchKnnFiltered: Query-Dimension passt nicht"), {}};
 	}
 
@@ -1784,7 +1775,8 @@ VectorIndexManager::searchKnnPreFiltered(
 	SecondaryIndexManager* secondaryIdx
 ) const {
 	std::lock_guard<std::recursive_mutex> stateLock(index_state_mutex_);
-	if (query.size() != static_cast<size_t>(dim_)) {
+	const size_t expected_dim = static_cast<size_t>(dim_);
+	if (query.size() != expected_dim) {
 		return {Status::Error("searchKnnPreFiltered: Query-Dimension passt nicht"), {}};
 	}
 
@@ -2453,19 +2445,12 @@ VectorIndexManager::Status VectorIndexManager::addEntity(const BaseEntity& e, Ro
 	std::vector<float> vv = *v;
 	if (metric_ == Metric::COSINE && !isVectorEncryptionEnabled()) normalizeL2(vv);
 	cache_[pk] = vv;
+	const auto* vector_data = vv.data();
 #ifdef THEMIS_HNSW_ENABLED
 	if (useHnsw_ && !isHnswEncryptionEnabled()) {
 		auto* appr = static_cast<hnswlib::HierarchicalNSW<float>*>(hnswIndex_);
-		size_t id;
-		auto it = pkToId_.find(pk);
-		if (it == pkToId_.end()) {
-			id = idToPk_.size();
-			pkToId_[pk] = id;
-			idToPk_.push_back(pk);
-		} else {
-			id = it->second;
-		}
-		try { appr->addPoint(cache_[pk].data(), id); } catch (...) { /* evtl. schon vorhanden */ }
+		const size_t id = assignVectorLabelId(pkToId_, idToPk_, pk);
+		try { appr->addPoint(vector_data, id); } catch (...) { /* evtl. schon vorhanden */ }
 	}
 #endif
 	return Status::OK();

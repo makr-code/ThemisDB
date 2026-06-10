@@ -176,7 +176,12 @@ public:
      * @param min_block_size Minimum allocation size (must be power of 2)
      */
     explicit BuddyAllocator(size_t total_size, size_t min_block_size = 64);
-    ~BuddyAllocator() override;
+    /**
+     * @brief Release the buddy pool and allocator metadata.
+     *
+     * Cleanup is RAII-backed and guaranteed not to throw during shutdown.
+     */
+    ~BuddyAllocator() noexcept override;
     
     Result<void*> allocate(size_t size, AllocationHint hint = AllocationHint::NONE) override;
     Result<void> deallocate(void* ptr) override;
@@ -215,7 +220,12 @@ public:
      */
     explicit SlabAllocator(size_t object_size, size_t objects_per_slab = 64, 
                           size_t max_slabs = 0);
-    ~SlabAllocator() override;
+    /**
+     * @brief Release all slabs owned by the allocator.
+     *
+     * Cleanup is RAII-backed and guaranteed not to throw during shutdown.
+     */
+    ~SlabAllocator() noexcept override;
     
     Result<void*> allocate(size_t size, AllocationHint hint = AllocationHint::NONE) override;
     Result<void> deallocate(void* ptr) override;

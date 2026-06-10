@@ -20,6 +20,7 @@
 
 #include "index/graph_auto_buffer.h"
 #include <stdexcept>
+#include "utils/thread_join_utils.h"
 #include "utils/logger.h"
 #include "utils/tracing.h"
 #include <algorithm>
@@ -81,8 +82,9 @@ void GraphAutoBuffer::stop() {
     flush_cv_.notify_all();
     
     // Wait for flush thread to finish
-    if (flush_thread_.joinable()) {
-        flush_thread_.join();
+    if (flush_thread_.joinable() &&
+        !utils::joinThreadWithin(flush_thread_)) {
+        THEMIS_WARN("GraphAutoBuffer: flush thread exceeded shutdown timeout");
     }
     
     // Final flush of remaining operations
@@ -404,4 +406,3 @@ void GraphAutoBuffer::setConfig(const GraphAutoBufferConfig& config) {
 }
 
 } // namespace themis
-

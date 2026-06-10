@@ -23,6 +23,7 @@
 #include <fmt/format.h>
 #include "utils/tracing.h"
 #include "utils/input_validator.h"
+#include "utils/logger.h"
 
 namespace themis {
 namespace server {

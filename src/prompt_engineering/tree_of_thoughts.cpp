@@ -89,6 +89,7 @@ TreeOfThoughtsBuilder::TreeOfThoughtsBuilder(const ToTConfig& config)
 TreeOfThoughtsBuilder& TreeOfThoughtsBuilder::setThoughtGenerator(
     std::shared_ptr<IToTThoughtGenerator> generator)
 {
+    std::lock_guard<std::mutex> lock(mutex_);
     generator_ = std::move(generator);
     return *this;
 }
@@ -96,12 +97,14 @@ TreeOfThoughtsBuilder& TreeOfThoughtsBuilder::setThoughtGenerator(
 TreeOfThoughtsBuilder& TreeOfThoughtsBuilder::setEvaluator(
     std::shared_ptr<IToTEvaluator> evaluator)
 {
+    std::lock_guard<std::mutex> lock(mutex_);
     evaluator_ = std::move(evaluator);
     return *this;
 }
 
 TreeOfThoughtsBuilder& TreeOfThoughtsBuilder::setConfig(const ToTConfig& config)
 {
+    std::lock_guard<std::mutex> lock(mutex_);
     config_ = config;
     return *this;
 }
@@ -122,24 +125,36 @@ ToTResult TreeOfThoughtsBuilder::solve(const std::string& problem)
         return ToTResult{};
     }
 
-    // Install heuristic defaults when no provider has been injected.
-    if (!generator_) {
-        generator_ = std::make_shared<HeuristicThoughtGenerator>();
-    }
-    if (!evaluator_) {
-        evaluator_ = std::make_shared<HeuristicToTEvaluator>(config_.max_depth);
+    std::shared_ptr<IToTThoughtGenerator> generator;
+    std::shared_ptr<IToTEvaluator> evaluator;
+    ToTConfig config;
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+
+        // Snapshot injected collaborators once so concurrent reconfiguration
+        // cannot race with generation/evaluation during this solve() call.
+        if (!generator_) {
+            generator_ = std::make_shared<HeuristicThoughtGenerator>();
+        }
+        if (!evaluator_) {
+            evaluator_ = std::make_shared<HeuristicToTEvaluator>(config_.max_depth);
+        }
+
+        generator = generator_;
+        evaluator = evaluator_;
+        config = config_;
     }
 
     THEMIS_INFO("ToT solve: strategy={}, max_depth={}, branching={}",
-                static_cast<int>(config_.strategy),
-                config_.max_depth,
-                config_.branching_factor);
+                static_cast<int>(config.strategy),
+                config.max_depth,
+                config.branching_factor);
 
-    switch (config_.strategy) {
-        case ToTSearchStrategy::DFS:  return solveDFS(problem);
-        case ToTSearchStrategy::BEAM: return solveBeam(problem);
+    switch (config.strategy) {
+        case ToTSearchStrategy::DFS:  return solveDFS(problem, config, generator, evaluator);
+        case ToTSearchStrategy::BEAM: return solveBeam(problem, config, generator, evaluator);
         case ToTSearchStrategy::BFS:  // fallthrough
-        default:                      return solveBFS(problem);
+        default:                      return solveBFS(problem, config, generator, evaluator);
     }
 }
 
@@ -147,13 +162,19 @@ ToTResult TreeOfThoughtsBuilder::solve(const std::string& problem)
 // Internal search – BFS
 // ============================================================================
 
-ToTResult TreeOfThoughtsBuilder::solveBFS(const std::string& problem)
+ToTResult TreeOfThoughtsBuilder::solveBFS(
+    const std::string& problem,
+    const ToTConfig& config,
+    const std::shared_ptr<IToTThoughtGenerator>& generator,
+    const std::shared_ptr<IToTEvaluator>& evaluator)
 {
     ToTResult result;
     std::queue<ToTNode> frontier;
 
-    // Seed the frontier with root-level thoughts
-    auto root_thoughts = generator_->generate(problem, {}, config_.branching_factor);
+    // Use the solve()-scoped snapshots so pointer updates on the builder do not
+    // race with this traversal. Implementations are responsible for their own
+    // internal thread-safety when shared across multiple solve() calls.
+    auto root_thoughts = generator->generate(problem, {}, config.branching_factor);
     for (const auto& t : root_thoughts) {
         frontier.push(makeNode(t, {}, 0));
     }
@@ -165,12 +186,12 @@ ToTResult TreeOfThoughtsBuilder::solveBFS(const std::string& problem)
         ToTNode node = frontier.front();
         frontier.pop();
 
-        auto [score, verdict] = evaluator_->evaluate(problem, node);
+        auto [score, verdict] = evaluator->evaluate(problem, node);
         node.score   = score;
         node.verdict = verdict;
         ++result.nodes_explored;
 
-        if (config_.verbose) {
+        if (config.verbose) {
             std::ostringstream msg;
             msg << "BFS depth=" << node.depth
                 << " score=" << score
@@ -192,14 +213,14 @@ ToTResult TreeOfThoughtsBuilder::solveBFS(const std::string& problem)
             return result;
         }
 
-        if (verdict == ToTVerdict::IMPOSSIBLE || score <= config_.prune_threshold) {
+        if (verdict == ToTVerdict::IMPOSSIBLE || score <= config.prune_threshold) {
             continue; // prune
         }
 
-        if (node.depth < config_.max_depth) {
+        if (node.depth < config.max_depth) {
             std::vector<std::string> child_path = node.path;
             child_path.push_back(node.thought);
-            auto children = generator_->generate(problem, child_path, config_.branching_factor);
+            auto children = generator->generate(problem, child_path, config.branching_factor);
             for (const auto& child_thought : children) {
                 frontier.push(makeNode(child_thought, child_path, node.depth + 1));
             }
@@ -220,14 +241,18 @@ ToTResult TreeOfThoughtsBuilder::solveBFS(const std::string& problem)
 // Internal search – DFS
 // ============================================================================
 
-ToTResult TreeOfThoughtsBuilder::solveDFS(const std::string& problem)
+ToTResult TreeOfThoughtsBuilder::solveDFS(
+    const std::string& problem,
+    const ToTConfig& config,
+    const std::shared_ptr<IToTThoughtGenerator>& generator,
+    const std::shared_ptr<IToTEvaluator>& evaluator)
 {
     ToTResult result;
 
     // Use an explicit stack of nodes
     std::stack<ToTNode> frontier;
 
-    auto root_thoughts = generator_->generate(problem, {}, config_.branching_factor);
+    auto root_thoughts = generator->generate(problem, {}, config.branching_factor);
     // Push in reverse so we pop highest-index first (matches BFS order)
     for (int i = static_cast<int>(root_thoughts.size()) - 1; i >= 0; --i) {
         frontier.push(makeNode(root_thoughts[i], {}, 0));
@@ -240,12 +265,12 @@ ToTResult TreeOfThoughtsBuilder::solveDFS(const std::string& problem)
         ToTNode node = frontier.top();
         frontier.pop();
 
-        auto [score, verdict] = evaluator_->evaluate(problem, node);
+        auto [score, verdict] = evaluator->evaluate(problem, node);
         node.score   = score;
         node.verdict = verdict;
         ++result.nodes_explored;
 
-        if (config_.verbose) {
+        if (config.verbose) {
             std::ostringstream msg;
             msg << "DFS depth=" << node.depth << " score=" << score;
             result.log.push_back(msg.str());
@@ -264,14 +289,14 @@ ToTResult TreeOfThoughtsBuilder::solveDFS(const std::string& problem)
             return result;
         }
 
-        if (verdict == ToTVerdict::IMPOSSIBLE || score <= config_.prune_threshold) {
+        if (verdict == ToTVerdict::IMPOSSIBLE || score <= config.prune_threshold) {
             continue;
         }
 
-        if (node.depth < config_.max_depth) {
+        if (node.depth < config.max_depth) {
             std::vector<std::string> child_path = node.path;
             child_path.push_back(node.thought);
-            auto children = generator_->generate(problem, child_path, config_.branching_factor);
+            auto children = generator->generate(problem, child_path, config.branching_factor);
             for (int i = static_cast<int>(children.size()) - 1; i >= 0; --i) {
                 frontier.push(makeNode(children[i], child_path, node.depth + 1));
             }
@@ -291,7 +316,11 @@ ToTResult TreeOfThoughtsBuilder::solveDFS(const std::string& problem)
 // Internal search – Beam
 // ============================================================================
 
-ToTResult TreeOfThoughtsBuilder::solveBeam(const std::string& problem)
+ToTResult TreeOfThoughtsBuilder::solveBeam(
+    const std::string& problem,
+    const ToTConfig& config,
+    const std::shared_ptr<IToTThoughtGenerator>& generator,
+    const std::shared_ptr<IToTEvaluator>& evaluator)
 {
     ToTResult result;
 
@@ -299,14 +328,14 @@ ToTResult TreeOfThoughtsBuilder::solveBeam(const std::string& problem)
     std::vector<ToTNode> beam;
 
     // Initialise beam from root thoughts
-    auto root_thoughts = generator_->generate(problem, {}, config_.branching_factor);
+    auto root_thoughts = generator->generate(problem, {}, config.branching_factor);
     for (const auto& t : root_thoughts) {
         ToTNode n = makeNode(t, {}, 0);
-        auto [score, verdict] = evaluator_->evaluate(problem, n);
+        auto [score, verdict] = evaluator->evaluate(problem, n);
         n.score   = score;
         n.verdict = verdict;
         ++result.nodes_explored;
-        if (verdict != ToTVerdict::IMPOSSIBLE && score > config_.prune_threshold) {
+        if (verdict != ToTVerdict::IMPOSSIBLE && score > config.prune_threshold) {
             beam.push_back(std::move(n));
         }
     }
@@ -319,9 +348,9 @@ ToTResult TreeOfThoughtsBuilder::solveBeam(const std::string& problem)
             b.resize(width);
         }
     };
-    sort_beam(beam, config_.beam_width);
+    sort_beam(beam, config.beam_width);
 
-    for (size_t depth = 1; depth <= config_.max_depth; ++depth) {
+    for (size_t depth = 1; depth <= config.max_depth; ++depth) {
         std::vector<ToTNode> next_beam;
 
         for (const auto& node : beam) {
@@ -337,21 +366,21 @@ ToTResult TreeOfThoughtsBuilder::solveBeam(const std::string& problem)
             std::vector<std::string> child_path = node.path;
             child_path.push_back(node.thought);
 
-            auto children = generator_->generate(problem, child_path, config_.branching_factor);
+            auto children = generator->generate(problem, child_path, config.branching_factor);
             for (const auto& child_t : children) {
                 ToTNode child = makeNode(child_t, child_path, depth);
-                auto [score, verdict] = evaluator_->evaluate(problem, child);
+                auto [score, verdict] = evaluator->evaluate(problem, child);
                 child.score   = score;
                 child.verdict = verdict;
                 ++result.nodes_explored;
 
-                if (config_.verbose) {
+                if (config.verbose) {
                     std::ostringstream msg;
                     msg << "Beam depth=" << depth << " score=" << score;
                     result.log.push_back(msg.str());
                 }
 
-                if (verdict != ToTVerdict::IMPOSSIBLE && score > config_.prune_threshold) {
+                if (verdict != ToTVerdict::IMPOSSIBLE && score > config.prune_threshold) {
                     next_beam.push_back(std::move(child));
                 }
             }
@@ -360,7 +389,7 @@ ToTResult TreeOfThoughtsBuilder::solveBeam(const std::string& problem)
         if (next_beam.empty()) {
             break;
         }
-        sort_beam(next_beam, config_.beam_width);
+        sort_beam(next_beam, config.beam_width);
         beam = std::move(next_beam);
     }
 

@@ -101,6 +101,29 @@
 | unchecked_memcpy | 1 |
 | uninitialized_pointer | 1 |
 
+## Remediation Log
+
+> Manually tracked fixes applied after last scanner run (2026-06-04).
+
+### W4-Sharding (2026-06-10)
+- cloud_agent.cpp, distributed_coordinator.cpp, gossip_protocol.cpp,
+  gossip_consensus_adapter.cpp, health_monitor.cpp, raft_consensus.cpp,
+  mtls_connection_pool.cpp, partition_detector.cpp, paxos_consensus.cpp,
+  predictive_detector.cpp, shard_repair_engine.cpp,
+  shard_resource_manager.cpp, truetime.cpp: thread_join_no_timeout → fixed via
+  bounded shutdown joins with utils/thread_join_utils.h::joinThreadWithin()
+  and detach-on-timeout warning logs.
+
+### W5-Sharding (2026-06-10)
+- shard_router.cpp: mergeResults() and cross-shard join outputs now emit
+  mergeVersion/version_token metadata derived from shard results.
+- stream_protocol.cpp: callback, task, listener, retry-queue, and completion
+  state accesses now use copy-under-lock or mutex-guarded snapshots to close
+  critical data-race paths.
+- redundancy_strategy.cpp: geo failover state updates now use shared/unique lock
+  snapshots, and geo/mirror/stripe read paths now propagate stable
+  version_token metadata.
+
 ## File Overview
 
 | File | Findings | Critical | High | Medium | Low |
@@ -6562,7 +6585,7 @@ Total findings: 12
 
 void ShardRPCServer::wait() {
 
-#if THEMIS_HAS_SHARD_GRPC
+    #if THEMIS_HAS_SHARD_GRPC
 
     if (impl_->server) {
 

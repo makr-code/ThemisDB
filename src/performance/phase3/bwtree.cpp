@@ -55,14 +55,15 @@ BwTree::BwTree() {
     
     // Create initial root page
     root_pid_ = next_pid_.fetch_add(1, std::memory_order_relaxed);
-    auto root = new LeafPage();
+    auto root = std::make_unique<LeafPage>();
+    BwTreePage* root_ptr = root.get();
     
     // Install root in mapping table
     BwTreePage* expected = nullptr;
-    if (!mapping_table_->compare_and_swap(root_pid_, expected, root)) {
-        delete root;
+    if (!mapping_table_->compare_and_swap(root_pid_, expected, root_ptr)) {
         throw std::runtime_error("Failed to install root page");
     }
+    root.release();
 }
 
 BwTree::~BwTree() {
@@ -98,16 +99,15 @@ bool BwTree::insert(int64_t key, const std::string& value) {
         }
         
         // Create delta insert record
-        auto delta = new DeltaInsert(key, value);
+        auto delta = std::make_unique<DeltaInsert>(key, value);
         delta->next_delta.store(page, std::memory_order_relaxed);
+        BwTreePage* delta_ptr = delta.get();
         
         // Try to install delta
-        if (mapping_table_->compare_and_swap(root_pid_, page, delta)) {
+        if (mapping_table_->compare_and_swap(root_pid_, page, delta_ptr)) {
+            delta.release();
             return true;
         }
-        
-        // CAS failed, retry
-        delete delta;
     }
 }
 
@@ -129,17 +129,15 @@ bool BwTree::remove(int64_t key) {
         // the key is absent (it simply skips the erase).  A pre-CAS search
         // would introduce a TOCTOU race — another thread could remove the same
         // key between the check and the CAS, making the check unreliable.
-        auto delta = new DeltaDelete(key);
+        auto delta = std::make_unique<DeltaDelete>(key);
         delta->next_delta.store(page, std::memory_order_relaxed);
+        BwTreePage* delta_ptr = delta.get();
 
         // Try to install delta via CAS.
-        if (mapping_table_->compare_and_swap(root_pid_, page, delta)) {
+        if (mapping_table_->compare_and_swap(root_pid_, page, delta_ptr)) {
+            delta.release();
             return true;
         }
-
-        // CAS failed: `delta` was never published to the mapping table so no
-        // other thread holds a reference to it — safe to delete immediately.
-        delete delta;
     }
 }
 

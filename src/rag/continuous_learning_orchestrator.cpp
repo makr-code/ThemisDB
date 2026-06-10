@@ -29,6 +29,7 @@
 #include <numeric>
 #include <sstream>
 #include <thread>
+#include <condition_variable>
 
 namespace themis::rag::learning {
 
@@ -69,6 +70,9 @@ struct ContinuousLearningOrchestrator::Impl {
     // Background thread
     std::atomic<bool> learning_loop_active{false};
     std::unique_ptr<std::thread> learning_thread;
+    std::condition_variable learning_loop_cv;
+    std::mutex learning_loop_mutex;
+    std::mutex lifecycle_mutex;
 
     // Thread safety
     mutable std::mutex mutex;
@@ -162,22 +166,29 @@ ContinuousLearningOrchestrator::~ContinuousLearningOrchestrator() {
 }
 
 void ContinuousLearningOrchestrator::startLearningLoop() {
-    if (impl_->learning_loop_active) {
-        return; // Already running
+    std::lock_guard<std::mutex> lifecycle_lock(impl_->lifecycle_mutex);
+    if (impl_->learning_loop_active.load(std::memory_order_acquire)) {
+        return;
     }
 
-    impl_->learning_loop_active = true;
+    impl_->learning_loop_active.store(true, std::memory_order_release);
     impl_->learning_thread = std::make_unique<std::thread>(&ContinuousLearningOrchestrator::learningLoopThread, this);
 }
 
 void ContinuousLearningOrchestrator::stopLearningLoop() {
-    if (!impl_->learning_loop_active) {
-        return;
+    std::unique_ptr<std::thread> thread_to_join;
+    {
+        std::lock_guard<std::mutex> lifecycle_lock(impl_->lifecycle_mutex);
+        if (!impl_->learning_loop_active.load(std::memory_order_acquire)) {
+            return;
+        }
+        impl_->learning_loop_active.store(false, std::memory_order_release);
+        impl_->learning_loop_cv.notify_all();
+        thread_to_join = std::move(impl_->learning_thread);
     }
 
-    impl_->learning_loop_active = false;
-    if (impl_->learning_thread && impl_->learning_thread->joinable()) {
-        impl_->learning_thread->join();
+    if (thread_to_join && thread_to_join->joinable()) {
+        thread_to_join->join();
     }
 }
 
@@ -696,18 +707,29 @@ void ContinuousLearningOrchestrator::saveModelCheckpoint(const std::string &mode
 }
 
 void ContinuousLearningOrchestrator::learningLoopThread() {
-    while (impl_->learning_loop_active) {
-        // Sleep for configured interval
-        auto sleep_duration = impl_->config.learning_loop_interval;
-        auto end_time       = std::chrono::steady_clock::now() + sleep_duration;
+    std::unique_lock<std::mutex> wait_lock(impl_->learning_loop_mutex);
+    while (impl_->learning_loop_active.load(std::memory_order_acquire)) {
+        const auto sleep_duration = impl_->config.learning_loop_interval;
+        const bool should_stop = impl_->learning_loop_cv.wait_for(
+            wait_lock,
+            sleep_duration,
+            [this]() {
+                return !impl_->learning_loop_active.load(std::memory_order_acquire);
+            });
 
-        while (impl_->learning_loop_active && std::chrono::steady_clock::now() < end_time) {
-            std::this_thread::sleep_for(std::chrono::seconds(1));
+        if (should_stop) {
+            break;
         }
 
-        if (impl_->learning_loop_active) {
+        wait_lock.unlock();
+        try {
             triggerLearningIteration();
+        } catch (const std::exception& e) {
+            spdlog::warn("CLO learning loop iteration failed: {}", e.what());
+        } catch (...) {
+            spdlog::warn("CLO learning loop iteration failed with unknown exception");
         }
+        wait_lock.lock();
     }
 }
 
@@ -1021,7 +1043,9 @@ bool ContinuousLearningOrchestrator::checkAndUpdateCooldown(LoopPhase phase) {
 
 void ContinuousLearningOrchestrator::setOptimizationCooldown(std::chrono::seconds cooldown) {
     std::lock_guard<std::mutex> lock(impl_->mutex);
-    impl_->loop_cooldown_secs = cooldown;
+    impl_->loop_cooldown_secs = (cooldown > std::chrono::seconds{0})
+        ? cooldown
+        : std::chrono::seconds{1};
 }
 
 ContinuousLearningOrchestrator::LoopResult
@@ -1296,4 +1320,3 @@ void ContinuousLearningOrchestrator::handleFederatedRoundStart() {
 }
 
 } // namespace themis::rag::learning
-

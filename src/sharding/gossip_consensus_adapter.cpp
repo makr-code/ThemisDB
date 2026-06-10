@@ -22,6 +22,8 @@
 // Licensed under MIT License
 
 #include "sharding/gossip_consensus_adapter.h"
+#include "utils/logger.h"
+#include "utils/thread_join_utils.h"
 #include <spdlog/spdlog.h>
 
 namespace themisdb {
@@ -90,8 +92,9 @@ void GossipConsensusAdapter::stop() {
     running_.store(false);
     gossip_cv_.notify_all();
     
-    if (gossip_thread_.joinable()) {
-        gossip_thread_.join();
+    // thread_join_no_timeout (W4): bounded join via joinThreadWithin
+    if (!themis::utils::joinThreadWithin(gossip_thread_)) {
+        THEMIS_WARN("[GossipConsensusAdapter] gossip thread did not finish within shutdown deadline; detaching.");
     }
     
     spdlog::info("Gossip consensus stopped for node {}", node_id_);

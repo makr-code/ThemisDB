@@ -344,6 +344,8 @@ Total findings: 48
 ### prompt_engineering/prompt_version_control.cpp
 Total findings: 30
 
+- [x] 2026-06-10: Resolved CRITICAL iterator_invalidation findings at lines 462/476/477 by copying branch/version state before later `versions_` / `branches_` mutations while `merge()` remains under `mutex_`.
+
 - Line 462: severity=CRITICAL; category=iterator_invalidation
   Description: Iterator prompt_it may be invalidated by container modification
   Remediation: Review finding and apply recommended module-specific fix.
@@ -812,6 +814,8 @@ Total findings: 26
 ### prompt_engineering/prompt_evaluator.cpp
 Total findings: 24
 
+- [x] 2026-06-10: Resolved CRITICAL data_race findings at lines 49/486/487 by snapshotting `embedding_provider_` under a mutex before `name()` / `embed()` access.
+
 - Line 49: severity=CRITICAL; category=data_race
   Description: Shared data access without lock protection
   Remediation: Review finding and apply recommended module-specific fix.
@@ -1248,6 +1252,8 @@ Total findings: 18
 
 ### prompt_engineering/tree_of_thoughts.cpp
 Total findings: 16
+
+- [x] 2026-06-10: Resolved CRITICAL data_race findings at lines 159/205/233/277/305/343 by snapshotting generator/evaluator/config state under a mutex before each `solve()` traversal.
 
 - Line 159: severity=CRITICAL; category=data_race
   Description: Shared data access without lock protection
@@ -1891,6 +1897,8 @@ Total findings: 4
 
 ### prompt_engineering/prompt_performance_tracker.cpp
 Total findings: 4
+
+- [x] 2026-06-10: Verified tracker logging only emits prompt IDs plus aggregate metrics; no prompt content, bearer tokens, or credential values are logged from this file.
 
 - Line 103: severity=CRITICAL; category=smart_ptr_misuse
   Description: Raw new without immediate wrapping in smart pointer

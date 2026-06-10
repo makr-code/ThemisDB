@@ -53,8 +53,14 @@ namespace {
 
 class SequenceIncrementOperator : public rocksdb::AssociativeMergeOperator {
   public:
+    // Stateless RocksDB merge operator: no owned resources beyond the base class.
+    ~SequenceIncrementOperator() override = default;
+
     bool Merge(const rocksdb::Slice & /*key*/, const rocksdb::Slice *existing_value, const rocksdb::Slice &value,
                std::string *new_value, rocksdb::Logger * /*logger*/) const override {
+        // RocksDB passes immutable operand slices scoped to this callback. The
+        // operator stores no mutable shared state, so these reads are thread-safe
+        // without additional locking.
         uint64_t base = 0;
         if (existing_value != nullptr && !existing_value->empty()) {
             if (existing_value->size() == sizeof(uint64_t)) {
@@ -311,7 +317,7 @@ Changefeed::Changefeed(rocksdb::TransactionDB *db, rocksdb::ColumnFamilyHandle *
     }
 }
 
-Changefeed::~Changefeed() {
+Changefeed::~Changefeed() noexcept {
     stopRetentionCleanup();
 }
 
@@ -1084,6 +1090,9 @@ void Changefeed::stopRetentionCleanup() {
     retention_cv_.notify_all();
 
     if (retention_thread_.joinable()) {
+        // Safe blocking join: the stop flag is already cleared and notify_all()
+        // wakes both the normal cleanup wait and the error-backoff wait below,
+        // so the worker has no indefinite blocking point after shutdown begins.
         retention_thread_.join();
     }
 
@@ -1122,8 +1131,11 @@ void Changefeed::retentionCleanupThread() {
                                    [this]() { return !retention_thread_running_.load(); });
         } catch (const std::exception &e) {
             THEMIS_ERROR("Error in retention cleanup thread: {}", e.what());
-            // Sleep before retrying to avoid tight loop on persistent errors
-            std::this_thread::sleep_for(std::chrono::seconds(ERROR_RETRY_DELAY_SECONDS));
+            // Wait with the condition variable so shutdown can interrupt the
+            // retry delay instead of leaving stopRetentionCleanup() blocked.
+            std::unique_lock<std::mutex> lock(retention_mutex_);
+            retention_cv_.wait_for(lock, std::chrono::seconds(ERROR_RETRY_DELAY_SECONDS),
+                                   [this]() { return !retention_thread_running_.load(); });
         }
     }
 

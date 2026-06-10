@@ -77,9 +77,9 @@ public:
     std::optional<std::string> read(const ValueAddress& addr);
     
     // Get current log size in bytes
-    uint64_t size() const { 
+    uint64_t size() const {
         std::shared_lock<std::shared_mutex> lock(rw_mutex_);
-        return current_offset_; 
+        return current_offset_.load(std::memory_order_relaxed);
     }
     
     // Sync log to disk
@@ -93,7 +93,7 @@ public:
 private:
     std::string log_path_;
     std::unique_ptr<std::fstream> log_file_;
-    uint64_t current_offset_;
+    std::atomic<uint64_t> current_offset_;
     mutable std::shared_mutex rw_mutex_;  // Reader-writer lock for concurrent reads
 };
 

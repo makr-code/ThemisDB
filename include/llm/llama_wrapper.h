@@ -278,6 +278,16 @@ public:
     // Model Management
     // ═══════════════════════════════════════════════════════════
     
+    /**
+     * @brief Load a model file and initialize lazy runtime state for inference.
+     * @param model_path Path to the model file on disk.
+     * @param config Optional load configuration. Supports SHA-256 integrity
+     *        hints via `expected_checksum`, `model_checksum`, or `checksum`.
+     *        When no expected hash is supplied, loading continues but emits a
+     *        security warning instead of enforcing a hard failure.
+     * @return true when the model loads successfully; false on I/O, integrity,
+     *         or backend initialization failures.
+     */
     bool loadModel(
         const std::string& model_path,
         const json& config = {}

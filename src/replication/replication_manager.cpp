@@ -45,12 +45,23 @@
 #include <set>
 #include <future>
 #include <numeric>
+#include <cerrno>
 #include <lz4.h>
 #include <zstd.h>
 #include <snappy.h>
 
+#ifdef _WIN32
+#include <io.h>
+#include <fcntl.h>
+#else
+#include <fcntl.h>
+#include <unistd.h>
+#endif
+
 namespace themisdb {
 namespace replication {
+
+namespace fs = std::filesystem;
 
 // ============================================================================
 // Timeout Protection Utilities (BATCH A FIX)
@@ -104,6 +115,34 @@ bool executeWithTimeout(uint32_t timeout_ms, Func operation) {
         THEMIS_ERROR("I/O operation threw exception after timeout wait: {}", e.what());
         return false;
     }
+}
+
+/**
+ * @brief Join a thread with a shutdown timeout.
+ *
+ * Sets @p t to a moved-from (non-joinable) state after the call.
+ * If the thread does not exit within @p timeout_ms milliseconds a warning
+ * is logged and the join watcher is detached so shutdown does not block
+ * indefinitely (thread_join_no_timeout).
+ *
+ * @param t          Thread to join; moved-from on return.
+ * @param timeout_ms Maximum milliseconds to wait before detaching.
+ */
+static void timedJoin(std::thread& t, int timeout_ms = 5000) noexcept {
+    if (!t.joinable()) return;
+    std::promise<void> done;
+    auto fut = done.get_future();
+    std::thread watcher([inner = std::move(t), p = std::move(done)]() mutable {
+        if (inner.joinable()) inner.join();
+        p.set_value();
+    });
+    watcher.detach();
+    if (fut.wait_for(std::chrono::milliseconds(timeout_ms)) !=
+            std::future_status::ready) {
+        THEMIS_WARN("Thread did not finish within {} ms during shutdown; detaching.",
+                    timeout_ms);
+    }
+    // t is now moved-from (not joinable)
 }
 
 }  // namespace
@@ -201,7 +240,7 @@ std::optional<WALEntry> WALEntry::deserialize(const std::vector<uint8_t>& data) 
         return val;
     };
     
-    auto readString = [&data, &pos](uint32_t max_len = MAX_STRING_LENGTH) -> std::string {
+    auto readString = [&data, &pos](uint32_t max_len) -> std::string {
         // BATCH D FIX: Length validation before allocation
         if (pos + 4 > data.size()) {
             THEMIS_ERROR("WALEntry::deserialize: insufficient bytes for string length at offset {}", pos);
@@ -242,11 +281,11 @@ std::optional<WALEntry> WALEntry::deserialize(const std::vector<uint8_t>& data) 
         );
         
         // BATCH B FIX: Catch exceptions from string parsing
-        entry.operation = readString();
-        entry.collection = readString();
-        entry.document_id = readString();
-        entry.data = readString();
-        entry.checksum = readString();
+        entry.operation = readString(MAX_STRING_LENGTH);
+        entry.collection = readString(MAX_STRING_LENGTH);
+        entry.document_id = readString(MAX_STRING_LENGTH);
+        entry.data = readString(MAX_STRING_LENGTH);
+        entry.checksum = readString(MAX_STRING_LENGTH);
         
         // BATCH D FIX: Validate critical fields are not empty
         if (entry.checksum.empty()) {
@@ -471,7 +510,8 @@ std::vector<WALEntry> WALManager::readFrom(uint64_t start_sequence, uint32_t lim
                     if (ifs.eof() || len == 0) break;
                     
                     // BATCH D FIX: Guard against oversized or corrupt length fields
-                    if (len > 64 * 1024 * 1024) {
+                    // Use unsigned literals to avoid signed multiplication overflow (CWE-190).
+                    if (len > 64u * 1024u * 1024u) {
                         THEMIS_ERROR("WAL segment {}: corrupt record length {}, stopping read", 
                                    segment_path, len);
                         break;
@@ -648,9 +688,7 @@ LeaderElection::LeaderElection(
 LeaderElection::~LeaderElection() {
     running_.store(false);
     election_cv_.notify_all();
-    if (election_thread_.joinable()) {
-        election_thread_.join();
-    }
+    timedJoin(election_thread_);
 }
 
 void LeaderElection::start() {
@@ -918,9 +956,7 @@ void ReplicationStream::start() {
 
 void ReplicationStream::stop() {
     running_.store(false);
-    if (stream_thread_.joinable()) {
-        stream_thread_.join();
-    }
+    timedJoin(stream_thread_);
 }
 
 bool ReplicationStream::isHealthy() const {
@@ -1104,15 +1140,9 @@ void ReplicationManager::shutdown() {
     
     running_.store(false);
     
-    if (heartbeat_thread_.joinable()) {
-        heartbeat_thread_.join();
-    }
-    if (compaction_thread_.joinable()) {
-        compaction_thread_.join();
-    }
-    if (health_monitor_thread_.joinable()) {
-        health_monitor_thread_.join();
-    }
+    timedJoin(heartbeat_thread_);
+    timedJoin(compaction_thread_);
+    timedJoin(health_monitor_thread_);
     
     for (auto& stream : streams_) {
         stream->stop();
@@ -3201,9 +3231,9 @@ void MultiMasterReplicationManager::stop() {
 
     writes_cv_.notify_all();
 
-    if (replication_thread_.joinable()) replication_thread_.join();
-    if (heartbeat_thread_.joinable())   heartbeat_thread_.join();
-    if (sync_thread_.joinable())        sync_thread_.join();
+    timedJoin(replication_thread_);
+    timedJoin(heartbeat_thread_);
+    timedJoin(sync_thread_);
 
     THEMIS_INFO("MultiMasterReplicationManager stopped (node_id={})", config_.node_id);
 }
@@ -3916,7 +3946,7 @@ ParallelReplicationWorker::~ParallelReplicationWorker() {
     running_.store(false);
     queue_cv_.notify_all();
     for (auto& t : workers_) {
-        if (t.joinable()) t.join();
+        timedJoin(t);
     }
 }
 
@@ -4641,7 +4671,7 @@ BatchedAckTracker::BatchedAckTracker(const AckBatchConfig& config)
 BatchedAckTracker::~BatchedAckTracker() {
     running_.store(false);
     flush_cv_.notify_all();
-    if (flush_thread_.joinable()) flush_thread_.join();
+    timedJoin(flush_thread_);
 }
 
 void BatchedAckTracker::recordApplied(uint64_t sequence_number) {

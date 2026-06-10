@@ -36,14 +36,15 @@ EvaluationMetrics PromptEvaluator::evaluateSingle(
     const std::string& expected
 ) const {
     EvaluationMetrics metrics;
+    const auto embedding_provider = getEmbeddingProviderSnapshot();
 
-    // Use embedding-based cosine similarity when a provider is available;
-    // fall back to Jaccard token overlap otherwise.
-    if (embedding_provider_) {
-        double emb_sim = computeEmbeddingSimilarity(output, expected);
+    // Snapshot the provider pointer once so provider swaps do not race with
+    // evaluation or per-call metrics collection.
+    if (embedding_provider) {
+        double emb_sim = computeEmbeddingSimilarity(output, expected, embedding_provider);
         metrics.semantic_similarity = (emb_sim >= 0.0) ? emb_sim
                                                        : computeSemanticSimilarity(output, expected);
-        metrics.details["embedding_provider"] = embedding_provider_->name();
+        metrics.details["embedding_provider"] = embedding_provider->name();
     } else {
         metrics.semantic_similarity = computeSemanticSimilarity(output, expected);
     }
@@ -471,28 +472,41 @@ double PromptEvaluator::computeCosineSimilarity(
     return std::max(0.0, std::min(1.0, cosine));
 }
 
+std::shared_ptr<IEmbeddingProvider> PromptEvaluator::getEmbeddingProviderSnapshot() const {
+    std::lock_guard<std::mutex> lock(embedding_provider_mutex_);
+    return embedding_provider_;
+}
+
 double PromptEvaluator::computeEmbeddingSimilarity(
     const std::string& s1,
     const std::string& s2
 ) const {
-    if (!embedding_provider_) {
+    return computeEmbeddingSimilarity(s1, s2, getEmbeddingProviderSnapshot());
+}
+
+double PromptEvaluator::computeEmbeddingSimilarity(
+    const std::string& s1,
+    const std::string& s2,
+    const std::shared_ptr<IEmbeddingProvider>& provider
+) const {
+    if (!provider) {
         return -1.0;  // Signal: no provider, caller should use Jaccard fallback
     }
 
     try {
-        auto v1 = embedding_provider_->embed(s1);
-        auto v2 = embedding_provider_->embed(s2);
+        auto v1 = provider->embed(s1);
+        auto v2 = provider->embed(s2);
 
         if (v1.empty() || v2.empty()) {
             THEMIS_WARN("Embedding provider '{}' returned empty vector – falling back",
-                        embedding_provider_->name());
+                        provider->name());
             return -1.0;
         }
 
         return computeCosineSimilarity(v1, v2);
     } catch (const std::exception& ex) {
         THEMIS_ERROR("Embedding provider '{}' threw: {} – falling back to Jaccard",
-                     embedding_provider_->name(), ex.what());
+                     provider->name(), ex.what());
         return -1.0;
     }
 }

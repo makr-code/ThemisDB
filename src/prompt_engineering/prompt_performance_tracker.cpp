@@ -107,7 +107,10 @@ void PromptPerformanceTracker::recordExecution(
     if (db_) {
         persist(prompt_id, it->second);
     }
-    
+
+    // Safe logging note: this tracker emits only prompt identifiers and
+    // aggregate execution metrics. It never logs prompt bodies, user content,
+    // bearer tokens, or other credential material.
     THEMIS_DEBUG("Recorded execution for prompt {}: success={}, latency={}ms, success_rate={:.2f}",
                  prompt_id, success, latency_ms, it->second.success_rate);
 }

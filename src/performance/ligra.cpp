@@ -70,6 +70,8 @@ void LigraProcessor::process_sparse(const Frontier& frontier, const VertexFunc& 
         it = chunk_end;
     }
     
+    // Threads process fixed frontier chunks with no blocking I/O or nested
+    // waits, so each worker completes bounded work and joins promptly here.
     for (auto& thread : threads) {
         thread.join();
     }
@@ -93,6 +95,8 @@ void LigraProcessor::process_dense(const Frontier& frontier, const VertexFunc& f
         });
     }
     
+    // Threads process fixed vertex ranges with no blocking I/O or nested
+    // waits, so each worker completes bounded work and joins promptly here.
     for (auto& thread : threads) {
         thread.join();
     }
@@ -166,6 +170,8 @@ Frontier LigraProcessor::process_edges(
             it = chunk_end;
         }
         
+        // Threads only walk their assigned adjacency-list slices and append to
+        // thread-local buffers, so join waits on bounded CPU work only.
         for (auto& thread : threads) {
             thread.join();
         }

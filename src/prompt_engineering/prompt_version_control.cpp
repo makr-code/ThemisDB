@@ -461,25 +461,26 @@ MergeResult PromptVersionControl::merge(
         result.conflicts.push_back("Prompt not found");
         return result;
     }
-    
-    if (!prompt_it->second.count(source_branch) || !prompt_it->second.count(target_branch)) {
+
+    const auto prompt_branches = prompt_it->second;
+    if (!prompt_branches.count(source_branch) || !prompt_branches.count(target_branch)) {
         result.conflicts.push_back("One or both branches not found");
         return result;
     }
-    
-    std::string source_id = prompt_it->second[source_branch];
-    std::string target_id = prompt_it->second[target_branch];
-    
+
+    const std::string source_id = prompt_branches.at(source_branch);
+    const std::string target_id = prompt_branches.at(target_branch);
+
     auto source_it = versions_.find(source_id);
     auto target_it = versions_.find(target_id);
-    
+
     if (source_it == versions_.end() || target_it == versions_.end()) {
         result.conflicts.push_back("Version data not found");
         return result;
     }
-    
-    const auto& source_version = source_it->second;
-    const auto& target_version = target_it->second;
+
+    const PromptVersion source_version = source_it->second;
+    const PromptVersion target_version = target_it->second;
     
     // Find the true lowest common ancestor (LCA) by walking the parent chain
     // from each branch and intersecting the two ancestor sets.
@@ -534,7 +535,8 @@ MergeResult PromptVersionControl::merge(
         } else {
             auto base_it = versions_.find(base_id);
             if (base_it != versions_.end()) {
-                result = autoMerge(base_it->second, source_version, target_version);
+                const PromptVersion base_version = base_it->second;
+                result = autoMerge(base_version, source_version, target_version);
             } else {
                 result.merged_content = source_version.content;
                 result.success = true;

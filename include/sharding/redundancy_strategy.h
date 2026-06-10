@@ -293,7 +293,7 @@ struct WriteResult {
                              const std::string& error);
 };
 
-/** @brief Result payload for read path including source and chunk metadata. */
+/** @brief Result payload for read path including source, chunk, and snapshot-version metadata. */
 struct ReadResult {
     bool success;
     std::string document_id;
@@ -302,6 +302,7 @@ struct ReadResult {
     std::chrono::milliseconds latency;
     bool from_replica;
     uint32_t chunks_read;  // For striped documents
+    uint64_t version_token = 0;  // Monotonic token for merged/snapshotted reads
     std::string error_message;
 };
 
@@ -569,7 +570,10 @@ public:
         WriteHandler handler
     );
     
-    /** @brief Read document using configured read preference and redundancy mode. */
+    /** @brief Read document using configured read preference and redundancy mode.
+     *  @return ReadResult annotated with a monotonic version_token for callers
+     *          that need to detect stale cross-shard snapshots.
+     */
     ReadResult read(
         const std::string& document_id,
         const std::string& collection,

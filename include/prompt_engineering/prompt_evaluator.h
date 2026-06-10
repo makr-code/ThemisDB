@@ -15,6 +15,7 @@
 #include <vector>
 #include <memory>
 #include <functional>
+#include <mutex>
 #include <unordered_map>
 #include <nlohmann/json.hpp>
 
@@ -210,18 +211,25 @@ public:
      * @param provider Shared pointer to an IEmbeddingProvider implementation
      */
     void setEmbeddingProvider(std::shared_ptr<IEmbeddingProvider> provider) {
+        std::lock_guard<std::mutex> lock(embedding_provider_mutex_);
         embedding_provider_ = std::move(provider);
     }
 
     /**
      * @brief Remove the attached embedding provider (fall back to Jaccard)
      */
-    void clearEmbeddingProvider() { embedding_provider_.reset(); }
+    void clearEmbeddingProvider() {
+        std::lock_guard<std::mutex> lock(embedding_provider_mutex_);
+        embedding_provider_.reset();
+    }
 
     /**
      * @brief Returns true if a live embedding provider is attached
      */
-    bool hasEmbeddingProvider() const { return embedding_provider_ != nullptr; }
+    bool hasEmbeddingProvider() const {
+        std::lock_guard<std::mutex> lock(embedding_provider_mutex_);
+        return embedding_provider_ != nullptr;
+    }
 
     /**
      * @brief Compute embedding-based cosine similarity between two strings
@@ -253,7 +261,16 @@ public:
 
 private:
     EvaluatorConfig config_;
-    std::shared_ptr<IEmbeddingProvider> embedding_provider_;  ///< Optional embedding model
+    mutable std::mutex embedding_provider_mutex_;
+    std::shared_ptr<IEmbeddingProvider> embedding_provider_;  ///< Optional embedding model; snapshot under embedding_provider_mutex_
+
+    [[nodiscard]] std::shared_ptr<IEmbeddingProvider> getEmbeddingProviderSnapshot() const;
+
+    double computeEmbeddingSimilarity(
+        const std::string& s1,
+        const std::string& s2,
+        const std::shared_ptr<IEmbeddingProvider>& provider
+    ) const;
     
     /**
      * @brief Compute weighted score from individual metrics

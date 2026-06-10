@@ -486,6 +486,8 @@ private:
     std::queue<std::string> repair_queue_;
     std::mutex repair_mutex_;
     std::condition_variable repair_cv_;
+    mutable std::mutex shutdown_mutex_;
+    std::condition_variable shutdown_cv_;
     
     // Background threads
     std::thread maintenance_thread_;

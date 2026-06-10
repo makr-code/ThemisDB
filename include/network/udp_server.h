@@ -272,6 +272,7 @@ private:
 
     std::unique_ptr<net::io_context> io_ctx_;
     std::unique_ptr<udp::socket>     socket_;
+    mutable std::mutex               socket_mutex_;
     std::vector<std::thread>         io_threads_;
 
     std::atomic<bool> running_{false};

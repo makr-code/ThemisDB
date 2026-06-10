@@ -41,8 +41,8 @@ Stub mode (empty path / CI without model) is preserved as a transparent fallback
 
 ## Planned Features
 
-- [ ] Function/tool calling (Target: Q4 2026)
-- [ ] Per-request cancellation token (Target: Q4 2026)
+- [x] Function/tool calling (Target: Q4 2026)
+- [x] Per-request cancellation token (Target: Q4 2026)
 
 ## Implementation Phases
 
@@ -77,7 +77,7 @@ Stub mode (empty path / CI without model) is preserved as a transparent fallback
 
 ## Production Readiness Checklist
 
-- [x] Unit tests present (56 tests: groups A–O + P1–P3 concurrency)
+- [x] Unit tests present (68 tests: groups A–T)
 - [x] Stub mode for CI without model file
 - [x] Thread-safe LoRA registry
 - [x] Capabilities correctly reported
@@ -92,6 +92,8 @@ Stub mode (empty path / CI without model) is preserved as a transparent fallback
 - [x] Real embeddings via `LlamaWrapper::embed()` with L2 normalisation
 - [x] `exportLoRA` / `importLoRA` delegated to `LlamaWrapper`
 - [x] Concurrency hardening verified: 8-thread generate(), 4-thread generateBatch(), 6-thread LoRA+generate() race — all pass (P1–P3)
+- [x] `supports_function_call = true`; tool-call stub synthesised in test/stub mode; tools forwarded through bridge path (S1–S3)
+- [x] Per-request cancellation token (`InferenceRequest::cancellation_token`); pre-inference check returns `success=false` / `"Request cancelled"` (T1–T2)
 
 ## Known Issues & Limitations
 

@@ -34,8 +34,12 @@ TenantBufferManager::TenantBufferManager(Changefeed *changefeed, const Changefee
     }
 }
 
-TenantBufferManager::~TenantBufferManager() {
-    stop();
+TenantBufferManager::~TenantBufferManager() noexcept {
+    try {
+        stop();
+    } catch (...) {
+        // Destructors must not throw while stopping tenant-owned buffers.
+    }
 }
 
 void TenantBufferManager::start() {
@@ -175,17 +179,19 @@ void TenantBufferManager::configureTenant(const TenantConfig &config) {
         // Note: buffer config changes take effect on next buffer creation/restart
         THEMIS_INFO("Updated config for tenant: {}", config.tenant_id);
     } else {
-        // Create new tenant with config
+        // Create the buffer before publishing it into tenant state so ownership
+        // stays within a local std::unique_ptr if construction/startup throws.
+        auto buffer = std::make_unique<ChangefeedBuffer>(changefeed_, config.buffer_config);
+        if (running_ && config.enabled) {
+            buffer->start();
+        }
+
         auto [new_it, inserted] = tenant_buffers_.try_emplace(config.tenant_id);
         auto &state             = new_it->second;
         state.config            = config;
         state.stats.tenant_id   = config.tenant_id;
         state.enabled           = config.enabled;
-        state.buffer            = std::make_unique<ChangefeedBuffer>(changefeed_, config.buffer_config);
-
-        if (running_ && state.enabled) {
-            state.buffer->start();
-        }
+        state.buffer            = std::move(buffer);
 
         THEMIS_INFO("Created new tenant: {}", config.tenant_id);
     }
@@ -352,17 +358,19 @@ TenantBufferManager::TenantBufferState &TenantBufferManager::getOrCreateTenantBu
         return it->second;
     }
 
-    // Create new tenant buffer with default config
+    // Create the buffer up front so any constructor/start failure occurs before
+    // ownership is published into the tenant state map.
+    auto buffer = std::make_unique<ChangefeedBuffer>(changefeed_, default_config_);
+    if (running_) {
+        buffer->start();
+    }
+
     auto [inserted_it, inserted] = tenant_buffers_.try_emplace(tenant_id);
     auto &state                  = inserted_it->second;
     state.config.tenant_id       = tenant_id;
     state.config.buffer_config   = default_config_;
     state.stats.tenant_id        = tenant_id;
-    state.buffer                 = std::make_unique<ChangefeedBuffer>(changefeed_, default_config_);
-
-    if (running_) {
-        state.buffer->start();
-    }
+    state.buffer                 = std::move(buffer);
 
     THEMIS_INFO("Auto-created buffer for new tenant: {}", tenant_id);
     return inserted_it->second;

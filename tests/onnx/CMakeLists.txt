@@ -14,6 +14,11 @@ foreach(_src IN LISTS ONNX_MODULE_TEST_SOURCES)
     endif()
 
     add_executable(${_target} "${_src}")
+    if(EXISTS "${THEMIS_ROOT_DIR}/src/onnx_clip/onnx_clip_plugin.cpp")
+        target_sources(${_target} PRIVATE
+            ${THEMIS_ROOT_DIR}/src/onnx_clip/onnx_clip_plugin.cpp
+        )
+    endif()
     target_include_directories(${_target} PRIVATE
         ${THEMIS_ROOT_DIR}/include
         ${THEMIS_ROOT_DIR}/src
@@ -24,7 +29,10 @@ foreach(_src IN LISTS ONNX_MODULE_TEST_SOURCES)
         spdlog::spdlog
         Threads::Threads
     )
-    target_compile_definitions(${_target} PRIVATE THEMIS_TEST_BUILD=1)
+    target_compile_definitions(${_target} PRIVATE
+        THEMIS_TEST_BUILD=1
+        THEMIS_IMAGE_PLUGIN_DISABLE_EXPORT=1
+    )
 
     themis_register_module_focused_test(
         MODULE onnx

@@ -29,6 +29,7 @@
 #include "storage/erasure_coding_backend.h"
 #include "utils/expected.h"
 #include "utils/error_registry.h"
+#include "utils/thread_join_utils.h"
 #include <spdlog/spdlog.h>
 #include <nlohmann/json.hpp>
 #include <yaml-cpp/yaml.h>
@@ -431,16 +432,20 @@ void BlobRedundancyManager::stop() {
     
     // Wake up repair thread
     repair_cv_.notify_all();
+    shutdown_cv_.notify_all();
     
     // Wait for threads to finish
-    if (maintenance_thread_.joinable()) {
-        maintenance_thread_.join();
+    if (maintenance_thread_.joinable() &&
+        !themis::utils::joinThreadWithin(maintenance_thread_)) {
+        spdlog::warn("BlobRedundancyManager: maintenance thread exceeded shutdown timeout");
     }
-    if (repair_thread_.joinable()) {
-        repair_thread_.join();
+    if (repair_thread_.joinable() &&
+        !themis::utils::joinThreadWithin(repair_thread_)) {
+        spdlog::warn("BlobRedundancyManager: repair thread exceeded shutdown timeout");
     }
-    if (config_reload_thread_.joinable()) {
-        config_reload_thread_.join();
+    if (config_reload_thread_.joinable() &&
+        !themis::utils::joinThreadWithin(config_reload_thread_)) {
+        spdlog::warn("BlobRedundancyManager: config reload thread exceeded shutdown timeout");
     }
     
     spdlog::info("BlobRedundancyManager stopped");
@@ -1375,10 +1380,11 @@ void BlobRedundancyManager::maintenanceLoop() {
             spdlog::error("Maintenance cycle error: {}", e.what());
         }
         
-        // Sleep
-        std::this_thread::sleep_for(
-            std::chrono::seconds(config_.maintenance_interval_seconds)
-        );
+        std::unique_lock<std::mutex> lock(shutdown_mutex_);
+        shutdown_cv_.wait_for(
+            lock,
+            std::chrono::seconds(config_.maintenance_interval_seconds),
+            [this] { return !running_.load(); });
     }
     
     spdlog::info("Blob redundancy maintenance loop stopped");
@@ -1413,9 +1419,11 @@ void BlobRedundancyManager::configReloadLoop() {
     spdlog::info("Config reload loop started");
     
     while (running_.load()) {
-        std::this_thread::sleep_for(
-            std::chrono::seconds(config_.hot_reload_check_seconds)
-        );
+        std::unique_lock<std::mutex> lock(shutdown_mutex_);
+        shutdown_cv_.wait_for(
+            lock,
+            std::chrono::seconds(config_.hot_reload_check_seconds),
+            [this] { return !running_.load(); });
         
         if (!running_.load()) break;
         

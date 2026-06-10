@@ -77,31 +77,23 @@ struct DirectXState {
     // Shader and pipeline cache
     std::unordered_map<std::string, std::unique_ptr<DirectXShader>> shaders;
     std::unordered_map<std::string, std::unique_ptr<DirectXPipeline>> pipelines;
-    std::recursive_timed_mutex mutex;
 };
 
 static DirectXState g_directx_state;
-constexpr auto kDirectXStateLockTimeout = std::chrono::seconds(30);
+// Guards all access to the process-wide DirectX context, descriptor heap, and
+// shader/pipeline caches so threads never observe partially updated DX state.
+static std::mutex g_directx_state_mutex;
 constexpr uint32_t kDirectXKernelExecutionTimeoutMs = 30000;
 
-static std::unique_lock<std::recursive_timed_mutex> lock_directx_state_or_throw() {
-    std::unique_lock<std::recursive_timed_mutex> lock(g_directx_state.mutex, std::defer_lock);
-    if (!lock.try_lock_for(kDirectXStateLockTimeout)) {
-        throw std::runtime_error("Timeout while waiting for DirectX kernel state lock");
-    }
-    return lock;
-}
-
-static void ensure_directx_ready_or_throw() {
-    if (!g_directx_state.initialized || !g_directx_state.context || !g_directx_state.descriptors) {
+static void ensure_directx_ready_or_throw(const DirectXState& state) {
+    if (!state.initialized || !state.context || !state.descriptors) {
         throw std::runtime_error("DirectX not initialized. Call initialize_directx_lora() first.");
     }
 }
 
 // Helper function to get or create shader
-static DirectXShader* get_or_load_shader(const std::string& shader_name) {
-    auto lock = lock_directx_state_or_throw();
-    auto& shader_cache = g_directx_state.shaders;
+static DirectXShader* get_or_load_shader(DirectXState& state, const std::string& shader_name) {
+    auto& shader_cache = state.shaders;
 
     // Check if already loaded
     auto it = shader_cache.find(shader_name);
@@ -124,14 +116,14 @@ static DirectXShader* get_or_load_shader(const std::string& shader_name) {
 
 // Helper function to get or create pipeline
 static DirectXPipeline* get_or_create_pipeline(
+    DirectXState& state,
     const std::string& pipeline_name,
     const std::string& shader_name,
     uint32_t num_root_constants,
     uint32_t num_uavs,
     uint32_t num_srvs) {
-    auto lock = lock_directx_state_or_throw();
-    ensure_directx_ready_or_throw();
-    auto& pipeline_cache = g_directx_state.pipelines;
+    ensure_directx_ready_or_throw(state);
+    auto& pipeline_cache = state.pipelines;
 
     // Check if already created
     auto it = pipeline_cache.find(pipeline_name);
@@ -140,11 +132,11 @@ static DirectXPipeline* get_or_create_pipeline(
     }
 
     // Get shader
-    DirectXShader* shader = get_or_load_shader(shader_name);
+    DirectXShader* shader = get_or_load_shader(state, shader_name);
 
     // Create pipeline
     auto pipeline = std::make_unique<DirectXPipeline>(
-        g_directx_state.context.get(),
+        state.context.get(),
         shader,
         num_root_constants,
         num_uavs,
@@ -180,7 +172,7 @@ static uint32_t checked_u32_size(size_t value, const char* context) {
 }
 
 bool initialize_directx_lora(int adapter_id) {
-    auto lock = lock_directx_state_or_throw();
+    std::lock_guard<std::mutex> state_lock(g_directx_state_mutex);
     if (g_directx_state.initialized) {
         return true;
     }
@@ -222,7 +214,7 @@ bool initialize_directx_lora(int adapter_id) {
 }
 
 void cleanup_directx_lora() {
-    auto lock = lock_directx_state_or_throw();
+    std::lock_guard<std::mutex> state_lock(g_directx_state_mutex);
     if (!g_directx_state.initialized) {
         return;
     }
@@ -261,8 +253,8 @@ bool is_directx_available() {
 void launch_matmul_shader(
     const float* A, const float* B, float* C,
     int M, int N, int K, float alpha) {
-    auto lock = lock_directx_state_or_throw();
-    ensure_directx_ready_or_throw();
+    std::lock_guard<std::mutex> state_lock(g_directx_state_mutex);
+    ensure_directx_ready_or_throw(g_directx_state);
     if (!A || !B || !C) {
         throw std::invalid_argument("launch_matmul_shader received null pointer");
     }
@@ -276,6 +268,7 @@ void launch_matmul_shader(
     try {
         // Get or create pipeline
         DirectXPipeline* pipeline = get_or_create_pipeline(
+            g_directx_state,
             "matmul",
             "matmul.cso",
             4,  // num_root_constants (M, N, K, alpha)
@@ -349,8 +342,8 @@ void launch_matmul_shader(
 }
 
 void launch_add_shader(const float* A, const float* B, float* C, size_t size) {
-    auto lock = lock_directx_state_or_throw();
-    ensure_directx_ready_or_throw();
+    std::lock_guard<std::mutex> state_lock(g_directx_state_mutex);
+    ensure_directx_ready_or_throw(g_directx_state);
     if (!A || !B || !C) {
         throw std::invalid_argument("launch_add_shader received null pointer");
     }
@@ -361,6 +354,7 @@ void launch_add_shader(const float* A, const float* B, float* C, size_t size) {
     try {
         // Get or create pipeline
         DirectXPipeline* pipeline = get_or_create_pipeline(
+            g_directx_state,
             "elementwise",
             "elementwise.cso",
             5,  // num_root_constants (size, op, rows, cols, scalar)
@@ -430,8 +424,8 @@ void launch_add_shader(const float* A, const float* B, float* C, size_t size) {
 }
 
 void launch_multiply_shader(const float* A, const float* B, float* C, size_t size) {
-    auto lock = lock_directx_state_or_throw();
-    ensure_directx_ready_or_throw();
+    std::lock_guard<std::mutex> state_lock(g_directx_state_mutex);
+    ensure_directx_ready_or_throw(g_directx_state);
     if (!A || !B || !C) {
         throw std::invalid_argument("launch_multiply_shader received null pointer");
     }
@@ -442,6 +436,7 @@ void launch_multiply_shader(const float* A, const float* B, float* C, size_t siz
     try {
         // Use elementwise pipeline with op=2 for multiply
         DirectXPipeline* pipeline = get_or_create_pipeline(
+            g_directx_state,
             "elementwise",
             "elementwise.cso",
             5, 1, 2
@@ -497,8 +492,8 @@ void launch_multiply_shader(const float* A, const float* B, float* C, size_t siz
 }
 
 void launch_scalar_multiply_shader(const float* A, float* B, float scalar, size_t size) {
-    auto lock = lock_directx_state_or_throw();
-    ensure_directx_ready_or_throw();
+    std::lock_guard<std::mutex> state_lock(g_directx_state_mutex);
+    ensure_directx_ready_or_throw(g_directx_state);
     if (!A || !B) {
         throw std::invalid_argument("launch_scalar_multiply_shader received null pointer");
     }
@@ -512,6 +507,7 @@ void launch_scalar_multiply_shader(const float* A, float* B, float scalar, size_
     try {
         // Use elementwise pipeline with op=4 for scalar multiply
         DirectXPipeline* pipeline = get_or_create_pipeline(
+            g_directx_state,
             "elementwise",
             "elementwise.cso",
             5, 1, 2
@@ -567,8 +563,8 @@ void launch_scalar_multiply_shader(const float* A, float* B, float scalar, size_
 }
 
 void launch_transpose_shader(const float* input, float* output, int rows, int cols) {
-    auto lock = lock_directx_state_or_throw();
-    ensure_directx_ready_or_throw();
+    std::lock_guard<std::mutex> state_lock(g_directx_state_mutex);
+    ensure_directx_ready_or_throw(g_directx_state);
     if (!input || !output) {
         throw std::invalid_argument("launch_transpose_shader received null pointer");
     }
@@ -579,6 +575,7 @@ void launch_transpose_shader(const float* input, float* output, int rows, int co
     try {
         // Use elementwise pipeline with op=5 for transpose
         DirectXPipeline* pipeline = get_or_create_pipeline(
+            g_directx_state,
             "elementwise",
             "elementwise.cso",
             5, 1, 2
@@ -637,8 +634,8 @@ void launch_transpose_shader(const float* input, float* output, int rows, int co
 void launch_lora_grad_A_shader(
     const float* h, const float* grad_output, float* grad_A,
     int M, int K, int N, float scaling) {
-    auto lock = lock_directx_state_or_throw();
-    ensure_directx_ready_or_throw();
+    std::lock_guard<std::mutex> state_lock(g_directx_state_mutex);
+    ensure_directx_ready_or_throw(g_directx_state);
     if (!h || !grad_output || !grad_A) {
         throw std::invalid_argument("launch_lora_grad_A_shader received null pointer");
     }
@@ -652,6 +649,7 @@ void launch_lora_grad_A_shader(
     try {
         // Get or create pipeline
         DirectXPipeline* pipeline = get_or_create_pipeline(
+            g_directx_state,
             "gradient",
             "gradient.cso",
             6,  // num_root_constants (batch_size, in_dim, rank, out_dim, scaling, compute_mode)
@@ -746,8 +744,8 @@ void launch_lora_grad_A_shader(
 void launch_lora_grad_B_shader(
     const float* input, const float* grad_h, float* grad_B,
     int M, int D, int K) {
-    auto lock = lock_directx_state_or_throw();
-    ensure_directx_ready_or_throw();
+    std::lock_guard<std::mutex> state_lock(g_directx_state_mutex);
+    ensure_directx_ready_or_throw(g_directx_state);
     if (!input || !grad_h || !grad_B) {
         throw std::invalid_argument("launch_lora_grad_B_shader received null pointer");
     }
@@ -758,6 +756,7 @@ void launch_lora_grad_B_shader(
     try {
         // Get or create pipeline
         DirectXPipeline* pipeline = get_or_create_pipeline(
+            g_directx_state,
             "gradient",
             "gradient.cso",
             6, 3, 4
@@ -855,8 +854,8 @@ void launch_embedding_lookup_shader(
     int seq_len,
     int hidden_dim,
     int vocab_size) {
-    auto lock = lock_directx_state_or_throw();
-    ensure_directx_ready_or_throw();
+    std::lock_guard<std::mutex> state_lock(g_directx_state_mutex);
+    ensure_directx_ready_or_throw(g_directx_state);
     if (!output || !token_ids || !embedding_weights) {
         throw std::invalid_argument("launch_embedding_lookup_shader received null pointer");
     }
@@ -886,6 +885,7 @@ void launch_embedding_lookup_shader(
         
         // Get or create pipeline
         DirectXPipeline* pipeline = get_or_create_pipeline(
+            g_directx_state,
             "embedding_lookup",
             "embedding_lookup.hlsl",
             4,  // 4 uint constants
@@ -943,8 +943,8 @@ void launch_sequence_mean_shader(
     int batch_size,
     int seq_len,
     int hidden_dim) {
-    auto lock = lock_directx_state_or_throw();
-    ensure_directx_ready_or_throw();
+    std::lock_guard<std::mutex> state_lock(g_directx_state_mutex);
+    ensure_directx_ready_or_throw(g_directx_state);
     if (!output || !input) {
         throw std::invalid_argument("launch_sequence_mean_shader received null pointer");
     }
@@ -973,6 +973,7 @@ void launch_sequence_mean_shader(
         
         // Get or create pipeline
         DirectXPipeline* pipeline = get_or_create_pipeline(
+            g_directx_state,
             "sequence_mean",
             "sequence_mean.hlsl",
             4,  // 4 uint constants

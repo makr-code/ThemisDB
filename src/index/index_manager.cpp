@@ -150,7 +150,10 @@ public:
         const IExpressionEvaluator* /*filter*/ = nullptr) const override {
 
         auto [status, results] = manager_->searchKnn(query_vector, k);
-        if (!status.ok) return {};
+        if (!status.ok) {
+            THEMIS_WARN("VectorIndexAdapter::search: underlying searchKnn failed: {}", status.message);
+            return {};
+        }
         std::vector<VectorSearchResult> out;
         out.reserve(results.size());
         for (const auto& r : results) {
@@ -166,7 +169,10 @@ public:
 
         auto [status, results] = manager_->searchKnnRadius(
             query_vector, max_distance, /*max_results=*/0, /*whitelist=*/nullptr);
-        if (!status.ok) return {};
+        if (!status.ok) {
+            THEMIS_WARN("VectorIndexAdapter::rangeSearch: underlying searchKnnRadius failed: {}", status.message);
+            return {};
+        }
         std::vector<VectorSearchResult> out;
         out.reserve(results.size());
         for (const auto& r : results) {
@@ -628,7 +634,9 @@ std::vector<std::string> IndexManager::listIndexes() const {
     for (const auto& [name, type] : index_types_) {
         indices.push_back(name);
     }
-    
+    if (indices.empty()) {
+        THEMIS_DEBUG("IndexManager::listIndexes: no indexes registered");
+    }
     return indices;
 }
 

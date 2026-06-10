@@ -16,8 +16,10 @@
 #include <spdlog/spdlog.h>
 
 #include <algorithm>
+#include <cctype>
 #include <exception>
 #include <future>
+#include <limits>
 #include <sstream>
 
 namespace themis::rag {
@@ -25,6 +27,24 @@ namespace themis::rag {
 using ::themis::llm::estimateTokens;
 
 namespace {
+
+constexpr std::size_t kMaxMapStepsHardLimit = 64u;
+constexpr std::size_t kMaxIterationsHardLimit = 16u;
+constexpr std::size_t kMaxRetrievalTopKHardLimit = 64u;
+constexpr std::size_t kMaxQueryChars = 32u * 1024u;
+constexpr std::size_t kMaxChunkChars = 512u * 1024u;
+constexpr std::size_t kMaxGapResponseChars = 16u * 1024u;
+constexpr std::size_t kMaxAspectChars = 512u;
+constexpr std::size_t kMaxAspectsPerIteration = 8u;
+
+std::string trimAsciiWhitespace(const std::string& input) {
+    const auto first = input.find_first_not_of(" \t\r\n");
+    if (first == std::string::npos) {
+        return {};
+    }
+    const auto last = input.find_last_not_of(" \t\r\n");
+    return input.substr(first, last - first + 1);
+}
 
 MultiStepRAGConfig sanitizeConfig(const MultiStepRAGConfig& cfg)
 {
@@ -50,6 +70,21 @@ MultiStepRAGConfig sanitizeConfig(const MultiStepRAGConfig& cfg)
 
     if (out.max_map_steps == 0u) {
         out.max_map_steps = 1u;
+    }
+    if (out.max_map_steps > kMaxMapStepsHardLimit) {
+        out.max_map_steps = kMaxMapStepsHardLimit;
+    }
+    if (out.max_iterations == 0u) {
+        out.max_iterations = 1u;
+    }
+    if (out.max_iterations > kMaxIterationsHardLimit) {
+        out.max_iterations = kMaxIterationsHardLimit;
+    }
+    if (out.retrieval_top_k == 0u) {
+        out.retrieval_top_k = 1u;
+    }
+    if (out.retrieval_top_k > kMaxRetrievalTopKHardLimit) {
+        out.retrieval_top_k = kMaxRetrievalTopKHardLimit;
     }
 
     return out;
@@ -113,12 +148,17 @@ std::vector<std::string> MultiStepRAGOrchestrator::parseOpenAspects(
     // Split on newlines; discard empty lines.
     std::istringstream ss(llm_response);
     std::string line;
+    aspects.reserve(std::min<std::size_t>(
+        kMaxAspectsPerIteration,
+        1u + std::count(llm_response.begin(), llm_response.end(), '\n')));
     while (std::getline(ss, line)) {
-        // Trim leading/trailing whitespace.
-        const auto first = line.find_first_not_of(" \t\r");
-        const auto last  = line.find_last_not_of(" \t\r");
-        if (first != std::string::npos) {
-            aspects.push_back(line.substr(first, last - first + 1));
+        const std::string trimmed = trimAsciiWhitespace(line);
+        if (trimmed.empty()) {
+            continue;
+        }
+        aspects.push_back(trimmed.substr(0, kMaxAspectChars));
+        if (aspects.size() >= kMaxAspectsPerIteration) {
+            break;
         }
     }
     return aspects;
@@ -225,6 +265,21 @@ MultiStepRAGResult MultiStepRAGOrchestrator::runMapReduce(
     const InferenceFn&                 infer) const
 {
     MultiStepRAGResult result;
+    if (query.empty() || query.size() > kMaxQueryChars) {
+        spdlog::warn("MultiStepRAG::runMapReduce rejected: invalid query size={}", query.size());
+        return result;
+    }
+    if (documents.size() > std::numeric_limits<int>::max()) {
+        spdlog::warn("MultiStepRAG::runMapReduce rejected: too many documents={}", documents.size());
+        return result;
+    }
+    for (const auto& doc : documents) {
+        if (doc.content.size() > kMaxChunkChars) {
+            spdlog::warn("MultiStepRAG::runMapReduce rejected: oversize chunk");
+            return result;
+        }
+    }
+
     const auto budget = ::themis::llm::ContextWindowBudget::compute(
         config_.assembler.model_context_tokens,
         config_.system_prompt,
@@ -307,6 +362,8 @@ MultiStepRAGResult MultiStepRAGOrchestrator::runMapReduce(
             try {
                 result.steps.push_back(f.get());
                 ++result.steps_executed;
+            } catch (const std::exception&) {
+                if (!first_exc) first_exc = std::current_exception();
             } catch (...) {
                 if (!first_exc) first_exc = std::current_exception();
             }
@@ -362,6 +419,17 @@ MultiStepRAGResult MultiStepRAGOrchestrator::runIterative(
     const RetrievalFn&                 retrieve) const
 {
     MultiStepRAGResult result;
+    if (query.empty() || query.size() > kMaxQueryChars) {
+        spdlog::warn("MultiStepRAG::runIterative rejected: invalid query size={}", query.size());
+        return result;
+    }
+    for (const auto& doc : documents) {
+        if (doc.content.size() > kMaxChunkChars) {
+            spdlog::warn("MultiStepRAG::runIterative rejected: oversize chunk");
+            return result;
+        }
+    }
+
     const auto budget = ::themis::llm::ContextWindowBudget::compute(
         config_.assembler.model_context_tokens,
         config_.system_prompt,
@@ -414,6 +482,11 @@ MultiStepRAGResult MultiStepRAGOrchestrator::runIterative(
         const std::string gap_response = infer(gap_prompt, gap_max_tokens);
         ++result.steps_executed;
 
+        if (gap_response.size() > kMaxGapResponseChars) {
+            spdlog::warn("MultiStepRAG::runIterative gap-response too large; stopping refinement");
+            break;
+        }
+
         const auto aspects = parseOpenAspects(gap_response);
         if (aspects.empty()) {
             spdlog::info(
@@ -424,6 +497,10 @@ MultiStepRAGResult MultiStepRAGOrchestrator::runIterative(
 
         // Retrieve additional documents for the first uncovered aspect.
         const std::string refined_query = aspects.front();
+        if (refined_query.empty()) {
+            spdlog::warn("MultiStepRAG::runIterative produced empty refined query; stopping");
+            break;
+        }
         const auto new_docs = retrieve(refined_query, config_.retrieval_top_k);
 
         if (new_docs.empty()) {
@@ -501,4 +578,3 @@ MultiStepRAGFactory::create(const MultiStepRAGConfig& cfg)
 }
 
 } // namespace themis::rag
-
