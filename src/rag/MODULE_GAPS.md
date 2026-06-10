@@ -1974,7 +1974,7 @@ Total findings: 14
 
     metrics.push_back(faithfulness);
 
-    
+
 
     // Relevance metric
 - Line 412: severity=HIGH; category=pointer_arithmetic_unbounded
@@ -2006,7 +2006,7 @@ Total findings: 14
 
     metrics.push_back(overall);
 
-    
+
 
     // Latency metric
 - Line 421: severity=HIGH; category=pointer_arithmetic_unbounded
@@ -2023,7 +2023,7 @@ Total findings: 14
 
     metrics.push_back(latency);
 
-    
+
 
     return metrics;
 - Line 47: severity=MEDIUM; category=missing_move_constructor_defaulted
@@ -2583,7 +2583,7 @@ Total findings: 10
   Scanner: Uniform::phase1_error_handling
   Context: }
 
-            
+
 
             return score;
 

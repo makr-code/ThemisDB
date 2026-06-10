@@ -41,7 +41,7 @@ KnowledgeGapDetector::KnowledgeGapDetector()
 KnowledgeGapDetector::KnowledgeGapDetector(const KnowledgeGapConfig& config)
     : impl_(std::make_unique<Impl>()) {
     impl_->config = config;
-    THEMIS_INFO("Knowledge Gap Detector initialized with mode: {}", 
+    THEMIS_INFO("Knowledge Gap Detector initialized with mode: {}",
                 static_cast<int>(config.mode));
 }
 
@@ -56,19 +56,19 @@ DetectionResult KnowledgeGapDetector::detectPreGeneration(
     const auto config = impl_->snapshotConfig();
     DetectionResult result;
     result.num_retrieved_docs = documents.size();
-    
+
     // Check document count threshold
     if (documents.size() < config.min_documents) {
         result.gap_detected = true;
         result.gap_type = GapType::INSUFFICIENT_DOCS;
         result.confidence_score = 0.9;
         result.recommendation = FallbackStrategy::EXPAND_SEARCH;
-        result.explanation = "Insufficient number of documents retrieved (found " + 
-                            std::to_string(documents.size()) + ", need " + 
+        result.explanation = "Insufficient number of documents retrieved (found " +
+                            std::to_string(documents.size()) + ", need " +
                             std::to_string(config.min_documents) + ")";
         return result;
     }
-    
+
     // Check for outdated information in metadata
     size_t outdated_count = 0;
     for (const auto& doc : documents) {
@@ -82,7 +82,7 @@ DetectionResult KnowledgeGapDetector::detectPreGeneration(
                     int year = std::stoi(ts.substr(0, 4));
                     auto now = std::chrono::system_clock::now();
                     auto now_time = std::chrono::system_clock::to_time_t(now);
-                    
+
                     // Thread-safe time conversion
                     #if defined(_WIN32) || defined(_WIN64)
                         std::tm now_tm_storage;
@@ -95,9 +95,9 @@ DetectionResult KnowledgeGapDetector::detectPreGeneration(
                             continue; // Skip on error
                         }
                     #endif
-                    
+
                     int current_year = now_tm->tm_year + 1900;
-                    
+
                     if (year < current_year - 2) {
                         outdated_count++;
                     }
@@ -107,9 +107,9 @@ DetectionResult KnowledgeGapDetector::detectPreGeneration(
             }
         }
     }
-    
+
     // If most documents are outdated, flag it
-    if (documents.size() > 0 && 
+    if (documents.size() > 0 &&
         static_cast<double>(outdated_count) / documents.size() > 0.5) {
         result.gap_detected = true;
         result.gap_type = GapType::OUTDATED_INFO;
@@ -118,10 +118,10 @@ DetectionResult KnowledgeGapDetector::detectPreGeneration(
         result.explanation = "Most retrieved documents contain outdated information (>2 years old)";
         return result;
     }
-    
+
     // Calculate average similarity
     result.avg_similarity_score = calculateAverageSimilarity(documents);
-    
+
     if (result.avg_similarity_score < config.similarity_threshold) {
         result.gap_detected = true;
         result.gap_type = GapType::LOW_SIMILARITY;
@@ -132,11 +132,11 @@ DetectionResult KnowledgeGapDetector::detectPreGeneration(
                             std::to_string(config.similarity_threshold) + ")";
         return result;
     }
-    
+
     // Calculate query coverage
     if (config.enable_query_aspect_analysis) {
         result.coverage_score = calculateQueryCoverage(query, documents);
-        
+
         if (result.coverage_score < config.coverage_threshold) {
             result.gap_detected = true;
             result.gap_type = GapType::MISSING_ASPECTS;
@@ -149,13 +149,13 @@ DetectionResult KnowledgeGapDetector::detectPreGeneration(
             return result;
         }
     }
-    
+
     // No gap detected in pre-generation phase
     result.gap_detected = false;
     result.gap_type = GapType::NONE;
     result.confidence_score = 0.8;
     result.recommendation = FallbackStrategy::NONE;
-    
+
     return result;
 }
 
@@ -170,12 +170,12 @@ DetectionResult KnowledgeGapDetector::detectDuringGeneration(
     DetectionResult result;
     result.num_retrieved_docs = documents.size();
     result.avg_similarity_score = calculateAverageSimilarity(documents);
-    
+
     // Phase 2: Enhanced token probability tracking
     if (config.enable_token_probability && !context.token_probs.empty()) {
         // Calculate confidence score with outlier removal
         double confidence = calculateConfidenceScore(context.token_probs);
-        
+
         if (confidence < config.confidence_threshold) {
             result.gap_detected = true;
             result.gap_type = GapType::UNCERTAIN_GENERATION;
@@ -185,13 +185,13 @@ DetectionResult KnowledgeGapDetector::detectDuringGeneration(
                                std::to_string(confidence) + ")";
             return result;
         }
-        
+
         // Phase 2: Sliding window perplexity analysis
         double sliding_perplexity = calculateSlidingWindowPerplexity(
             context.token_probs,
             config.perplexity_window_size
         );
-        
+
         if (detectPerplexityAnomaly(sliding_perplexity, config.perplexity_threshold)) {
             result.gap_detected = true;
             result.gap_type = GapType::UNCERTAIN_GENERATION;
@@ -203,7 +203,7 @@ DetectionResult KnowledgeGapDetector::detectDuringGeneration(
             return result;
         }
     }
-    
+
     // Fallback to legacy checks if token_probs not available
     if (context.token_probability_avg < config.confidence_threshold) {
         result.gap_detected = true;
@@ -213,7 +213,7 @@ DetectionResult KnowledgeGapDetector::detectDuringGeneration(
         result.explanation = "Low confidence in generation based on token probabilities";
         return result;
     }
-    
+
     // Check perplexity (legacy)
     if (context.perplexity > config.perplexity_threshold) {
         result.gap_detected = true;
@@ -223,12 +223,12 @@ DetectionResult KnowledgeGapDetector::detectDuringGeneration(
         result.explanation = "High perplexity indicates uncertain generation";
         return result;
     }
-    
+
     result.gap_detected = false;
     result.gap_type = GapType::NONE;
     result.confidence_score = 0.75;
     result.recommendation = FallbackStrategy::NONE;
-    
+
     return result;
 }
 
@@ -243,7 +243,7 @@ DetectionResult KnowledgeGapDetector::detectPostGeneration(
     DetectionResult result;
     result.num_retrieved_docs = documents.size();
     result.avg_similarity_score = calculateAverageSimilarity(documents);
-    
+
     // Claim verification: check whether significant claims in the answer
     // are supported by the retrieved documents using term-overlap heuristic.
     if (config.enable_claim_verification) {
@@ -280,12 +280,12 @@ DetectionResult KnowledgeGapDetector::detectPostGeneration(
             return result;
         }
     }
-    
+
     result.gap_detected = false;
     result.gap_type = GapType::NONE;
     result.confidence_score = 0.85;
     result.recommendation = FallbackStrategy::NONE;
-    
+
     return result;
 }
 
@@ -322,7 +322,7 @@ DetectionResult KnowledgeGapDetector::detectGap(
             // Do not return here — continue running coverage/similarity checks below.
         }
     }
-    
+
     // Comprehensive detection based on mode; merge ethical gap into final result.
     switch (config.mode) {
         case DetectionMode::FAST: {
@@ -332,13 +332,13 @@ DetectionResult KnowledgeGapDetector::detectGap(
             }
             return pre_result;
         }
-            
+
         case DetectionMode::BALANCED: {
             auto pre_result = detectPreGeneration(query, documents);
             if (pre_result.gap_detected) {
                 return pre_result;
             }
-            
+
             if (context.generation_started) {
                 auto during_result = detectDuringGeneration(query, documents, context);
                 if (during_result.gap_detected) {
@@ -351,10 +351,10 @@ DetectionResult KnowledgeGapDetector::detectGap(
             if (ethical_gap_detected) {
                 return ethical_result;
             }
-            
+
             return pre_result;
         }
-        
+
         case DetectionMode::THOROUGH: {
             auto pre_result = detectPreGeneration(query, documents);
             if (pre_result.gap_detected) {
@@ -363,7 +363,7 @@ DetectionResult KnowledgeGapDetector::detectGap(
                 }
                 return pre_result;
             }
-            
+
             if (context.generation_started) {
                 auto during_result = detectDuringGeneration(query, documents, context);
                 if (during_result.gap_detected) {
@@ -373,7 +373,7 @@ DetectionResult KnowledgeGapDetector::detectGap(
                     return during_result;
                 }
             }
-            
+
             if (!generated_answer.empty()) {
                 auto post_result = detectPostGeneration(query, documents, generated_answer);
                 if (gap_callback && post_result.gap_detected) {
@@ -386,11 +386,11 @@ DetectionResult KnowledgeGapDetector::detectGap(
             if (ethical_gap_detected) {
                 return ethical_result;
             }
-            
+
             return pre_result;
         }
     }
-    
+
     return ethical_gap_detected ? ethical_result : DetectionResult{};
 }
 
@@ -406,25 +406,25 @@ DetectionResult KnowledgeGapDetector::detectWithActiveRetrieval(
         // FLARE disabled, return regular detection
         return detectPreGeneration(query, initial_documents);
     }
-    
+
     THEMIS_DEBUG("FLARE active retrieval for query: {}", query);
-    
+
     DetectionResult result;
     result.num_retrieved_docs = initial_documents.size();
-    
+
     // Start with initial documents
     auto current_documents = initial_documents;
     size_t retrieval_round = 0;
-    
+
     // Iterative retrieval loop
     while (retrieval_round < config.max_retrieval_rounds) {
         // Check current coverage
         double coverage = calculateQueryCoverage(query, current_documents);
         double avg_similarity = calculateAverageSimilarity(current_documents);
-        
-        THEMIS_DEBUG("Round {}: coverage={}, similarity={}", 
+
+        THEMIS_DEBUG("Round {}: coverage={}, similarity={}",
                     retrieval_round, coverage, avg_similarity);
-        
+
         // If coverage is sufficient, stop
         if (coverage >= config.coverage_threshold &&
             avg_similarity >= config.similarity_threshold) {
@@ -435,30 +435,30 @@ DetectionResult KnowledgeGapDetector::detectWithActiveRetrieval(
             result.avg_similarity_score = avg_similarity;
             result.num_retrieved_docs = current_documents.size();
             result.recommendation = FallbackStrategy::NONE;
-            result.explanation = "Sufficient information after " + 
+            result.explanation = "Sufficient information after " +
                                std::to_string(retrieval_round) + " retrieval rounds";
-            
+
             // Update initial_documents with enhanced set
             initial_documents = current_documents;
             return result;
         }
-        
+
         // Find missing aspects for re-retrieval
         auto missing = findMissingAspects(query, current_documents);
-        
+
         if (missing.empty()) {
             // No specific missing aspects, but coverage still low
             break;
         }
-        
+
         // Reformulate query with missing information
         std::string reformulated = reformulateQuery(query, missing[0]);
-        
+
         THEMIS_DEBUG("Reformulated query: {}", reformulated);
-        
+
         // Retrieve additional documents for the reformulated query
         auto new_documents = performDynamicRetrieval(reformulated, tenant_id);
-        
+
         // Deduplicate and merge
         for (auto& new_doc : new_documents) {
             bool is_duplicate = false;
@@ -468,38 +468,38 @@ DetectionResult KnowledgeGapDetector::detectWithActiveRetrieval(
                     break;
                 }
             }
-            
+
             if (!is_duplicate) {
                 current_documents.push_back(new_doc);
             }
         }
-        
+
         retrieval_round++;
-        
+
         // Check if we're making progress
         if (new_documents.empty()) {
             THEMIS_DEBUG("No new documents retrieved, stopping");
             break;
         }
     }
-    
+
     // After max rounds, check if gap still exists
     double final_coverage = calculateQueryCoverage(query, current_documents);
     double final_similarity = calculateAverageSimilarity(current_documents);
-    
+
     result.coverage_score = final_coverage;
     result.avg_similarity_score = final_similarity;
     result.num_retrieved_docs = current_documents.size();
-    
+
     if (final_coverage < config.coverage_threshold) {
         result.gap_detected = true;
         result.gap_type = GapType::MISSING_ASPECTS;
         result.confidence_score = 0.7;
         result.recommendation = FallbackStrategy::INSUFFICIENT_DATA_RESPONSE;
         result.missing_aspects = findMissingAspects(query, current_documents);
-        result.explanation = "Insufficient coverage after " + 
-                           std::to_string(retrieval_round) + 
-                           " retrieval rounds (coverage: " + 
+        result.explanation = "Insufficient coverage after " +
+                           std::to_string(retrieval_round) +
+                           " retrieval rounds (coverage: " +
                            std::to_string(final_coverage) + ")";
     } else if (final_similarity < config.similarity_threshold) {
         result.gap_detected = true;
@@ -515,10 +515,10 @@ DetectionResult KnowledgeGapDetector::detectWithActiveRetrieval(
         result.recommendation = FallbackStrategy::NONE;
         result.explanation = "Acceptable information after active retrieval";
     }
-    
+
     // Update initial_documents with enhanced set
     initial_documents = current_documents;
-    
+
     return result;
 }
 
@@ -556,14 +556,14 @@ double KnowledgeGapDetector::calculateAverageSimilarity(
     if (docs.empty()) {
         return 0.0;
     }
-    
+
     double sum = std::accumulate(docs.begin(), docs.end(), 0.0,
         [](double acc, const RetrievedDocument& doc) {
             return acc + doc.similarity_score;
         });
-    
+
     double avg = sum / docs.size();
-    
+
     // Ensure normalized to 0.0-1.0 range
     // Note: Similarity scores should already be normalized when creating RetrievedDocument
     // This clamp is a safety measure for edge cases
@@ -578,17 +578,17 @@ double KnowledgeGapDetector::calculateQueryCoverage(
     // 1. Average similarity score
     // 2. Document count factor
     // 3. Content diversity
-    
+
     if (docs.empty()) {
         return 0.0;
     }
-    
+
     double avg_similarity = calculateAverageSimilarity(docs);
-    
+
     // Document count factor: more documents generally means better coverage
     // Asymptotic to 1.0, reaches 0.8 at 5 docs, 0.9 at 10 docs
     double doc_factor = 1.0 - std::exp(-0.3 * docs.size());
-    
+
     // Content diversity: check if documents have varied content
     // Simple heuristic: check length variance
     double diversity_score = 1.0;
@@ -598,19 +598,19 @@ double KnowledgeGapDetector::calculateQueryCoverage(
             avg_length += doc.content.length();
         }
         avg_length /= docs.size();
-        
+
         double variance = 0.0;
         for (const auto& doc : docs) {
             double diff = doc.content.length() - avg_length;
             variance += diff * diff;
         }
         variance /= docs.size();
-        
+
         // Normalize diversity: higher variance = more diverse
         // Cap at reasonable levels
         diversity_score = std::min(1.0, 0.7 + variance / (avg_length * avg_length) * 0.3);
     }
-    
+
     // Combine factors with weights
     return avg_similarity * 0.6 + doc_factor * 0.3 + diversity_score * 0.1;
 }
@@ -620,17 +620,17 @@ std::vector<std::string> KnowledgeGapDetector::extractQueryAspects(
 ) {
     // Basic query aspect extraction using simple heuristics
     // In a full implementation, this would use NLP/NER
-    
+
     std::vector<std::string> aspects;
-    
+
     if (query.empty()) {
         return aspects;
     }
-    
+
     // Split by common delimiters and extract key phrases
     std::string current_aspect;
     bool in_word = false;
-    
+
     for (char c : query) {
         if (std::isalnum(c) || c == '_' || c == '-') {
             current_aspect += c;
@@ -644,21 +644,21 @@ std::vector<std::string> KnowledgeGapDetector::extractQueryAspects(
             in_word = false;
         }
     }
-    
+
     // Add last aspect if any
     if (!current_aspect.empty() && current_aspect.length() > 2) {
         aspects.push_back(current_aspect);
     }
-    
+
     // Remove duplicates
     std::sort(aspects.begin(), aspects.end());
     aspects.erase(std::unique(aspects.begin(), aspects.end()), aspects.end());
-    
+
     // If no aspects found, use whole query
     if (aspects.empty()) {
         aspects.push_back(query);
     }
-    
+
     return aspects;
 }
 
@@ -668,38 +668,38 @@ std::vector<std::string> KnowledgeGapDetector::findMissingAspects(
 ) {
     // Basic missing aspect detection
     // Checks which query aspects are not well-covered by documents
-    
+
     std::vector<std::string> missing;
     auto query_aspects = extractQueryAspects(query);
-    
+
     if (docs.empty()) {
         return query_aspects; // All aspects are missing
     }
-    
+
     // Concatenate all document content for searching
     std::string all_content;
     for (const auto& doc : docs) {
         all_content += doc.content + " ";
     }
-    
+
     // Convert to lowercase for case-insensitive matching
-    std::transform(all_content.begin(), all_content.end(), 
-                   all_content.begin(), 
+    std::transform(all_content.begin(), all_content.end(),
+                   all_content.begin(),
                    [](unsigned char c){ return std::tolower(c); });
-    
+
     // Check each aspect
     for (const auto& aspect : query_aspects) {
         std::string aspect_lower = aspect;
         std::transform(aspect_lower.begin(), aspect_lower.end(),
-                      aspect_lower.begin(), 
+                      aspect_lower.begin(),
                       [](unsigned char c){ return std::tolower(c); });
-        
+
         // If aspect not found in any document, mark as missing
         if (all_content.find(aspect_lower) == std::string::npos) {
             missing.push_back(aspect);
         }
     }
-    
+
     return missing;
 }
 
@@ -715,23 +715,23 @@ bool KnowledgeGapDetector::checkSelfConsistency(
         // Return true to indicate consistency by default, allowing generation to proceed.
         return true;
     }
-    
+
     // Generate multiple samples with different seeds/temperatures
     auto samples = generateMultipleSamples(
         query,
         docs,
         config.self_consistency_samples
     );
-    
+
     if (samples.size() < 2) {
         return true; // Not enough samples to check consistency
     }
-    
+
     // Calculate consistency score
     double consistency_score = calculateConsistencyScore(samples);
-    
+
     THEMIS_DEBUG("Self-consistency score: {}", consistency_score);
-    
+
     // Check for contradictions
     for (size_t i = 0; i < samples.size(); ++i) {
         for (size_t j = i + 1; j < samples.size(); ++j) {
@@ -741,7 +741,7 @@ bool KnowledgeGapDetector::checkSelfConsistency(
             }
         }
     }
-    
+
     // Check if consistency meets threshold
     return consistency_score >= config.consistency_threshold;
 }
@@ -751,19 +751,19 @@ std::vector<std::string> KnowledgeGapDetector::extractClaims(
 ) {
     // Basic claim extraction by splitting on sentence boundaries
     // In a full implementation, this would use NLP for proper claim extraction
-    
+
     std::vector<std::string> claims;
-    
+
     if (answer.empty()) {
         return claims;
     }
-    
+
     std::string current_claim;
-    
+
     for (size_t i = 0; i < answer.length(); ++i) {
         char c = answer[i];
         current_claim += c;
-        
+
         // Check for sentence endings
         if (c == '.' || c == '!' || c == '?') {
             // Look ahead to avoid abbreviations (e.g., "Dr.")
@@ -771,7 +771,7 @@ std::vector<std::string> KnowledgeGapDetector::extractClaims(
                 // Trim whitespace
                 size_t start = current_claim.find_first_not_of(" \t\n\r");
                 size_t end = current_claim.find_last_not_of(" \t\n\r");
-                
+
                 if (start != std::string::npos && end != std::string::npos) {
                     std::string claim = current_claim.substr(start, end - start + 1);
                     if (claim.length() > 10) { // Only meaningful claims
@@ -782,7 +782,7 @@ std::vector<std::string> KnowledgeGapDetector::extractClaims(
             }
         }
     }
-    
+
     // Add last claim if any
     if (!current_claim.empty()) {
         size_t start = current_claim.find_first_not_of(" \t\n\r");
@@ -794,7 +794,7 @@ std::vector<std::string> KnowledgeGapDetector::extractClaims(
             }
         }
     }
-    
+
     return claims;
 }
 
@@ -815,15 +815,15 @@ bool KnowledgeGapDetector::verifyClaim(
 
     // Basic claim verification using substring matching
     // In a full implementation, this would use semantic similarity
-    
+
     if (claim.empty() || docs.empty()) {
         return false;
     }
-    
+
     // Extract key terms from claim (simple word extraction)
     std::vector<std::string> claim_terms;
     std::string current_term;
-    
+
     for (char c : claim) {
         if (std::isalnum(static_cast<unsigned char>(c)) || c == '_') {
             current_term += static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
@@ -834,11 +834,11 @@ bool KnowledgeGapDetector::verifyClaim(
             current_term.clear();
         }
     }
-    
+
     if (!current_term.empty() && current_term.length() > 3) {
         claim_terms.push_back(current_term);
     }
-    
+
     if (claim_terms.empty()) {
         // F5-3 fix: fail-closed — empty term list (stop-word-only or very short claim)
         // cannot be verified against documents. Returning true here would pass any
@@ -847,16 +847,16 @@ bool KnowledgeGapDetector::verifyClaim(
                      "claim '{}' cannot be verified; treating as unverified.", claim);
         return false;
     }
-    
+
     // Check how many terms are found in documents
     size_t terms_found = 0;
-    
+
     for (const auto& doc : docs) {
         std::string content_lower = doc.content;
         std::transform(content_lower.begin(), content_lower.end(),
-                      content_lower.begin(), 
+                      content_lower.begin(),
                       [](unsigned char c){ return std::tolower(c); });
-        
+
         for (const auto& term : claim_terms) {
             if (content_lower.find(term) != std::string::npos) {
                 terms_found++;
@@ -864,7 +864,7 @@ bool KnowledgeGapDetector::verifyClaim(
             }
         }
     }
-    
+
     // Verify if at least 60% of claim terms are found
     double verification_ratio = static_cast<double>(terms_found) / claim_terms.size();
     return verification_ratio >= 0.6;
@@ -880,26 +880,26 @@ double KnowledgeGapDetector::calculatePerplexity(
     if (token_probs.empty()) {
         return 0.0;
     }
-    
+
     // Perplexity = exp(-1/N * sum(log(p_i)))
     // where p_i is the probability of token i
     double log_sum = 0.0;
     size_t valid_tokens = 0;
-    
+
     for (double prob : token_probs) {
         if (prob > 0.0 && prob <= 1.0) {
             log_sum += std::log(prob);
             valid_tokens++;
         }
     }
-    
+
     if (valid_tokens == 0) {
         return 0.0;
     }
-    
+
     double avg_log_prob = log_sum / valid_tokens;
     double perplexity = std::exp(-avg_log_prob);
-    
+
     return perplexity;
 }
 
@@ -910,25 +910,25 @@ double KnowledgeGapDetector::calculateSlidingWindowPerplexity(
     if (token_probs.empty() || window_size == 0) {
         return 0.0;
     }
-    
+
     // Calculate perplexity for sliding windows and return max
     double max_perplexity = 0.0;
-    
+
     for (size_t i = 0; i + window_size <= token_probs.size(); ++i) {
         std::vector<double> window(
             token_probs.begin() + i,
             token_probs.begin() + i + window_size
         );
-        
+
         double window_perplexity = calculatePerplexity(window);
         max_perplexity = std::max(max_perplexity, window_perplexity);
     }
-    
+
     // If sequence shorter than window, use full sequence
     if (token_probs.size() < window_size) {
         max_perplexity = calculatePerplexity(token_probs);
     }
-    
+
     return max_perplexity;
 }
 
@@ -952,11 +952,11 @@ double KnowledgeGapDetector::calculateConfidenceScore(
         token_probs,
         config.outlier_zscore_threshold
     );
-    
+
     if (cleaned_probs.empty()) {
         return 0.0;
     }
-    
+
     // Calculate weighted average (geometric mean for probabilities)
     double log_sum = 0.0;
     for (double prob : cleaned_probs) {
@@ -964,7 +964,7 @@ double KnowledgeGapDetector::calculateConfidenceScore(
             log_sum += std::log(prob);
         }
     }
-    
+
     double confidence = std::exp(log_sum / cleaned_probs.size());
     return std::clamp(confidence, 0.0, 1.0);
 }
@@ -976,10 +976,10 @@ std::vector<double> KnowledgeGapDetector::removeOutlierTokens(
     if (token_probs.size() < 3) {
         return token_probs; // Need at least 3 points for meaningful outlier detection
     }
-    
+
     // Calculate mean and std dev
     double mean = std::accumulate(token_probs.begin(), token_probs.end(), 0.0) / token_probs.size();
-    
+
     double variance = 0.0;
     for (double prob : token_probs) {
         double diff = prob - mean;
@@ -987,11 +987,11 @@ std::vector<double> KnowledgeGapDetector::removeOutlierTokens(
     }
     variance /= token_probs.size();
     double std_dev = std::sqrt(variance);
-    
+
     if (std_dev < 1e-10) {
         return token_probs; // No variation
     }
-    
+
     // Filter outliers
     std::vector<double> filtered;
     for (double prob : token_probs) {
@@ -1000,12 +1000,12 @@ std::vector<double> KnowledgeGapDetector::removeOutlierTokens(
             filtered.push_back(prob);
         }
     }
-    
+
     // If we filtered too many, return original
     if (filtered.size() < token_probs.size() * 0.5) {
         return token_probs;
     }
-    
+
     return filtered;
 }
 
@@ -1016,10 +1016,10 @@ double KnowledgeGapDetector::calculateMovingAverage(
     if (values.empty() || window_size == 0) {
         return 0.0;
     }
-    
+
     // Calculate moving average for smoothing
     std::vector<double> averages;
-    
+
     for (size_t i = 0; i + window_size <= values.size(); ++i) {
         double sum = 0.0;
         for (size_t j = 0; j < window_size; ++j) {
@@ -1027,12 +1027,12 @@ double KnowledgeGapDetector::calculateMovingAverage(
         }
         averages.push_back(sum / window_size);
     }
-    
+
     if (averages.empty()) {
         // Sequence shorter than window, return overall average
         return std::accumulate(values.begin(), values.end(), 0.0) / values.size();
     }
-    
+
     // Return average of moving averages
     return std::accumulate(averages.begin(), averages.end(), 0.0) / averages.size();
 }
@@ -1147,11 +1147,11 @@ double KnowledgeGapDetector::calculateSemanticSimilarity(
 ) {
     // Basic semantic similarity using Jaccard similarity on word sets
     // In a full implementation, this would use embeddings (SBERT)
-    
+
     if (text1.empty() || text2.empty()) {
         return 0.0;
     }
-    
+
     // Extract word sets
     auto extractWords = [](const std::string& text) {
         std::unordered_set<std::string> words;
@@ -1171,14 +1171,14 @@ double KnowledgeGapDetector::calculateSemanticSimilarity(
         }
         return words;
     };
-    
+
     auto words1 = extractWords(text1);
     auto words2 = extractWords(text2);
-    
+
     if (words1.empty() || words2.empty()) {
         return 0.0;
     }
-    
+
     // Calculate Jaccard similarity: |intersection| / |union|
     size_t intersection = 0;
     for (const auto& word : words1) {
@@ -1186,7 +1186,7 @@ double KnowledgeGapDetector::calculateSemanticSimilarity(
             intersection++;
         }
     }
-    
+
     size_t union_size = words1.size() + words2.size() - intersection;
     return static_cast<double>(intersection) / union_size;
 }
@@ -1197,18 +1197,18 @@ double KnowledgeGapDetector::calculateConsistencyScore(
     if (samples.size() < 2) {
         return 1.0; // Single sample is trivially consistent
     }
-    
+
     // Calculate pairwise similarities and average
     double total_similarity = 0.0;
     size_t comparisons = 0;
-    
+
     for (size_t i = 0; i < samples.size(); ++i) {
         for (size_t j = i + 1; j < samples.size(); ++j) {
             total_similarity += calculateSemanticSimilarity(samples[i], samples[j]);
             comparisons++;
         }
     }
-    
+
     return comparisons > 0 ? total_similarity / comparisons : 0.0;
 }
 
@@ -1218,27 +1218,27 @@ bool KnowledgeGapDetector::detectContradiction(
 ) {
     // Basic contradiction detection using negation words
     // In a full implementation, this would use NLI model
-    
+
     std::vector<std::string> negation_words = {
         "not", "no", "never", "neither", "nor", "cannot", "can't",
         "isn't", "aren't", "wasn't", "weren't", "won't", "wouldn't",
         "don't", "doesn't", "didn't", "hasn't", "haven't", "hadn't"
     };
-    
+
     // Simple heuristic: if texts share keywords but one has negations
     double similarity = calculateSemanticSimilarity(text1, text2);
-    
+
     if (similarity < 0.3) {
         return false; // Texts too different to contradict
     }
-    
+
     // Check for negation patterns
     auto hasNegation = [&negation_words](const std::string& text) {
         std::string lower_text = text;
         std::transform(lower_text.begin(), lower_text.end(),
                       lower_text.begin(),
                       [](unsigned char c){ return std::tolower(c); });
-        
+
         for (const auto& neg : negation_words) {
             if (lower_text.find(neg) != std::string::npos) {
                 return true;
@@ -1246,10 +1246,10 @@ bool KnowledgeGapDetector::detectContradiction(
         }
         return false;
     };
-    
+
     bool text1_has_neg = hasNegation(text1);
     bool text2_has_neg = hasNegation(text2);
-    
+
     // Contradiction if similar but one has negation and other doesn't
     return similarity > 0.5 && (text1_has_neg != text2_has_neg);
 }
@@ -1262,17 +1262,17 @@ std::vector<std::string> KnowledgeGapDetector::splitIntoSentences(
     const std::string& text
 ) {
     std::vector<std::string> sentences;
-    
+
     if (text.empty()) {
         return sentences;
     }
-    
+
     std::string current_sentence;
-    
+
     for (size_t i = 0; i < text.length(); ++i) {
         char c = text[i];
         current_sentence += c;
-        
+
         // Check for sentence endings
         if (c == '.' || c == '!' || c == '?') {
             // Look ahead to avoid abbreviations
@@ -1287,7 +1287,7 @@ std::vector<std::string> KnowledgeGapDetector::splitIntoSentences(
             }
         }
     }
-    
+
     // Add last sentence if any
     if (!current_sentence.empty()) {
         size_t start = current_sentence.find_first_not_of(" \t\n\r");
@@ -1295,7 +1295,7 @@ std::vector<std::string> KnowledgeGapDetector::splitIntoSentences(
             sentences.push_back(current_sentence.substr(start));
         }
     }
-    
+
     return sentences;
 }
 
@@ -1307,11 +1307,11 @@ double KnowledgeGapDetector::monitorSentenceConfidence(
     if (sentence.empty() || docs.empty()) {
         return 0.0;
     }
-    
+
     // Extract key terms from sentence
     std::vector<std::string> sentence_terms;
     std::string current_term;
-    
+
     for (char c : sentence) {
         if (std::isalnum(static_cast<unsigned char>(c))) {
             current_term += static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
@@ -1322,15 +1322,15 @@ double KnowledgeGapDetector::monitorSentenceConfidence(
             current_term.clear();
         }
     }
-    
+
     if (!current_term.empty() && current_term.length() > 3) {
         sentence_terms.push_back(current_term);
     }
-    
+
     if (sentence_terms.empty()) {
         return 0.5; // Neutral confidence for sentences without key terms
     }
-    
+
     // Calculate how many terms are found in documents
     size_t terms_found = 0;
     for (const auto& doc : docs) {
@@ -1338,7 +1338,7 @@ double KnowledgeGapDetector::monitorSentenceConfidence(
         std::transform(content_lower.begin(), content_lower.end(),
                       content_lower.begin(),
                       [](unsigned char c){ return std::tolower(c); });
-        
+
         for (const auto& term : sentence_terms) {
             if (content_lower.find(term) != std::string::npos) {
                 terms_found++;
@@ -1346,7 +1346,7 @@ double KnowledgeGapDetector::monitorSentenceConfidence(
             }
         }
     }
-    
+
     // Confidence based on term coverage
     double confidence = static_cast<double>(terms_found) / sentence_terms.size();
     return std::clamp(confidence, 0.0, 1.0);
@@ -1358,11 +1358,11 @@ std::string KnowledgeGapDetector::reformulateQuery(
 ) {
     // Simple query reformulation by appending missing information
     // In a full implementation, this would use LLM for natural reformulation
-    
+
     if (missing_info.empty()) {
         return original_query;
     }
-    
+
     return original_query + " " + missing_info;
 }
 
@@ -1411,7 +1411,7 @@ DetectionResult KnowledgeGapDetector::detectEthicalPerspectiveGap(
     DetectionResult result;
     result.num_retrieved_docs = documents.size();
     result.avg_similarity_score = calculateAverageSimilarity(documents);
-    
+
     // Check if query has ethical context
     if (!isEthicalQuery(query)) {
         // Not an ethical query, no gap
@@ -1421,49 +1421,49 @@ DetectionResult KnowledgeGapDetector::detectEthicalPerspectiveGap(
         result.recommendation = FallbackStrategy::NONE;
         return result;
     }
-    
+
     THEMIS_DEBUG("Ethical context detected in query");
-    
+
     // Count ethical perspectives in documents
     int perspectives_found = countEthicalPerspectives(documents);
-    
+
     // Calculate perspective diversity
     double diversity = calculatePerspectiveDiversity(documents);
-    
+
     // Check if we have minimum required perspectives
     if (perspectives_found < static_cast<int>(config.min_ethical_perspectives) ||
         diversity < config.ethical_diversity_threshold) {
-        
+
         result.gap_detected = true;
         result.gap_type = GapType::ETHICAL_PERSPECTIVE_GAP;
         result.confidence_score = 0.85;
         result.recommendation = FallbackStrategy::EXPAND_SEARCH;
         result.coverage_score = diversity;
-        
+
         std::ostringstream explanation;
         explanation << "Ethical context detected in query, but insufficient "
-                   << "perspective diversity in documents. Found " 
+                   << "perspective diversity in documents. Found "
                    << perspectives_found << " perspectives (minimum: "
                    << config.min_ethical_perspectives << "), "
                    << "diversity score: " << diversity;
         result.explanation = explanation.str();
-        
+
         result.missing_aspects.push_back("Diverse moral philosophical perspectives");
         result.missing_aspects.push_back("Multiple ethical frameworks representation");
-        
+
         THEMIS_INFO("Ethical perspective gap detected: {} perspectives, diversity={}",
                    perspectives_found, diversity);
-        
+
         return result;
     }
-    
+
     // Sufficient ethical perspectives found
     result.gap_detected = false;
     result.gap_type = GapType::NONE;
     result.confidence_score = 0.8;
     result.recommendation = FallbackStrategy::NONE;
     result.coverage_score = diversity;
-    
+
     return result;
 }
 
@@ -1477,18 +1477,18 @@ bool KnowledgeGapDetector::isEthicalQuery(const std::string& query) {
         "fair", "unfair", "virtue", "duty", "obligation",
         "value", "principle", "conscience", "responsibility"
     };
-    
+
     std::string lower_query = query;
-    std::transform(lower_query.begin(), lower_query.end(), 
+    std::transform(lower_query.begin(), lower_query.end(),
                   lower_query.begin(), ::tolower);
-    
+
     int keyword_count = 0;
     for (const auto& keyword : ethical_keywords) {
         if (lower_query.find(keyword) != std::string::npos) {
             keyword_count++;
         }
     }
-    
+
     // Query is ethical if it contains N+ ethical keywords (configurable)
     return keyword_count >= config.ethical_keyword_threshold;
 }
@@ -1506,14 +1506,14 @@ int KnowledgeGapDetector::countEthicalPerspectives(
         "religious", "divine", "faith",
         "cultural", "relativism"
     };
-    
+
     std::unordered_set<std::string> found_frameworks;
-    
+
     for (const auto& doc : docs) {
         std::string lower_content = doc.content;
         std::transform(lower_content.begin(), lower_content.end(),
                       lower_content.begin(), ::tolower);
-        
+
         for (const auto& framework : frameworks) {
             if (lower_content.find(framework) != std::string::npos) {
                 // Group similar frameworks
@@ -1545,7 +1545,7 @@ int KnowledgeGapDetector::countEthicalPerspectives(
             }
         }
     }
-    
+
     return static_cast<int>(found_frameworks.size());
 }
 
@@ -1555,14 +1555,14 @@ double KnowledgeGapDetector::calculatePerspectiveDiversity(
     if (docs.empty()) {
         return 0.0;
     }
-    
+
     // Count perspectives
     int perspectives = countEthicalPerspectives(docs);
-    
+
     // Calculate diversity score based on number of perspectives
     // and their distribution across documents
     double base_score = std::min(1.0, perspectives / 3.0);
-    
+
     // Bonus if perspectives are well-distributed across documents
     // (not all in one document)
     int docs_with_perspectives = 0;
@@ -1570,7 +1570,7 @@ double KnowledgeGapDetector::calculatePerspectiveDiversity(
         std::string lower_content = doc.content;
         std::transform(lower_content.begin(), lower_content.end(),
                       lower_content.begin(), ::tolower);
-        
+
         if (lower_content.find("ethic") != std::string::npos ||
             lower_content.find("moral") != std::string::npos ||
             lower_content.find("right") != std::string::npos ||
@@ -1578,10 +1578,10 @@ double KnowledgeGapDetector::calculatePerspectiveDiversity(
             docs_with_perspectives++;
         }
     }
-    
-    double distribution_bonus = 
+
+    double distribution_bonus =
         std::min(0.2, docs_with_perspectives / static_cast<double>(docs.size()) * 0.2);
-    
+
     return std::min(1.0, base_score + distribution_bonus);
 }
 

@@ -350,29 +350,29 @@ RerankResult CrossEncoderReranker::rerank(
             std::chrono::steady_clock::now() - t0);
         return result;
     }
-    
+
     // Validate query size
     if (query.size() > kMaxQueryChars) {
-        THEMIS_WARN("CrossEncoderReranker::rerank: query exceeds maximum size ({})", 
+        THEMIS_WARN("CrossEncoderReranker::rerank: query exceeds maximum size ({})",
                    query.size());
         result.rerank_time = std::chrono::duration_cast<std::chrono::milliseconds>(
             std::chrono::steady_clock::now() - t0);
         return result;
     }
-    
+
     // Validate candidate count
     if (candidates.size() > kMaxCandidates) {
-        THEMIS_WARN("CrossEncoderReranker::rerank: candidates count exceeds maximum ({})", 
+        THEMIS_WARN("CrossEncoderReranker::rerank: candidates count exceeds maximum ({})",
                    candidates.size());
         result.rerank_time = std::chrono::duration_cast<std::chrono::milliseconds>(
             std::chrono::steady_clock::now() - t0);
         return result;
     }
-    
+
     // Validate individual document sizes
     for (size_t i = 0; i < candidates.size(); ++i) {
         if (candidates[i].content.size() > kMaxDocumentChars) {
-            THEMIS_WARN("CrossEncoderReranker::rerank: document[{}] exceeds size limit ({})", 
+            THEMIS_WARN("CrossEncoderReranker::rerank: document[{}] exceeds size limit ({})",
                        i, candidates[i].content.size());
             result.rerank_time = std::chrono::duration_cast<std::chrono::milliseconds>(
                 std::chrono::steady_clock::now() - t0);
