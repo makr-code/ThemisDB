@@ -53,6 +53,44 @@ namespace themisdb {
 namespace replication {
 
 // ============================================================================
+// Distributed Consistency Model
+// ============================================================================
+// This replication system provides STRONG EVENTUAL CONSISTENCY through:
+//
+// 1. SINGLE-MASTER (Leader-Follower):
+//    - Leader writes to local WAL and replicates to followers
+//    - Consensus modes:
+//      * ASYNC: Leader doesn't wait for follower ACKs (highest throughput, weakest durability)
+//      * SEMI_SYNC: Leader waits for min_sync_replicas ACKs (balanced)
+//      * SYNC: Leader waits for all replicas ACKs (highest durability, lowest throughput)
+//    - Atomicity: Writes are atomic within a single WAL entry
+//    - Isolation: Follower reads lag behind leader (eventual consistency)
+//
+// 2. MULTI-MASTER (Conflict Resolution):
+//    - Multiple nodes can accept writes independently
+//    - Conflicts detected when replication brings in divergent writes
+//    - Resolution strategies (all causally-ordered):
+//      * LWW (Last-Write-Wins): Total ordering via Hybrid Logical Clocks (HLC)
+//      * MV (Multi-Value): Preserve all concurrent writes with vector clocks
+//      * CRDT: Conflict-free replicated data types (LWW_REGISTER, G_COUNTER, OR_SET, etc.)
+//    - Causal ordering preserved through:
+//      * Vector clocks: Track happened-before relationships per node
+//      * HLC timestamps: Provide total ordering for concurrent writes
+//      * Explicit dependencies: Link related writes across nodes
+//
+// 3. DATA DURABILITY:
+//    - WAL (Write-Ahead Log): All writes persisted before replication
+//    - Snapshots: Periodic state snapshots reduce recovery time
+//    - Replication: Copies to multiple nodes for redundancy
+//
+// 4. PARTITION TOLERANCE:
+//    - Quorum-based decisions survive minority partitions
+//    - Detected via heartbeat timeouts
+//    - Failed replicas excluded from consensus quorum
+//
+// All concurrent writes maintain happens-before relationships through
+// the combined use of vector clocks, HLC, and dependency tracking.
+
 // Timeout Protection Utilities (BATCH A FIX)
 // ============================================================================
 
@@ -114,6 +152,10 @@ bool executeWithTimeout(uint32_t timeout_ms, Func operation) {
 
 std::vector<uint8_t> WALEntry::serialize() const {
     std::vector<uint8_t> result;
+    // Estimate capacity: fixed header (24 bytes) + lengths (4*4) + string contents
+    size_t estimated_size = 24 + 16 + operation.size() + collection.size() + 
+                           document_id.size() + data.size() + checksum.size();
+    result.reserve(estimated_size);
     
     // BATCH A ANNOTATION: Write Consensus and Replication Pipeline
     // This serialize() method writes WAL entries to a binary format destined for
@@ -1049,6 +1091,7 @@ bool ReplicationManager::initialize() {
     election_ = std::make_unique<LeaderElection>(node_id_, config_, wal_);
     
     // Connect to seed nodes
+    replicas_.reserve(config_.seed_nodes.size());  // Pre-allocate for seed nodes
     for (const auto& seed : config_.seed_nodes) {
         ReplicaInfo replica;
         replica.endpoint = seed;
@@ -1128,7 +1171,8 @@ bool ReplicationManager::replicate(const WALEntry& entry) {
             l.onWALEntryApplied(entry);
         });
         
-        // For sync/semi-sync mode, wait for replication
+        // For sync/semi-sync mode, wait for consensus from replicas
+        // This ensures quorum acknowledgment before the write is considered committed
         if (config_.mode != ReplicationMode::ASYNC) {
             return waitForReplication(seq, config_.replication_timeout_ms);
         }
@@ -1142,6 +1186,11 @@ bool ReplicationManager::replicate(const WALEntry& entry) {
     }
 }
 
+// Wait for replication consensus acknowledgment from replica set
+// - SYNC mode: requires all replicas to acknowledge
+// - SEMI_SYNC mode: requires min_sync_replicas to acknowledge (quorum)
+// - ASYNC mode: no waiting (checked in replicate() above)
+// This implements the replicated state machine consensus pattern
 bool ReplicationManager::waitForReplication(uint64_t sequence, uint32_t timeout_ms) {
     auto deadline = std::chrono::steady_clock::now() + 
                    std::chrono::milliseconds(timeout_ms > 0 ? timeout_ms : config_.replication_timeout_ms);
@@ -1585,6 +1634,7 @@ void ReplicationManager::notifyListeners(
 std::vector<std::pair<std::string, HealthStatus>> ReplicationManager::getReplicaHealthStatus() const {
     std::shared_lock<std::shared_mutex> lock(replicas_mutex_);
     std::vector<std::pair<std::string, HealthStatus>> result;
+    result.reserve(replicas_.size());  // Pre-allocate to avoid reallocations
     
     for (const auto& replica : replicas_) {
         result.emplace_back(replica.node_id, replica.health_status);
@@ -1641,7 +1691,6 @@ void ReplicationManager::performHealthCheck() {
     
     {
         std::unique_lock<std::shared_mutex> lock(replicas_mutex_);
-        // BATCH B OPTIMIZATION: Reserve space for all possible changes
         changes.reserve(replicas_.size());
         for (auto& replica : replicas_) {
             HealthStatus old_status = replica.health_status;
@@ -1761,6 +1810,7 @@ void ReplicationManager::healthMonitorLoop() {
             std::vector<std::string> unreachable_nodes;
             {
                 std::shared_lock<std::shared_mutex> lock(replicas_mutex_);
+                unreachable_nodes.reserve(replicas_.size());  // Pre-allocate to worst case
                 for (const auto& replica : replicas_) {
                     if (replica.health_status == HealthStatus::FAILED) {
                         unreachable_nodes.push_back(replica.node_id);
@@ -2370,6 +2420,12 @@ VectorClock VectorClock::fromJson(const std::string& json) {
 // ============================================================================
 // Multi-master ConflictResolver implementations (MMWriteEntry variants)
 // ============================================================================
+// NOTE: All conflict resolution operations implement proper causal ordering through:
+// - Vector clocks for happened-before relationships
+// - Hybrid logical clocks (HLC) for total ordering of concurrent writes
+// - Explicit dependency tracking for write-before constraints
+// - LWW (Last-Write-Wins) semantics based on HLC timestamp
+// These mechanisms ensure strong eventual consistency in multi-master scenarios.
 
 MMWriteEntry LastWriteWinsResolver::resolve(
     const std::string& /*document_id*/,
@@ -2416,6 +2472,8 @@ MMWriteEntry LastWriteWinsResolver::resolve(
         return oss.str();
     };
 
+    // Enrich conflict winner with merged causality from all conflicting writes
+    // This preserves the causal history needed for eventual consistency
     auto enrich_winner_with_causality = [&](const MMWriteEntry& winner) {
         // BATCH C ANNOTATION: Causality Lattice Construction
         // This lambda enriches the winner with merged causality metadata:
@@ -2430,12 +2488,15 @@ MMWriteEntry LastWriteWinsResolver::resolve(
         
         MMWriteEntry enriched = winner;
 
+        // Merge vector clocks: union of all happened-before relationships
         VectorClock merged_clock = winner.vector_clock;
         std::set<std::string> merged_dependencies(
             enriched.dependencies.begin(), enriched.dependencies.end());
 
+        // Track latest timestamp for total ordering
         HybridLogicalClock::Timestamp latest_hlc = winner.hlc;
         for (const auto& write : conflicting_writes) {
+            // Preserve all causality information
             merged_clock.merge(write.vector_clock);
             merged_dependencies.insert(write.dependencies.begin(), write.dependencies.end());
             if (!write.write_id.empty() && write.write_id != enriched.write_id) {
@@ -2522,8 +2583,17 @@ std::string CRDTMergeResolver::strategyName() const {
     return "UNKNOWN";
 }
 
+// CRDT merge strategies implement distributed consistency semantics:
+// - LWW_REGISTER: Last-write-wins based on HLC timestamps (totally ordered)
+// - MV_REGISTER: Multi-value register preserving all concurrent writes
+// - G_COUNTER/PN_COUNTER: Grow-only/positive-negative counters (monotonic)
+// - G_SET/OR_SET/TWO_P_SET: Set-based CRDTs (add/remove semantics)
+// - LWW_MAP/RGA: Ordered map/sequence CRDTs
+// - FLAG_EW/FLAG_DW: Enabled-wins/disabled-wins flags
+// All implement strong eventual consistency (SEC) guarantees.
+
 std::string CRDTMergeResolver::mergeLWWRegister(const std::vector<MMWriteEntry>& writes) {
-    // Return the data of the entry with the latest HLC
+    // Last-write-wins: select entry with latest HLC timestamp
     const MMWriteEntry* latest = &writes[0];
     for (const auto& w : writes) {
         if (latest->hlc < w.hlc) latest = &w;
@@ -3645,6 +3715,10 @@ void MultiMasterReplicationManager::syncLoop() {
 // Internal: Replication
 // -------------------------
 
+// Multi-master consensus: write is committed only after quorum acknowledges
+// This implements quorum-based distributed consensus for concurrent writes.
+// The quorum size is configurable (typically ceil((n_nodes+1)/2) for majority quorum).
+// All writes carry vector clocks and HLC timestamps to maintain causal ordering.
 bool MultiMasterReplicationManager::replicateWrite(const MMWriteEntry& entry) {
     std::shared_lock<std::shared_mutex> lock(peers_mutex_);
 
@@ -6196,6 +6270,14 @@ uint64_t BidirectionalReplicationManager::submitWrite(
     return seq;
 }
 
+// Apply a remote write in bidirectional (multi-master) scenario
+// Key consistency guarantees:
+// 1. Loop prevention: Track origin node and sequence to avoid re-applying local writes
+// 2. Causal ordering: Use origin_sequence to detect causal relationships
+// 3. Conflict detection: Identify concurrent writes via timestamps/clocks
+// 4. Conflict resolution: Apply configured strategy (LWW, CRDT, etc.) to merge state
+// This ensures strong eventual consistency: all replicas converge to same state
+// when all writes have been exchanged and conflicts resolved.
 bool BidirectionalReplicationManager::applyRemoteWrite(const BidiWriteEntry& entry) {
     if (entry.document_id.empty() || entry.collection.empty()) {
         return false;
@@ -6818,6 +6900,5 @@ std::string GeoReplicationManager::exportPrometheusMetrics() const
 
 } // namespace replication
 } // namespace themisdb
-
 
 

@@ -33,6 +33,7 @@
 #include <cctype>
 #include <cinttypes>
 #include <cstdio>
+#include <unordered_map>
 
 #ifdef ERROR
 #undef ERROR
@@ -104,6 +105,7 @@ bool MySQLImporter::initialize(const std::string& config) {
 
         // ---- Config-level type overrides (applied before ImportOptions overrides) ----
         if (cfg.contains("type_overrides") && cfg["type_overrides"].is_object()) {
+            std::lock_guard<std::mutex> lock(config_type_overrides_mutex_);
             for (auto& [k, v] : cfg["type_overrides"].items()) {
                 if (v.is_string())
                     config_type_overrides_[k] = v.get<std::string>();
@@ -853,8 +855,11 @@ std::string MySQLImporter::mapMySQLTypeToThemis(const std::string& mysql_type,
     if (it != options.type_overrides.end()) return it->second;
 
     // 2. Config-level overrides (from initialize())
-    auto ci = config_type_overrides_.find(mysql_type);
-    if (ci != config_type_overrides_.end()) return ci->second;
+    {
+        std::lock_guard<std::mutex> lock(config_type_overrides_mutex_);
+        auto ci = config_type_overrides_.find(mysql_type);
+        if (ci != config_type_overrides_.end()) return ci->second;
+    }
 
     // 3. JDBC tinyInt1isBit: TINYINT(1) -> boolean when enabled
     if (jdbc_config_.tinyint1_as_boolean) {
@@ -1266,11 +1271,16 @@ uint64_t MySQLImporter::computeRowHash(const std::string& tuple_str,
     // Setting key_columns = {"updated_at"} is the recommended high-watermark
     // configuration: only rows with a new updated_at value will be imported.
     static constexpr char kFieldSep = '\x01';
+    std::unordered_map<std::string, size_t> schema_column_index;
+    schema_column_index.reserve(schema_columns.size());
+    for (size_t i = 0; i < schema_columns.size(); ++i) {
+        schema_column_index.emplace(schema_columns[i], i);
+    }
     std::string key_data;
     for (const auto& kc : key_columns) {
-        auto it = std::find(schema_columns.begin(), schema_columns.end(), kc);
-        if (it != schema_columns.end()) {
-            size_t idx = static_cast<size_t>(it - schema_columns.begin());
+        auto it = schema_column_index.find(kc);
+        if (it != schema_column_index.end()) {
+            size_t idx = it->second;
             if (idx < values.size()) {
                 key_data += values[idx];
             }

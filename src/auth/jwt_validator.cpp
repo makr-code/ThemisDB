@@ -640,6 +640,30 @@ bool JWTValidator::verifySignatureEdDSA(const std::string &header_payload, const
 }
 
 bool JWTValidator::checkAudience(const nlohmann::json &payload) const {
+    // Mandatory audience validation: if require_audience_validation is set, aud claim must be present
+    if (cfg_.require_audience_validation) {
+        if (!payload.contains("aud")) {
+            return false;
+        }
+        // Check if expected_audience matches
+        if (!cfg_.expected_audience.has_value()) {
+            return false;
+        }
+        if (payload["aud"].is_string()) {
+            return payload["aud"].get<std::string>() == *cfg_.expected_audience;
+        }
+        if (payload["aud"].is_array()) {
+            for (auto &v : payload["aud"]) {
+                if (v.is_string() && v.get<std::string>() == *cfg_.expected_audience) {
+                    return true;
+                }
+            }
+            return false;
+        }
+        return false;
+    }
+    
+    // Optional audience validation: if expected_audience is set but not required
     if (!cfg_.expected_audience.has_value()) {
         return true;
     }
@@ -761,6 +785,17 @@ JWTClaims JWTValidator::parseAndValidate(const std::string &token) {
     }
     claims.tenant_id = payload.value("tenant_id", ""); // Extract tenant_id from JWT
     claims.issuer    = payload.value("iss", "");
+    
+    // Mandatory issuer validation: if require_issuer_validation is set, iss claim must be present
+    if (cfg_.require_issuer_validation && claims.issuer.empty()) {
+        utils::Logger::warn("JWT validation failed: Missing required iss claim");
+        if (audit_logger_) {
+            audit_logger_->logSecurityEvent(utils::SecurityEventType::LOGIN_FAILED, claims.sub, "jwt/token",
+                                            {{"reason", "missing_iss"}});
+        }
+        throw std::runtime_error("Missing required iss claim");
+    }
+    
     if (payload.contains("groups")) {
         claims.groups = payload["groups"].get<std::vector<std::string>>();
     }

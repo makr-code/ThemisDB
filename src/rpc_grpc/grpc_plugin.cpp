@@ -23,11 +23,27 @@
 #include <iostream>
 #include <sstream>
 #include <stdexcept>
+#include <memory>
 
 namespace themis {
 namespace plugins {
 namespace rpc {
 namespace grpc_plugin {
+
+namespace {
+
+bool tryParseConfigInt(const std::string& value, int& parsed_value) noexcept {
+    try {
+        parsed_value = std::stoi(value);
+        return true;
+    } catch (const std::invalid_argument&) {
+        return false;
+    } catch (const std::out_of_range&) {
+        return false;
+    }
+}
+
+} // namespace
 
 // ============================================================================
 // GRPCServer Implementation
@@ -72,36 +88,33 @@ bool GRPCServer::start() {
         // ---- v0.2.0: keepalive tuning ----------------------------------------
         auto ka_it = config_.extra_config.find("keepalive_time_ms");
         if (ka_it != config_.extra_config.end()) {
-            try {
-                int ms = std::stoi(ka_it->second);
+            int ms = 0;
+            if (tryParseConfigInt(ka_it->second, ms)) {
                 builder.AddChannelArgument(GRPC_ARG_KEEPALIVE_TIME_MS, ms);
-            } catch (...) {
-                // Invalid value — fall back to gRPC default
             }
         }
         auto kt_it = config_.extra_config.find("keepalive_timeout_ms");
         if (kt_it != config_.extra_config.end()) {
-            try {
-                int ms = std::stoi(kt_it->second);
+            int ms = 0;
+            if (tryParseConfigInt(kt_it->second, ms)) {
                 builder.AddChannelArgument(GRPC_ARG_KEEPALIVE_TIMEOUT_MS, ms);
-            } catch (...) {}
+            }
         }
 
         // ---- v0.2.0: admin port binding ----------------------------------------
         auto ap_it = config_.extra_config.find("admin_port");
         if (ap_it != config_.extra_config.end()) {
-            try {
-                int ap = std::stoi(ap_it->second);
-                if (ap > 0 && ap < 65536) {
-                    admin_address_ = config_.host + ":" + std::to_string(ap);
-                    // GAP-016: Log warning for insecure admin port binding (CWE-295).
-                    std::cerr << "[SECURITY] GRPCServer: admin port " << ap
-                              << " bound with insecure credentials (GAP-016/CWE-295)."
-                              << std::endl;
-                    builder.AddListeningPort(admin_address_,
-                                             grpc::InsecureServerCredentials());
-                }
-            } catch (...) {
+            int admin_port = 0;
+            if (tryParseConfigInt(ap_it->second, admin_port)
+                && admin_port > 0 && admin_port < 65536) {
+                admin_address_ = config_.host + ":" + std::to_string(admin_port);
+                // GAP-016: Log warning for insecure admin port binding (CWE-295).
+                std::cerr << "[SECURITY] GRPCServer: admin port " << admin_port
+                          << " bound with insecure credentials (GAP-016/CWE-295)."
+                          << std::endl;
+                builder.AddListeningPort(admin_address_,
+                                         grpc::InsecureServerCredentials());
+            } else {
                 admin_address_.clear();
             }
         }
@@ -525,7 +538,8 @@ const char* GRPCPlugin::getProtocolDescription() const {
 extern "C" {
 
 themis::plugins::IThemisPlugin* createPlugin() {
-    return new themis::plugins::rpc::grpc_plugin::GRPCPlugin();
+    auto plugin = std::make_unique<themis::plugins::rpc::grpc_plugin::GRPCPlugin>();
+    return plugin.release();
 }
 
 void destroyPlugin(themis::plugins::IThemisPlugin* plugin) {
@@ -533,5 +547,4 @@ void destroyPlugin(themis::plugins::IThemisPlugin* plugin) {
 }
 
 } // extern "C"
-
 

@@ -270,14 +270,12 @@ void ReplicationEventStream::onNetworkPartitionDetected(
     Event ev;
     ev.type      = EventType::NETWORK_PARTITION;
     ev.timestamp = std::chrono::system_clock::now();
-    
-    // BATCH C OPTIMIZATION: Use stringstream for efficient concatenation
-    std::ostringstream oss;
+    std::ostringstream nodes_stream;
     for (size_t i = 0; i < affected.size(); ++i) {
-        if (i > 0) oss << ',';
-        oss << affected[i];
+        if (i > 0) nodes_stream << ',';
+        nodes_stream << affected[i];
     }
-    ev.data["affected_nodes"] = oss.str();
+    ev.data["affected_nodes"] = nodes_stream.str();
     emit(std::move(ev));
 }
 
