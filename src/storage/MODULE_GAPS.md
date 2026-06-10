@@ -122,6 +122,16 @@
   maintenance/config reload loops now use interruptible waits so stop() can wake
   long-sleep workers promptly before joining.
 
+### W5-Storage (2026-06-10)
+- rocksdb_wrapper.cpp: guarded option-object mutation/snapshot paths with
+  options_mutex_; documented the merge-operator Slice access as a per-call
+  false positive for data_race.
+- wal_storage.cpp: serialized destructor close path with mutex_ and switched
+  segment rollover to RAII-managed file descriptors so exceptions cannot leak
+  the newly opened segment fd.
+- nvme_manager.cpp: guarded cached capability reads and io_uring ring setup /
+  teardown state with mutexes to remove critical ring-state data races.
+
 ## File Overview
 
 | File | Findings | Critical | High | Medium | Low |
