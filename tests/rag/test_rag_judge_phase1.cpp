@@ -294,7 +294,7 @@ protected:
         };
         
         // Set mock inference function
-        integration.setInferenceFunction([](const std::string& prompt) {
+        integration.setInferenceFunction([](const std::string& /*prompt*/) {
             return R"({
                 "score": 5.0,
                 "confidence": 0.95,

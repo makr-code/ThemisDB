@@ -150,7 +150,9 @@ TEST_F(RAIDLoRAIntegrationTest, RAID0_UniformDistribution) {
     size_t avg_size = total_size / chunk_sizes.size();
     
     for (size_t size : chunk_sizes) {
-        EXPECT_NEAR(size, avg_size, avg_size * 0.2);
+        EXPECT_NEAR(static_cast<double>(size),
+                    static_cast<double>(avg_size),
+                    static_cast<double>(avg_size) * 0.2);
     }
 }
 

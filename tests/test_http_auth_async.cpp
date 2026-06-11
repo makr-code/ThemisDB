@@ -253,8 +253,6 @@ TEST(AsyncHTTPAuth, MultipleRequestsConcurrently)
 
 TEST(AsyncHTTPAuth, DestructorStopsThreads)
 {
-    size_t thread_count_before = std::thread::hardware_concurrency();
-    
     {
         AsyncHTTPAuth client;
         size_t thread_count_during = client.threadCount();

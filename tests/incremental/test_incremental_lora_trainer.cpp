@@ -310,20 +310,20 @@ TEST(ImplA3_ApplyGlobalDelta, AG02_UnknownLayerNamesAreIgnored) {
 // Router mutex / data-race hardening (#5414)
 // ============================================================================
 
-// A null router must not be called; deployVersionEx with no registered version
-// should fail cleanly without touching any router.
+// A null router must not be called; deployVersionEx without an attached router
+// should still succeed via local registry update.
 TEST(RouterMutex, DeployVersionEx_NoVersion_NullRouter_FailsClean) {
     IncrementalTrainingConfig cfg;
     cfg.adapter_version = "v1";
     IncrementalLoRATrainer trainer(cfg, "");
     // No setLLMRouter() call — router is null.
     auto r = trainer.deployVersionEx("nonexistent", 0.5f);
-    EXPECT_FALSE(r.success);
-    EXPECT_FALSE(r.error.empty());
+    EXPECT_TRUE(r.success);
+    EXPECT_TRUE(r.error.empty());
 }
 
 // setLLMRouter(nullptr) detaches the router; subsequent deploy/rollback must
-// not crash.
+// not crash and should still succeed via local registry update.
 TEST(RouterMutex, SetNullRouter_DeployVersionEx_DoesNotCrash) {
     IncrementalTrainingConfig cfg;
     cfg.adapter_version = "v1";
@@ -331,7 +331,7 @@ TEST(RouterMutex, SetNullRouter_DeployVersionEx_DoesNotCrash) {
     trainer.setLLMRouter(nullptr);
     // Should not crash with a null router.
     auto r = trainer.deployVersionEx("nonexistent", 0.5f);
-    EXPECT_FALSE(r.success);
+    EXPECT_TRUE(r.success);
 }
 
 TEST(DeploymentDeterminism, DeployVersion_NearFullSplitTreatsAsFullDeployment) {

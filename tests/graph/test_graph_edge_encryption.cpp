@@ -16,6 +16,7 @@
 #include "utils/hkdf_helper.h"
 #include <nlohmann/json.hpp>
 #include <filesystem>
+#include <chrono>
 
 using namespace themis;
 using namespace themis::auth;
@@ -25,14 +26,17 @@ class GraphEdgeEncryptionTest : public ::testing::Test {
 protected:
     void SetUp() override {
         // Create temporary database
-        test_dir_ = std::filesystem::temp_directory_path() / "themis_test_graph_enc";
+        const auto unique_suffix = std::to_string(
+            std::chrono::high_resolution_clock::now().time_since_epoch().count());
+        test_dir_ = std::filesystem::temp_directory_path() /
+                    ("themis_test_graph_enc_" + unique_suffix);
         std::filesystem::remove_all(test_dir_);
         std::filesystem::create_directories(test_dir_);
         
         RocksDBWrapper::Config config;
         config.db_path = test_dir_.string();
         db_ = std::make_unique<RocksDBWrapper>(config);
-        db_->open();
+        ASSERT_TRUE(db_->open()) << "Failed to open RocksDB at " << test_dir_.string();
         
         graph_mgr_ = std::make_unique<GraphIndexManager>(*db_);
         
@@ -52,7 +56,9 @@ protected:
     
     void TearDown() override {
         graph_mgr_.reset();
-        db_->close();
+        if (db_) {
+            db_->close();
+        }
         db_.reset();
         std::filesystem::remove_all(test_dir_);
     }

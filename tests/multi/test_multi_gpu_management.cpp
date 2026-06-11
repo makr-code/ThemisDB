@@ -250,8 +250,10 @@ TEST_F(GPUMemoryManagerMultiGPUTest, FreeGPUNullPtrReturnsFalseWithoutCrash) {
 
 TEST_F(GPUMemoryManagerMultiGPUTest, FreeNullPtrDoesNotAlterStats) {
     auto stats_before = memory_manager_->getStats();
-    memory_manager_->freeGPU("nonexistent", nullptr);
-    memory_manager_->freeCPU("nonexistent", nullptr);
+    auto free_gpu_ok = memory_manager_->freeGPU("nonexistent", nullptr);
+    auto free_cpu_ok = memory_manager_->freeCPU("nonexistent", nullptr);
+    EXPECT_FALSE(free_gpu_ok);
+    EXPECT_FALSE(free_cpu_ok);
     auto stats_after = memory_manager_->getStats();
     EXPECT_EQ(stats_before.num_allocations, stats_after.num_allocations);
     EXPECT_EQ(stats_before.used_vram_bytes, stats_after.used_vram_bytes);

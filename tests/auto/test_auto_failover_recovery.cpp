@@ -503,8 +503,6 @@ TEST(AutoFailoverRecoveryTest, RecoveryAfterTemporaryFailure) {
  * @brief Test leader election with priorities
  */
 TEST(AutoFailoverRecoveryTest, PriorityBasedLeaderElection) {
-    constexpr int NUM_NODES = 5;
-    
     struct PriorityNode {
         MockReplicaNode node;
         int priority;
@@ -532,7 +530,7 @@ TEST(AutoFailoverRecoveryTest, PriorityBasedLeaderElection) {
     for (size_t i = 0; i < cluster.size(); ++i) {
         if (cluster[i].node.isHealthy() && cluster[i].priority > max_priority) {
             max_priority = cluster[i].priority;
-            new_leader_idx = i;
+            new_leader_idx = static_cast<int>(i);
         }
     }
     

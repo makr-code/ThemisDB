@@ -261,6 +261,6 @@ TEST(GraphAdvancedFeatures, PathConstraintsIntegration) {
     test_path_finding(storage);
     test_optimizer_integration(storage);
 
-    storage.close();
-    std::filesystem::remove_all(db_path);
+    std::error_code ec;
+    std::filesystem::remove_all(db_path, ec);
 }

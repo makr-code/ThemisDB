@@ -222,6 +222,41 @@ void WsChangeHandler::ProcessMessage(const std::string& message) { /* implementa
  */
 void WsChangeHandler::OnConnectionOpened(boost::beast::websocket::stream<tcp::socket>& ws) { /* implementation follows */ }
 
+/**
+ * @brief Handler function called when a new WebSocket connection is successfully established.
+ * 
+ * This hook should execute initialization logic necessary for handling an active 
+ * session. Tasks include validating the initial payload, registering the session 
+ * with internal service maps, and broadcasting user presence updates.
+ * 
+ * @param ws The fully connected WebSocket instance. This pointer is guaranteed to be valid.
+ * @param userId The unique identifier of the user associated with this connection. Should never be empty.
+ */
+void WsChangeHandler::onConnectionOpened(WebSocket* ws, const std::string& userId) {
+    // Implementation details for successful connection setup and initialization logic
+}
+
+// ---------------------------------------------------------------------------
+// OnConnectionClosed
+// ---------------------------------------------------------------------------
+
+/**
+ * @brief Handler function called when an active connection is closed unexpectedly or gracefully.
+ * 
+ * This hook should perform cleanup tasks related to the session, such as removing 
+ * from user lists, logging the disconnection event with details (e.g., close code/reason), 
+ * and potentially triggering persistence mechanisms if the connection state change needs 
+ * to be recorded.
+ * 
+ * @param ws The WebSocket instance that was closed. Could be nullptr if the closure 
+ *            was due to an external system failure before a valid pointer could be obtained.
+ * @param closeCode A standardized code indicating the reason for the connection closure (e.g., 1000 for normal closure).
+ * @param closeReason A string detailing the human-readable reason for the closure.
+ */
+void WsChangeHandler::onConnectionClosed(WebSocket* ws, int closeCode, const std::string& closeReason) {
+    // Implementation details for connection closing logic
+}
+
 // ---------------------------------------------------------------------------
 // handleError
 // ---------------------------------------------------------------------------
@@ -237,6 +272,19 @@ void WsChangeHandler::OnConnectionOpened(boost::beast::websocket::stream<tcp::so
  * @return void No return value. The method logs the error context internally.
  */
 void WsChangeHandler::handleError(const std::exception& e) { /* implementation follows */ }
+
+/**
+ * @brief Processes an incoming raw message received on the WebSocket connection.
+ * 
+ * This is the main entry point for all incoming data from a connected client. It 
+ * is responsible for message validation, payload type dispatching (e.g., 'AUTH', 
+ * 'DATA', 'CMD'), and delegating the processing to the appropriate internal service module.
+ * 
+ * @param rawMessage The raw string or binary payload received via the WebSocket. Must not be null.
+ */
+void WsChangeHandler::HandleWebSocketMessage(const std::string& rawMessage) {
+    // Implementation details for parsing, validation, and dispatching messages go here.
+}
 
 } // namespace api
 } // namespace themis

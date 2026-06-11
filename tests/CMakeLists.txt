@@ -12840,6 +12840,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_http_auth_async.cpp")
 
     add_executable(test_http_auth_async
         test_http_auth_async.cpp
+        ${THEMIS_ROOT_DIR}/src/auth/http_auth_async.cpp
     )
 
     target_link_libraries(test_http_auth_async PRIVATE
@@ -27614,6 +27615,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/graph/test_tensor_fingerprint_graph.cpp" 
         ${CMAKE_CURRENT_SOURCE_DIR}/graph/test_tensor_fingerprint_graph.cpp
             ${THEMIS_ROOT_DIR}/src/graph/tensor_fingerprint_graph.cpp
             ${THEMIS_ROOT_DIR}/src/graph/tensor_deduplication_manager.cpp
+            ${THEMIS_ROOT_DIR}/src/utils/logger.cpp
     )
 
     target_include_directories(test_tensor_fingerprint_graph_focused PRIVATE

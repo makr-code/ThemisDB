@@ -806,8 +806,13 @@ TEST(ImplA2, LiveSignalProvidersDriveLoopTelemetry) {
 
     const auto loop1 = orch.triggerLoop(ContinuousLearningOrchestrator::LoopPhase::LOOP_1_HNSW_QUERY);
     EXPECT_FALSE(loop1.success);
+#if defined(THEMIS_ENABLE_BAO)
     EXPECT_EQ(loop1.signal_source, "live");
     EXPECT_NEAR(loop1.signal_value, bao->getMissRate(), 1e-9);
+#else
+    EXPECT_EQ(loop1.signal_source, "fallback_missing");
+    EXPECT_DOUBLE_EQ(loop1.signal_value, 1.0);
+#endif
     EXPECT_FALSE(loop1.guardrail_passed);
 
     const auto loop2 = orch.triggerLoop(ContinuousLearningOrchestrator::LoopPhase::LOOP_2_WORKLOAD);
@@ -1077,12 +1082,14 @@ TEST(ImplA3_Federation, FED02_FederatedRoundStartOnlyWithGuardrailPassed) {
 
         orch.setFederationCoordinator(mock_coord);
         orch.setTrainerForFederation(&trainer);
-        // No interactions logged → accuracy = 0.0 → guardrail_passed = false
+
+        auto feedback = std::make_shared<themis::prompt_engineering::FeedbackCollector>();
+        orch.wireLiveSignalProviders(nullptr, nullptr, feedback);
 
         auto result = orch.triggerLoop(
             ContinuousLearningOrchestrator::LoopPhase::LOOP_4_RLAIF);
 
-        EXPECT_TRUE(result.success);
+        EXPECT_FALSE(result.success);
         EXPECT_FALSE(result.guardrail_passed);
         EXPECT_EQ(mock_coord->submit_count, 0)
             << "submitGradient must NOT be called when guardrail_passed=false";
@@ -1103,8 +1110,18 @@ TEST(ImplA3_Federation, FED02_FederatedRoundStartOnlyWithGuardrailPassed) {
 
         orch.setFederationCoordinator(mock_coord);
         orch.setTrainerForFederation(&trainer);
-        // Log 35 positive interactions to push accuracy > 0.75
-        logPositiveInteractions(orch, 35);
+
+        auto feedback = std::make_shared<themis::prompt_engineering::FeedbackCollector>();
+        for (size_t i = 0; i < 120; ++i) {
+            feedback->recordFeedback(
+                "prompt_fed02",
+                "query_" + std::to_string(i),
+                "response",
+                themis::prompt_engineering::FeedbackType::USER_POSITIVE,
+                "",
+                0.7);
+        }
+        orch.wireLiveSignalProviders(nullptr, nullptr, feedback);
 
         auto result = orch.triggerLoop(
             ContinuousLearningOrchestrator::LoopPhase::LOOP_4_RLAIF);

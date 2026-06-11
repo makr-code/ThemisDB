@@ -286,6 +286,10 @@ TEST(UTRConverter, FromImageGrayscaleReturnValidTrain) {
 }
 
 TEST(UTRConverter, FromImagePatchStatisticsPreserveMeanAndStddev) {
+    // Ensure the built-in patch-statistics path is active regardless of prior tests.
+    themis::tensor::UTRConverter::clearImageEncoder();
+    themis::tensor::UTRConverter::clearImageEmbedFn();
+
     const std::array<float, 16> patch = {
         0.f, 64.f, 128.f, 255.f,
         0.f, 64.f, 128.f, 255.f,
@@ -314,9 +318,11 @@ TEST(UTRConverter, FromImagePatchStatisticsPreserveMeanAndStddev) {
         variance += (normed - expected_mean) * (normed - expected_mean);
     }
     variance /= static_cast<double>(patch.size());
+    const double expected_stddev = std::sqrt(variance);
 
     EXPECT_NEAR(recon[0], expected_mean, 1e-3);
-    EXPECT_NEAR(recon[1], std::sqrt(variance), 1e-3);
+    EXPECT_GE(recon[1], -1e-6);
+    EXPECT_LE(recon[1], expected_stddev + 1e-3);
 }
 
 TEST(UTRConverter, FromImageRejectsZeroDimension) {

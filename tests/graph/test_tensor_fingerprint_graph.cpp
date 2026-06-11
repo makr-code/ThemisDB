@@ -1503,47 +1503,53 @@ TEST(TensorDeduplicationManagerSnapshotTest,
     {
         themis::RocksDBWrapper db(db_cfg);
         ASSERT_TRUE(db.open()) << "Failed to open RocksDB in Phase 1";
-        themis::GraphIndexManager graph_idx(db);
+        {
+            themis::GraphIndexManager graph_idx(db);
 
-        auto mgr = makeDedup(engine);
-        wireGraphIndexJournalHooks(*mgr, graph_idx, kSnap);
+            auto mgr = makeDedup(engine);
+            wireGraphIndexJournalHooks(*mgr, graph_idx, kSnap);
 
-        mgr->store("tdm25_a", std::vector<float>(8, 1.0f), {8, 1}, "t", "c", "f25a");
-        ASSERT_TRUE(mgr->snapshotGraph(kSnap));
+            mgr->store("tdm25_a", std::vector<float>(8, 1.0f), {8, 1}, "t", "c", "f25a");
+            ASSERT_TRUE(mgr->snapshotGraph(kSnap));
 
-        // Post-snapshot insert: must go to GraphIndex journal hooks.
-        mgr->store("tdm25_b", std::vector<float>(8, 2.5f), {8, 1}, "t", "c", "f25b");
+            // Post-snapshot insert: must go to GraphIndex journal hooks.
+            mgr->store("tdm25_b", std::vector<float>(8, 2.5f), {8, 1}, "t", "c", "f25b");
 
-        ASSERT_TRUE(mgr->getRecord("tdm25_b").has_value());
+            ASSERT_TRUE(mgr->getRecord("tdm25_b").has_value());
+        }
+        db.close();
     }
 
     // ── Phase 2: reopen GraphIndexManager from same RocksDB and restore ───
     {
         themis::RocksDBWrapper db(db_cfg);
         ASSERT_TRUE(db.open()) << "Failed to open RocksDB in Phase 2";
-        themis::GraphIndexManager graph_idx(db);
-        ASSERT_TRUE(graph_idx.rebuildTopology().ok);
+        {
+            themis::GraphIndexManager graph_idx(db);
+            ASSERT_TRUE(graph_idx.rebuildTopology().ok);
 
-        auto mgr2 = makeDedup(engine);
-        wireGraphIndexJournalHooks(*mgr2, graph_idx, kSnap);
-        ASSERT_TRUE(mgr2->restoreGraph(kSnap));
+            auto mgr2 = makeDedup(engine);
+            wireGraphIndexJournalHooks(*mgr2, graph_idx, kSnap);
+            ASSERT_TRUE(mgr2->restoreGraph(kSnap));
 
-        EXPECT_TRUE(mgr2->getRecord("tdm25_a").has_value())
-            << "Snapshot-time tensor tdm25_a must be present after restore";
-        EXPECT_TRUE(mgr2->getRecord("tdm25_b").has_value())
-            << "Post-snapshot tensor tdm25_b must be replayed via GraphIndex journal";
+            EXPECT_TRUE(mgr2->getRecord("tdm25_a").has_value())
+                << "Snapshot-time tensor tdm25_a must be present after restore";
+            EXPECT_TRUE(mgr2->getRecord("tdm25_b").has_value())
+                << "Post-snapshot tensor tdm25_b must be replayed via GraphIndex journal";
 
-        // Retrieved data should approximate the stored values.
-        const auto retrieved = mgr2->retrieve("tdm25_b");
-        ASSERT_TRUE(retrieved.has_value());
-        ASSERT_EQ(retrieved->size(), 8u);
-        for (float v : *retrieved) {
-            EXPECT_NEAR(v, 2.5f, 0.5f) << "Reconstructed value should approximate 2.5";
+            // Retrieved data should approximate the stored values.
+            const auto retrieved = mgr2->retrieve("tdm25_b");
+            ASSERT_TRUE(retrieved.has_value());
+            ASSERT_EQ(retrieved->size(), 8u);
+            for (float v : *retrieved) {
+                EXPECT_NEAR(v, 2.5f, 0.5f) << "Reconstructed value should approximate 2.5";
+            }
+
+            const auto stats = mgr2->getStats();
+            EXPECT_EQ(stats.total_tensors, 2u)
+                << "Both tensors must be accounted for after restore";
         }
-
-        const auto stats = mgr2->getStats();
-        EXPECT_EQ(stats.total_tensors, 2u)
-            << "Both tensors must be accounted for after restore";
+        db.close();
     }
 
     cleanupDbDir(db_dir);

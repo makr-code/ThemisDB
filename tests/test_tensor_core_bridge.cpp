@@ -156,9 +156,11 @@ TEST(TCS, TCS_05_WriteSucceeds) {
 TEST(TCS, TCS_06_WriteCountIncrements) {
     InMemoryTensorCoreBridge sink;
     EXPECT_EQ(sink.writeCount(), 0u);
-    sink.write(makeRecord("file1:0"), "acme");
+    auto write_result_1 = sink.write(makeRecord("file1:0"), "acme");
+    ASSERT_TRUE(write_result_1) << write_result_1.error().message();
     EXPECT_EQ(sink.writeCount(), 1u);
-    sink.write(makeRecord("file1:1"), "acme");
+    auto write_result_2 = sink.write(makeRecord("file1:1"), "acme");
+    ASSERT_TRUE(write_result_2) << write_result_2.error().message();
     EXPECT_EQ(sink.writeCount(), 2u);
 }
 
@@ -170,7 +172,8 @@ TEST(TCS, TCS_07_FindAbsentReturnsNullptr) {
 TEST(TCS, TCS_08_FindAfterWrite) {
     InMemoryTensorCoreBridge sink;
     auto rec = makeRecord("file1:3");
-    sink.write(rec, "acme");
+    auto write_result = sink.write(rec, "acme");
+    ASSERT_TRUE(write_result) << write_result.error().message();
     auto* found = sink.find("acme", "file1:3");
     ASSERT_NE(found, nullptr);
     EXPECT_EQ(found->chunk_id, "file1:3");
@@ -186,8 +189,10 @@ TEST(TCS, TCS_09_UpsertSemantics) {
     rec2.max_rank = 8;
     rec2.serialized_train = {0xFF, 0xEE};
 
-    sink.write(rec1, "acme");
-    sink.write(rec2, "acme");
+    auto write_result_1 = sink.write(rec1, "acme");
+    ASSERT_TRUE(write_result_1) << write_result_1.error().message();
+    auto write_result_2 = sink.write(rec2, "acme");
+    ASSERT_TRUE(write_result_2) << write_result_2.error().message();
 
     EXPECT_EQ(sink.writeCount(), 2u);
     auto* found = sink.find("acme", "file1:0");
@@ -229,9 +234,12 @@ TEST(TCS, TCS_12_MakeKeySchema) {
 TEST(TCS, TCS_13_WriteCountAtomic) {
     tensor::TensorCoreStorageBridge sink;
     EXPECT_EQ(sink.writeCount(), 0u);
-    sink.write(makeRecord("f:0"), "t1");
-    sink.write(makeRecord("f:1"), "t1");
-    sink.write(makeRecord("f:2"), "t1");
+    auto write_result_1 = sink.write(makeRecord("f:0"), "t1");
+    ASSERT_TRUE(write_result_1) << write_result_1.error().message();
+    auto write_result_2 = sink.write(makeRecord("f:1"), "t1");
+    ASSERT_TRUE(write_result_2) << write_result_2.error().message();
+    auto write_result_3 = sink.write(makeRecord("f:2"), "t1");
+    ASSERT_TRUE(write_result_3) << write_result_3.error().message();
     EXPECT_EQ(sink.writeCount(), 3u);
 }
 
@@ -258,6 +266,15 @@ openTempRdb(const std::string& path) {
     return db;
 }
 
+static void closeAndCleanupTempRdb(const std::shared_ptr<themis::RocksDBWrapper>& db,
+                                   const std::string& path) {
+    if (db) {
+        db->close();
+    }
+    std::error_code ec;
+    std::filesystem::remove_all(path, ec);
+}
+
 TEST(TCS, TCB_RDB_01_NullDbThrows) {
     EXPECT_THROW(
         { storage::RocksDBTensorBackend b(nullptr); },
@@ -276,6 +293,8 @@ TEST(TCS, TCB_RDB_02_PutGetRoundTrip) {
     auto got = backend.get("__ttn__:t1:c1:f1:meta:1");
     ASSERT_TRUE(got.has_value());
     EXPECT_EQ(*got, val);
+
+    closeAndCleanupTempRdb(db, path);
 }
 
 TEST(TCS, TCB_RDB_03_GetMissingReturnsNullopt) {
@@ -286,6 +305,8 @@ TEST(TCS, TCB_RDB_03_GetMissingReturnsNullopt) {
     storage::RocksDBTensorBackend backend(db);
     auto got = backend.get("__ttn__:absent:key");
     EXPECT_FALSE(got.has_value());
+
+    closeAndCleanupTempRdb(db, path);
 }
 
 TEST(TCS, TCB_RDB_04_DelRemovesEntry) {
@@ -299,6 +320,8 @@ TEST(TCS, TCB_RDB_04_DelRemovesEntry) {
 
     EXPECT_TRUE(backend.del("__ttn__:t:c:f:meta:1"));
     EXPECT_FALSE(backend.get("__ttn__:t:c:f:meta:1").has_value());
+
+    closeAndCleanupTempRdb(db, path);
 }
 
 TEST(TCS, TCB_RDB_05_ListKeysByPrefix) {
@@ -318,6 +341,8 @@ TEST(TCS, TCB_RDB_05_ListKeysByPrefix) {
     EXPECT_TRUE(std::is_sorted(keys.begin(), keys.end()));
     for (const auto& k : keys)
         EXPECT_TRUE(k.rfind("__ttn__:tenant1:", 0) == 0);
+
+    closeAndCleanupTempRdb(db, path);
 }
 
 // Also verify RocksDBTensorBackend can be injected into TensorCoreStorageBridge.
@@ -337,6 +362,8 @@ TEST(TCS, TCB_RDB_06_IntegratedWithTensorCoreStorageBridge) {
     ASSERT_TRUE(raw.has_value());
     EXPECT_EQ(*raw, rec.serialized_train);
     EXPECT_EQ(sink.writeCount(), 1u);
+
+    closeAndCleanupTempRdb(db, path);
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -373,7 +400,8 @@ TEST(TCS, TCS_16_TenantFromConfigKey) {
     sc.config = json{{"tenant_id", "config-tenant"}};
 
     auto ctx = makeCtxWithCores({makeRecord("f:0")});
-    step->execute(ctx, sc);
+    auto execute_result = step->execute(ctx, sc);
+    ASSERT_TRUE(execute_result) << execute_result.error().message();
 
     auto* found = sink->find("config-tenant", "f:0");
     EXPECT_NE(found, nullptr);
@@ -386,7 +414,8 @@ TEST(TCS, TCS_17_TenantFromRecordMetadata) {
     // No tenant_id in config → falls back to record metadata.
 
     auto ctx = makeCtxWithCores({makeRecordWithTenant("meta-tenant", "f:0")});
-    step->execute(ctx, sc);
+    auto execute_result = step->execute(ctx, sc);
+    ASSERT_TRUE(execute_result) << execute_result.error().message();
 
     // "default" is the global tenant_id; when it equals "default" the step
     // reads per-record metadata["tenant_id"].

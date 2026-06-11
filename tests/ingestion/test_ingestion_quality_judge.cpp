@@ -147,8 +147,9 @@ static std::shared_ptr<WorkflowEngine> makeWorkflowEngineWithPopulateStep(
         profile_file);
     auto res = engine->loadProfile(path);
     EXPECT_TRUE(res.has_value()) << res.error().message();
-    engine->stepRegistry().registerStep("test.populate_context",
-        std::make_shared<PopulateContextStep>());
+    auto register_res = engine->stepRegistry().registerStep(
+        "test.populate_context", std::make_shared<PopulateContextStep>());
+    EXPECT_TRUE(register_res.has_value()) << register_res.error().message();
     return engine;
 }
 

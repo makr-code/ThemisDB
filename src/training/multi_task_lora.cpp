@@ -213,10 +213,16 @@ public:
         }
 
         // Normalise per-task metrics.
+        // num_samples was accumulated over all epochs; divide by epoch count to
+        // report the number of unique samples seen per task (not epoch-weighted).
+        const size_t epochs_run = cfg_.epochs > 0 ? cfg_.epochs : 1;
+        for (auto& m : per_task) {
+            m.num_samples /= epochs_run;
+        }
         double total_improvement = 0.0;
         for (auto& m : per_task) {
             if (m.num_samples > 0) {
-                m.train_loss /= static_cast<double>(m.num_samples);
+                m.train_loss /= static_cast<double>(m.num_samples * epochs_run);
                 // Approximate accuracy: fraction of samples with loss < 0.5 (proxy)
                 m.accuracy = std::max(0.0, 1.0 - m.train_loss);
                 // Improvement vs. naive single-task (heuristic: shared adapter
