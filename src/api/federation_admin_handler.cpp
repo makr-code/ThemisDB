@@ -15,6 +15,15 @@
 
 namespace themis::api {
 
+/**
+ * @brief Constructs the FederationAdminHandler.
+ * 
+ * Initializes the handler with necessary system components.
+ * The coordinator must be non-null to ensure basic federation capabilities.
+ * 
+ * @param coordinator A shared pointer managing global coordination state within the network.
+ * @param merger A shared pointer handling RAG (Retrieval-Augmented Generation) data merging logic.
+ */
 FederationAdminHandler::FederationAdminHandler(
     std::shared_ptr<distributed_knowledge::LoRAFederationCoordinator> coordinator,
     std::shared_ptr<distributed_knowledge::FederatedRAGMerger>        merger)
@@ -26,6 +35,14 @@ FederationAdminHandler::FederationAdminHandler(
     }
 }
 
+/**
+ * @brief Retrieves a comprehensive set of system statistics across all federated modules.
+ *
+ * The handler enriches the coordinator payload with privacy-budget fields so the
+ * admin endpoint can expose a complete observability snapshot.
+ *
+ * @return JSON object containing the coordinator stats plus privacy metadata.
+ */
 nlohmann::json FederationAdminHandler::getStats() const {
     auto stats = coordinator_->getStats();
     // Enrich with privacy-budget fields
@@ -34,6 +51,11 @@ nlohmann::json FederationAdminHandler::getStats() const {
     return stats;
 }
 
+/**
+ * @brief Retrieves a consolidated statistics report about the system's Read/Archive/Gateway status.
+ *
+ * @return JSON object with merger statistics or `{"available": false}` when no merger is configured.
+ */
 nlohmann::json FederationAdminHandler::getRagStats() const {
     if (!merger_) {
         return {{"available", false}};
@@ -46,7 +68,17 @@ nlohmann::json FederationAdminHandler::getRagStats() const {
             {"rrf_constant",    cfg.rrf_constant}};
 }
 
-nlohmann::json FederationAdminHandler::triggerRound(const std::string& /*algorithm*/) {
+/**
+ * @brief Triggers the full cycle of data synchronization and round processing across connected federations.
+ *
+ * @param algorithm Optional aggregation algorithm override. The current coordinator
+ *                  implementation uses its configured default, so non-empty values
+ *                  are accepted for API compatibility but not yet interpreted here.
+ * @return JSON object describing the triggered round.
+ */
+nlohmann::json FederationAdminHandler::triggerRound(const std::string& algorithm) {
+    (void)algorithm;
+
     // verifyPrivacyBudget() is also checked inside triggerAggregation(); we
     // surface the same check here first to allow callers to map exceptions to
     // HTTP status codes before the coordinator performs its own guard.

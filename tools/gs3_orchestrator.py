@@ -11,6 +11,7 @@ import json
 from pathlib import Path
 import time
 from collections import Counter
+from typing import Dict, List, Tuple
 
 # Add tools/ to path
 sys.path.insert(0, str(Path(__file__).parent))
@@ -65,6 +66,140 @@ def _build_scope_breakdown(gaps: list[Gap]) -> dict:
     }
 
 
+def _classify_module(path: str) -> str:
+    normalized = _normalize_path(path).lstrip('./')
+    parts = [p for p in normalized.split('/') if p]
+    if not parts:
+        return '_unscoped'
+    if parts[0] == 'src' and len(parts) > 1:
+        return parts[1]
+    if parts[0] in ('include', 'tests', 'benchmarks', 'internal', 'docs', 'tools'):
+        return parts[0]
+    return parts[0]
+
+
+def _classify_gap_class(pattern: str) -> str:
+    p = (pattern or '').lower()
+    if any(k in p for k in ('data_race', 'deadlock', 'race', 'atomic')):
+        return 'Concurrency'
+    if any(k in p for k in ('null_dereference', 'buffer', 'pointer', 'use_after', 'double_free', 'size_assumption', 'leak')):
+        return 'MemorySafety'
+    if any(k in p for k in ('version_tracking', 'conflict_resolution', 'stale_write', 'consistency')):
+        return 'VersioningConflict'
+    if any(k in p for k in ('missing_doxygen', 'docs_', 'markdown_anchor', 'markdown_link')):
+        return 'Documentation'
+    if any(k in p for k in ('no_retry', 'timeout', 'circuit_breaker', 'fallback')):
+        return 'ReliabilityRetry'
+    if any(k in p for k in ('integrity', 'injection', 'signature', 'auth', 'crypto', 'tls')):
+        return 'SecurityIntegrity'
+    if any(k in p for k in ('layer_dependency', 'interface', 'abstract_', 'i_prefix', 'module_doc', 'adr_reference')):
+        return 'ArchitectureContract'
+    return 'General'
+
+
+def _build_ollama_markdown_report(
+    gaps: list[Gap],
+    output_path: Path,
+    source_json_path: Path,
+    scan_mode: str,
+    docs_doxygen: bool,
+    scope_breakdown: dict,
+    max_prompt_buckets: int = 0,
+    context_chars: int = 120,
+    template_lines: int = 10,
+) -> None:
+    actionable_rows: List[Tuple[int, str, int, str, str, str]] = []
+    grouped_actionable: Dict[Tuple[str, str, str, str], int] = Counter()
+    grouped_actionable_meta: Dict[Tuple[str, str, str, str], Dict[str, object]] = {}
+
+    for gap in gaps:
+        sev = str(gap.severity or 'LOW').upper()
+        if sev not in ('CRITICAL', 'HIGH'):
+            continue
+
+        scope = _classify_scope(gap.file)
+        if scope == 'third_party':
+            continue
+
+        module = _classify_module(gap.file)
+        pattern = str(gap.type or 'unknown')
+        key = (module, gap.file, pattern, sev)
+        grouped_actionable[key] += 1
+
+        meta = grouped_actionable_meta.setdefault(
+            key,
+            {
+                'line': int(getattr(gap, 'line', 0) or 0),
+                'description': str(getattr(gap, 'description', '') or ''),
+                'context': str(getattr(gap, 'context', '') or ''),
+            },
+        )
+        current_line = int(getattr(gap, 'line', 0) or 0)
+        if current_line and (not meta.get('line') or current_line < int(meta.get('line') or 0)):
+            meta['line'] = current_line
+        if not meta.get('description'):
+            meta['description'] = str(getattr(gap, 'description', '') or '')
+        if not meta.get('context'):
+            meta['context'] = str(getattr(gap, 'context', '') or '')
+
+    for (module, file_path, pattern, sev), count in grouped_actionable.items():
+        score = count * (2 if sev == 'CRITICAL' else 1)
+        actionable_rows.append((score, module, count, sev, file_path, pattern))
+
+    actionable_rows.sort(key=lambda x: (-x[0], -x[2], x[3], x[1], x[4], x[5]))
+    prompt_rows = actionable_rows if max_prompt_buckets <= 0 else actionable_rows[:max_prompt_buckets]
+
+    lines: List[str] = []
+    lines.append('# ThemisDB Gap Worklist for Remote Ollama gemma4')
+    lines.append('')
+    lines.append('- [ ] Scope: actionable themis_core findings only (third_party is informational).')
+    lines.append('')
+    lines.append('## Work Items')
+    lines.append('')
+
+    for i, (_score, module, _count, sev, file_path, pattern) in enumerate(prompt_rows, 1):
+        meta = grouped_actionable_meta.get((module, file_path, pattern, sev), {})
+        line = int(meta.get('line') or 0)
+        description = str(meta.get('description') or '').strip() or 'n/a'
+        context = str(meta.get('context') or '').strip()
+        short_context = 'n/a'
+        if context:
+            short_context = context.replace('\n', ' ').strip()
+            if len(short_context) > context_chars:
+                short_context = short_context[:max(0, context_chars - 3)] + '...'
+
+        cls = _classify_gap_class(pattern)
+        loc = f'{file_path}:{line if line else "n/a"}'
+
+        lines.append(f'- [ ] {sev} | {module} | {pattern} | {loc}')
+        lines.append('```text')
+        if template_lines <= 6:
+            # strict 6-line ultra-compact block per item
+            lines.append('// ROUTING HINT: ollama-local | Model: gemma4:latest')
+            lines.append(f'// Class: {cls} | Problem: {pattern}')
+            lines.append(f'// Location: {loc}')
+            lines.append(f'// Description: {description}')
+            lines.append(f'// Context: {short_context}')
+            lines.append('Task+Output+Constraints: fix only this finding; return files+diff+tests+scanner-delta; max 3 files; preserve API/ABI; update Doxygen for public C++ API changes.')
+        else:
+            # strict 10-line compact block per item
+            lines.append('// ROUTING HINT: ollama-local')
+            lines.append('// Model: gemma4:latest')
+            lines.append(f'// Class: {cls}')
+            lines.append(f'// Location: {loc}')
+            lines.append(f'// Problem: {pattern}')
+            lines.append(f'// Description: {description}')
+            lines.append(f'// Context: {short_context}')
+            lines.append('Task: Fix this finding only with minimal changes.')
+            lines.append('Output: files, diff, tests, scanner-delta; keep it concise.')
+            lines.append('Constraints: max 3 files; avoid unrelated edits; preserve API/ABI; update Doxygen for changed public C++ APIs.')
+        lines.append('```')
+        lines.append('')
+
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    output_path.write_text('\n'.join(lines) + '\n', encoding='utf-8')
+
+
 def main():
     """Main orchestrator entry point"""
     import argparse
@@ -80,6 +215,14 @@ def main():
                         help='Scanner mode: fast skips expensive docs checks, full runs all checks (default: full)')
     parser.add_argument('--docs-doxygen', action='store_true',
                         help='Run optional XML-first Doxygen checks inside docs scanner (prefers Doxyfile.audit and validates XML index)')
+    parser.add_argument('--md-report', default='ai_working/gap_scan_report_ollama_gemma4.md',
+                        help='Write markdown remediation report template for remote Ollama gemma4 (default: ai_working/gap_scan_report_ollama_gemma4.md)')
+    parser.add_argument('--md-report-max-prompt-buckets', type=int, default=0,
+                        help='Maximum actionable buckets to turn into copy/paste gemma4 prompts (default: 0 = all)')
+    parser.add_argument('--md-report-context-chars', type=int, default=120,
+                        help='Maximum context characters embedded in each gemma4 prompt (default: 120)')
+    parser.add_argument('--md-report-template-lines', type=int, choices=[6, 10], default=10,
+                        help='Prompt template size per work item (6 ultra-compact or 10 compact, default: 10)')
     
     args = parser.parse_args()
     
@@ -113,8 +256,24 @@ def main():
     exported.setdefault('metadata', {})['scope_breakdown'] = scope_breakdown
     with open(output_path, 'w', encoding='utf-8') as f:
         json.dump(exported, f, indent=2)
+
+    md_report_path = Path(args.md_report)
+    if not md_report_path.is_absolute():
+        md_report_path = Path.cwd() / md_report_path
+    _build_ollama_markdown_report(
+        gaps=gaps,
+        output_path=md_report_path,
+        source_json_path=output_path,
+        scan_mode=args.scan_mode,
+        docs_doxygen=args.docs_doxygen,
+        scope_breakdown=scope_breakdown,
+        max_prompt_buckets=args.md_report_max_prompt_buckets,
+        context_chars=args.md_report_context_chars,
+        template_lines=args.md_report_template_lines,
+    )
     
     print(f"\n[OK] Results exported to {output_path}")
+    print(f"[OK] Markdown report exported to {md_report_path}")
     print(f"[OK] Completed in {elapsed:.2f}s")
     
     # Print summary

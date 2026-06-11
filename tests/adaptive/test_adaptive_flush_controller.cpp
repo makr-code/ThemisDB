@@ -52,8 +52,12 @@ struct AFCFixture : ::testing::Test {
 
     void TearDown() override {
         tsstore.reset();
+        if (db) {
+            db->close();
+        }
         db.reset();
-        std::filesystem::remove_all(db_path);
+        std::error_code ec;
+        std::filesystem::remove_all(db_path, ec);
     }
 
     static TSStore::DataPoint makePoint(const std::string& metric,

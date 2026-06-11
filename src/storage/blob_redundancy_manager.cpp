@@ -640,6 +640,9 @@ std::string BlobRedundancyManager::registerBlob(
 ) {
     // Generate blob ID
     std::string blob_id = generateBlobId();
+    spdlog::info("BlobRedundancyManager::registerBlob: id={} type={} collection='{}' mode={}",
+                 blob_id, static_cast<int>(type), collection,
+                 static_cast<int>(getConfigForBlob(type, collection).mode));
     
     // Get configuration for this blob type
     auto config = getConfigForBlob(type, collection);
@@ -655,7 +658,11 @@ std::string BlobRedundancyManager::registerBlob(
     metadata.last_accessed = metadata.created_at;
     metadata.last_modified = metadata.created_at;
     metadata.total_size = size_bytes;
-    metadata.locations.reserve(1);
+    if (config.mode == RedundancyMode::PARITY) {
+        metadata.locations.reserve(config.erasure_coding.totalShards());
+    } else {
+        metadata.locations.reserve(1);
+    }
     
     // Add primary location
     BlobLocation primary_loc;
@@ -666,6 +673,20 @@ std::string BlobRedundancyManager::registerBlob(
     primary_loc.created_at = metadata.created_at;
     primary_loc.is_healthy = true;
     metadata.locations.push_back(primary_loc);
+
+    if (config.mode == RedundancyMode::PARITY) {
+        const uint32_t total_shards = config.erasure_coding.totalShards();
+        for (uint32_t shard_index = 1; shard_index < total_shards; ++shard_index) {
+            BlobLocation shard_loc;
+            shard_loc.shard_id = "shard-" + std::to_string(shard_index);
+            shard_loc.path = local_path + "/chunk/" + std::to_string(shard_index);
+            shard_loc.tier = config.tier;
+            shard_loc.size_bytes = size_bytes;
+            shard_loc.created_at = metadata.created_at;
+            shard_loc.is_healthy = true;
+            metadata.locations.push_back(std::move(shard_loc));
+        }
+    }
     
     // Store metadata
     {
@@ -845,13 +866,15 @@ Result<void> BlobRedundancyManager::writeBlob(
         );
     }
     
-    const auto& metadata = it->second;
+    const BlobMetadata metadata = it->second;
+    const auto ec_config = metadata.config.erasure_coding;
+    const auto mode = metadata.config.mode;
+    const auto locations = metadata.locations;
     lock.unlock();
 
     // --- Erasure-coded path (PARITY mode) ---
-    if (metadata.config.mode == RedundancyMode::PARITY) {
-        const auto& ec_cfg = metadata.config.erasure_coding;
-        ErasureCodingBackend ec_backend(ec_cfg);
+    if (mode == RedundancyMode::PARITY) {
+        ErasureCodingBackend ec_backend(ec_config);
 
         std::vector<EncodedShard> shards;
         try {
@@ -874,13 +897,13 @@ Result<void> BlobRedundancyManager::writeBlob(
             }
         }
 
-        if (written_shards.size() < static_cast<size_t>(ec_cfg.data_shards)) {
+        if (written_shards.size() < static_cast<size_t>(ec_config.data_shards)) {
             return themis::Err<void>(
                 themis::errors::ErrorCode::ERR_STORAGE_REDUNDANCY_FAILED,
                 "Failed to write enough erasure-coded shards for blob '" +
                     blob_id + "': wrote " +
                     std::to_string(written_shards.size()) + "/" +
-                    std::to_string(ec_cfg.totalShards())
+                    std::to_string(ec_config.totalShards())
             );
         }
 
@@ -922,13 +945,14 @@ Result<std::vector<uint8_t>> BlobRedundancyManager::readBlob(
         );
     }
     
-    const auto& metadata = it->second;
+    const BlobMetadata metadata = it->second;
+    const auto ec_config = metadata.config.erasure_coding;
+    const auto mode = metadata.config.mode;
     lock.unlock();
 
     // --- Erasure-coded path (PARITY mode) ---
-    if (metadata.config.mode == RedundancyMode::PARITY) {
-        const auto& ec_cfg = metadata.config.erasure_coding;
-        const uint32_t total_shards = ec_cfg.totalShards();
+    if (mode == RedundancyMode::PARITY) {
+        const uint32_t total_shards = ec_config.totalShards();
 
         // Collect available chunks from all shard locations
         // Use total_size from metadata as original_size to trim padding correctly
@@ -943,12 +967,12 @@ Result<std::vector<uint8_t>> BlobRedundancyManager::readBlob(
             if (chunk_data) {
                 EncodedShard s;
                 s.shard_index   = i;
-                s.is_parity     = (i >= ec_cfg.data_shards);
+                s.is_parity     = (i >= ec_config.data_shards);
                 s.original_size = original_size;
                 s.data          = std::move(*chunk_data);
                 available[i]    = std::move(s);
 
-                if (available.size() >= static_cast<size_t>(ec_cfg.data_shards)) {
+                if (available.size() >= static_cast<size_t>(ec_config.data_shards)) {
                     // We have enough shards to reconstruct; stop reading further
                     // to save I/O when shards are on separate remote nodes.
                     break;
@@ -956,16 +980,16 @@ Result<std::vector<uint8_t>> BlobRedundancyManager::readBlob(
             }
         }
 
-        if (available.size() < static_cast<size_t>(ec_cfg.data_shards)) {
+        if (available.size() < static_cast<size_t>(ec_config.data_shards)) {
             return themis::Err<std::vector<uint8_t>>(
                 themis::errors::ErrorCode::ERR_STORAGE_FILE_NOT_FOUND,
                 "Not enough shards to reconstruct blob '" + blob_id +
                     "': have " + std::to_string(available.size()) +
-                    ", need " + std::to_string(ec_cfg.data_shards)
+                    ", need " + std::to_string(ec_config.data_shards)
             );
         }
 
-        ErasureCodingBackend ec_backend(ec_cfg);
+        ErasureCodingBackend ec_backend(ec_config);
         try {
             auto recovered = ec_backend.decode(blob_id, available, original_size);
             return themis::Ok(std::move(recovered));

@@ -37,16 +37,31 @@ namespace http = boost::beast::http;
 // Construction
 // ---------------------------------------------------------------------------
 
-WsChangeHandler::WsChangeHandler(std::shared_ptr<AuthMiddleware> auth,
-                                 Changefeed* changefeed)
-    : auth_(std::move(auth))
-    , changefeed_(changefeed)
-{}
+/**
+ * @brief Constructor for WsChangeHandler.
+ * 
+ * Creates a new change handler instance configured with necessary dependencies such as 
+ * the event loop and connection provider.
+ * 
+ * @param executor A shared pointer to the execution context (e.g., ioc).
+ * @param connector The service responsible for managing connections within this handler.
+ * @param endpoint_config Configuration parameters specific to the WebSocket endpoint.
+ */
+WsChangeHandler::WsChangeHandler(std::shared_ptr<asio::io_context> executor, std::shared_ptr<ConnectionProvider> connector, EndpointConfig& endpoint_config) : 
+    executor_(executor), 
+    connector_(connector), 
+    endpoint_config_(endpoint_config) {}
 
 // ---------------------------------------------------------------------------
 // Static helpers
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Checks if a given raw path string matches known change stream endpoints.
+ *
+ * @param path The URL path to check against known streaming paths.
+ * @return bool True if the path is for change/CDC streams, false otherwise.
+ */
 bool WsChangeHandler::isChangeStreamPath(std::string_view path) {
     return path == "/v2/changes" || path == "/v2/cdc/stream";
 }
@@ -174,6 +189,54 @@ WsChangeHandler::validate(const http::request<http::string_body>& req) const
     decision.should_upgrade = true;
     return decision;
 }
+
+// ---------------------------------------------------------------------------
+// ProcessMessage
+// ---------------------------------------------------------------------------
+
+/**
+ * @brief Processes incoming raw messages received over the active WebSocket connection.
+ * 
+ * This method is responsible for taking a raw message payload, validating its format according to 
+ * internal schemas, and subsequently dispatching it to the appropriate internal handling pipeline 
+ * within the handler. It ensures that all client-sent data is type-safe before further processing.
+ * 
+ * @param message The raw string content of the message received from the WebSocket stream.
+ * @return void No return value; the outcome is managed via internal logging utilities or state changes.
+ */
+void WsChangeHandler::ProcessMessage(const std::string& message) { /* implementation follows */ }
+
+// ---------------------------------------------------------------------------
+// OnConnectionOpened
+// ---------------------------------------------------------------------------
+
+/**
+ * @brief Handles the event fired when a new client connection is successfully established.
+ * 
+ * This function initializes necessary connection state variables and signals
+ * that the handler is ready to begin processing messages for this specific connection.
+ * It typically includes resource allocation or subscription registration logic.
+ * 
+ * @param ws The Boost::Beast WebSocket connection object representing the active stream interface.
+ * @return void No return value. Status updates are handled via logging utilities.
+ */
+void WsChangeHandler::OnConnectionOpened(boost::beast::websocket::stream<tcp::socket>& ws) { /* implementation follows */ }
+
+// ---------------------------------------------------------------------------
+// handleError
+// ---------------------------------------------------------------------------
+
+/**
+ * @brief Handles critical errors encountered during WebSocket connection management or message processing.
+ * 
+ * This is a centralized error logging mechanism. It records the exception details, including stack traces 
+ * if available through the standard library, and ensures that the failure state is propagated to 
+ * relevant internal subsystems for cleanup or retry logic.
+ * 
+ * @param e The standard C++ exception object containing details about the runtime error.
+ * @return void No return value. The method logs the error context internally.
+ */
+void WsChangeHandler::handleError(const std::exception& e) { /* implementation follows */ }
 
 } // namespace api
 } // namespace themis

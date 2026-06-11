@@ -201,11 +201,11 @@ cpp_best_practices:
 ## 9) Ollama Delegation Bridge — AI Agent Instructions
 
 The repository ships a VS Code extension at `tools/copilot-ollama-router/` that
-routes code-generation tasks to a **local Ollama model** instead of Copilot
-cloud. Every AI agent (Copilot, GitHub Copilot in VS Code, this coding agent)
+routes code-generation tasks to an **Ollama endpoint (local or remote)** instead of Copilot
+cloud for selected workloads. Every AI agent (Copilot, GitHub Copilot in VS Code, this coding agent)
 MUST follow these rules when working on ThemisDB:
 
-### 9.1 When to use local Ollama (via `@ollama` chat participant)
+### 9.1 When to use Ollama (via `@ollama` chat participant)
 
 Use `@ollama` for all of the following:
 
@@ -235,6 +235,10 @@ Use the normal Copilot chat (no `@ollama`) for:
 - **CMakeLists.txt / build system** → `@ollama`
 - **ROADMAP.md / FUTURE_ENHANCEMENTS.md updates** → standard Copilot
 
+Note for this repository setup:
+- The currently configured Ollama endpoint is remote: `http://192.168.178.106:11434`.
+- `@ollama /local` continues to mean "route to the configured Ollama endpoint" (not necessarily localhost).
+
 ### 9.4 First-time setup
 
 Before using `@ollama`, ensure Ollama is running and at least one coding
@@ -259,10 +263,18 @@ ollama serve &
 Or from the terminal:
 
 ```bash
-ollama pull deepseek-coder-v2:16b   # best (needs ~10 GB VRAM)
-ollama pull qwen2.5-coder:7b        # balanced (needs ~5 GB VRAM)
-ollama pull codellama:7b            # lightweight fallback
+# Currently installed on remote (192.168.178.106:11434):
+ollama pull qwen2.5-coder:14b          # primary coding + tool-use (edit/apply)
+ollama pull deepseek-coder-v2:16b      # heavy refactors + CMake (no tool-use)
+ollama pull gemma4:latest              # primary agent/chat + tool-use
+ollama pull phi4:latest                # reasoning/text (no tool-use)
+ollama pull codestral:latest           # autocomplete only
+ollama pull MHKetbi/Unsloth-Phi-4-mini-instruct:latest  # lightweight chat + tool-use
 ```
+
+**Tool-calling support** (verified against remote endpoint):
+- ✅ `qwen2.5-coder:14b`, `gemma4:latest`, `Unsloth-Phi-4-mini` — full tool-use
+- ❌ `deepseek-coder-v2:16b`, `phi4:latest`, `codestral:latest` — no tool-use (edit/autocomplete only)
 
 The ranked model catalog is maintained in
 `tools/copilot-ollama-router/src/modelSetup.ts` → `RANKED_CODING_MODELS`.
@@ -273,11 +285,14 @@ Set in VS Code `settings.json` (workspace or user):
 
 ```jsonc
 {
-  "ollamaBridge.delegationMode": "auto",
-  "ollamaBridge.defaultModel": "deepseek-coder-v2:16b",
-  "ollamaBridge.reasoningModel": "qwen2.5-coder:14b",
-  "ollamaBridge.copilotReviewEnabled": true,
-  "ollamaBridge.themisDbRules": true
+  "copilotOllamaRouter.endpoint": "http://192.168.178.106:11434",
+  "copilotOllamaRouter.delegationMode": "auto",
+  "copilotOllamaRouter.defaultModel": "deepseek-coder-v2:16b",
+  "copilotOllamaRouter.reasoningModel": "phi4:latest",
+  "copilotOllamaRouter.copilotReviewEnabled": true,
+  "copilotOllamaRouter.themisDbRules": true,
+  "copilotOllamaRouter.requestTimeoutMs": 120000,
+  "copilotOllamaRouter.contextTokenBudget": 6144
 }
 ```
 
@@ -289,6 +304,11 @@ trigger Ollama delegation programmatically:
 - Use the VS Code command `ollamaBridge.delegateToOllama` (prompts for input)
 - Use the chat participant: `@ollama /local <task description>`
 - Use `ollamaBridge.autoRoute` to preview the routing decision without executing
+
+Routing defaults used in this repo:
+- C/C++/Python edits: `qwen2.5-coder:14b`
+- CMake + heavy generic prompts: `deepseek-coder-v2:16b`
+- Markdown/JSON/YAML reasoning: `phi4:latest`
 
 Copilot coding agents running in this repository SHOULD annotate their
 task descriptions with the target destination so the delegation router

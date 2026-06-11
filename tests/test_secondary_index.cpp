@@ -109,15 +109,9 @@ TEST(SecondaryIndexTest, CreatePutScanDelete) {
     std::cout << "Direct put() result: " << (direct_put_result ? "SUCCESS" : "FAILED") << std::endl;
     
     ASSERT_TRUE(direct_put_result) << "Direct put() to RocksDB failed";
-
-    std::cout << "Constructing SecondaryIndexManager..." << std::endl;
     
     SecondaryIndexManager idx(db);
-    std::cout << "SecondaryIndexManager constructed." << std::endl;
-
-    std::cout << "Calling createIndex(users, age)..." << std::endl;
     auto st = idx.createIndex("users", "age");
-    std::cout << "createIndex returned: ok=" << st.ok << " msg='" << st.message << "'" << std::endl;
     ASSERT_TRUE(st.ok) << "createIndex failed: " << st.message << " (db.isOpen=" << db.isOpen() << ")";
 
     // Insert entity

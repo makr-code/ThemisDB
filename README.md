@@ -38,6 +38,19 @@
   - single-threaded wire server session pruning regression covered by dedicated test
   - `multi_lora_manager` opaque adapter handle consistency fix (`void*`)
 
+### Scanner Baseline Update (2026-06-11)
+
+- Aktueller Gap-Scan-Stand wird ueber die Worklist gepflegt:
+  - `ai_working/gap_scan_report_ollama_gemma4.md`
+  - `ai_working/gap_scan_report_ollama_gemma4.smoke.md`
+- Scope-Regel: `themis_core` actionable, `third_party` nur informativ.
+- Aktives Tracking-Issue fuer den aktuellen Baseline-Scope:
+  - `#5475` (`[P0-HIGH] INCLUDE Module - Current Gap Worklist Tracking (2026-06-11)`)
+- Konsolidierungsstatus GitHub-Issues:
+  - Historische v3-P0- und Cross-Module-Tracker wurden geschlossen (superseded by `#5475`).
+  - Duplikat-Tracker `#5474` wurde geschlossen.
+  - Bewusst offen bleiben die Legacy-Umstellungs-Issues `#5363` bis `#5366`.
+
 ---
 
 ## What is ThemisDB?

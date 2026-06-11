@@ -7,6 +7,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Documentation / Governance — Scanner baseline and tracker consolidation (2026-06-11)
+
+- Root documentation synchronized to current scanner baseline:
+  - `README.md` and `AUDIT.md` now reference active worklist artifacts
+    (`ai_working/gap_scan_results.json`,
+    `ai_working/gap_scan_report_ollama_gemma4.md`) and scope policy
+    (`themis_core` actionable, `third_party` informational).
+- GitHub remediation tracker consolidation completed:
+  - Active canonical issue: `#5475` (`[P0-HIGH] INCLUDE Module - Current Gap Worklist Tracking (2026-06-11)`).
+  - Historical module and cross-module v3 trackers were closed as superseded by `#5475`.
+  - Duplicate tracker `#5474` was closed.
+  - Legacy migration issues `#5363`-`#5366` remain intentionally open and were linked to the active baseline tracker.
+
 ### Added — Wave B ML Enhancements (issue #5039)
 
 - **B1 — Self-RAG** (`include/rag/self_rag.h`, `src/rag/self_rag.cpp`; `themis::rag`)
