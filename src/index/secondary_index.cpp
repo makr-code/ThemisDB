@@ -485,7 +485,7 @@ SecondaryIndexManager::Status SecondaryIndexManager::createIndex(std::string_vie
 	}
 
 	std::string metaKey = makeIndexMetaKey(table, column);
-	std::string metaValue = unique ? "unique" : "";
+	std::string metaValue = unique ? "unique" : "regular";
 	std::vector<uint8_t> marker(metaValue.begin(), metaValue.end());
 	if (!db_.put(metaKey, marker)) {
 		return Status::Error("createIndex: Schreiben des Metaschlüssels fehlgeschlagen: " + metaKey);
@@ -512,7 +512,7 @@ SecondaryIndexManager::Status SecondaryIndexManager::createCompositeIndex(std::s
 	}
 	
 	std::string metaKey = makeCompositeIndexMetaKey(table, columns);
-	std::string metaValue = unique ? "unique" : "";
+	std::string metaValue = unique ? "unique" : "regular";
 	std::vector<uint8_t> marker(metaValue.begin(), metaValue.end());
 	if (!db_.put(metaKey, marker)) {
 		return Status::Error("createCompositeIndex: Schreiben des Metaschlüssels fehlgeschlagen: " + metaKey);
@@ -610,7 +610,7 @@ SecondaryIndexManager::Status SecondaryIndexManager::createSparseIndex(std::stri
 		return Status::Error("createSparseIndex: ':' ist in table/column nicht erlaubt");
 	}
 	std::string metaKey = makeSparseIndexMetaKey(table, column);
-	std::string marker = unique ? "unique" : "";
+	std::string marker = unique ? "unique" : "regular";
 	std::vector<uint8_t> markerBytes(marker.begin(), marker.end());
 	if (!db_.put(metaKey, markerBytes)) return Status::Error("createSparseIndex: Schreiben des Metaschlüssels fehlgeschlagen: " + metaKey);
 	SecondaryIndexMetadataCache::instance().invalidate(table);
