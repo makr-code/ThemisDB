@@ -16,7 +16,7 @@
 #include "rag/completeness_evaluator.h"
 #include "rag/coherence_evaluator.h"
 #include "rag/rag_judge.h"
-#include "test_helpers_llm.h"
+#include "../test_helpers_llm.h"
 #include <gtest/gtest.h>
 
 using namespace themis::rag::judge;

@@ -15,7 +15,7 @@
 #include <cstring>
 #include <chrono>
 
-#include "test_performance_helpers.h"
+#include "../test_performance_helpers.h"
 
 using namespace themis::memory;
 

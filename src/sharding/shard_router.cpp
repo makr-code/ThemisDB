@@ -670,6 +670,22 @@ std::vector<ShardResult> ShardRouter::executeOnShards(
     return results;
 }
 
+/**
+ * @brief Execute cross-shard join operation.
+ *
+ * This method performs a join operation across multiple shards.
+ * It supports two strategies: co-located join (when the join field is the partition key) and broadcast hash join.
+ *
+ * @param query Query string containing the join operation.
+ * @param join_field The field used for joining records across shards.
+ * @return nlohmann::json Joined results with monotonic mergeVersion/version_token metadata so
+ *         callers can detect stale merged snapshots across shards.
+ *
+ * @note This method implements the cross-shard join routing strategy.
+ * @note The join strategy is determined by analyzing the join_field:
+ *       - If the field matches the partition key pattern, a co-located join is performed.
+ *       - Otherwise, a broadcast hash join is used.
+ */
 nlohmann::json ShardRouter::executeCrossShardJoin(
     const std::string& query,
     const std::string& join_field) {
@@ -862,6 +878,11 @@ nlohmann::json ShardRouter::executeCrossShardJoin(
     }
 }
 
+/**
+ * @brief Return aggregate routing counters collected by this router instance.
+ * @return JSON object with totals for all requests, local/remote dispatches,
+ *         scatter-gather operations, and observed errors.
+ */
 nlohmann::json ShardRouter::getStatistics() const {
     return nlohmann::json{
         {"total_requests", total_requests_.load()},
@@ -872,6 +893,15 @@ nlohmann::json ShardRouter::getStatistics() const {
     };
 }
 
+/**
+ * @brief Resolve the owning shard for a URN and dispatch the request.
+ * @param urn Entity identifier used for primary-shard resolution.
+ * @param method HTTP-style operation verb. Empty values are rejected fail-closed.
+ * @param path Relative API path to execute on the target shard. Empty values are rejected fail-closed.
+ * @param body Optional JSON payload for PUT/POST style requests.
+ * @return Result envelope containing the target shard id, payload, and any failure detail.
+ * @note Local shards are executed via @ref executeLocal while remote shards require a configured executor.
+ */
 ShardResult ShardRouter::routeRequest(
     const URN& urn,
     const std::string& method,
@@ -943,6 +973,14 @@ ShardResult ShardRouter::routeRequest(
     return result;
 }
 
+/**
+ * @brief Execute a routed request against the local shard simulation facade.
+ * @param method HTTP-style operation verb. Empty values are rejected fail-closed.
+ * @param path Relative API path describing the local operation to emulate.
+ * @param body Optional JSON payload used for query or write-style requests.
+ * @return Result envelope containing locally synthesized payload data or an error description.
+ * @note Unknown methods, invalid URNs, and unsupported paths are converted into structured JSON errors.
+ */
 ShardResult ShardRouter::executeLocal(
     const std::string& method,
     const std::string& path,
@@ -1128,6 +1166,13 @@ ShardResult ShardRouter::executeLocal(
     return result;
 }
 
+/**
+ * @brief Merge per-shard responses into one logical query result.
+ * @param results Individual shard results produced by scatter-gather or subset execution.
+ * @return JSON object containing merged result rows, per-shard errors, counters,
+ *         and monotonic merge version metadata.
+ * @note Successful array payloads are concatenated; non-array payloads are appended as single records.
+ */
 nlohmann::json ShardRouter::mergeResults(const std::vector<ShardResult>& results) {
     // W2-S07: Merge strategy for distributed query results
     // - Conflict resolution: Last-write-wins based on shard response order
@@ -1177,6 +1222,13 @@ nlohmann::json ShardRouter::mergeResults(const std::vector<ShardResult>& results
     return merged;
 }
 
+/**
+ * @brief Apply offset/limit slicing to an already merged result set.
+ * @param merged JSON payload that may contain a `results` array.
+ * @param offset Zero-based start index within the merged `results` array.
+ * @param limit Maximum number of rows to return.
+ * @return Copy of @p merged with paginated `results` and pagination metadata when applicable.
+ */
 nlohmann::json ShardRouter::applyPagination(
     const nlohmann::json& merged,
     size_t offset,
@@ -1204,6 +1256,11 @@ nlohmann::json ShardRouter::applyPagination(
     return paginated;
 }
 
+/**
+ * @brief Extract the first URN literal embedded in a query string.
+ * @param query Query text to inspect.
+ * @return Parsed URN when a matching literal is found and can be parsed; otherwise `std::nullopt`.
+ */
 std::optional<URN> ShardRouter::extractURN(const std::string& query) const {
     // Simple regex to find URN in query
     std::regex urn_pattern(R"(urn:themis:[^:]+:[^:]+:[^:]+:[a-f0-9-]+)");
@@ -1216,6 +1273,11 @@ std::optional<URN> ShardRouter::extractURN(const std::string& query) const {
     return std::nullopt;
 }
 
+/**
+ * @brief Extract an explicit namespace selector from a query string.
+ * @param query Query text to inspect.
+ * @return Namespace token following the `NAMESPACE` keyword, or `std::nullopt` when absent.
+ */
 std::optional<std::string> ShardRouter::extractNamespace(const std::string& query) const {
     // Simple pattern matching for namespace
     std::regex ns_pattern(R"(NAMESPACE\s+([a-zA-Z0-9_]+))");

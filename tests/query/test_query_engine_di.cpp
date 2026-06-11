@@ -33,13 +33,13 @@ using namespace themis::errors;
 
 class MockStorageEngine : public IStorageEngine {
 public:
-    Result<void> open(const std::string&) override { return Ok(); }
+    Result<void> open(const std::string&) override { return OkVoid(); }
     void close() override {}
-    Result<void> put(const std::string&, const std::string&) override { return Ok(); }
+    Result<void> put(const std::string&, const std::string&) override { return OkVoid(); }
     Result<std::string> get(const std::string& key) override {
-        return Err<std::string>(ErrorCode::ERR_NOT_FOUND);
+        return Err<std::string>(ErrorCode::ERR_DOC_NOT_FOUND, key);
     }
-    Result<void> del(const std::string&) override { return Ok(); }
+    Result<void> del(const std::string&) override { return OkVoid(); }
 };
 
 class MockIndexManager : public IIndexManager {
@@ -65,7 +65,7 @@ public:
     Result<IGraphIndex*> getGraphIndex(std::string_view) const override {
         return Err<IGraphIndex*>(ErrorCode::ERR_INDEX_NOT_FOUND);
     }
-    Result<void> dropIndex(std::string_view) override { return Ok(); }
+    Result<void> dropIndex(std::string_view) override { return OkVoid(); }
     std::vector<std::string> listIndexes() const override { return {}; }
     Result<IndexType> getIndexType(std::string_view) const override {
         return Err<IndexType>(ErrorCode::ERR_INDEX_NOT_FOUND);

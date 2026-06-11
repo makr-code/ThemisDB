@@ -29,17 +29,22 @@ void AsyncHTTPAuth::validateURL(const std::string& url)
 {
     // Must be absolute HTTP(S) URL
     if (url.empty()) {
-        throw AuthException(AUTH_INVALID_INPUT, "URL cannot be empty");
+        THROW_AUTH_ERROR(AuthErrorCode::AUTH_CONFIG_INVALID,
+                         "URL cannot be empty",
+                         "AsyncHTTPAuth::validateURL received empty URL");
     }
-    
+
     if (url.find("http://") != 0 && url.find("https://") != 0) {
-        throw AuthException(AUTH_INVALID_INPUT,
-            "URL must start with http:// or https://");
+        THROW_AUTH_ERROR(AuthErrorCode::AUTH_CONFIG_INVALID,
+                         "URL must start with http:// or https://",
+                         "AsyncHTTPAuth::validateURL received non-http(s) URL");
     }
-    
+
     // Very basic validation: must have at least host
     if (url.length() < 12) {  // "https://x.co" = 12 chars
-        throw AuthException(AUTH_INVALID_INPUT, "URL appears malformed");
+        THROW_AUTH_ERROR(AuthErrorCode::AUTH_CONFIG_INVALID,
+                         "URL appears malformed",
+                         "AsyncHTTPAuth::validateURL rejected too-short URL");
     }
 }
 
@@ -88,11 +93,13 @@ std::future<HTTPAuthResponse> AsyncHTTPAuth::postAsync(
 {
     // Validate input synchronously on caller's thread
     validateURL(url);
-    
+
     if (body.empty()) {
-        throw AuthException(AUTH_INVALID_INPUT, "Request body cannot be empty");
+        THROW_AUTH_ERROR(AuthErrorCode::AUTH_CONFIG_INVALID,
+                         "Request body cannot be empty",
+                         "AsyncHTTPAuth::postAsync received empty request body");
     }
-    
+
     // Make copies to capture in lambda
     std::string url_copy = url;
     std::string body_copy = body;

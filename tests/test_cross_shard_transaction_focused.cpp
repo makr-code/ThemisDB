@@ -1,352 +1,223 @@
 /*
  * ThemisDB | Test: test_cross_shard_transaction_focused.cpp | Version: 0.0.47
  * Focused Unit Tests for W2-S04: Cross-Shard Transaction Precondition Validation
- * 
- * Test Coverage:
- * - CrossShardTransactionCoordinator::beginTransaction() validation (empty ID, etc)
- * - CrossShardTransactionCoordinator::addParticipant() validation (empty inputs)
- * - CrossShardTransactionCoordinator::prepare() precondition checks
- * 
- * SPDX-License-Identifier: Apache-2.0
  */
 
 #include <gtest/gtest.h>
-#include <gmock/gmock.h>
+
+#include "sharding/consensus_module.h"
 #include "sharding/cross_shard_transaction.h"
+
+#include <chrono>
 #include <memory>
+#include <optional>
 #include <vector>
 
 namespace themisdb::sharding {
 
-// Mock ConsensusModule for testing
-class MockConsensusModule : public ConsensusModule {
+class FakeConsensusModule final : public ConsensusModule {
 public:
-    MOCK_METHOD2(propose, bool(const std::string&, const nlohmann::json&));
-    MOCK_METHOD0(initialize, bool());
-    MOCK_METHOD0(start, bool());
-    MOCK_METHOD0(stop, void());
-    MOCK_METHOD0(getId, std::string());
-    MOCK_METHOD0(getTerm, uint64_t());
-};
+    [[nodiscard]] ConsensusType getType() const override { return ConsensusType::RAFT; }
 
-// ============================================================================
-// CrossShardTransactionCoordinator Tests
-// ============================================================================
+    [[nodiscard]] bool initialize(const std::string& node_id,
+                                  const std::vector<std::string>& cluster_nodes) override {
+        node_id_ = node_id;
+        cluster_nodes_ = cluster_nodes;
+        return true;
+    }
+
+    [[nodiscard]] bool start() override {
+        running_ = true;
+        return true;
+    }
+
+    void stop() override { running_ = false; }
+
+    [[nodiscard]] bool isLeader() const override { return true; }
+    [[nodiscard]] std::string getLeaderId() const override { return node_id_.empty() ? "leader-1" : node_id_; }
+    [[nodiscard]] ConsensusState getState() const override { return ConsensusState::LEADER; }
+
+    [[nodiscard]] std::optional<uint64_t> propose(const std::string&, const nlohmann::json&) override {
+        return ++next_index_;
+    }
+
+    [[nodiscard]] bool waitForCommit(uint64_t, std::chrono::milliseconds) override { return true; }
+
+    [[nodiscard]] std::vector<ConsensusLogEntry> readLog(uint64_t,
+                                                         std::optional<uint64_t>) override {
+        return {};
+    }
+
+    [[nodiscard]] uint64_t getCommitIndex() const override { return next_index_; }
+    [[nodiscard]] uint64_t getLastLogIndex() const override { return next_index_; }
+
+    [[nodiscard]] bool addNode(const std::string&, const std::string&) override { return true; }
+    [[nodiscard]] bool removeNode(const std::string&) override { return true; }
+    [[nodiscard]] bool transferLeadership(const std::string&) override { return true; }
+    [[nodiscard]] bool takeSnapshot(const nlohmann::json&) override { return true; }
+    [[nodiscard]] bool restoreSnapshot(const nlohmann::json&) override { return true; }
+
+    [[nodiscard]] ConsensusStats getStats() const override {
+        ConsensusStats stats{};
+        stats.current_term = 1;
+        stats.commit_index = next_index_;
+        stats.last_applied = next_index_;
+        stats.state = ConsensusState::LEADER;
+        stats.current_leader = getLeaderId();
+        stats.cluster_size = cluster_nodes_.size();
+        stats.reachable_nodes = cluster_nodes_.size();
+        return stats;
+    }
+
+    [[nodiscard]] nlohmann::json getStatus() const override {
+        return {
+            {"running", running_},
+            {"leader", getLeaderId()},
+            {"last_index", next_index_}
+        };
+    }
+
+    void onCommit(std::function<void(const ConsensusLogEntry&)>) override {}
+    void onStateChange(std::function<void(ConsensusState, ConsensusState)>) override {}
+    void onLeaderChange(std::function<void(const std::string&, const std::string&)>) override {}
+
+private:
+    std::string node_id_;
+    std::vector<std::string> cluster_nodes_;
+    bool running_ = false;
+    uint64_t next_index_ = 0;
+};
 
 class CrossShardTransactionCoordinatorTest : public ::testing::Test {
 protected:
     void SetUp() override {
-        config_.replica_id = "test-replica";
+        config_.coordinator_id = "coord-1";
         config_.lock_timeout = std::chrono::milliseconds(100);
-        mock_consensus_ = std::make_shared<MockConsensusModule>();
+        config_.transaction_log_path = "C:/tmp/themis-cross-shard-focused.log";
+        consensus_ = std::make_shared<FakeConsensusModule>();
     }
-    
-    CrossShardTransactionConfig config_;
-    std::shared_ptr<MockConsensusModule> mock_consensus_;
-    
+
     std::unique_ptr<CrossShardTransactionCoordinator> createCoordinator() {
-        auto coordinator = std::make_unique<CrossShardTransactionCoordinator>(
-            config_,
-            mock_consensus_,
-            nullptr  // No TrueTime for simplicity
-        );
-        if (coordinator->initialize()) {
-            coordinator->start();
-        }
+        auto coordinator =
+            std::make_unique<CrossShardTransactionCoordinator>(config_, consensus_, nullptr);
+        EXPECT_TRUE(coordinator->initialize());
+        EXPECT_TRUE(coordinator->start());
         return coordinator;
     }
+
+    CrossShardTransactionConfig config_;
+    std::shared_ptr<FakeConsensusModule> consensus_;
 };
 
-// W2-S04: Fail-closed on empty transaction_id in beginTransaction
 TEST_F(CrossShardTransactionCoordinatorTest, BeginTransactionRejectsEmptyId) {
     auto coordinator = createCoordinator();
-    
-    bool result = coordinator->beginTransaction(
-        "",  // Empty transaction ID
-        TransactionProtocol::TWO_PHASE_COMMIT,
-        IsolationLevel::SNAPSHOT_ISOLATION
-    );
-    
-    EXPECT_FALSE(result) << "Should reject empty transaction_id";
+    EXPECT_FALSE(coordinator->beginTransaction(
+        "", TransactionProtocol::TWO_PHASE_COMMIT, IsolationLevel::SNAPSHOT_ISOLATION));
 }
 
-// W2-S04: Accept valid beginTransaction
 TEST_F(CrossShardTransactionCoordinatorTest, BeginTransactionAcceptsValidId) {
     auto coordinator = createCoordinator();
-    
-    EXPECT_CALL(*mock_consensus_, propose).Times(::testing::AtLeast(0));
-    
-    bool result = coordinator->beginTransaction(
-        "txn-12345",
-        TransactionProtocol::TWO_PHASE_COMMIT,
-        IsolationLevel::SNAPSHOT_ISOLATION
-    );
-    
-    EXPECT_TRUE(result) << "Should accept valid transaction_id";
+    EXPECT_TRUE(coordinator->beginTransaction(
+        "txn-12345", TransactionProtocol::TWO_PHASE_COMMIT, IsolationLevel::SNAPSHOT_ISOLATION));
 }
 
-// W2-S04: Fail-closed on duplicate transaction ID
 TEST_F(CrossShardTransactionCoordinatorTest, BeginTransactionRejectsDuplicate) {
     auto coordinator = createCoordinator();
-    
-    EXPECT_CALL(*mock_consensus_, propose).Times(::testing::AtLeast(0));
-    
-    // First begin should succeed
-    bool first = coordinator->beginTransaction(
-        "txn-12345",
-        TransactionProtocol::TWO_PHASE_COMMIT,
-        IsolationLevel::SNAPSHOT_ISOLATION
-    );
-    EXPECT_TRUE(first);
-    
-    // Second begin with same ID should fail
-    bool second = coordinator->beginTransaction(
-        "txn-12345",
-        TransactionProtocol::TWO_PHASE_COMMIT,
-        IsolationLevel::SNAPSHOT_ISOLATION
-    );
-    EXPECT_FALSE(second) << "Should reject duplicate transaction_id";
+    EXPECT_TRUE(coordinator->beginTransaction(
+        "txn-12345", TransactionProtocol::TWO_PHASE_COMMIT, IsolationLevel::SNAPSHOT_ISOLATION));
+    EXPECT_FALSE(coordinator->beginTransaction(
+        "txn-12345", TransactionProtocol::TWO_PHASE_COMMIT, IsolationLevel::SNAPSHOT_ISOLATION));
 }
 
-// W2-S04: Fail-closed on empty transaction_id in addParticipant
 TEST_F(CrossShardTransactionCoordinatorTest, AddParticipantRejectsEmptyTransactionId) {
     auto coordinator = createCoordinator();
-    
-    bool result = coordinator->addParticipant(
-        "",  // Empty transaction ID
-        "shard-1",
-        "localhost:5000",
-        {"READ", "WRITE"}
-    );
-    
-    EXPECT_FALSE(result) << "Should reject empty transaction_id";
+    EXPECT_FALSE(coordinator->addParticipant("", "shard-1", "localhost:5000", {"READ", "WRITE"}));
 }
 
-// W2-S04: Fail-closed on empty shard_id in addParticipant
 TEST_F(CrossShardTransactionCoordinatorTest, AddParticipantRejectsEmptyShardId) {
     auto coordinator = createCoordinator();
-    
-    EXPECT_CALL(*mock_consensus_, propose).Times(::testing::AtLeast(0));
-    
-    // Begin transaction first
-    coordinator->beginTransaction(
-        "txn-12345",
-        TransactionProtocol::TWO_PHASE_COMMIT,
-        IsolationLevel::SNAPSHOT_ISOLATION
-    );
-    
-    bool result = coordinator->addParticipant(
-        "txn-12345",
-        "",  // Empty shard ID
-        "localhost:5000",
-        {"READ", "WRITE"}
-    );
-    
-    EXPECT_FALSE(result) << "Should reject empty shard_id";
+    ASSERT_TRUE(coordinator->beginTransaction(
+        "txn-12345", TransactionProtocol::TWO_PHASE_COMMIT, IsolationLevel::SNAPSHOT_ISOLATION));
+    EXPECT_FALSE(coordinator->addParticipant("txn-12345", "", "localhost:5000", {"READ", "WRITE"}));
 }
 
-// W2-S04: Fail-closed on empty endpoint in addParticipant
 TEST_F(CrossShardTransactionCoordinatorTest, AddParticipantRejectsEmptyEndpoint) {
     auto coordinator = createCoordinator();
-    
-    EXPECT_CALL(*mock_consensus_, propose).Times(::testing::AtLeast(0));
-    
-    // Begin transaction first
-    coordinator->beginTransaction(
-        "txn-12345",
-        TransactionProtocol::TWO_PHASE_COMMIT,
-        IsolationLevel::SNAPSHOT_ISOLATION
-    );
-    
-    bool result = coordinator->addParticipant(
-        "txn-12345",
-        "shard-1",
-        "",  // Empty endpoint
-        {"READ", "WRITE"}
-    );
-    
-    EXPECT_FALSE(result) << "Should reject empty endpoint";
+    ASSERT_TRUE(coordinator->beginTransaction(
+        "txn-12345", TransactionProtocol::TWO_PHASE_COMMIT, IsolationLevel::SNAPSHOT_ISOLATION));
+    EXPECT_FALSE(coordinator->addParticipant("txn-12345", "shard-1", "", {"READ", "WRITE"}));
 }
 
-// W2-S04: Fail-closed on empty operations in addParticipant
 TEST_F(CrossShardTransactionCoordinatorTest, AddParticipantRejectsEmptyOperations) {
     auto coordinator = createCoordinator();
-    
-    EXPECT_CALL(*mock_consensus_, propose).Times(::testing::AtLeast(0));
-    
-    // Begin transaction first
-    coordinator->beginTransaction(
-        "txn-12345",
-        TransactionProtocol::TWO_PHASE_COMMIT,
-        IsolationLevel::SNAPSHOT_ISOLATION
-    );
-    
-    bool result = coordinator->addParticipant(
-        "txn-12345",
-        "shard-1",
-        "localhost:5000",
-        {}  // Empty operations
-    );
-    
-    EXPECT_FALSE(result) << "Should reject empty operations";
+    ASSERT_TRUE(coordinator->beginTransaction(
+        "txn-12345", TransactionProtocol::TWO_PHASE_COMMIT, IsolationLevel::SNAPSHOT_ISOLATION));
+    EXPECT_FALSE(coordinator->addParticipant("txn-12345", "shard-1", "localhost:5000", {}));
 }
 
-// W2-S04: Fail-closed on adding participant to non-existent transaction
 TEST_F(CrossShardTransactionCoordinatorTest, AddParticipantRejectsNonExistentTransaction) {
     auto coordinator = createCoordinator();
-    
-    bool result = coordinator->addParticipant(
-        "txn-nonexistent",
-        "shard-1",
-        "localhost:5000",
-        {"READ", "WRITE"}
-    );
-    
-    EXPECT_FALSE(result) << "Should reject non-existent transaction";
+    EXPECT_FALSE(coordinator->addParticipant(
+        "txn-nonexistent", "shard-1", "localhost:5000", {"READ", "WRITE"}));
 }
 
-// W2-S04: Fail-closed on duplicate participant in same transaction
 TEST_F(CrossShardTransactionCoordinatorTest, AddParticipantRejectsDuplicateShard) {
     auto coordinator = createCoordinator();
-    
-    EXPECT_CALL(*mock_consensus_, propose).Times(::testing::AtLeast(0));
-    
-    // Begin transaction
-    coordinator->beginTransaction(
-        "txn-12345",
-        TransactionProtocol::TWO_PHASE_COMMIT,
-        IsolationLevel::SNAPSHOT_ISOLATION
-    );
-    
-    // Add first participant
-    bool first = coordinator->addParticipant(
-        "txn-12345",
-        "shard-1",
-        "localhost:5000",
-        {"READ", "WRITE"}
-    );
-    EXPECT_TRUE(first);
-    
-    // Try to add same shard again
-    bool second = coordinator->addParticipant(
-        "txn-12345",
-        "shard-1",
-        "localhost:5001",
-        {"DELETE"}
-    );
-    EXPECT_FALSE(second) << "Should reject duplicate shard_id";
+    ASSERT_TRUE(coordinator->beginTransaction(
+        "txn-12345", TransactionProtocol::TWO_PHASE_COMMIT, IsolationLevel::SNAPSHOT_ISOLATION));
+    ASSERT_TRUE(coordinator->addParticipant(
+        "txn-12345", "shard-1", "localhost:5000", {"READ", "WRITE"}));
+    EXPECT_FALSE(coordinator->addParticipant(
+        "txn-12345", "shard-1", "localhost:5001", {"DELETE"}));
 }
 
-// W2-S04: Accept valid addParticipant
 TEST_F(CrossShardTransactionCoordinatorTest, AddParticipantAcceptsValidInputs) {
     auto coordinator = createCoordinator();
-    
-    EXPECT_CALL(*mock_consensus_, propose).Times(::testing::AtLeast(0));
-    
-    // Begin transaction
-    coordinator->beginTransaction(
-        "txn-12345",
-        TransactionProtocol::TWO_PHASE_COMMIT,
-        IsolationLevel::SNAPSHOT_ISOLATION
-    );
-    
-    // Add valid participant
-    bool result = coordinator->addParticipant(
-        "txn-12345",
-        "shard-1",
-        "localhost:5000",
-        {"READ", "WRITE"}
-    );
-    
-    EXPECT_TRUE(result) << "Should accept valid participant";
+    ASSERT_TRUE(coordinator->beginTransaction(
+        "txn-12345", TransactionProtocol::TWO_PHASE_COMMIT, IsolationLevel::SNAPSHOT_ISOLATION));
+    EXPECT_TRUE(coordinator->addParticipant(
+        "txn-12345", "shard-1", "localhost:5000", {"READ", "WRITE"}));
 }
 
-// W2-S04: Accept multiple different participants
 TEST_F(CrossShardTransactionCoordinatorTest, AddParticipantAcceptsMultipleDifferentShards) {
     auto coordinator = createCoordinator();
-    
-    EXPECT_CALL(*mock_consensus_, propose).Times(::testing::AtLeast(0));
-    
-    // Begin transaction
-    coordinator->beginTransaction(
-        "txn-12345",
-        TransactionProtocol::TWO_PHASE_COMMIT,
-        IsolationLevel::SNAPSHOT_ISOLATION
-    );
-    
-    // Add multiple participants
-    bool r1 = coordinator->addParticipant("txn-12345", "shard-1", "host1:5000", {"READ"});
-    bool r2 = coordinator->addParticipant("txn-12345", "shard-2", "host2:5000", {"WRITE"});
-    bool r3 = coordinator->addParticipant("txn-12345", "shard-3", "host3:5000", {"READ", "WRITE"});
-    
-    EXPECT_TRUE(r1 && r2 && r3) << "Should accept multiple different shards";
+    ASSERT_TRUE(coordinator->beginTransaction(
+        "txn-12345", TransactionProtocol::TWO_PHASE_COMMIT, IsolationLevel::SNAPSHOT_ISOLATION));
+
+    const bool r1 = coordinator->addParticipant("txn-12345", "shard-1", "host1:5000", {"READ"});
+    const bool r2 = coordinator->addParticipant("txn-12345", "shard-2", "host2:5000", {"WRITE"});
+    const bool r3 = coordinator->addParticipant("txn-12345", "shard-3", "host3:5000", {"READ", "WRITE"});
+
+    EXPECT_TRUE(r1);
+    EXPECT_TRUE(r2);
+    EXPECT_TRUE(r3);
 }
 
-// W2-S04: Fail-closed on prepare with empty transaction_id
 TEST_F(CrossShardTransactionCoordinatorTest, PrepareRejectsEmptyTransactionId) {
     auto coordinator = createCoordinator();
-    
-    bool result = coordinator->prepare("");  // Empty transaction ID
-    
-    EXPECT_FALSE(result) << "Should reject empty transaction_id in prepare";
+    EXPECT_FALSE(coordinator->prepare(""));
 }
 
-// W2-S04: Fail-closed on prepare with no participants
 TEST_F(CrossShardTransactionCoordinatorTest, PrepareRejectsTransactionWithNoParticipants) {
     auto coordinator = createCoordinator();
-    
-    EXPECT_CALL(*mock_consensus_, propose).Times(::testing::AtLeast(0));
-    
-    // Begin transaction but don't add participants
-    coordinator->beginTransaction(
-        "txn-12345",
-        TransactionProtocol::TWO_PHASE_COMMIT,
-        IsolationLevel::SNAPSHOT_ISOLATION
-    );
-    
-    // Try to prepare without participants
-    bool result = coordinator->prepare("txn-12345");
-    
-    EXPECT_FALSE(result) << "Should reject prepare without participants";
+    ASSERT_TRUE(coordinator->beginTransaction(
+        "txn-12345", TransactionProtocol::TWO_PHASE_COMMIT, IsolationLevel::SNAPSHOT_ISOLATION));
+    EXPECT_FALSE(coordinator->prepare("txn-12345"));
 }
 
-// W2-S04: Fail-closed on prepare of non-existent transaction
 TEST_F(CrossShardTransactionCoordinatorTest, PrepareRejectsNonExistentTransaction) {
     auto coordinator = createCoordinator();
-    
-    bool result = coordinator->prepare("txn-nonexistent");
-    
-    EXPECT_FALSE(result) << "Should reject non-existent transaction";
+    EXPECT_FALSE(coordinator->prepare("txn-nonexistent"));
 }
 
-// W2-S04: Precondition setup works before prepare
-TEST_F(CrossShardTransactionCoordinatorTest, PreparePreconditionsSetupWorks) {
+TEST_F(CrossShardTransactionCoordinatorTest, PrepareCanProceedWhenPreconditionsSatisfied) {
     auto coordinator = createCoordinator();
-    
-    EXPECT_CALL(*mock_consensus_, propose).Times(::testing::AtLeast(0));
-    
-    // Begin transaction
-    bool begin = coordinator->beginTransaction(
-        "txn-12345",
-        TransactionProtocol::TWO_PHASE_COMMIT,
-        IsolationLevel::SNAPSHOT_ISOLATION
-    );
-    EXPECT_TRUE(begin);
-    
-    // Add participant
-    bool add = coordinator->addParticipant(
-        "txn-12345",
-        "shard-1",
-        "localhost:5000",
-        {"READ", "WRITE"}
-    );
-    EXPECT_TRUE(add);
-    
-    // Now prepare should pass precondition check (may fail on actual prep steps,
-    // but should not fail due to missing participants)
-    // Note: actual prepare may fail due to mocking, but we're testing the precondition
-    coordinator->prepare("txn-12345");
-    // We're not asserting result here since it depends on implementation details
+    ASSERT_TRUE(coordinator->beginTransaction(
+        "txn-12345", TransactionProtocol::TWO_PHASE_COMMIT, IsolationLevel::SNAPSHOT_ISOLATION));
+    ASSERT_TRUE(coordinator->addParticipant(
+        "txn-12345", "shard-1", "localhost:5000", {"READ", "WRITE"}));
+
+    (void)coordinator->prepare("txn-12345");
 }
 
-} // namespace themisdb::sharding
+}  // namespace themisdb::sharding

@@ -3,27 +3,31 @@ version: 1.0.0
 schema: v1
 
 models:
-  - name: "Remote Agent (codestral, no-tools)"
+  - name: "Remote Agent (gemma4)"
     provider: ollama
     apiBase: "http://192.168.178.106:11434"
-    model: "codestral:latest"
+    model: "gemma4:latest"
+    capabilities:
+      - tool_use
+      - image_input
     roles:
       - chat
     chatOptions:
       baseAgentSystemMessage: |
         You are a senior coding agent for ThemisDB.
         Prioritize correctness, small safe patches, and verification steps.
-        This model does not support tool calling on this Ollama instance.
-        If a task requires external tools, clearly state the limitation and propose the safest fallback.
+        Use tools when available and keep responses grounded in retrieved context.
     completionOptions:
       temperature: 0.2
       topP: 0.9
       maxTokens: 4096
 
-  - name: "Remote Coding (codestral)"
+  - name: "Remote Coding (qwen2.5-coder-14b)"
     provider: ollama
     apiBase: "http://192.168.178.106:11434"
-    model: "codestral:latest"
+    model: "qwen2.5-coder:14b"
+    capabilities:
+      - tool_use
     roles:
       - edit
       - apply
@@ -32,6 +36,19 @@ models:
       temperature: 0.15
       topP: 0.9
       maxTokens: 4096
+
+  - name: "Remote Deep Coding (deepseek-coder-v2-16b)"
+    provider: ollama
+    apiBase: "http://192.168.178.106:11434"
+    model: "deepseek-coder-v2:16b"
+    roles:
+      - edit
+      - apply
+      - summarize
+    completionOptions:
+      temperature: 0.1
+      topP: 0.9
+      maxTokens: 6144
 
   - name: "Remote Autocomplete (codestral)"
     provider: ollama
@@ -46,11 +63,11 @@ models:
       onlyMyCode: true
 
   # Prepared profiles (activate after model download + quick validation)
-  # 1) Agent candidate (enable only if /api/chat tools test succeeds)
-  # - name: "Remote Agent (gemma4)"
+  # 1) Additional agent candidate
+  # - name: "Remote Agent (qwen2.5-coder-14b)"
   #   provider: ollama
   #   apiBase: "http://192.168.178.106:11434"
-  #   model: "gemma4:latest"
+  #   model: "qwen2.5-coder:14b"
   #   capabilities:
   #     - tool_use
   #   roles:
@@ -64,11 +81,11 @@ models:
   #     topP: 0.9
   #     maxTokens: 4096
 
-  # 2) Strong coding profile
-  # - name: "Remote Coding (qwen2.5-coder-14b)"
+  # 2) Fallback coding profile
+  # - name: "Remote Coding (codestral)"
   #   provider: ollama
   #   apiBase: "http://192.168.178.106:11434"
-  #   model: "qwen2.5-coder:14b"
+  #   model: "codestral:latest"
   #   roles:
   #     - edit
   #     - apply
@@ -78,18 +95,14 @@ models:
   #     topP: 0.9
   #     maxTokens: 4096
 
-  # 3) Deep reasoning coding profile
-  # - name: "Remote Deep Coding (deepseek-coder-v2-16b)"
+  # 3) Deep coding fallback profile
+  # - name: "Remote Deep Coding Fallback (deepseek-coder-v2-16b)"
   #   provider: ollama
   #   apiBase: "http://192.168.178.106:11434"
   #   model: "deepseek-coder-v2:16b"
   #   roles:
   #     - edit
   #     - apply
-  #   completionOptions:
-  #     temperature: 0.1
-  #     topP: 0.9
-  #     maxTokens: 6144
 
   # 4) Fast fallback chat/autocomplete profile
   # - name: "Remote Fast (llama3.1-8b)"

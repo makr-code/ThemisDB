@@ -16,7 +16,7 @@
 #include "rag/prompt_templates.h"
 #include "rag/response_parser.h"
 #include "rag/llm_judge_integration.h"
-#include "test_helpers_llm.h"
+#include "../test_helpers_llm.h"
 #include <gtest/gtest.h>
 #include <nlohmann/json.hpp>
 

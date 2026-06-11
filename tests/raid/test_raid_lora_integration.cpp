@@ -18,9 +18,9 @@
  */
 
 #include <gtest/gtest.h>
-#include "fixtures/mock_shard_cluster.h"
-#include "utils/raid_simulator.h"
-#include "utils/shard_failure_injector.h"
+#include "../fixtures/mock_shard_cluster.h"
+#include "../utils/raid_simulator.h"
+#include "../utils/shard_failure_injector.h"
 #include "llm/lora_framework/lora_config.h"
 #include <algorithm>
 

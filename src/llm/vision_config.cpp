@@ -92,9 +92,10 @@ bool ModelLicense::validateUsage(bool is_commercial, bool will_modify, bool will
 std::shared_ptr<VisionConfig> VisionConfig::loadFromFile(const std::string& config_path) {
     try {
         YAML::Node config = YAML::LoadFile(config_path);
-        
-        auto vision_config = std::make_shared<VisionConfig>();
-        
+
+        // VisionConfig has a private constructor; construct directly here.
+        auto vision_config = std::shared_ptr<VisionConfig>(new VisionConfig());
+
         // Load API configuration
         if (config["vision"]["api"]) {
             auto api = config["vision"]["api"];
@@ -558,8 +559,9 @@ std::shared_ptr<VisionConfig> VisionConfig::loadFromJson(const nlohmann::json& c
 }
 
 std::shared_ptr<VisionConfig> VisionConfig::getDefault() {
-    auto config = std::make_shared<VisionConfig>();
-    
+    // VisionConfig has a private constructor; construct directly here.
+    auto config = std::shared_ptr<VisionConfig>(new VisionConfig());
+
     // Set reasonable defaults
     config->api_stability_ = VisionAPIStability::STABLE;
     config->api_version_ = "1.0.0";

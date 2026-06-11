@@ -1,0 +1,63 @@
+storage:
+  sqlite_path: .harvester_state.db
+  output_jsonl: .harvester_documents.jsonl
+
+http:
+  timeout_seconds: 20
+  user_agent: ThemisDB-SourceHarvester/0.1
+  max_retries: 3
+  retry_backoff_seconds: 1.5
+
+sources:
+  - name: github_llama_cpp
+    kind: github_repo
+    enabled: true
+    owner: ggml-org
+    repo: llama.cpp
+    branch: master
+    token_env: GITHUB_TOKEN
+    include_paths:
+      - README.md
+      - docs/
+      - examples/
+
+  - name: ms_learn_cpp
+    kind: html_docs
+    enabled: true
+    seeds:
+      - https://learn.microsoft.com/en-us/cpp/
+    allow_domains:
+      - learn.microsoft.com
+    max_pages: 50
+    respect_robots: true
+    dedupe_ignore_query_params:
+      - utm_source
+      - utm_medium
+      - utm_campaign
+      - fbclid
+      - gclid
+
+  - name: azure_devops_wiki
+    kind: azure_devops_wiki
+    enabled: false
+    organization_url: https://dev.azure.com/your-org
+    project: your-project
+    wiki_identifier: your-wiki-id
+    pat_env: AZDO_PAT
+
+  - name: hf_dataset_metadata
+    kind: huggingface_dataset_metadata
+    enabled: false
+    dataset_ids:
+      - code-search-net/code_search_net
+      - google-research-datasets/mbpp
+      - openai/openai_humaneval
+      - xlangai/DS-1000
+      - microsoft/ms_marco
+    search_queries:
+      - code search net
+      - mbpp
+      - human eval
+      - ds-1000
+      - ms marco
+    search_limit: 10

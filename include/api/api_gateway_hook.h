@@ -106,9 +106,8 @@ public:
 
     /// Unique identifier for this hook (used for registration/deregistration).
     /// @deprecated No external callers confirmed. CANDIDATE_FOR_REMOVAL (see src/ROADMAP.md).
-    [[deprecated("No external callers; CANDIDATE_FOR_REMOVAL – tracked in src/ROADMAP.md")]]
+    [[nodiscard, deprecated("No external callers; CANDIDATE_FOR_REMOVAL – tracked in src/ROADMAP.md")]]
     virtual std::string hookId() const = 0;
-    [[nodiscard]] virtual std::string hookId() const = 0;
 
     /// Phase in which this hook executes.
     [[nodiscard]] virtual GatewayHookPhase phase() const = 0;
@@ -150,9 +149,8 @@ public:
      * @return `false` if a hook with the same `hookId()` is already registered.
      * @deprecated No external callers confirmed. CANDIDATE_FOR_REMOVAL (see src/ROADMAP.md).
      */
-    [[deprecated("No external callers; CANDIDATE_FOR_REMOVAL – tracked in src/ROADMAP.md")]]
+    [[nodiscard, deprecated("No external callers; CANDIDATE_FOR_REMOVAL – tracked in src/ROADMAP.md")]]
     virtual bool registerHook(std::shared_ptr<IAPIGatewayHook> hook) = 0;
-    [[nodiscard]] virtual bool registerHook(std::shared_ptr<IAPIGatewayHook> hook) = 0;
 
     /**
      * @brief Unregister a hook by ID.
@@ -160,17 +158,15 @@ public:
      * @return `false` if no hook with @p hook_id was found.
      * @deprecated No external callers confirmed. CANDIDATE_FOR_REMOVAL (see src/ROADMAP.md).
      */
-    [[deprecated("No external callers; CANDIDATE_FOR_REMOVAL – tracked in src/ROADMAP.md")]]
+    [[nodiscard, deprecated("No external callers; CANDIDATE_FOR_REMOVAL – tracked in src/ROADMAP.md")]]
     virtual bool unregisterHook(const std::string& hook_id) = 0;
-    [[nodiscard]] virtual bool unregisterHook(const std::string& hook_id) = 0;
 
     /**
      * @brief Return enabled hooks for @p phase, sorted by priority (ascending).
      * @deprecated No external callers confirmed. CANDIDATE_FOR_REMOVAL (see src/ROADMAP.md).
      */
-    [[deprecated("No external callers; CANDIDATE_FOR_REMOVAL – tracked in src/ROADMAP.md")]]
+    [[nodiscard, deprecated("No external callers; CANDIDATE_FOR_REMOVAL – tracked in src/ROADMAP.md")]]
     virtual std::vector<std::shared_ptr<IAPIGatewayHook>> getHooks(
-    [[nodiscard]] virtual std::vector<std::shared_ptr<IAPIGatewayHook>> getHooks(
         GatewayHookPhase phase
     ) const = 0;
 };

@@ -1,0 +1,18 @@
+# Example workflow:
+# 1. Use a source_harvester config such as:
+#    tools/python_tools/ingestion/source_harvester/config.example.yaml
+#    or tools/python_tools/ingestion/source_harvester/hf_shortlist.example.yaml
+# 2. Run:
+#    python tools/python_tools/ingestion/run_harvest_ingest_pipeline.py \
+#      --harvester-config tools/python_tools/ingestion/source_harvester/hf_shortlist.example.yaml \
+#      --stage-dir tools/python_tools/ingestion/.stage_hf \
+#      --output tools/python_tools/ingestion/hf_ingestion_output.json \
+#      --db tools/python_tools/ingestion/hf_ingestion_tracker.db \
+#      --clean-stage
+
+# This file documents the expected arguments and workflow for the integrated pipeline.
+harvester_config: tools/python_tools/ingestion/source_harvester/hf_shortlist.example.yaml
+stage_dir: tools/python_tools/ingestion/.stage_hf
+output: tools/python_tools/ingestion/hf_ingestion_output.json
+db: tools/python_tools/ingestion/hf_ingestion_tracker.db
+clean_stage: true
