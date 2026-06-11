@@ -285,8 +285,12 @@ protected:
 
     void TearDown() override {
         store.reset();
+        if (db) {
+            db->close();
+        }
         db.reset();
-        std::filesystem::remove_all(db_path);
+        std::error_code ec;
+        std::filesystem::remove_all(db_path, ec);
     }
 
     TSStore::DataPoint makePoint(const std::string& metric,
@@ -497,8 +501,12 @@ protected:
     void TearDown() override {
         store.reset();
         enc_store.reset();
+        if (db) {
+            db->close();
+        }
         db.reset();
-        std::filesystem::remove_all(db_path);
+        std::error_code ec;
+        std::filesystem::remove_all(db_path, ec);
     }
 
     std::vector<TSStore::DataPoint> makePoints(int n) {
