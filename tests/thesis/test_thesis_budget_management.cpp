@@ -28,7 +28,7 @@
 
 #include "prompt_engineering/context_window_manager.h"
 #include "ethics_ai/ethics_ai_types.h"
-#include "philosophy_loader.h"
+#include "ethics_ai/philosophy_loader.h"
 
 #include <chrono>
 #include <filesystem>

@@ -208,7 +208,7 @@ TEST(DK6Integration, Scenario4_CrossShardRLAIF_FeedbackPropagatesViaMockGossip) 
 
     auto gossip_publish = [&receivers](nlohmann::json payload) {
         for (auto& rx : receivers) {
-            rx(std::move(payload));
+            rx(payload);
         }
     };
 

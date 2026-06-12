@@ -33,7 +33,11 @@ class AdaptiveIndexTest : public ::testing::Test {
 protected:
     void SetUp() override {
         test_db_path_ = std::filesystem::temp_directory_path() / 
-                       ("themis_adaptive_test_" + std::to_string(std::time(nullptr)));
+                       ("themis_adaptive_test_" +
+                        std::to_string(std::chrono::high_resolution_clock::now().time_since_epoch().count()));
+
+        // Ensure a clean DB directory even after prior aborted test runs.
+        std::filesystem::remove_all(test_db_path_);
         
         RocksDBWrapper::Config config;
         config.db_path = test_db_path_.string();

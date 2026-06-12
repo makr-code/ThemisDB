@@ -437,7 +437,7 @@ protected:
                 json body = json::parse(req.body);
                 if (!body.contains("query") || body["query"].get<std::string>().empty()) {
                     res.status = 400;
-                    res.set_content(R"({"error":"Missing 'query' field"})", "application/json");
+                    res.set_content(R"({"error":"Missing 'query' field","status":400})", "application/json");
                     return;
                 }
                 std::string query = body["query"].get<std::string>();

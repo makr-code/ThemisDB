@@ -1,0 +1,16 @@
+Running main() from C:\ThemisDB\vcpkg\buildtrees\gtest\src\v1.17.0-0c449efaff.clean\googletest\src\gtest_main.cc
+Note: Google Test filter = WitnessNodeTest.TwoNodeClusterWithWitnessHasQuorum
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from WitnessNodeTest
+[ RUN      ] WitnessNodeTest.TwoNodeClusterWithWitnessHasQuorum
+[WQ] init
+[WQ] role=0
+[WQ] follower-added
+[WQ] witness-added
+[WQ] hasQuorum-before-assert=1
+[WQ] hasQuorum-asserted
+[WQ] shutdown-begin
+[SD] hb_ms=100
+[SD] main_tid=8512 health_tid=34024
+[SD] join health

@@ -442,8 +442,9 @@ bool evalExpression(const std::string &expr, const std::map<std::string, std::st
 std::vector<uint8_t> Event::serialize() const {
     // Simple length-prefixed text serialization: id|type|name|fields...
     std::ostringstream oss;
-    oss << event_id << "|" << static_cast<uint16_t>(type) << "|" << event_name << "|" << static_cast<uint8_t>(priority)
-        << "|" << std::chrono::duration_cast<std::chrono::microseconds>(timestamp.time_since_epoch()).count() << "|"
+    oss << event_id << "|" << static_cast<uint16_t>(type) << "|" << event_name << "|"
+        << static_cast<unsigned>(priority) << "|"
+        << std::chrono::duration_cast<std::chrono::microseconds>(timestamp.time_since_epoch()).count() << "|"
         << sequence_number << "|" << partition_key << "|" << collection_name << "|" << document_id;
     for (const auto &[k, v] : fields) {
         oss << "|F:" << k << "=" << fieldValueToString(v);
@@ -453,6 +454,10 @@ std::vector<uint8_t> Event::serialize() const {
 }
 
 std::optional<Event> Event::deserialize(const std::vector<uint8_t> &data) {
+    if (data.empty()) {
+        return std::nullopt;
+    }
+
     std::string s(data.begin(), data.end());
     std::istringstream iss(s);
     Event ev;
@@ -477,7 +482,30 @@ std::optional<Event> Event::deserialize(const std::vector<uint8_t> &data) {
                     int64_t us   = std::stoll(part);
                     ev.timestamp = std::chrono::system_clock::time_point(std::chrono::microseconds(us));
                     break;
-                } break;
+                }
+                case 5:
+                    ev.sequence_number = static_cast<uint64_t>(std::stoull(part));
+                    break;
+                case 6:
+                    ev.partition_key = part;
+                    break;
+                case 7:
+                    ev.collection_name = part;
+                    break;
+                case 8:
+                    ev.document_id = part;
+                    break;
+                default:
+                    if (part.rfind("F:", 0) == 0) {
+                        const size_t eq_pos = part.find('=');
+                        if (eq_pos == std::string::npos || eq_pos <= 2) {
+                            return std::nullopt;
+                        }
+                        const std::string key = part.substr(2, eq_pos - 2);
+                        const std::string value = part.substr(eq_pos + 1);
+                        ev.setField(key, value);
+                    }
+                    break;
             }
         } catch (const std::invalid_argument &e) {
             spdlog::warn("CEP: Event deserialization - invalid field format: {}", e.what());

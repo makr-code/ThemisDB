@@ -26,6 +26,8 @@
 #include <memory>
 #include <functional>
 #include <mutex>
+#include <istream>
+#include <ostream>
 
 namespace themis {
 namespace whisper {
@@ -36,15 +38,62 @@ namespace whisper {
  * Separates model-loading / inference from the plugin lifecycle so that
  * test doubles can be injected without linking whisper.cpp.
  */
-class IWhisperTranscriber {
+/**<0x0D>
+ * @class IWhisperTranscriber<0x0D>
+ * @brief Pure virtual interface defining the API contract for audio transcription using Whisper.<0x0D>
+ * <0x0D>
+ * This class serves as the abstract base interface (API Contract) for all concrete implementations of a robust and feature-rich<0x0D>
+ * speech-to-text transcriber powered by OpenAI's Whisper model. Any backend that wishes to expose transcription functionality via ThemisDB<0x0D>
+ * must derive from this interface. All methods are designed to be highly portable, support various audio formats, and handle streaming operations.<0x0D>
+ * <0x0D>
+ * @note **Ownership**: Implementations of background resources (e.g., model loading, communication channels) should manage their own state through copy-disablement mechanisms. The primary interface object itself may be moved or copied according to standard C++ best practices for RAII.<0x0D>
+ * @note **Calling Context**: Clients must ensure that the underlying audio processing threads are correctly managed and synchronized before calling core methods like {@link transcribe}.<0x0D>
+ */
 public:
+    /**
+     * @brief Virtual destructor for IWhisperTranscriber.
+     *
+     * Properly cleans up all resources associated with any concrete implementations
+     * derived from this interface, ensuring safe polymorphic destruction.
+     */
     virtual ~IWhisperTranscriber() = default;
 
     [[nodiscard]] virtual bool initialize(const WhisperConfig& cfg) = 0;
+    /**
+     * @brief Checks if the transcriber instance has been successfully initialized.
+     *
+     * This method provides a quick way to verify whether model loading and configuration steps,
+     * like calling `initialize()`, have completed successfully without runtime errors. It is crucial
+     * for robust application flow control within ThemisDB components that rely on basic writability.
+     * 
+     * @return std::true_type true if the transciver is in a usable state; otherwise, false.
+     */
     [[nodiscard]] virtual bool isInitialized() const = 0;
 
+    /**
+     * @brief Transcribes the provided audio input into structured transcription data.
+     * 
+     * This core method uses the underlying Whisper model to process raw audio bytes and
+     * generate a comprehensive {@link audio::TranscriptionResult} object containing transcribed text,
+     * timestamps, and confidence scores for synchronization purposes. The `audioInput` must
+     * be correctly formed and contain valid audio data recognized by the system's backend.
+     * 
+     * @param audioInput Reference to the audio data source; must not be empty or improperly formatted.
+     * @return std::true_type The successful transcription result object containing all necessary details. Throws an exception upon failure.
+     */
     [[nodiscard]] virtual audio::TranscriptionResult    transcribe(const std::vector<float>& pcm,
                                                      float sample_rate) = 0;
+    /**
+     * @brief Detects the language spoken within the audio input bytes before transcription.
+     * 
+     * This preparatory method analyzes the raw audio data stream to determine the primary natural language,
+     * optimizing subsequent transcription calls for accuracy and localization. The detected language code
+     * (e.g., 'en', 'de') can be crucial for selecting the appropriate Whisper model variant or
+     * pre-processing configuration.
+     * 
+     * @param audioInput Raw byte array stream containing the audio data to analyze.
+     * @return std::true_type If a dominant language was successfully identified and configured. Returns {@link DetectionError} upon failure or ambiguity.
+     */
     [[nodiscard]] virtual audio::LanguageDetectionResult detectLanguage(const std::vector<float>& pcm,
                                                           float sample_rate) = 0;
 
@@ -55,10 +104,20 @@ public:
      * as one token.  Implementations backed by a real model should call
      * the callback for every word or segment.
      */
-    virtual audio::TranscriptionResult transcribeStream(
-            const std::vector<float>& pcm,
-            float sample_rate,
-            audio::StreamCallback callback) {
+    /**<0x0D>
+     * @brief Transcribes the provided audio input incrementally via a callback stream.<0x0D>
+     * <0x0D>
+     * This method is intended for streaming or word-by-word transcription scenarios where the full<0x0D>
+     * text result is not available until all data has been processed. Implementations must call the provided<0x0D>
+     * {@link audio::StreamCallback} with interim results as soon as they become available, and finally return a complete<0x0D>
+     * {@link audio::TranscriptionResult} object upon stream completion. This pattern allows ThemisDB to process very long<0x0D>
+     * audio files in chunks without excessive memory usage or latency blocks.<0x0D>
+     * <0x0D>
+     * @param pcm Reference to the raw PCM audio data buffer (float array). Must be correctly formatted and not empty. The sample rate of this data dictates context for downstream processing.<0x0D>
+     * @param sample_rate The sample rate (e.g., 16000.0 Hz) corresponding to the input `pcm` data. Must match the expected format for Whisper models.
+     * @param callback The asynchronous callback function pointer or lambda that will be invoked with partial transcription results, word boundaries, and timing information as they are processed by the model. Ownership of this callback is maintained until stream completion.<0x0D>
+     * @return audio::TranscriptionResult A fully formed result object upon successful completion of the entire stream processing. Throws an implementation-defined exception if streaming fails or the end-of-stream sequence is interrupted.
+     */
         auto result = transcribe(pcm, sample_rate);
         if (result.success && callback) {
             audio::TranscriptionToken tok;
@@ -70,7 +129,81 @@ public:
         return result;
     }
 
+    /**
+     * @brief Retrieves the unique identifier string for the loaded Whisper model.
+     * @details This model ID determines which specific pre-trained weight set was used for transcription. 
+     *   This information is crucial for external debugging, reproducibility checks, and logging purposes when linking a transcript to its source model version.
+     * @return std::string The unique identifier string for the initialized Whisper audio model (e.g., "small", "medium").
+     */
     [[nodiscard]] virtual std::string getModelId() const = 0;
+
+    /**
+     * \brief Serializes the current state of the transcriber.
+     * @details This method generates a compact, self-contained representation of the
+     *   transcriber's internal state (e.g., accumulated phrases, metadata). These serialized
+     *   data structures can be persisted to disk or transmitted over a network and later
+     *   restored by calling loadState(). The format must be strictly defined to ensure
+     *   reproducibility across different application runs.
+     * @return A byte buffer containing the entire persistent state of the transcriber.
+     */
+    virtual std::vector<char> serialize() const = 0;
+
+    /**
+     * \brief Loads and restores the internal state of the transcriber from a serialized stream.
+     * @details This function takes raw bytes representing a saved state and reconstructs
+     *   all necessary internal variables, such as accumulated text segments or chunk
+     *   metadata required for continued transcription. Failure to provide valid data
+     *   will result in an exception or corrupted state.
+     * @param stateData The byte buffer containing the serialized transcriber state. Must not be empty.
+     */
+    virtual void loadState(const std::vector<char>& stateData) = 0;
+
+    /**
+     * @brief Serializes the entire state of the transcriber to a data stream or file.
+     *
+     * This function is crucial for persisting the active session state (including transcript segments,
+     * internal buffers, and configuration) so that it can be reliably restored later.
+     * The format used must adhere strictly to ThemisDB's defined serialization protocol v2.0.
+     *
+     * @param stream A reference to the output stream (e.g., std::ostream&) where the serialized data will be written. This stream must be open and writable.
+     * @return true if the serialization was successful for all components; false otherwise, indicating a critical failure during write operations.
+     */
+    /**
+     * @brief Serializes the current state of the transcriber object to a given output stream.
+     * @details This function is essential for saving the runtime state (e.g., model configuration, last recognized features)
+     * so that the transcriber can be re-initialized exactly at a later point in the application lifecycle (persistence).
+     * @param stream A constant reference to an output stream (std::ostream&), such as std::ofstream. The state data will be written directly to this stream.
+     * @return bool Returns true if all necessary components were successfully written to the stream; otherwise, false. Must check for streaming errors.
+     */
+    virtual bool serialize(std::ostream& stream) const = 0;
+
+    /**
+     * @brief Deserializes the transcriber object's state from an input stream.
+     *
+     * This method is responsible for reading and restoring all necessary internal parameters, model configurations (e.g., whisper version ID), and any transient state data previously saved by `serialize()`. It must ensure the object's methods are updated to reflect the loaded state.
+     * @param stream A constant reference to an input stream (`std::istream&`). The deserialization logic must read and reconstruct all critical state information from this provided stream.
+     * @return bool Returns `true` if the state was successfully reconstructed from the stream; otherwise, it returns `false`, indicating that the stream data was corrupted or incomplete.
+     */
+    virtual bool deserialize(std::istream& stream) = 0;
+
+    /**
+     * @brief Checks if a given state identifier is known and loadable by the current instance.
+     *
+     * This is used primarily for version checking before attempting deserialization, ensuring that incompatible schema changes do not cause runtime failures.
+     * It should return true only for versions explicitly supported by the implementation class derived from this interface.
+     *
+     * @param version_id The unique string identifier representing the model/state version (e.g., "V2\_LSTM\_2024").
+     * @return bool True if the system recognizes and supports initializing with this specific version ID; otherwise, false.
+     */
+    virtual bool isVersionSupported(const std::string& version_id) const = 0;
+
+    /**
+     * @brief Checks if a specific whisper model version ID is supported by this transcriber implementation.
+     *
+     * This contract method allows client code to verify compatibility before attempting complex operations like initialization or transcription. The returned boolean value determines whether the underlying Whisper engine (or its required dependencies) recognizes and supports the provided version string.
+     * @param version_id A constant reference to a `std::string`. This must match one of the supported model identifiers for this implementation of $IWhisperTranscriber$.
+     * @return bool Returns `true` if `$version_id` corresponds to a supported model; otherwise, it returns `false`, signaling an unsupported version attempt.
+     */
 };
 
 // ---------------------------------------------------------------------------
@@ -97,6 +230,44 @@ public:
     audio::LanguageDetectionResult detectLanguage(const std::vector<float>& pcm,
                                                   float sample_rate) override;
     std::string getModelId() const override { return model_id_; }
+    std::vector<char> serialize() const override {
+        std::vector<char> state;
+        state.reserve(1 + model_id_.size());
+        state.push_back(initialized_ ? '\x01' : '\x00');
+        state.insert(state.end(), model_id_.begin(), model_id_.end());
+        return state;
+    }
+    void loadState(const std::vector<char>& stateData) override {
+        if (stateData.empty()) {
+            initialized_ = false;
+            model_id_.clear();
+            return;
+        }
+        initialized_ = false; // Runtime context is rebuilt via initialize().
+        model_id_.assign(stateData.begin() + 1, stateData.end());
+    }
+    bool serialize(std::ostream& stream) const override {
+        const auto state = serialize();
+        if (!state.empty()) {
+            stream.write(state.data(), static_cast<std::streamsize>(state.size()));
+        }
+        return static_cast<bool>(stream);
+    }
+    bool deserialize(std::istream& stream) override {
+        std::vector<char> state;
+        char ch = '\0';
+        while (stream.get(ch)) {
+            state.push_back(ch);
+        }
+        if (stream.bad()) {
+            return false;
+        }
+        loadState(state);
+        return true;
+    }
+    bool isVersionSupported(const std::string& version_id) const override {
+        return version_id.empty() || version_id == "v1" || version_id == "whisper-state-v1";
+    }
 
 private:
     bool        initialized_ = false;
@@ -164,6 +335,44 @@ public:
         return {"unknown", 0.0f};
     }
     std::string getModelId() const override { return model_id_; }
+    std::vector<char> serialize() const override {
+        std::vector<char> state;
+        state.reserve(1 + model_id_.size());
+        state.push_back(initialized_ ? '\x01' : '\x00');
+        state.insert(state.end(), model_id_.begin(), model_id_.end());
+        return state;
+    }
+    void loadState(const std::vector<char>& stateData) override {
+        if (stateData.empty()) {
+            initialized_ = false;
+            model_id_ = "stub";
+            return;
+        }
+        initialized_ = (stateData.front() != '\x00');
+        model_id_.assign(stateData.begin() + 1, stateData.end());
+    }
+    bool serialize(std::ostream& stream) const override {
+        const auto state = serialize();
+        if (!state.empty()) {
+            stream.write(state.data(), static_cast<std::streamsize>(state.size()));
+        }
+        return static_cast<bool>(stream);
+    }
+    bool deserialize(std::istream& stream) override {
+        std::vector<char> state;
+        char ch = '\0';
+        while (stream.get(ch)) {
+            state.push_back(ch);
+        }
+        if (stream.bad()) {
+            return false;
+        }
+        loadState(state);
+        return true;
+    }
+    bool isVersionSupported(const std::string& version_id) const override {
+        return version_id.empty() || version_id == "v1" || version_id == "stub-state-v1";
+    }
 
 private:
     bool        initialized_ = false;
@@ -229,6 +438,44 @@ public:
     }
 
     std::string getModelId() const override { return model_id_; }
+    std::vector<char> serialize() const override {
+        std::vector<char> state;
+        state.reserve(1 + model_id_.size());
+        state.push_back(initialized_ ? '\x01' : '\x00');
+        state.insert(state.end(), model_id_.begin(), model_id_.end());
+        return state;
+    }
+    void loadState(const std::vector<char>& stateData) override {
+        if (stateData.empty()) {
+            initialized_ = false;
+            model_id_ = "inmemory";
+            return;
+        }
+        initialized_ = (stateData.front() != '\x00');
+        model_id_.assign(stateData.begin() + 1, stateData.end());
+    }
+    bool serialize(std::ostream& stream) const override {
+        const auto state = serialize();
+        if (!state.empty()) {
+            stream.write(state.data(), static_cast<std::streamsize>(state.size()));
+        }
+        return static_cast<bool>(stream);
+    }
+    bool deserialize(std::istream& stream) override {
+        std::vector<char> state;
+        char ch = '\0';
+        while (stream.get(ch)) {
+            state.push_back(ch);
+        }
+        if (stream.bad()) {
+            return false;
+        }
+        loadState(state);
+        return true;
+    }
+    bool isVersionSupported(const std::string& version_id) const override {
+        return version_id.empty() || version_id == "v1" || version_id == "inmemory-state-v1";
+    }
 
 private:
     bool        initialized_ = false;

@@ -43,6 +43,8 @@
 namespace themis {
 namespace utils {
 
+LogMetrics Logger::metrics_{};
+
 namespace {
 /// Minimal JSON-string escape for embedding a value inside "…".
 /// Only escapes characters that would break JSON: backslash and double-quote.
@@ -71,8 +73,6 @@ std::string jsonEscapeTraceId(const std::string& s) {
 // Private helper
 // ─────────────────────────────────────────────────────────────────────────────
 
-LogMetrics Logger::metrics_{};
-
 spdlog::level::level_enum Logger::toSpdlogLevel(Level level) {
     switch (level) {
         case Level::TRACE:    return spdlog::level::trace;
@@ -83,6 +83,10 @@ spdlog::level::level_enum Logger::toSpdlogLevel(Level level) {
         case Level::CRITICAL: return spdlog::level::critical;
         default:              return spdlog::level::info;
     }
+}
+
+LogMetrics& Logger::metricsStorage() {
+    return metrics_;
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -252,11 +256,11 @@ std::string Logger::getTraceContext() {
 // ─────────────────────────────────────────────────────────────────────────────
 
 const LogMetrics& Logger::getMetrics() {
-    return metrics_;
+    return metricsStorage();
 }
 
 void Logger::resetMetrics() {
-    metrics_.reset();
+    metricsStorage().reset();
 }
 
 // ─────────────────────────────────────────────────────────────────────────────

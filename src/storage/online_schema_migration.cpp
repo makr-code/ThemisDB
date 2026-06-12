@@ -29,10 +29,60 @@
 #define LOG_WARN(...)  SPDLOG_WARN(__VA_ARGS__)
 
 #include <algorithm>
+#include <cctype>
 #include <stdexcept>
 
 namespace themis {
 namespace storage {
+
+namespace {
+
+std::string normalizePropertyType(const std::string& type) {
+    std::string trimmed;
+    trimmed.reserve(type.size());
+    for (char ch : type) {
+        if (!std::isspace(static_cast<unsigned char>(ch))) {
+            trimmed.push_back(ch);
+        }
+    }
+
+    std::string upper = trimmed;
+    std::transform(upper.begin(), upper.end(), upper.begin(),
+                   [](unsigned char c) { return static_cast<char>(std::toupper(c)); });
+
+    auto starts_with = [&](const char* prefix) {
+        const std::string p(prefix);
+        return upper.rfind(p, 0) == 0;
+    };
+
+    if (starts_with("VARCHAR") || starts_with("CHAR") || starts_with("TEXT") || starts_with("STRING")) {
+        return "string";
+    }
+    if (starts_with("INT") || starts_with("INTEGER") || starts_with("BIGINT") ||
+        starts_with("SMALLINT") || starts_with("TINYINT")) {
+        return "integer";
+    }
+    if (starts_with("DOUBLE") || starts_with("FLOAT") || starts_with("REAL") ||
+        starts_with("DECIMAL") || starts_with("NUMERIC")) {
+        return "double";
+    }
+    if (starts_with("BOOL") || starts_with("BOOLEAN")) {
+        return "boolean";
+    }
+    if (starts_with("BINARY") || starts_with("VARBINARY") || starts_with("BLOB") || starts_with("BYTEA")) {
+        return "binary";
+    }
+    if (starts_with("VECTOR")) {
+        return "vector";
+    }
+    if (starts_with("NULL")) {
+        return "null";
+    }
+
+    return trimmed;
+}
+
+} // namespace
 
 // uncategorized Line-0 scanner noise: the static scanner produced 9 findings
 // with no locatable source line in this file; these are non-actionable scanner
@@ -351,7 +401,7 @@ MigrationResult SchemaMigrator::applyAddColumn(
 
     SchemaManager::PropertyInfo prop;
     prop.name     = op.column_name;
-    prop.type     = op.column_type;
+    prop.type     = normalizePropertyType(op.column_type);
     prop.nullable = op.nullable;
     schema.properties.push_back(std::move(prop));
 
@@ -466,7 +516,7 @@ MigrationResult SchemaMigrator::applyChangeColumnType(
     }
 
     std::string old_type = it->type;
-    it->type     = op.column_type;
+    it->type     = normalizePropertyType(op.column_type);
     it->nullable = op.nullable;
 
     r.success = true;
@@ -591,19 +641,19 @@ MigrationResult SchemaMigrator::applyPartitionTable(
 
     // Record partition metadata via a synthetic property on the schema
     // Naming convention: "__partition_key" and "__num_partitions"
-    auto set_or_update = [&](const std::string& name, const std::string& value) {
+    auto set_or_update = [&](const std::string& name, const std::string& value_type) {
         for (auto& p : schema.properties) {
-            if (p.name == name) { p.type = value; return; }
+            if (p.name == name) { p.type = value_type; return; }
         }
         SchemaManager::PropertyInfo meta;
         meta.name     = name;
-        meta.type     = value;
+        meta.type     = value_type;
         meta.nullable = false;
         schema.properties.push_back(std::move(meta));
     };
 
-    set_or_update("__partition_key",  op.partition_key);
-    set_or_update("__num_partitions", std::to_string(op.num_partitions));
+    set_or_update("__partition_key",  "string");
+    set_or_update("__num_partitions", "integer");
 
     r.success = true;
     LOG_INFO("SchemaMigrator: PARTITION TABLE '{}' by '{}' ({} partitions)",

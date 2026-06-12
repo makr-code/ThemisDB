@@ -504,8 +504,10 @@ TEST_F(ConcurrentWriteControllerFocusedTests, TenThreadStressCVUnder20Pct) {
             for (int i = 0; i < kItersEach; ++i) {
                 const auto t0 = std::chrono::steady_clock::now();
                 auto g = wc.acquire();
-                // Simulate a brief write (50µs)
-                std::this_thread::sleep_for(std::chrono::microseconds(50));
+                // Simulate a short but scheduler-robust write duration.
+                // 50µs tends to be below practical timer/scheduling granularity
+                // on loaded CI runners and can inflate CV spuriously.
+                std::this_thread::sleep_for(std::chrono::microseconds(200));
                 g.release();
                 const auto elapsed = std::chrono::duration<double, std::micro>(
                     std::chrono::steady_clock::now() - t0).count();
@@ -521,10 +523,23 @@ TEST_F(ConcurrentWriteControllerFocusedTests, TenThreadStressCVUnder20Pct) {
     for (auto& v : latencies)
         all.insert(all.end(), v.begin(), v.end());
 
-    const double mean = std::accumulate(all.begin(), all.end(), 0.0) / all.size();
+    std::sort(all.begin(), all.end());
+    const size_t trim = all.size() / 20; // trim 5% low + 5% high
+    auto begin_it = all.begin() + static_cast<std::ptrdiff_t>(trim);
+    auto end_it   = all.end() - static_cast<std::ptrdiff_t>(trim);
+    if (begin_it >= end_it) {
+        begin_it = all.begin();
+        end_it   = all.end();
+    }
+    const size_t n = static_cast<size_t>(std::distance(begin_it, end_it));
+
+    const double mean = std::accumulate(begin_it, end_it, 0.0) / static_cast<double>(n);
     double sq_sum = 0.0;
-    for (double v : all) sq_sum += (v - mean) * (v - mean);
-    const double stddev = std::sqrt(sq_sum / all.size());
+    for (auto it = begin_it; it != end_it; ++it) {
+        const double v = *it;
+        sq_sum += (v - mean) * (v - mean);
+    }
+    const double stddev = std::sqrt(sq_sum / static_cast<double>(n));
     const double cv     = stddev / mean;
 
     EXPECT_LT(cv, 0.20)

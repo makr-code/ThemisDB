@@ -3706,6 +3706,15 @@ http::response<http::string_body> QueryApiHandler::handleQueryStreamSse(
                               {"status_code", aql_resp.result_int()}};
             body << "event: error\n";
             body << "data: " << err_event.dump() << "\n\n";
+
+            json done_event = {
+                {"rows_streamed", 0},
+                {"total", 0},
+                {"error", true}
+            };
+            body << "event: done\n";
+            body << "data: " << done_event.dump() << "\n\n";
+
             span.setStatus(false, "query_error");
             res.body() = body.str();
             res.prepare_payload();

@@ -596,22 +596,32 @@ void DistributedCoordinator::setTransactionCoordinator(
 std::vector<themisdb::sharding::CrossShardTransaction>
 DistributedCoordinator::listInFlightTransactions() const
 {
-    std::shared_lock<std::shared_mutex> lock(txn_coordinator_mutex_);
-    if (!txn_coordinator_) {
+    themisdb::sharding::CrossShardTransactionCoordinator* txn_coordinator = nullptr;
+    {
+        std::shared_lock<std::shared_mutex> lock(txn_coordinator_mutex_);
+        txn_coordinator = txn_coordinator_;
+    }
+
+    if (!txn_coordinator) {
         return {};
     }
-    return txn_coordinator_->getActiveTransactions();
+    return txn_coordinator->getActiveTransactions();
 }
 
 /** @brief Lookup one transaction by ID via wired transaction coordinator. */
 std::optional<themisdb::sharding::CrossShardTransaction>
 DistributedCoordinator::getTransaction(const std::string& txn_id) const
 {
-    std::shared_lock<std::shared_mutex> lock(txn_coordinator_mutex_);
-    if (!txn_coordinator_) {
+    themisdb::sharding::CrossShardTransactionCoordinator* txn_coordinator = nullptr;
+    {
+        std::shared_lock<std::shared_mutex> lock(txn_coordinator_mutex_);
+        txn_coordinator = txn_coordinator_;
+    }
+
+    if (!txn_coordinator) {
         return std::nullopt;
     }
-    return txn_coordinator_->getTransaction(txn_id);
+    return txn_coordinator->getTransaction(txn_id);
 }
 
 } // namespace themis::sharding

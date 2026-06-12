@@ -23,8 +23,49 @@
 #include "index/secondary_index.h"
 #include <thread>
 #include <chrono>
+#include <filesystem>
+#include <stdexcept>
 
 using namespace themis;
+
+namespace {
+
+class QueryOptimizerTestHarness {
+public:
+    QueryOptimizerTestHarness()
+        : db_path_(std::filesystem::temp_directory_path() /
+                   ("themis_query_optimizer_test_" +
+                    std::to_string(std::chrono::high_resolution_clock::now().time_since_epoch().count()))),
+          db_(makeConfig(db_path_.string())),
+          sec_idx_(db_),
+          optimizer_(sec_idx_) {
+        std::filesystem::remove_all(db_path_);
+        if (!db_.open()) {
+            throw std::runtime_error("Failed to open RocksDB in QueryOptimizerTestHarness");
+        }
+    }
+
+    ~QueryOptimizerTestHarness() {
+        db_.close();
+        std::filesystem::remove_all(db_path_);
+    }
+
+    QueryOptimizer& optimizer() { return optimizer_; }
+
+private:
+    static RocksDBWrapper::Config makeConfig(const std::string& path) {
+        RocksDBWrapper::Config cfg;
+        cfg.db_path = path;
+        return cfg;
+    }
+
+    std::filesystem::path db_path_;
+    RocksDBWrapper db_;
+    SecondaryIndexManager sec_idx_;
+    QueryOptimizer optimizer_;
+};
+
+} // namespace
 
 // ============================================================================
 // AdaptiveQueryStats Tests
@@ -362,14 +403,10 @@ TEST(NumaAwareOptimizer, GetNumaNodeCount) {
 // ============================================================================
 
 TEST(QueryOptimizer, VectorWorkloadSmallDataset) {
-    RocksDBWrapper::Config cfg;
-    cfg.db_path = ":memory:";
-    RocksDBWrapper db(cfg);
-    SecondaryIndexManager secIdx(db);
-    QueryOptimizer optimizer(secIdx);
+    QueryOptimizerTestHarness harness;
     
     // Small dataset should use flat index
-    auto plan = optimizer.optimizeVectorWorkload(10, 500, 128, 0.95);
+    auto plan = harness.optimizer().optimizeVectorWorkload(10, 500, 128, 0.95);
     
     EXPECT_EQ(plan.index_type, "flat");
     EXPECT_EQ(plan.recommended_k_overfetch, 10);
@@ -377,14 +414,10 @@ TEST(QueryOptimizer, VectorWorkloadSmallDataset) {
 }
 
 TEST(QueryOptimizer, VectorWorkloadMediumDataset) {
-    RocksDBWrapper::Config cfg;
-    cfg.db_path = ":memory:";
-    RocksDBWrapper db(cfg);
-    SecondaryIndexManager secIdx(db);
-    QueryOptimizer optimizer(secIdx);
+    QueryOptimizerTestHarness harness;
     
     // Medium dataset should use IVF
-    auto plan = optimizer.optimizeVectorWorkload(10, 5000, 128, 0.95);
+    auto plan = harness.optimizer().optimizeVectorWorkload(10, 5000, 128, 0.95);
     
     EXPECT_EQ(plan.index_type, "ivf");
     EXPECT_GT(plan.recommended_ef_search, 0);
@@ -392,14 +425,10 @@ TEST(QueryOptimizer, VectorWorkloadMediumDataset) {
 }
 
 TEST(QueryOptimizer, VectorWorkloadLargeDataset) {
-    RocksDBWrapper::Config cfg;
-    cfg.db_path = ":memory:";
-    RocksDBWrapper db(cfg);
-    SecondaryIndexManager secIdx(db);
-    QueryOptimizer optimizer(secIdx);
+    QueryOptimizerTestHarness harness;
     
     // Large dataset should use HNSW
-    auto plan = optimizer.optimizeVectorWorkload(10, 50000, 128, 0.95);
+    auto plan = harness.optimizer().optimizeVectorWorkload(10, 50000, 128, 0.95);
     
     EXPECT_EQ(plan.index_type, "hnsw");
     EXPECT_GE(plan.recommended_ef_search, 16);
@@ -409,15 +438,11 @@ TEST(QueryOptimizer, VectorWorkloadLargeDataset) {
 }
 
 TEST(QueryOptimizer, VectorWorkloadHighRecallTarget) {
-    RocksDBWrapper::Config cfg;
-    cfg.db_path = ":memory:";
-    RocksDBWrapper db(cfg);
-    SecondaryIndexManager secIdx(db);
-    QueryOptimizer optimizer(secIdx);
+    QueryOptimizerTestHarness harness;
     
     // High recall target should increase ef_search
-    auto plan_high = optimizer.optimizeVectorWorkload(10, 50000, 128, 0.99);
-    auto plan_low = optimizer.optimizeVectorWorkload(10, 50000, 128, 0.90);
+    auto plan_high = harness.optimizer().optimizeVectorWorkload(10, 50000, 128, 0.99);
+    auto plan_low = harness.optimizer().optimizeVectorWorkload(10, 50000, 128, 0.90);
     
     EXPECT_GT(plan_high.recommended_ef_search, plan_low.recommended_ef_search);
 }
@@ -427,14 +452,10 @@ TEST(QueryOptimizer, VectorWorkloadHighRecallTarget) {
 // ============================================================================
 
 TEST(QueryOptimizer, GraphWorkloadSmallExpansion) {
-    RocksDBWrapper::Config cfg;
-    cfg.db_path = ":memory:";
-    RocksDBWrapper db(cfg);
-    SecondaryIndexManager secIdx(db);
-    QueryOptimizer optimizer(secIdx);
+    QueryOptimizerTestHarness harness;
     
     // Small expansion - no need for parallelism
-    auto plan = optimizer.optimizeGraphWorkload(3, 2, false);
+    auto plan = harness.optimizer().optimizeGraphWorkload(3, 2, false);
     
     EXPECT_EQ(plan.max_expansion_depth, 3);
     EXPECT_FALSE(plan.use_bidirectional_search);
@@ -443,41 +464,29 @@ TEST(QueryOptimizer, GraphWorkloadSmallExpansion) {
 }
 
 TEST(QueryOptimizer, GraphWorkloadLargeExpansion) {
-    RocksDBWrapper::Config cfg;
-    cfg.db_path = ":memory:";
-    RocksDBWrapper db(cfg);
-    SecondaryIndexManager secIdx(db);
-    QueryOptimizer optimizer(secIdx);
+    QueryOptimizerTestHarness harness;
     
     // Large branching factor - should use bidirectional search
-    auto plan = optimizer.optimizeGraphWorkload(5, 10, false);
+    auto plan = harness.optimizer().optimizeGraphWorkload(5, 10, false);
     
     EXPECT_TRUE(plan.use_bidirectional_search);
     EXPECT_GT(plan.recommended_parallelism, 1);
 }
 
 TEST(QueryOptimizer, GraphWorkloadSpatialConstraint) {
-    RocksDBWrapper::Config cfg;
-    cfg.db_path = ":memory:";
-    RocksDBWrapper db(cfg);
-    SecondaryIndexManager secIdx(db);
-    QueryOptimizer optimizer(secIdx);
+    QueryOptimizerTestHarness harness;
     
     // With spatial constraint - should enable pruning
-    auto plan = optimizer.optimizeGraphWorkload(4, 5, true);
+    auto plan = harness.optimizer().optimizeGraphWorkload(4, 5, true);
     
     EXPECT_TRUE(plan.enable_spatial_pruning);
 }
 
 TEST(QueryOptimizer, GraphWorkloadMediumExpansion) {
-    RocksDBWrapper::Config cfg;
-    cfg.db_path = ":memory:";
-    RocksDBWrapper db(cfg);
-    SecondaryIndexManager secIdx(db);
-    QueryOptimizer optimizer(secIdx);
+    QueryOptimizerTestHarness harness;
     
     // Medium expansion - should suggest some parallelism
-    auto plan = optimizer.optimizeGraphWorkload(4, 8, false);
+    auto plan = harness.optimizer().optimizeGraphWorkload(4, 8, false);
     
     EXPECT_GT(plan.recommended_parallelism, 1);
     EXPECT_LE(plan.recommended_parallelism, 8);
@@ -488,19 +497,15 @@ TEST(QueryOptimizer, GraphWorkloadMediumExpansion) {
 // ============================================================================
 
 TEST(QueryOptimizer, DistributedPlanNumaAwareness) {
-    RocksDBWrapper::Config cfg;
-    cfg.db_path = ":memory:";
-    RocksDBWrapper db(cfg);
-    SecondaryIndexManager secIdx(db);
-    QueryOptimizer optimizer(secIdx);
-    optimizer.enableAdaptiveOptimization(true);
+    QueryOptimizerTestHarness harness;
+    harness.optimizer().enableAdaptiveOptimization(true);
     
     ConjunctiveQuery query;
     query.table = "test_table";
     
     // Large number of shards should enable NUMA awareness
     std::vector<std::string> shards = {"s1", "s2", "s3", "s4", "s5", "s6"};
-    auto plan = optimizer.optimizeForDistribution(query, shards, true);
+    auto plan = harness.optimizer().optimizeForDistribution(query, shards, true);
     
     EXPECT_LE(plan.shard_ids.size(), shards.size());
     EXPECT_GT(plan.recommended_parallelism, 0);

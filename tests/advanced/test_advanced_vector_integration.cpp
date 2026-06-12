@@ -19,6 +19,7 @@
 
 #include <gtest/gtest.h>
 #include <filesystem>
+#include <chrono>
 #include "storage/rocksdb_wrapper.h"
 #include "index/vector_index.h"
 #include "index/advanced_vector_index.h"
@@ -27,7 +28,10 @@
 class AdvancedVectorIntegrationTest : public ::testing::Test {
 protected:
     void SetUp() override {
-        db_path_ = "./data/themis_advanced_vector_test";
+                db_path_ = (std::filesystem::temp_directory_path() /
+                                        ("themis_advanced_vector_test_" +
+                                         std::to_string(std::chrono::high_resolution_clock::now().time_since_epoch().count())))
+                                             .string();
         std::filesystem::remove_all(db_path_);
 
         themis::RocksDBWrapper::Config cfg;
@@ -166,8 +170,12 @@ TEST_F(AdvancedVectorIntegrationTest, SaveAndLoad) {
     config.index_type = themis::AdvancedVectorIndex::Config::Type::IVF_FLAT;
     config.use_gpu = false;
     
-    std::string save_path = "./data/themis_advanced_vector_test/index_save";
-    std::filesystem::create_directories(save_path);
+        std::string save_dir = (std::filesystem::temp_directory_path() /
+                                                         ("themis_advanced_vector_index_save_" +
+                                                            std::to_string(std::chrono::high_resolution_clock::now().time_since_epoch().count())))
+                                                                .string();
+        std::filesystem::create_directories(save_dir);
+        std::string save_path = (std::filesystem::path(save_dir) / "index.faiss").string();
     
     #ifdef THEMIS_HAS_FAISS
     // Create and train index
@@ -203,7 +211,7 @@ TEST_F(AdvancedVectorIntegrationTest, SaveAndLoad) {
     GTEST_SKIP() << "FAISS not available in this build";
     #endif
     
-    std::filesystem::remove_all(save_path);
+    std::filesystem::remove_all(save_dir);
 }
 
 // Test batch search
@@ -277,8 +285,12 @@ TEST_F(AdvancedVectorIntegrationTest, StubCallbacksProvideNonFaissBridge) {
     auto result = index.search(training.data(), 2);
     ASSERT_EQ(result.ids.size(), 2u);
     EXPECT_EQ(result.ids[0], 7);
-    EXPECT_TRUE(index.save("/tmp/adv-index"));
-    EXPECT_TRUE(index.load("/tmp/adv-index"));
+    const auto stub_path =
+        (std::filesystem::temp_directory_path() /
+         ("adv-index-" + std::to_string(std::chrono::high_resolution_clock::now().time_since_epoch().count())))
+            .string();
+    EXPECT_TRUE(index.save(stub_path));
+    EXPECT_TRUE(index.load(stub_path));
 
     themis::AdvancedVectorIndex::setStubCallbacks({});
 #else

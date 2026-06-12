@@ -136,7 +136,7 @@ TEST_F(OnlineSchemaMigrationFocusedTests, AddColumn_Basic) {
 
     auto schema = fetch("users");
     ASSERT_NE(findProp(schema, "email"), nullptr);
-    EXPECT_EQ(findProp(schema, "email")->type, "VARCHAR(255)");
+    EXPECT_EQ(findProp(schema, "email")->type, "string");
 }
 
 // ============================================================================
@@ -434,8 +434,8 @@ TEST_F(OnlineSchemaMigrationFocusedTests, PartitionTable_Basic) {
     auto* pnum  = findProp(schema, "__num_partitions");
     ASSERT_NE(pkey, nullptr);
     ASSERT_NE(pnum, nullptr);
-    EXPECT_EQ(pkey->type, "region");
-    EXPECT_EQ(pnum->type, "4");
+    EXPECT_EQ(pkey->type, "string");
+    EXPECT_EQ(pnum->type, "integer");
 }
 
 // ============================================================================

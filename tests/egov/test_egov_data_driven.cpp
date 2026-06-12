@@ -282,6 +282,14 @@ struct EGovFixtureContext {
         cfg.model_name  = "themis-stub";
         cfg.temperature = 0.0;
         llm = std::make_unique<LLMProcessAnalyzer>(cfg);
+
+        EIDAuthConfig eid_cfg;
+        eid_cfg.enabled = true;
+        eid_cfg.eid_server_url = "https://eid.local/auth";
+        eid_cfg.terminal_certificate = "test-terminal-cert";
+        if (!eid.initialize(eid_cfg)) {
+            throw std::runtime_error("InMemoryEIDAuthenticator konnte nicht initialisiert werden");
+        }
     }
 
     void logPhase(const std::string& phase) {

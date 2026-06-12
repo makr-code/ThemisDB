@@ -23,7 +23,13 @@
 #include <string>
 #include <vector>
 #include <map>
+#if __has_include("shard_rpc.pb.h")
 #include "shard_rpc.pb.h"
+#elif __has_include("proto_generated/shard_rpc.pb.h")
+#include "proto_generated/shard_rpc.pb.h"
+#else
+#error "Required protobuf header shard_rpc.pb.h not found."
+#endif
 
 namespace themis {
 namespace rpc {

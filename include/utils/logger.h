@@ -135,6 +135,7 @@ private:
     inline static std::mutex trace_context_mu_{};
     inline static bool json_mode_ = false;
 
+    static LogMetrics& metricsStorage();
     static spdlog::level::level_enum toSpdlogLevel(Level level);
 };
 

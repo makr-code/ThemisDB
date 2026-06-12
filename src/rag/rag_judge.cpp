@@ -138,21 +138,30 @@ RAGJudge::RAGJudge(const RAGJudgeConfig& config)
         throw;
     }
     
-    // Initialize enhanced LLM Judge Client (connects to InferenceEngineEnhanced)
-    // Protect initialization with lock to prevent data races during concurrent access
+    // Initialize enhanced LLM Judge Client only when explicitly requested.
+    // This avoids spinning up heavyweight inference infrastructure in FAST/unit paths.
+    const bool requires_llm_judge_client =
+        config.use_llm_judge_client ||
+        config.use_geval_scoring ||
+        config.use_quality_control_pipeline;
     try {
         std::lock_guard<std::mutex> lock(impl_->callback_mutex);  // RAII barrier
-        LLMJudgeClient::Config client_config;
-        client_config.model_name = config.judge_model;
-        client_config.temperature = 0.3;
-        client_config.max_tokens = 1024;
-        client_config.enable_caching = config.cache_evaluations;
-        client_config.enable_batching = config.async_evaluation;
-        client_config.batch_size = config.batch_size;
-        impl_->llm_judge_client = std::make_shared<LLMJudgeClient>(client_config);
-        impl_->llm_judge_client_initialized.store(true, std::memory_order_release);
-        
-        // Initialize NLI verifier for claim verification
+        if (requires_llm_judge_client) {
+            LLMJudgeClient::Config client_config;
+            client_config.model_name = config.judge_model;
+            client_config.temperature = 0.3;
+            client_config.max_tokens = 1024;
+            client_config.enable_caching = config.cache_evaluations;
+            client_config.enable_batching = config.async_evaluation;
+            client_config.batch_size = config.batch_size;
+            impl_->llm_judge_client = std::make_shared<LLMJudgeClient>(client_config);
+            impl_->llm_judge_client_initialized.store(true, std::memory_order_release);
+        } else {
+            impl_->llm_judge_client.reset();
+            impl_->llm_judge_client_initialized.store(false, std::memory_order_release);
+        }
+
+        // NLI verifier remains lightweight and can be used independently.
         impl_->nli_verifier = std::make_shared<NLIFaithfulnessVerifier>();
         impl_->nli_verifier_initialized.store(true, std::memory_order_release);
     } catch (const std::exception& e) {

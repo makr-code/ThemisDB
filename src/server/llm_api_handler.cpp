@@ -177,6 +177,40 @@ http::response<http::string_body> LLMApiHandler::handleRequest(
             return handleOpenAIListModels(req);
         }
 
+        const bool known_llm_route =
+            (target == "/api/v1/llm/inference" && method == http::verb::post) ||
+            (target == "/api/v1/llm/rag" && method == http::verb::post) ||
+            (target == "/api/v1/llm/embed" && method == http::verb::post) ||
+            (target == "/api/v1/llm/stream" && method == http::verb::get) ||
+            (target == "/api/v1/llm/models" && method == http::verb::get) ||
+            (target == "/api/v1/llm/models/load" && method == http::verb::post) ||
+            (target == "/api/v1/llm/models/unload" && method == http::verb::post) ||
+            (target.starts_with("/api/v1/llm/models/") && method == http::verb::get) ||
+            (target == "/api/v1/llm/models/ingest" && method == http::verb::post) ||
+            (target == "/api/v1/llm/loras" && method == http::verb::get) ||
+            (target == "/api/v1/llm/loras/load" && method == http::verb::post) ||
+            (target == "/api/v1/llm/loras/unload" && method == http::verb::post) ||
+            (target == "/api/v1/llm/stats" && method == http::verb::get) ||
+            (target == "/api/v1/llm/cache/stats" && method == http::verb::get) ||
+            (target == "/api/v1/llm/cache" && method == http::verb::delete_) ||
+            (target == "/api/v1/llm/health" && method == http::verb::get) ||
+            (target == "/api/v1/llm/docs/query" && method == http::verb::post) ||
+            (target == "/api/v1/llm/docs/config" && method == http::verb::post) ||
+            (target == "/api/v1/llm/docs/troubleshoot" && method == http::verb::post) ||
+            (target == "/api/v1/llm/feedback" && method == http::verb::post) ||
+            (target == "/api/v1/llm/feedback" && method == http::verb::get) ||
+            (target == "/api/v1/llm/feedback/stats" && method == http::verb::get) ||
+            (target.starts_with("/api/v1/llm/feedback/") && method == http::verb::get) ||
+            (target == "/api/v1/llm/aql/explain/stream" && method == http::verb::post);
+
+        if (!known_llm_route) {
+            return createErrorResponse(
+                http::status::not_found,
+                "Not Found",
+                "LLM API endpoint not found"
+            );
+        }
+
         // Validate Bearer Token (JWT) authentication for all other LLM API endpoints
         if (!validateBearerToken(req)) {
             return createErrorResponse(

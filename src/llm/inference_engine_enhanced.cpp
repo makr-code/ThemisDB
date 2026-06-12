@@ -1155,6 +1155,9 @@ void InferenceEngineEnhanced::processBatch(
             // Build an effective request that wraps the stream_callback so
             // cancellation is propagated at every token boundary.
             InferenceRequest effective_request = req.base_request;
+            if (!effective_request.metadata.is_object()) {
+                effective_request.metadata = json::object();
+            }
             auto raid_sharding = effective_request.metadata.value("raid_sharding", json::object());
             if (!req.shard_routing_key.empty()) {
                 raid_sharding["routing_key"] = req.shard_routing_key;

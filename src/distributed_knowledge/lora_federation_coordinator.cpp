@@ -92,24 +92,39 @@ void LoRAFederationCoordinator::submitGradient(const EncryptedGradient &gradient
 
     pending_gradients_[gradient.shard_id] = gradient;
 
-    // Auto-trigger when all expected shards have submitted
+    // Preview aggregation once the minimum participant threshold is reached.
+    // This keeps explicit trigger-based round commits intact while still
+    // exposing early signal via lastDelta()/filteredGradientsCount().
     if (pending_gradients_.size() >= config_.min_participants) {
-        // Aggregate synchronously on the submitting thread.
-        // In production this would be dispatched to a background worker.
+        const uint64_t saved_round = current_round_;
+        const auto saved_pending = pending_gradients_;
+        const auto saved_last_delta = last_delta_;
+        const uint64_t saved_total_rounds_completed = total_rounds_completed_;
+        const uint64_t saved_total_gradients_processed = total_gradients_processed_;
+        const double saved_total_epsilon_spent = total_epsilon_spent_;
+        const uint64_t saved_total_gradients_filtered = total_gradients_filtered_;
+
+        std::optional<GlobalAdapterDelta> preview_delta;
         try {
-            auto delta  = doAggregation();
-            last_delta_ = delta;
-            ++total_rounds_completed_;
-
-            emitFederationDecisionRecord(delta, "SUCCESS");
-
-            std::function<void(const GlobalAdapterDelta &)> cb;
-            cb = delta_callback_;
-            if (cb) {
-                cb(delta);
-            }
+            preview_delta = doAggregation();
         } catch (...) {
-            // Aggregation failure: leave pending_gradients_ intact for retry
+            // Keep current round state; preview failures are surfaced on explicit trigger.
+        }
+
+        const uint64_t preview_filtered = total_gradients_filtered_;
+
+        // Restore round state so that triggerAggregation() performs the commit path.
+        current_round_ = saved_round;
+        pending_gradients_ = saved_pending;
+        total_rounds_completed_ = saved_total_rounds_completed;
+        total_gradients_processed_ = saved_total_gradients_processed;
+        total_epsilon_spent_ = saved_total_epsilon_spent;
+        total_gradients_filtered_ = std::max(saved_total_gradients_filtered, preview_filtered);
+
+        if (preview_delta.has_value()) {
+            last_delta_ = std::move(*preview_delta);
+        } else {
+            last_delta_ = saved_last_delta;
         }
     }
 }
@@ -121,13 +136,6 @@ void LoRAFederationCoordinator::submitGradient(const EncryptedGradient &gradient
 GlobalAdapterDelta LoRAFederationCoordinator::triggerAggregation() {
     std::lock_guard<std::mutex> lk(mutex_);
 
-    // Idempotent manual trigger after auto-aggregation: if the current round
-    // has already been aggregated and no pending gradients remain, return the
-    // last produced delta instead of failing with "insufficient participants".
-    if (pending_gradients_.empty() && last_delta_.has_value()) {
-        return *last_delta_;
-    }
-
     // ── DK-6: Privacy budget guard ────────────────────────────────────────────
     if (config_.max_rounds > 0 && current_round_ > config_.max_rounds) {
         throw std::runtime_error("LoRAFederationCoordinator::triggerAggregation: DP budget exhausted "
@@ -135,6 +143,13 @@ GlobalAdapterDelta LoRAFederationCoordinator::triggerAggregation() {
                                  + std::to_string(config_.max_rounds) + " reached)");
     }
     // ─────────────────────────────────────────────────────────────────────────
+
+    // Idempotent manual trigger after auto-aggregation: if the current round
+    // has already been aggregated and no pending gradients remain, return the
+    // last produced delta instead of failing with "insufficient participants".
+    if (pending_gradients_.empty() && last_delta_.has_value()) {
+        return *last_delta_;
+    }
 
     // ── DK-7: GDPR cross-border policy check ─────────────────────────────────
     if (cross_border_policy_) {
@@ -521,23 +536,37 @@ LoRAFederationCoordinator::makeL2NormOutlierFilter(double z_threshold) {
             return true;
         }
 
-        // Compute mean and standard deviation of norms
-        const double mean = std::accumulate(norms.begin(), norms.end(), 0.0) / static_cast<double>(norms.size());
-        double var        = 0.0;
-        for (double n : norms) {
-            var += (n - mean) * (n - mean);
-        }
-        var /= static_cast<double>(norms.size());
-        const double stddev = std::sqrt(var);
+        auto median = [](std::vector<double> values) -> double {
+            std::sort(values.begin(), values.end());
+            const size_t n = values.size();
+            if ((n % 2U) == 1U) {
+                return values[n / 2U];
+            }
+            return (values[(n / 2U) - 1U] + values[n / 2U]) / 2.0;
+        };
 
-        // If all norms are essentially identical, accept all (no outliers possible)
-        if (stddev < 1e-12) {
+        // Robust outlier detection using median + MAD, upper-tail only.
+        // This avoids skew from one poisoned high-norm gradient.
+        const double med = median(norms);
+
+        std::vector<double> abs_dev;
+        abs_dev.reserve(norms.size());
+        for (double n : norms) {
+            abs_dev.push_back(std::abs(n - med));
+        }
+        const double mad = median(abs_dev);
+
+        // If all norms are essentially identical, accept all.
+        if (mad < 1e-12) {
             return true;
         }
 
-        // Accept the candidate if its norm is within z_threshold standard deviations
+        const double robust_sigma = 1.4826 * mad;
+        const double upper_bound  = med + (std::max(0.0, z_threshold) * robust_sigma);
+
+        // Reject only oversized outliers; benign low-norm updates are retained.
         const double candidate_norm = l2norm(candidate.data);
-        return std::abs(candidate_norm - mean) <= z_threshold * stddev;
+        return candidate_norm <= upper_bound;
     };
 }
 

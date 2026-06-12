@@ -11,7 +11,11 @@ foreach(_src IN LISTS ANALYTICS_MODULE_TEST_SOURCES)
     set(_extra_sources)
     string(REGEX REPLACE "^test_" "" _impl_stem "${_stem}")
     set(_impl_src "${THEMIS_ROOT_DIR}/src/analytics/${_impl_stem}.cpp")
-    if(EXISTS "${_impl_src}")
+    set(_link_only_impl_stems
+        distributed_analytics
+        process_pattern_matcher
+    )
+    if(EXISTS "${_impl_src}" AND NOT _impl_stem IN_LIST _link_only_impl_stems)
         list(APPEND _extra_sources "${_impl_src}")
     endif()
 

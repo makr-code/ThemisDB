@@ -153,6 +153,7 @@ bool AdvancedVectorIndex::initializeIndex() {
         }
         
         index_ = static_cast<void*>(idx);
+        is_trained_ = idx->is_trained;
         return true;
         
     } catch (const std::exception& e) {
@@ -246,6 +247,11 @@ bool AdvancedVectorIndex::add([[maybe_unused]] const float* vectors, [[maybe_unu
         THEMIS_ERROR("Index not initialized");
         return false;
     }
+
+    auto* idx = static_cast<faiss::Index*>(index_);
+    if (idx->is_trained) {
+        is_trained_ = true;
+    }
     
     if (!is_trained_) {
         THEMIS_ERROR("Index not trained - call train() first");
@@ -253,7 +259,6 @@ bool AdvancedVectorIndex::add([[maybe_unused]] const float* vectors, [[maybe_unu
     }
     
     try {
-        auto* idx = static_cast<faiss::Index*>(index_);
         idx->add(count, vectors);
         
         THEMIS_INFO("Added {} vectors to index (total: {})", count, idx->ntotal);
@@ -290,6 +295,11 @@ bool AdvancedVectorIndex::addWithIds([[maybe_unused]] const float* vectors, [[ma
         THEMIS_ERROR("Index not initialized");
         return false;
     }
+
+    auto* idx = static_cast<faiss::Index*>(index_);
+    if (idx->is_trained) {
+        is_trained_ = true;
+    }
     
     if (!is_trained_) {
         THEMIS_ERROR("Index not trained - call train() first");
@@ -297,7 +307,6 @@ bool AdvancedVectorIndex::addWithIds([[maybe_unused]] const float* vectors, [[ma
     }
     
     try {
-        auto* idx = static_cast<faiss::Index*>(index_);
         idx->add_with_ids(count, vectors, ids);
         
         THEMIS_INFO("Added {} vectors with IDs to index", count);

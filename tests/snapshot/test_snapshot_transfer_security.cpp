@@ -8,7 +8,6 @@
 
 #include <gtest/gtest.h>
 #include "server/rpc/snapshot_transfer_handler.h"
-#include "shard_rpc.pb.h"
 #include <crc32c/crc32c.h>
 #include <filesystem>
 #include <fstream>

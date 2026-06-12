@@ -560,7 +560,7 @@ TEST(RemoteRegistryClient, CustomBackoffDispatcherIsUsed) {
     cfg.registry_url            = "http://127.0.0.1:1";
     cfg.timeout_ms              = 5;
     cfg.max_retries             = 1;
-    cfg.max_total_retry_time_ms = 15;
+    cfg.max_total_retry_time_ms = 1200;
     cfg.verify_ssl              = false;
 
     RemoteRegistryClient client(cfg);

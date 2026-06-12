@@ -356,16 +356,21 @@ JoinResult AdaptiveJoinExecutor::executeMergeJoin(const JoinSpec& spec,
     result.rows.reserve(std::min(ln, rn));
 
     while (li < ln && ri < rn) {
-        const std::string& lk = [&]() -> const std::string& {
-            static const std::string empty;
-            const std::string* value = findKeyValue(left_ptrs[li], spec.left_key);
-            return value ? *value : empty;
-        }();
-        const std::string& rk = [&]() -> const std::string& {
-            static const std::string empty;
-            const std::string* value = findKeyValue(right_ptrs[ri], spec.right_key);
-            return value ? *value : empty;
-        }();
+        const std::string* left_value = findKeyValue(left_ptrs[li], spec.left_key);
+        const std::string* right_value = findKeyValue(right_ptrs[ri], spec.right_key);
+
+        // Rows without join keys cannot match and must not stall the merge cursor.
+        if (left_value == nullptr) {
+            ++li;
+            continue;
+        }
+        if (right_value == nullptr) {
+            ++ri;
+            continue;
+        }
+
+        const std::string& lk = *left_value;
+        const std::string& rk = *right_value;
 
         if (lk < rk) {
             ++li;

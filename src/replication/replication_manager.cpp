@@ -1043,15 +1043,9 @@ void ReplicationStream::streamLoop() {
             }
         }
 
-        // BATCH A FIX: Wrap WAL read operations in mutex-protected critical section
-        // to prevent data races on WAL state and last_acked_sequence_ updates.
-        // Ensures atomicity of (load + readFrom + store) sequence.
         std::vector<WALEntry> entries;
-        {
-            std::lock_guard<std::mutex> lock(wal_->getMutex());  // Synchronize WAL access
-            uint64_t next_seq = last_acked_sequence_.load() + 1;
-            entries = wal_->readFrom(next_seq, config_.batch_size);
-        }
+        uint64_t next_seq = last_acked_sequence_.load() + 1;
+        entries = wal_->readFrom(next_seq, config_.batch_size);
         
         if (!entries.empty()) {
             if (sendBatch(entries)) {
@@ -1340,7 +1334,11 @@ void ReplicationManager::addReplica(const ReplicaInfo& replica) {
 
     {
         std::unique_lock<std::shared_mutex> lock(replicas_mutex_);
-        replicas_.push_back(replica);
+            if (!initialized_.load()) {
+                spdlog::warn("ReplicationManager::addReplica called on uninitialized manager");
+                return;
+            }
+            replicas_.push_back(replica);
         
         // Witness nodes vote but do not receive WAL data – skip stream creation.
         if (replica.role != ReplicationRole::WITNESS &&

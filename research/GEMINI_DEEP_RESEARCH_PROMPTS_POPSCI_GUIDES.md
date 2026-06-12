@@ -118,14 +118,18 @@ Eröffne den Text mit dem praktischen Problem: Wie wird aus einer KI-Demo eine n
 
 **Kernfokus:** Zeige, wie eine single-query RAG-Demo (Vector Search + Graph Traversal + Relational Filter + LLM-Grounding) nur in ThemisDB nativ in EINER Transaktion ablaufen kann. Jede Komponente muss ACID-konsistent mit den Datenquellen sein.
 
+Vergleiche ThemisDB explizit mit etablierten Alternativen: PostgreSQL, pgvector, Elasticsearch, Neo4j sowie den zusaetzlichen Glue-Layern fuer Orchestrierung und Caching.
+
 Beantworte mindestens diese Fragen:
-- Wie sieht eine equivalent Demo mit PostgreSQL + pgvector + Elasticsearch + Neo4j aus (5+ separate Systems)?
+- Wie sieht eine aequivalente Demo mit PostgreSQL + pgvector + Elasticsearch + Neo4j aus (5+ separate Systems)?
 - Welche Konsistenzrisiken entstehen beim Polyglot-Stack, wenn Daten zwischen Systems synchronized werden?
 - Wie wird Grounding im unified System überprüfbar, im Polyglot-Stack nicht?
 - Welche Fehlerquellen entstehen durch separate Systems (Netzwerk, Timeouts, Versioning)?
 - Was ist der Overhead für einen Developer beim Setup und Betrieb?
 - Wie reproduzierbar ist die Demo auf anderen Hardware/Cloud-Umgebungen?
 - Welche Telemetry/Audit-Informationen braucht man, um der Demo-Ergebnis zu trauen?
+- Welche Messwerte/KPIs sollten fuer einen fairen Vergleich zwischen Unified- und Polyglot-Demo erfasst werden (Latenz, Fehlerrate, Konsistenzverletzungen)?
+- Wo ist ThemisDB heute klar staerker und wo liegen spezialisierte Systeme weiterhin vorne?
 
 Quellen:
 - https://github.com/makr-code/themisdb/blob/develop/demo/README.md
@@ -139,6 +143,13 @@ Anforderungen:
 - Ergaenze Troubleshooting pro Schritt ("Wenn X passiert, tue Y").
 - Gib am Ende eine Checkliste fuer "Demo erfolgreich".
 - Schreibe klar, didaktisch und ohne Marketing-Floskeln.
+- Liefere eine klare Einordnung mit Staerken, Grenzen und offenen Trade-offs von ThemisDB gegenueber dem Polyglot-Stack.
+
+Ausgabeformat:
+- Magazinartiger How-to-Text mit klar nummerierten Schritten.
+- Ein kurzer Vergleichsabschnitt oder eine kompakte Vergleichstabelle (Unified vs. Polyglot).
+- Ein Abschnitt "Was heute produktiv tragfaehig ist" und ein Abschnitt "Wo spezialisierte Systeme aktuell Vorteile haben".
+- Eine Quellenliste mit direkter URL je Aussageblock.
 
 ## 3) Deep-Dive Guide: RAID-Sharding verstaendlich erklaert
 
@@ -177,32 +188,7 @@ Ausgabeformat:
 
 **Prompt fuer Gemini:**
 
-Erzeuge einen praxisnahen, magazinartig erzaehlten Guide: "RAG nicht nur als App-Layer: Was datenbanknative LLM-Integration in ThemisDB veraendert".
 
-Nutze als Leitthese, dass das eigentliche Produkt nicht das Modell allein ist, sondern die Antwortkette: Retrieval, Grounding, Bewertung und Rückverfolgbarkeit. Mach klar, warum ThemisDB genau an dieser Stelle ansetzt.
-
-**Kernfokus:** DB-Native RAG bedeutet: Retrieval + Ranking + LLM-Generation + G-Eval-Scoring alles in EINER Transaktion mit ACID-Garantien. Das ist EINZIGARTIG (Quellen: research/LLM_INTEGRATION_SCIENTIFIC_FOUNDATIONS.md, research/DB_NATIVE_RAG_EVALUATION_PAPER_DRAFT.md, research/best_practices/llm_as_judge_rag_evaluation.md).
-
-Beantworte mindestens diese Fragen:
-- Warum ist ACID für RAG-Zuverlässigkeit entscheidend (statt separate asynchrone Pipelines)?
-- Wie verhindert DB-Native RAG Halluzinationen durch Grounding im Transaktionskontext?
-- Was ist der Unterschied zwischen "RAG as App-Layer" (vLLM + LangChain) vs. "RAG as DB-Layer"?
-- Wie wird Lineage/Audit-Trail von Datenquelle bis Antwort in der Transaktion gewährleistet?
-- Welche Fehler entstehen, wenn Retrieval und LLM-Generation in separaten Systemen ablaufen?
-- Wie misst man (mit LLM-as-Judge) ob eine Antwort wirklich geerdet ist vs. halluziniert?
-- Welche Use Cases (Legal, Financial, Medical) BRAUCHEN diesen Konsistenzgrad?
-
-Quellen:
-- https://github.com/makr-code/themisdb/blob/develop/research/LLM_INTEGRATION_SCIENTIFIC_FOUNDATIONS.md
-- https://github.com/makr-code/themisdb/blob/develop/research/DB_NATIVE_RAG_EVALUATION_PAPER_DRAFT.md
-- https://github.com/makr-code/themisdb/blob/develop/research/ACID_CONSTRAINED_RAG_DRAFT.md
-- https://github.com/makr-code/themisdb/blob/develop/docs/use-cases/RAG_LLM_USE_CASE.md
-- https://github.com/makr-code/themisdb/blob/develop/examples/llm/README.md
-
-Anforderungen:
-- Stelle klassische RAG-Architektur vs. datenbanknative Variante in Fliesstext gegenueber.
-- Erklaere Auswirkungen auf Konsistenz, Latenz und Halluzinationsrisiko.
-- Liefere ein Entscheidungsraster in kurzer Listenform: Wann lohnt sich welcher Ansatz?
 
 ## 5) Security-How-to: Zero Trust, Schluesselmanagement, Hardening
 

@@ -24,7 +24,13 @@
 #include <functional>
 #include <vector>
 #include <atomic>
+#if __has_include("shard_rpc.pb.h")
 #include "shard_rpc.pb.h"
+#elif __has_include("proto_generated/shard_rpc.pb.h")
+#include "proto_generated/shard_rpc.pb.h"
+#else
+#error "Required protobuf header shard_rpc.pb.h not found."
+#endif
 
 // Forward-declare RocksDB to avoid pulling in heavy headers in consumers.
 namespace rocksdb { class DB; }

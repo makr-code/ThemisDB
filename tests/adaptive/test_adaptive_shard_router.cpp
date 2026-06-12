@@ -57,14 +57,15 @@ protected:
         
         // Create mock remote executor with config
         RemoteExecutor::Config executor_config;
-        executor_config.connect_timeout_ms = 5000;
-        executor_config.request_timeout_ms = 30000;
+        executor_config.connect_timeout_ms = 25;
+        executor_config.request_timeout_ms = 60;
+        executor_config.max_retries = 0;
         executor = std::make_shared<RemoteExecutor>(executor_config);
         
         // Create adaptive router
         ShardRouter::Config router_config;
         router_config.local_shard_id = "shard_local";
-        router_config.scatter_timeout_ms = 5000;
+        router_config.scatter_timeout_ms = 120;
         
         AdaptiveShardRouter::AdaptiveConfig adaptive_config;
         adaptive_config.enable_adaptive_routing = true;
@@ -75,8 +76,8 @@ protected:
         adaptive_config.fallback_threshold = 0.4;
         adaptive_config.target_result_count = 10;
         adaptive_config.diminishing_returns_ratio = 0.1;
-        adaptive_config.per_iteration_timeout_ms = 1000;
-        adaptive_config.total_query_timeout_ms = 5000;
+        adaptive_config.per_iteration_timeout_ms = 80;
+        adaptive_config.total_query_timeout_ms = 300;
         
         router = std::make_unique<AdaptiveShardRouter>(
             resolver, executor, topology, router_config, adaptive_config);
@@ -86,7 +87,7 @@ protected:
         // Shard 1: Hamburg - high relevance for Hamburg queries
         ShardInfo shard1;
         shard1.shard_id = "shard_hamburg";
-        shard1.primary_endpoint = "hamburg:8080";
+        shard1.primary_endpoint = "127.0.0.1:18080";
         shard1.is_healthy = true;
         shard1.domain_capability.domains = {"construction"};
         shard1.domain_capability.regions = {"hamburg"};
@@ -96,7 +97,7 @@ protected:
         // Shard 2: Bremen - medium relevance
         ShardInfo shard2;
         shard2.shard_id = "shard_bremen";
-        shard2.primary_endpoint = "bremen:8080";
+        shard2.primary_endpoint = "127.0.0.1:18081";
         shard2.is_healthy = true;
         shard2.domain_capability.domains = {"construction"};
         shard2.domain_capability.regions = {"bremen"};
@@ -106,7 +107,7 @@ protected:
         // Shard 3: Law - medium relevance for legal queries
         ShardInfo shard3;
         shard3.shard_id = "shard_law";
-        shard3.primary_endpoint = "law:8080";
+        shard3.primary_endpoint = "127.0.0.1:18082";
         shard3.is_healthy = true;
         shard3.domain_capability.domains = {"law"};
         shard3.domain_capability.keywords = {"law", "legal", "baurecht"};
@@ -115,7 +116,7 @@ protected:
         // Shard 4: Berlin - lower relevance for Hamburg queries
         ShardInfo shard4;
         shard4.shard_id = "shard_berlin";
-        shard4.primary_endpoint = "berlin:8080";
+        shard4.primary_endpoint = "127.0.0.1:18083";
         shard4.is_healthy = true;
         shard4.domain_capability.domains = {"medicine"};
         shard4.domain_capability.regions = {"berlin"};
@@ -125,7 +126,7 @@ protected:
         // Shard 5: Generic - low relevance
         ShardInfo shard5;
         shard5.shard_id = "shard_generic";
-        shard5.primary_endpoint = "generic:8080";
+        shard5.primary_endpoint = "127.0.0.1:18084";
         shard5.is_healthy = true;
         shard5.domain_capability.keywords = {"data", "storage"};
         topology->addShard(shard5);
@@ -276,7 +277,7 @@ TEST_F(AdaptiveShardRouterTest, FallbackToScatterGather) {
     // Add shards with no capabilities
     ShardInfo shard;
     shard.shard_id = "shard_empty";
-    shard.primary_endpoint = "empty:8080";
+    shard.primary_endpoint = "127.0.0.1:18085";
     shard.is_healthy = true;
     topology->addShard(shard);
     

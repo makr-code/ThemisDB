@@ -109,13 +109,52 @@ Result<std::vector<uint8_t>> zstd_compress_safe(const uint8_t* data, size_t size
     
     return Ok(std::move(output));
 #else
-    (void)data;
-    (void)size;
     (void)level;
-    return Err<std::vector<uint8_t>>(
-        errors::ErrorCode::ERR_UTIL_COMPRESSION_FAILED,
-        "ZSTD support not compiled in (THEMIS_HAS_ZSTD not defined)"
-    );
+    if (!data || size == 0) {
+        return Ok(std::vector<uint8_t>());
+    }
+    if (size > compression::MAX_INPUT_SIZE) {
+        return Err<std::vector<uint8_t>>(
+            errors::ErrorCode::ERR_UTIL_INVALID_ARGUMENT,
+            fmt::format("Input size {} exceeds maximum {}", size, compression::MAX_INPUT_SIZE)
+        );
+    }
+
+    // Lightweight fallback when ZSTD is unavailable:
+    // byte-oriented RLE framing: ['T','R','L','E',mode,payload...]
+    // mode=1: RLE pairs [count,value], mode=0: raw payload passthrough.
+    std::vector<uint8_t> rle;
+    rle.reserve(size + 5);
+    rle.push_back(static_cast<uint8_t>('T'));
+    rle.push_back(static_cast<uint8_t>('R'));
+    rle.push_back(static_cast<uint8_t>('L'));
+    rle.push_back(static_cast<uint8_t>('E'));
+    rle.push_back(1u);
+
+    for (size_t i = 0; i < size;) {
+        const uint8_t value = data[i];
+        size_t run = 1;
+        while (i + run < size && data[i + run] == value && run < 255) {
+            ++run;
+        }
+        rle.push_back(static_cast<uint8_t>(run));
+        rle.push_back(value);
+        i += run;
+    }
+
+    if (rle.size() >= size + 5) {
+        std::vector<uint8_t> raw;
+        raw.reserve(size + 5);
+        raw.push_back(static_cast<uint8_t>('T'));
+        raw.push_back(static_cast<uint8_t>('R'));
+        raw.push_back(static_cast<uint8_t>('L'));
+        raw.push_back(static_cast<uint8_t>('E'));
+        raw.push_back(0u);
+        raw.insert(raw.end(), data, data + size);
+        return Ok(std::move(raw));
+    }
+
+    return Ok(std::move(rle));
 #endif
 }
 
@@ -220,11 +259,58 @@ Result<std::vector<uint8_t>> zstd_decompress_safe(const std::vector<uint8_t>& co
     
     return Ok(std::move(output));
 #else
-    (void)compressed;
-    return Err<std::vector<uint8_t>>(
-        errors::ErrorCode::ERR_UTIL_COMPRESSION_FAILED,
-        "ZSTD support not compiled in (THEMIS_HAS_ZSTD not defined)"
-    );
+    if (compressed.empty()) {
+        return Ok(std::vector<uint8_t>());
+    }
+    if (compressed.size() < 5
+        || compressed[0] != static_cast<uint8_t>('T')
+        || compressed[1] != static_cast<uint8_t>('R')
+        || compressed[2] != static_cast<uint8_t>('L')
+        || compressed[3] != static_cast<uint8_t>('E')) {
+        return Err<std::vector<uint8_t>>(
+            errors::ErrorCode::ERR_UTIL_COMPRESSION_FAILED,
+            "Fallback RLE frame header missing"
+        );
+    }
+
+    const uint8_t mode = compressed[4];
+    if (mode == 0u) {
+        return Ok(std::vector<uint8_t>(compressed.begin() + 5, compressed.end()));
+    }
+    if (mode != 1u) {
+        return Err<std::vector<uint8_t>>(
+            errors::ErrorCode::ERR_UTIL_COMPRESSION_FAILED,
+            "Fallback RLE frame mode invalid"
+        );
+    }
+    if (((compressed.size() - 5) % 2) != 0) {
+        return Err<std::vector<uint8_t>>(
+            errors::ErrorCode::ERR_UTIL_COMPRESSION_FAILED,
+            "Fallback RLE payload malformed"
+        );
+    }
+
+    std::vector<uint8_t> output;
+    for (size_t i = 5; i + 1 < compressed.size(); i += 2) {
+        const uint8_t count = compressed[i];
+        const uint8_t value = compressed[i + 1];
+        if (count == 0) {
+            return Err<std::vector<uint8_t>>(
+                errors::ErrorCode::ERR_UTIL_COMPRESSION_FAILED,
+                "Fallback RLE count must be > 0"
+            );
+        }
+        output.insert(output.end(), static_cast<size_t>(count), value);
+        if (output.size() > compression::MAX_DECOMPRESSED_SIZE) {
+            return Err<std::vector<uint8_t>>(
+                errors::ErrorCode::ERR_UTIL_INVALID_ARGUMENT,
+                fmt::format("Decompressed size {} exceeds maximum {}",
+                            output.size(), compression::MAX_DECOMPRESSED_SIZE)
+            );
+        }
+    }
+
+    return Ok(std::move(output));
 #endif
 }
 

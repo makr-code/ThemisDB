@@ -26,6 +26,10 @@ namespace utils {
 
 LogMetrics Logger::metrics_{};
 
+LogMetrics& Logger::metricsStorage() {
+    return metrics_;
+}
+
 spdlog::level::level_enum Logger::toSpdlogLevel(Level) {
     return spdlog::level::info;
 }
@@ -53,16 +57,10 @@ std::string Logger::getTraceContext() {
     return trace_context_;
 }
 
-const LogMetrics& Logger::getMetrics() { return metrics_; }
+const LogMetrics& Logger::getMetrics() { return metricsStorage(); }
 
 void Logger::resetMetrics() {
-    metrics_.trace_count.store(0);
-    metrics_.debug_count.store(0);
-    metrics_.info_count.store(0);
-    metrics_.warn_count.store(0);
-    metrics_.error_count.store(0);
-    metrics_.critical_count.store(0);
-    metrics_.total_count.store(0);
+    metricsStorage().reset();
 }
 
 Logger::Level Logger::levelFromString(const std::string& lvl) {

@@ -28,30 +28,44 @@ namespace themis {
 namespace whisper {
 
 /**
- * @brief A half-open interval of audio samples identified as containing speech.
+ * @struct SpeechSegment
+ * @brief Represents a detected segment of speech in the audio stream.
+ *
+ * This structure encapsulates the timing and duration information for an identified speech burst.
+ * Samples should be interpreted against the known original sample rate of the recording.
  */
 struct SpeechSegment {
+    /**
+     * @brief Inclusive starting sample index of the speech segment in samples.
+     */
     std::size_t start_sample = 0; ///< Inclusive start sample index
+    /**
+     * @brief Exclusive ending sample index of the speech segment in samples.
+     */
     std::size_t end_sample   = 0; ///< Exclusive end sample index
 };
 
 /**
- * @brief Configuration for the Voice Activity Detector.
+ * @struct VadConfig
+ * @brief Configuration parameters used by the Voice Activity Detector.
  *
- * @c energy_threshold  Root-mean-square energy above which a frame is
- *                      classified as speech (linear scale, 0..1 range for
- *                      normalised float32 samples).  Default 0.01.
- * @c min_speech_ms     Minimum duration in milliseconds for a segment to be
- *                      reported as speech.  Shorter segments are discarded.
- * @c frame_ms          Analysis frame length in milliseconds.  Default 20 ms.
+ * This holds necessary thresholds and structural limits required to perform reliable pre-detection analysis.
+ * Proper configuration is crucial for achieving low false-positive rates in noisy environments.
  */
 struct VadConfig {
-    float  energy_threshold = 0.01f;  ///< RMS threshold for speech detection
-    float  min_speech_ms    = 50.0f;  ///< Minimum speech-segment length
-    float  frame_ms         = 20.0f;  ///< Frame size used for energy analysis
+    /** @var double rms_threshold The Root Mean Square energy threshold (normalized amplitude) below which audio frames are considered silence. */
+    double rms_threshold = 0.01;
+
+    /** @var float energy_threshold The minimum normalized energy level that indicates potential speech. */
+    float energy_threshold = 0.01f; ///< Minimum normalized energy required to consider a segment for VAD processing.
+    /** @var float min_speech_ms The minimum duration in milliseconds considered as valid speech. */
+    float min_speech_ms    = 50.0f; ///< Filters out segments that are too short to be meaningful speech.
+    /** @var float frame_ms The length of the analysis frame window in milliseconds. */
+    float frame_ms         = 20.0f; ///< The fixed frame size used for calculating features like energy.
 };
 
 /**
+ * @interface IVoiceActivityDetector
  * @brief Strategy interface for Voice Activity Detection.
  *
  * Implementations receive a mono float32 PCM buffer and return a list of
@@ -76,6 +90,12 @@ public:
     detect(const std::vector<float>& pcm,
            float                     sample_rate,
            const VadConfig&          cfg) const = 0;
+
+    /**
+     * @brief Initializes the VAD detector with configuration parameters.
+     *
+     * @param config The configuration object containing operational settings for the detector. Must not be empty.
+     */
 };
 
 /**

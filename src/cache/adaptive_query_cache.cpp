@@ -371,8 +371,8 @@ std::optional<AdaptiveQueryCache::CacheEntry> AdaptiveQueryCache::get(const std:
                         prefetcher_->recordQueryAccess(fingerprint, tenant_id);
                     }
 
-                    // Promote to L1 if accessed frequently
-                    if (entry.access_count >= 3 && decompressed.size() < config_.l1_max_entry_size) {
+                    // Promote frequently accessed entries to L1.
+                    if (entry.access_count >= 3) {
                         auto l1_entry    = std::make_unique<L1Entry>();
                         l1_entry->result = result;
                         l1_entry->created_at_ms.store(entry.created_at_ms, std::memory_order_relaxed);
@@ -604,7 +604,7 @@ bool AdaptiveQueryCache::put(const std::string &fingerprint, const nlohmann::jso
         = (config_.enable_tenant_isolation && !tenant_id.empty()) ? makeTenantKey(fingerprint, tenant_id) : fingerprint;
 
     const CacheLevel level = selectCacheLevel(result_size);
-    if (!validateEntrySize(result_size, level)) {
+    if (config_.enable_size_limits && !validateEntrySize(result_size, level)) {
         THEMIS_WARN("Entry size {} exceeds limit for cache level", result_size);
         enhanced_metrics_.size_limit_rejections++;
         return false;
@@ -723,6 +723,7 @@ bool AdaptiveQueryCache::put(const std::string &fingerprint, const nlohmann::jso
 
         if (any_written) {
             enhanced_metrics_.total_bytes_cached += result_size;
+            enhanced_metrics_.write_through_total++;
             enhanced_metrics_.write_through_writes++;
             if (!pii_uuids.empty()) {
                 std::lock_guard<std::mutex> plock(pii_index_mutex_);
@@ -1385,18 +1386,27 @@ bool AdaptiveQueryCache::Config::validate(std::string *error_msg) const {
     if (l3_ttl_seconds < 0) {
         return set_error("l3_ttl_seconds must be non-negative");
     }
-    // Validate adaptive TTL (legacy + current fields)
-    const int effective_min_ttl = (min_ttl_seconds != 60) ? min_ttl_seconds : adaptive_ttl_min_seconds;
-    const int effective_max_ttl = (max_ttl_seconds != 86400) ? max_ttl_seconds : adaptive_ttl_max_seconds;
-    if (effective_min_ttl <= 0) {
-        return set_error("min_ttl_seconds must be greater than 0");
+    if (l3_db_path.empty()) {
+        return set_error("l3_db_path must not be empty");
     }
-    if (effective_max_ttl <= 0) {
-        return set_error("max_ttl_seconds must be greater than 0");
+    // Validate legacy TTL aliases only when they are explicitly overridden.
+    const bool legacy_min_overridden = (min_ttl_seconds != 60);
+    const bool legacy_max_overridden = (max_ttl_seconds != 86400);
+    if (legacy_min_overridden || legacy_max_overridden) {
+        if (min_ttl_seconds <= 0) {
+            return set_error("min_ttl_seconds must be greater than 0");
+        }
+        if (max_ttl_seconds <= 0) {
+            return set_error("max_ttl_seconds must be greater than 0");
+        }
+        if (max_ttl_seconds < min_ttl_seconds) {
+            return set_error("max_ttl_seconds must be >= min_ttl_seconds");
+        }
     }
-    if (effective_max_ttl < effective_min_ttl) {
-        return set_error("max_ttl_seconds must be >= min_ttl_seconds");
-    }
+
+    // Resolve effective TTL bounds for runtime paths.
+    const int effective_min_ttl = legacy_min_overridden ? min_ttl_seconds : adaptive_ttl_min_seconds;
+    const int effective_max_ttl = legacy_max_overridden ? max_ttl_seconds : adaptive_ttl_max_seconds;
 
     // Validate eviction policy
     if (frequency_weight < 0.0f || frequency_weight > 1.0f) {
@@ -1456,7 +1466,7 @@ bool AdaptiveQueryCache::Config::validate(std::string *error_msg) const {
             return set_error("adaptive_ttl_max_seconds must be greater than 0");
         }
         if (effective_min_ttl >= effective_max_ttl) {
-            return set_error("adaptive_ttl_min_seconds must be less than adaptive_ttl_max_seconds");
+            return set_error("min_seconds must be less than max_seconds");
         }
         if (adaptive_ttl_scaling_factor <= 0.0) {
             return set_error("adaptive_ttl_scaling_factor must be greater than 0");

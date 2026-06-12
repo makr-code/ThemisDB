@@ -255,8 +255,7 @@ TEST_F(AdaptiveCacheFuzzTest, FuzzCompressionWithBinaryData) {
         binary_data.push_back(static_cast<uint8_t>(i % 256));
     }
     
-    std::string data_str(binary_data.begin(), binary_data.end());
-    json result = {{"binary", data_str}};
+    json result = {{"binary", json::binary(binary_data)}};
     
     std::string fp = cache.generateFingerprint("binary_query", {});
     bool stored = cache.put(fp, {}, result);
@@ -273,12 +272,13 @@ TEST_F(AdaptiveCacheFuzzTest, FuzzCompressionWithHighEntropy) {
     std::uniform_int_distribution<> dist(0, 255);
     
     // Random data (high entropy, won't compress well)
-    std::string random_data;
+    std::vector<uint8_t> random_data;
+    random_data.reserve(300);
     for (int i = 0; i < 300; i++) {
-        random_data += static_cast<char>(dist(gen));
+        random_data.push_back(static_cast<uint8_t>(dist(gen)));
     }
     
-    json result = {{"random", random_data}};
+    json result = {{"random", json::binary(random_data)}};
     std::string fp = cache.generateFingerprint("random_query", {});
     
     bool stored = cache.put(fp, {}, result);

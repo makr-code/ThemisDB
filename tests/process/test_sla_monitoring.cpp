@@ -61,6 +61,10 @@ protected:
     }
 
     void TearDown() override {
+        CEPEngine& cep = CEPEngine::getInstance();
+        if (cep.isInitialized()) {
+            cep.shutdown();
+        }
         rag_.reset();
         engine_.reset();
         linker_.reset();

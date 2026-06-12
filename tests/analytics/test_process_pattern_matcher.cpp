@@ -38,6 +38,7 @@
 
 #include <algorithm>
 #include <cmath>
+#include <chrono>
 #include <filesystem>
 #include <memory>
 
@@ -66,15 +67,16 @@ static ProcessPattern makePattern(
 
 class ProcessPatternMatcherAlgoTest : public ::testing::Test {
 protected:
-    static constexpr const char* DB_PATH = "/tmp/test_ppm_algo_db";
-
     void SetUp() override {
-        std::filesystem::remove_all(DB_PATH);
+        db_path_ = std::filesystem::temp_directory_path() /
+                   ("test_ppm_algo_db_" +
+                    std::to_string(std::chrono::high_resolution_clock::now().time_since_epoch().count()));
+        std::filesystem::remove_all(db_path_);
         RocksDBWrapper::Config cfg;
-        cfg.db_path = DB_PATH;
+        cfg.db_path = db_path_.string();
         db_ = std::make_unique<RocksDBWrapper>(cfg);
         if (!db_->open()) {
-            GTEST_SKIP() << "Could not open test RocksDB at " << DB_PATH;
+            GTEST_SKIP() << "Could not open test RocksDB at " << db_path_.string();
         }
         matcher_ = std::make_unique<ProcessPatternMatcher>(*db_);
     }
@@ -82,9 +84,10 @@ protected:
     void TearDown() override {
         matcher_.reset();
         db_.reset();
-        std::filesystem::remove_all(DB_PATH);
+        std::filesystem::remove_all(db_path_);
     }
 
+    std::filesystem::path                  db_path_;
     std::unique_ptr<RocksDBWrapper>       db_;
     std::unique_ptr<ProcessPatternMatcher> matcher_;
 };
@@ -95,15 +98,16 @@ protected:
 
 class ProcessPatternMatcherDBTest : public ::testing::Test {
 protected:
-    static constexpr const char* DB_PATH = "/tmp/test_ppm_db";
-
     void SetUp() override {
-        std::filesystem::remove_all(DB_PATH);
+        db_path_ = std::filesystem::temp_directory_path() /
+                   ("test_ppm_db_" +
+                    std::to_string(std::chrono::high_resolution_clock::now().time_since_epoch().count()));
+        std::filesystem::remove_all(db_path_);
         RocksDBWrapper::Config cfg;
-        cfg.db_path = DB_PATH;
+        cfg.db_path = db_path_.string();
         db_ = std::make_unique<RocksDBWrapper>(cfg);
         if (!db_->open()) {
-            GTEST_SKIP() << "Could not open test RocksDB at " << DB_PATH;
+            GTEST_SKIP() << "Could not open test RocksDB at " << db_path_.string();
         }
         matcher_ = std::make_unique<ProcessPatternMatcher>(*db_);
 
@@ -133,9 +137,10 @@ protected:
     void TearDown() override {
         matcher_.reset();
         db_.reset();
-        std::filesystem::remove_all(DB_PATH);
+        std::filesystem::remove_all(db_path_);
     }
 
+    std::filesystem::path                  db_path_;
     std::unique_ptr<RocksDBWrapper>       db_;
     std::unique_ptr<ProcessPatternMatcher> matcher_;
 };

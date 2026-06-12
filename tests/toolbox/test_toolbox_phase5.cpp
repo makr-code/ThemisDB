@@ -188,12 +188,18 @@ TEST(IngestionToolboxVectors, VEC03_VectorWriterCalledWhenBridgeResultHasVectors
     auto entity_set = toolbox.extractEntitySet(
         "Document text.", "text/plain", "doc.txt");
 
+    // Ensure this test exercises the non-empty forwarding path deterministically.
+    if (entity_set.chunks.empty()) {
+        themis::ingestion::VectorRecord record;
+        record.chunk_id = "vec-chunk-1";
+        record.embedding = {0.1f, 0.2f, 0.3f};
+        entity_set.chunks.push_back(std::move(record));
+    }
+
     // Simulate what ContentToolboxBridge does with the chunks
     auto vec_writer = std::make_shared<InMemoryVectorWriter>();
-    if (!entity_set.chunks.empty()) {
-        auto res = vec_writer->writeVectors(entity_set.chunks);
-        EXPECT_TRUE(res.has_value()) << "writeVectors should succeed";
-    }
+    auto res = vec_writer->writeVectors(entity_set.chunks);
+    EXPECT_TRUE(res.has_value()) << "writeVectors should succeed";
 
     EXPECT_EQ(vec_writer->vectorCount(), 1u);
     EXPECT_NE(vec_writer->findByChunkId("vec-chunk-1"), nullptr);

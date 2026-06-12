@@ -79,7 +79,9 @@ void FederatedDistillationCoordinator::submitSoftLabels(const std::string &teach
     if (teacher_id.empty()) {
         throw std::invalid_argument("submitSoftLabels: teacher_id must not be empty");
     }
-    if (!verifyPrivacyBudget()) {
+    const bool will_advance_round = (last_round_.has_value() || current_round_ == 0);
+    const uint64_t projected_round = will_advance_round ? (current_round_ + 1) : current_round_;
+    if (config_.max_rounds > 0 && projected_round > config_.max_rounds) {
         throw std::runtime_error("FederatedDistillationCoordinator: DP privacy budget exhausted");
     }
 
@@ -88,7 +90,7 @@ void FederatedDistillationCoordinator::submitSoftLabels(const std::string &teach
     has_pending_        = true;
 
     // Advance round counter on first submit if we had just broadcast.
-    if (last_round_.has_value() || current_round_ == 0) {
+    if (will_advance_round) {
         ++current_round_;
     }
 }

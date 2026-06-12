@@ -1,5 +1,3 @@
-> **Hinweis:** Testfixture/Demo-Dokument – kein produktiver Sourcebezug erforderlich.
-
 ---
 {
   "version": "1.0",

@@ -124,6 +124,22 @@ float modularityGain(
     return (k_u_in / g.total_weight) - (resolution * sigma_tot * g.degree[u] / (two_m * two_m / 2.f));
 }
 
+/// Sum of edge weights from node u into the given community.
+float communityAttachment(
+    int u,
+    const std::unordered_set<int>& community_nodes,
+    const Graph& g)
+{
+    float weight = 0.f;
+    for (int v : community_nodes) {
+        auto it = g.adj[u].find(v);
+        if (it != g.adj[u].end()) {
+            weight += it->second;
+        }
+    }
+    return weight;
+}
+
 /// Run one phase of Louvain: iterate nodes and move each to the neighbouring
 /// community with the best modularity gain. Returns true if any node moved.
 bool louvainPhase(
@@ -145,6 +161,7 @@ bool louvainPhase(
 
         float best_gain = 0.f;
         int best_comm = current_comm;
+        const float current_attachment = communityAttachment(u, comm_nodes[current_comm], g);
 
         // Evaluate each neighbouring community
         std::unordered_set<int> visited_comms;
@@ -154,7 +171,10 @@ bool louvainPhase(
             if (nc == current_comm) continue;
 
             const float gain = modularityGain(u, comm_nodes[nc], g, resolution);
-            if (gain > best_gain) {
+            const float target_attachment = communityAttachment(u, comm_nodes[nc], g);
+            // Prevent bridge-driven over-merges: only move if the node is more
+            // strongly attached to the target community than to its current one.
+            if (gain > best_gain && target_attachment > current_attachment) {
                 best_gain = gain;
                 best_comm = nc;
             }

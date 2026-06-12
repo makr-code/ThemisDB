@@ -231,7 +231,6 @@ TEST_F(OrphanDetectorWiredTest, DetectOrphans_FreshTransaction_NotOrphaned) {
     ASSERT_TRUE(txn_coord_->beginTransaction(
         txn_id, TransactionProtocol::TWO_PHASE_COMMIT,
         IsolationLevel::SNAPSHOT_ISOLATION));
-    txn_coord_->addParticipant(txn_id, "s1", "s1:8080", {"write:k1"});
 
     // Very long timeout → fresh transaction is not orphaned.
     sharding::OrphanDetector::Config cfg;

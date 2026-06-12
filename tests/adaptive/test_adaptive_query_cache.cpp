@@ -31,9 +31,12 @@ using json = nlohmann::json;
 class AdaptiveQueryCacheTest : public ::testing::Test {
 protected:
     void SetUp() override {
-        // Use temporary directory for test cache
-        config_.l3_db_path = "/tmp/themis_test_query_cache_" + 
-                             std::to_string(std::chrono::system_clock::now().time_since_epoch().count());
+        // Use an OS-specific temporary directory for test cache.
+        const auto unique_suffix =
+            std::to_string(std::chrono::high_resolution_clock::now().time_since_epoch().count());
+        const auto cache_dir =
+            std::filesystem::temp_directory_path() / ("themis_test_query_cache_" + unique_suffix);
+        config_.l3_db_path = cache_dir.string();
         config_.l1_max_entries = 10;
         config_.l2_max_entries = 20;
         config_.l1_ttl_seconds = 1;  // Short TTL for testing
@@ -168,7 +171,7 @@ TEST_F(AdaptiveQueryCacheTest, L2ToL1Promotion) {
     
     // Create a result that goes to L2
     json result;
-    for (int i = 0; i < 50; i++) {
+    for (int i = 0; i < 200; i++) {
         result["data"].push_back({{"id", i}});
     }
     

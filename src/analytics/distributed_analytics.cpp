@@ -812,8 +812,9 @@ DistributedAnalyticsSharding::executeDistributed(const OLAPQuery &query) {
         for (size_t idx = batch_begin; idx < batch_end; ++idx) {
             const auto &entry = active[idx];
 
-            // Use std::async instead of std::thread for better lifecycle management
-            FutureResult f = std::async(std::launch::async, [entry, query]() -> std::pair<OLAPResult, ShardExecutionInfo> {
+            std::promise<std::pair<OLAPResult, ShardExecutionInfo>> promise;
+            FutureResult f = promise.get_future();
+            std::thread([entry, query, promise = std::move(promise)]() mutable {
                 ShardExecutionInfo info;
                 info.shard_id = entry.shard_id;
 
@@ -827,7 +828,7 @@ DistributedAnalyticsSharding::executeDistributed(const OLAPQuery &query) {
                     info.success = true;
                     info.execution_time_ms =
                         std::chrono::duration<double, std::milli>(t1 - t0).count();
-                    return {std::move(partial), std::move(info)};
+                    promise.set_value({std::move(partial), std::move(info)});
                 } catch (const std::exception& ex) {
                     const auto t1 = std::chrono::steady_clock::now();
                     info.success = false;
@@ -837,7 +838,7 @@ DistributedAnalyticsSharding::executeDistributed(const OLAPQuery &query) {
                     spdlog::error(
                         "DistributedAnalyticsSharding: shard {} failed: {}",
                         entry.shard_id, ex.what());
-                    return {OLAPResult{}, std::move(info)};
+                    promise.set_value({OLAPResult{}, std::move(info)});
                 } catch (...) {
                     const auto t1 = std::chrono::steady_clock::now();
                     info.success = false;
@@ -847,9 +848,9 @@ DistributedAnalyticsSharding::executeDistributed(const OLAPQuery &query) {
                     spdlog::error(
                         "DistributedAnalyticsSharding: shard {} failed with unknown exception",
                         entry.shard_id);
-                    return {OLAPResult{}, std::move(info)};
+                    promise.set_value({OLAPResult{}, std::move(info)});
                 }
-            });
+            }).detach();
             futures.push_back(std::move(f));
         }
 
