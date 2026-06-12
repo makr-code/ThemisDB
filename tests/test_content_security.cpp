@@ -395,7 +395,7 @@ TEST(ContentSecurityManagerTest, SanitizeHostnames) {
     // Should NOT sanitize MIME types
     std::string msg3 = "Content type: application/json";
     std::string sanitized3 = manager.sanitizeErrorMessage(msg3);
-    EXPECT_EQ(sanitized3.find("application/json"), 0);  // Should still contain mime type
+    EXPECT_NE(sanitized3.find("application/json"), std::string::npos);  // MIME type must survive sanitization
     EXPECT_EQ(sanitized3.find("[HOSTNAME]"), std::string::npos);
 }
 
