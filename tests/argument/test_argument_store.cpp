@@ -12,6 +12,7 @@
 #include "query/query_engine.h"
 #include <thread>
 #include <chrono>
+#include <filesystem>
 
 using namespace themis::plugins::ethics;
 
@@ -20,7 +21,12 @@ protected:
     void SetUp() override {
         // Initialize RocksDB wrapper
         themis::RocksDBWrapper::Config db_config;
-        db_config.db_path = "/tmp/test_argument_store";
+        db_path_ = (std::filesystem::temp_directory_path() /
+                    ("themis_argument_store_" +
+                     std::to_string(std::chrono::steady_clock::now().time_since_epoch().count())))
+                       .string();
+        std::filesystem::remove_all(db_path_);
+        db_config.db_path = db_path_;
         db_wrapper_ = std::make_shared<themis::RocksDBWrapper>(db_config);
         if (!db_wrapper_->open()) {
             GTEST_SKIP() << "Failed to open database";
@@ -41,6 +47,10 @@ protected:
         if (db_wrapper_) {
             db_wrapper_->close();
         }
+        if (!db_path_.empty()) {
+            std::error_code ec;
+            std::filesystem::remove_all(db_path_, ec);
+        }
     }
     
     EthicalArgument createTestArgument(const std::string& id, const std::string& school) {
@@ -54,6 +64,7 @@ protected:
         return arg;
     }
     
+    std::string db_path_;
     std::shared_ptr<themis::RocksDBWrapper> db_wrapper_;
     std::unique_ptr<ArgumentStore> store_;
 };

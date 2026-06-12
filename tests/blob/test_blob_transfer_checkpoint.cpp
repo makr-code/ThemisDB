@@ -24,7 +24,7 @@ protected:
         }
         fs::create_directories(test_dir_);
         
-        checkpoint_dir_ = "/tmp/themis_blob_checkpoints";
+        checkpoint_dir_ = (fs::temp_directory_path() / "themis_blob_checkpoints").string();
         if (fs::exists(checkpoint_dir_)) {
             fs::remove_all(checkpoint_dir_);
         }

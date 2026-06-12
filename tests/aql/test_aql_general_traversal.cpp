@@ -16,6 +16,7 @@
 #include "storage/rocksdb_wrapper.h"
 #include "storage/base_entity.h"
 #include <filesystem>
+#include <chrono>
 
 using namespace themis;
 
@@ -25,12 +26,14 @@ protected:
     std::unique_ptr<SecondaryIndexManager> secIdx;
     std::unique_ptr<GraphIndexManager> graphIdx;
     std::unique_ptr<QueryEngine> engine;
-    std::string dbPath = "data/themis_aql_general_traversal_test";
+    std::string dbPath;
 
     void SetUp() override {
-        if (std::filesystem::exists(dbPath)) {
-            std::filesystem::remove_all(dbPath);
-        }
+        dbPath = (std::filesystem::temp_directory_path() /
+                  ("themis_aql_general_traversal_" +
+                   std::to_string(std::chrono::high_resolution_clock::now().time_since_epoch().count())))
+                     .string();
+        std::filesystem::remove_all(dbPath);
 
         RocksDBWrapper::Config config;
         config.db_path = dbPath;

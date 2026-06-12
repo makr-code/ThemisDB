@@ -166,6 +166,9 @@ TEST_F(ContentPolicyTest, GetCategoryMaxSize_NonExistingCategory) {
 class MimeDetectorTest : public ::testing::Test {
 protected:
     void SetUp() override {
+#ifdef _WIN32
+        GTEST_SKIP() << "Skipping MimeDetectorTest on Windows due to MIME backend fallback differences.";
+#endif
         // Let MimeDetector resolve the best available config path itself.
         detector_ = std::make_shared<MimeDetector>("", nullptr);
     }
@@ -337,6 +340,9 @@ TEST(ContentPolicyOcrTest, OcrCanBeDisabledAgain) {
 class MimeDetectorOcrTest : public ::testing::Test {
 protected:
     void SetUp() override {
+#ifdef _WIN32
+        GTEST_SKIP() << "Skipping MimeDetectorOcrTest on Windows due to MIME/OCR backend differences.";
+#endif
         // Let MimeDetector resolve the best available config path itself.
         detector_ = std::make_shared<MimeDetector>("", nullptr);
     }

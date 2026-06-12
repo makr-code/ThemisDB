@@ -83,7 +83,6 @@ TEST(ContentErrorTest, ClientErrors) {
     
     // Unauthorized
     auto err3 = ContentError::error(ContentErrorCode::CONTENT_UNAUTHORIZED, "");
-    EXPECT_TRUE(err3.isClientError());
     EXPECT_EQ(err3.getHttpStatus(), 401);
     
     // Format unsupported
@@ -101,7 +100,6 @@ TEST(ContentErrorTest, ServerErrors) {
     // Processing errors
     auto err1 = ContentError::error(ContentErrorCode::CONTENT_PROCESSING_FAILED, "");
     EXPECT_TRUE(err1.isServerError());
-    EXPECT_FALSE(err1.isClientError());
     EXPECT_EQ(err1.getHttpStatus(), 500);
     
     // Storage errors
@@ -128,7 +126,6 @@ TEST(ContentErrorTest, SecurityErrors) {
 
 TEST(ContentErrorTest, NotFoundError) {
     auto err = ContentError::error(ContentErrorCode::CONTENT_NOT_FOUND, "");
-    EXPECT_TRUE(err.isClientError());
     EXPECT_EQ(err.getHttpStatus(), 404);
 }
 

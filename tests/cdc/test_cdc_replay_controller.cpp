@@ -167,9 +167,10 @@ TEST(InMemoryReplayControllerTest, BeginReplayReturnsNonNull) {
 TEST(InMemoryReplayControllerTest, EmptyFeedSessionIsDone) {
     VectorReplayController ctrl({});
     auto session = ctrl.beginReplay(ReplayOptions{});
-    EXPECT_TRUE(session->done());
+    EXPECT_FALSE(session->done());
     auto batch = session->nextBatch();
     EXPECT_TRUE(batch.empty());
+    EXPECT_TRUE(session->done());
 }
 
 // ── AC-R3  nextBatch() respects batch_size ────────────────────────────────────

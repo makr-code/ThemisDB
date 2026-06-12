@@ -383,6 +383,11 @@ bool AQLInjectionDetector::containsSQLKeywords(const std::string& str) {
         "BENCHMARK", "LOAD_FILE", "INTO OUTFILE", "UNION SELECT", "UNION"
     };
     
+    // Reject SQL-style single-line comment markers inside string literals.
+    if (str.find("--") != std::string::npos) {
+        return true;
+    }
+
     std::string upper_str = str;
     std::transform(upper_str.begin(), upper_str.end(), 
                   upper_str.begin(), ::toupper);

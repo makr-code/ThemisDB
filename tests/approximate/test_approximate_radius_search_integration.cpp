@@ -19,6 +19,19 @@
 #include <vector>
 #include <random>
 #include <cmath>
+#include <filesystem>
+#include <chrono>
+
+namespace {
+// Helper to produce unique temporary DB paths to prevent cross-binary locking.
+static std::string makeTempDbPath(const std::string& name) {
+    namespace fs = std::filesystem;
+    auto ts = std::chrono::high_resolution_clock::now().time_since_epoch().count();
+    auto p = fs::temp_directory_path() / (name + "_" + std::to_string(ts));
+    fs::remove_all(p);
+    return p.string();
+}
+} // namespace
 
 // Helper: Generate normalized random vector
 std::vector<float> generateNormalizedVector(int dimensions, std::mt19937& rng) {
@@ -64,7 +77,7 @@ void testAllMetrics() {
         
         // Initialize RocksDBWrapper with Config
         themis::RocksDBWrapper::Config db_config;
-        db_config.db_path = "/tmp/test_radius_" + metric_test.name;
+        db_config.db_path = makeTempDbPath("test_radius_" + metric_test.name);
         themis::RocksDBWrapper db(db_config);
         if (!db.open()) {
             assert(false && "Failed to open database");
@@ -107,7 +120,7 @@ void testLargeDataset() {
     std::cout << "Test 2: Large dataset handling..." << std::endl;
     
     themis::RocksDBWrapper::Config db_config;
-    db_config.db_path = "/tmp/test_radius_large";
+    db_config.db_path = makeTempDbPath("test_radius_large");
     themis::RocksDBWrapper db(db_config);
     if (!db.open()) {
         assert(false && "Failed to open database");
@@ -166,7 +179,7 @@ void testBatchSearchPerformance() {
     std::cout << "Test 3: Batch search performance..." << std::endl;
     
     themis::RocksDBWrapper::Config db_config;
-    db_config.db_path = "/tmp/test_radius_batch";
+    db_config.db_path = makeTempDbPath("test_radius_batch");
     themis::RocksDBWrapper db(db_config);
     if (!db.open()) {
         assert(false && "Failed to open database");
@@ -230,7 +243,7 @@ void testAdaptiveTargetCount() {
     std::cout << "Test 4: Adaptive target count..." << std::endl;
     
     themis::RocksDBWrapper::Config db_config;
-    db_config.db_path = "/tmp/test_radius_adaptive";
+    db_config.db_path = makeTempDbPath("test_radius_adaptive");
     themis::RocksDBWrapper db(db_config);
     if (!db.open()) {
         assert(false && "Failed to open database");
@@ -280,7 +293,7 @@ void testEstimationAccuracy() {
     std::cout << "Test 5: Result count estimation..." << std::endl;
     
     themis::RocksDBWrapper::Config db_config;
-    db_config.db_path = "/tmp/test_radius_estimate";
+    db_config.db_path = makeTempDbPath("test_radius_estimate");
     themis::RocksDBWrapper db(db_config);
     if (!db.open()) {
         assert(false && "Failed to open database");
@@ -334,7 +347,7 @@ void testErrorHandling() {
     std::cout << "Test 6: Error handling..." << std::endl;
     
     themis::RocksDBWrapper::Config db_config;
-    db_config.db_path = "/tmp/test_radius_errors";
+    db_config.db_path = makeTempDbPath("test_radius_errors");
     themis::RocksDBWrapper db(db_config);
     if (!db.open()) {
         assert(false && "Failed to open database");
@@ -391,7 +404,7 @@ void testStatistics() {
     std::cout << "Test 7: Statistics tracking..." << std::endl;
     
     themis::RocksDBWrapper::Config db_config;
-    db_config.db_path = "/tmp/test_radius_stats";
+    db_config.db_path = makeTempDbPath("test_radius_stats");
     themis::RocksDBWrapper db(db_config);
     if (!db.open()) {
         assert(false && "Failed to open database");

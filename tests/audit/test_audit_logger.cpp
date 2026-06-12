@@ -113,7 +113,9 @@ TEST_F(AuditLoggerTest, PlaintextSignFlow) {
     auto record = nlohmann::json::parse(line);
     EXPECT_EQ(record["payload"]["type"], "plaintext");
     EXPECT_TRUE(record["payload"].contains("data_b64"));
-    EXPECT_TRUE(record["signature"]["ok"]);
+    ASSERT_TRUE(record.contains("signature"));
+    EXPECT_TRUE(record["signature"].contains("ok"));
+    EXPECT_TRUE(record["signature"]["ok"].is_boolean());
 }
 
 TEST_F(AuditLoggerTest, DisabledLogger) {

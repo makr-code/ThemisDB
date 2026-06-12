@@ -9,6 +9,8 @@
 // Dispatch test for PROXIMITY Content+Geo hybrid
 
 #include <gtest/gtest.h>
+#include <chrono>
+#include <filesystem>
 #include "query/aql_runner.h"
 #include "query/query_engine.h"
 #include "storage/rocksdb_wrapper.h"
@@ -21,8 +23,12 @@ using namespace themis;
 class AQLProximityDispatchTest : public ::testing::Test {
 protected:
     void SetUp() override {
-        std::filesystem::remove_all("data/themis_aql_proximity_dispatch_test");
-        RocksDBWrapper::Config cfg; cfg.db_path = "data/themis_aql_proximity_dispatch_test"; cfg.memtable_size_mb = 32; cfg.block_cache_size_mb = 32;
+                db_path_ = (std::filesystem::temp_directory_path() /
+                                        ("themis_aql_proximity_dispatch_" +
+                                         std::to_string(std::chrono::steady_clock::now().time_since_epoch().count())))
+                                             .string();
+                std::filesystem::remove_all(db_path_);
+                RocksDBWrapper::Config cfg; cfg.db_path = db_path_; cfg.memtable_size_mb = 32; cfg.block_cache_size_mb = 32;
         db = std::make_unique<RocksDBWrapper>(cfg); ASSERT_TRUE(db->open());
         sec = std::make_unique<SecondaryIndexManager>(*db);
         engine = std::make_unique<QueryEngine>(*db, *sec);
@@ -43,7 +49,8 @@ protected:
         b.setField("location", loc2);
         sec->put("places", b);
     }
-    void TearDown() override { engine.reset(); sec.reset(); db.reset(); std::filesystem::remove_all("data/themis_aql_proximity_dispatch_test"); }
+    void TearDown() override { engine.reset(); sec.reset(); db.reset(); std::filesystem::remove_all(db_path_); }
+    std::string db_path_;
     std::unique_ptr<RocksDBWrapper> db; std::unique_ptr<SecondaryIndexManager> sec; std::unique_ptr<QueryEngine> engine;
 };
 

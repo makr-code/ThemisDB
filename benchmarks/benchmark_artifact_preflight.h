@@ -174,30 +174,35 @@ inline std::string resolveModelPath() {
     const char* explicit_path = std::getenv("THEMIS_LLM_MODEL_PATH");
     if (explicit_path && *explicit_path != '\0' &&
         std::filesystem::exists(explicit_path)) {
-        return explicit_path;
+        auto p = std::filesystem::path(explicit_path);
+        p.make_preferred();
+        return p.string();
     }
 
-    const std::string base = modelBaseDir();
-    const bool use_stub    = stubModelsEnabled();
+    const auto base = std::filesystem::path(modelBaseDir());
+    const bool use_stub = stubModelsEnabled();
 
     // 2. Check stub model first when stub mode is active
     if (use_stub) {
-        std::string stub = base + "/" + kDefaultStubModelRelPath;
+        auto stub = base / kDefaultStubModelRelPath;
+        stub.make_preferred();
         if (std::filesystem::exists(stub)) {
-            return stub;
+            return stub.string();
         }
     }
 
     // 3. Real model
-    std::string real = base + "/" + kDefaultRealModelRelPath;
+    auto real = base / kDefaultRealModelRelPath;
+    real.make_preferred();
     if (std::filesystem::exists(real)) {
-        return real;
+        return real.string();
     }
 
     // 4. Fallback: stub model even outside explicit stub mode
-    std::string stub = base + "/" + kDefaultStubModelRelPath;
+    auto stub = base / kDefaultStubModelRelPath;
+    stub.make_preferred();
     if (std::filesystem::exists(stub)) {
-        return stub;
+        return stub.string();
     }
 
     return "";
@@ -212,31 +217,17 @@ inline std::string resolveLoraPath() {
     const char* explicit_path = std::getenv(kEnvLoraPath);
     if (explicit_path && *explicit_path != '\0' &&
         std::filesystem::exists(explicit_path)) {
-        return explicit_path;
+        auto p = std::filesystem::path(explicit_path);
+        p.make_preferred();
+        return p.string();
     }
 
-    const std::string base = modelBaseDir();
-    std::string path = base + "/" + kDefaultStubLoraRelPath;
-    if (std::filesystem::exists(path)) {
-        return path;
-    }
-
-    // Local gate fallback: create a tiny deterministic LoRA placeholder so
-    // benchmark preflight can pass in repo-local runs without full artifact sync.
-    std::error_code ec;
-    const std::filesystem::path p(path);
-    std::filesystem::create_directories(p.parent_path(), ec);
-    if (!ec) {
-        std::ofstream out(path, std::ios::binary | std::ios::out | std::ios::trunc);
-        if (out.good()) {
-            // Minimal placeholder payload (header + zero-bytes body).
-            static const char payload[] = "LORA_STUB_V1";
-            out.write(payload, static_cast<std::streamsize>(sizeof(payload) - 1));
-            out.close();
-            if (std::filesystem::exists(path)) {
-                return path;
-            }
-        }
+    const auto base = std::filesystem::path(modelBaseDir());
+    const auto path = base / kDefaultStubLoraRelPath;
+    auto normalized_path = path;
+    normalized_path.make_preferred();
+    if (std::filesystem::exists(normalized_path)) {
+        return normalized_path.string();
     }
 
     return "";

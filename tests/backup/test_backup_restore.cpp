@@ -9,6 +9,7 @@
 #include <gtest/gtest.h>
 #include "storage/rocksdb_wrapper.h"
 #include <filesystem>
+#include <chrono>
 #include <string>
 
 namespace fs = std::filesystem;
@@ -18,35 +19,39 @@ static void cleanupPath(const std::string& p) {
 }
 
 TEST(BackupRestoreTest, CreateAndRestoreCheckpoint) {
-    const std::string db_path = "./data/vccdb_backup_test";
-    const std::string cp_path = "./data/vccdb_backup_test_cp";
+    const auto stamp = std::to_string(
+        std::chrono::steady_clock::now().time_since_epoch().count());
+    const std::string db_path = "./data/vccdb_backup_test_" + stamp;
+    const std::string cp_path = "./data/vccdb_backup_test_cp_" + stamp;
 
     cleanupPath(db_path);
     cleanupPath(cp_path);
 
-    themis::RocksDBWrapper::Config cfg;
-    cfg.db_path = db_path;
-    themis::RocksDBWrapper db(cfg);
-    ASSERT_TRUE(db.open());
+    {
+        themis::RocksDBWrapper::Config cfg;
+        cfg.db_path = db_path;
+        themis::RocksDBWrapper db(cfg);
+        ASSERT_TRUE(db.open());
 
-    // Put initial value
-    std::vector<uint8_t> v1{'v','1'};
-    ASSERT_TRUE(db.put("test:key", v1));
+        // Put initial value
+        std::vector<uint8_t> v1{'v','1'};
+        ASSERT_TRUE(db.put("test:key", v1));
 
-    // Create checkpoint
-    ASSERT_TRUE(db.createCheckpoint(cp_path));
+        // Create checkpoint
+        ASSERT_TRUE(db.createCheckpoint(cp_path));
 
-    // Modify DB after checkpoint
-    std::vector<uint8_t> v2{'v','2'};
-    ASSERT_TRUE(db.put("test:key", v2));
+        // Modify DB after checkpoint
+        std::vector<uint8_t> v2{'v','2'};
+        ASSERT_TRUE(db.put("test:key", v2));
 
-    // Restore from checkpoint (should bring back v1)
-    ASSERT_TRUE(db.restoreFromCheckpoint(cp_path));
+        // Restore from checkpoint (should bring back v1)
+        ASSERT_TRUE(db.restoreFromCheckpoint(cp_path));
 
-    auto val = db.get("test:key");
-    ASSERT_TRUE(val.has_value());
-    std::string s(val->begin(), val->end());
-    EXPECT_EQ(s, "v1");
+        auto val = db.get("test:key");
+        ASSERT_TRUE(val.has_value());
+        std::string s(val->begin(), val->end());
+        EXPECT_EQ(s, "v1");
+    }
 
     // Cleanup
     cleanupPath(db_path);

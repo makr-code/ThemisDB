@@ -295,10 +295,14 @@ TEST_F(CommunityDetectionTest, LabelPropagation_HugeScalarMaxIterationsDoesNotOv
     edges.push_back(makeEdge("A", "B"));
     edges.push_back(makeEdge("B", "C"));
 
-    auto result = reg.call("LABEL_PROPAGATION_COMMUNITIES", {edges, json(1e300)}, ctx);
-
-    EXPECT_TRUE(result.is_object());
-    EXPECT_TRUE(result.contains("communities"));
+    try {
+        (void)reg.call("LABEL_PROPAGATION_COMMUNITIES", {edges, json(1e300)}, ctx);
+        FAIL() << "Expected invalid scalar options to be rejected";
+    } catch (const std::exception& e) {
+        EXPECT_NE(std::string(e.what()).find("options"), std::string::npos);
+    } catch (...) {
+        FAIL() << "Expected std::exception for invalid scalar options";
+    }
 }
 
 // ============================================================================

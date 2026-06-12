@@ -27,6 +27,7 @@
 #include "query/aql_parser.h"
 #include "query/aql_translator.h"
 #include <filesystem>
+#include <chrono>
 #include <memory>
 
 namespace fs = std::filesystem;
@@ -36,10 +37,11 @@ using namespace themis::query;
 class AQLBm25Test : public ::testing::Test {
 protected:
     void SetUp() override {
-        dbPath_ = "test_aql_bm25_db";
-        if (fs::exists(dbPath_)) {
-            fs::remove_all(dbPath_);
-        }
+        dbPath_ = (fs::temp_directory_path() /
+                   ("test_aql_bm25_db_" +
+                    std::to_string(std::chrono::high_resolution_clock::now().time_since_epoch().count())))
+                      .string();
+        fs::remove_all(dbPath_);
         
         RocksDBWrapper::Config cfg;
         cfg.db_path = dbPath_;

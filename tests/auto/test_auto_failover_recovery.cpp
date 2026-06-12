@@ -200,8 +200,9 @@ TEST(AutoFailoverRecoveryTest, HeartbeatFailureDetection) {
     // Leader becomes unavailable
     cluster[0].setHealth(false);
     
-    // No more heartbeats after failure
-    std::this_thread::sleep_for(std::chrono::milliseconds(HEARTBEAT_INTERVAL_MS * 3));
+    // Wait long enough to cross failure timeout after the last successful heartbeat.
+    std::this_thread::sleep_for(
+        std::chrono::milliseconds(FAILURE_TIMEOUT_MS + HEARTBEAT_INTERVAL_MS));
     
     bool heartbeat_ok = cluster[0].checkHeartbeat(
         std::chrono::milliseconds(FAILURE_TIMEOUT_MS));
@@ -267,7 +268,8 @@ TEST(AutoFailoverRecoveryTest, ReplicaSyncAfterPartition) {
     cluster[2].setHealth(true);
     cluster[3].setHealth(true);
     
-    // Separated nodes sync from leader
+    // Followers sync from leader after partition heals.
+    cluster[1].syncFrom(cluster[0]);
     cluster[2].syncFrom(cluster[0]);
     cluster[3].syncFrom(cluster[0]);
     
@@ -358,6 +360,9 @@ TEST(AutoFailoverRecoveryTest, CascadingFailureHandling) {
     std::vector<int> failure_sequence = {0, 1, 3};
     
     for (int node_id : failure_sequence) {
+        if (cluster[node_id].getRole() == MockReplicaNode::Role::LEADER) {
+            cluster[node_id].setRole(MockReplicaNode::Role::UNAVAILABLE);
+        }
         cluster[node_id].setHealth(false);
         
         // Check if we still have majority
@@ -368,12 +373,19 @@ TEST(AutoFailoverRecoveryTest, CascadingFailureHandling) {
         
         // After each failure, verify cluster state
         if (healthy >= NUM_NODES / 2 + 1) {
-            // Still have majority - should elect new leader if needed
-            if (node_id == 0) {
-                // Original leader failed, elect new one
-                for (size_t i = 1; i < cluster.size(); ++i) {
-                    if (cluster[i].isHealthy()) {
-                        cluster[i].setRole(MockReplicaNode::Role::LEADER);
+            // Still have majority - ensure exactly one healthy leader exists.
+            bool has_healthy_leader = false;
+            for (const auto& node : cluster) {
+                if (node.isHealthy() && node.getRole() == MockReplicaNode::Role::LEADER) {
+                    has_healthy_leader = true;
+                    break;
+                }
+            }
+
+            if (!has_healthy_leader) {
+                for (auto& node : cluster) {
+                    if (node.isHealthy()) {
+                        node.setRole(MockReplicaNode::Role::LEADER);
                         break;
                     }
                 }

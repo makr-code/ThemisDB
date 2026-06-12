@@ -170,15 +170,19 @@ protected:
         ASSERT_TRUE(idx_->createIndex("users", "active").ok);
         ASSERT_TRUE(idx_->createIndex("orders", "status").ok);
 
-        auto put = [&](const std::string& tbl, const std::string& pk,
-                       BaseEntity::FieldMap fields) {
-            auto e = BaseEntity::fromFields(pk, std::move(fields));
-            ASSERT_TRUE(idx_->put(tbl, e).ok);
-        };
-        // Note: field values stored in secondary index predicates are strings
-        put("users", "u1", {{"active", std::string("true")}, {"name", std::string("Alice")}});
-        put("users", "u2", {{"active", std::string("false")}, {"name", std::string("Bob")}});
-        put("orders", "o1", {{"status", std::string("open")}, {"user_id", std::string("u1")}});
+        // Store entities directly (not via lambda) so that ASSERT_TRUE aborts SetUp on failure.
+        {
+            auto e = BaseEntity::fromFields("u1", {{"active", std::string("true")}, {"name", std::string("Alice")}});
+            ASSERT_TRUE(idx_->put("users", e).ok);
+        }
+        {
+            auto e = BaseEntity::fromFields("u2", {{"active", std::string("false")}, {"name", std::string("Bob")}});
+            ASSERT_TRUE(idx_->put("users", e).ok);
+        }
+        {
+            auto e = BaseEntity::fromFields("o1", {{"status", std::string("open")}, {"user_id", std::string("u1")}});
+            ASSERT_TRUE(idx_->put("orders", e).ok);
+        }
 
         engine_ = std::make_unique<QueryEngine>(*db_, *idx_);
     }
