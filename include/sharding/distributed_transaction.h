@@ -1,20 +1,12 @@
 /**
  * @file distributed_transaction.h
  * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
- * @version 0.0.47
- * @note Maturity: 🟢 PRODUCTION-READY
- * @note Score: 86/100
+ * @version 1.9.0-beta
+ * @note Maturity: PRODUCTION-READY
+ * @note Score: 100/100
  * @note Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
  * @note Status: Production Ready
  * @note This block is auto-generated and will be overwritten.
- */
-
-/*
- * ThemisDB | File: distributed_transaction.h | Version: 0.0.47
- * Maturity: 🟢 PRODUCTION-READY | Score: 94/100
- * Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 // Copyright 2025 ThemisDB

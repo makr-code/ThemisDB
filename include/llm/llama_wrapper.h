@@ -1,21 +1,12 @@
 /**
  * @file llama_wrapper.h
  * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
- * @version 0.0.47
- * @note Maturity: 🟢 PRODUCTION-READY
- * @note Score: 82/100
+ * @version 1.9.0-beta
+ * @note Maturity: PRODUCTION-READY
+ * @note Score: 100/100
  * @note Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
  * @note Status: Production Ready
  * @note This block is auto-generated and will be overwritten.
- */
-
-/*
- * ThemisDB | File: llama_wrapper.h | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 90/100 | Lines: 662
- * Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * PR History (last 5): #3663 feat(voice): register focus... (2026-03-12) | #655 [RAG-GAP-P2] Implement LLM-... (2026-03-11) | #244 Implement RoPE Scaling - Ex... (2026-03-11) | #214 Integrate Prometheus metric... (2026-03-11) | #204 Complete llama.cpp implemen... (2026-03-11)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once

@@ -223,6 +223,44 @@ elseif(NOT EXISTS "${CMAKE_CURRENT_LIST_DIR}/../test_sharding_phase5.cpp")
     message(STATUS "Sharding Phase 5 tests not found")
 endif()
 
+# ============================================================================
+# RAID-Paxos and Dual-Consensus Tests
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_raid_paxos.cpp")
+    message(STATUS "Adding Sharding: RAID-Paxos consensus tests")
+    add_executable(test_raid_paxos test_raid_paxos.cpp)
+    target_include_directories(test_raid_paxos PRIVATE ${THEMIS_ROOT_DIR}/include)
+    target_link_libraries(test_raid_paxos PRIVATE ${TEST_LIBS} themis_core spdlog::spdlog Threads::Threads ${TEST_GMOCK_LIB})
+    target_compile_definitions(test_raid_paxos PRIVATE THEMIS_TEST_BUILD=1)
+    themis_register_module_focused_test(MODULE sharding NAME RAIDPaxosConsensusTests TARGET test_raid_paxos TIER unit TIMEOUT 60 LABELS raid paxos consensus quorum sharding)
+    message(STATUS "  RAID-Paxos: Configuration, quorum calculation, failure tolerance tests")
+endif()
+
+if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_dual_consensus.cpp")
+    message(STATUS "Adding Sharding: Dual-Consensus orchestrator tests")
+    add_executable(test_dual_consensus test_dual_consensus.cpp)
+    target_include_directories(test_dual_consensus PRIVATE ${THEMIS_ROOT_DIR}/include)
+    target_link_libraries(test_dual_consensus PRIVATE ${TEST_LIBS} themis_core spdlog::spdlog Threads::Threads ${TEST_GMOCK_LIB})
+    target_compile_definitions(test_dual_consensus PRIVATE THEMIS_TEST_BUILD=1)
+    themis_register_module_focused_test(MODULE sharding NAME DualConsensusOrchestratorTests TARGET test_dual_consensus TIER unit TIMEOUT 60 LABELS dual-consensus converged storage-inference grounding audit)
+    message(STATUS "  Dual-Consensus: Cross-layer coordination, version tracking, conflict resolution")
+endif()
+
+# ============================================================================
+# Redundancy Consistency Tests
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_redundancy_consistency.cpp")
+    message(STATUS "Adding Sharding: Redundancy consistency tests")
+    add_executable(test_redundancy_consistency test_redundancy_consistency.cpp)
+    target_include_directories(test_redundancy_consistency PRIVATE ${THEMIS_ROOT_DIR}/include)
+    target_link_libraries(test_redundancy_consistency PRIVATE ${TEST_LIBS} themis_core spdlog::spdlog Threads::Threads ${TEST_GMOCK_LIB})
+    target_compile_definitions(test_redundancy_consistency PRIVATE THEMIS_TEST_BUILD=1)
+    themis_register_module_focused_test(MODULE sharding NAME RedundancyConsistencyTests TARGET test_redundancy_consistency TIER unit TIMEOUT 60 LABELS redundancy consistency version-tracking conflict-resolution)
+    message(STATUS "  RedundancyConsistency: Version-aware merging, conflict resolution, consistency checks")
+endif()
+
 # AUTOGEN PREFIX BLOCK: sharding
 file(GLOB SHARDING_AUTOGEN_PREFIX_TEST_SOURCES
     "${CMAKE_CURRENT_SOURCE_DIR}/test_sharding_*.cpp"

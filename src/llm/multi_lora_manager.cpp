@@ -23,6 +23,7 @@
 #include "llm/gguf_loader.h"
 #include "llm/lora_security_validator.h"
 #include "utils/error_registry.h"
+#include "utils/thread_join_utils.h"
 #include <spdlog/spdlog.h>
 #include <algorithm>
 #include <cstring>
@@ -2407,7 +2408,9 @@ void MultiLoRAManager::stopEvictionThread() {
     eviction_cv_.notify_all();
     
     if (eviction_thread_ && eviction_thread_->joinable()) {
-        eviction_thread_->join();
+        if (!themis::utils::joinThreadWithin(*eviction_thread_)) {
+            spdlog::warn("Eviction thread did not join within timeout, continuing shutdown");
+        }
     }
     
     eviction_thread_.reset();

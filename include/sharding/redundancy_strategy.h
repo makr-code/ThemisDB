@@ -555,6 +555,24 @@ public:
                                             const std::string& shard_id,
                                             const std::string& doc_id)>;
     
+    /** @brief Read handler with version token support for consistency checking */
+    struct VersionedReadResult {
+        std::optional<std::vector<uint8_t>> data;
+        uint64_t version_token = 0;  // Monotonic version for consistency
+        std::string shard_id;         // Source shard identifier
+    };
+    
+    using ReadHandlerWithVersion = std::function<VersionedReadResult(
+                                            const std::string& shard_id,
+                                            const std::string& doc_id)>;
+    
+    /** @brief Versioned chunk with source metadata for consistency checking */
+    struct VersionedChunk {
+        std::vector<uint8_t> data;
+        uint64_t version_token = 0;
+        std::string shard_id;
+    };
+
     /** @brief Construct strategy for a given redundancy configuration. */
     explicit RedundancyStrategy(const RedundancyConfig& config);
     /** @brief Destroy strategy and associated coder resources. */
@@ -751,6 +769,15 @@ private:
         ShardTopology& topology,
         ReadHandler handler
     );
+    
+    /** @brief Version-aware read with consistency checking */
+    ReadResult readMirrorWithVersion(
+        const std::string& document_id,
+        const std::string& collection,
+        ConsistentHashRing& ring,
+        ShardTopology& topology,
+        ReadHandlerWithVersion handler
+    );
 
     ReadResult readGeoMirror(
         const std::string& document_id,
@@ -781,6 +808,17 @@ private:
     
     std::vector<uint8_t> mergeChunks(
         const std::vector<std::vector<uint8_t>>& chunks
+    );
+    
+    /**
+     * @brief Merge chunks with version consistency checking and conflict resolution
+     * 
+     * Resolves GAP: undefined_conflict_resolution, unspecified_consistency, missing_version_tracking
+     */
+    std::vector<uint8_t> mergeChunksWithConsistency(
+        const std::vector<VersionedChunk>& versioned_chunks,
+        ConflictResolution conflict_resolution,
+        uint64_t& result_version
     );
     
     std::string selectReadShard(

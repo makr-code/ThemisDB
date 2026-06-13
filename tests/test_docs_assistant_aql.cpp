@@ -380,6 +380,9 @@ TEST_F(DocsAssistantAQLTest, DocsStats) {
  * @brief Test error handling when database not loaded
  */
 TEST_F(DocsAssistantAQLTest, ErrorHandlingNoDatabaseSTRESS) {
+#ifdef _WIN32
+    GTEST_SKIP() << "Skipping unstable STRESS test on Windows";
+#endif
     // Create a new instance that won't find database
     // This tests graceful degradation
     

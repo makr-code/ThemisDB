@@ -20,6 +20,7 @@
 
 #include "llm/lora_framework/gpu_data_loader.h"
 #include "acceleration/compute_backend.h"
+#include "utils/thread_join_utils.h"
 #include <spdlog/spdlog.h>
 #include <algorithm>
 #include <random>
@@ -214,7 +215,9 @@ void GPUDataLoader::stopPrefetching() {
     queue_cv_.notify_all();
     
     if (prefetch_thread_.joinable()) {
-        prefetch_thread_.join();
+        if (!themis::utils::joinThreadWithin(prefetch_thread_)) {
+            spdlog::warn("Prefetch thread did not join within timeout, continuing shutdown");
+        }
     }
     
     prefetch_active_.store(false);

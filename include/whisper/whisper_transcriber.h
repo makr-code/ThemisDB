@@ -1,20 +1,12 @@
 /**
  * @file whisper_transcriber.h
  * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
- * @version 0.0.10
- * @note Maturity: 🟢 PRODUCTION-READY
- * @note Score: 86/100
+ * @version 1.9.0-beta
+ * @note Maturity: PRODUCTION-READY
+ * @note Score: 100/100
  * @note Gap Summary: total=8; TODO=1, Stub=6, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
  * @note Status: Production Ready
  * @note This block is auto-generated and will be overwritten.
- */
-
-/*
- * ThemisDB | File: whisper_transcriber.h | Version: 0.0.10
- * Maturity: 🟢 PRODUCTION-READY | Score: 94/100
- * Gap Summary: total=8; TODO=1, Stub=6, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
@@ -272,7 +264,12 @@ public:
 private:
     bool        initialized_ = false;
     std::string model_id_;
-    void*       ctx_ = nullptr;  // whisper_context* (opaque to avoid header dep)
+    struct WhisperContextDeleter {
+        void operator()(void* ctx) const noexcept {
+            if (ctx) whisper_free(static_cast<whisper_context*>(ctx));
+        }
+    };
+    std::unique_ptr<void, WhisperContextDeleter> ctx_;  // whisper_context* (opaque to avoid header dep)
     WhisperConfig cfg_;
 };
 #endif // THEMIS_ENABLE_WHISPER

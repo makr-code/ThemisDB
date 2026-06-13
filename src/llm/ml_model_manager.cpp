@@ -23,6 +23,7 @@
 #include "llm/llm_plugin_interface.h"
 #include "llm/model_loader.h"
 #include "utils/logger.h"
+#include "utils/thread_join_utils.h"
 #include <sstream>
 #include <algorithm>
 #include <cmath>
@@ -676,11 +677,15 @@ void MLModelManager::shutdown() {
     
     // Stop background threads
     if (health_monitor_thread_ && health_monitor_thread_->joinable()) {
-        health_monitor_thread_->join();
+        if (!themis::utils::joinThreadWithin(*health_monitor_thread_)) {
+            LOG_WARN("Health monitor thread did not join within timeout, continuing shutdown");
+        }
     }
     
     if (auto_scaler_thread_ && auto_scaler_thread_->joinable()) {
-        auto_scaler_thread_->join();
+        if (!themis::utils::joinThreadWithin(*auto_scaler_thread_)) {
+            LOG_WARN("Auto scaler thread did not join within timeout, continuing shutdown");
+        }
     }
     
     // Shutdown all models

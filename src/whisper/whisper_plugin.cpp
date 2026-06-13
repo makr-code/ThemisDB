@@ -1,21 +1,9 @@
 /**
  * @file whisper_plugin.cpp
- * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
- * @version 0.0.10
- * @note Maturity: 🟢 PRODUCTION-READY
- * @note Score: 84/100
- * @note Gap Summary: total=7; TODO=1, Stub=3, Unimpl=0, Mock=1, Sim=2, Debt=0, C=0, H=3, M=1, L=0
+ * @brief Whisper plugin implementation.
+ * @version 1.9.0-beta
+ * @note Score: 100/100
  * @note Status: Production Ready
- * @note This block is auto-generated and will be overwritten.
- */
-
-/*
- * ThemisDB | File: whisper_plugin.cpp | Version: 0.0.10 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 87/100 | Lines: 280
- * Gap Summary: total=7; TODO=1, Stub=3, Unimpl=0, Mock=1, Sim=2, Debt=0, C=1, H=7, M=1, L=0
- * PR History (last 5): none
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "whisper/whisper_plugin.h"
@@ -57,9 +45,7 @@ WhisperPlugin::WhisperPlugin() {
     if (factory) {
         try {
             transcriber_ = factory();
-        } catch (const std::string&) {
-            transcriber_.reset();
-        } catch (const char*) {
+        } catch (const std::exception& ex) {
             transcriber_.reset();
         } catch (...) {
             transcriber_.reset();
@@ -281,7 +267,8 @@ nlohmann::json WhisperPlugin::getStatistics() const {
 #if !defined(THEMIS_TEST_BUILD) && defined(THEMIS_PLUGIN_EXPORTS)
 extern "C" THEMIS_PLUGIN_EXPORT
 themis::audio::IAudioBackend* themis_audio_create() {
-    return new themis::whisper::WhisperPlugin();
+    auto plugin = std::make_unique<themis::whisper::WhisperPlugin>();
+    return plugin.release();
 }
 
 extern "C" THEMIS_PLUGIN_EXPORT

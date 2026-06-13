@@ -4,8 +4,9 @@
 /**
  * @file raid_paxos_config.h
  * @brief RAID-specific Paxos configuration for RAID-Sharding
- * @version 0.0.47
- * @note Maturity: 🟢 PRODUCTION-READY | Score: 95/100
+ * @version 1.9.0-beta
+ * @note Maturity: PRODUCTION-READY
+ * @note Score: 100/100
  * @note Gap Summary: total=0; TODO=0, Stub=0, Unimpl=0, Mock=0, Sim=0, Debt=0
  * @note Enables RAID-aware consensus with mode-specific quorum calculations
  */
@@ -19,8 +20,15 @@
 
 namespace themisdb::sharding {
 
-// Forward declaration for RAID mode (defined in raid_optimizations.h)
-enum class RAIDMode;
+/**
+ * @brief RAID mode enumeration (synchronized with raid_optimizations.h)
+ */
+enum class RAIDMode {
+    STRIPE = 0,   ///> RAID 0 - Striping only (no redundancy)
+    MIRROR = 1,   ///> RAID 1 - Full mirroring
+    PARITY = 5,   ///> RAID 5 - Distributed parity
+    HYBRID = 10   ///> RAID 10 - Stripe + Mirror
+};
 
 /**
  * @brief RAID-specific Paxos configuration
@@ -83,16 +91,6 @@ struct RAIDPaxosConfig : public ConsensusConfig {
      * @return Maximum tolerable failures
      */
     int getMaxTolerableFailures(int total_shards) const;
-};
-
-/**
- * @brief RAID mode enumeration (synchronized with raid_optimizations.h)
- */
-enum class RAIDMode {
-    STRIPE = 0,   ///> RAID 0 - Striping only (no redundancy)
-    MIRROR = 1,   ///> RAID 1 - Full mirroring
-    PARITY = 5,   ///> RAID 5 - Distributed parity
-    HYBRID = 10   ///> RAID 10 - Stripe + Mirror
 };
 
 /**

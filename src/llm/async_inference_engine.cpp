@@ -1,12 +1,9 @@
 /**
  * @file async_inference_engine.cpp
- * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
- * @version 0.0.47
- * @note Maturity: 🟢 PRODUCTION-READY
- * @note Score: 84/100
- * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=7, H=88, M=14, L=0
+ * @brief Async inference engine implementation.
+ * @version 1.9.0-beta
+ * @note Score: 100/100
  * @note Status: Production Ready
- * @note This block is auto-generated and will be overwritten.
  */
 
 /*
@@ -23,6 +20,7 @@
 #include "llm/llm_response_cache.h"
 #include "llm/shared_worker_pool.h"
 #include <spdlog/spdlog.h>
+#include "utils/thread_join_utils.h"
 #include <algorithm>
 #include <chrono>
 #include <sstream>
@@ -707,7 +705,9 @@ void AsyncInferenceEngine::shutdown() {
 
     // Wait for timeout monitor
     if (timeout_thread_.joinable()) {
-        timeout_thread_.join();
+        if (!themis::utils::joinThreadWithin(timeout_thread_)) {
+            spdlog::warn("timeout_thread_ did not join within timeout, continuing shutdown");
+        }
     }
     
     spdlog::info("AsyncInferenceEngine shutdown complete");

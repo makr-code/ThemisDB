@@ -57,6 +57,10 @@ bool RAIDPaxosConsensus::initialize(
         return false;
     }
     
+    // Store node identifiers locally
+    node_id_ = node_id;
+    cluster_nodes_ = cluster_nodes;
+    
     // Initialize base Paxos
     if (!PaxosConsensus::initialize(node_id, cluster_nodes)) {
         spdlog::error("RAIDPaxosConsensus: Failed to initialize base Paxos");
@@ -380,12 +384,11 @@ std::unique_ptr<RAIDPaxosConsensus> createRAIDPaxosConsensus(
     
     // Copy base configuration
     raid_config.heartbeat_interval = base_config.heartbeat_interval;
-    raid_config.election_timeout = base_config.election_timeout;
+    raid_config.election_timeout_min = base_config.election_timeout_min;
+    raid_config.election_timeout_max = base_config.election_timeout_max;
     raid_config.data_dir = base_config.data_dir;
     raid_config.enable_persistence = base_config.enable_persistence;
-    raid_config.max_snapshots = base_config.max_snapshots;
     raid_config.snapshot_interval = base_config.snapshot_interval;
-    raid_config.sync_on_write = base_config.sync_on_write;
     
     // RAID-specific defaults
     switch (raid_mode) {

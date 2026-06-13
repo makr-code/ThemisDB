@@ -26,6 +26,7 @@
 #include "llm/speculative_decoder.h"
 #include "sharding/remote_executor.h"
 #include <spdlog/spdlog.h>
+#include "utils/thread_join_utils.h"
 #include <algorithm>
 #include <limits>
 #include <numeric>
@@ -865,14 +866,18 @@ void InferenceEngineEnhanced::shutdown() {
     // Join worker threads
     for (auto& thread : worker_threads_) {
         if (thread.joinable()) {
-            thread.join();
+            if (!themis::utils::joinThreadWithin(thread)) {
+                spdlog::warn("Worker thread did not join within timeout, continuing shutdown");
+            }
         }
     }
     worker_threads_.clear();
     
     // Join timeout thread
     if (timeout_thread_.joinable()) {
-        timeout_thread_.join();
+        if (!themis::utils::joinThreadWithin(timeout_thread_)) {
+            spdlog::warn("Timeout thread did not join within timeout, continuing shutdown");
+        }
     }
     
     spdlog::info("Enhanced Inference Engine shutdown complete");

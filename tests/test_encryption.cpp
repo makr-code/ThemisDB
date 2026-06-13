@@ -294,8 +294,17 @@ protected:
     void SetUp() override {
         provider_ = std::make_shared<MockKeyProvider>();
         provider_->createKey("test_key", 1);
-        
-        encryption_ = std::make_shared<FieldEncryption>(provider_);
+
+        try {
+            encryption_ = std::make_shared<FieldEncryption>(provider_);
+            (void) encryption_->encrypt(std::string("probe"), "test_key");
+        } catch (const std::exception& ex) {
+            const std::string msg = ex.what();
+            if (msg.find("COMMUNITY edition") != std::string::npos) {
+                GTEST_SKIP() << "Field encryption unavailable in COMMUNITY edition";
+            }
+            throw;
+        }
     }
     
     std::shared_ptr<MockKeyProvider> provider_;

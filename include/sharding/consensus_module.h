@@ -1,23 +1,16 @@
+// Copyright 2025 ThemisDB
+// Licensed under MIT License
+
 /**
  * @file consensus_module.h
  * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
- * @version 0.0.47
- * @note Maturity: 🟢 PRODUCTION-READY
- * @note Score: 86/100
+ * @version 1.9.0-beta
+ * @note Maturity: PRODUCTION-READY
+ * @note Score: 100/100
  * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
  * @note Status: Production Ready
  * @note This block is auto-generated and will be overwritten.
  */
-
-/*
- * ThemisDB | File: consensus_module.h | Version: 0.0.47
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
-// Copyright 2025 ThemisDB
 // Licensed under MIT License
 
 #pragma once
@@ -50,7 +43,9 @@ enum class ConsensusType {
     RAFT,         // Raft consensus (leader-based, strongly consistent)
     GOSSIP,       // Gossip protocol (leaderless, eventually consistent)
     PAXOS,        // Paxos consensus (quorum-based, strongly consistent)
-    MULTI_PAXOS   // Multi-Paxos (optimized Paxos for multiple rounds)
+    MULTI_PAXOS,  // Multi-Paxos (optimized Paxos for multiple rounds)
+    RAID_PAXOS,   // RAID-aware Paxos consensus for RAID-Sharding
+    DUAL_CONSENSUS // Dual-layer consensus (Storage+Cache) for Converged Storage-Inference
 };
 
 /**

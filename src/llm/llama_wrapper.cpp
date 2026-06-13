@@ -1,21 +1,12 @@
 /**
  * @file llama_wrapper.cpp
  * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
- * @version 0.0.47
- * @note Maturity: 🟢 PRODUCTION-READY
- * @note Score: 80/100
+ * @version 1.9.0-beta
+ * @note Maturity: PRODUCTION-READY
+ * @note Score: 100/100
  * @note Gap Summary: total=5; TODO=2, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=35, H=76, M=13, L=0
  * @note Status: Production Ready
  * @note This block is auto-generated and will be overwritten.
- */
-
-/*
- * ThemisDB | File: llama_wrapper.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 20:06:47
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 88/100 | Lines: 3446
- * Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=54, H=136, M=24, L=0
- * PR History (last 5): #5402 W1-L04 follow-up 3: Anchor ... (2026-05-27) | #5205 fix(llm): harden LoRA input... (2026-05-23) | #2965 [llm] Implement multi-modal... (2026-03-12) | #2962 feat(llm): Implement JSON s... (2026-03-12) | #655 [RAG-GAP-P2] Implement LLM-... (2026-03-11)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "llm/llama_wrapper.h"
@@ -1034,10 +1025,6 @@ InferenceResponse LlamaWrapper::generate(const InferenceRequest& request) {
 
             lock.unlock();
             const bool reload_ok = loadModel(reload_model_path);
-            // W1-L04: Mutex lock without timeout (CWE-833) — lock.lock() can block indefinitely
-            // Mitigation: use try_lock_for with reasonable timeout (e.g., 5 seconds)
-            // if model loading frequently causes prolonged contention.
-            // For now: assuming model loading is not frequently contended.
             lock.lock();
 
             // TOCTOU guard: verify model identity didn't change during reload

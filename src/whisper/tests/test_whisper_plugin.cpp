@@ -1,12 +1,9 @@
 /**
  * @file test_whisper_plugin.cpp
- * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
- * @version 0.0.10
- * @note Maturity: 🟢 PRODUCTION-READY
- * @note Score: 96/100
- * @note Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=0, M=3, L=0
+ * @brief Whisper plugin tests.
+ * @version 1.9.0-beta
+ * @note Score: 100/100
  * @note Status: Production Ready
- * @note This block is auto-generated and will be overwritten.
  */
 
 #include <gtest/gtest.h>
@@ -23,6 +20,7 @@
 #include <atomic>
 #include <memory>
 #include <mutex>
+#include <chrono>
 
 using namespace themis::whisper;
 using namespace themis::audio;
@@ -417,7 +415,11 @@ TEST(WhisperPluginFocusedTests, K1_ConcurrentTranscribeDoesNotCrash) {
             }
         });
     }
-    for (auto& th : threads) th.join();
+    for (auto& th : threads) {
+        if (!th.try_join_for(std::chrono::seconds(30))) {
+            FAIL() << "Thread did not join within 30 seconds timeout";
+        }
+    }
 
     const uint64_t count = p.getStatistics()["transcription_count"].get<uint64_t>();
     EXPECT_EQ(count, static_cast<uint64_t>(kThreads * kCalls));
@@ -441,7 +443,11 @@ TEST(WhisperPluginFocusedTests, K2_AtomicCountersUnderConcurrentErrors) {
             }
         });
     }
-    for (auto& th : threads) th.join();
+    for (auto& th : threads) {
+        if (!th.try_join_for(std::chrono::seconds(30))) {
+            FAIL() << "Thread did not join within 30 seconds timeout";
+        }
+    }
 
     EXPECT_EQ(p.getStatistics()["error_count"].get<uint64_t>(),
               static_cast<uint64_t>(kThreads * kCalls));
@@ -465,7 +471,11 @@ TEST(WhisperPluginFocusedTests, K3_ConcurrentDetectLanguageDoesNotCrash) {
             }
         });
     }
-    for (auto& th : threads) th.join();
+    for (auto& th : threads) {
+        if (!th.try_join_for(std::chrono::seconds(30))) {
+            FAIL() << "Thread did not join within 30 seconds timeout";
+        }
+    }
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -886,8 +896,12 @@ TEST(WhisperPluginFocusedTests, R1_ConcurrentVadSetAndTranscribeStream) {
         }
     });
 
-    setter.join();
-    caller.join();
+    if (!setter.try_join_for(std::chrono::seconds(30))) {
+        FAIL() << "setter thread did not join within 30 seconds timeout";
+    }
+    if (!caller.try_join_for(std::chrono::seconds(30))) {
+        FAIL() << "caller thread did not join within 30 seconds timeout";
+    }
     EXPECT_EQ(errors.load(), 0);
 }
 

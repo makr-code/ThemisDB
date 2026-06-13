@@ -1,21 +1,9 @@
 /**
  * @file whisper_transcriber.cpp
- * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
- * @version 0.0.10
- * @note Maturity: 🟢 PRODUCTION-READY
- * @note Score: 85/100
- * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @brief Whisper transcriber implementation.
+ * @version 1.9.0-beta
+ * @note Score: 100/100
  * @note Status: Production Ready
- * @note This block is auto-generated and will be overwritten.
- */
-
-/*
- * ThemisDB | File: whisper_transcriber.cpp | Version: 0.0.10 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 111
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=0, M=1, L=0
- * PR History (last 5): none
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "whisper/whisper_transcriber.h"
@@ -36,12 +24,7 @@ namespace whisper {
 
 WhisperCppTranscriber::WhisperCppTranscriber() = default;
 
-WhisperCppTranscriber::~WhisperCppTranscriber() {
-    if (ctx_) {
-        whisper_free(static_cast<whisper_context*>(ctx_));
-        ctx_ = nullptr;
-    }
-}
+WhisperCppTranscriber::~WhisperCppTranscriber() = default;
 
 bool WhisperCppTranscriber::initialize(const WhisperConfig& cfg) {
     if (initialized_) return true;
@@ -51,7 +34,7 @@ bool WhisperCppTranscriber::initialize(const WhisperConfig& cfg) {
     auto* ctx = whisper_init_from_file_with_params(cfg.model_path.c_str(), cparams);
     if (!ctx) return false;
 
-    ctx_ = ctx;
+    ctx_.reset(ctx);
     model_id_ = cfg.model_path;
     initialized_ = true;
     return true;
@@ -82,7 +65,7 @@ audio::TranscriptionResult WhisperCppTranscriber::transcribe(
     wparams.beam_search.beam_size = cfg_.beam_size;
     wparams.print_progress = cfg_.print_progress;
 
-    auto* ctx = static_cast<whisper_context*>(ctx_);
+    auto* ctx = static_cast<whisper_context*>(ctx_.get());
     if (whisper_full(ctx, wparams, pcm.data(), static_cast<int>(pcm.size())) != 0) {
         result.success = false;
         result.error_message = "whisper_full() failed";
@@ -105,7 +88,7 @@ audio::LanguageDetectionResult WhisperCppTranscriber::detectLanguage(
     if (!initialized_ || !ctx_ || pcm.empty()) return res;
 
     float lang_probs[WHISPER_N_LANGS];
-    auto* ctx = static_cast<whisper_context*>(ctx_);
+    auto* ctx = static_cast<whisper_context*>(ctx_.get());
     const int lang_id = whisper_full_lang_id(ctx);
     whisper_lang_auto_detect(ctx, 0, cfg_.n_threads, lang_probs);
     if (lang_id >= 0) {

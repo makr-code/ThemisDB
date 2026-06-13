@@ -25,6 +25,7 @@
 #include "llm/gpu_memory_manager.h"
 #include "llm/continuous_batch_scheduler.h"
 #include "llm/multi_lora_manager.h"
+#include "utils/thread_join_utils.h"
 #include <spdlog/spdlog.h>
 #include <algorithm>
 #include <atomic>
@@ -477,7 +478,11 @@ ProductionValidator::ValidationResult ProductionValidator::runLoadTest() {
     for (size_t i = 0; i < concurrency; ++i) {
         threads.emplace_back(worker);
     }
-    for (auto& t : threads) t.join();
+    for (auto& t : threads) {
+        if (!themis::utils::joinThreadWithin(t)) {
+            spdlog::warn("Validation thread did not join within timeout");
+        }
+    }
 
     double elapsed_s = std::chrono::duration<double>(
         std::chrono::steady_clock::now() - wall_start).count();
@@ -1453,7 +1458,11 @@ bool IntegrationTestSuite::testHighConcurrency() {
             }
         });
     }
-    for (auto& th : threads) th.join();
+    for (auto& th : threads) {
+        if (!themis::utils::joinThreadWithin(th)) {
+            spdlog::warn("Scheduler thread did not join within timeout");
+        }
+    }
 
     auto stats = scheduler.getStats();
     if (stats.total_requests == 0) {

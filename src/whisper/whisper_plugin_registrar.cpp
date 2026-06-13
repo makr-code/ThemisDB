@@ -1,21 +1,9 @@
 /**
  * @file whisper_plugin_registrar.cpp
- * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
- * @version 0.0.1
- * @note Maturity: 🟢 PRODUCTION-READY
- * @note Score: 85/100
- * @note Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @brief Whisper plugin registrar implementation.
+ * @version 1.9.0-beta
+ * @note Score: 100/100
  * @note Status: Production Ready
- * @note This block is auto-generated and will be overwritten.
- */
-
-/*
- * ThemisDB | File: whisper_plugin_registrar.cpp | Version: 0.0.1 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 93/100 | Lines: 117
- * Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=1, M=0, L=0
- * PR History (last 5): none
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #include "whisper/whisper_plugin_registrar.h"

@@ -188,13 +188,39 @@ Ausgabeformat:
 
 **Prompt fuer Gemini:**
 
+Schreibe einen praxisnahen, journalistisch aufbereiteten Guide fuer KI-Entwicklungsteams: "RAG und LLM-Integration mit ThemisDB - Warum die Datenbank im Kern der KI-Pipeline sein sollte".
 
+Eröffne mit der zentralen Frage: Wie wird aus einem LLM eine verlässliche Wissensquelle, wenn Retrieval, Kontextbildung und Antwortgenerierung nicht als getrennte Schritte, sondern als transaktionale Einheit behandelt werden? Zeige, dass Grounding nur dann wirklich funktioniert, wenn die gesamte Antwortkette in einer ACID-Transaktion verankert ist.
+
+**Kernfokus:** ThemisDB integriert RAG nativ in die Datenbank-Engine: Vector Search + Graph Traversal + Relational Filtering + LLM Generation + G-Eval Scoring in EINER Transaktion. Erkläre diesen Unified-Ansatz und vergleiche ihn mit orchestrierten Polyglot-Stacks (Quellen: research/LLM_INTEGRATION_SCIENTIFIC_FOUNDATIONS.md, research/best_practices/llm_as_judge_rag_evaluation.md).
+
+Beantworte mindestens diese Fragen:
+- Warum scheitern RAG-Implementierungen oft an Inkonsistenzen zwischen Retrieval-Index und Operational Store?
+- Wie unterscheidet sich DB-native RAG von externen Orchestrierungsschichten (LangChain, LlamaIndex)?
+- Welche Vorteile hat Transactional Grounding (ACID-konsistente Antwortkette) gegenueber asynchronen Pipelines?
+- Wie wird die Retrieval-Quality in ThemisDB gemessen und validiert (RRF, Weighted Fusion, LLM-as-Judge)?
+- Welche Cross-Model-Queries sind nur in einem unified System moeglich (z.B. Vector+Graph+Relational in einer Query)?
+- Wo sind spezialisierte RAG-Loesungen (Weaviate, Pinecone, Elasticsearch) trotzdem ueberlegen?
+- Wie skaliert DB-native RAG mit wachsendem Datenvolumen und komplexen Queries?
+- Welche Metriken sind fuer Decision-Makers relevant: Halluzinationsrate, Grounding-Score, Query-Latenz, Kosteneffizienz?
+
+Quellen:
+- https://github.com/makr-code/themisdb/blob/develop/research/LLM_INTEGRATION_SCIENTIFIC_FOUNDATIONS.md
+- https://github.com/makr-code/themisdb/blob/develop/research/best_practices/llm_as_judge_rag_evaluation.md
+- https://github.com/makr-code/themisdb/blob/develop/research/THEMISDB_CAPABILITIES_COMPREHENSIVE_ANALYSIS.md
+- https://github.com/makr-code/themisdb/blob/develop/docs/tutorials/RAG_IMPLEMENTATION_GUIDE.md
+
+Ausgabeformat:
+- Fliesstext mit klarer Struktur und wenigen Ueberschriften
+- Schritt-fuer-Schritt-Integrationsanleitung als Aufzaehlung
+- Vergleichstabelle: DB-native RAG vs. Orchestrierter Polyglot-Stack
+- Abschnitt "Praktische Empfehlungen fuer Produktionseinsatz"
 
 ## 5) Security-How-to: Zero Trust, Schluesselmanagement, Hardening
 
 **Prompt fuer Gemini:**
 
-Schreibe einen sicherheitsorientierten, aber fuer Laien nachvollziehbaren How-to-Guide fuer Plattform- und Compliance-Teams: "ThemisDB Security Hardening in der Praxis".
+Schreibe einen sicherheitsorientierten, aber fuer Laien nachvollziehbaren How-to-Guide fuer Plattform- und Compliance-Teams: "ThemisDB Security Hardening in der Praxis"
 
 Rahme das Thema als Vertrauensfrage: Woher weiß man, dass eine KI-Antwort belastbar, nachvollziehbar und compliance-fähig ist? Verbinde Security direkt mit Grounding, Auditierbarkeit und Datenherkunft.
 

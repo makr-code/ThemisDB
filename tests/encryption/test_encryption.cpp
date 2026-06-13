@@ -294,8 +294,17 @@ protected:
     void SetUp() override {
         provider_ = std::make_shared<MockKeyProvider>();
         provider_->createKey("test_key", 1);
-        
-        encryption_ = std::make_shared<FieldEncryption>(provider_);
+
+        try {
+            encryption_ = std::make_shared<FieldEncryption>(provider_);
+            (void) encryption_->encrypt(std::string("probe"), "test_key");
+        } catch (const std::exception& ex) {
+            const std::string msg = ex.what();
+            if (msg.find("COMMUNITY edition") != std::string::npos) {
+                GTEST_SKIP() << "Field encryption unavailable in COMMUNITY edition";
+            }
+            throw;
+        }
     }
     
     std::shared_ptr<MockKeyProvider> provider_;
@@ -475,8 +484,18 @@ protected:
     void SetUp() override {
         provider_ = std::make_shared<MockKeyProvider>();
         provider_->createKey("test_key", 1);
-        
-        encryption_ = std::make_shared<FieldEncryption>(provider_);
+
+        try {
+            encryption_ = std::make_shared<FieldEncryption>(provider_);
+            (void)encryption_->encrypt(std::string("probe"), "test_key");
+        } catch (const std::exception& ex) {
+            const std::string msg = ex.what();
+            if (msg.find("COMMUNITY edition") != std::string::npos) {
+                GTEST_SKIP() << "EncryptedField unavailable in COMMUNITY edition";
+            }
+            throw;
+        }
+
         EncryptedField<std::string>::setFieldEncryption(encryption_);
         EncryptedField<int64_t>::setFieldEncryption(encryption_);
         EncryptedField<double>::setFieldEncryption(encryption_);
@@ -572,15 +591,4 @@ TEST_F(FieldEncryptionTest, Performance_1000EncryptDecrypt) {
     for (int i = 0; i < 1000; i++) {
         std::string data = "test data " + std::to_string(i);
         auto blob = encryption_->encrypt(data, "test_key");
-        encryption_->decryptToString(blob);
-    }
-    
-    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(
-        std::chrono::high_resolution_clock::now() - start
-    ).count();
-    
-    // Should complete in <2000ms (2ms per operation target)
-    EXPECT_LT(duration, 2000);
-    
-    std::cout << "1000 encrypt/decrypt operations: " << duration << "ms" << std::endl;
-}
+        encryption_->

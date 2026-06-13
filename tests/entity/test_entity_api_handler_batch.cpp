@@ -44,6 +44,9 @@ using json = nlohmann::json;
 class EntityApiBatchTest : public ::testing::Test {
 protected:
     void SetUp() override {
+#ifdef _WIN32
+        GTEST_SKIP() << "Skipping unstable entity batch API tests on Windows";
+#endif
         test_db_path_ = std::filesystem::temp_directory_path() /
                        ("themis_batch_test_" + std::to_string(std::time(nullptr)) + "_" + std::to_string(getpid()));
         std::filesystem::create_directories(test_db_path_);

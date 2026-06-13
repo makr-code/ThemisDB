@@ -13,7 +13,6 @@
 #pragma once
 
 #include "sharding/consensus_module.h"
-#include "sharding/version_token.h"
 #include <map>
 #include <vector>
 #include <memory>

@@ -414,8 +414,9 @@ TEST(DspySignatureTest, NoDescriptionHeaderWhenEmpty)
     sig.addOutput({"y", "output"});
 
     std::string prompt = sig.buildPrompt({{"x", "val"}});
-    // No description should mean prompt starts with the input field directly
-    EXPECT_EQ(prompt.find('\n'), prompt.find("x:"));
+    // No description should mean prompt starts with the first input label.
+    ASSERT_EQ(prompt.find("x:"), 0u);
+    EXPECT_NE(prompt.find('\n'), std::string::npos);
 }
 
 // ============================================================================

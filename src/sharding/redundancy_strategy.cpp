@@ -2576,6 +2576,210 @@ std::vector<uint8_t> RedundancyStrategy::mergeChunks(
     return merged;
 }
 
+// ============================================================================
+// Version-aware chunk merging with conflict resolution
+// Resolves GAP: undefined_conflict_resolution, unspecified_consistency
+// ============================================================================
+
+/**
+ * @brief Merge chunks with version consistency checking and conflict resolution
+ * 
+ * This function addresses GAP categories:
+ * - undefined_conflict_resolution: Provides explicit conflict resolution strategy
+ * - unspecified_consistency: Uses version tokens for consistency verification
+ * - missing_version_tracking: Tracks and validates version tokens
+ * 
+ * @param versioned_chunks Chunks with version information
+ * @param conflict_resolution How to resolve version conflicts
+ * @param result_version Output parameter for merged version token
+ * @return Merged data
+ */
+std::vector<uint8_t> RedundancyStrategy::mergeChunksWithConsistency(
+    const std::vector<VersionedChunk>& versioned_chunks,
+    ConflictResolution conflict_resolution,
+    uint64_t& result_version
+) {
+    if (versioned_chunks.empty()) {
+        result_version = 0;
+        return {};
+    }
+    
+    // Check if all chunks have the same version (consistent)
+    uint64_t first_version = versioned_chunks[0].version_token;
+    bool all_consistent = true;
+    for (const auto& vc : versioned_chunks) {
+        if (vc.version_token != first_version) {
+            all_consistent = false;
+            break;
+        }
+    }
+    
+    if (all_consistent) {
+        // All chunks are consistent - simple merge
+        result_version = first_version;
+        std::vector<uint8_t> merged;
+        for (const auto& vc : versioned_chunks) {
+            merged.insert(merged.end(), vc.data.begin(), vc.data.end());
+        }
+        return merged;
+    }
+    
+    // ========================================================================
+    // CONFLICT DETECTED - Apply resolution strategy
+    // ========================================================================
+    
+    spdlog::warn("RedundancyStrategy: Version conflict detected in mergeChunks. "
+                 "Applying conflict resolution strategy: {}", 
+                 static_cast<int>(conflict_resolution));
+    
+    switch (conflict_resolution) {
+        case ConflictResolution::LAST_WRITE_WINS: {
+            // Find chunk with highest version token
+            const VersionedChunk* latest = &versioned_chunks[0];
+            for (const auto& vc : versioned_chunks) {
+                if (vc.version_token > latest->version_token) {
+                    latest = &vc;
+                }
+            }
+            result_version = latest->version_token;
+            spdlog::debug("RedundancyStrategy: LAST_WRITE_WINS selected version {} from shard {}",
+                         latest->version_token, latest->shard_id);
+            return latest->data;
+        }
+        
+        case ConflictResolution::FIRST_WRITE_WINS: {
+            // Find chunk with lowest version token (oldest)
+            const VersionedChunk* oldest = &versioned_chunks[0];
+            for (const auto& vc : versioned_chunks) {
+                if (vc.version_token < oldest->version_token) {
+                    oldest = &vc;
+                }
+            }
+            result_version = oldest->version_token;
+            spdlog::debug("RedundancyStrategy: FIRST_WRITE_WINS selected version {} from shard {}",
+                         oldest->version_token, oldest->shard_id);
+            return oldest->data;
+        }
+        
+        case ConflictResolution::HIGHEST_NODE_ID: {
+            // Find chunk from highest node ID (deterministic)
+            const VersionedChunk* selected = &versioned_chunks[0];
+            for (const auto& vc : versioned_chunks) {
+                if (vc.shard_id > selected->shard_id) {
+                    selected = &vc;
+                }
+            }
+            result_version = selected->version_token;
+            spdlog::debug("RedundancyStrategy: HIGHEST_NODE_ID selected shard {}",
+                         selected->shard_id);
+            return selected->data;
+        }
+        
+        case ConflictResolution::CUSTOM: {
+            // For CUSTOM, use LAST_WRITE_WINS as safe default
+            spdlog::warn("RedundancyStrategy: CUSTOM conflict resolution not implemented, "
+                         "falling back to LAST_WRITE_WINS");
+            const VersionedChunk* latest = &versioned_chunks[0];
+            for (const auto& vc : versioned_chunks) {
+                if (vc.version_token > latest->version_token) {
+                    latest = &vc;
+                }
+            }
+            result_version = latest->version_token;
+            return latest->data;
+        }
+    }
+    
+    // Should not reach here
+    result_version = 0;
+    return {};
+}
+
+// ============================================================================
+// Version-aware read with consistency checking
+// ============================================================================
+
+/**
+ * @brief Read with version-aware consistency checking
+ * 
+ * Resolves GAP: unspecified_consistency, missing_version_tracking
+ * 
+ * @param document_id Document identifier
+ * @param collection Collection name
+ * @param ring Consistent hash ring
+ * @param topology Shard topology
+ * @param handler Version-aware read handler
+ * @return ReadResult with merged data and consistency metadata
+ */
+ReadResult RedundancyStrategy::readMirrorWithVersion(
+    const std::string& document_id,
+    const std::string& collection,
+    ConsistentHashRing& ring,
+    ShardTopology& topology,
+    ReadHandlerWithVersion handler
+) {
+    ReadResult result;
+    result.document_id = document_id;
+    
+    uint32_t replication_factor = 0;
+    {
+        std::shared_lock<std::shared_mutex> lock(mutex_);
+        replication_factor = config_.replication_factor;
+    }
+    
+    // Get available shards
+    auto primary_shard = ring.getNode(document_id);
+    if (!primary_shard) {
+        result.success = false;
+        result.error_message = "No shard available";
+        return result;
+    }
+    
+    std::vector<std::string> available_shards;
+    available_shards.push_back(*primary_shard);
+    
+    auto replicas = ring.getReplicaNodes(document_id, replication_factor - 1);
+    available_shards.insert(available_shards.end(), replicas.begin(), replicas.end());
+    
+    // Read from all shards with version tracking
+    std::vector<VersionedChunk> versioned_chunks;
+    std::optional<std::string> primary_opt = primary_shard;
+    
+    for (const auto& shard_id : available_shards) {
+        auto versioned_result = handler(shard_id, document_id);
+        if (versioned_result.data) {
+            versioned_chunks.push_back({
+                *versioned_result.data,
+                versioned_result.version_token,
+                versioned_result.shard_id
+            });
+        }
+    }
+    
+    if (versioned_chunks.empty()) {
+        result.success = false;
+        result.error_message = "Failed to read from any shard";
+        return result;
+    }
+    
+    // Merge with consistency checking
+    uint64_t merged_version = 0;
+    auto merged_data = mergeChunksWithConsistency(
+        versioned_chunks, 
+        config_.geo_replication.conflict_resolution,
+        merged_version
+    );
+    
+    result.success = true;
+    result.data = std::string(merged_data.begin(), merged_data.end());
+    result.version_token = merged_version;
+    result.chunks_read = static_cast<uint32_t>(versioned_chunks.size());
+    result.source_shard = versioned_chunks[0].shard_id;
+    result.from_replica = (result.source_shard != *primary_opt);
+    
+    return result;
+}
+
 std::string RedundancyStrategy::selectReadShard(
     const std::vector<std::string>& available_shards,
     ShardTopology& /*topology*/

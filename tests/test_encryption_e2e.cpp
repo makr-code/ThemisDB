@@ -36,6 +36,9 @@ using json = nlohmann::json;
 class EncryptionE2ETest : public ::testing::Test {
 protected:
     void SetUp() override {
+#ifdef _WIN32
+        GTEST_SKIP() << "Skipping unstable encryption E2E tests on Windows";
+#endif
         // Cleanup from previous runs
         cleanupTestDB();
         

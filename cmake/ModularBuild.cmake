@@ -989,9 +989,11 @@ set(THEMIS_SHARDING_SOURCES
     ../src/sharding/raft_consensus_adapter.cpp
     ../src/sharding/gossip_consensus_adapter.cpp
     ../src/sharding/paxos_consensus.cpp
+    ../src/sharding/raid_paxos_consensus.cpp
     ../src/sharding/paxos_wal.cpp
     ../src/sharding/paxos_snapshot.cpp
     ../src/sharding/paxos_state_persistence.cpp
+    ../src/sharding/dual_consensus_orchestrator.cpp
     ../src/sharding/cross_shard_transaction.cpp
     ../src/sharding/transaction_wal.cpp
     ../src/sharding/transaction_snapshot.cpp

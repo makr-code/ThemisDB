@@ -3151,7 +3151,7 @@ if(THEMIS_BUILD_MODULAR)
                 VERBATIM
             )
 
-            add_library(themis_shard_proto SHARED ${SHARD_PROTO_SRCS} ${SHARD_PROTO_HDRS})
+            add_library(themis_shard_proto STATIC ${SHARD_PROTO_SRCS} ${SHARD_PROTO_HDRS})
             target_include_directories(themis_shard_proto PUBLIC ${SHARD_PROTO_GEN_DIR})
             target_link_libraries(themis_shard_proto PUBLIC gRPC::grpc++ protobuf::libprotobuf)
 

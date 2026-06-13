@@ -21,6 +21,7 @@
 #include "llm/grafana_metrics.h"
 #include <httplib.h>
 #include <spdlog/spdlog.h>
+#include "utils/thread_join_utils.h"
 #include <map>
 #include <string>
 #include <iostream>
@@ -1429,7 +1430,9 @@ void MetricsServer::stop() {
 
     impl_->svr.stop();
     if (impl_->thread.joinable()) {
-        impl_->thread.join();
+        if (!themis::utils::joinThreadWithin(impl_->thread)) {
+            spdlog::warn("Metrics server thread did not join within timeout, continuing shutdown");
+        }
     }
 
     running_ = false;
