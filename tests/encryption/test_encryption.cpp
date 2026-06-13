@@ -591,4 +591,15 @@ TEST_F(FieldEncryptionTest, Performance_1000EncryptDecrypt) {
     for (int i = 0; i < 1000; i++) {
         std::string data = "test data " + std::to_string(i);
         auto blob = encryption_->encrypt(data, "test_key");
-        encryption_->
+        encryption_->decryptToString(blob);
+    }
+    
+    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(
+        std::chrono::high_resolution_clock::now() - start
+    ).count();
+    
+    // Should complete in <2000ms (2ms per operation target)
+    EXPECT_LT(duration, 2000);
+    
+    std::cout << "1000 encrypt/decrypt operations: " << duration << "ms" << std::endl;
+}

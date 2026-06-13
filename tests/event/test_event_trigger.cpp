@@ -39,7 +39,9 @@ protected:
     
     void TearDown() override {
         changefeed_.reset();
-        storage_->close();
+        if (storage_) {
+            storage_->close();
+        }
     }
     
     std::shared_ptr<RocksDBWrapper> storage_;
