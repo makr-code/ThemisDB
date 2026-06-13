@@ -14925,3 +14925,5 @@ Running main() from C:\ThemisDB\vcpkg\buildtrees\gtest\src\v1.17.0-0c449efaff.cl
           Start 2911: test_api_version_api_FocusedTests
 2911/4788 Test #2911: test_api_version_api_FocusedTests ...........................................................................   Passed    0.02 sec
           Start 2912: test_approximate_radius_search_integration_approximate_FocusedTests
+2912/4788 Test #2912: test_approximate_radius_search_integration_approximate_FocusedTests .........................................   Passed    1.19 sec
+          Start 2913: test_aql_agent_AqlFocusedTests
