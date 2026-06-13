@@ -53,6 +53,14 @@ bool WavAudioChunkReader::canRead(const std::string& path) const {
            lower.substr(lower.size() - 4) == ".wav";
 }
 
+std::map<std::string, std::string> WavAudioChunkReader::getMetadata(const std::string& path) const {
+    std::map<std::string, std::string> metadata;
+    metadata["reader"] = "wav";
+    metadata["path"] = path;
+    metadata["can_read"] = canRead(path) ? "true" : "false";
+    return metadata;
+}
+
 // ── WavAudioChunkReader::readFile ────────────────────────────────────────────
 
 std::vector<float> WavAudioChunkReader::readFile(const std::string& path,
@@ -187,6 +195,17 @@ bool FfmpegAudioChunkReader::canRead(const std::string& path) const {
     return false;
 }
 
+std::map<std::string, std::string> FfmpegAudioChunkReader::getMetadata(const std::string& path) const {
+    std::map<std::string, std::string> metadata;
+    metadata["reader"] = "ffmpeg";
+    metadata["path"] = path;
+    metadata["can_read"] = canRead(path) ? "true" : "false";
+    metadata["sample_rate"] = "16000";
+    metadata["channels"] = "1";
+    metadata["sample_format"] = "f32le";
+    return metadata;
+}
+
 std::string FfmpegAudioChunkReader::shellEscape(const std::string& path) {
     if (path.find('\0') != std::string::npos) {
         throw std::runtime_error("FfmpegAudioChunkReader: path contains NUL byte");
@@ -279,6 +298,15 @@ bool CompositeAudioChunkReader::canRead(const std::string& path) const {
         if (r->canRead(path)) return true;
     }
     return false;
+}
+
+std::map<std::string, std::string> CompositeAudioChunkReader::getMetadata(const std::string& path) const {
+    for (const auto& r : readers_) {
+        if (r->canRead(path)) {
+            return r->getMetadata(path);
+        }
+    }
+    return {};
 }
 
 std::vector<float> CompositeAudioChunkReader::readFile(const std::string& path,

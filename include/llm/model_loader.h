@@ -161,6 +161,25 @@ public:
     );
     
     /**
+     * @brief Get or load a model with shared ownership (thread-safe access)
+     * 
+     * Same as getOrLoadModel() but returns a shared_ptr to ensure the model
+     * remains valid even if another thread unloads it.
+     * 
+     * Thread-safe.
+     * 
+     * @param model_id Unique model identifier
+     * @param model_path Path to model file (if not loaded)
+     * @param load_config Optional loading configuration
+     * @return shared_ptr to CachedModel or nullptr on failure
+     */
+    std::shared_ptr<CachedModel> getOrLoadModelShared(
+        const std::string& model_id,
+        const std::string& model_path,
+        const json& load_config = {}
+    );
+    
+    /**
      * @brief Preload a model (background loading)
      * 
      * Loads a model asynchronously in the background.

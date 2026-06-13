@@ -26,6 +26,7 @@
 #include "utils/audit_logger.h"
 #include "utils/logger.h"
 #include "utils/tracing.h"
+#include "utils/thread_join_utils.h"
 #include <sstream>
 #include <iomanip>
 #include <openssl/evp.h>
@@ -212,7 +213,7 @@ void AutoRebalancer::stop() {
     cv_.notify_all();
     
     if (monitor_thread_.joinable()) {
-        monitor_thread_.join();
+        themis::utils::joinThreadWithin(monitor_thread_);
     }
     
     if (metrics_) {

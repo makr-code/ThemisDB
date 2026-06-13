@@ -1086,5 +1086,128 @@ void LazyModelLoader::updateMemoryUsage() {
     }
 }
 
+// Thread-safe version that returns shared_ptr for safe cross-thread access
+std::shared_ptr<CachedModel> LazyModelLoader::getOrLoadModelShared(
+    const std::string& model_id,
+    const std::string& model_path,
+    const json& load_config
+) {
+    std::unique_lock<std::mutex> lock(mutex_);
+    
+    // Check if already loaded
+    auto it = models_.find(model_id);
+    if (it != models_.end()) {
+        spdlog::debug("Shared model cache hit: {}", model_id);
+        cache_hits_.fetch_add(1, std::memory_order_relaxed);
+        
+        // Update usage
+        it->second->last_used = std::chrono::system_clock::now();
+        it->second->use_count++;
+        
+        // Return shared_ptr to existing model
+        // The unique_ptr in the map keeps the model alive
+        return it->second;
+    }
+    
+    // Check if async preload is in progress
+    auto pending_it = pending_loads_.find(model_id);
+    if (pending_it != pending_loads_.end()) {
+        spdlog::info("Waiting for async preload to complete (shared): {}", model_id);
+        
+        // Move future out of map to avoid issues with iterator invalidation
+        std::future<CachedModel*> future_model = std::move(pending_it->second);
+        pending_loads_.erase(pending_it);
+        
+        // Release lock temporarily to allow async task to complete
+        lock.unlock();
+        
+        try {
+            // Wait for async load to complete (with timeout)
+            auto status = future_model.wait_for(std::chrono::seconds(300)); // 5 minute timeout
+            
+            if (status == std::future_status::ready) {
+                auto* model = future_model.get();
+                
+                // Re-acquire lock after releasing for async work
+                lock.lock();
+                
+                if (model) {
+                    spdlog::info("Async preload completed for (shared): {}", model_id);
+                    cache_hits_.fetch_add(1, std::memory_order_relaxed);
+                    
+                    // Store in map and return shared_ptr
+                    auto [new_it, inserted] = models_.try_emplace(model_id, model);
+                    if (inserted) {
+                        total_vram_mb_ += model->vram_mb;
+                        total_ram_mb_ += model->ram_mb;
+                        models_loaded_.fetch_add(1, std::memory_order_relaxed);
+                    } else {
+                        // Another thread loaded it while we were waiting
+                        // Use the existing model and free the one we just loaded
+                        // Note: This is a simplification - in production you'd want to
+                        // handle this more carefully
+                        delete model;
+                        model = new_it->second.get();
+                    }
+                    
+                    return new_it->second;
+                } else {
+                    spdlog::error("Async preload failed for (shared): {}", model_id);
+                    // Fall through to synchronous load attempt
+                    lock.lock();
+                }
+            } else {
+                spdlog::error("Async preload timed out for (shared): {}", model_id);
+                lock.lock();
+                // Fall through to synchronous load attempt
+            }
+        } catch (const std::exception& e) {
+            spdlog::error("Exception waiting for async load (shared): {}", e.what());
+            if (!lock.owns_lock()) {
+                lock.lock();
+            }
+            // Fall through to synchronous load attempt
+        }
+    }
+    
+    spdlog::info("Shared model cache miss: {} - loading lazily", model_id);
+    cache_misses_.fetch_add(1, std::memory_order_relaxed);
+    
+    // Check if we need to evict
+    if (models_.size() >= config_.max_models) {
+        spdlog::info("Model cache full, evicting LRU for shared access");
+        evictLRUInternal();
+    }
+    
+    // Load the model synchronously
+    auto result = loadModelInternal(model_id, model_path, load_config);
+    
+    if (!result) {
+        spdlog::error("Model load failed for (shared): {}", result.error().message());
+        return nullptr;
+    }
+    
+    auto* model = *result;
+    
+    // Store in map
+    auto [it, inserted] = models_.try_emplace(model_id, model);
+    if (!inserted) {
+        // Another thread loaded it while we were loading
+        // This shouldn't happen since we hold the lock, but handle it
+        delete model;
+        model = it->second.get();
+    } else {
+        total_vram_mb_ += model->vram_mb;
+        total_ram_mb_ += model->ram_mb;
+        models_loaded_.fetch_add(1, std::memory_order_relaxed);
+    }
+    
+    // Update usage
+    model->last_used = std::chrono::system_clock::now();
+    model->use_count = 1;
+    
+    return it->second;
+}
+
 } // namespace llm
 } // namespace themis

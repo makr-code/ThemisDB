@@ -35,6 +35,7 @@
 #include "sharding/truetime.h"
 #include "sharding/transaction_wal.h"
 #include "sharding/transaction_snapshot.h"
+#include "utils/thread_join_utils.h"
 #include <spdlog/spdlog.h>
 #include <algorithm>
 #include <set>
@@ -470,12 +471,12 @@ void CrossShardTransactionCoordinator::stop() {
     running_.store(false);
     
     if (deadlock_detection_thread_.joinable()) {
-        deadlock_detection_thread_.join();
+        themis::utils::joinThreadWithin(deadlock_detection_thread_);
     }
     
     // Stop PreCommit retry thread
     if (precommit_retry_thread_.joinable()) {
-        precommit_retry_thread_.join();
+        themis::utils::joinThreadWithin(precommit_retry_thread_);
     }
     
     spdlog::info("Cross-shard transaction coordinator stopped");

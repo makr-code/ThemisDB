@@ -75,6 +75,9 @@ public:
     bool canRead(const std::string& p) const override {
         return p.find(".wav") != std::string::npos;
     }
+    std::map<std::string, std::string> getMetadata(const std::string&) const override {
+        return {{"format", "wav"}, {"sample_rate", std::to_string(sr_)}};
+    }
 private:
     std::vector<float> samples_;
     float sr_;
@@ -416,8 +419,8 @@ TEST(WhisperPluginFocusedTests, K1_ConcurrentTranscribeDoesNotCrash) {
         });
     }
     for (auto& th : threads) {
-        if (!th.try_join_for(std::chrono::seconds(30))) {
-            FAIL() << "Thread did not join within 30 seconds timeout";
+        if (th.joinable()) {
+            th.join();
         }
     }
 
@@ -444,8 +447,8 @@ TEST(WhisperPluginFocusedTests, K2_AtomicCountersUnderConcurrentErrors) {
         });
     }
     for (auto& th : threads) {
-        if (!th.try_join_for(std::chrono::seconds(30))) {
-            FAIL() << "Thread did not join within 30 seconds timeout";
+        if (th.joinable()) {
+            th.join();
         }
     }
 
@@ -472,8 +475,8 @@ TEST(WhisperPluginFocusedTests, K3_ConcurrentDetectLanguageDoesNotCrash) {
         });
     }
     for (auto& th : threads) {
-        if (!th.try_join_for(std::chrono::seconds(30))) {
-            FAIL() << "Thread did not join within 30 seconds timeout";
+        if (th.joinable()) {
+            th.join();
         }
     }
 }
@@ -896,11 +899,11 @@ TEST(WhisperPluginFocusedTests, R1_ConcurrentVadSetAndTranscribeStream) {
         }
     });
 
-    if (!setter.try_join_for(std::chrono::seconds(30))) {
-        FAIL() << "setter thread did not join within 30 seconds timeout";
+    if (setter.joinable()) {
+        setter.join();
     }
-    if (!caller.try_join_for(std::chrono::seconds(30))) {
-        FAIL() << "caller thread did not join within 30 seconds timeout";
+    if (caller.joinable()) {
+        caller.join();
     }
     EXPECT_EQ(errors.load(), 0);
 }

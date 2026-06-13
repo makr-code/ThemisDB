@@ -29,10 +29,36 @@
 #include <sstream>
 #include <iomanip>
 #include <iostream>
+#include <memory>
 #include <spdlog/spdlog.h>
 #include <openssl/evp.h>
 #include <openssl/pem.h>
 #include <openssl/err.h>
+
+// RAII deleters for OpenSSL resources
+namespace {
+struct EVP_MD_CTX_Deleter {
+    void operator()(EVP_MD_CTX* ptr) const {
+        if (ptr) EVP_MD_CTX_free(ptr);
+    }
+};
+
+struct EVP_PKEY_Deleter {
+    void operator()(EVP_PKEY* ptr) const {
+        if (ptr) EVP_PKEY_free(ptr);
+    }
+};
+
+struct FILE_Deleter {
+    void operator()(FILE* ptr) const {
+        if (ptr) fclose(ptr);
+    }
+};
+
+using EVP_MD_CTX_ptr = std::unique_ptr<EVP_MD_CTX, EVP_MD_CTX_Deleter>;
+using EVP_PKEY_ptr = std::unique_ptr<EVP_PKEY, EVP_PKEY_Deleter>;
+using FILE_ptr = std::unique_ptr<FILE, FILE_Deleter>;
+}
 
 namespace themis {
 namespace sharding {
@@ -614,38 +640,37 @@ std::string GossipProtocol::signMessage(const GossipMessage& message) const {
         return "";  // No signing if no key configured
     }
     
-    // Load private key
-    FILE* fp = fopen(config_.private_key_path.c_str(), "r");
-    if (!fp) {
-        return "";
-    }
-    
-    EVP_PKEY* pkey = PEM_read_PrivateKey(fp, nullptr, nullptr, nullptr);
-    fclose(fp);
-    
-    if (!pkey) {
-        return "";
-    }
-    
-    // Create message to sign
-    std::string to_sign = message.message_id + message.sender_id + 
-                          message.message_type + std::to_string(message.timestamp);
-    
-    // Sign with RSA-SHA256
-    EVP_MD_CTX* ctx = EVP_MD_CTX_new();
-    if (!ctx) {
-        EVP_PKEY_free(pkey);
-        return "";
-    }
+    try {
+        // Load private key with RAII
+        FILE_ptr fp(fopen(config_.private_key_path.c_str(), "r"));
+        if (!fp) {
+            return "";
+        }
+        
+        EVP_PKEY_ptr pkey(PEM_read_PrivateKey(fp.get(), nullptr, nullptr, nullptr));
+        if (!pkey) {
+            return "";
+        }
+        fp.reset();  // Close file after reading key
+        
+        // Create message to sign
+        std::string to_sign = message.message_id + message.sender_id + 
+                              message.message_type + std::to_string(message.timestamp);
+        
+        // Sign with RSA-SHA256 using RAII
+        EVP_MD_CTX_ptr ctx(EVP_MD_CTX_new());
+        if (!ctx) {
+            return "";
+        }
     
     std::string signature;
     
-    if (EVP_DigestSignInit(ctx, nullptr, EVP_sha256(), nullptr, pkey) == 1) {
-        if (EVP_DigestSignUpdate(ctx, to_sign.c_str(), to_sign.length()) == 1) {
+    if (EVP_DigestSignInit(ctx.get(), nullptr, EVP_sha256(), nullptr, pkey.get()) == 1) {
+        if (EVP_DigestSignUpdate(ctx.get(), to_sign.c_str(), to_sign.length()) == 1) {
             size_t sig_len = 0;
-            if (EVP_DigestSignFinal(ctx, nullptr, &sig_len) == 1) {
+            if (EVP_DigestSignFinal(ctx.get(), nullptr, &sig_len) == 1) {
                 std::vector<unsigned char> sig(sig_len);
-                if (EVP_DigestSignFinal(ctx, sig.data(), &sig_len) == 1) {
+                if (EVP_DigestSignFinal(ctx.get(), sig.data(), &sig_len) == 1) {
                     // Base64 encode
                     signature.resize(((sig_len + 2) / 3) * 4 + 1);
                     int out_len = EVP_EncodeBlock(
@@ -658,10 +683,11 @@ std::string GossipProtocol::signMessage(const GossipMessage& message) const {
         }
     }
     
-    EVP_MD_CTX_free(ctx);
-    EVP_PKEY_free(pkey);
-    
     return signature;
+    } catch (const std::exception& e) {
+        spdlog::error("Exception during message signing: {}", e.what());
+        return "";
+    }
 }
 
 bool GossipProtocol::verifyMessage(const GossipMessage& message) const {
@@ -692,68 +718,68 @@ bool GossipProtocol::verifyMessage(const GossipMessage& message) const {
         return false;
     }
 
-    const std::string key_path = config_.peer_public_keys_dir + "/" +
-                                 message.sender_id + ".pem";
-    FILE* fp = fopen(key_path.c_str(), "r");
-    if (!fp) {
-        spdlog::warn("GossipProtocol: no public key file '{}' for peer '{}' — "
-                     "rejecting signed message", key_path, message.sender_id);
-        return false;
-    }
-
-    EVP_PKEY* pkey = PEM_read_PUBKEY(fp, nullptr, nullptr, nullptr);
-    fclose(fp);
-
-    if (!pkey) {
-        spdlog::error("GossipProtocol: failed to load public key from '{}': {}",
-                      key_path, ERR_reason_error_string(ERR_get_error()));
-        return false;
-    }
-
-    // Reconstruct the signed payload (must match signMessage())
-    const std::string to_verify = message.message_id + message.sender_id +
-                                  message.message_type +
-                                  std::to_string(message.timestamp);
-
-    // Base64-decode the stored signature
-    const std::string& b64 = message.signature;
-    std::vector<unsigned char> sig(b64.size());
-    const int decoded_len = EVP_DecodeBlock(
-        sig.data(),
-        reinterpret_cast<const unsigned char*>(b64.data()),
-        static_cast<int>(b64.size())
-    );
-    if (decoded_len <= 0) {
-        EVP_PKEY_free(pkey);
-        spdlog::warn("GossipProtocol: base64 decode failed for signature from '{}'",
-                     message.sender_id);
-        return false;
-    }
-    // EVP_DecodeBlock pads to a multiple of 3 — strip trailing padding bytes.
-    int sig_len = decoded_len;
-    const size_t pad = std::count(b64.rbegin(), b64.rbegin() + 2, '=');
-    sig_len -= static_cast<int>(pad);
-
-    EVP_MD_CTX* ctx = EVP_MD_CTX_new();
-    bool valid = false;
-
-    if (ctx) {
-        if (EVP_DigestVerifyInit(ctx, nullptr, EVP_sha256(), nullptr, pkey) == 1 &&
-            EVP_DigestVerifyUpdate(ctx, to_verify.data(), to_verify.size()) == 1 &&
-            EVP_DigestVerifyFinal(ctx,
-                                  sig.data(),
-                                  static_cast<size_t>(sig_len)) == 1) {
-            valid = true;
-        } else {
-            spdlog::warn("GossipProtocol: signature verification failed for "
-                         "message '{}' from '{}'",
-                         message.message_id, message.sender_id);
+    try {
+        const std::string key_path = config_.peer_public_keys_dir + "/" +
+                                     message.sender_id + ".pem";
+        FILE_ptr fp(fopen(key_path.c_str(), "r"));
+        if (!fp) {
+            spdlog::warn("GossipProtocol: no public key file '{}' for peer '{}' — "
+                         "rejecting signed message", key_path, message.sender_id);
+            return false;
         }
-        EVP_MD_CTX_free(ctx);
-    }
 
-    EVP_PKEY_free(pkey);
-    return valid;
+        EVP_PKEY_ptr pkey(PEM_read_PUBKEY(fp.get(), nullptr, nullptr, nullptr));
+        if (!pkey) {
+            spdlog::error("GossipProtocol: failed to load public key from '{}': {}",
+                          key_path, ERR_reason_error_string(ERR_get_error()));
+            return false;
+        }
+
+        // Reconstruct the signed payload (must match signMessage())
+        const std::string to_verify = message.message_id + message.sender_id +
+                                      message.message_type +
+                                      std::to_string(message.timestamp);
+
+        // Base64-decode the stored signature
+        const std::string& b64 = message.signature;
+        std::vector<unsigned char> sig(b64.size());
+        const int decoded_len = EVP_DecodeBlock(
+            sig.data(),
+            reinterpret_cast<const unsigned char*>(b64.data()),
+            static_cast<int>(b64.size())
+        );
+        if (decoded_len <= 0) {
+            spdlog::warn("GossipProtocol: base64 decode failed for signature from '{}'",
+                         message.sender_id);
+            return false;
+        }
+        // EVP_DecodeBlock pads to a multiple of 3 — strip trailing padding bytes.
+        int sig_len = decoded_len;
+        const size_t pad = std::count(b64.rbegin(), b64.rbegin() + 2, '=');
+        sig_len -= static_cast<int>(pad);
+
+        EVP_MD_CTX_ptr ctx(EVP_MD_CTX_new());
+        bool valid = false;
+
+        if (ctx) {
+            if (EVP_DigestVerifyInit(ctx.get(), nullptr, EVP_sha256(), nullptr, pkey.get()) == 1 &&
+                EVP_DigestVerifyUpdate(ctx.get(), to_verify.data(), to_verify.size()) == 1 &&
+                EVP_DigestVerifyFinal(ctx.get(),
+                                      sig.data(),
+                                      static_cast<size_t>(sig_len)) == 1) {
+                valid = true;
+            } else {
+                spdlog::warn("GossipProtocol: signature verification failed for "
+                             "message '{}' from '{}'",
+                             message.message_id, message.sender_id);
+            }
+        }
+
+        return valid;
+    } catch (const std::exception& e) {
+        spdlog::error("Exception during message verification: {}", e.what());
+        return false;
+    }
 }
 
 bool GossipProtocol::checkRateLimit(const std::string& peer_id) {

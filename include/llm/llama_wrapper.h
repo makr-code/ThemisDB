@@ -252,6 +252,12 @@ public:
         // against this value before proceeding with the load.  An empty string
         // disables the check (a warning is emitted in that case).
         std::string expected_model_sha256;
+        
+        // Require model integrity verification by default (security hardening)
+        // When true, loadModel() will fail if no checksum is provided.
+        // Set to false to allow loading models without integrity verification
+        // (not recommended for production).
+        bool require_model_integrity = true;
     };
     
     explicit LlamaWrapper(const Config& config);

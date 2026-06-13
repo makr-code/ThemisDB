@@ -30,17 +30,7 @@ namespace whisper {
  * Separates model-loading / inference from the plugin lifecycle so that
  * test doubles can be injected without linking whisper.cpp.
  */
-/**<0x0D>
- * @class IWhisperTranscriber<0x0D>
- * @brief Pure virtual interface defining the API contract for audio transcription using Whisper.<0x0D>
- * <0x0D>
- * This class serves as the abstract base interface (API Contract) for all concrete implementations of a robust and feature-rich<0x0D>
- * speech-to-text transcriber powered by OpenAI's Whisper model. Any backend that wishes to expose transcription functionality via ThemisDB<0x0D>
- * must derive from this interface. All methods are designed to be highly portable, support various audio formats, and handle streaming operations.<0x0D>
- * <0x0D>
- * @note **Ownership**: Implementations of background resources (e.g., model loading, communication channels) should manage their own state through copy-disablement mechanisms. The primary interface object itself may be moved or copied according to standard C++ best practices for RAII.<0x0D>
- * @note **Calling Context**: Clients must ensure that the underlying audio processing threads are correctly managed and synchronized before calling core methods like {@link transcribe}.<0x0D>
- */
+class IWhisperTranscriber {
 public:
     /**
      * @brief Virtual destructor for IWhisperTranscriber.
@@ -96,20 +86,10 @@ public:
      * as one token.  Implementations backed by a real model should call
      * the callback for every word or segment.
      */
-    /**<0x0D>
-     * @brief Transcribes the provided audio input incrementally via a callback stream.<0x0D>
-     * <0x0D>
-     * This method is intended for streaming or word-by-word transcription scenarios where the full<0x0D>
-     * text result is not available until all data has been processed. Implementations must call the provided<0x0D>
-     * {@link audio::StreamCallback} with interim results as soon as they become available, and finally return a complete<0x0D>
-     * {@link audio::TranscriptionResult} object upon stream completion. This pattern allows ThemisDB to process very long<0x0D>
-     * audio files in chunks without excessive memory usage or latency blocks.<0x0D>
-     * <0x0D>
-     * @param pcm Reference to the raw PCM audio data buffer (float array). Must be correctly formatted and not empty. The sample rate of this data dictates context for downstream processing.<0x0D>
-     * @param sample_rate The sample rate (e.g., 16000.0 Hz) corresponding to the input `pcm` data. Must match the expected format for Whisper models.
-     * @param callback The asynchronous callback function pointer or lambda that will be invoked with partial transcription results, word boundaries, and timing information as they are processed by the model. Ownership of this callback is maintained until stream completion.<0x0D>
-     * @return audio::TranscriptionResult A fully formed result object upon successful completion of the entire stream processing. Throws an implementation-defined exception if streaming fails or the end-of-stream sequence is interrupted.
-     */
+    [[nodiscard]] virtual audio::TranscriptionResult transcribeStream(
+            const std::vector<float>& pcm,
+            float sample_rate,
+            audio::StreamCallback callback) {
         auto result = transcribe(pcm, sample_rate);
         if (result.success && callback) {
             audio::TranscriptionToken tok;
@@ -189,13 +169,6 @@ public:
      */
     virtual bool isVersionSupported(const std::string& version_id) const = 0;
 
-    /**
-     * @brief Checks if a specific whisper model version ID is supported by this transcriber implementation.
-     *
-     * This contract method allows client code to verify compatibility before attempting complex operations like initialization or transcription. The returned boolean value determines whether the underlying Whisper engine (or its required dependencies) recognizes and supports the provided version string.
-     * @param version_id A constant reference to a `std::string`. This must match one of the supported model identifiers for this implementation of $IWhisperTranscriber$.
-     * @return bool Returns `true` if `$version_id` corresponds to a supported model; otherwise, it returns `false`, signaling an unsupported version attempt.
-     */
 };
 
 // ---------------------------------------------------------------------------

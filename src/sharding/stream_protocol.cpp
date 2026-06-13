@@ -26,6 +26,7 @@
  */
 
 #include "sharding/stream_protocol.h"
+#include "utils/thread_join_utils.h"
 #include <openssl/evp.h>
 #include <cstring>
 #include <algorithm>
@@ -737,10 +738,10 @@ void StreamSession::abort(const std::string& reason) {
     cv_.notify_all();
     
     if (session_thread_.joinable()) {
-        session_thread_.join();
+        themis::utils::joinThreadWithin(session_thread_);
     }
     if (heartbeat_thread_.joinable()) {
-        heartbeat_thread_.join();
+        themis::utils::joinThreadWithin(heartbeat_thread_);
     }
     
     if (completion_callback) {
@@ -1015,7 +1016,7 @@ void StreamPlan::abort() {
     }
     
     if (executor_thread_.joinable()) {
-        executor_thread_.join();
+        themis::utils::joinThreadWithin(executor_thread_);
     }
 }
 
@@ -1132,7 +1133,7 @@ StreamTransferTask::StreamTransferTask(
 StreamTransferTask::~StreamTransferTask() {
     abort();
     if (transfer_thread_.joinable()) {
-        transfer_thread_.join();
+        themis::utils::joinThreadWithin(transfer_thread_);
     }
 }
 

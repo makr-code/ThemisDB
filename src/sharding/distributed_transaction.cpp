@@ -59,6 +59,7 @@
 #include "sharding/metrics_registry.h"
 #include "sharding/prometheus_metrics.h"
 #include "utils/logger.h"
+#include "utils/thread_join_utils.h"
 #include <random>
 #include <sstream>
 #include <iomanip>
@@ -1001,7 +1002,7 @@ bool DistributedTransactionCoordinator::percolatorCommit(DistributedTransaction&
     }
 
     for (auto& t : threads) {
-        t.join();
+        themis::utils::joinThreadWithin(t);
     }
 
     if (!all_committed.load()) {

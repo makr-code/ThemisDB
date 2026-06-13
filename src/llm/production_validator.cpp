@@ -373,7 +373,7 @@ ProductionValidator::ValidationResult ProductionValidator::runStressTest() {
             ).count();
             
             spdlog::info("Stress test progress: {} hours, {} requests, {} failures",
-                         elapsed, total_requests_processed_, failures);
+                         elapsed, total_requests_processed_.load(), failures);
         }
         
         // Check for memory leaks periodically
@@ -395,17 +395,20 @@ ProductionValidator::ValidationResult ProductionValidator::runStressTest() {
         ? (total_failures_ * 100.0 / total_requests_processed_)
         : 0.0;
     
-    if (!latency_samples_.empty()) {
-        result.avg_latency_ms = std::accumulate(
-            latency_samples_.begin(),
-            latency_samples_.end(),
-            0.0
-        ) / latency_samples_.size();
-        
-        std::vector<double> latency_vec(latency_samples_.begin(), latency_samples_.end());
-        result.p50_latency_ms = calculatePercentile(latency_vec, 50.0);
-        result.p95_latency_ms = calculatePercentile(latency_vec, 95.0);
-        result.p99_latency_ms = calculatePercentile(latency_vec, 99.0);
+    {
+        std::lock_guard<std::mutex> lock(latency_mutex_);
+        if (!latency_samples_.empty()) {
+            result.avg_latency_ms = std::accumulate(
+                latency_samples_.begin(),
+                latency_samples_.end(),
+                0.0
+            ) / latency_samples_.size();
+            
+            std::vector<double> latency_vec(latency_samples_.begin(), latency_samples_.end());
+            result.p50_latency_ms = calculatePercentile(latency_vec, 50.0);
+            result.p95_latency_ms = calculatePercentile(latency_vec, 95.0);
+            result.p99_latency_ms = calculatePercentile(latency_vec, 99.0);
+        }
     }
     
     // Check against thresholds
@@ -843,8 +846,11 @@ ProductionValidator::LiveStats ProductionValidator::getLiveStats() const {
         }
     }
 
-    if (!latency_samples_.empty()) {
-        stats.current_latency_ms = latency_samples_.back();
+    {
+        std::lock_guard<std::mutex> lock(latency_mutex_);
+        if (!latency_samples_.empty()) {
+            stats.current_latency_ms = latency_samples_.back();
+        }
     }
 
     if (stress_test_running_) {
@@ -890,6 +896,7 @@ double ProductionValidator::calculatePercentile(
 }
 
 void ProductionValidator::recordLatency(double latency_ms) {
+    std::lock_guard<std::mutex> lock(latency_mutex_);
     latency_samples_.push_back(latency_ms);
     
     // Keep only last 10000 samples to avoid memory bloat

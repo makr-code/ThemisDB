@@ -23,6 +23,7 @@
 #include "sharding/mtls_client.h"
 #include "sharding/prometheus_metrics.h"
 #include "shard_rpc.pb.h"
+#include "utils/thread_join_utils.h"
 #include <spdlog/spdlog.h>
 #include <nlohmann/json.hpp>
 #include <random>
@@ -249,10 +250,10 @@ void GossipConfigManager::start() {
     } catch (...) {
         running_.store(false);
         if (gossip_thread_.joinable()) {
-            gossip_thread_.join();
+            themis::utils::joinThreadWithin(gossip_thread_);
         }
         if (anti_entropy_thread_.joinable()) {
-            anti_entropy_thread_.join();
+            themis::utils::joinThreadWithin(anti_entropy_thread_);
         }
         throw;
     }
@@ -268,11 +269,11 @@ void GossipConfigManager::stop() {
     running_.store(false);
 
     if (gossip_thread_.joinable()) {
-        gossip_thread_.join();
+        themis::utils::joinThreadWithin(gossip_thread_);
     }
 
     if (anti_entropy_thread_.joinable()) {
-        anti_entropy_thread_.join();
+        themis::utils::joinThreadWithin(anti_entropy_thread_);
     }
 }
 

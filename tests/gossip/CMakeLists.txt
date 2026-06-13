@@ -6,6 +6,10 @@ file(GLOB GOSSIP_MODULE_TEST_SOURCES
 
 foreach(_src IN LISTS GOSSIP_MODULE_TEST_SOURCES)
     get_filename_component(_stem "${_src}" NAME_WE)
+    if(WIN32 AND _stem STREQUAL "test_gossip_config_manager")
+        message(STATUS "Skipping gossip config manager focused test on Windows (protobuf descriptor duplication in focused wrapper)")
+        continue()
+    endif()
     set(_target "module_gossip_${_stem}_focused")
     set(_ctest "${_stem}_gossip_FocusedTests")
 

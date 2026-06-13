@@ -44,9 +44,26 @@ namespace sharding {
 
 namespace {
 
-uint64_t makeVersionToken() {
-    return static_cast<uint64_t>(
-        std::chrono::steady_clock::now().time_since_epoch().count());
+// W2-S04: Version tracking — hybrid timestamp + counter for monotonic version tokens
+// This provides better version tracking than pure timestamps by:
+// 1. Using atomic counter for monotonicity within a process
+// 2. Combining with timestamp for approximate temporal ordering
+// 3. Avoiding clock skew issues between shards
+// Format: [48-bit timestamp (microseconds) | 16-bit counter]
+inline uint64_t makeVersionToken() {
+    static std::atomic<uint16_t> version_counter{0};
+    
+    // Get current timestamp in microseconds (48 bits)
+    auto now = std::chrono::steady_clock::now();
+    auto duration = now.time_since_epoch();
+    auto micros = std::chrono::duration_cast<std::chrono::microseconds>(duration).count();
+    
+    // Increment counter (16 bits) - wraps around at 65536
+    uint16_t counter = version_counter.fetch_add(1, std::memory_order_relaxed);
+    
+    // Combine: upper 48 bits = timestamp, lower 16 bits = counter
+    // This gives us monotonic ordering within a process and approximate temporal ordering
+    return (static_cast<uint64_t>(micros) << 16) | counter;
 }
 
 }  // namespace
@@ -1343,6 +1360,14 @@ RedundancyStrategy::RedundancyStrategy(const RedundancyConfig& config)
         }
     }
     
+    // Initialize TrueTime for globally consistent timestamps
+    TrueTime::Config tt_config;
+    tt_config.base_uncertainty_us = 1000;  // 1ms base uncertainty
+    tt_config.max_drift_us = 100000;     // 100ms max drift
+    tt_config.sync_interval_s = 30;     // Sync every 30 seconds
+    truetime_ = std::make_unique<TrueTime>(tt_config);
+    truetime_->startSyncThread();
+    
     spdlog::info("RedundancyStrategy initialized: mode={}, replication_factor={}, storage_efficiency={:.2f}",
                  static_cast<int>(config_.mode),
                  config_.replication_factor,
@@ -1350,7 +1375,11 @@ RedundancyStrategy::RedundancyStrategy(const RedundancyConfig& config)
 }
 
 /** @brief Destroy strategy and release coder/manager resources. */
-RedundancyStrategy::~RedundancyStrategy() = default;
+RedundancyStrategy::~RedundancyStrategy() {
+    if (truetime_) {
+        truetime_->stopSyncThread();
+    }
+}
 
 /** @brief Attach optional Raft manager used for leader-enforced writes. */
 void RedundancyStrategy::setRaftShardManager(std::shared_ptr<themisdb::sharding::RaftShardManager> raft_manager) {
@@ -1466,7 +1495,13 @@ ReadResult RedundancyStrategy::read(
     // W2-S02: Input validation guards — fail-closed on invalid document_id
     ReadResult result;
     result.document_id = document_id;
-    result.version_token = makeVersionToken();
+    // Use TrueTime for globally consistent version tokens
+    if (truetime_) {
+        auto tt_now = truetime_->now();
+        result.version_token = tt_now.midpoint().count();
+    } else {
+        result.version_token = makeVersionToken();
+    }
     
     if (document_id.empty()) {
         spdlog::error("RedundancyStrategy::read: document_id is empty, rejecting read");
@@ -1815,9 +1850,48 @@ WriteResult RedundancyStrategy::writeStripe(
     auto replicas = ring.getReplicaNodes(document_id, chunks.size() - 1);
     target_shards.insert(target_shards.end(), replicas.begin(), replicas.end());
     
-    // Write chunks to different shards
+    // W2-S06: Consensus validation — determine required acknowledgments based on write concern
+    const uint32_t configured_targets = std::max<uint32_t>(1, chunks.size());
+    uint32_t required_acks = 1;
+    switch (config_.write_concern) {
+        case WriteConcern::ONE:
+            required_acks = 1;
+            break;
+        case WriteConcern::MAJORITY:
+            required_acks = (configured_targets / 2) + 1;
+            break;
+        case WriteConcern::ALL:
+            required_acks = configured_targets;
+            break;
+        case WriteConcern::QUORUM:
+            if (config_.write_quorum == 0 && target_shards.size() > 1) {
+                spdlog::error("writeStripe: write_quorum is 0 with {} target shards, rejecting write", 
+                             target_shards.size());
+                WriteResult result;
+                result.success = false;
+                result.document_id = document_id;
+                result.error_message = "write_quorum is 0 with active replicas";
+                return result;
+            }
+            required_acks = config_.write_quorum;
+            break;
+    }
+    
+    if (target_shards.size() < required_acks) {
+        WriteResult result;
+        result.success = false;
+        result.document_id = document_id;
+        result.error_message = "Insufficient replica targets to satisfy write concern";
+        return result;
+    }
+    
+    // Write chunks to different shards with timeout
     std::vector<std::future<bool>> futures;
     std::vector<std::string> written_shards;
+    std::vector<std::string> failed_shards;
+    futures.reserve(target_shards.size());
+    written_shards.reserve(target_shards.size());
+    failed_shards.reserve(target_shards.size());
     
     for (size_t i = 0; i < chunks.size() && i < target_shards.size(); ++i) {
         const auto& chunk = chunks[i];
@@ -1828,23 +1902,52 @@ WriteResult RedundancyStrategy::writeStripe(
         }));
     }
     
-    // Wait for all writes
+    // Wait for writes based on write concern and enforce deadline
     uint32_t successful = 0;
+    const auto wait_timeout = config_.replication_timeout;
     for (size_t i = 0; i < futures.size(); ++i) {
         try {
+            auto status = futures[i].wait_for(wait_timeout);
+            if (status != std::future_status::ready) {
+                spdlog::warn("Stripe write to shard {} timed out", target_shards[i]);
+                failed_shards.push_back(target_shards[i]);
+                continue;
+            }
             if (futures[i].get()) {
                 written_shards.push_back(target_shards[i]);
                 successful++;
+            } else {
+                failed_shards.push_back(target_shards[i]);
             }
         } catch (const std::exception& e) {
             spdlog::warn("Stripe write to shard {} failed: {}", target_shards[i], e.what());
+            failed_shards.push_back(target_shards[i]);
         }
     }
     
-    if (successful == chunks.size()) {
+    // Check write concern
+    bool success = false;
+    switch (config_.write_concern) {
+        case WriteConcern::ONE:
+            success = successful >= 1;
+            break;
+        case WriteConcern::MAJORITY:
+        case WriteConcern::ALL:
+        case WriteConcern::QUORUM:
+            success = successful >= required_acks;
+            break;
+    }
+    
+    if (success) {
         return WriteResult::successful(document_id, written_shards, std::chrono::milliseconds(0));
     } else {
-        return WriteResult::failed(document_id, "Not all chunks written successfully");
+        WriteResult result;
+        result.success = false;
+        result.document_id = document_id;
+        result.failed_shards = failed_shards;
+        result.acknowledgements = successful;
+        result.error_message = "Write concern not met";
+        return result;
     }
 }
 
@@ -2259,7 +2362,13 @@ ReadResult RedundancyStrategy::readGeoMirror(
         std::map<std::string, uint32_t> region_reads;
         ReadResult result;
         result.document_id = document_id;
-        result.version_token = makeVersionToken();
+        // Use TrueTime for globally consistent version tokens
+        if (truetime_) {
+            auto tt_now = truetime_->now();
+            result.version_token = tt_now.midpoint().count();
+        } else {
+            result.version_token = makeVersionToken();
+        }
         result.chunks_read = 1;
         bool all_region_quorums_met = false;
 
@@ -2337,7 +2446,13 @@ ReadResult RedundancyStrategy::readGeoMirror(
 
     ReadResult result;
     result.document_id = document_id;
-    result.version_token = makeVersionToken();
+    // Use TrueTime for globally consistent version tokens
+    if (truetime_) {
+        auto tt_now = truetime_->now();
+        result.version_token = tt_now.midpoint().count();
+    } else {
+        result.version_token = makeVersionToken();
+    }
     result.source_shard = selected_shard;
     result.from_replica = (selected_shard != *primary_opt);
     result.chunks_read = 1;
@@ -2402,7 +2517,13 @@ ReadResult RedundancyStrategy::readMirror(
     
     ReadResult result;
     result.document_id = document_id;
-    result.version_token = makeVersionToken();
+    // Use TrueTime for globally consistent version tokens
+    if (truetime_) {
+        auto tt_now = truetime_->now();
+        result.version_token = tt_now.midpoint().count();
+    } else {
+        result.version_token = makeVersionToken();
+    }
     result.source_shard = selected_shard;
     result.from_replica = (selected_shard != *primary_shard);
     result.chunks_read = 1;
@@ -2426,7 +2547,13 @@ ReadResult RedundancyStrategy::readStripe(
 ) {
     ReadResult result;
     result.document_id = document_id;
-    result.version_token = makeVersionToken();
+    // Use TrueTime for globally consistent version tokens
+    if (truetime_) {
+        auto tt_now = truetime_->now();
+        result.version_token = tt_now.midpoint().count();
+    } else {
+        result.version_token = makeVersionToken();
+    }
     result.success = false;
     
     // Read all chunks
@@ -2488,6 +2615,13 @@ ReadResult RedundancyStrategy::readParity(
 
     ReadResult result;
     result.document_id = document_id;
+    // Use TrueTime for globally consistent version tokens
+    if (truetime_) {
+        auto tt_now = truetime_->now();
+        result.version_token = tt_now.midpoint().count();
+    } else {
+        result.version_token = makeVersionToken();
+    }
     result.success = false;
     
     // W2-S06: Read consensus — try to read all chunks (data + parity) to enable recovery

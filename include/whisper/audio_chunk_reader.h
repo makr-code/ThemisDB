@@ -109,21 +109,6 @@ private:
 };
 
 /**
- * @brief Vorprüft, ob mit dem angegebenen Dateipfad gelesen werden kann.
- *
- * Diese Methode führt eine interne Überprüfung durch, um zu bestimmen, ob die WAV-Struktur
- * im gegebenen Pfad gültig ist (z.B. korrekke RIFF/WAV Header). Dies vermeidet unnötige
- * und fehlerhafte Aufrufe des signifikanten `readFile`-Mechanismus. Die Prüfung basiert
- * lediglich auf der Dateikonstruktion, nicht deren vollständigem Inhaltsscan.
- *
- * @param path Der absolute Pfad zur zu überprüfenden Audiodatei.
- * @return True, wenn die Datei wahrscheinlich ein gültiges WAV-Format onweist; andernfalls False.
- * @throws std::runtime_error Wenn das Dateisystem oder der Dateipfad nicht zugreifbar ist.
- * @ownership Keine Ownership-Veränderungen oder speicherseitige Abhängigkeiten.
- */
-[[nodiscard]] bool canRead(const std::string& path) const;
-
-/**
  * @brief Audio reader that decodes MP3, OGG, FLAC and other formats by shelling
  *        out to the `ffmpeg` binary.
  *

@@ -51,6 +51,7 @@
 #include <future>
 
 #include "sharding/write_concern.h"
+#include "sharding/truetime.h"
 
 namespace themisdb {
 namespace sharding {
@@ -688,6 +689,9 @@ private:
     
     // Raft shard manager for consensus-based writes (optional)
     std::shared_ptr<themisdb::sharding::RaftShardManager> raft_manager_;
+
+    // TrueTime clock for globally consistent timestamps in read operations
+    std::unique_ptr<TrueTime> truetime_;
 
     // Per-shard exponential moving average latency (ms) for NEAREST routing.
     // Protected by latency_mutex_ (separate from mutex_ to avoid blocking reads

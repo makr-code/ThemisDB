@@ -21,6 +21,7 @@
 #include "sharding/health_check.h"
 #include <stdexcept>
 #include "sharding/mtls_client.h"
+#include "utils/thread_join_utils.h"
 #include <openssl/x509.h>
 #include <openssl/pem.h>
 #include <openssl/asn1.h>
@@ -160,7 +161,7 @@ void HealthCheckSystem::startPeriodicChecks(const std::map<std::string, std::str
     }
 
     if (stale_thread.joinable()) {
-        stale_thread.join();
+        themis::utils::joinThreadWithin(stale_thread);
     }
 
     std::lock_guard<std::mutex> lifecycle_lock(lifecycle_mutex_);
@@ -207,7 +208,7 @@ void HealthCheckSystem::stopPeriodicChecks() {
         thread_to_join = std::move(periodic_thread_);
     }
 
-    thread_to_join.join();
+    themis::utils::joinThreadWithin(thread_to_join);
 }
 
 /** @brief Return latest cached cluster-health snapshot. */

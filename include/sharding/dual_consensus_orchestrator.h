@@ -13,6 +13,7 @@
 #pragma once
 
 #include "sharding/consensus_module.h"
+#include "sharding/raid_paxos_config.h"
 #include <map>
 #include <vector>
 #include <memory>

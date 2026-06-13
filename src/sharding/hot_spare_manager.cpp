@@ -32,6 +32,7 @@
 
 #include "sharding/hot_spare_manager.h"
 #include "sharding/consistent_hash.h"
+#include "utils/thread_join_utils.h"
 #include <spdlog/spdlog.h>
 #include <algorithm>
 #include <numeric>
@@ -133,10 +134,10 @@ void HotSpareManager::stop() {
     
     // Join threads
     if (health_check_thread_.joinable()) {
-        health_check_thread_.join();
+        themis::utils::joinThreadWithin(health_check_thread_);
     }
     if (rebuild_thread_.joinable()) {
-        rebuild_thread_.join();
+        themis::utils::joinThreadWithin(rebuild_thread_);
     }
     
     spdlog::info("HotSpareManager stopped");

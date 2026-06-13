@@ -678,13 +678,13 @@ void MLModelManager::shutdown() {
     // Stop background threads
     if (health_monitor_thread_ && health_monitor_thread_->joinable()) {
         if (!themis::utils::joinThreadWithin(*health_monitor_thread_)) {
-            LOG_WARN("Health monitor thread did not join within timeout, continuing shutdown");
+            THEMIS_WARN("Health monitor thread did not join within timeout, continuing shutdown");
         }
     }
     
     if (auto_scaler_thread_ && auto_scaler_thread_->joinable()) {
         if (!themis::utils::joinThreadWithin(*auto_scaler_thread_)) {
-            LOG_WARN("Auto scaler thread did not join within timeout, continuing shutdown");
+            THEMIS_WARN("Auto scaler thread did not join within timeout, continuing shutdown");
         }
     }
     

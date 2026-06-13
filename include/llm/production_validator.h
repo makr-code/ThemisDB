@@ -31,6 +31,8 @@
 #include <string>
 #include <chrono>
 #include <functional>
+#include <mutex>
+#include <atomic>
 
 namespace themis {
 namespace llm {
@@ -210,14 +212,15 @@ private:
     std::shared_ptr<InferenceEngineEnhanced> inference_engine_;
 
     // Test state
-    bool stress_test_running_ = false;
+    std::atomic<bool> stress_test_running_ = false;
     std::chrono::system_clock::time_point stress_test_start_;
     size_t memory_baseline_mb_ = 0;   ///< Set on first checkMemoryLeaks() call or reset()
     
     // Statistics
     std::deque<double> latency_samples_;  // Use deque for efficient removal of old samples
-    size_t total_requests_processed_ = 0;
-    size_t total_failures_ = 0;
+    mutable std::mutex latency_mutex_;    // Protects latency_samples_ in const and non-const paths
+    std::atomic<size_t> total_requests_processed_ = 0;
+    std::atomic<size_t> total_failures_ = 0;
     
     // Helper methods
     double calculatePercentile(const std::vector<double>& data, double percentile);

@@ -407,29 +407,6 @@ bool LlamaWrapper::loadModel(
     transitionToState(WrapperState::LOADING, "loadModel() called for: " + model_path);
     
     spdlog::info("Loading model (lazy): {}", model_path);
-    
-    // Model integrity verification (anti-poisoning guard).
-    // When expected_model_sha256 is configured, reject the model if the file
-    // hash doesn't match.  Without a configured hash we can only warn.
-    if (!config_.expected_model_sha256.empty()) {
-        const std::string actual_hash = themis::modules::ModuleHashVerifier::computeSHA256(model_path);
-        if (actual_hash.empty()) {
-            spdlog::error("[SECURITY] loadModel: SHA-256 computation failed for '{}'; aborting load", model_path);
-            transitionToState(WrapperState::ERROR_STATE, "Model integrity check failed: cannot compute SHA-256");
-            return false;
-        }
-        if (actual_hash != config_.expected_model_sha256) {
-            spdlog::error("[SECURITY] loadModel: model integrity check FAILED for '{}'", model_path);
-            spdlog::error("[SECURITY]   expected: {}", config_.expected_model_sha256);
-            spdlog::error("[SECURITY]   actual:   {}", actual_hash);
-            transitionToState(WrapperState::ERROR_STATE, "Model integrity check failed: SHA-256 mismatch (possible model poisoning)");
-            return false;
-        }
-        spdlog::info("[SECURITY] loadModel: model integrity verified (SHA-256 match) for '{}'", model_path);
-    } else {
-        spdlog::warn("[SECURITY] loadModel: no expected_model_sha256 configured for '{}'; "
-                     "model integrity cannot be verified (poisoning risk)", model_path);
-    }
 
     auto load_start = std::chrono::high_resolution_clock::now();
     
@@ -439,16 +416,23 @@ bool LlamaWrapper::loadModel(
     configured_model_id_ = current_model_id_;
     configured_model_path_ = current_model_path_;
 
-    // Optional integrity gate for local model paths.
-    const bool require_model_integrity = config.value("require_model_integrity", false);
+    // Model integrity verification (anti-poisoning)
+    // Use config parameter if provided, otherwise fall back to member config
+    const bool require_model_integrity = config.value("require_model_integrity", config_.require_model_integrity);
     std::string expected_checksum = config.value("expected_checksum", std::string{});
     if (expected_checksum.empty()) {
         expected_checksum = config.value("model_checksum", std::string{});
     }
+    // Also check member config if no checksum in JSON
+    if (expected_checksum.empty() && !config_.expected_model_sha256.empty()) {
+        expected_checksum = config_.expected_model_sha256;
+    }
     const std::string checksum_type = config.value("checksum_type", std::string{"sha256"});
 
+    // Security hardening: require model integrity by default
     if (require_model_integrity && expected_checksum.empty()) {
-        spdlog::error("Model integrity required but no checksum provided for {}", model_path);
+        spdlog::error("[SECURITY] Model integrity verification required but no checksum provided for {}; "
+                     "set require_model_integrity=false to bypass (not recommended for production)", model_path);
         transitionToState(WrapperState::ERROR_STATE, "Missing required model checksum");
         return false;
     }
@@ -537,7 +521,7 @@ bool LlamaWrapper::loadModel(
     }
 
     // Trigger lazy load (or get from cache)
-    auto* model = model_loader->getOrLoadModel(
+    auto model = model_loader->getOrLoadModelShared(
         current_model_id_,
         model_path,
         load_config
@@ -780,14 +764,16 @@ bool LlamaWrapper::loadModelFromThemisDB(
             }
             spdlog::info("✓ Model integrity verified (checksum OK)");
         } else {
-            // Check if model integrity is required
-            const bool require_integrity = config.value("require_model_integrity", false);
+            // Check if model integrity is required (from config or member variable)
+            const bool require_integrity = config.value("require_model_integrity", config_.require_model_integrity);
             if (require_integrity) {
-                spdlog::error("[SECURITY] Model {} has no checksum available and require_model_integrity is true; loading aborted", model_id);
+                spdlog::error("[SECURITY] Model {} has no checksum available and require_model_integrity is true; "
+                             "loading aborted (set require_model_integrity=false to bypass, not recommended for production)", model_id);
                 std::filesystem::remove(temp_model_path);
                 return false;
             }
-            spdlog::warn("No checksum available for integrity verification of model: {}", model_id);
+            spdlog::warn("[SECURITY] No checksum available for integrity verification of model: {}; "
+                        "poisoning risk if model is tampered", model_id);
         }
         
         // Step 5: Load model using standard loadModel() method
@@ -1160,7 +1146,7 @@ InferenceResponse LlamaWrapper::generate(const InferenceRequest& request) {
         throw std::runtime_error("Model loader is not initialized");
     }
 
-    auto* cached = model_loader->getOrLoadModel(
+    auto cached = model_loader->getOrLoadModelShared(
         current_model_id_,
         current_model_path_
     );
@@ -1530,7 +1516,7 @@ ILLMPlugin::DraftTokensResult LlamaWrapper::generateDraftTokens(
         throw std::runtime_error("Model loader is not initialized");
     }
 
-    auto* cached = model_loader->getOrLoadModel(current_model_id_, current_model_path_);
+    auto cached = model_loader->getOrLoadModelShared(current_model_id_, current_model_path_);
     if (!cached) {
         throw std::runtime_error("Model failed to load for draft token generation");
     }
@@ -1650,7 +1636,7 @@ std::vector<float> LlamaWrapper::embed(const std::string& text) {
     if (!model_loader) {
         throw std::runtime_error("Model loader is not initialized");
     }
-    auto* cached = model_loader->getOrLoadModel(
+    auto cached = model_loader->getOrLoadModelShared(
         current_model_id_,
         current_model_path_
     );
@@ -2540,12 +2526,12 @@ void LlamaWrapper::synchronizeDraftToTarget(const std::vector<llama_token>& acce
 InferenceResponse LlamaWrapper::generateSpeculative(const InferenceRequest& request) {
     auto start_time = std::chrono::high_resolution_clock::now();
     
-    // Get target model
+    // Get target model with shared ownership for thread safety
     auto* const model_loader = model_loader_.get();
     if (!model_loader) {
         throw std::runtime_error("Model loader is not initialized");
     }
-    auto* cached = model_loader->getOrLoadModel(current_model_id_, current_model_path_);
+    auto cached = model_loader->getOrLoadModelShared(current_model_id_, current_model_path_);
     if (!cached) {
         throw std::runtime_error("Target model failed to load");
     }
@@ -2817,7 +2803,7 @@ InferenceResponse LlamaWrapper::generateRegular(const InferenceRequest& request)
         throw std::runtime_error("Model loader is not initialized");
     }
 
-    auto* cached = model_loader->getOrLoadModel(current_model_id_, current_model_path_);
+    auto cached = model_loader->getOrLoadModelShared(current_model_id_, current_model_path_);
     if (!cached) {
         throw std::runtime_error("Model failed to load");
     }
@@ -3436,7 +3422,7 @@ VisionResponse LlamaWrapper::generateVision(const VisionRequest& vision_request)
             if (!model_loader) {
                 spdlog::warn("generateVision: model loader is not initialized; skipping embedding injection");
             } else {
-                auto* cached_m = model_loader->getOrLoadModel(current_model_id_, current_model_path_);
+                auto cached_m = model_loader->getOrLoadModelShared(current_model_id_, current_model_path_);
                 if (cached_m) {
                     void* context_handle = cached_m->context_handle;
                     void* model_handle = cached_m->model_handle;

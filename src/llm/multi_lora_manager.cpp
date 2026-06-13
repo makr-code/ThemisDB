@@ -1270,6 +1270,13 @@ bool MultiLoRAManager::importLoRA(
     spdlog::info("Importing LoRA from remote shard: {} ({} bytes)", 
                  lora_id, data.size());
     
+    // Security: Warn about missing integrity verification for imported LoRAs
+    // Imported LoRAs are not verified for integrity (checksum/signature) which could
+    // allow loading of tampered adapters. Consider implementing signature verification
+    // for production deployments. (CWE-494: Download of Code Without Integrity Check)
+    spdlog::warn("[SECURITY] LoRA import: No integrity verification performed for '{}'; "
+                 "imported adapters could be tampered (consider adding signature verification)", lora_id);
+    
     // Security: Validate data size to prevent import of maliciously crafted data
     // Reject excessively large imports that could indicate tampering or DoS
     const size_t MAX_LORA_IMPORT_SIZE = config_.max_lora_vram_mb * 1024 * 1024 * 2; // 2x VRAM budget
