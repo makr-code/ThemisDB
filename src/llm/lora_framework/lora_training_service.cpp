@@ -196,7 +196,7 @@ public:
         const TrainingData& data,
         const std::optional<LoRAHyperparameters>& hyperparameters
     ) {
-        if (is_training_.load()) {
+        if (is_training_.load(std::memory_order_acquire)) {
             spdlog::warn("Training already in progress");
             TrainingResult result;
             result.success = false;
@@ -1000,7 +1000,7 @@ public:
     }
     
     bool isTraining() const {
-        return is_training_.load();
+        return is_training_.load(std::memory_order_acquire);
     }
     
     void stopTraining() {

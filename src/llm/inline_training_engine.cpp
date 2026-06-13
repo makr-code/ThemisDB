@@ -424,11 +424,11 @@ void InlineTrainingEngine::stopTraining() {
 }
 
 bool InlineTrainingEngine::isTraining() const {
-    return impl_->is_training.load();
+    return impl_->is_training.load(std::memory_order_acquire);
 }
 
 std::optional<TrainingState> InlineTrainingEngine::getCurrentState() const {
-    if (!impl_->is_training.load()) {
+    if (!impl_->is_training.load(std::memory_order_acquire)) {
         return std::nullopt;
     }
     std::lock_guard<std::mutex> lk(impl_->state_mutex);
@@ -482,14 +482,14 @@ TrainingResult InlineTrainingEngine::trainLoop(
     auto batch_start = std::chrono::steady_clock::now();
 
     for (int epoch = start_epoch; epoch < epochs; ++epoch) {
-        if (impl_->stop_flag.load()) {
+        if (impl_->stop_flag.load(std::memory_order_acquire)) {
             spdlog::info("InlineTrainingEngine: stop flag set – aborting after epoch {}", epoch);
             break;
         }
 
         impl_->data_iterator->reset();
 
-        while (!impl_->stop_flag.load()) {
+        while (!impl_->stop_flag.load(std::memory_order_acquire)) {
             // Early exit if max_steps reached
             if (total_steps > 0 && global_step >= total_steps) {
                 goto training_done;

@@ -518,6 +518,7 @@ private:
 
     // Core components
     std::unique_ptr<LLMPrefixCache> prefix_cache_;
+    mutable std::mutex cache_mutex_;  // Protects prefix_cache_ access
     std::shared_ptr<PagedKVCache> kv_cache_;
     std::shared_ptr<PagedBlockManager> block_manager_;
     std::unique_ptr<ContinuousBatchScheduler> batch_scheduler_;

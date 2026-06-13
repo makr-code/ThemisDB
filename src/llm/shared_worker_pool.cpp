@@ -105,12 +105,12 @@ json SharedWorkerPool::getMetrics() const {
     m["num_threads"]      = config_.num_threads;
     m["queue_depth"]      = queueDepth();
     m["tasks_completed"]  = tasks_completed_.load(std::memory_order_relaxed);
-    m["running"]          = running_.load();
+    m["running"]          = running_.load(std::memory_order_acquire);
     return m;
 }
 
 void SharedWorkerPool::shutdown() {
-    if (!running_.exchange(false)) {
+    if (!running_.exchange(false, std::memory_order_acq_rel)) {
         return;  // already shut down
     }
 
@@ -131,7 +131,7 @@ void SharedWorkerPool::shutdown() {
 }
 
 bool SharedWorkerPool::isRunning() const {
-    return running_.load();
+    return running_.load(std::memory_order_acquire);
 }
 
 // ═══════════════════════════════════════════════════════════
@@ -143,7 +143,7 @@ void SharedWorkerPool::workerLoop(size_t thread_id) {
 
     auto& local_q = *thread_queues_[thread_id];
 
-    while (running_.load()) {
+    while (running_.load(std::memory_order_acquire)) {
         Task task;
         bool found = false;
 
@@ -189,7 +189,7 @@ void SharedWorkerPool::workerLoop(size_t thread_id) {
         if (!found) {
             std::unique_lock<std::mutex> wlock(global_queue_mutex_);
             cv_.wait_for(wlock, std::chrono::milliseconds(10), [this] {
-                return !global_queue_.empty() || !running_.load();
+                return !global_queue_.empty() || !running_.load(std::memory_order_acquire);
             });
             continue;
         }

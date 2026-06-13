@@ -486,7 +486,7 @@ json LoRAOrchestrator::getStats() const {
 
 json LoRAOrchestrator::getHealth() const {
     json health;
-    health["status"] = impl_->is_initialized.load() ? "ok" : "uninitialized";
+    health["status"] = impl_->is_initialized.load(std::memory_order_acquire) ? "ok" : "uninitialized";
     health["adapters"] = impl_->adapters.size();
     return health;
 }
@@ -505,7 +505,7 @@ json LoRAOrchestrator::getMemoryUsage() const {
 
 bool LoRAOrchestrator::healthCheck() const {
     std::shared_lock<std::shared_mutex> lock(impl_->state_mutex);
-    return impl_->is_initialized.load();
+    return impl_->is_initialized.load(std::memory_order_acquire);
 }
 
 void LoRAOrchestrator::clearCache() {

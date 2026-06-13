@@ -219,8 +219,8 @@ private:
     std::unordered_map<std::string, std::vector<MemoryAllocation>> allocations_;
     mutable std::mutex mutex_;
     
-    size_t total_vram_used_ = 0;
-    size_t total_ram_used_ = 0;
+    std::atomic<size_t> total_vram_used_ = 0;
+    std::atomic<size_t> total_ram_used_ = 0;
     
     // GPU device information
     int gpu_device_id_ = 0;  // Primary GPU (for single-GPU mode)

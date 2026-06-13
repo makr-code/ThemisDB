@@ -2431,18 +2431,18 @@ LoRASlot* MultiLoRAManager::loadLoRAInternal(
 // ═══════════════════════════════════════════════════════════
 
 void MultiLoRAManager::startEvictionThread() {
-    if (eviction_thread_running_.load()) {
+    if (eviction_thread_running_.load(std::memory_order_acquire)) {
         spdlog::warn("Eviction thread already running");
         return;
     }
     
-    eviction_thread_running_.store(true);
+    eviction_thread_running_.store(true, std::memory_order_release);
     eviction_thread_ = std::make_unique<std::thread>(&MultiLoRAManager::evictionWorker, this);
     spdlog::debug("Background eviction thread started");
 }
 
 void MultiLoRAManager::stopEvictionThread() {
-    if (!eviction_thread_running_.load()) {
+    if (!eviction_thread_running_.load(std::memory_order_acquire)) {
         return;
     }
     
@@ -2469,17 +2469,17 @@ void MultiLoRAManager::evictionWorker() {
         config_.lora_ttl / 4
     );
     
-    while (eviction_thread_running_.load()) {
+    while (eviction_thread_running_.load(std::memory_order_acquire)) {
         // Sleep with condition variable for responsive shutdown
         {
             std::unique_lock<std::mutex> lock(mutex_);
             eviction_cv_.wait_for(lock, check_interval, [this]() {
-                return !eviction_thread_running_.load();
+                return !eviction_thread_running_.load(std::memory_order_acquire);
             });
             // lock automatically released when exiting scope
         }
         
-        if (!eviction_thread_running_.load()) {
+        if (!eviction_thread_running_.load(std::memory_order_acquire)) {
             break;
         }
         

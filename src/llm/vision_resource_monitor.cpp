@@ -70,8 +70,8 @@ bool RateLimiter::tryAcquire() {
     
     refillTokens();
     
-    if (tokens_.load() > 0) {
-        tokens_--;
+    if (tokens_.load(std::memory_order_acquire) > 0) {
+        tokens_.fetch_sub(1, std::memory_order_release);
         return true;
     }
     
@@ -86,19 +86,19 @@ size_t RateLimiter::availableTokens() const {
     if (elapsed.count() > 0) {
         auto tokens_to_add = (refill_rate_ * elapsed.count()) / 60000;
         if (tokens_to_add > 0) {
-            size_t current = tokens_.load();
+            size_t current = tokens_.load(std::memory_order_relaxed);
             size_t new_tokens = std::min(capacity_, current + tokens_to_add);
-            tokens_.store(new_tokens);
+            tokens_.store(new_tokens, std::memory_order_release);
             last_refill_ = now;
         }
     }
-    return tokens_.load();
+    return tokens_.load(std::memory_order_acquire);
 }
 
 std::chrono::milliseconds RateLimiter::timeUntilNextToken() const {
     std::scoped_lock<std::mutex> lock(mutex_);
     
-    if (tokens_.load() > 0) {
+    if (tokens_.load(std::memory_order_acquire) > 0) {
         return std::chrono::milliseconds(0);
     }
     

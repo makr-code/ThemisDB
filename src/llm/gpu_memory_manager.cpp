@@ -566,7 +566,7 @@ void* GPUMemoryManager::allocateGPU(const std::string& model_id, size_t bytes) {
     
     if (!canAllocate(bytes, 0)) {
         double bytes_mb = static_cast<double>(bytes) / (1024.0 * 1024.0);
-        size_t available_bytes = calculateAvailableBytes(config_.max_vram_bytes, total_vram_used_);
+        size_t available_bytes = calculateAvailableBytes(config_.max_vram_bytes, total_vram_used_.load(std::memory_order_relaxed));
         double available_mb = static_cast<double>(available_bytes) / (1024.0 * 1024.0);
         spdlog::error("[{}] GPU OOM: requested {:.1f} MB, available {:.1f} MB", 
                       static_cast<int>(errors::ErrorCode::ERR_LLM_GPU_OOM), 
@@ -635,7 +635,7 @@ void* GPUMemoryManager::allocateGPU(const std::string& model_id, size_t bytes) {
     spdlog::debug("Allocated {} MB VRAM for model {} (total: {} MB)", 
                   bytes / (1024.0 * 1024),
                   model_id,
-                  total_vram_used_ / (1024.0 * 1024));
+                  total_vram_used_.load(std::memory_order_relaxed) / (1024.0 * 1024));
     
     return ptr;
 }
@@ -711,7 +711,7 @@ void* GPUMemoryManager::allocateCPU(const std::string& model_id, size_t bytes, b
                   bytes / (1024.0 * 1024),
                   pinned ? "pinned" : "pageable",
                   model_id,
-                  total_ram_used_ / (1024.0 * 1024));
+                  total_ram_used_.load(std::memory_order_relaxed) / (1024.0 * 1024));
     
     return ptr;
 }
@@ -729,12 +729,12 @@ bool GPUMemoryManager::freeGPU(const std::string& model_id, void* ptr) {
     // The holder's destructor will automatically handle cleanup via RAII
     for (auto alloc_it = it->second.begin(); alloc_it != it->second.end(); ++alloc_it) {
         if (alloc_it->gpu_ptr == ptr) {
-            if (alloc_it->vram_bytes > total_vram_used_) {
+            if (alloc_it->vram_bytes > total_vram_used_.load(std::memory_order_relaxed)) {
                 spdlog::error("GPUMemoryManager::freeGPU: VRAM accounting underflow for model '{}'; "
                               "clamping to 0", model_id);
-                total_vram_used_ = 0;
+                total_vram_used_.store(0, std::memory_order_relaxed);
             } else {
-                total_vram_used_ -= alloc_it->vram_bytes;
+                total_vram_used_.fetch_sub(alloc_it->vram_bytes, std::memory_order_relaxed);
             }
             
             // Erase triggers holder destructor for automatic cleanup
@@ -764,12 +764,12 @@ bool GPUMemoryManager::freeCPU(const std::string& model_id, void* ptr) {
     // The holder's destructor will automatically handle cleanup via RAII
     for (auto alloc_it = it->second.begin(); alloc_it != it->second.end(); ++alloc_it) {
         if (alloc_it->cpu_ptr == ptr) {
-            if (alloc_it->ram_bytes > total_ram_used_) {
+            if (alloc_it->ram_bytes > total_ram_used_.load(std::memory_order_relaxed)) {
                 spdlog::error("GPUMemoryManager::freeCPU: RAM accounting underflow for model '{}'; "
                               "clamping to 0", model_id);
-                total_ram_used_ = 0;
+                total_ram_used_.store(0, std::memory_order_relaxed);
             } else {
-                total_ram_used_ -= alloc_it->ram_bytes;
+                total_ram_used_.fetch_sub(alloc_it->ram_bytes, std::memory_order_relaxed);
             }
             
             // Erase triggers holder destructor for automatic cleanup
@@ -803,19 +803,19 @@ bool GPUMemoryManager::freeModel(const std::string& model_id) {
         freed_ram += alloc.ram_bytes;
     }
     
-    if (freed_vram > total_vram_used_) {
+    if (freed_vram > total_vram_used_.load(std::memory_order_relaxed)) {
         spdlog::error("GPUMemoryManager::freeModel: VRAM accounting underflow for model '{}'; "
                       "clamping to 0", model_id);
-        total_vram_used_ = 0;
+        total_vram_used_.store(0, std::memory_order_relaxed);
     } else {
-        total_vram_used_ -= freed_vram;
+        total_vram_used_.fetch_sub(freed_vram, std::memory_order_relaxed);
     }
-    if (freed_ram > total_ram_used_) {
+    if (freed_ram > total_ram_used_.load(std::memory_order_relaxed)) {
         spdlog::error("GPUMemoryManager::freeModel: RAM accounting underflow for model '{}'; "
                       "clamping to 0", model_id);
-        total_ram_used_ = 0;
+        total_ram_used_.store(0, std::memory_order_relaxed);
     } else {
-        total_ram_used_ -= freed_ram;
+        total_ram_used_.fetch_sub(freed_ram, std::memory_order_relaxed);
     }
     
     // Erase all allocations for this model
@@ -869,42 +869,42 @@ size_t GPUMemoryManager::getTotalVRAM() const {
 
 size_t GPUMemoryManager::getTotalRAM() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    return total_ram_used_;
+    return total_ram_used_.load(std::memory_order_relaxed);
 }
 
 size_t GPUMemoryManager::getFreeVRAM() const {
     std::lock_guard<std::mutex> lock(mutex_);
     
-    if (total_vram_used_ >= config_.max_vram_bytes) {
+    if (total_vram_used_.load(std::memory_order_relaxed) >= config_.max_vram_bytes) {
         return 0;
     }
     
-    return config_.max_vram_bytes - total_vram_used_;
+    return config_.max_vram_bytes - total_vram_used_.load(std::memory_order_relaxed);
 }
 
 size_t GPUMemoryManager::getFreeRAM() const {
     std::lock_guard<std::mutex> lock(mutex_);
     
-    if (total_ram_used_ >= config_.max_ram_bytes) {
+    if (total_ram_used_.load(std::memory_order_relaxed) >= config_.max_ram_bytes) {
         return 0;
     }
     
-    return config_.max_ram_bytes - total_ram_used_;
+    return config_.max_ram_bytes - total_ram_used_.load(std::memory_order_relaxed);
 }
 
 bool GPUMemoryManager::canAllocate(size_t vram_bytes, size_t ram_bytes) const {
-    // Already locked by caller
+    // Thread-safe: uses atomic loads on total_vram_used_ and total_ram_used_
 
     // Guard against size_t overflow before comparing against limits.
-    if (vram_bytes > 0 && total_vram_used_ > std::numeric_limits<size_t>::max() - vram_bytes) {
+    if (vram_bytes > 0 && total_vram_used_.load(std::memory_order_acquire) > std::numeric_limits<size_t>::max() - vram_bytes) {
         return false;
     }
-    if (ram_bytes > 0 && total_ram_used_ > std::numeric_limits<size_t>::max() - ram_bytes) {
+    if (ram_bytes > 0 && total_ram_used_.load(std::memory_order_acquire) > std::numeric_limits<size_t>::max() - ram_bytes) {
         return false;
     }
 
-    size_t future_vram = total_vram_used_ + vram_bytes;
-    size_t future_ram = total_ram_used_ + ram_bytes;
+    size_t future_vram = total_vram_used_.load(std::memory_order_acquire) + vram_bytes;
+    size_t future_ram = total_ram_used_.load(std::memory_order_acquire) + ram_bytes;
     
     // Check hard limits
     if (future_vram > config_.max_vram_bytes) {
@@ -1335,12 +1335,12 @@ GPUMemoryManager::Stats GPUMemoryManager::getStats() const {
     
     Stats stats;
     stats.total_vram_bytes = config_.max_vram_bytes;
-    stats.used_vram_bytes = clampUsedVRAM(total_vram_used_, stats.total_vram_bytes);
-    stats.free_vram_bytes = calculateAvailableBytes(stats.total_vram_bytes, total_vram_used_);
+    stats.used_vram_bytes = clampUsedVRAM(total_vram_used_.load(std::memory_order_relaxed), stats.total_vram_bytes);
+    stats.free_vram_bytes = calculateAvailableBytes(stats.total_vram_bytes, total_vram_used_.load(std::memory_order_relaxed));
     
     stats.total_ram_bytes = config_.max_ram_bytes;
-    stats.used_ram_bytes = std::min(total_ram_used_, stats.total_ram_bytes);
-    stats.free_ram_bytes = calculateAvailableBytes(stats.total_ram_bytes, total_ram_used_);
+    stats.used_ram_bytes = std::min(total_ram_used_.load(std::memory_order_relaxed), stats.total_ram_bytes);
+    stats.free_ram_bytes = calculateAvailableBytes(stats.total_ram_bytes, total_ram_used_.load(std::memory_order_relaxed));
     
     stats.num_models = allocations_.size();
     
@@ -1375,9 +1375,11 @@ std::vector<std::string> GPUMemoryManager::getLoadedModels() const {
 }
 
 void GPUMemoryManager::updateMemoryStats() {
+    std::lock_guard<std::mutex> lock(mutex_);
+    
     // Recalculate from allocations
-    total_vram_used_ = 0;
-    total_ram_used_ = 0;
+    total_vram_used_.store(0, std::memory_order_relaxed);
+    total_ram_used_.store(0, std::memory_order_relaxed);
     
     // Reset per-GPU counters
     for (auto& [gpu_id, _] : per_gpu_vram_used_) {
@@ -1387,19 +1389,19 @@ void GPUMemoryManager::updateMemoryStats() {
     for (const auto& [_, allocs] : allocations_) {
         for (const auto& alloc : allocs) {
             size_t updated_vram = 0;
-            if (!tryAddSize(total_vram_used_, alloc.vram_bytes, updated_vram)) {
+            if (!tryAddSize(total_vram_used_.load(std::memory_order_relaxed), alloc.vram_bytes, updated_vram)) {
                 spdlog::error("GPUMemoryManager::updateMemoryStats: VRAM accounting overflow; clamping to max");
-                total_vram_used_ = std::numeric_limits<size_t>::max();
+                total_vram_used_.store(std::numeric_limits<size_t>::max(), std::memory_order_relaxed);
             } else {
-                total_vram_used_ = updated_vram;
+                total_vram_used_.store(updated_vram, std::memory_order_relaxed);
             }
 
             size_t updated_ram = 0;
-            if (!tryAddSize(total_ram_used_, alloc.ram_bytes, updated_ram)) {
+            if (!tryAddSize(total_ram_used_.load(std::memory_order_relaxed), alloc.ram_bytes, updated_ram)) {
                 spdlog::error("GPUMemoryManager::updateMemoryStats: RAM accounting overflow; clamping to max");
-                total_ram_used_ = std::numeric_limits<size_t>::max();
+                total_ram_used_.store(std::numeric_limits<size_t>::max(), std::memory_order_relaxed);
             } else {
-                total_ram_used_ = updated_ram;
+                total_ram_used_.store(updated_ram, std::memory_order_relaxed);
             }
             
             // Track per-GPU usage (operator[] auto-initializes to 0)
@@ -1495,12 +1497,12 @@ void* GPUMemoryManager::allocateGPU(const std::string& model_id, size_t bytes, i
     }
 
     size_t updated_vram_total = 0;
-    if (!tryAddSize(total_vram_used_, bytes, updated_vram_total)) {
+    if (!tryAddSize(total_vram_used_.load(std::memory_order_relaxed), bytes, updated_vram_total)) {
         spdlog::error("GPUMemoryManager::allocateGPU: global VRAM accounting overflow for model '{}'; clamping to max",
                       model_id);
-        total_vram_used_ = std::numeric_limits<size_t>::max();
+        total_vram_used_.store(std::numeric_limits<size_t>::max(), std::memory_order_relaxed);
     } else {
-        total_vram_used_ = updated_vram_total;
+        total_vram_used_.store(updated_vram_total, std::memory_order_relaxed);
     }
 
     size_t& per_gpu_used = per_gpu_vram_used_[gpu_device_id];
@@ -1582,20 +1584,20 @@ bool GPUMemoryManager::freeModel(const std::string& model_id, int gpu_device_id)
         }
     }
     
-    if (freed_vram > total_vram_used_) {
+    if (freed_vram > total_vram_used_.load(std::memory_order_relaxed)) {
         spdlog::error("GPUMemoryManager::freeModel(gpu): VRAM accounting underflow for model '{}'; clamping to 0",
                       model_id);
-        total_vram_used_ = 0;
+        total_vram_used_.store(0, std::memory_order_relaxed);
     } else {
-        total_vram_used_ -= freed_vram;
+        total_vram_used_.fetch_sub(freed_vram, std::memory_order_relaxed);
     }
 
-    if (freed_ram > total_ram_used_) {
+    if (freed_ram > total_ram_used_.load(std::memory_order_relaxed)) {
         spdlog::error("GPUMemoryManager::freeModel(gpu): RAM accounting underflow for model '{}'; clamping to 0",
                       model_id);
-        total_ram_used_ = 0;
+        total_ram_used_.store(0, std::memory_order_relaxed);
     } else {
-        total_ram_used_ -= freed_ram;
+        total_ram_used_.fetch_sub(freed_ram, std::memory_order_relaxed);
     }
     
     if (allocs.empty()) {

@@ -554,8 +554,8 @@ bool ThemisHelpLoRA::trainFromDocumentation() {
 }
 
 PerformanceMetrics ThemisHelpLoRA::getMetrics() const {
-    int64_t total = impl_->total_queries.load();
-    int64_t successful = impl_->successful_queries.load();
+    int64_t total = impl_->total_queries.load(std::memory_order_acquire);
+    int64_t successful = impl_->successful_queries.load(std::memory_order_acquire);
     int64_t failed = total - successful;
     
     double success_rate = (total > 0) ? 
@@ -567,7 +567,7 @@ PerformanceMetrics ThemisHelpLoRA::getMetrics() const {
     metrics.failed_queries = failed;
     metrics.success_rate = success_rate;
     metrics.average_latency_ms = (total > 0)
-        ? static_cast<double>(impl_->total_latency_us.load()) / total / 1000.0
+        ? static_cast<double>(impl_->total_latency_us.load(std::memory_order_acquire)) / total / 1000.0
         : 0.0;
     metrics.cache_hit_rate = 0.0;  // No response cache implemented yet
     
@@ -630,7 +630,7 @@ std::string ThemisHelpLoRA::getVersion() const {
 }
 
 bool ThemisHelpLoRA::isTrained() const {
-    return impl_->is_trained.load();
+    return impl_->is_trained.load(std::memory_order_acquire);
 }
 
 bool ThemisHelpLoRA::rollbackToPreviousVersion() {

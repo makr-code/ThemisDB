@@ -88,6 +88,10 @@ constexpr const char* kBudgetOverrideInvalidTenantBudgetEntryNonPositive =
 [[nodiscard]] BudgetOverrideResolution resolveTenantBudgetOverride(
     const json& extra,
     const std::string& tenant) {
+    if (!extra.is_object()) {
+        return {std::nullopt, "policy", false, "", ""};
+    }
+
     // Precedence rule: explicit tenant_budget_override wins over tenant_budgets map.
     if (extra.contains("tenant_budget_override")) {
         if (!extra["tenant_budget_override"].is_number()) {
@@ -157,11 +161,13 @@ class ThemisRagCostModelService final : public IRagCostModelService {
 public:
     [[nodiscard]] std::optional<RagCostEstimate>
     estimate(const RagCostModelInput& input) const override {
+        const json extra = input.extra.is_object() ? input.extra : json::object();
+
         ::themis::DistributedQueryCostModel model;
 
         std::vector<::themis::DistributedQueryCostModel::ShardInfo> shards;
-        if (input.extra.contains("retrieval_shards") && input.extra["retrieval_shards"].is_array()) {
-            for (const auto& s : input.extra["retrieval_shards"]) {
+        if (extra.contains("retrieval_shards") && extra["retrieval_shards"].is_array()) {
+            for (const auto& s : extra["retrieval_shards"]) {
                 if (!s.is_object()) {
                     continue;
                 }
@@ -177,7 +183,7 @@ public:
         }
 
         if (shards.empty()) {
-            const int shard_count = std::max(1, input.extra.value("retrieval_shard_count", 1));
+            const int shard_count = std::max(1, extra.value("retrieval_shard_count", 1));
             const size_t docs = std::max<std::size_t>(input.retrieved_docs, 1);
             const size_t rows_per_shard = std::max<std::size_t>(docs / static_cast<std::size_t>(shard_count), 1);
             shards.reserve(static_cast<size_t>(shard_count));
@@ -656,29 +662,29 @@ const ModeSpec* AIOrchestrator::defaultMode() const {
 }
 
 json AIOrchestrator::stats() const {
-    const auto latency_samples = impl_->rag_adapter_switch_latency_samples.load();
-    const auto latency_sum_ms = impl_->rag_adapter_switch_latency_ms_sum.load();
+    const auto latency_samples = impl_->rag_adapter_switch_latency_samples.load(std::memory_order_acquire);
+    const auto latency_sum_ms = impl_->rag_adapter_switch_latency_ms_sum.load(std::memory_order_acquire);
     const double avg_switch_latency_ms =
         (latency_samples > 0)
             ? static_cast<double>(latency_sum_ms) / static_cast<double>(latency_samples)
             : 0.0;
 
     return {
-        {"total_runs",   impl_->total_runs.load()},
-        {"total_errors", impl_->total_errors.load()},
-        {"total_tokens", impl_->total_tokens.load()},
-        {"rag_retrieval_trigger_total", impl_->rag_retrieval_trigger_total.load()},
-        {"rag_reretrieval_total", impl_->rag_reretrieval_total.load()},
-        {"rag_adapter_candidates_total", impl_->rag_adapter_candidates_total.load()},
-        {"rag_adapter_switch_total", impl_->rag_adapter_switch_total.load()},
-        {"rag_adapter_switch_fail_total", impl_->rag_adapter_switch_fail_total.load()},
-        {"rag_adapter_switch_rollback_total", impl_->rag_adapter_switch_rollback_total.load()},
-        {"rag_adapter_retry_total", impl_->rag_adapter_retry_total.load()},
-        {"rag_adapter_retry_success_total", impl_->rag_adapter_retry_success_total.load()},
-        {"rag_adapter_retry_exhausted_total", impl_->rag_adapter_retry_exhausted_total.load()},
-        {"rag_cost_gate_pre_retrieval_total", impl_->rag_cost_gate_pre_retrieval_total.load()},
-        {"rag_cost_gate_pre_apply_total", impl_->rag_cost_gate_pre_apply_total.load()},
-        {"rag_cost_gate_multi_total", impl_->rag_cost_gate_multi_total.load()},
+        {"total_runs",   impl_->total_runs.load(std::memory_order_acquire)},
+        {"total_errors", impl_->total_errors.load(std::memory_order_acquire)},
+        {"total_tokens", impl_->total_tokens.load(std::memory_order_acquire)},
+        {"rag_retrieval_trigger_total", impl_->rag_retrieval_trigger_total.load(std::memory_order_acquire)},
+        {"rag_reretrieval_total", impl_->rag_reretrieval_total.load(std::memory_order_acquire)},
+        {"rag_adapter_candidates_total", impl_->rag_adapter_candidates_total.load(std::memory_order_acquire)},
+        {"rag_adapter_switch_total", impl_->rag_adapter_switch_total.load(std::memory_order_acquire)},
+        {"rag_adapter_switch_fail_total", impl_->rag_adapter_switch_fail_total.load(std::memory_order_acquire)},
+        {"rag_adapter_switch_rollback_total", impl_->rag_adapter_switch_rollback_total.load(std::memory_order_acquire)},
+        {"rag_adapter_retry_total", impl_->rag_adapter_retry_total.load(std::memory_order_acquire)},
+        {"rag_adapter_retry_success_total", impl_->rag_adapter_retry_success_total.load(std::memory_order_acquire)},
+        {"rag_adapter_retry_exhausted_total", impl_->rag_adapter_retry_exhausted_total.load(std::memory_order_acquire)},
+        {"rag_cost_gate_pre_retrieval_total", impl_->rag_cost_gate_pre_retrieval_total.load(std::memory_order_acquire)},
+        {"rag_cost_gate_pre_apply_total", impl_->rag_cost_gate_pre_apply_total.load(std::memory_order_acquire)},
+        {"rag_cost_gate_multi_total", impl_->rag_cost_gate_multi_total.load(std::memory_order_acquire)},
         {"rag_adapter_switch_latency_ms", avg_switch_latency_ms},
     };
 }
@@ -688,13 +694,13 @@ json AIOrchestrator::stats() const {
 // ============================================================================
 
 OrchestratorResult AIOrchestrator::run(const OrchestratorContext& ctx) const {
-    ++impl_->total_runs;
+    impl_->total_runs.fetch_add(1, std::memory_order_relaxed);
 
     // Resolve mode
     const std::string mode_id = ctx.mode_id.empty() ? impl_->pack.default_mode : ctx.mode_id;
     const ModeSpec* mode_ptr = findMode(mode_id);
     if (!mode_ptr) {
-        ++impl_->total_errors;
+        impl_->total_errors.fetch_add(1, std::memory_order_relaxed);
         OrchestratorResult err;
         err.success = false;
         err.error   = "Unknown mode '" + mode_id + "'. Available: ";
@@ -734,7 +740,7 @@ OrchestratorResult AIOrchestrator::run(const OrchestratorContext& ctx) const {
                 break;
         }
     } catch (const std::exception& e) {
-        ++impl_->total_errors;
+        impl_->total_errors.fetch_add(1, std::memory_order_relaxed);
         result.success = false;
         result.error   = std::string("Orchestrator exception: ") + e.what();
         spdlog::error("[AIOrchestrator] {}", result.error);
@@ -1011,6 +1017,9 @@ OrchestratorResult AIOrchestrator::runRag(const OrchestratorContext& ctx,
             // Parse tool results into documents
             if (tool_result.contains("documents") && tool_result["documents"].is_array()) {
                 for (const auto& d : tool_result["documents"]) {
+                    if (!d.is_object()) {
+                        continue;
+                    }
                     RAGContext::Document doc;
                     doc.content         = d.value("content", "");
                     doc.source          = d.value("source",  "");

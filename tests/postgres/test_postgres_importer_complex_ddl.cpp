@@ -299,6 +299,9 @@ protected:
     std::string sql_;
     void SetUp() override {
         sql_ = readFile(fixturePath("sample_pg16.sql"));
+        if (sql_.empty()) {
+            GTEST_SKIP() << "Fixture file not found: sample_pg16.sql";
+        }
     }
 };
 

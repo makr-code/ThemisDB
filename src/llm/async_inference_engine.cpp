@@ -210,7 +210,7 @@ InferenceHandle AsyncInferenceEngine::submit(
                 }
                 try {
                     auto response = processRequest(*async_req, submit_time);
-                    stats_.total_completed++;
+                    stats_.total_completed.fetch_add(1, std::memory_order_relaxed);
                     if (async_req->callback) {
                         async_req->callback(response);
                     }
@@ -225,12 +225,12 @@ InferenceHandle AsyncInferenceEngine::submit(
         );
 
         if (!queued) {
-            stats_.total_rejected++;
+            stats_.total_rejected.fetch_add(1, std::memory_order_relaxed);
             std::lock_guard<std::mutex> lock(tracking_mutex_);
             active_requests_.erase(async_req->request_id);
             throw std::runtime_error("SharedWorkerPool queue full, request rejected");
         }
-        stats_.total_submitted++;
+        stats_.total_submitted.fetch_add(1, std::memory_order_relaxed);
     } else {
         // ── Private-worker path (original behaviour) ──────────────────
         auto local_promise = std::make_shared<std::promise<InferenceResponse>>();
@@ -242,7 +242,7 @@ InferenceHandle AsyncInferenceEngine::submit(
         // Check queue size and handle backpressure
         if (request_queue_.size() >= config_.max_queue_size) {
             if (!handleBackpressure(lock)) {
-                stats_.total_rejected++;
+                stats_.total_rejected.fetch_add(1, std::memory_order_relaxed);
                 std::lock_guard<std::mutex> tl(tracking_mutex_);
                 active_requests_.erase(async_req->request_id);
                 throw std::runtime_error("Request queue full, request rejected");
@@ -254,7 +254,7 @@ InferenceHandle AsyncInferenceEngine::submit(
         item.promise = std::move(local_promise);
         request_queue_.push_back(std::move(item));
         std::push_heap(request_queue_.begin(), request_queue_.end());
-        stats_.total_submitted++;
+        stats_.total_submitted.fetch_add(1, std::memory_order_relaxed);
         queue_cv_.notify_one();
     }
 
@@ -315,7 +315,7 @@ std::string AsyncInferenceEngine::submitAsync(
                 }
                 try {
                     auto response = processRequest(*async_req, submit_time);
-                    stats_.total_completed++;
+                    stats_.total_completed.fetch_add(1, std::memory_order_relaxed);
                     if (async_req->callback) {
                         async_req->callback(response);
                     }
@@ -330,12 +330,12 @@ std::string AsyncInferenceEngine::submitAsync(
         );
 
         if (!queued) {
-            stats_.total_rejected++;
+            stats_.total_rejected.fetch_add(1, std::memory_order_relaxed);
             std::lock_guard<std::mutex> lock(tracking_mutex_);
             active_requests_.erase(async_req->request_id);
             throw std::runtime_error("SharedWorkerPool queue full");
         }
-        stats_.total_submitted++;
+        stats_.total_submitted.fetch_add(1, std::memory_order_relaxed);
     } else {
         // ── Private-worker path (original behaviour) ──────────────────
         auto promise = std::make_shared<std::promise<InferenceResponse>>();
@@ -403,11 +403,10 @@ InferenceHandle AsyncInferenceEngine::submitStreaming(
     // is fired exactly once regardless of whether the stream ends normally
     // or via cancellation.
     auto fired_final    = std::make_shared<std::atomic<bool>>(false);
-    auto cancel_token   = async_req->cancel_token;    // shared ownership
     auto cb             = std::make_shared<TokenCallback>(std::move(callback));
 
     async_req->request.stream_callback =
-        [cb, cancel_token, fired_final](const std::string& token) {
+        [cb, cancel_token = async_req->cancel_token, fired_final](const std::string& token) {
             if (cancel_token->load(std::memory_order_acquire)) {
                 // Cancellation detected: fire the final sentinel once.
                 bool expected = false;
@@ -473,12 +472,12 @@ InferenceHandle AsyncInferenceEngine::submitStreaming(
         );
 
         if (!queued) {
-            stats_.total_rejected++;
+            stats_.total_rejected.fetch_add(1, std::memory_order_relaxed);
             std::lock_guard<std::mutex> lock(tracking_mutex_);
             active_requests_.erase(async_req->request_id);
             throw std::runtime_error("SharedWorkerPool queue full, streaming request rejected");
         }
-        stats_.total_submitted++;
+        stats_.total_submitted.fetch_add(1, std::memory_order_relaxed);
     } else {
         auto local_promise        = std::make_shared<std::promise<InferenceResponse>>();
         async_req->shared_promise = local_promise;
@@ -487,7 +486,7 @@ InferenceHandle AsyncInferenceEngine::submitStreaming(
         std::unique_lock<std::mutex> lock(queue_mutex_);
         if (request_queue_.size() >= config_.max_queue_size) {
             if (!handleBackpressure(lock)) {
-                stats_.total_rejected++;
+                stats_.total_rejected.fetch_add(1, std::memory_order_relaxed);
                 std::lock_guard<std::mutex> tl(tracking_mutex_);
                 active_requests_.erase(async_req->request_id);
                 throw std::runtime_error("Request queue full, streaming request rejected");
@@ -499,7 +498,7 @@ InferenceHandle AsyncInferenceEngine::submitStreaming(
         item.promise = std::move(local_promise);
         request_queue_.push_back(std::move(item));
         std::push_heap(request_queue_.begin(), request_queue_.end());
-        stats_.total_submitted++;
+        stats_.total_submitted.fetch_add(1, std::memory_order_relaxed);
         queue_cv_.notify_one();
     }
 
@@ -612,7 +611,7 @@ bool AsyncInferenceEngine::cancel(const std::string& request_id) {
     // Set the shared cancellation token so the worker and any streaming
     // callback are notified at the next check point.
     it->second->cancel_token->store(true, std::memory_order_release);
-    stats_.total_cancelled++;
+    stats_.total_cancelled.fetch_add(1, std::memory_order_relaxed);
     
     spdlog::info("Cancelled inference request: {}", request_id);
     return true;
@@ -689,14 +688,14 @@ void AsyncInferenceEngine::waitForCompletion() {
 }
 
 void AsyncInferenceEngine::shutdown() {
-    if (!running_.load()) {
+    if (!running_.load(std::memory_order_acquire)) {
         return;  // Already shutdown
     }
     
     spdlog::info("Shutting down AsyncInferenceEngine...");
     
     // Signal workers and timeout monitor to stop
-    running_.store(false);
+    running_.store(false, std::memory_order_release);
     queue_cv_.notify_all();
     
     // Wait for workers to finish with timeout
@@ -726,7 +725,7 @@ void AsyncInferenceEngine::shutdown() {
 void AsyncInferenceEngine::workerLoop(size_t worker_id) {
     spdlog::info("Inference worker {} started", worker_id);
     
-    while (running_.load()) {
+    while (running_.load(std::memory_order_acquire)) {
         RequestQueueItem item;
         
         // Wait for work with timeout
@@ -736,12 +735,12 @@ void AsyncInferenceEngine::workerLoop(size_t worker_id) {
             const auto timeout = std::chrono::seconds(30); // 30 second timeout
             
             if (!queue_cv_.wait_for(lock, timeout, [this] {
-                return !request_queue_.empty() || !running_.load();
+                return !request_queue_.empty() || !running_.load(std::memory_order_acquire);
             })) {
                 spdlog::warn("Worker {}: timeout waiting for work, checking running flag", worker_id);
             }
             
-            if (!running_.load() && request_queue_.empty()) {
+            if (!running_.load(std::memory_order_acquire) && request_queue_.empty()) {
                 break;  // Shutdown
             }
             
@@ -799,7 +798,7 @@ void AsyncInferenceEngine::workerLoop(size_t worker_id) {
             auto response = processRequest(*item.request, submit_time);
             
             // Update stats
-            stats_.total_completed++;
+            stats_.total_completed.fetch_add(1, std::memory_order_relaxed);
             
             // Deliver result
             if (item.request->callback) {
@@ -851,7 +850,6 @@ InferenceResponse AsyncInferenceEngine::processRequest(
     // Build an effective InferenceRequest that wraps the stream_callback so
     // cancellation (and deadline expiry) are checked at every token boundary.
     InferenceRequest effective_request = request.request;
-    auto cancel_token = request.cancel_token;  // capture shared ownership
     auto deadline = request.deadline;
     const bool streaming_mode = static_cast<bool>(effective_request.stream_callback);
 
@@ -866,7 +864,9 @@ InferenceResponse AsyncInferenceEngine::processRequest(
     if (effective_request.stream_callback) {
         // Wrap the original callback: stop streaming when cancelled/timed-out.
         auto original_cb = std::move(effective_request.stream_callback);
-        effective_request.stream_callback = [original_cb, cancel_token, deadline]
+        effective_request.stream_callback = [original_cb, 
+            cancel_token = request.cancel_token,  // Direct capture to extend lifetime
+            deadline]
             (const std::string& token) {
             // Abort streaming on cancellation
             if (cancel_token->load(std::memory_order_acquire)) {
@@ -905,7 +905,11 @@ InferenceResponse AsyncInferenceEngine::processRequest(
     // setPromptPolicy(nullptr) call does not race with the apply() invocation.
     // Redact rules modify the prompt in-place; block rules return an error
     // response immediately without invoking the plugin.
-    auto policy_snapshot = prompt_policy_;
+    std::shared_ptr<PromptPolicy> policy_snapshot;
+    {
+        std::lock_guard<std::mutex> lock(policy_mutex_);
+        policy_snapshot = prompt_policy_;
+    }
     if (policy_snapshot) {
         auto policy_result = policy_snapshot->apply(effective_request.prompt);
         if (!policy_result.allowed) {
@@ -992,10 +996,13 @@ void AsyncInferenceEngine::swapPlugin(std::shared_ptr<ILLMPlugin> new_plugin) {
     owned_plugin_ = std::move(new_plugin);
     plugin_ = owned_plugin_.get();
     active_plugin_ = owned_plugin_;
+    // Ensure all writes are visible before unlocking
+    std::atomic_thread_fence(std::memory_order_release);
     spdlog::info("AsyncInferenceEngine: plugin hot-swapped");
 }
 
 void AsyncInferenceEngine::setPromptPolicy(std::shared_ptr<PromptPolicy> policy) {
+    std::lock_guard<std::mutex> lock(policy_mutex_);
     prompt_policy_ = std::move(policy);
 }
 
@@ -1077,7 +1084,7 @@ bool AsyncInferenceEngine::handleBackpressure(std::unique_lock<std::mutex>& lock
                 request_queue_.pop_back();
                 std::make_heap(request_queue_.begin(), request_queue_.end());
 
-                stats_.total_rejected++;
+                stats_.total_rejected.fetch_add(1, std::memory_order_relaxed);
                 return true;
             }
             return false;
@@ -1117,8 +1124,8 @@ void AsyncInferenceEngine::checkAndHandleTimeouts() {
         if (now >= req->deadline) {
             spdlog::warn("Request {} exceeded per-request timeout, marking cancelled", id);
             req->cancel_token->store(true, std::memory_order_release);
-            stats_.total_timed_out++;
-            stats_.total_cancelled++;
+            stats_.total_timed_out.fetch_add(1, std::memory_order_relaxed);
+            stats_.total_cancelled.fetch_add(1, std::memory_order_relaxed);
 
             // Resolve the future immediately so handle.get() unblocks without
             // waiting for the in-flight plugin call to finish.

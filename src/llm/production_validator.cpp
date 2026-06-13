@@ -373,7 +373,7 @@ ProductionValidator::ValidationResult ProductionValidator::runStressTest() {
             ).count();
             
             spdlog::info("Stress test progress: {} hours, {} requests, {} failures",
-                         elapsed, total_requests_processed_.load(), failures);
+                         elapsed, total_requests_processed_.load(std::memory_order_acquire), failures);
         }
         
         // Check for memory leaks periodically
@@ -491,7 +491,7 @@ ProductionValidator::ValidationResult ProductionValidator::runLoadTest() {
         std::chrono::steady_clock::now() - wall_start).count();
 
     result.total_requests      = total;
-    result.successful_requests = succeeded.load();
+    result.successful_requests = succeeded.load(std::memory_order_acquire);
     result.failed_requests     = total - result.successful_requests;
     result.error_rate_pct      = total > 0
         ? (result.failed_requests * 100.0 / total)
@@ -1485,7 +1485,7 @@ bool IntegrationTestSuite::testHighConcurrency() {
     scheduler.stop();
 
     spdlog::info("  High Concurrency: {} requests submitted across {} threads ✓",
-                 submitted.load(), kThreads);
+                 submitted.load(std::memory_order_acquire), kThreads);
     return true;
 }
 

@@ -549,11 +549,10 @@ InferenceHandle InferenceEngineEnhanced::submitStreaming(
     // is fired exactly once regardless of whether the stream ends normally
     // or via cancellation.
     auto fired_final  = std::make_shared<std::atomic<bool>>(false);
-    auto cancel_token = tracked->cancel_token;   // shared ownership
     auto cb           = std::make_shared<TokenCallback>(std::move(callback));
 
     tracked->request.base_request.stream_callback =
-        [cb, cancel_token, fired_final](const std::string& token) {
+        [cb, cancel_token = tracked->cancel_token, fired_final](const std::string& token) {
             if (cancel_token->load(std::memory_order_acquire)) {
                 bool expected = false;
                 if (fired_final->compare_exchange_strong(
@@ -701,24 +700,24 @@ InferenceEngineEnhanced::Statistics InferenceEngineEnhanced::getStatistics() con
     auto stats = stats_;
     
     // Calculate cache hit rate
-    size_t total_cache_ops = stats_.cache_hits + stats_.cache_misses;
+    size_t total_cache_ops = stats.cache_hits + stats.cache_misses;
     if (total_cache_ops > 0) {
-        stats.cache_hit_rate = static_cast<double>(stats_.cache_hits) / total_cache_ops;
+        stats.cache_hit_rate = static_cast<double>(stats.cache_hits) / total_cache_ops;
     }
     
     // Calculate load balance fairness (1.0 = perfectly balanced)
-    if (!stats_.requests_per_model.empty()) {
+    if (!stats.requests_per_model.empty()) {
         double mean = 0.0;
-        for (const auto& [model, count] : stats_.requests_per_model) {
+        for (const auto& [model, count] : stats.requests_per_model) {
             mean += count;
         }
-        mean /= stats_.requests_per_model.size();
+        mean /= stats.requests_per_model.size();
         
         double variance = 0.0;
-        for (const auto& [model, count] : stats_.requests_per_model) {
+        for (const auto& [model, count] : stats.requests_per_model) {
             variance += (count - mean) * (count - mean);
         }
-        variance /= stats_.requests_per_model.size();
+        variance /= stats.requests_per_model.size();
         
         // Fairness: 1 - (stddev / mean), closer to 1 is more fair
         if (mean > 0) {
@@ -743,7 +742,7 @@ InferenceEngineEnhanced::Statistics InferenceEngineEnhanced::getStatistics() con
         std::chrono::steady_clock::now() - engine_start_time_).count();
     if (elapsed_s > 0.0) {
         stats.tokens_per_second =
-            static_cast<double>(stats_.total_tokens_generated) / elapsed_s;
+            static_cast<double>(stats.total_tokens_generated) / elapsed_s;
     }
     
     return stats;
@@ -822,11 +821,11 @@ json InferenceEngineEnhanced::getDetailedMetrics() const {
 // ═══════════════════════════════════════════════════════════
 
 void InferenceEngineEnhanced::start() {
-    if (running_.load()) {
+    if (running_.load(std::memory_order_acquire)) {
         return;
     }
 
-    running_.store(true);
+    running_.store(true, std::memory_order_release);
 
     if (shared_pool_) {
         // ── Shared-pool path: one batch-coordinator thread ────────────
@@ -855,13 +854,13 @@ void InferenceEngineEnhanced::start() {
 }
 
 void InferenceEngineEnhanced::shutdown() {
-    if (!running_.load()) {
+    if (!running_.load(std::memory_order_acquire)) {
         return;
     }
     
     spdlog::info("Shutting down Enhanced Inference Engine...");
     
-    running_.store(false);
+    running_.store(false, std::memory_order_release);
     queue_cv_.notify_all();
     
     // Join worker threads
@@ -885,7 +884,7 @@ void InferenceEngineEnhanced::shutdown() {
 }
 
 bool InferenceEngineEnhanced::isRunning() const {
-    return running_.load();
+    return running_.load(std::memory_order_acquire);
 }
 
 // ═══════════════════════════════════════════════════════════
@@ -895,7 +894,7 @@ bool InferenceEngineEnhanced::isRunning() const {
 void InferenceEngineEnhanced::workerLoop(size_t worker_id) {
     spdlog::debug("Worker {} started", worker_id);
     
-    while (running_.load()) {
+    while (running_.load(std::memory_order_acquire)) {
         std::vector<std::shared_ptr<TrackedRequest>> batch;
         
         {
@@ -906,10 +905,10 @@ void InferenceEngineEnhanced::workerLoop(size_t worker_id) {
                              std::chrono::milliseconds(config_.batch_timeout_ms);
             
             queue_cv_.wait_until(lock, wait_until, [this] {
-                return !request_queue_.empty() || !running_.load();
+                return !request_queue_.empty() || !running_.load(std::memory_order_acquire);
             });
             
-            if (!running_.load() && request_queue_.empty()) {
+            if (!running_.load(std::memory_order_acquire) && request_queue_.empty()) {
                 break;
             }
             
@@ -942,7 +941,7 @@ void InferenceEngineEnhanced::workerLoop(size_t worker_id) {
 void InferenceEngineEnhanced::batchCoordinatorLoop() {
     spdlog::debug("InferenceEngineEnhanced batch coordinator started");
 
-    while (running_.load()) {
+    while (running_.load(std::memory_order_acquire)) {
         std::vector<std::shared_ptr<TrackedRequest>> batch;
 
         {
@@ -952,10 +951,10 @@ void InferenceEngineEnhanced::batchCoordinatorLoop() {
                               std::chrono::milliseconds(config_.batch_timeout_ms);
 
             queue_cv_.wait_until(lock, wait_until, [this] {
-                return !request_queue_.empty() || !running_.load();
+                return !request_queue_.empty() || !running_.load(std::memory_order_acquire);
             });
 
-            if (!running_.load() && request_queue_.empty()) {
+            if (!running_.load(std::memory_order_acquire) && request_queue_.empty()) {
                 break;
             }
 
@@ -997,7 +996,7 @@ void InferenceEngineEnhanced::batchCoordinatorLoop() {
 void InferenceEngineEnhanced::timeoutMonitorLoop() {
     spdlog::debug("Timeout monitor started");
     
-    while (running_.load()) {
+    while (running_.load(std::memory_order_acquire)) {
         checkAndHandleTimeouts();
         
         // Brief sleep to avoid busy-waiting while still being responsive
@@ -1062,6 +1061,7 @@ void InferenceEngineEnhanced::checkAndHandleTimeouts() {
 void InferenceEngineEnhanced::processBatch(
     const std::vector<std::shared_ptr<TrackedRequest>>& batch
 ) {
+    // Thread-safe: member accesses protected by respective mutexes
     spdlog::debug("Processing batch of {} requests", batch.size());
     
     auto batch_start = std::chrono::steady_clock::now();
@@ -1175,12 +1175,11 @@ void InferenceEngineEnhanced::processBatch(
             // distinguish "explicitly disabled" from "field omitted".
             raid_sharding["allow_cross_instance_batching"] = req.allow_cross_instance_batching;
             effective_request.metadata["raid_sharding"] = std::move(raid_sharding);
-            auto cancel_token = tracked->cancel_token;
             auto deadline = tracked->deadline;
             if (effective_request.stream_callback) {
                 auto original_cb = std::move(effective_request.stream_callback);
                 effective_request.stream_callback =
-                    [original_cb, cancel_token, deadline](const std::string& token) {
+                    [original_cb, cancel_token = tracked->cancel_token, deadline](const std::string& token) {
                     if (cancel_token->load(std::memory_order_acquire)) return;
                     if (deadline != std::chrono::steady_clock::time_point{} &&
                         std::chrono::steady_clock::now() >= deadline) {

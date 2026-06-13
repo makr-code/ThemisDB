@@ -704,11 +704,11 @@ json MLModelManager::getSystemStats() const {
     
     json stats;
     stats["total_models"] = models_.size();
-    stats["total_requests"] = total_requests_.load();
-    stats["successful_requests"] = successful_requests_.load();
-    stats["failed_requests"] = failed_requests_.load();
+    stats["total_requests"] = total_requests_.load(std::memory_order_acquire);
+    stats["successful_requests"] = successful_requests_.load(std::memory_order_acquire);
+    stats["failed_requests"] = failed_requests_.load(std::memory_order_acquire);
     stats["success_rate"] = total_requests_ > 0 ? 
-        static_cast<float>(successful_requests_.load()) / static_cast<float>(total_requests_.load()) : 0.0f;
+        static_cast<float>(successful_requests_.load(std::memory_order_acquire)) / static_cast<float>(total_requests_.load(std::memory_order_acquire)) : 0.0f;
     
     size_t total_instances = 0;
     size_t healthy_instances = 0;

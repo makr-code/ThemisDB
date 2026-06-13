@@ -44,28 +44,30 @@ protected:
         db_path_ = (fs::temp_directory_path() /
                     ("themis_latbench_" + std::to_string(ts))).string();
 
-        RocksDBWrapper::Config cfg;
-        cfg.db_path           = db_path_;
-        cfg.enable_wal        = false; // disable RocksDB WAL to measure pure storage operations
-        cfg.enable_statistics = true;
-        cfg.memtable_size_mb  = 64;
-        cfg.block_cache_size_mb = 64;
-
-        db_ = std::make_shared<RocksDBWrapper>(cfg);
-        ASSERT_TRUE(db_->open());
-
         engine_ = StorageEngine::createDefault();
         ASSERT_TRUE(engine_ != nullptr);
         ASSERT_TRUE(engine_->open(db_path_).has_value());
+
+        // Reuse the engine-owned RocksDB handle to avoid file-lock conflicts
+        // from opening the same DB path twice in one process.
+        db_ = std::shared_ptr<RocksDBWrapper>(
+            engine_->rawDB(),
+            [](RocksDBWrapper*) {}
+        );
+        ASSERT_TRUE(db_ != nullptr);
+
         compaction_ = std::make_unique<CompactionManager>(db_);
     }
 
     void TearDown() override {
-        engine_.reset();
         compaction_.reset();
-        db_->close();
         db_.reset();
-        fs::remove_all(db_path_);
+        if (engine_) {
+            engine_->close();
+            engine_.reset();
+        }
+        std::error_code ec;
+        fs::remove_all(db_path_, ec);
     }
 
     // Measure latency of N operations, return sorted µs vector

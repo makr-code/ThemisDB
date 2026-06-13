@@ -334,6 +334,7 @@ private:
 
     // Optional prompt safety policy (nullptr → no prompt validation)
     std::shared_ptr<PromptPolicy> prompt_policy_;
+    mutable std::mutex policy_mutex_;  // Protects prompt_policy_ for thread-safe access
 
     // Worker threads
     std::vector<std::thread> workers_;

@@ -48,7 +48,7 @@ bool GPUSafeFailManager::executeWithFallback(
     std::function<bool()> cpu_fallback,
     const std::string& operation_name
 ) {
-    total_operations_++;
+    total_operations_.fetch_add(1, std::memory_order_relaxed);
     
     // Check if we should even attempt GPU operation
     if (!shouldAttemptGPU()) {
@@ -125,9 +125,9 @@ bool GPUSafeFailManager::executeWithFallback(
 void GPUSafeFailManager::recordFailure(FailureType type, const std::string& error_message) {
     std::lock_guard<std::mutex> lock(mutex_);
     
-    total_failures_++;
-    consecutive_failures_++;
-    consecutive_successes_ = 0;
+    total_failures_.fetch_add(1, std::memory_order_relaxed);
+    consecutive_failures_.fetch_add(1, std::memory_order_relaxed);
+    consecutive_successes_.store(0, std::memory_order_release);
     
     last_failure_time_ = std::chrono::system_clock::now();
     last_failure_type_ = type;
@@ -142,8 +142,8 @@ void GPUSafeFailManager::recordFailure(FailureType type, const std::string& erro
 void GPUSafeFailManager::recordSuccess() {
     std::lock_guard<std::mutex> lock(mutex_);
     
-    consecutive_successes_++;
-    consecutive_failures_ = 0;
+    consecutive_successes_.fetch_add(1, std::memory_order_relaxed);
+    consecutive_failures_.store(0, std::memory_order_release);
     
     last_success_time_ = std::chrono::system_clock::now();
     
@@ -151,7 +151,7 @@ void GPUSafeFailManager::recordSuccess() {
 }
 
 bool GPUSafeFailManager::shouldAttemptGPU() const {
-    GPUState state = current_state_.load();
+    GPUState state = current_state_.load(std::memory_order_acquire);
     return state != GPUState::CIRCUIT_OPEN && state != GPUState::FAILED;
 }
 
@@ -159,11 +159,11 @@ GPUSafeFailManager::GPUHealthStatus GPUSafeFailManager::getHealthStatus() const 
     std::lock_guard<std::mutex> lock(mutex_);
     
     GPUHealthStatus status;
-    status.state = current_state_.load();
-    status.consecutive_failures = consecutive_failures_.load();
-    status.consecutive_successes = consecutive_successes_.load();
-    status.total_failures = total_failures_.load();
-    status.total_operations = total_operations_.load();
+    status.state = current_state_.load(std::memory_order_acquire);
+    status.consecutive_failures = consecutive_failures_.load(std::memory_order_acquire);
+    status.consecutive_successes = consecutive_successes_.load(std::memory_order_acquire);
+    status.total_failures = total_failures_.load(std::memory_order_acquire);
+    status.total_operations = total_operations_.load(std::memory_order_acquire);
     status.last_failure_time = last_failure_time_;
     status.last_success_time = last_success_time_;
     status.circuit_opened_time = circuit_opened_time_;
@@ -181,16 +181,16 @@ GPUSafeFailManager::GPUHealthStatus GPUSafeFailManager::getHealthStatus() const 
 }
 
 bool GPUSafeFailManager::isHealthy() const {
-    GPUState state = current_state_.load();
+    GPUState state = current_state_.load(std::memory_order_acquire);
     return state == GPUState::HEALTHY || state == GPUState::DEGRADED;
 }
 
 void GPUSafeFailManager::forceHealthy() {
     std::lock_guard<std::mutex> lock(mutex_);
     
-    current_state_ = GPUState::HEALTHY;
-    consecutive_failures_ = 0;
-    consecutive_successes_ = 0;
+    current_state_.store(GPUState::HEALTHY, std::memory_order_release);
+    consecutive_failures_.store(0, std::memory_order_release);
+    consecutive_successes_.store(0, std::memory_order_release);
     is_cpu_fallback_active_ = false;
     
     spdlog::info("GPU forced to HEALTHY state");
@@ -200,7 +200,7 @@ void GPUSafeFailManager::forceHealthy() {
 void GPUSafeFailManager::forceFailed(const std::string& reason) {
     std::lock_guard<std::mutex> lock(mutex_);
     
-    current_state_ = GPUState::FAILED;
+    current_state_.store(GPUState::FAILED, std::memory_order_release);
     last_error_message_ = reason;
     
     spdlog::warn("GPU forced to FAILED state: {}", reason);
@@ -208,7 +208,7 @@ void GPUSafeFailManager::forceFailed(const std::string& reason) {
 }
 
 bool GPUSafeFailManager::canResetCircuit() const {
-    if (current_state_.load() != GPUState::CIRCUIT_OPEN) {
+    if (current_state_.load(std::memory_order_acquire) != GPUState::CIRCUIT_OPEN) {
         return false;
     }
     
@@ -226,20 +226,20 @@ void GPUSafeFailManager::tryResetCircuit() {
     
     std::lock_guard<std::mutex> lock(mutex_);
     
-    if (current_state_.load() == GPUState::CIRCUIT_OPEN) {
+    if (current_state_.load(std::memory_order_acquire) == GPUState::CIRCUIT_OPEN) {
         // Transition to degraded state for testing
-        current_state_ = GPUState::DEGRADED;
-        consecutive_failures_ = 0;
+        current_state_.store(GPUState::DEGRADED, std::memory_order_release);
+        consecutive_failures_.store(0, std::memory_order_release);
         
         spdlog::info("Circuit breaker reset, transitioning to DEGRADED state for testing");
     }
 }
 
 float GPUSafeFailManager::getErrorRate() const {
-    size_t total = total_operations_.load();
+    size_t total = total_operations_.load(std::memory_order_acquire);
     if (total == 0) return 0.0f;
     
-    size_t failures = total_failures_.load();
+    size_t failures = total_failures_.load(std::memory_order_acquire);
     return static_cast<float>(failures) / static_cast<float>(total);
 }
 
@@ -251,16 +251,16 @@ bool GPUSafeFailManager::checkMemoryAvailable(size_t required_bytes, size_t avai
 
 void GPUSafeFailManager::updateState() {
     // State machine for GPU health
-    GPUState current = current_state_.load();
-    size_t failures = consecutive_failures_.load();
-    size_t successes = consecutive_successes_.load();
+    GPUState current = current_state_.load(std::memory_order_acquire);
+    size_t failures = consecutive_failures_.load(std::memory_order_acquire);
+    size_t successes = consecutive_successes_.load(std::memory_order_acquire);
     
     switch (current) {
         case GPUState::HEALTHY:
             if (failures >= config_.failure_threshold) {
                 openCircuit("Too many consecutive failures");
             } else if (failures > 0) {
-                current_state_ = GPUState::DEGRADED;
+                current_state_.store(GPUState::DEGRADED, std::memory_order_release);
                 spdlog::info("GPU transitioned to DEGRADED state");
             }
             break;
@@ -269,7 +269,7 @@ void GPUSafeFailManager::updateState() {
             if (failures >= config_.failure_threshold) {
                 openCircuit("Too many consecutive failures in degraded state");
             } else if (successes >= config_.success_threshold) {
-                current_state_ = GPUState::HEALTHY;
+                current_state_.store(GPUState::HEALTHY, std::memory_order_release);
                 spdlog::info("GPU recovered to HEALTHY state");
                 logRecovery();
             }
@@ -290,7 +290,7 @@ void GPUSafeFailManager::logDegradation(const std::string& reason) {
         spdlog::warn("=== GPU DEGRADATION DETECTED ===");
         spdlog::warn("Reason: {}", reason);
         spdlog::warn("Circuit breaker: {}", 
-                     current_state_.load() == GPUState::CIRCUIT_OPEN ? "OPEN" : "CLOSED");
+                     current_state_.load(std::memory_order_acquire) == GPUState::CIRCUIT_OPEN ? "OPEN" : "CLOSED");
         spdlog::warn("CPU fallback: {}", is_cpu_fallback_active_ ? "ACTIVE" : "INACTIVE");
         spdlog::warn("Error rate: {:.1f}%", getErrorRate() * 100);
         spdlog::warn("================================");
@@ -300,16 +300,16 @@ void GPUSafeFailManager::logDegradation(const std::string& reason) {
 void GPUSafeFailManager::logRecovery() {
     spdlog::info("=== GPU RECOVERED ===");
     spdlog::info("Error rate: {:.1f}%", getErrorRate() * 100);
-    spdlog::info("Total operations: {}", total_operations_.load());
+    spdlog::info("Total operations: {}", total_operations_.load(std::memory_order_acquire));
     spdlog::info("====================");
 }
 
 bool GPUSafeFailManager::isCircuitOpen() const {
-    return current_state_.load() == GPUState::CIRCUIT_OPEN;
+    return current_state_.load(std::memory_order_acquire) == GPUState::CIRCUIT_OPEN;
 }
 
 void GPUSafeFailManager::openCircuit(const std::string& reason) {
-    current_state_ = GPUState::CIRCUIT_OPEN;
+    current_state_.store(GPUState::CIRCUIT_OPEN, std::memory_order_release);
     circuit_opened_time_ = std::chrono::system_clock::now();
     
     spdlog::error("Circuit breaker OPENED: {}", reason);
@@ -317,9 +317,9 @@ void GPUSafeFailManager::openCircuit(const std::string& reason) {
 }
 
 void GPUSafeFailManager::closeCircuit() {
-    if (current_state_.load() == GPUState::CIRCUIT_OPEN) {
-        current_state_ = GPUState::HEALTHY;
-        consecutive_failures_ = 0;
+    if (current_state_.load(std::memory_order_acquire) == GPUState::CIRCUIT_OPEN) {
+        current_state_.store(GPUState::HEALTHY, std::memory_order_release);
+        consecutive_failures_.store(0, std::memory_order_release);
         
         spdlog::info("Circuit breaker CLOSED");
         logRecovery();
@@ -341,7 +341,7 @@ GPUTimeoutGuard::~GPUTimeoutGuard() {
 }
 
 bool GPUTimeoutGuard::hasTimedOut() const {
-    if (cancelled_.load()) {
+    if (cancelled_.load(std::memory_order_acquire)) {
         return false;
     }
     
@@ -359,7 +359,7 @@ bool GPUTimeoutGuard::hasTimedOut() const {
 }
 
 void GPUTimeoutGuard::cancel() {
-    cancelled_ = true;
+    cancelled_.store(true, std::memory_order_release);
 }
 
 // ============================================================================
@@ -373,13 +373,13 @@ MemoryPressureMonitor::MemoryPressureMonitor(size_t total_memory_bytes)
 }
 
 void MemoryPressureMonitor::updateUsage(size_t used_bytes) {
-    used_memory_bytes_ = used_bytes;
+    used_memory_bytes_.store(used_bytes, std::memory_order_release);
 }
 
 MemoryPressureMonitor::MemoryStatus MemoryPressureMonitor::getStatus() const {
     MemoryStatus status;
     status.total_bytes = total_memory_bytes_;
-    status.used_bytes = used_memory_bytes_.load();
+    status.used_bytes = used_memory_bytes_.load(std::memory_order_acquire);
     status.free_bytes = status.total_bytes > status.used_bytes ? 
                         status.total_bytes - status.used_bytes : 0;
     

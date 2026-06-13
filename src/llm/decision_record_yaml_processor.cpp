@@ -61,7 +61,7 @@ DecisionRecordYamlProcessor::~DecisionRecordYamlProcessor() {
     }
     THEMIS_INFO("DecisionRecordYamlProcessor stopped "
                 "(written={}, dropped={}, errors={})",
-                written_.load(), dropped_.load(), errors_.load());
+                written_.load(std::memory_order_acquire), dropped_.load(std::memory_order_acquire), errors_.load(std::memory_order_acquire));
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -116,7 +116,7 @@ void DecisionRecordYamlProcessor::processorThread() {
 
         {
             std::unique_lock<std::mutex> lk(mutex_);
-            cv_.wait(lk, [this] { return !queue_.empty() || stop_.load(); });
+            cv_.wait(lk, [this] { return !queue_.empty() || stop_.load(std::memory_order_acquire); });
 
             if (queue_.empty()) {
                 // stop_ is true and queue is drained — exit.

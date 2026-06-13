@@ -71,8 +71,8 @@ GPUTrainingLoop::GPUTrainingLoop(GPUTrainingLoop&& other) noexcept
     , callback_(other.callback_)
     , final_loss_(other.final_loss_)
 {
-    is_training_.store(other.is_training_.load());
-    stop_requested_.store(other.stop_requested_.load());
+    is_training_.store(other.is_training_.load(std::memory_order_acquire), std::memory_order_release);
+    stop_requested_.store(other.stop_requested_.load(std::memory_order_acquire), std::memory_order_release);
     
     other.multi_gpu_layer_ = nullptr;
     other.mixed_precision_trainer_ = nullptr;
@@ -95,8 +95,8 @@ GPUTrainingLoop& GPUTrainingLoop::operator=(GPUTrainingLoop&& other) noexcept {
         callback_ = other.callback_;
         final_loss_ = other.final_loss_;
         
-        is_training_.store(other.is_training_.load());
-        stop_requested_.store(other.stop_requested_.load());
+        is_training_.store(other.is_training_.load(std::memory_order_acquire), std::memory_order_release);
+        stop_requested_.store(other.stop_requested_.load(std::memory_order_acquire), std::memory_order_release);
         
         other.multi_gpu_layer_ = nullptr;
         other.mixed_precision_trainer_ = nullptr;
@@ -165,7 +165,7 @@ void GPUTrainingLoop::setBaseModel(const BaseModelAdapter* base_model) {
 }
 
 bool GPUTrainingLoop::train() {
-    if (is_training_.load()) {
+    if (is_training_.load(std::memory_order_acquire)) {
         spdlog::warn("Training already in progress");
         return false;
     }
@@ -216,7 +216,7 @@ bool GPUTrainingLoop::train() {
         size_t total_steps = 0;
         
         for (int epoch = 0; epoch < config_.num_epochs; ++epoch) {
-            if (stop_requested_.load()) {
+            if (stop_requested_.load(std::memory_order_acquire)) {
                 spdlog::info("Training stopped at epoch {}/{}", epoch + 1, config_.num_epochs);
                 break;
             }
@@ -240,27 +240,27 @@ bool GPUTrainingLoop::train() {
         spdlog::info("  Final loss: {:.6f}", final_loss_);
         spdlog::info("  Duration: {}s", duration.count());
         
-        is_training_.store(false);
+        is_training_.store(false, std::memory_order_release);
         return true;
         
     } catch (const std::exception& e) {
         spdlog::error("Training failed: {}", e.what());
         current_metrics_.status = "failed";
-        is_training_.store(false);
+        is_training_.store(false, std::memory_order_release);
         return false;
     }
 }
 
 void GPUTrainingLoop::stop() {
-    if (!is_training_.load()) {
+    if (!is_training_.load(std::memory_order_acquire)) {
         return;
     }
     
     spdlog::info("Stopping training...");
-    stop_requested_.store(true);
+    stop_requested_.store(true, std::memory_order_release);
     
     // Wait for training to complete
-    while (is_training_.load()) {
+    while (is_training_.load(std::memory_order_acquire)) {
         std::this_thread::sleep_for(std::chrono::milliseconds(100));
     }
     
@@ -419,7 +419,7 @@ float GPUTrainingLoop::trainEpoch(int epoch) {
     const size_t max_int = static_cast<size_t>(std::numeric_limits<int>::max());
     
     while (data_loader_->hasNext()) {
-        if (stop_requested_.load()) {
+        if (stop_requested_.load(std::memory_order_acquire)) {
             break;
         }
         

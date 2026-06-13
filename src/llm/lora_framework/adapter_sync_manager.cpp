@@ -141,7 +141,7 @@ public:
     }
     
     bool isRunning() const {
-        return running_.load();
+        return running_.load(std::memory_order_acquire);
     }
     
     bool syncAdapter(const std::string& adapter_id) {
@@ -322,7 +322,7 @@ public:
         std::lock_guard<std::mutex> lock(mutex_);
         
         return json{
-            {"running", running_.load()},
+            {"running", running_.load(std::memory_order_acquire)},
             {"total_syncs", stats_.total_syncs},
             {"successful_syncs", stats_.successful_syncs},
             {"sync_failures", stats_.sync_failures},
@@ -361,12 +361,12 @@ private:
     void syncLoop() {
         spdlog::info("Sync loop started");
         
-        while (running_.load()) {
+        while (running_.load(std::memory_order_acquire)) {
             try {
                 // Wait for sync interval or stop signal
                 std::unique_lock<std::mutex> lock(mutex_);
                 if (cv_.wait_for(lock, config_.sync_interval,
-                                 [this]() { return !running_.load(); })) {
+                                 [this]() { return !running_.load(std::memory_order_acquire); })) {
                     break;  // Stopping
                 }
                 lock.unlock();

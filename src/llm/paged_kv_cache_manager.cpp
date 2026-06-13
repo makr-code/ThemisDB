@@ -202,7 +202,7 @@ PagedKVCacheManager::getMemoryStats() const {
     stats.prefix_sharing_ratio = calculatePrefixSavings() / 100.0;
     
     // Populate shared_blocks count
-    stats.shared_blocks = total_blocks_shared_.load();
+    stats.shared_blocks = total_blocks_shared_.load(std::memory_order_acquire);
     
     // Calculate memory usage
     stats.bytes_per_block = calculateBlockMemorySize();
@@ -225,7 +225,7 @@ PagedKVCacheManager::getBlockInfo(int block_id) const {
         BlockInfo info;
         info.block_id = block.block_id;
         info.device_ptr = block.device_ptr;
-        info.ref_count = block.ref_count.load();
+        info.ref_count = block.ref_count.load(std::memory_order_acquire);
         info.is_pinned = block.is_pinned;
         info.parent_sequence_id = block.parent_sequence_id;
         return info;
@@ -252,7 +252,7 @@ size_t PagedKVCacheManager::defragment() {
 
     size_t reclaimed = 0;
     for (const auto& block : blocks_) {
-        if (block.ref_count.load() == 0 &&
+        if (block.ref_count.load(std::memory_order_acquire) == 0 &&
             !block.is_pinned &&
             known_free.find(block.block_id) == known_free.end()) {
             free_block_ids_.push_back(block.block_id);
@@ -301,8 +301,8 @@ size_t PagedKVCacheManager::calculateBlockMemorySize() const {
 }
 
 double PagedKVCacheManager::calculatePrefixSavings() const {
-    size_t total_allocated = total_blocks_allocated_.load();
-    size_t shared = total_blocks_shared_.load();
+    size_t total_allocated = total_blocks_allocated_.load(std::memory_order_acquire);
+    size_t shared = total_blocks_shared_.load(std::memory_order_acquire);
     
     if (total_allocated == 0) return 0.0;
     
@@ -367,7 +367,7 @@ void PagedKVCacheManager::updateWorkloadMetrics() {
             // Estimate prefix length from shared blocks
             for (int block_id : table.block_ids) {
                 if (block_id >= 0 && block_id < static_cast<int>(blocks_.size())) {
-                    if (blocks_[block_id].ref_count.load() > 1) {
+                    if (blocks_[block_id].ref_count.load(std::memory_order_acquire) > 1) {
                         total_prefix_length += config_.block_size;
                     }
                 }

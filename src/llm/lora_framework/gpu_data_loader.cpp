@@ -130,11 +130,11 @@ GPUBatch GPUDataLoader::getNextBatch() {
     
     GPUBatch batch;
     
-    if (config_.async_loading && prefetch_active_.load()) {
+    if (config_.async_loading && prefetch_active_.load(std::memory_order_acquire)) {
         // Get from prefetch queue
         std::unique_lock<std::mutex> lock(queue_mutex_);
         queue_cv_.wait(lock, [this] { 
-            return !prefetch_queue_.empty() || stop_prefetch_.load(); 
+            return !prefetch_queue_.empty() || stop_prefetch_.load(std::memory_order_acquire); 
         });
         
         if (!prefetch_queue_.empty()) {
@@ -195,23 +195,23 @@ GPUDataLoader::MemoryStats GPUDataLoader::get_memory_stats() const {
 }
 
 void GPUDataLoader::startPrefetching() {
-    if (prefetch_active_.load()) {
+    if (prefetch_active_.load(std::memory_order_acquire)) {
         return;
     }
     
-    stop_prefetch_.store(false);
-    prefetch_active_.store(true);
+    stop_prefetch_.store(false, std::memory_order_release);
+    prefetch_active_.store(true, std::memory_order_release);
     prefetch_thread_ = std::thread(&GPUDataLoader::prefetchWorker, this);
     
     spdlog::debug("Started prefetch thread");
 }
 
 void GPUDataLoader::stopPrefetching() {
-    if (!prefetch_active_.load()) {
+    if (!prefetch_active_.load(std::memory_order_acquire)) {
         return;
     }
     
-    stop_prefetch_.store(true);
+    stop_prefetch_.store(true, std::memory_order_release);
     queue_cv_.notify_all();
     
     if (prefetch_thread_.joinable()) {
@@ -234,16 +234,16 @@ void GPUDataLoader::stopPrefetching() {
 void GPUDataLoader::prefetchWorker() {
     size_t batch_idx = current_batch_;
     
-    while (!stop_prefetch_.load()) {
+    while (!stop_prefetch_.load(std::memory_order_acquire)) {
         // Check if we have room in the queue
         {
             std::unique_lock<std::mutex> lock(queue_mutex_);
             queue_cv_.wait(lock, [this, &batch_idx] {
                 return prefetch_queue_.size() < config_.prefetch_batches || 
-                       stop_prefetch_.load();
+                       stop_prefetch_.load(std::memory_order_acquire);
             });
             
-            if (stop_prefetch_.load()) {
+            if (stop_prefetch_.load(std::memory_order_acquire)) {
                 break;
             }
         }

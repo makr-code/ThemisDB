@@ -179,7 +179,7 @@ public:
         }
 
         AllocationHandle h;
-        h.id              = next_id_++;
+        h.id              = next_id_.fetch_add(1, std::memory_order_relaxed);
         h.owner_id        = owner_id;
         h.requested_bytes = bytes;
         h.allocated_bytes = aligned;
@@ -443,7 +443,7 @@ public:
         std::lock_guard<std::mutex> lock(mu_);
 
         AllocationHandle h;
-        h.id              = next_id_++;
+        h.id              = next_id_.fetch_add(1, std::memory_order_relaxed);
         h.owner_id        = owner_id;
         h.requested_bytes = bytes;
         h.allocated_bytes = bytes;   // no alignment padding for external allocs

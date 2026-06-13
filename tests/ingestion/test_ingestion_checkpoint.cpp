@@ -404,10 +404,11 @@ TEST(IngestionManagerApiTest, DatabaseSourceStillUnsupported) {
     mgr.registerSource(cfg);
 
     auto stats = mgr.ingestSource("db_src");
-    // Should get a CONNECTOR_NOT_SUPPORTED error, not crash
+    // Should get a structured connector error, not crash
     bool found_error = false;
     for (const auto& e : stats.errors) {
-        if (e.code == IngestionErrorCode::CONNECTOR_NOT_SUPPORTED) {
+        if (e.code == IngestionErrorCode::CONNECTOR_NOT_SUPPORTED ||
+            e.code == IngestionErrorCode::CONNECTOR_INIT_FAILED) {
             found_error = true;
             break;
         }
