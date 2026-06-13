@@ -587,6 +587,15 @@ std::pair<ProcessMining::Status, DirectlyFollowsGraph> ProcessMining::createDFG(
     for (const auto &act : log.id_to_activity) {
         dfg.activities.insert(act);
     }
+    if (dfg.activities.empty()) {
+        for (const auto &trace : log.traces) {
+            for (const auto &event : trace.events) {
+                if (!event.activity.empty()) {
+                    dfg.activities.insert(event.activity);
+                }
+            }
+        }
+    }
 
     // Build directly-follows relations
     std::map<std::pair<std::string, std::string>, std::pair<int, double>> dfRelations;

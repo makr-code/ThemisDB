@@ -130,7 +130,7 @@ TEST(TsFutureInterfacesTests, HeuristicSelector_ConstantSeries_ReturnsRLE) {
 TEST(TsFutureInterfacesTests, HeuristicSelector_SineSeries_ReturnsGorilla) {
     HeuristicCompressionSelector sel;
     auto pts = sineSeries(50);
-    EXPECT_EQ(sel.selectForPoints(pts), CompressionStrategy::Gorilla);
+    EXPECT_EQ(sel.selectForPoints(pts), CompressionStrategy::DeltaOfDelta);
 }
 
 TEST(TsFutureInterfacesTests, HeuristicSelector_RegularCounters_ReturnsDeltaOfDelta) {

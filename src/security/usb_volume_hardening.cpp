@@ -297,6 +297,12 @@ std::string USBVolumeHardening::getUSBDeviceSerial(const std::string& mount_path
 #elif defined(_WIN32)
     // On Windows, return the hex-encoded volume serial number (4-byte DWORD).
     // This is not the hardware USB serial but is stable for a given USB stick.
+    DWORD attrs = GetFileAttributesA(mount_path.c_str());
+    if (attrs == INVALID_FILE_ATTRIBUTES || !(attrs & FILE_ATTRIBUTE_DIRECTORY)) {
+        THEMIS_WARN("USBVolumeHardening: mount path does not exist or is not a directory: '{}'", mount_path);
+        return "";
+    }
+
     char volume_path[MAX_PATH];
     if (!GetVolumePathNameA(mount_path.c_str(), volume_path, MAX_PATH)) {
         THEMIS_WARN("USBVolumeHardening: GetVolumePathName failed for '{}'", mount_path);

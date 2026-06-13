@@ -224,8 +224,6 @@ TemporalTierManager::getAsOf(const std::string& table_name,
                     if (as_of < bit->min_start) continue;
                     if (as_of >= bit->max_end && bit->max_end != kMaxTimestamp)
                         continue;
-                    // Bloom filter miss → skip block
-                    if (!bit->bloom.mightContain(as_of)) continue;
 
                     auto result = searchBlock(*bit, as_of);
                     if (result) return result;

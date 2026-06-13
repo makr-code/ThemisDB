@@ -416,18 +416,20 @@ bool LlamaWrapper::loadModel(
     configured_model_id_ = current_model_id_;
     configured_model_path_ = current_model_path_;
 
+    const json config_obj = config.is_object() ? config : json::object();
+
     // Model integrity verification (anti-poisoning)
     // Use config parameter if provided, otherwise fall back to member config
-    const bool require_model_integrity = config.value("require_model_integrity", config_.require_model_integrity);
-    std::string expected_checksum = config.value("expected_checksum", std::string{});
+    const bool require_model_integrity = config_obj.value("require_model_integrity", config_.require_model_integrity);
+    std::string expected_checksum = config_obj.value("expected_checksum", std::string{});
     if (expected_checksum.empty()) {
-        expected_checksum = config.value("model_checksum", std::string{});
+        expected_checksum = config_obj.value("model_checksum", std::string{});
     }
     // Also check member config if no checksum in JSON
     if (expected_checksum.empty() && !config_.expected_model_sha256.empty()) {
         expected_checksum = config_.expected_model_sha256;
     }
-    const std::string checksum_type = config.value("checksum_type", std::string{"sha256"});
+    const std::string checksum_type = config_obj.value("checksum_type", std::string{"sha256"});
 
     // Security hardening: require model integrity by default
     if (require_model_integrity && expected_checksum.empty()) {
@@ -443,31 +445,31 @@ bool LlamaWrapper::loadModel(
     
     // Use lazy model loader (Ollama-style)
     // Model loads on-demand during first inference
-    json load_config = config;
-    if (!config.contains("n_gpu_layers")) {
+    json load_config = config_obj;
+    if (!config_obj.contains("n_gpu_layers")) {
         load_config["n_gpu_layers"] = config_.n_gpu_layers;
     }
-    if (!config.contains("n_ctx")) {
+    if (!config_obj.contains("n_ctx")) {
         load_config["n_ctx"] = config_.n_ctx;
     }
-    if (!config.contains("n_batch")) {
+    if (!config_obj.contains("n_batch")) {
         load_config["n_batch"] = config_.n_batch;
     }
-    if (!config.contains("n_threads")) {
+    if (!config_obj.contains("n_threads")) {
         load_config["n_threads"] = config_.n_threads;
     }
     
     // Pass performance optimization flags
-    if (!config.contains("use_flash_attn")) {
+    if (!config_obj.contains("use_flash_attn")) {
         load_config["use_flash_attn"] = config_.use_flash_attn;
     }
-    if (!config.contains("use_mmap")) {
+    if (!config_obj.contains("use_mmap")) {
         load_config["use_mmap"] = config_.use_mmap;
     }
-    if (!config.contains("use_mlock")) {
+    if (!config_obj.contains("use_mlock")) {
         load_config["use_mlock"] = config_.use_mlock;
     }
-    if (!config.contains("enable_embeddings")) {
+    if (!config_obj.contains("enable_embeddings")) {
         load_config["enable_embeddings"] = config_.enable_embeddings;
     }
     
@@ -574,6 +576,8 @@ bool LlamaWrapper::loadModelFromThemisDB(
     std::shared_ptr<security::FieldEncryption> /*encryption*/,
     const json& config
 ) {
+    const json config_obj = config.is_object() ? config : json::object();
+
     spdlog::info("Loading model from ThemisDB: {}", model_id);
     
     // Validate parameters
@@ -765,7 +769,7 @@ bool LlamaWrapper::loadModelFromThemisDB(
             spdlog::info("✓ Model integrity verified (checksum OK)");
         } else {
             // Check if model integrity is required (from config or member variable)
-            const bool require_integrity = config.value("require_model_integrity", config_.require_model_integrity);
+            const bool require_integrity = config_obj.value("require_model_integrity", config_.require_model_integrity);
             if (require_integrity) {
                 spdlog::error("[SECURITY] Model {} has no checksum available and require_model_integrity is true; "
                              "loading aborted (set require_model_integrity=false to bypass, not recommended for production)", model_id);
@@ -1765,11 +1769,15 @@ json LlamaWrapper::getMemoryStats() const {
     size_t lora_vram  = 0;
     if (model_loader) {
         auto model_stats = model_loader->getMemoryStats();
-        model_vram = model_stats.value("vram_used_mb", static_cast<size_t>(0));
+        if (model_stats.is_object()) {
+            model_vram = model_stats.value("vram_used_mb", static_cast<size_t>(0));
+        }
     }
     if (lora_manager) {
         auto lora_stats = lora_manager->getMemoryStats();
-        lora_vram = lora_stats.value("vram_used_mb", static_cast<size_t>(0));
+        if (lora_stats.is_object()) {
+            lora_vram = lora_stats.value("vram_used_mb", static_cast<size_t>(0));
+        }
     }
     stats["total_vram_mb"] = model_vram + lora_vram;
     stats["max_vram_mb"] = config_.max_vram_mb;

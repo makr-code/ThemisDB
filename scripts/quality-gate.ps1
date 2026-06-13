@@ -3,6 +3,8 @@ param(
     [string]$TestPreset = "windows-release",
     [string]$BuildPreset,
     [string]$ReportsDir = "reports/local-quality",
+    # clang-tidy installation root (e.g. C:\vvlm from a local LLVM install)
+    [string]$ClangTidyRoot = "C:\vvlm",
     [switch]$SkipConfigure,
     [switch]$SkipBuild,
     [switch]$SkipTests,
@@ -61,6 +63,11 @@ $script:BuildDirFallback = Join-Path $script:Root "build"
 $script:BuildDirForCompile = if (Test-Path $script:CompileCommandsPath) { Split-Path -Parent $script:CompileCommandsPath } else { $script:BuildDirFallback }
 $script:Failures = New-Object System.Collections.Generic.List[string]
 
+# Tool paths resolved at startup (submodule or local install)
+$script:ClangTidyExe = $null
+$script:SemgrepExe   = $null
+$script:CodeqlExe    = $null
+
 New-Item -ItemType Directory -Force -Path $script:ReportPath | Out-Null
 New-Item -ItemType Directory -Force -Path $script:CtestLogsPath | Out-Null
 
@@ -87,6 +94,20 @@ function Write-Fail {
 function Add-Failure {
     param([string]$Step)
     $script:Failures.Add($Step) | Out-Null
+}
+
+# Resolves a tool executable by checking explicit candidate paths before falling back to PATH.
+function Resolve-ToolPath {
+    param(
+        [string]$Name,
+        [string[]]$Candidates = @()
+    )
+    foreach ($c in $Candidates) {
+        if (Test-Path $c) { return $c }
+    }
+    $cmd = Get-Command $Name -ErrorAction SilentlyContinue
+    if ($cmd) { return $cmd.Source }
+    return $null
 }
 
 function Test-ToolAvailable {
@@ -216,10 +237,54 @@ try {
         throw "Missing required tools"
     }
 
-    $clangTidyAvailable = Test-ToolAvailable -Name "clang-tidy" -Optional
+    # --- clang-tidy: check C:\vvlm (local LLVM install) then PATH ---
+    $script:ClangTidyExe = Resolve-ToolPath -Name "clang-tidy" -Candidates @(
+        (Join-Path $ClangTidyRoot "bin\clang-tidy.exe"),
+        (Join-Path $ClangTidyRoot "clang-tidy.exe")
+    )
+    $clangTidyAvailable = $null -ne $script:ClangTidyExe
+    if (-not $clangTidyAvailable) {
+        Write-Warn "Tool not found, step will be skipped: clang-tidy (searched '$ClangTidyRoot' and PATH)"
+    }
+
     $cppcheckAvailable = Test-ToolAvailable -Name "cppcheck" -Optional
-    $semgrepAvailable = Test-ToolAvailable -Name "semgrep" -Optional
-    $codeqlAvailable = Test-ToolAvailable -Name "codeql" -Optional
+
+    # --- semgrep: submodule tools/semgrep (pip install) then PATH ---
+    $semgrepSubmodule = Join-Path $script:Root "tools\semgrep"
+    $script:SemgrepExe = Resolve-ToolPath -Name "semgrep" -Candidates @(
+        (Join-Path $semgrepSubmodule "semgrep.exe")
+    )
+    # If submodule is present but not built, try PATH (pip-installed into venv)
+    if ($null -eq $script:SemgrepExe) {
+        $semgrepCmd = Get-Command "semgrep" -ErrorAction SilentlyContinue
+        if ($semgrepCmd) { $script:SemgrepExe = $semgrepCmd.Source }
+    }
+    $semgrepAvailable = $null -ne $script:SemgrepExe
+    if (-not $semgrepAvailable) {
+        $hint = if (Test-Path $semgrepSubmodule) {
+            "run: pip install -e tools/semgrep"
+        } else {
+            "run: git submodule update --init tools/semgrep && pip install -e tools/semgrep"
+        }
+        Write-Warn "Tool not found, step will be skipped: semgrep ($hint)"
+    }
+
+    # --- codeql: submodule tools/codeql (prebuilt binary) then PATH ---
+    $codeqlSubmodule = Join-Path $script:Root "tools\codeql"
+    $script:CodeqlExe = Resolve-ToolPath -Name "codeql" -Candidates @(
+        (Join-Path $codeqlSubmodule "codeql.exe"),
+        (Join-Path $codeqlSubmodule "codeql")
+    )
+    $codeqlAvailable = $null -ne $script:CodeqlExe
+    if (-not $codeqlAvailable) {
+        $hint = if (Test-Path $codeqlSubmodule) {
+            "submodule present but no binary found"
+        } else {
+            "run: git submodule update --init tools/codeql"
+        }
+        Write-Warn "Tool not found, step will be skipped: codeql ($hint)"
+    }
+
     $doxygenAvailable = Test-ToolAvailable -Name "doxygen" -Optional
 
     Invoke-Step -Name "CMake Configure" -Skip:$SkipConfigure -Action {
@@ -255,7 +320,7 @@ try {
         }
 
         foreach ($file in $files) {
-            $output = & clang-tidy $file.FullName -p $compileDir --quiet 2>&1
+            $output = & $script:ClangTidyExe $file.FullName -p $compileDir --quiet 2>&1
             $output | Out-File -FilePath $log -Append -Encoding utf8
             if ($LASTEXITCODE -ne 0) {
                 throw "clang-tidy failed for $($file.FullName). See $log"
@@ -283,7 +348,7 @@ try {
     }
 
     Invoke-Step -Name "semgrep" -Skip:($SkipSemgrep -or -not $semgrepAvailable) -Action {
-        Invoke-External -Command "semgrep" -Arguments @("scan", "--config", "p/cwe-top-25", "--config", "p/owasp-top-ten", "--json", "--output", (Join-Path $script:ReportPath "06-semgrep.json"), ".") -LogFile "06-semgrep.log"
+        Invoke-External -Command $script:SemgrepExe -Arguments @("scan", "--config", "p/cwe-top-25", "--config", "p/owasp-top-ten", "--json", "--output", (Join-Path $script:ReportPath "06-semgrep.json"), ".") -LogFile "06-semgrep.log"
     }
 
     Invoke-Step -Name "CodeQL" -Skip:($SkipCodeQL -or -not $codeqlAvailable) -Action {
@@ -292,8 +357,8 @@ try {
             Remove-Item -Path $db -Recurse -Force
         }
 
-        Invoke-External -Command "codeql" -Arguments @("database", "create", $db, "--language=cpp", "--command", ("cmake --build --preset " + $BuildPreset + " --parallel 4")) -LogFile "07-codeql-create.log"
-        Invoke-External -Command "codeql" -Arguments @("database", "analyze", $db, "codeql/cpp-queries:codeql-suites/cpp-security-and-quality.qls", "--format=sarif-latest", "--output", (Join-Path $script:ReportPath "07-codeql.sarif")) -LogFile "07-codeql-analyze.log"
+        Invoke-External -Command $script:CodeqlExe -Arguments @("database", "create", $db, "--language=cpp", "--command", ("cmake --build --preset " + $BuildPreset + " --parallel 4")) -LogFile "07-codeql-create.log"
+        Invoke-External -Command $script:CodeqlExe -Arguments @("database", "analyze", $db, "codeql/cpp-queries:codeql-suites/cpp-security-and-quality.qls", "--format=sarif-latest", "--output", (Join-Path $script:ReportPath "07-codeql.sarif")) -LogFile "07-codeql-analyze.log"
     }
 
     Invoke-Step -Name "Doxygen" -Skip:($SkipDoxygen -or -not $doxygenAvailable) -Action {

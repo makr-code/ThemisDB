@@ -92,7 +92,6 @@ static std::shared_ptr<CrossShardTransactionCoordinator> makeTxnCoordinator()
          ("themisdb_orphan_wired_" + std::to_string(::getpid()) + ".jsonl")).string();
     auto coord = std::make_shared<CrossShardTransactionCoordinator>(cfg, consensus);
     coord->initialize();
-    coord->start();
     return coord;
 }
 

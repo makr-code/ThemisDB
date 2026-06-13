@@ -10,6 +10,7 @@
  */
 
 #include "voice/voice_session_manager.h"
+#include <atomic>
 #include <chrono>
 #include <sstream>
 #include <iomanip>
@@ -94,16 +95,19 @@ bool VoiceSessionManager::isExpired(const VoiceSessionData& session) const {
 }
 
 std::string VoiceSessionManager::generateSessionId() {
+    static std::atomic<uint64_t> seq{0};
+
     int64_t now_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
         std::chrono::system_clock::now().time_since_epoch()).count();
 
     std::mt19937 rng(static_cast<unsigned>(now_ms));
     std::uniform_int_distribution<uint16_t> dist(0, 0xFFFF);
     uint16_t rnd = dist(rng);
+    uint64_t suffix = seq.fetch_add(1, std::memory_order_relaxed) & 0xFFFF;
 
     std::ostringstream oss;
     oss << "sess_" << std::hex << std::setw(12) << std::setfill('0') << now_ms
-        << std::setw(4) << std::setfill('0') << rnd;
+        << std::setw(4) << std::setfill('0') << (rnd ^ static_cast<uint16_t>(suffix));
     return oss.str();
 }
 

@@ -22,3 +22,13 @@
 [submodule "external/GIUF"]
 	path = external/GIUF
 	url = https://github.com/makr-code/GIUF.git
+
+[submodule "tools/semgrep"]
+	path = tools/semgrep
+	url = https://github.com/semgrep/semgrep.git
+	shallow = true
+
+[submodule "tools/codeql"]
+	path = tools/codeql
+	url = https://github.com/github/codeql-cli-binaries.git
+	shallow = true

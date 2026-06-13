@@ -301,9 +301,19 @@ TEST_F(USBAdminHardeningIntegrationTest, VolumeHashCheck_RejectsTamperedLicense)
     std::string pinned = sha256OfFile(license_file_path_);
     ASSERT_FALSE(pinned.empty());
 
-    // Simulate FAT-level tampering: overwrite the license with different content
+    // Simulate FAT-level tampering while keeping a syntactically valid license
+    // so refreshUSBStatus() reaches the volume-hash hardening check.
+    nlohmann::json tampered = {
+        {"license_key",   "THEMIS-ENT-ADMIN-TEST-12345678"},
+        {"organization",  "Tampered Org"},
+        {"hardware_id",   "TEST-HARDWARE-ID-12345678"},
+        {"issued_date",   "2026-01-01"},
+        {"expiry_date",   "2027-12-31"},
+        {"admin_scopes",  nlohmann::json::array({"admin", "config:write"})},
+        {"signature",     "TEST-SIGNATURE-12345"}
+    };
     std::ofstream f(license_file_path_, std::ios::trunc);
-    f << "TAMPERED CONTENT";
+    f << tampered.dump(2);
     f.close();
 
     USBAdminConfig cfg;
@@ -312,6 +322,9 @@ TEST_F(USBAdminHardeningIntegrationTest, VolumeHashCheck_RejectsTamperedLicense)
     cfg.expected_volume_hash  = pinned;  // Pin the original hash
 
     USBAdminAuthenticator auth(cfg);
+    auth.setLicenseVerifierFn([](const USBAdminLicense&, const std::string&) {
+        return true;
+    });
     auth.initialize();
     auth.refreshUSBStatus();  // Should detect hash mismatch
 
@@ -352,6 +365,9 @@ TEST_F(USBAdminHardeningIntegrationTest, ReadOnlyMount_RejectionCountedInMetrics
     cfg.require_readonly_mount = true;  // Enforce read-only mount
 
     USBAdminAuthenticator auth(cfg);
+    auth.setLicenseVerifierFn([](const USBAdminLicense&, const std::string&) {
+        return true;
+    });
     auth.initialize();
     auth.refreshUSBStatus();  // temp dir is rw — must be rejected
 
@@ -371,6 +387,9 @@ TEST_F(USBAdminHardeningIntegrationTest, SerialMismatch_RejectionCountedInMetric
     cfg.expected_usb_serial   = "EXPECTED-SERIAL-THAT-WONT-MATCH";
 
     USBAdminAuthenticator auth(cfg);
+    auth.setLicenseVerifierFn([](const USBAdminLicense&, const std::string&) {
+        return true;
+    });
     auth.initialize();
     auth.refreshUSBStatus();
 

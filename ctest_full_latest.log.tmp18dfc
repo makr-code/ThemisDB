@@ -14927,3 +14927,1117 @@ Running main() from C:\ThemisDB\vcpkg\buildtrees\gtest\src\v1.17.0-0c449efaff.cl
           Start 2912: test_approximate_radius_search_integration_approximate_FocusedTests
 2912/4788 Test #2912: test_approximate_radius_search_integration_approximate_FocusedTests .........................................   Passed    1.19 sec
           Start 2913: test_aql_agent_AqlFocusedTests
+2913/4788 Test #2913: test_aql_agent_AqlFocusedTests ..............................................................................   Passed   23.42 sec
+          Start 2914: test_aql_api_stability_AqlFocusedTests
+2914/4788 Test #2914: test_aql_api_stability_AqlFocusedTests ......................................................................   Passed    0.29 sec
+          Start 2915: test_aql_async_backend_AqlFocusedTests
+2915/4788 Test #2915: test_aql_async_backend_AqlFocusedTests ......................................................................   Passed    0.02 sec
+          Start 2916: test_aql_autocomplete_AqlFocusedTests
+2916/4788 Test #2916: test_aql_autocomplete_AqlFocusedTests .......................................................................   Passed    0.02 sec
+          Start 2917: test_aql_bm25_AqlFocusedTests
+2917/4788 Test #2917: test_aql_bm25_AqlFocusedTests ...............................................................................   Passed    0.82 sec
+          Start 2918: test_aql_confidence_scorer_AqlFocusedTests
+2918/4788 Test #2918: test_aql_confidence_scorer_AqlFocusedTests ..................................................................   Passed    0.28 sec
+          Start 2919: test_aql_conversation_context_AqlFocusedTests
+2919/4788 Test #2919: test_aql_conversation_context_AqlFocusedTests ...............................................................   Passed    0.28 sec
+          Start 2920: test_aql_explain_AqlFocusedTests
+2920/4788 Test #2920: test_aql_explain_AqlFocusedTests ............................................................................   Passed    0.30 sec
+          Start 2921: test_aql_fewshot_example_library_AqlFocusedTests
+2921/4788 Test #2921: test_aql_fewshot_example_library_AqlFocusedTests ............................................................   Passed    0.34 sec
+          Start 2922: test_aql_fulltext_hybrid_AqlFocusedTests
+2922/4788 Test #2922: test_aql_fulltext_hybrid_AqlFocusedTests ....................................................................   Passed    0.02 sec
+          Start 2923: test_aql_functions_AqlFocusedTests
+2923/4788 Test #2923: test_aql_functions_AqlFocusedTests ..........................................................................   Passed    0.02 sec
+          Start 2924: test_aql_general_traversal_AqlFocusedTests
+2924/4788 Test #2924: test_aql_general_traversal_AqlFocusedTests ..................................................................   Passed    1.29 sec
+          Start 2925: test_aql_graphql_integration_AqlFocusedTests
+2925/4788 Test #2925: test_aql_graphql_integration_AqlFocusedTests ................................................................   Passed    0.30 sec
+          Start 2926: test_aql_injection_detector_AqlFocusedTests
+2926/4788 Test #2926: test_aql_injection_detector_AqlFocusedTests .................................................................   Passed    0.30 sec
+          Start 2927: test_aql_join_minimal_AqlFocusedTests
+2927/4788 Test #2927: test_aql_join_minimal_AqlFocusedTests .......................................................................   Passed    0.02 sec
+          Start 2928: test_aql_let_AqlFocusedTests
+2928/4788 Test #2928: test_aql_let_AqlFocusedTests ................................................................................   Passed    0.28 sec
+          Start 2929: test_aql_let_st_AqlFocusedTests
+2929/4788 Test #2929: test_aql_let_st_AqlFocusedTests .............................................................................   Passed    0.31 sec
+          Start 2930: test_aql_lora_finetuner_AqlFocusedTests
+2930/4788 Test #2930: test_aql_lora_finetuner_AqlFocusedTests .....................................................................   Passed    0.33 sec
+          Start 2931: test_aql_migration_assistant_AqlFocusedTests
+2931/4788 Test #2931: test_aql_migration_assistant_AqlFocusedTests ................................................................   Passed    0.28 sec
+          Start 2932: test_aql_model_router_AqlFocusedTests
+2932/4788 Test #2932: test_aql_model_router_AqlFocusedTests .......................................................................   Passed    0.02 sec
+          Start 2933: test_aql_multi_statement_transaction_AqlFocusedTests
+2933/4788 Test #2933: test_aql_multi_statement_transaction_AqlFocusedTests ........................................................   Passed    1.19 sec
+          Start 2934: test_aql_multimodal_AqlFocusedTests
+2934/4788 Test #2934: test_aql_multimodal_AqlFocusedTests .........................................................................   Passed    0.02 sec
+          Start 2935: test_aql_optimizer_advisor_AqlFocusedTests
+2935/4788 Test #2935: test_aql_optimizer_advisor_AqlFocusedTests ..................................................................   Passed    0.30 sec
+          Start 2936: test_aql_or_AqlFocusedTests
+2936/4788 Test #2936: test_aql_or_AqlFocusedTests .................................................................................   Passed    0.29 sec
+          Start 2937: test_aql_or_not_AqlFocusedTests
+2937/4788 Test #2937: test_aql_or_not_AqlFocusedTests .............................................................................   Passed    0.02 sec
+          Start 2938: test_aql_parser_AqlFocusedTests
+2938/4788 Test #2938: test_aql_parser_AqlFocusedTests .............................................................................   Passed    0.37 sec
+          Start 2939: test_aql_path_constraints_AqlFocusedTests
+2939/4788 Test #2939: test_aql_path_constraints_AqlFocusedTests ...................................................................   Passed    0.03 sec
+          Start 2940: test_aql_proximity_AqlFocusedTests
+2940/4788 Test #2940: test_aql_proximity_AqlFocusedTests ..........................................................................   Passed    0.12 sec
+          Start 2941: test_aql_proximity_dispatch_AqlFocusedTests
+2941/4788 Test #2941: test_aql_proximity_dispatch_AqlFocusedTests .................................................................   Passed    0.53 sec
+          Start 2942: test_aql_proximity_let_AqlFocusedTests
+2942/4788 Test #2942: test_aql_proximity_let_AqlFocusedTests ......................................................................   Passed    0.13 sec
+          Start 2943: test_aql_query_builder_AqlFocusedTests
+2943/4788 Test #2943: test_aql_query_builder_AqlFocusedTests ......................................................................   Passed    1.73 sec
+          Start 2944: test_aql_query_diff_explainer_AqlFocusedTests
+2944/4788 Test #2944: test_aql_query_diff_explainer_AqlFocusedTests ...............................................................   Passed    0.02 sec
+          Start 2945: test_aql_query_template_library_AqlFocusedTests
+2945/4788 Test #2945: test_aql_query_template_library_AqlFocusedTests .............................................................   Passed    0.29 sec
+          Start 2946: test_aql_query_validator_AqlFocusedTests
+2946/4788 Test #2946: test_aql_query_validator_AqlFocusedTests ....................................................................   Passed    2.45 sec
+          Start 2947: test_aql_rollback_suggester_AqlFocusedTests
+2947/4788 Test #2947: test_aql_rollback_suggester_AqlFocusedTests .................................................................   Passed    0.19 sec
+          Start 2948: test_aql_schema_aware_AqlFocusedTests
+2948/4788 Test #2948: test_aql_schema_aware_AqlFocusedTests .......................................................................   Passed    1.73 sec
+          Start 2949: test_aql_shortest_path_AqlFocusedTests
+2949/4788 Test #2949: test_aql_shortest_path_AqlFocusedTests ......................................................................   Passed    0.02 sec
+          Start 2950: test_aql_shortest_path_dispatch_AqlFocusedTests
+2950/4788 Test #2950: test_aql_shortest_path_dispatch_AqlFocusedTests .............................................................   Passed    0.47 sec
+          Start 2951: test_aql_shortestpath_AqlFocusedTests
+2951/4788 Test #2951: test_aql_shortestpath_AqlFocusedTests .......................................................................   Passed    0.86 sec
+          Start 2952: test_aql_similarity_AqlFocusedTests
+2952/4788 Test #2952: test_aql_similarity_AqlFocusedTests .........................................................................   Passed    0.02 sec
+          Start 2953: test_aql_similarity_dispatch_AqlFocusedTests
+2953/4788 Test #2953: test_aql_similarity_dispatch_AqlFocusedTests ................................................................   Passed    0.38 sec
+          Start 2954: test_aql_similarity_let_AqlFocusedTests
+2954/4788 Test #2954: test_aql_similarity_let_AqlFocusedTests .....................................................................   Passed    0.02 sec
+          Start 2955: test_aql_st_predicates_AqlFocusedTests
+2955/4788 Test #2955: test_aql_st_predicates_AqlFocusedTests ......................................................................   Passed    0.02 sec
+          Start 2956: test_aql_subqueries_AqlFocusedTests
+2956/4788 Test #2956: test_aql_subqueries_AqlFocusedTests .........................................................................   Passed    0.02 sec
+          Start 2957: test_aql_syntax_highlighter_AqlFocusedTests
+2957/4788 Test #2957: test_aql_syntax_highlighter_AqlFocusedTests .................................................................   Passed    0.28 sec
+          Start 2958: test_aql_token_stream_AqlFocusedTests
+2958/4788 Test #2958: test_aql_token_stream_AqlFocusedTests .......................................................................   Passed    0.10 sec
+          Start 2959: test_aql_translator_AqlFocusedTests
+2959/4788 Test #2959: test_aql_translator_AqlFocusedTests .........................................................................   Passed    0.37 sec
+          Start 2960: test_aql_with_clause_AqlFocusedTests
+2960/4788 Test #2960: test_aql_with_clause_AqlFocusedTests ........................................................................   Passed    0.02 sec
+          Start 2961: test_arc_cache_arc_FocusedTests
+2961/4788 Test #2961: test_arc_cache_arc_FocusedTests .............................................................................   Passed    0.02 sec
+          Start 2962: test_archive_processor_archive_FocusedTests
+2962/4788 Test #2962: test_archive_processor_archive_FocusedTests .................................................................   Passed    0.32 sec
+          Start 2963: test_argument_store_argument_FocusedTests
+2963/4788 Test #2963: test_argument_store_argument_FocusedTests ...................................................................   Passed    1.77 sec
+          Start 2964: test_argument_store_standalone_argument_FocusedTests
+2964/4788 Test #2964: test_argument_store_standalone_argument_FocusedTests ........................................................   Passed    0.30 sec
+          Start 2965: test_artifact_preflight_artifact_FocusedTests
+2965/4788 Test #2965: test_artifact_preflight_artifact_FocusedTests ...............................................................   Passed    0.04 sec
+          Start 2966: test_async_ingestion_backpressure_async_FocusedTests
+2966/4788 Test #2966: test_async_ingestion_backpressure_async_FocusedTests ........................................................   Passed    1.90 sec
+          Start 2967: test_async_ingestion_yaml_config_async_FocusedTests
+2967/4788 Test #2967: test_async_ingestion_yaml_config_async_FocusedTests .........................................................   Passed    1.77 sec
+          Start 2968: test_async_io_multiscan_async_FocusedTests
+2968/4788 Test #2968: test_async_io_multiscan_async_FocusedTests ..................................................................   Passed    0.02 sec
+          Start 2969: test_async_job_api_async_FocusedTests
+2969/4788 Test #2969: test_async_job_api_async_FocusedTests .......................................................................   Passed    2.78 sec
+          Start 2970: test_audit_lek_audit_FocusedTests
+2970/4788 Test #2970: test_audit_lek_audit_FocusedTests ...........................................................................   Passed    0.02 sec
+          Start 2971: test_audit_logger_audit_FocusedTests
+2971/4788 Test #2971: test_audit_logger_audit_FocusedTests ........................................................................   Passed    0.17 sec
+          Start 2972: test_audit_logger_production_audit_FocusedTests
+2972/4788 Test #2972: test_audit_logger_production_audit_FocusedTests .............................................................   Passed    0.34 sec
+          Start 2973: test_audit_logging_comprehensive_audit_FocusedTests
+2973/4788 Test #2973: test_audit_logging_comprehensive_audit_FocusedTests .........................................................   Passed    0.32 sec
+          Start 2974: test_auto_failover_manager_auto_FocusedTests
+2974/4788 Test #2974: test_auto_failover_manager_auto_FocusedTests ................................................................   Passed    3.53 sec
+          Start 2975: test_auto_failover_recovery_auto_FocusedTests
+2975/4788 Test #2975: test_auto_failover_recovery_auto_FocusedTests ...............................................................   Passed    0.29 sec
+          Start 2976: test_auto_labeler_db_fetch_auto_FocusedTests
+2976/4788 Test #2976: test_auto_labeler_db_fetch_auto_FocusedTests ................................................................   Passed    0.28 sec
+          Start 2977: test_auto_labeler_production_auto_FocusedTests
+2977/4788 Test #2977: test_auto_labeler_production_auto_FocusedTests ..............................................................   Passed    0.30 sec
+          Start 2978: test_automatic_schema_migration_automatic_FocusedTests
+2978/4788 Test #2978: test_automatic_schema_migration_automatic_FocusedTests ......................................................   Passed    0.04 sec
+          Start 2979: test_backend_api_stability_backend_FocusedTests
+2979/4788 Test #2979: test_backend_api_stability_backend_FocusedTests .............................................................   Passed    0.02 sec
+          Start 2980: test_backend_capability_contract_backend_FocusedTests
+2980/4788 Test #2980: test_backend_capability_contract_backend_FocusedTests .......................................................   Passed    0.28 sec
+          Start 2981: test_backend_consistency_backend_FocusedTests
+2981/4788 Test #2981: test_backend_consistency_backend_FocusedTests ...............................................................   Passed    0.40 sec
+          Start 2982: test_backend_errors_backend_FocusedTests
+2982/4788 Test #2982: test_backend_errors_backend_FocusedTests ....................................................................   Passed    0.03 sec
+          Start 2983: test_backend_registry_startup_backend_FocusedTests
+2983/4788 Test #2983: test_backend_registry_startup_backend_FocusedTests ..........................................................   Passed    0.38 sec
+          Start 2984: test_backend_selection_matrix_backend_FocusedTests
+2984/4788 Test #2984: test_backend_selection_matrix_backend_FocusedTests ..........................................................   Passed    0.27 sec
+          Start 2985: test_backup_manager_enhanced_backup_FocusedTests
+2985/4788 Test #2985: test_backup_manager_enhanced_backup_FocusedTests ............................................................   Passed    0.02 sec
+          Start 2986: test_backup_restore_backup_FocusedTests
+2986/4788 Test #2986: test_backup_restore_backup_FocusedTests .....................................................................   Passed    0.34 sec
+          Start 2987: test_backup_restore_integration_backup_FocusedTests
+2987/4788 Test #2987: test_backup_restore_integration_backup_FocusedTests .........................................................   Passed    0.02 sec
+          Start 2988: test_bandwidth_management_qos_bandwidth_FocusedTests
+2988/4788 Test #2988: test_bandwidth_management_qos_bandwidth_FocusedTests ........................................................   Passed    1.89 sec
+          Start 2989: test_base_entity_base_FocusedTests
+2989/4788 Test #2989: test_base_entity_base_FocusedTests ..........................................................................   Passed    0.04 sec
+          Start 2990: test_base_entity_focused_base_FocusedTests
+2990/4788 Test #2990: test_base_entity_focused_base_FocusedTests ..................................................................   Passed    0.04 sec
+          Start 2991: test_base_interfaces_base_FocusedTests
+2991/4788 Test #2991: test_base_interfaces_base_FocusedTests ......................................................................   Passed    0.15 sec
+          Start 2992: test_batch_nl_to_aql_translation_batch_FocusedTests
+2992/4788 Test #2992: test_batch_nl_to_aql_translation_batch_FocusedTests .........................................................   Passed    1.26 sec
+          Start 2993: test_batch_operation_manager_batch_FocusedTests
+2993/4788 Test #2993: test_batch_operation_manager_batch_FocusedTests .............................................................   Passed    1.07 sec
+          Start 2994: test_batch_write_optimizer_batch_FocusedTests
+2994/4788 Test #2994: test_batch_write_optimizer_batch_FocusedTests ...............................................................   Passed    0.04 sec
+          Start 2995: test_bayesian_optimizer_bayesian_FocusedTests
+2995/4788 Test #2995: test_bayesian_optimizer_bayesian_FocusedTests ...............................................................   Passed    0.37 sec
+          Start 2996: test_behavioral_anomaly_detector_behavioral_FocusedTests
+2996/4788 Test #2996: test_behavioral_anomaly_detector_behavioral_FocusedTests ....................................................   Passed    0.05 sec
+          Start 2997: test_behoerden_genehmigungsverfahren_e2e_behoerden_FocusedTests
+2997/4788 Test #2997: test_behoerden_genehmigungsverfahren_e2e_behoerden_FocusedTests .............................................   Passed    0.02 sec
+          Start 2998: test_bidi_stream_adapter_bidi_FocusedTests
+2998/4788 Test #2998: test_bidi_stream_adapter_bidi_FocusedTests ..................................................................   Passed    0.02 sec
+          Start 2999: test_bimschv_genehmigungsverfahren_e2e_bimschv_FocusedTests
+2999/4788 Test #2999: test_bimschv_genehmigungsverfahren_e2e_bimschv_FocusedTests .................................................   Passed    0.03 sec
+          Start 3000: test_binary_delta_patches_binary_FocusedTests
+3000/4788 Test #3000: test_binary_delta_patches_binary_FocusedTests ...............................................................   Passed    0.35 sec
+          Start 3001: test_binary_integrity_binary_FocusedTests
+3001/4788 Test #3001: test_binary_integrity_binary_FocusedTests ...................................................................   Passed    0.07 sec
+          Start 3002: test_binary_protocol_buffers_binary_FocusedTests
+3002/4788 Test #3002: test_binary_protocol_buffers_binary_FocusedTests ............................................................   Passed    0.02 sec
+          Start 3003: test_binary_quantizer_binary_FocusedTests
+3003/4788 Test #3003: test_binary_quantizer_binary_FocusedTests ...................................................................   Passed    0.08 sec
+          Start 3004: test_bitemporal_join_bitemporal_FocusedTests
+3004/4788 Test #3004: test_bitemporal_join_bitemporal_FocusedTests ................................................................   Passed    0.05 sec
+          Start 3005: test_blob_storage_blob_FocusedTests
+3005/4788 Test #3005: test_blob_storage_blob_FocusedTests .........................................................................   Passed    0.02 sec
+          Start 3006: test_blob_streaming_blob_FocusedTests
+3006/4788 Test #3006: test_blob_streaming_blob_FocusedTests .......................................................................   Passed    0.04 sec
+          Start 3007: test_blob_transfer_checkpoint_blob_FocusedTests
+3007/4788 Test #3007: test_blob_transfer_checkpoint_blob_FocusedTests .............................................................   Passed    0.23 sec
+          Start 3008: test_bloom_filter_bloom_FocusedTests
+3008/4788 Test #3008: test_bloom_filter_bloom_FocusedTests ........................................................................   Passed    0.03 sec
+          Start 3009: test_blue_green_deployment_blue_FocusedTests
+3009/4788 Test #3009: test_blue_green_deployment_blue_FocusedTests ................................................................   Passed    0.17 sec
+          Start 3010: test_bounded_lru_cache_bounded_FocusedTests
+3010/4788 Test #3010: test_bounded_lru_cache_bounded_FocusedTests .................................................................   Passed    1.26 sec
+          Start 3011: test_bpmn_wire_protocol_bpmn_FocusedTests
+3011/4788 Test #3011: test_bpmn_wire_protocol_bpmn_FocusedTests ...................................................................   Passed    0.30 sec
+          Start 3012: test_branch_conflict_resolution_branch_FocusedTests
+3012/4788 Test #3012: test_branch_conflict_resolution_branch_FocusedTests .........................................................   Passed    0.05 sec
+          Start 3013: test_branch_integration_branch_FocusedTests
+3013/4788 Test #3013: test_branch_integration_branch_FocusedTests .................................................................   Passed    0.04 sec
+          Start 3014: test_branch_manager_branch_FocusedTests
+3014/4788 Test #3014: test_branch_manager_branch_FocusedTests .....................................................................   Passed    0.05 sec
+          Start 3015: test_build_info_build_FocusedTests
+3015/4788 Test #3015: test_build_info_build_FocusedTests ..........................................................................   Passed    0.06 sec
+          Start 3016: test_byzantine_detector_byzantine_FocusedTests
+3016/4788 Test #3016: test_byzantine_detector_byzantine_FocusedTests ..............................................................   Passed    0.29 sec
+          Start 3017: test_cache_admin_api_handler_cache_FocusedTests
+3017/4788 Test #3017: test_cache_admin_api_handler_cache_FocusedTests .............................................................   Passed    0.28 sec
+          Start 3018: test_cache_hit_rate_slo_monitor_cache_FocusedTests
+3018/4788 Test #3018: test_cache_hit_rate_slo_monitor_cache_FocusedTests ..........................................................   Passed    0.28 sec
+          Start 3019: test_cache_interfaces_cache_FocusedTests
+3019/4788 Test #3019: test_cache_interfaces_cache_FocusedTests ....................................................................   Passed    0.02 sec
+          Start 3020: test_cache_phase6_interfaces_cache_FocusedTests
+3020/4788 Test #3020: test_cache_phase6_interfaces_cache_FocusedTests .............................................................   Passed    0.02 sec
+          Start 3021: test_cache_replication_cache_FocusedTests
+3021/4788 Test #3021: test_cache_replication_cache_FocusedTests ...................................................................   Passed    6.23 sec
+          Start 3022: test_cache_replication_coordinator_cache_FocusedTests
+3022/4788 Test #3022: test_cache_replication_coordinator_cache_FocusedTests .......................................................   Passed    0.38 sec
+          Start 3023: test_cache_warmup_cache_FocusedTests
+3023/4788 Test #3023: test_cache_warmup_cache_FocusedTests ........................................................................   Passed    0.28 sec
+          Start 3024: test_cai_safety_module_cai_FocusedTests
+3024/4788 Test #3024: test_cai_safety_module_cai_FocusedTests .....................................................................   Passed    0.28 sec
+          Start 3025: test_canary_rollout_canary_FocusedTests
+3025/4788 Test #3025: test_canary_rollout_canary_FocusedTests .....................................................................   Passed    0.16 sec
+          Start 3026: test_canonical_resolver_canonical_FocusedTests
+3026/4788 Test #3026: test_canonical_resolver_canonical_FocusedTests ..............................................................   Passed    0.02 sec
+          Start 3027: test_capability_matcher_capability_FocusedTests
+3027/4788 Test #3027: test_capability_matcher_capability_FocusedTests .............................................................   Passed    0.05 sec
+          Start 3028: test_capabilityautogenerator_persist_state_capabilityautogenerator_FocusedTests
+3028/4788 Test #3028: test_capabilityautogenerator_persist_state_capabilityautogenerator_FocusedTests .............................   Passed    0.06 sec
+          Start 3029: test_catalog_exporter_catalog_FocusedTests
+3029/4788 Test #3029: test_catalog_exporter_catalog_FocusedTests ..................................................................   Passed    0.04 sec
+          Start 3030: test_ccpa_rules_ccpa_FocusedTests
+3030/4788 Test #3030: test_ccpa_rules_ccpa_FocusedTests ...........................................................................   Passed    0.04 sec
+          Start 3031: test_cdc_admin_cdc_FocusedTests
+3031/4788 Test #3031: test_cdc_admin_cdc_FocusedTests .............................................................................   Passed    2.01 sec
+          Start 3032: test_cdc_backpressure_signal_cdc_FocusedTests
+3032/4788 Test #3032: test_cdc_backpressure_signal_cdc_FocusedTests ...............................................................   Passed    0.02 sec
+          Start 3033: test_cdc_batch_commit_coordinator_cdc_FocusedTests
+3033/4788 Test #3033: test_cdc_batch_commit_coordinator_cdc_FocusedTests ..........................................................   Passed    0.02 sec
+          Start 3034: test_cdc_change_stream_compressor_cdc_FocusedTests
+3034/4788 Test #3034: test_cdc_change_stream_compressor_cdc_FocusedTests ..........................................................   Passed    0.04 sec
+          Start 3035: test_cdc_changefeed_buffer_cdc_FocusedTests
+3035/4788 Test #3035: test_cdc_changefeed_buffer_cdc_FocusedTests .................................................................   Passed    2.37 sec
+          Start 3036: test_cdc_changefeed_core_cdc_FocusedTests
+3036/4788 Test #3036: test_cdc_changefeed_core_cdc_FocusedTests ...................................................................   Passed    0.04 sec
+          Start 3037: test_cdc_changefeed_sequence_counter_cdc_FocusedTests
+3037/4788 Test #3037: test_cdc_changefeed_sequence_counter_cdc_FocusedTests .......................................................   Passed    5.39 sec
+          Start 3038: test_cdc_consumer_group_cdc_FocusedTests
+3038/4788 Test #3038: test_cdc_consumer_group_cdc_FocusedTests ....................................................................   Passed    0.04 sec
+          Start 3039: test_cdc_cross_collection_stream_cdc_FocusedTests
+3039/4788 Test #3039: test_cdc_cross_collection_stream_cdc_FocusedTests ...........................................................   Passed    0.04 sec
+          Start 3040: test_cdc_dead_letter_queue_cdc_FocusedTests
+3040/4788 Test #3040: test_cdc_dead_letter_queue_cdc_FocusedTests .................................................................   Passed    0.13 sec
+          Start 3041: test_cdc_debezium_format_cdc_FocusedTests
+3041/4788 Test #3041: test_cdc_debezium_format_cdc_FocusedTests ...................................................................   Passed    0.02 sec
+          Start 3042: test_cdc_delivery_guarantee_config_cdc_FocusedTests
+3042/4788 Test #3042: test_cdc_delivery_guarantee_config_cdc_FocusedTests .........................................................   Passed    0.02 sec
+          Start 3043: test_cdc_delivery_tracker_cdc_FocusedTests
+3043/4788 Test #3043: test_cdc_delivery_tracker_cdc_FocusedTests ..................................................................   Passed    0.09 sec
+          Start 3044: test_cdc_error_codes_cdc_FocusedTests
+3044/4788 Test #3044: test_cdc_error_codes_cdc_FocusedTests .......................................................................   Passed    0.02 sec
+          Start 3045: test_cdc_event_enrichment_cdc_FocusedTests
+3045/4788 Test #3045: test_cdc_event_enrichment_cdc_FocusedTests ..................................................................   Passed    0.04 sec
+          Start 3046: test_cdc_event_schema_cdc_FocusedTests
+3046/4788 Test #3046: test_cdc_event_schema_cdc_FocusedTests ......................................................................   Passed    0.02 sec
+          Start 3047: test_cdc_fan_in_cdc_FocusedTests
+3047/4788 Test #3047: test_cdc_fan_in_cdc_FocusedTests ............................................................................   Passed    0.04 sec
+          Start 3048: test_cdc_filter_pipeline_cdc_FocusedTests
+3048/4788 Test #3048: test_cdc_filter_pipeline_cdc_FocusedTests ...................................................................   Passed    0.02 sec
+          Start 3049: test_cdc_gdpr_redaction_cdc_FocusedTests
+3049/4788 Test #3049: test_cdc_gdpr_redaction_cdc_FocusedTests ....................................................................   Passed    0.04 sec
+          Start 3050: test_cdc_kafka_producer_cdc_FocusedTests
+3050/4788 Test #3050: test_cdc_kafka_producer_cdc_FocusedTests ....................................................................   Passed    0.12 sec
+          Start 3051: test_cdc_materialized_view_cdc_FocusedTests
+3051/4788 Test #3051: test_cdc_materialized_view_cdc_FocusedTests .................................................................   Passed    0.04 sec
+          Start 3052: test_cdc_metrics_cdc_FocusedTests
+3052/4788 Test #3052: test_cdc_metrics_cdc_FocusedTests ...........................................................................   Passed   16.27 sec
+          Start 3053: test_cdc_operation_filter_cdc_FocusedTests
+3053/4788 Test #3053: test_cdc_operation_filter_cdc_FocusedTests ..................................................................   Passed    0.04 sec
+          Start 3054: test_cdc_outbox_cdc_FocusedTests
+3054/4788 Test #3054: test_cdc_outbox_cdc_FocusedTests ............................................................................   Passed    0.14 sec
+          Start 3055: test_cdc_pause_control_cdc_FocusedTests
+3055/4788 Test #3055: test_cdc_pause_control_cdc_FocusedTests .....................................................................   Passed    0.14 sec
+          Start 3056: test_cdc_production_fixes_cdc_FocusedTests
+3056/4788 Test #3056: test_cdc_production_fixes_cdc_FocusedTests ..................................................................   Passed    0.18 sec
+          Start 3057: test_cdc_replay_controller_cdc_FocusedTests
+3057/4788 Test #3057: test_cdc_replay_controller_cdc_FocusedTests .................................................................   Passed    0.03 sec
+          Start 3058: test_cdc_retention_cdc_FocusedTests
+3058/4788 Test #3058: test_cdc_retention_cdc_FocusedTests .........................................................................   Passed    0.15 sec
+          Start 3059: test_cdc_schema_registry_cdc_FocusedTests
+3059/4788 Test #3059: test_cdc_schema_registry_cdc_FocusedTests ...................................................................   Passed    0.02 sec
+          Start 3060: test_cdc_subscription_auth_cdc_FocusedTests
+3060/4788 Test #3060: test_cdc_subscription_auth_cdc_FocusedTests .................................................................   Passed    0.28 sec
+          Start 3061: test_cdc_ws_handler_cdc_FocusedTests
+3061/4788 Test #3061: test_cdc_ws_handler_cdc_FocusedTests ........................................................................   Passed    1.42 sec
+          Start 3062: test_chain_of_thought_chain_FocusedTests
+3062/4788 Test #3062: test_chain_of_thought_chain_FocusedTests ....................................................................   Passed    0.28 sec
+          Start 3063: test_changefeed_governance_headers_changefeed_FocusedTests
+3063/4788 Test #3063: test_changefeed_governance_headers_changefeed_FocusedTests ..................................................   Passed    0.13 sec
+          Start 3064: test_changefeed_ordering_changefeed_FocusedTests
+3064/4788 Test #3064: test_changefeed_ordering_changefeed_FocusedTests ............................................................   Passed    0.02 sec
+          Start 3065: test_changefeed_sse_writer_changefeed_FocusedTests
+3065/4788 Test #3065: test_changefeed_sse_writer_changefeed_FocusedTests ..........................................................   Passed    0.13 sec
+          Start 3066: test_chaos_framework_chaos_FocusedTests
+3066/4788 Test #3066: test_chaos_framework_chaos_FocusedTests .....................................................................   Passed    0.15 sec
+          Start 3067: test_chaos_network_chaos_FocusedTests
+3067/4788 Test #3067: test_chaos_network_chaos_FocusedTests .......................................................................   Passed    0.30 sec
+          Start 3068: test_chaos_scheduler_chaos_FocusedTests
+3068/4788 Test #3068: test_chaos_scheduler_chaos_FocusedTests .....................................................................   Passed    0.27 sec
+          Start 3069: test_chaos_stress_chaos_FocusedTests
+3069/4788 Test #3069: test_chaos_stress_chaos_FocusedTests ........................................................................   Passed    1.85 sec
+          Start 3070: test_chunk_level_encryption_chunk_FocusedTests
+3070/4788 Test #3070: test_chunk_level_encryption_chunk_FocusedTests ..............................................................   Passed    3.12 sec
+          Start 3071: test_chunked_response_writer_chunked_FocusedTests
+3071/4788 Test #3071: test_chunked_response_writer_chunked_FocusedTests ...........................................................   Passed    0.29 sec
+          Start 3072: test_circuit_breaker_circuit_FocusedTests
+3072/4788 Test #3072: test_circuit_breaker_circuit_FocusedTests ...................................................................   Passed    6.08 sec
+          Start 3073: test_claim_extractor_claim_FocusedTests
+3073/4788 Test #3073: test_claim_extractor_claim_FocusedTests .....................................................................   Passed    0.26 sec
+          Start 3074: test_classify_bridge_integration_classify_FocusedTests
+3074/4788 Test #3074: test_classify_bridge_integration_classify_FocusedTests ......................................................   Passed    0.26 sec
+          Start 3075: test_clo_loops_clo_FocusedTests
+3075/4788 Test #3075: test_clo_loops_clo_FocusedTests .............................................................................   Passed    0.28 sec
+          Start 3076: test_cloud_agent_cloud_FocusedTests
+3076/4788 Test #3076: test_cloud_agent_cloud_FocusedTests .........................................................................   Passed    0.16 sec
+          Start 3077: test_cloud_backup_cloud_FocusedTests
+3077/4788 Test #3077: test_cloud_backup_cloud_FocusedTests ........................................................................   Passed    0.05 sec
+          Start 3078: test_cloud_storage_backup_comprehensive_cloud_FocusedTests
+3078/4788 Test #3078: test_cloud_storage_backup_comprehensive_cloud_FocusedTests ..................................................   Passed    0.04 sec
+          Start 3079: test_cms_signing_cms_FocusedTests
+3079/4788 Test #3079: test_cms_signing_cms_FocusedTests ...........................................................................   Passed    0.08 sec
+          Start 3080: test_collective_backends_collective_FocusedTests
+3080/4788 Test #3080: test_collective_backends_collective_FocusedTests ............................................................   Passed    0.14 sec
+          Start 3081: test_column_lineage_column_FocusedTests
+3081/4788 Test #3081: test_column_lineage_column_FocusedTests .....................................................................   Passed    0.04 sec
+          Start 3082: test_columnar_cache_columnar_FocusedTests
+3082/4788 Test #3082: test_columnar_cache_columnar_FocusedTests ...................................................................   Passed    0.02 sec
+          Start 3083: test_columnar_format_columnar_FocusedTests
+3083/4788 Test #3083: test_columnar_format_columnar_FocusedTests ..................................................................   Passed    0.04 sec
+          Start 3084: test_community_detection_aql_community_FocusedTests
+3084/4788 Test #3084: test_community_detection_aql_community_FocusedTests .........................................................   Passed    0.02 sec
+          Start 3085: test_community_detection_functions_community_FocusedTests
+3085/4788 Test #3085: test_community_detection_functions_community_FocusedTests ...................................................   Passed    0.02 sec
+          Start 3086: test_compaction_manager_compaction_FocusedTests
+3086/4788 Test #3086: test_compaction_manager_compaction_FocusedTests .............................................................   Passed    0.04 sec
+          Start 3087: test_compliance_reporting_compliance_FocusedTests
+3087/4788 Test #3087: test_compliance_reporting_compliance_FocusedTests ...........................................................   Passed    0.14 sec
+          Start 3088: test_compliance_security_governance_compliance_FocusedTests
+3088/4788 Test #3088: test_compliance_security_governance_compliance_FocusedTests .................................................   Passed    0.05 sec
+          Start 3089: test_composite_index_composite_FocusedTests
+3089/4788 Test #3089: test_composite_index_composite_FocusedTests .................................................................   Passed    0.04 sec
+          Start 3090: test_compressed_storage_compressed_FocusedTests
+3090/4788 Test #3090: test_compressed_storage_compressed_FocusedTests .............................................................   Passed    0.04 sec
+          Start 3091: test_compression_strategy_compression_FocusedTests
+3091/4788 Test #3091: test_compression_strategy_compression_FocusedTests ..........................................................   Passed    0.02 sec
+          Start 3092: test_compute_graph_header_compute_FocusedTests
+3092/4788 Test #3092: test_compute_graph_header_compute_FocusedTests ..............................................................   Passed    0.02 sec
+          Start 3093: test_compute_interfaces_compute_FocusedTests
+3093/4788 Test #3093: test_compute_interfaces_compute_FocusedTests ................................................................   Passed    0.04 sec
+          Start 3094: test_concerns_context_concerns_FocusedTests
+3094/4788 Test #3094: test_concerns_context_concerns_FocusedTests .................................................................   Passed    0.15 sec
+          Start 3095: test_concurrency_race_detection_concurrency_FocusedTests
+3095/4788 Test #3095: test_concurrency_race_detection_concurrency_FocusedTests ....................................................   Passed   10.81 sec
+          Start 3096: test_concurrent_cache_concurrent_FocusedTests
+3096/4788 Test #3096: test_concurrent_cache_concurrent_FocusedTests ...............................................................   Passed    0.02 sec
+          Start 3097: test_concurrent_write_controller_concurrent_FocusedTests
+3097/4788 Test #3097: test_concurrent_write_controller_concurrent_FocusedTests ....................................................   Passed    8.24 sec
+          Start 3098: test_confidential_computing_confidential_FocusedTests
+3098/4788 Test #3098: test_confidential_computing_confidential_FocusedTests .......................................................   Passed    0.05 sec
+          Start 3099: test_connection_compression_connection_FocusedTests
+3099/4788 Test #3099: test_connection_compression_connection_FocusedTests .........................................................   Passed    0.12 sec
+          Start 3100: test_connector_mode_api_connector_FocusedTests
+3100/4788 Test #3100: test_connector_mode_api_connector_FocusedTests ..............................................................   Passed   20.50 sec
+          Start 3101: test_consensus_module_consensus_FocusedTests
+3101/4788 Test #3101: test_consensus_module_consensus_FocusedTests ................................................................   Passed    4.30 sec
+          Start 3102: test_consistent_hash_consistent_FocusedTests
+3102/4788 Test #3102: test_consistent_hash_consistent_FocusedTests ................................................................   Passed    0.03 sec
+          Start 3103: test_consistent_hash_distribution_consistent_FocusedTests
+3103/4788 Test #3103: test_consistent_hash_distribution_consistent_FocusedTests ...................................................   Passed    0.13 sec
+          Start 3104: test_constitutional_reasoning_constitutional_FocusedTests
+3104/4788 Test #3104: test_constitutional_reasoning_constitutional_FocusedTests ...................................................   Passed    0.02 sec
+          Start 3105: test_content_audio_processor_content_FocusedTests
+3105/4788 Test #3105: test_content_audio_processor_content_FocusedTests ...........................................................   Passed    0.28 sec
+          Start 3106: test_content_con007_con012_remediations_content_FocusedTests
+3106/4788 Test #3106: test_content_con007_con012_remediations_content_FocusedTests ................................................   Passed    0.36 sec
+          Start 3107: test_content_deduplication_content_FocusedTests
+3107/4788 Test #3107: test_content_deduplication_content_FocusedTests .............................................................   Passed    0.45 sec
+          Start 3108: test_content_embedding_pipeline_content_FocusedTests
+3108/4788 Test #3108: test_content_embedding_pipeline_content_FocusedTests ........................................................   Passed    0.38 sec
+          Start 3109: test_content_errors_content_FocusedTests
+3109/4788 Test #3109: test_content_errors_content_FocusedTests ....................................................................   Passed    1.06 sec
+          Start 3110: test_content_features_content_FocusedTests
+3110/4788 Test #3110: test_content_features_content_FocusedTests ..................................................................   Passed    0.02 sec
+          Start 3111: test_content_fs_content_FocusedTests
+3111/4788 Test #3111: test_content_fs_content_FocusedTests ........................................................................   Passed    0.28 sec
+          Start 3112: test_content_fulltext_index_content_FocusedTests
+3112/4788 Test #3112: test_content_fulltext_index_content_FocusedTests ............................................................   Passed    0.27 sec
+          Start 3113: test_content_html_processor_content_FocusedTests
+3113/4788 Test #3113: test_content_html_processor_content_FocusedTests ............................................................   Passed    0.28 sec
+          Start 3114: test_content_language_detector_content_FocusedTests
+3114/4788 Test #3114: test_content_language_detector_content_FocusedTests .........................................................   Passed    0.29 sec
+          Start 3115: test_content_logger_content_FocusedTests
+3115/4788 Test #3115: test_content_logger_content_FocusedTests ....................................................................   Passed    2.08 sec
+          Start 3116: test_content_markdown_processor_content_FocusedTests
+3116/4788 Test #3116: test_content_markdown_processor_content_FocusedTests ........................................................   Passed    0.28 sec
+          Start 3117: test_content_metrics_content_FocusedTests
+3117/4788 Test #3117: test_content_metrics_content_FocusedTests ...................................................................   Passed    0.28 sec
+          Start 3118: test_content_pipeline_content_FocusedTests
+3118/4788 Test #3118: test_content_pipeline_content_FocusedTests ..................................................................   Passed    0.28 sec
+          Start 3119: test_content_pipeline_hardening_content_FocusedTests
+3119/4788 Test #3119: test_content_pipeline_hardening_content_FocusedTests ........................................................   Passed    0.02 sec
+          Start 3120: test_content_policy_content_FocusedTests
+3120/4788 Test #3120: test_content_policy_content_FocusedTests ....................................................................   Passed    0.28 sec
+          Start 3121: test_content_policy_manual_content_FocusedTests
+3121/4788 Test #3121: test_content_policy_manual_content_FocusedTests .............................................................   Passed    0.28 sec
+          Start 3122: test_content_processor_chain_content_FocusedTests
+3122/4788 Test #3122: test_content_processor_chain_content_FocusedTests ...........................................................   Passed    0.02 sec
+          Start 3123: test_content_security_content_FocusedTests
+3123/4788 Test #3123: test_content_security_content_FocusedTests ..................................................................   Passed    0.30 sec
+          Start 3124: test_content_streaming_ingestion_content_FocusedTests
+3124/4788 Test #3124: test_content_streaming_ingestion_content_FocusedTests .......................................................   Passed    0.28 sec
+          Start 3125: test_content_toolbox_bridge_content_FocusedTests
+3125/4788 Test #3125: test_content_toolbox_bridge_content_FocusedTests ............................................................   Passed    0.28 sec
+          Start 3126: test_content_version_manager_content_FocusedTests
+3126/4788 Test #3126: test_content_version_manager_content_FocusedTests ...........................................................   Passed    0.29 sec
+          Start 3127: test_context_propagation_context_FocusedTests
+3127/4788 Test #3127: test_context_propagation_context_FocusedTests ...............................................................   Passed    0.03 sec
+          Start 3128: test_context_window_budget_context_FocusedTests
+3128/4788 Test #3128: test_context_window_budget_context_FocusedTests .............................................................   Passed    0.02 sec
+          Start 3129: test_context_window_budget_strategy_context_FocusedTests
+3129/4788 Test #3129: test_context_window_budget_strategy_context_FocusedTests ....................................................   Passed    0.02 sec
+          Start 3130: test_context_window_manager_context_FocusedTests
+3130/4788 Test #3130: test_context_window_manager_context_FocusedTests ............................................................   Passed    0.29 sec
+          Start 3131: test_continuous_agg_continuous_FocusedTests
+3131/4788 Test #3131: test_continuous_agg_continuous_FocusedTests .................................................................   Passed    0.02 sec
+          Start 3132: test_continuous_agg_comprehensive_continuous_FocusedTests
+3132/4788 Test #3132: test_continuous_agg_comprehensive_continuous_FocusedTests ...................................................   Passed    0.05 sec
+          Start 3133: test_continuous_batch_scheduler_continuous_FocusedTests
+3133/4788 Test #3133: test_continuous_batch_scheduler_continuous_FocusedTests .....................................................   Passed    0.37 sec
+          Start 3134: test_continuous_learning_client_continuous_FocusedTests
+3134/4788 Test #3134: test_continuous_learning_client_continuous_FocusedTests .....................................................   Passed    5.29 sec
+          Start 3135: test_continuous_learning_orchestrator_continuous_FocusedTests
+3135/4788 Test #3135: test_continuous_learning_orchestrator_continuous_FocusedTests ...............................................   Passed    2.42 sec
+          Start 3136: test_continuous_profiler_continuous_FocusedTests
+3136/4788 Test #3136: test_continuous_profiler_continuous_FocusedTests ............................................................   Passed    3.10 sec
+          Start 3137: test_continuous_query_engine_continuous_FocusedTests
+3137/4788 Test #3137: test_continuous_query_engine_continuous_FocusedTests ........................................................   Passed    0.28 sec
+          Start 3138: test_coordinated_update_manager_coordinated_FocusedTests
+3138/4788 Test #3138: test_coordinated_update_manager_coordinated_FocusedTests ....................................................   Passed    0.09 sec
+          Start 3139: test_cot_tracer_cot_FocusedTests
+3139/4788 Test #3139: test_cot_tracer_cot_FocusedTests ............................................................................   Passed    0.27 sec
+          Start 3140: test_cpu_backend_exact_cpu_FocusedTests
+3140/4788 Test #3140: test_cpu_backend_exact_cpu_FocusedTests .....................................................................   Passed    0.04 sec
+          Start 3141: test_cpu_gpu_parity_cpu_FocusedTests
+3141/4788 Test #3141: test_cpu_gpu_parity_cpu_FocusedTests ........................................................................   Passed    0.55 sec
+          Start 3142: test_crash_recovery_direct_crash_FocusedTests
+3142/4788 Test #3142: test_crash_recovery_direct_crash_FocusedTests ...............................................................   Passed    6.65 sec
+          Start 3143: test_crash_recovery_manager_crash_FocusedTests
+3143/4788 Test #3143: test_crash_recovery_manager_crash_FocusedTests ..............................................................   Passed    1.10 sec
+          Start 3144: test_cron_parser_cron_FocusedTests
+3144/4788 Test #3144: test_cron_parser_cron_FocusedTests ..........................................................................   Passed    0.10 sec
+          Start 3145: test_cross_cluster_federation_cross_FocusedTests
+3145/4788 Test #3145: test_cross_cluster_federation_cross_FocusedTests ............................................................   Passed    0.28 sec
+          Start 3146: test_cross_lingual_search_cross_FocusedTests
+3146/4788 Test #3146: test_cross_lingual_search_cross_FocusedTests ................................................................   Passed    0.04 sec
+          Start 3147: test_cross_module_acceleration_index_cross_FocusedTests
+3147/4788 Test #3147: test_cross_module_acceleration_index_cross_FocusedTests .....................................................   Passed    0.04 sec
+          Start 3148: test_cross_module_cache_anomaly_cross_FocusedTests
+3148/4788 Test #3148: test_cross_module_cache_anomaly_cross_FocusedTests ..........................................................   Passed    0.28 sec
+          Start 3149: test_cross_module_geo_spatial_cross_FocusedTests
+3149/4788 Test #3149: test_cross_module_geo_spatial_cross_FocusedTests ............................................................   Passed    0.27 sec
+          Start 3150: test_cross_module_german_egov_cross_FocusedTests
+3150/4788 Test #3150: test_cross_module_german_egov_cross_FocusedTests ............................................................   Passed    0.02 sec
+          Start 3151: test_cross_module_graph_lineage_cross_FocusedTests
+3151/4788 Test #3151: test_cross_module_graph_lineage_cross_FocusedTests ..........................................................   Passed    0.04 sec
+          Start 3152: test_cross_module_index_matryoshka_cross_FocusedTests
+3152/4788 Test #3152: test_cross_module_index_matryoshka_cross_FocusedTests .......................................................   Passed    0.39 sec
+          Start 3153: test_cross_module_query_sharding_cross_FocusedTests
+3153/4788 Test #3153: test_cross_module_query_sharding_cross_FocusedTests .........................................................   Passed    0.29 sec
+          Start 3154: test_cross_module_security_governance_cross_FocusedTests
+3154/4788 Test #3154: test_cross_module_security_governance_cross_FocusedTests ....................................................   Passed    0.05 sec
+          Start 3155: test_cross_module_temporal_bitemporal_cross_FocusedTests
+3155/4788 Test #3155: test_cross_module_temporal_bitemporal_cross_FocusedTests ....................................................   Passed    0.55 sec
+          Start 3156: test_cross_module_timeseries_forecasting_cross_FocusedTests
+3156/4788 Test #3156: test_cross_module_timeseries_forecasting_cross_FocusedTests .................................................   Passed    0.28 sec
+          Start 3157: test_cross_module_training_governance_cross_FocusedTests
+3157/4788 Test #3157: test_cross_module_training_governance_cross_FocusedTests ....................................................   Passed    0.04 sec
+          Start 3158: test_cross_shard_coordinator_cross_FocusedTests
+3158/4788 Test #3158: test_cross_shard_coordinator_cross_FocusedTests .............................................................Exit code 0xc0000409
+***Exception:   0.15 sec
+Running main() from C:\ThemisDB\vcpkg\buildtrees\gtest\src\v1.17.0-0c449efaff.clean\googletest\src\gtest_main.cc
+[==========] Running 46 tests from 13 test suites.
+[----------] Global test environment set-up.
+[----------] 5 tests from CrossShardCoordinatorTest
+[ RUN      ] CrossShardCoordinatorTest.PlaceholderTestDisabledInfrastructure
+C:\Projects\ThemisDB\tests\cross\test_cross_shard_coordinator.cpp(169): Skipped
+Skipping CrossShardCoordinatorTest on Windows due to intermittent deadlock/timeout instability in coordinator race tests.
+
+[  SKIPPED ] CrossShardCoordinatorTest.PlaceholderTestDisabledInfrastructure (0 ms)
+[ RUN      ] CrossShardCoordinatorTest.ConcurrentCommitThenAbortKeepsSingleTerminalDecision
+C:\Projects\ThemisDB\tests\cross\test_cross_shard_coordinator.cpp(169): Skipped
+Skipping CrossShardCoordinatorTest on Windows due to intermittent deadlock/timeout instability in coordinator race tests.
+
+[  SKIPPED ] CrossShardCoordinatorTest.ConcurrentCommitThenAbortKeepsSingleTerminalDecision (0 ms)
+[ RUN      ] CrossShardCoordinatorTest.ConcurrentAbortThenCommitKeepsSingleTerminalDecision
+C:\Projects\ThemisDB\tests\cross\test_cross_shard_coordinator.cpp(169): Skipped
+Skipping CrossShardCoordinatorTest on Windows due to intermittent deadlock/timeout instability in coordinator race tests.
+
+[  SKIPPED ] CrossShardCoordinatorTest.ConcurrentAbortThenCommitKeepsSingleTerminalDecision (0 ms)
+[ RUN      ] CrossShardCoordinatorTest.DuplicateCommitOnCommittedTransactionIsIdempotent
+C:\Projects\ThemisDB\tests\cross\test_cross_shard_coordinator.cpp(169): Skipped
+Skipping CrossShardCoordinatorTest on Windows due to intermittent deadlock/timeout instability in coordinator race tests.
+
+[  SKIPPED ] CrossShardCoordinatorTest.DuplicateCommitOnCommittedTransactionIsIdempotent (0 ms)
+[ RUN      ] CrossShardCoordinatorTest.DuplicateAbortOnAbortedTransactionIsIdempotent
+C:\Projects\ThemisDB\tests\cross\test_cross_shard_coordinator.cpp(169): Skipped
+Skipping CrossShardCoordinatorTest on Windows due to intermittent deadlock/timeout instability in coordinator race tests.
+
+[  SKIPPED ] CrossShardCoordinatorTest.DuplicateAbortOnAbortedTransactionIsIdempotent (0 ms)
+[----------] 5 tests from CrossShardCoordinatorTest (0 ms total)
+
+[----------] 3 tests from DistributedDeadlockDetectionTest
+[ RUN      ] DistributedDeadlockDetectionTest.DetectsAndResolvesReportedCrossShardCycle
+C:\Projects\ThemisDB\tests\cross\test_cross_shard_coordinator.cpp(313): Skipped
+Skipping DistributedDeadlockDetectionTest on Windows due to timing instability in deadlock detector integration paths.
+
+[  SKIPPED ] DistributedDeadlockDetectionTest.DetectsAndResolvesReportedCrossShardCycle (0 ms)
+[ RUN      ] DistributedDeadlockDetectionTest.VictimSelectionSkipsUpstreamNonCycleWaiter
+C:\Projects\ThemisDB\tests\cross\test_cross_shard_coordinator.cpp(313): Skipped
+Skipping DistributedDeadlockDetectionTest on Windows due to timing instability in deadlock detector integration paths.
+
+[  SKIPPED ] DistributedDeadlockDetectionTest.VictimSelectionSkipsUpstreamNonCycleWaiter (0 ms)
+[ RUN      ] DistributedDeadlockDetectionTest.VictimSelectionChoosesYoungestCycleMember
+C:\Projects\ThemisDB\tests\cross\test_cross_shard_coordinator.cpp(313): Skipped
+Skipping DistributedDeadlockDetectionTest on Windows due to timing instability in deadlock detector integration paths.
+
+[  SKIPPED ] DistributedDeadlockDetectionTest.VictimSelectionChoosesYoungestCycleMember (0 ms)
+[----------] 3 tests from DistributedDeadlockDetectionTest (0 ms total)
+
+[----------] 4 tests from CrossShardDeadlockGraphTest
+[ RUN      ] CrossShardDeadlockGraphTest.IsDeadlockedRequiresCycleMembership
+[2026-06-13 16:06:32.519] [info] Created TrueTime instance for MVCC timestamp management
+[2026-06-13 16:06:32.519] [warning] Recovery backend unavailable during initialize (backend=WAL/snapshot, persistence_enabled=false, wal_initialized=false, snapshot_initialized=false); skipping recovery
+[2026-06-13 16:06:32.519] [info] Cross-shard transaction coordinator initialized (backend=WAL/snapshot, backend_available=false, recovery_ms=0, pending=0, snapshot_restored=0, wal_replayed=0, stale=0, resume=0, failures=0, in_doubt=0)
+[2026-06-13 16:06:32.519] [info] Cross-shard transaction coordinator started
+[2026-06-13 16:06:32.519] [info] Transaction txn-chain-head assigned snapshot timestamp 1781359592520589400 (MVCC enabled)
+[2026-06-13 16:06:32.522] [info] Transaction txn-chain-head started with protocol 0
+[2026-06-13 16:06:32.522] [info] Transaction txn-cycle-b assigned snapshot timestamp 1781359592523078002 (MVCC enabled)
+[2026-06-13 16:06:32.524] [info] Transaction txn-cycle-b started with protocol 0
+[2026-06-13 16:06:32.524] [info] Transaction txn-cycle-c assigned snapshot timestamp 1781359592525211504 (MVCC enabled)
+[2026-06-13 16:06:32.527] [info] Transaction txn-cycle-c started with protocol 0
+[2026-06-13 16:06:32.528] [info] Cross-shard transaction coordinator stopped
+
+          Start 3159: test_cross_shard_distribution_cross_FocusedTests
+3159/4788 Test #3159: test_cross_shard_distribution_cross_FocusedTests ............................................................   Passed    0.02 sec
+          Start 3160: test_cross_shard_transaction_focused_cross_FocusedTests
+3160/4788 Test #3160: test_cross_shard_transaction_focused_cross_FocusedTests .....................................................   Passed    0.04 sec
+          Start 3161: test_cross_tenant_policy_inheritance_cross_FocusedTests
+3161/4788 Test #3161: test_cross_tenant_policy_inheritance_cross_FocusedTests .....................................................   Passed    0.05 sec
+          Start 3162: test_cte_cache_cte_FocusedTests
+3162/4788 Test #3162: test_cte_cache_cte_FocusedTests .............................................................................   Passed    0.37 sec
+          Start 3163: test_cte_correlated_subquery_cte_FocusedTests
+3163/4788 Test #3163: test_cte_correlated_subquery_cte_FocusedTests ...............................................................   Passed    0.27 sec
+          Start 3164: test_cte_error_handling_cte_FocusedTests
+3164/4788 Test #3164: test_cte_error_handling_cte_FocusedTests ....................................................................   Passed    0.02 sec
+          Start 3165: test_cuda_ann_search_cuda_FocusedTests
+3165/4788 Test #3165: test_cuda_ann_search_cuda_FocusedTests ......................................................................   Passed    0.04 sec
+          Start 3166: test_cuda_geo_backend_cuda_FocusedTests
+3166/4788 Test #3166: test_cuda_geo_backend_cuda_FocusedTests .....................................................................   Passed    0.03 sec
+          Start 3167: test_cuda_geo_kernels_cuda_FocusedTests
+3167/4788 Test #3167: test_cuda_geo_kernels_cuda_FocusedTests .....................................................................   Passed    0.03 sec
+          Start 3168: test_cuda_graph_capture_cuda_FocusedTests
+3168/4788 Test #3168: test_cuda_graph_capture_cuda_FocusedTests ...................................................................   Passed    0.02 sec
+          Start 3169: test_cuda_hnsw_graph_traversal_cuda_FocusedTests
+3169/4788 Test #3169: test_cuda_hnsw_graph_traversal_cuda_FocusedTests ............................................................   Passed    0.04 sec
+          Start 3170: test_cuda_hnsw_large_k_cuda_FocusedTests
+3170/4788 Test #3170: test_cuda_hnsw_large_k_cuda_FocusedTests ....................................................................   Passed    0.10 sec
+          Start 3171: test_custom_metric_types_custom_FocusedTests
+3171/4788 Test #3171: test_custom_metric_types_custom_FocusedTests ................................................................   Passed    0.56 sec
+          Start 3172: test_cypher_parser_cypher_FocusedTests
+3172/4788 Test #3172: test_cypher_parser_cypher_FocusedTests ......................................................................   Passed    0.28 sec
+          Start 3173: test_database_connection_manager_database_FocusedTests
+3173/4788 Test #3173: test_database_connection_manager_database_FocusedTests ......................................................   Passed    7.71 sec
+          Start 3174: test_database_domain_auto_labeler_database_FocusedTests
+3174/4788 Test #3174: test_database_domain_auto_labeler_database_FocusedTests .....................................................   Passed    0.02 sec
+          Start 3175: test_database_maintenance_orchestrator_database_FocusedTests
+3175/4788 Test #3175: test_database_maintenance_orchestrator_database_FocusedTests ................................................   Passed    0.32 sec
+          Start 3176: test_concurrent_operations_DbFocusedTests
+3176/4788 Test #3176: test_concurrent_operations_DbFocusedTests ...................................................................   Passed    0.02 sec
+          Start 3177: test_data_consistency_DbFocusedTests
+3177/4788 Test #3177: test_data_consistency_DbFocusedTests ........................................................................   Passed    0.02 sec
+          Start 3178: test_index_performance_DbFocusedTests
+3178/4788 Test #3178: test_index_performance_DbFocusedTests .......................................................................   Passed    0.04 sec
+          Start 3179: test_transaction_isolation_DbFocusedTests
+3179/4788 Test #3179: test_transaction_isolation_DbFocusedTests ...................................................................   Passed    0.02 sec
+          Start 3180: test_deadlock_detection_deadlock_FocusedTests
+3180/4788 Test #3180: test_deadlock_detection_deadlock_FocusedTests ...............................................................   Passed    0.04 sec
+          Start 3181: test_decision_record_e2e_decision_FocusedTests
+3181/4788 Test #3181: test_decision_record_e2e_decision_FocusedTests ..............................................................   Passed    0.66 sec
+          Start 3182: test_decision_record_integration_decision_FocusedTests
+3182/4788 Test #3182: test_decision_record_integration_decision_FocusedTests ......................................................   Passed    0.29 sec
+          Start 3183: test_decision_record_yaml_processor_decision_FocusedTests
+3183/4788 Test #3183: test_decision_record_yaml_processor_decision_FocusedTests ...................................................   Passed    1.72 sec
+          Start 3184: test_delegate_evaluator_delegate_FocusedTests
+3184/4788 Test #3184: test_delegate_evaluator_delegate_FocusedTests ...............................................................   Passed    0.02 sec
+          Start 3185: test_dependency_resolution_engine_dependency_FocusedTests
+3185/4788 Test #3185: test_dependency_resolution_engine_dependency_FocusedTests ...................................................   Passed    0.04 sec
+          Start 3186: test_device_manager_device_FocusedTests
+3186/4788 Test #3186: test_device_manager_device_FocusedTests .....................................................................   Passed    0.29 sec
+          Start 3187: test_diff_engine_diff_FocusedTests
+3187/4788 Test #3187: test_diff_engine_diff_FocusedTests ..........................................................................   Passed    0.04 sec
+          Start 3188: test_directx_backend_directx_FocusedTests
+3188/4788 Test #3188: test_directx_backend_directx_FocusedTests ...................................................................   Passed    0.14 sec
+          Start 3189: test_disaster_recovery_manager_disaster_FocusedTests
+3189/4788 Test #3189: test_disaster_recovery_manager_disaster_FocusedTests ........................................................   Passed    0.05 sec
+          Start 3190: test_discourse_engine_discourse_FocusedTests
+3190/4788 Test #3190: test_discourse_engine_discourse_FocusedTests ................................................................   Passed    0.27 sec
+          Start 3191: test_disk_space_monitor_disk_FocusedTests
+3191/4788 Test #3191: test_disk_space_monitor_disk_FocusedTests ...................................................................   Passed    9.65 sec
+          Start 3192: test_distributed_cache_coordinator_distributed_FocusedTests
+3192/4788 Test #3192: test_distributed_cache_coordinator_distributed_FocusedTests .................................................   Passed    1.46 sec
+          Start 3193: test_distributed_cache_integration_distributed_FocusedTests
+3193/4788 Test #3193: test_distributed_cache_integration_distributed_FocusedTests .................................................   Passed    2.61 sec
+          Start 3194: test_distributed_catalog_distributed_FocusedTests
+3194/4788 Test #3194: test_distributed_catalog_distributed_FocusedTests ...........................................................   Passed    0.05 sec
+          Start 3195: test_distributed_cluster_updates_distributed_FocusedTests
+3195/4788 Test #3195: test_distributed_cluster_updates_distributed_FocusedTests ...................................................   Passed    0.03 sec
+          Start 3196: test_distributed_coordinator_distributed_FocusedTests
+3196/4788 Test #3196: test_distributed_coordinator_distributed_FocusedTests .......................................................   Passed    0.02 sec
+          Start 3197: test_distributed_flame_graph_distributed_FocusedTests
+3197/4788 Test #3197: test_distributed_flame_graph_distributed_FocusedTests .......................................................   Passed    0.02 sec
+          Start 3198: test_distributed_gateway_distributed_FocusedTests
+3198/4788 Test #3198: test_distributed_gateway_distributed_FocusedTests ...........................................................   Passed    0.06 sec
+          Start 3199: test_distributed_hybrid_search_distributed_FocusedTests
+3199/4788 Test #3199: test_distributed_hybrid_search_distributed_FocusedTests .....................................................   Passed    0.05 sec
+          Start 3200: test_distributed_knowledge_distributed_FocusedTests
+3200/4788 Test #3200: test_distributed_knowledge_distributed_FocusedTests .........................................................   Passed    0.02 sec
+          Start 3201: test_distributed_knowledge_integration_distributed_FocusedTests
+3201/4788 Test #3201: test_distributed_knowledge_integration_distributed_FocusedTests .............................................   Passed    0.28 sec
+          Start 3202: test_distributed_knowledge_or_distributed_FocusedTests
+3202/4788 Test #3202: test_distributed_knowledge_or_distributed_FocusedTests ......................................................   Passed    0.29 sec
+          Start 3203: test_distributed_saga_distributed_FocusedTests
+3203/4788 Test #3203: test_distributed_saga_distributed_FocusedTests ..............................................................   Passed    0.19 sec
+          Start 3204: test_distributed_saga_consensus_qw39_distributed_FocusedTests
+3204/4788 Test #3204: test_distributed_saga_consensus_qw39_distributed_FocusedTests ...............................................   Passed    0.02 sec
+          Start 3205: test_distributed_task_coordinator_distributed_FocusedTests
+3205/4788 Test #3205: test_distributed_task_coordinator_distributed_FocusedTests ..................................................   Passed    0.38 sec
+          Start 3206: test_distributed_time_coordinator_distributed_FocusedTests
+3206/4788 Test #3206: test_distributed_time_coordinator_distributed_FocusedTests ..................................................   Passed    0.05 sec
+          Start 3207: test_distributed_tracing_distributed_FocusedTests
+3207/4788 Test #3207: test_distributed_tracing_distributed_FocusedTests ...........................................................   Passed    6.38 sec
+          Start 3208: test_distributed_trainer_guard_distributed_FocusedTests
+3208/4788 Test #3208: test_distributed_trainer_guard_distributed_FocusedTests .....................................................   Passed    0.30 sec
+          Start 3209: test_distributed_training_coordinator_distributed_FocusedTests
+3209/4788 Test #3209: test_distributed_training_coordinator_distributed_FocusedTests ..............................................   Passed    0.02 sec
+          Start 3210: test_distributed_transactions_distributed_FocusedTests
+3210/4788 Test #3210: test_distributed_transactions_distributed_FocusedTests ......................................................   Passed    0.06 sec
+          Start 3211: test_distributed_txn_api_handler_distributed_FocusedTests
+3211/4788 Test #3211: test_distributed_txn_api_handler_distributed_FocusedTests ...................................................   Passed    0.51 sec
+          Start 3212: test_docs_assistant_aql_docs_FocusedTests
+3212/4788 Test #3212: test_docs_assistant_aql_docs_FocusedTests ...................................................................   Passed    0.34 sec
+          Start 3213: test_document_store_document_FocusedTests
+3213/4788 Test #3213: test_document_store_document_FocusedTests ...................................................................   Passed    0.13 sec
+          Start 3214: test_domain_durability_domain_FocusedTests
+3214/4788 Test #3214: test_domain_durability_domain_FocusedTests ..................................................................   Passed    1.64 sec
+          Start 3215: test_dspy_module_dspy_FocusedTests
+3215/4788 Test #3215: test_dspy_module_dspy_FocusedTests ..........................................................................   Passed    0.27 sec
+          Start 3216: test_dynamic_feature_flags_dynamic_FocusedTests
+3216/4788 Test #3216: test_dynamic_feature_flags_dynamic_FocusedTests .............................................................   Passed    0.04 sec
+          Start 3217: test_ebpf_tracer_ebpf_FocusedTests
+3217/4788 Test #3217: test_ebpf_tracer_ebpf_FocusedTests ..........................................................................   Passed    0.95 sec
+          Start 3218: test_edition_manager_edition_FocusedTests
+3218/4788 Test #3218: test_edition_manager_edition_FocusedTests ...................................................................   Passed    0.03 sec
+          Start 3219: test_egov_data_driven_egov_FocusedTests
+3219/4788 Test #3219: test_egov_data_driven_egov_FocusedTests .....................................................................   Passed    0.14 sec
+          Start 3220: test_eid_authenticator_eid_FocusedTests
+3220/4788 Test #3220: test_eid_authenticator_eid_FocusedTests .....................................................................   Passed    0.13 sec
+          Start 3221: test_embedded_llm_embedded_FocusedTests
+3221/4788 Test #3221: test_embedded_llm_embedded_FocusedTests .....................................................................   Passed    0.02 sec
+          Start 3222: test_embedding_cache_embedding_FocusedTests
+3222/4788 Test #3222: test_embedding_cache_embedding_FocusedTests .................................................................   Passed    0.02 sec
+          Start 3223: test_encrypted_blob_backend_encrypted_FocusedTests
+3223/4788 Test #3223: test_encrypted_blob_backend_encrypted_FocusedTests ..........................................................   Passed    0.14 sec
+          Start 3224: test_encryption_encryption_FocusedTests
+3224/4788 Test #3224: test_encryption_encryption_FocusedTests .....................................................................   Passed    0.14 sec
+          Start 3225: test_encryption_e2e_encryption_FocusedTests
+3225/4788 Test #3225: test_encryption_e2e_encryption_FocusedTests .................................................................   Passed    0.05 sec
+          Start 3226: test_enhanced_backup_enhanced_FocusedTests
+3226/4788 Test #3226: test_enhanced_backup_enhanced_FocusedTests ..................................................................   Passed    0.04 sec
+          Start 3227: test_enhanced_plugin_security_enhanced_FocusedTests
+3227/4788 Test #3227: test_enhanced_plugin_security_enhanced_FocusedTests .........................................................   Passed    0.17 sec
+          Start 3228: test_enhanced_query_cache_enhanced_FocusedTests
+3228/4788 Test #3228: test_enhanced_query_cache_enhanced_FocusedTests .............................................................   Passed    0.17 sec
+          Start 3229: test_entity_api_handler_batch_entity_FocusedTests
+3229/4788 Test #3229: test_entity_api_handler_batch_entity_FocusedTests ...........................................................   Passed    0.28 sec
+          Start 3230: test_entity_api_raid_integration_entity_FocusedTests
+3230/4788 Test #3230: test_entity_api_raid_integration_entity_FocusedTests ........................................................   Passed    0.28 sec
+          Start 3231: test_entity_linking_entity_FocusedTests
+3231/4788 Test #3231: test_entity_linking_entity_FocusedTests .....................................................................   Passed    0.08 sec
+          Start 3232: test_entity_matching_entity_FocusedTests
+3232/4788 Test #3232: test_entity_matching_entity_FocusedTests ....................................................................   Passed    0.08 sec
+          Start 3233: test_envoy_xds_envoy_FocusedTests
+3233/4788 Test #3233: test_envoy_xds_envoy_FocusedTests ...........................................................................   Passed    0.10 sec
+          Start 3234: test_epoch_fencing_epoch_FocusedTests
+3234/4788 Test #3234: test_epoch_fencing_epoch_FocusedTests .......................................................................   Passed    0.73 sec
+          Start 3235: test_er_diagram_exporter_er_FocusedTests
+3235/4788 Test #3235: test_er_diagram_exporter_er_FocusedTests ....................................................................   Passed    0.11 sec
+          Start 3236: test_erasure_coding_backend_erasure_FocusedTests
+3236/4788 Test #3236: test_erasure_coding_backend_erasure_FocusedTests ............................................................   Passed    0.05 sec
+          Start 3237: test_error_codes_error_FocusedTests
+3237/4788 Test #3237: test_error_codes_error_FocusedTests .........................................................................   Passed    0.07 sec
+          Start 3238: test_error_registry_error_FocusedTests
+3238/4788 Test #3238: test_error_registry_error_FocusedTests ......................................................................   Passed    0.10 sec
+          Start 3239: test_ethical_guidelines_manager_ethical_FocusedTests
+3239/4788 Test #3239: test_ethical_guidelines_manager_ethical_FocusedTests ........................................................   Passed    0.27 sec
+          Start 3240: test_event_trigger_event_FocusedTests
+3240/4788 Test #3240: test_event_trigger_event_FocusedTests .......................................................................   Passed    0.27 sec
+          Start 3241: test_eviction_strategies_eviction_FocusedTests
+3241/4788 Test #3241: test_eviction_strategies_eviction_FocusedTests ..............................................................   Passed    0.09 sec
+          Start 3242: test_explainability_reason_builder_explainability_FocusedTests
+3242/4788 Test #3242: test_explainability_reason_builder_explainability_FocusedTests ..............................................   Passed    0.08 sec
+          Start 3243: test_explanation_generator_explanation_FocusedTests
+3243/4788 Test #3243: test_explanation_generator_explanation_FocusedTests .........................................................   Passed    0.02 sec
+          Start 3244: test_export_api_handler_export_FocusedTests
+3244/4788 Test #3244: test_export_api_handler_export_FocusedTests .................................................................   Passed    0.27 sec
+          Start 3245: test_aql_predicate_filter_ExportersFocusedTests
+3245/4788 Test #3245: test_aql_predicate_filter_ExportersFocusedTests .............................................................   Passed    0.37 sec
+          Start 3246: test_arrow_ipc_exporter_ExportersFocusedTests
+3246/4788 Test #3246: test_arrow_ipc_exporter_ExportersFocusedTests ...............................................................   Passed    0.43 sec
+          Start 3247: test_data_augmentation_ExportersFocusedTests
+3247/4788 Test #3247: test_data_augmentation_ExportersFocusedTests ................................................................   Passed    0.35 sec
+          Start 3248: test_export_encryption_ExportersFocusedTests
+3248/4788 Test #3248: test_export_encryption_ExportersFocusedTests ................................................................   Passed    0.49 sec
+          Start 3249: test_export_format_registry_ExportersFocusedTests
+3249/4788 Test #3249: test_export_format_registry_ExportersFocusedTests ...........................................................   Passed    0.35 sec
+          Start 3250: test_format_template_ExportersFocusedTests
+3250/4788 Test #3250: test_format_template_ExportersFocusedTests ..................................................................   Passed    0.36 sec
+          Start 3251: test_huggingface_exporter_ExportersFocusedTests
+3251/4788 Test #3251: test_huggingface_exporter_ExportersFocusedTests .............................................................   Passed    0.56 sec
+          Start 3252: test_huggingface_hub_client_ExportersFocusedTests
+3252/4788 Test #3252: test_huggingface_hub_client_ExportersFocusedTests ...........................................................   Passed    0.42 sec
+          Start 3253: test_incremental_exporter_ExportersFocusedTests
+3253/4788 Test #3253: test_incremental_exporter_ExportersFocusedTests .............................................................   Passed    0.48 sec
+          Start 3254: test_join_exporter_ExportersFocusedTests
+3254/4788 Test #3254: test_join_exporter_ExportersFocusedTests ....................................................................   Passed    1.35 sec
+          Start 3255: test_jsonl_llm_exporter_ExportersFocusedTests
+3255/4788 Test #3255: test_jsonl_llm_exporter_ExportersFocusedTests ...............................................................   Passed    0.44 sec
+          Start 3256: test_parquet_exporter_ExportersFocusedTests
+3256/4788 Test #3256: test_parquet_exporter_ExportersFocusedTests .................................................................   Passed    0.51 sec
+          Start 3257: test_streaming_exporter_ExportersFocusedTests
+3257/4788 Test #3257: test_streaming_exporter_ExportersFocusedTests ...............................................................   Passed    0.41 sec
+          Start 3258: test_external_scheduler_adapter_external_FocusedTests
+3258/4788 Test #3258: test_external_scheduler_adapter_external_FocusedTests .......................................................   Passed    0.39 sec
+          Start 3259: test_faceted_search_faceted_FocusedTests
+3259/4788 Test #3259: test_faceted_search_faceted_FocusedTests ....................................................................   Passed    0.04 sec
+          Start 3260: test_failover_chaos_scenarios_failover_FocusedTests
+3260/4788 Test #3260: test_failover_chaos_scenarios_failover_FocusedTests .........................................................   Passed    1.80 sec
+          Start 3261: test_faiss_gpu_backend_faiss_FocusedTests
+3261/4788 Test #3261: test_faiss_gpu_backend_faiss_FocusedTests ...................................................................   Passed    0.07 sec
+          Start 3262: test_feature_flags_feature_FocusedTests
+3262/4788 Test #3262: test_feature_flags_feature_FocusedTests .....................................................................   Passed    0.10 sec
+          Start 3263: test_federated_distillation_coordinator_federated_FocusedTests
+3263/4788 Test #3263: test_federated_distillation_coordinator_federated_FocusedTests ..............................................   Passed    0.13 sec
+          Start 3264: test_federated_identity_manager_federated_FocusedTests
+3264/4788 Test #3264: test_federated_identity_manager_federated_FocusedTests ......................................................   Passed    0.83 sec
+          Start 3265: test_federated_poisoning_detection_federated_FocusedTests
+3265/4788 Test #3265: test_federated_poisoning_detection_federated_FocusedTests ...................................................   Passed    0.26 sec
+          Start 3266: test_federated_privacy_training_federated_FocusedTests
+3266/4788 Test #3266: test_federated_privacy_training_federated_FocusedTests ......................................................   Passed    0.33 sec
+          Start 3267: test_federation_admin_federation_FocusedTests
+3267/4788 Test #3267: test_federation_admin_federation_FocusedTests ...............................................................   Passed    0.35 sec
+          Start 3268: test_feedback_api_handler_feedback_FocusedTests
+3268/4788 Test #3268: test_feedback_api_handler_feedback_FocusedTests .............................................................   Passed    0.27 sec
+          Start 3269: test_feedback_collector_feedback_FocusedTests
+3269/4788 Test #3269: test_feedback_collector_feedback_FocusedTests ...............................................................   Passed    0.26 sec
+          Start 3270: test_feedback_collector_scaling_feedback_FocusedTests
+3270/4788 Test #3270: test_feedback_collector_scaling_feedback_FocusedTests .......................................................   Passed    0.34 sec
+          Start 3271: test_feedback_store_feedback_FocusedTests
+3271/4788 Test #3271: test_feedback_store_feedback_FocusedTests ...................................................................   Passed    0.34 sec
+          Start 3272: test_fewshot_optimizer_fewshot_FocusedTests
+3272/4788 Test #3272: test_fewshot_optimizer_fewshot_FocusedTests .................................................................   Passed    0.08 sec
+          Start 3273: test_field_encryption_batch_field_FocusedTests
+3273/4788 Test #3273: test_field_encryption_batch_field_FocusedTests ..............................................................   Passed    0.05 sec
+          Start 3274: test_filtered_vector_search_filtered_FocusedTests
+3274/4788 Test #3274: test_filtered_vector_search_filtered_FocusedTests ...........................................................   Passed    0.02 sec
+          Start 3275: test_flash_attention_correctness_flash_FocusedTests
+3275/4788 Test #3275: test_flash_attention_correctness_flash_FocusedTests .........................................................   Passed    0.67 sec
+          Start 3276: test_flash_lora_flash_FocusedTests
+3276/4788 Test #3276: test_flash_lora_flash_FocusedTests ..........................................................................   Passed    0.08 sec
+          Start 3277: test_flatfile_importer_flatfile_FocusedTests
+3277/4788 Test #3277: test_flatfile_importer_flatfile_FocusedTests ................................................................   Passed    0.10 sec
+          Start 3278: test_fulltext_phrase_fuzzy_fulltext_FocusedTests
+3278/4788 Test #3278: test_fulltext_phrase_fuzzy_fulltext_FocusedTests ............................................................   Passed    0.15 sec
+          Start 3279: test_fused_kernels_fused_FocusedTests
+3279/4788 Test #3279: test_fused_kernels_fused_FocusedTests .......................................................................   Passed    0.07 sec
+          Start 3280: test_fused_lora_kernels_fused_FocusedTests
+3280/4788 Test #3280: test_fused_lora_kernels_fused_FocusedTests ..................................................................   Passed    0.08 sec
+          Start 3281: test_fuzz_core_fuzz_FocusedTests
+3281/4788 Test #3281: test_fuzz_core_fuzz_FocusedTests ............................................................................   Passed    0.52 sec
+          Start 3282: test_fuzz_security_fuzz_FocusedTests
+3282/4788 Test #3282: test_fuzz_security_fuzz_FocusedTests ........................................................................   Passed    0.06 sec
+          Start 3283: test_fuzzy_matcher_fuzzy_FocusedTests
+3283/4788 Test #3283: test_fuzzy_matcher_fuzzy_FocusedTests .......................................................................   Passed    0.04 sec
+          Start 3284: test_gap008_backup_automation_gap008_FocusedTests
+3284/4788 Test #3284: test_gap008_backup_automation_gap008_FocusedTests ...........................................................   Passed    0.04 sec
+          Start 3285: test_gap008_observability_gap008_FocusedTests
+3285/4788 Test #3285: test_gap008_observability_gap008_FocusedTests ...............................................................   Passed    2.40 sec
+          Start 3286: test_gate_result_gate_FocusedTests
+3286/4788 Test #3286: test_gate_result_gate_FocusedTests ..........................................................................   Passed    0.10 sec
+          Start 3287: test_gdpr_and_cross_border_gdpr_FocusedTests
+3287/4788 Test #3287: test_gdpr_and_cross_border_gdpr_FocusedTests ................................................................   Passed    0.11 sec
+          Start 3288: test_general_traversal_general_FocusedTests
+3288/4788 Test #3288: test_general_traversal_general_FocusedTests .................................................................   Passed    0.27 sec
+          Start 3289: test_generic_plugin_registry_generic_FocusedTests
+3289/4788 Test #3289: test_generic_plugin_registry_generic_FocusedTests ...........................................................   Passed    0.10 sec
+          Start 3290: test_aql_st_functions_GeoFocusedTests
+3290/4788 Test #3290: test_aql_st_functions_GeoFocusedTests .......................................................................   Passed    0.28 sec
+          Start 3291: test_aql_st_queryengine_GeoFocusedTests
+3291/4788 Test #3291: test_aql_st_queryengine_GeoFocusedTests .....................................................................   Passed    0.27 sec
+          Start 3292: test_cuda_geo_kernels_GeoFocusedTests
+3292/4788 Test #3292: test_cuda_geo_kernels_GeoFocusedTests .......................................................................   Passed    0.32 sec
+          Start 3293: test_geo_3d_functions_GeoFocusedTests
+3293/4788 Test #3293: test_geo_3d_functions_GeoFocusedTests .......................................................................   Passed    0.32 sec
+          Start 3294: test_geo_clustering_GeoFocusedTests
+3294/4788 Test #3294: test_geo_clustering_GeoFocusedTests .........................................................................   Passed    0.32 sec
+          Start 3295: test_geo_device_detector_GeoFocusedTests
+3295/4788 Test #3295: test_geo_device_detector_GeoFocusedTests ....................................................................   Passed    0.31 sec
+          Start 3296: test_geo_ewkb_GeoFocusedTests
+3296/4788 Test #3296: test_geo_ewkb_GeoFocusedTests ...............................................................................   Passed    0.31 sec
+          Start 3297: test_geo_gpu_backend_GeoFocusedTests
+3297/4788 Test #3297: test_geo_gpu_backend_GeoFocusedTests ........................................................................   Passed    0.28 sec
+          Start 3298: test_geo_index_integration_GeoFocusedTests
+3298/4788 Test #3298: test_geo_index_integration_GeoFocusedTests ..................................................................   Passed    0.26 sec
+          Start 3299: test_geo_json_geometry_GeoFocusedTests
+3299/4788 Test #3299: test_geo_json_geometry_GeoFocusedTests ......................................................................   Passed    0.33 sec
+          Start 3300: test_geo_precision_mode_GeoFocusedTests
+3300/4788 Test #3300: test_geo_precision_mode_GeoFocusedTests .....................................................................   Passed    0.31 sec
+          Start 3301: test_geo_processor_gdal_GeoFocusedTests
+3301/4788 Test #3301: test_geo_processor_gdal_GeoFocusedTests .....................................................................   Passed    0.07 sec
+          Start 3302: test_geo_raster_GeoFocusedTests
+3302/4788 Test #3302: test_geo_raster_GeoFocusedTests .............................................................................   Passed    0.32 sec
+          Start 3303: test_geo_replication_consistency_GeoFocusedTests
+3303/4788 Test #3303: test_geo_replication_consistency_GeoFocusedTests ............................................................   Passed    0.14 sec
+          Start 3304: test_geo_rtree_GeoFocusedTests
+3304/4788 Test #3304: test_geo_rtree_GeoFocusedTests ..............................................................................   Passed    0.32 sec
+          Start 3305: test_geo_spatial_join_GeoFocusedTests
+3305/4788 Test #3305: test_geo_spatial_join_GeoFocusedTests .......................................................................   Passed    0.33 sec
+          Start 3306: test_geo_st_buffer_GeoFocusedTests
+3306/4788 Test #3306: test_geo_st_buffer_GeoFocusedTests ..........................................................................   Passed    0.33 sec
+          Start 3307: test_geo_st_union_difference_GeoFocusedTests
+3307/4788 Test #3307: test_geo_st_union_difference_GeoFocusedTests ................................................................   Passed    0.32 sec
+          Start 3308: test_geo_tile_server_GeoFocusedTests
+3308/4788 Test #3308: test_geo_tile_server_GeoFocusedTests ........................................................................   Passed    0.33 sec
+          Start 3309: test_geo_topology_api_handler_GeoFocusedTests
+3309/4788 Test #3309: test_geo_topology_api_handler_GeoFocusedTests ...............................................................   Passed    0.41 sec
+          Start 3310: test_geo_topology_router_GeoFocusedTests
+3310/4788 Test #3310: test_geo_topology_router_GeoFocusedTests ....................................................................   Passed    0.40 sec
+          Start 3311: test_geo_validator_GeoFocusedTests
+3311/4788 Test #3311: test_geo_validator_GeoFocusedTests ..........................................................................   Passed    0.07 sec
+          Start 3312: test_geo_wgs84_spherical_GeoFocusedTests
+3312/4788 Test #3312: test_geo_wgs84_spherical_GeoFocusedTests ....................................................................   Passed    0.34 sec
+          Start 3313: test_gpu_backend_production_GeoFocusedTests
+3313/4788 Test #3313: test_gpu_backend_production_GeoFocusedTests .................................................................   Passed    0.42 sec
+          Start 3314: test_gpu_kernel_dispatcher_GeoFocusedTests
+3314/4788 Test #3314: test_gpu_kernel_dispatcher_GeoFocusedTests ..................................................................   Passed    0.45 sec
+          Start 3315: test_hip_geo_kernels_GeoFocusedTests
+3315/4788 Test #3315: test_hip_geo_kernels_GeoFocusedTests ........................................................................   Passed    0.47 sec
+          Start 3316: test_raster_query_interface_GeoFocusedTests
+3316/4788 Test #3316: test_raster_query_interface_GeoFocusedTests .................................................................   Passed    0.32 sec
+          Start 3317: test_rtree_cpu_integration_GeoFocusedTests
+3317/4788 Test #3317: test_rtree_cpu_integration_GeoFocusedTests ..................................................................   Passed    0.49 sec
+          Start 3318: test_rtree_cursor_GeoFocusedTests
+3318/4788 Test #3318: test_rtree_cursor_GeoFocusedTests ...........................................................................   Passed    0.60 sec
+          Start 3319: test_spatial_index_GeoFocusedTests
+3319/4788 Test #3319: test_spatial_index_GeoFocusedTests ..........................................................................   Passed    0.26 sec
+          Start 3320: test_spatial_join_filter_GeoFocusedTests
+3320/4788 Test #3320: test_spatial_join_filter_GeoFocusedTests ....................................................................   Passed    0.33 sec
+          Start 3321: test_temporal_spatial_query_GeoFocusedTests
+3321/4788 Test #3321: test_temporal_spatial_query_GeoFocusedTests .................................................................   Passed    0.45 sec
+          Start 3322: test_temporal_spatial_query_builder_GeoFocusedTests
+3322/4788 Test #3322: test_temporal_spatial_query_builder_GeoFocusedTests .........................................................   Passed    0.33 sec
+          Start 3323: test_geo_3d_functions_geo_AutoFocusedTests
+3323/4788 Test #3323: test_geo_3d_functions_geo_AutoFocusedTests ..................................................................   Passed    0.33 sec
+          Start 3324: test_geo_clustering_geo_AutoFocusedTests
+3324/4788 Test #3324: test_geo_clustering_geo_AutoFocusedTests ....................................................................   Passed    0.31 sec
+          Start 3325: test_geo_device_detector_geo_AutoFocusedTests
+3325/4788 Test #3325: test_geo_device_detector_geo_AutoFocusedTests ...............................................................   Passed    0.42 sec
+          Start 3326: test_geo_ewkb_geo_AutoFocusedTests
+3326/4788 Test #3326: test_geo_ewkb_geo_AutoFocusedTests ..........................................................................   Passed    0.31 sec
+          Start 3327: test_geo_gpu_backend_geo_AutoFocusedTests
+3327/4788 Test #3327: test_geo_gpu_backend_geo_AutoFocusedTests ...................................................................   Passed    0.27 sec
+          Start 3328: test_geo_index_integration_geo_AutoFocusedTests
+3328/4788 Test #3328: test_geo_index_integration_geo_AutoFocusedTests .............................................................   Passed    0.26 sec
+          Start 3329: test_geo_json_geometry_geo_AutoFocusedTests
+3329/4788 Test #3329: test_geo_json_geometry_geo_AutoFocusedTests .................................................................   Passed    0.31 sec
+          Start 3330: test_geo_precision_mode_geo_AutoFocusedTests
+3330/4788 Test #3330: test_geo_precision_mode_geo_AutoFocusedTests ................................................................   Passed    0.31 sec
+          Start 3331: test_geo_processor_gdal_geo_AutoFocusedTests
+3331/4788 Test #3331: test_geo_processor_gdal_geo_AutoFocusedTests ................................................................   Passed    0.07 sec
+          Start 3332: test_geo_raster_geo_AutoFocusedTests
+3332/4788 Test #3332: test_geo_raster_geo_AutoFocusedTests ........................................................................   Passed    0.41 sec
+          Start 3333: test_geo_replication_consistency_geo_AutoFocusedTests
+3333/4788 Test #3333: test_geo_replication_consistency_geo_AutoFocusedTests .......................................................   Passed    0.12 sec
+          Start 3334: test_geo_rtree_geo_AutoFocusedTests
+3334/4788 Test #3334: test_geo_rtree_geo_AutoFocusedTests .........................................................................   Passed    0.32 sec
+          Start 3335: test_geo_spatial_join_geo_AutoFocusedTests
+3335/4788 Test #3335: test_geo_spatial_join_geo_AutoFocusedTests ..................................................................   Passed    0.31 sec
+          Start 3336: test_geo_st_buffer_geo_AutoFocusedTests
+3336/4788 Test #3336: test_geo_st_buffer_geo_AutoFocusedTests .....................................................................   Passed    0.33 sec
+          Start 3337: test_geo_st_union_difference_geo_AutoFocusedTests
+3337/4788 Test #3337: test_geo_st_union_difference_geo_AutoFocusedTests ...........................................................   Passed    0.32 sec
+          Start 3338: test_geo_tile_server_geo_AutoFocusedTests
+3338/4788 Test #3338: test_geo_tile_server_geo_AutoFocusedTests ...................................................................   Passed    0.33 sec
+          Start 3339: test_geo_topology_api_handler_geo_AutoFocusedTests
+3339/4788 Test #3339: test_geo_topology_api_handler_geo_AutoFocusedTests ..........................................................   Passed    0.47 sec
+          Start 3340: test_geo_topology_router_geo_AutoFocusedTests
+3340/4788 Test #3340: test_geo_topology_router_geo_AutoFocusedTests ...............................................................   Passed    0.34 sec
+          Start 3341: test_geo_validator_geo_AutoFocusedTests
+3341/4788 Test #3341: test_geo_validator_geo_AutoFocusedTests .....................................................................   Passed    0.08 sec
+          Start 3342: test_geo_wgs84_spherical_geo_AutoFocusedTests
+3342/4788 Test #3342: test_geo_wgs84_spherical_geo_AutoFocusedTests ...............................................................   Passed    0.42 sec
+          Start 3343: test_geometric_distances_geometric_FocusedTests
+3343/4788 Test #3343: test_geometric_distances_geometric_FocusedTests .............................................................   Passed    0.03 sec
+          Start 3344: test_gguf_loader_gguf_FocusedTests
+3344/4788 Test #3344: test_gguf_loader_gguf_FocusedTests ..........................................................................   Passed    0.35 sec
+          Start 3345: test_gguf_metadata_gguf_FocusedTests
+3345/4788 Test #3345: test_gguf_metadata_gguf_FocusedTests ........................................................................   Passed    0.03 sec
+          Start 3346: test_global_transaction_manager_global_FocusedTests
+3346/4788 Test #3346: test_global_transaction_manager_global_FocusedTests .........................................................   Passed    0.20 sec
+          Start 3347: test_gnn_embeddings_gnn_FocusedTests
+3347/4788 Test #3347: test_gnn_embeddings_gnn_FocusedTests ........................................................................   Passed    2.73 sec
+          Start 3348: test_gorilla_gorilla_FocusedTests
+3348/4788 Test #3348: test_gorilla_gorilla_FocusedTests ...........................................................................   Passed    0.12 sec
+          Start 3349: test_gorilla_codec_edge_cases_gorilla_FocusedTests
+3349/4788 Test #3349: test_gorilla_codec_edge_cases_gorilla_FocusedTests ..........................................................   Passed    0.10 sec
+          Start 3350: test_gorilla_error_recovery_gorilla_FocusedTests
+3350/4788 Test #3350: test_gorilla_error_recovery_gorilla_FocusedTests ............................................................   Passed    0.11 sec
+          Start 3351: test_gorilla_probe_gorilla_FocusedTests
+3351/4788 Test #3351: test_gorilla_probe_gorilla_FocusedTests .....................................................................   Passed    0.11 sec
+          Start 3352: test_gorilla_simd_gorilla_FocusedTests
+3352/4788 Test #3352: test_gorilla_simd_gorilla_FocusedTests ......................................................................   Passed    0.13 sec
+          Start 3353: test_gossip_config_manager_focused_gossip_FocusedTests
+3353/4788 Test #3353: test_gossip_config_manager_focused_gossip_FocusedTests ......................................................   Passed   30.45 sec
+          Start 3354: test_gossip_custom_handler_gossip_FocusedTests
+3354/4788 Test #3354: test_gossip_custom_handler_gossip_FocusedTests ..............................................................   Passed    0.10 sec
+          Start 3355: test_governance_compliance_time_window_governance_FocusedTests
+3355/4788 Test #3355: test_governance_compliance_time_window_governance_FocusedTests ..............................................   Passed    0.11 sec
+          Start 3356: test_governance_opa_adapter_governance_FocusedTests
+3356/4788 Test #3356: test_governance_opa_adapter_governance_FocusedTests .........................................................   Passed    0.15 sec
+          Start 3357: test_governance_policy_hot_reload_governance_FocusedTests
+3357/4788 Test #3357: test_governance_policy_hot_reload_governance_FocusedTests ...................................................   Passed    1.07 sec
+          Start 3358: test_governance_policy_simulation_governance_FocusedTests
+3358/4788 Test #3358: test_governance_policy_simulation_governance_FocusedTests ...................................................   Passed    0.17 sec
+          Start 3359: test_governance_review_scheduler_governance_FocusedTests
+3359/4788 Test #3359: test_governance_review_scheduler_governance_FocusedTests ....................................................   Passed    0.11 sec
+          Start 3360: test_gpu_admin_api_gpu_FocusedTests
+3360/4788 Test #3360: test_gpu_admin_api_gpu_FocusedTests .........................................................................   Passed    0.31 sec
+          Start 3361: test_gpu_alerts_gpu_FocusedTests
+3361/4788 Test #3361: test_gpu_alerts_gpu_FocusedTests ............................................................................   Passed    0.38 sec
+          Start 3362: test_gpu_audit_log_gpu_FocusedTests
+3362/4788 Test #3362: test_gpu_audit_log_gpu_FocusedTests .........................................................................   Passed    0.32 sec
+          Start 3363: test_gpu_cluster_coordinator_gpu_FocusedTests
+3363/4788 Test #3363: test_gpu_cluster_coordinator_gpu_FocusedTests ...............................................................   Passed    0.42 sec
+          Start 3364: test_gpu_cluster_topology_gpu_FocusedTests
+3364/4788 Test #3364: test_gpu_cluster_topology_gpu_FocusedTests ..................................................................   Passed    0.32 sec
+          Start 3365: test_gpu_compression_gpu_FocusedTests
+3365/4788 Test #3365: test_gpu_compression_gpu_FocusedTests .......................................................................***Failed    0.22 sec
+Running main() from C:\ThemisDB\vcpkg\buildtrees\gtest\src\v1.17.0-0c449efaff.clean\googletest\src\gtest_main.cc
+[==========] Running 28 tests from 11 test suites.
+[----------] Global test environment set-up.
+[----------] 4 tests from GpuCompressionManagerTest
+[ RUN      ] GpuCompressionManagerTest.ConstructionSucceeds
+[2026-06-13 16:08:28.832] [warning] [gpu_compress] No GPU support compiled in (set THEMIS_ENABLE_CUDA or THEMIS_ENABLE_HIP)
+[2026-06-13 16:08:28.832] [warning] [gpu_compress] GPU initialisation failed; falling back to CPU-only mode
+[       OK ] GpuCompressionManagerTest.ConstructionSucceeds (0 ms)
+[ RUN      ] GpuCompressionManagerTest.ActiveAccelTypeIsValidAfterConstruction
+[2026-06-13 16:08:28.832] [warning] [gpu_compress] No GPU support compiled in (set THEMIS_ENABLE_CUDA or THEMIS_ENABLE_HIP)
+[2026-06-13 16:08:28.832] [warning] [gpu_compress] GPU initialisation failed; falling back to CPU-only mode
+[       OK ] GpuCompressionManagerTest.ActiveAccelTypeIsValidAfterConstruction (0 ms)
+[ RUN      ] GpuCompressionManagerTest.ForceCpuFallbackToggle
+[2026-06-13 16:08:28.832] [warning] [gpu_compress] No GPU support compiled in (set THEMIS_ENABLE_CUDA or THEMIS_ENABLE_HIP)
+[2026-06-13 16:08:28.832] [warning] [gpu_compress] GPU initialisation failed; falling back to CPU-only mode
+[2026-06-13 16:08:28.832] [info] [gpu_compress] CPU-only mode forced
+[       OK ] GpuCompressionManagerTest.ForceCpuFallbackToggle (0 ms)
+[ RUN      ] GpuCompressionManagerTest.CpuOnlyModeNeverUsesGpu
+[2026-06-13 16:08:28.832] [warning] [gpu_compress] No GPU support compiled in (set THEMIS_ENABLE_CUDA or THEMIS_ENABLE_HIP)
+[2026-06-13 16:08:28.832] [warning] [gpu_compress] GPU initialisation failed; falling back to CPU-only mode
+[       OK ] GpuCompressionManagerTest.CpuOnlyModeNeverUsesGpu (0 ms)
+[----------] 4 tests from GpuCompressionManagerTest (0 ms total)
+
+[----------] 4 tests from GpuZstdTest
+[ RUN      ] GpuZstdTest.CompressDecompressSmallData
+[       OK ] GpuZstdTest.CompressDecompressSmallData (0 ms)
+[ RUN      ] GpuZstdTest.CompressDecompressLargeCompressibleData
+C:\Projects\ThemisDB\tests\gpu\test_gpu_compression.cpp(148): error: Expected: (result.compression_ratio) > (1.0f), actual: 0.999995232 vs 1
+Expected compression ratio > 1 for highly compressible data
+
+[  FAILED  ] GpuZstdTest.CompressDecompressLargeCompressibleData (6 ms)
+[ RUN      ] GpuZstdTest.CompressDecompressRandomData
+[       OK ] GpuZstdTest.CompressDecompressRandomData (0 ms)
+[ RUN      ] GpuZstdTest.CompressEmptyData
+[       OK ] GpuZstdTest.CompressEmptyData (0 ms)
+[----------] 4 tests from GpuZstdTest (6 ms total)
+
+[----------] 3 tests from GpuSnappyTest
+[ RUN      ] GpuSnappyTest.CompressDecompressSmallData
+[       OK ] GpuSnappyTest.CompressDecompressSmallData (0 ms)
+[ RUN      ] GpuSnappyTest.CompressDecompressLargeData
+[       OK ] GpuSnappyTest.CompressDecompressLargeData (3 ms)
+[ RUN      ] GpuSnappyTest.CompressDecompressRandomData
+[       OK ] GpuSnappyTest.CompressDecompressRandomData (0 ms)
+[----------] 3 tests from GpuSnappyTest (4 ms total)
+
+[----------] 4 tests from GpuLz4Test
+[ RUN      ] GpuLz4Test.CompressDecompressSmallData
+[       OK ] GpuLz4Test.CompressDecompressSmallData (0 ms)
+[ RUN      ] GpuLz4Test.CompressDecompressLargeCompressibleData
+[       OK ] GpuLz4Test.CompressDecompressLargeCompressibleData (5 ms)
+[ RUN      ] GpuLz4Test.CompressDecompressRandomData
+[       OK ] GpuLz4Test.CompressDecompressRandomData (0 ms)
+[ RUN      ] GpuLz4Test.OriginalSizeStoredInHeader
+[       OK ] GpuLz4Test.OriginalSizeStoredInHeader (0 ms)
+[----------] 4 tests from GpuLz4Test (6 ms total)
+
+[----------] 1 test from GpuCompressionThresholdTest
+[ RUN      ] GpuCompressionThresholdTest.SmallDataAlwaysUsesCpuPath
+[2026-06-13 16:08:28.850] [warning] [gpu_compress] No GPU support compiled in (set THEMIS_ENABLE_CUDA or THEMIS_ENABLE_HIP)
+[2026-06-13 16:08:28.850] [warning] [gpu_compress] GPU initialisation failed; falling back to CPU-only mode
+[       OK ] GpuCompressionThresholdTest.SmallDataAlwaysUsesCpuPath (0 ms)
+[----------] 1 test from GpuCompressionThresholdTest (0 ms total)
+
+[----------] 2 tests from GpuBatchTest
+[ RUN      ] GpuBatchTest.BatchCompressDecompressLz4
+[       OK ] GpuBatchTest.BatchCompressDecompressLz4 (0 ms)
+[ RUN      ] GpuBatchTest.BatchCompressDecompressSnappy
+[       OK ] GpuBatchTest.BatchCompressDecompressSnappy (0 ms)
+[----------] 2 tests from GpuBatchTest (0 ms total)
+
+[----------] 1 test from GpuCompressionStatsTest
+[ RUN      ] GpuCompressionStatsTest.StatsAccumulateCorrectly
+[       OK ] GpuCompressionStatsTest.StatsAccumulateCorrectly (0 ms)
+[----------] 1 test from GpuCompressionStatsTest (0 ms total)
+
+[----------] 3 tests from CompressionStrategyGpuTest
+[ RUN      ] CompressionStrategyGpuTest.GpuZstdRoundTrip
+C:\Projects\ThemisDB\tests\gpu\test_gpu_compression.cpp(434): error: Expected equality of these values:
+  result.method_used
+    Which is: 4-byte object <00-00 00-00>
+  CompressionMethod::GPU_ZSTD
+    Which is: 4-byte object <09-00 00-00>
+
+C:\Projects\ThemisDB\tests\gpu\test_gpu_compression.cpp(437): error: Expected equality of these values:
+  restored.size()
+    Which is: 0
+  original.size()
+    Which is: 4096
+
+[  FAILED  ] CompressionStrategyGpuTest.GpuZstdRoundTrip (0 ms)
+[ RUN      ] CompressionStrategyGpuTest.GpuSnappyRoundTrip
+[       OK ] CompressionStrategyGpuTest.GpuSnappyRoundTrip (0 ms)
+[ RUN      ] CompressionStrategyGpuTest.GpuLz4RoundTrip
+[       OK ] CompressionStrategyGpuTest.GpuLz4RoundTrip (0 ms)
+[----------] 3 tests from CompressionStrategyGpuTest (0 ms total)
+
+[----------] 3 tests from CompressionMethodStringTest
+[ RUN      ] CompressionMethodStringTest.GpuMethodsHaveCorrectStrings
+[       OK ] CompressionMethodStringTest.GpuMethodsHaveCorrectStrings (0 ms)
+[ RUN      ] CompressionMethodStringTest.StringToGpuMethod
+[       OK ] CompressionMethodStringTest.StringToGpuMethod (0 ms)
+[ RUN      ] CompressionMethodStringTest.UnknownStringReturnsNullopt
+[       OK ] CompressionMethodStringTest.UnknownStringReturnsNullopt (0 ms)
+[----------] 3 tests from CompressionMethodStringTest (0 ms total)
+
+[----------] 2 tests from GpuCompressionHelperTest
+[ RUN      ] GpuCompressionHelperTest.AlgorithmToStringIsCorrect
+[       OK ] GpuCompressionHelperTest.AlgorithmToStringIsCorrect (0 ms)
+[ RUN      ] GpuCompressionHelperTest.AccelTypeToStringIsCorrect
+[       OK ] GpuCompressionHelperTest.AccelTypeToStringIsCorrect (0 ms)
+[----------] 2 tests from GpuCompressionHelperTest (0 ms total)
+
+[----------] 1 test from GpuCompressionFactoryTest
+[ RUN      ] GpuCompressionFactoryTest.CreateManagerReturnsNonNull
+[       OK ] GpuCompressionFactoryTest.CreateManagerReturnsNonNull (0 ms)
+[----------] 1 test from GpuCompressionFactoryTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 28 tests from 11 test suites ran. (19 ms total)
+[  PASSED  ] 26 tests.
+[  FAILED  ] 2 tests, listed below:
+[  FAILED  ] GpuZstdTest.CompressDecompressLargeCompressibleData
+[  FAILED  ] CompressionStrategyGpuTest.GpuZstdRoundTrip
+
+ 2 FAILED TESTS
+
+          Start 3366: test_gpu_config_gpu_FocusedTests
+3366/4788 Test #3366: test_gpu_config_gpu_FocusedTests ............................................................................   Passed    0.33 sec
+          Start 3367: test_gpu_device_discovery_gpu_FocusedTests
+3367/4788 Test #3367: test_gpu_device_discovery_gpu_FocusedTests ..................................................................   Passed    0.33 sec
+          Start 3368: test_gpu_erasure_coding_gpu_FocusedTests
+3368/4788 Test #3368: test_gpu_erasure_coding_gpu_FocusedTests ....................................................................   Passed    0.16 sec
+          Start 3369: test_gpu_feature_flags_gpu_FocusedTests
+3369/4788 Test #3369: test_gpu_feature_flags_gpu_FocusedTests .....................................................................   Passed    0.34 sec
+          Start 3370: test_gpu_graph_cache_gpu_FocusedTests
+3370/4788 Test #3370: test_gpu_graph_cache_gpu_FocusedTests .......................................................................   Passed    0.33 sec
+          Start 3371: test_gpu_graph_traversal_gpu_FocusedTests
+3371/4788 Test #3371: test_gpu_graph_traversal_gpu_FocusedTests ...................................................................***Exception: Interrupt 20.71 sec
+Running main() from C:\ThemisDB\vcpkg\buildtrees\gtest\src\v1.17.0-0c449efaff.clean\googletest\src\gtest_main.cc
+[==========] Running 34 tests from 2 test suites.
+[----------] Global test environment set-up.
+[----------] 28 tests from GPUGraphTraversalTest
+[ RUN      ] GPUGraphTraversalTest.Load_SucceedsOnNonEmptyGraph
+

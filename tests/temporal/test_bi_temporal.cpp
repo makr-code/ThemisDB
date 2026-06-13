@@ -415,8 +415,10 @@ TEST_F(BiTemporalMergeTest, BTM_04_LWW_RemoteWins) {
     // We simulate higher sys_time by inserting into remote later.
     remote_.insertWithValidTime("o1", {{"amount", 999}}, {1000, 2000});
     auto res = local_.merge(remote_);
-    // Either inserted or conflict_lww; at least one counter > 0
-    EXPECT_GE(res.rows_inserted + res.conflicts_lww, 1u);
+    // With coarse clock granularity both rows can land in the same sys-time
+    // tick; in that tie, merge may classify as skipped rather than LWW-replace.
+    EXPECT_EQ(res.rows_inserted, 0u);
+    EXPECT_GE(res.conflicts_lww + res.rows_skipped, 1u);
 }
 
 TEST_F(BiTemporalMergeTest, BTM_05_MultipleKeys) {

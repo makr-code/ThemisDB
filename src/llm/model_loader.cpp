@@ -122,6 +122,10 @@ std::string normalizeChecksum(std::string checksum) {
 }
 
 std::string getExpectedModelChecksum(const json& config) {
+    if (!config.is_object()) {
+        return {};
+    }
+
     for (const char* key : {"expected_checksum", "model_checksum", "checksum", "sha256"}) {
         if (config.contains(key) && config[key].is_string()) {
             return normalizeChecksum(config[key].get<std::string>());
@@ -147,9 +151,11 @@ bool LazyModelLoader::verifyModelChecksum(
     const std::string& model_path,
     const json& config
 ) const {
+    const json config_obj = config.is_object() ? config : json::object();
+
     const fs::path resolved_path = fs::absolute(fs::path(model_path));
-    const std::string expected_checksum = getExpectedModelChecksum(config);
-    const bool require_integrity = config.value("require_model_integrity", config_.require_model_integrity);
+    const std::string expected_checksum = getExpectedModelChecksum(config_obj);
+    const bool require_integrity = config_obj.value("require_model_integrity", config_.require_model_integrity);
 
     if (expected_checksum.empty()) {
         if (require_integrity) {
@@ -718,6 +724,8 @@ Result<CachedModel*> LazyModelLoader::loadModelInternal(
     const std::string& model_path,
     const json& config
 ) {
+    const json config_obj = config.is_object() ? config : json::object();
+
     // Already locked by caller
     // Verify the model path and, when available, the caller-provided SHA-256
     // checksum before handing the file to llama.cpp.
@@ -751,7 +759,7 @@ Result<CachedModel*> LazyModelLoader::loadModelInternal(
     llama_model_params model_params = llama_model_default_params();
     
     // Configure GPU layers from config and normalize to prevent negative values
-    int n_gpu_layers_raw = config.value("n_gpu_layers", config_.default_n_gpu_layers);
+    int n_gpu_layers_raw = config_obj.value("n_gpu_layers", config_.default_n_gpu_layers);
     const int requested_gpu_layers = std::max(0, n_gpu_layers_raw);  // Clamp to 0 minimum
     int applied_gpu_layers = requested_gpu_layers;
     
@@ -775,7 +783,7 @@ Result<CachedModel*> LazyModelLoader::loadModelInternal(
     }
     
     // Enable Flash Attention if available and configured
-    bool use_flash_attn = config.value("use_flash_attn", false);
+    bool use_flash_attn = config_obj.value("use_flash_attn", false);
     #ifdef LLAMA_FLASH_ATTN
     if (use_flash_attn) {
         model_params.flash_attn = true;
@@ -788,8 +796,8 @@ Result<CachedModel*> LazyModelLoader::loadModelInternal(
     #endif
     
     // Memory management
-    model_params.use_mmap = config.value("use_mmap", true);
-    model_params.use_mlock = config.value("use_mlock", false);
+    model_params.use_mmap = config_obj.value("use_mmap", true);
+    model_params.use_mlock = config_obj.value("use_mlock", false);
 
     // Compatibility shim for Gemma GGUF variants that omit
     // `gemma3.attention.layer_norm_rms_epsilon` in metadata. Newer llama.cpp
@@ -932,15 +940,15 @@ Result<CachedModel*> LazyModelLoader::loadModelInternal(
     
     // Initialize context parameters
     llama_context_params ctx_params = llama_context_default_params();
-    ctx_params.n_ctx = config.value("n_ctx", config_.default_n_ctx);
-    ctx_params.n_batch = config.value("n_batch", 512);
-    ctx_params.n_threads = config.value("n_threads", 8);
+    ctx_params.n_ctx = config_obj.value("n_ctx", config_.default_n_ctx);
+    ctx_params.n_batch = config_obj.value("n_batch", 512);
+    ctx_params.n_threads = config_obj.value("n_threads", 8);
     
     // Configure RoPE scaling (Phase 3.1)
-    if (config.value("rope_scaling_enabled", false)) {
-        std::string method = config.value("rope_scaling_method", "yarn");
-        int max_context = config.value("rope_max_context", 32768);
-        int original_context = config.value("rope_original_context", 4096);
+    if (config_obj.value("rope_scaling_enabled", false)) {
+        std::string method = config_obj.value("rope_scaling_method", "yarn");
+        int max_context = config_obj.value("rope_max_context", 32768);
+        int original_context = config_obj.value("rope_original_context", 4096);
         
         // Calculate scaling factor
         float scale_factor = static_cast<float>(original_context) / static_cast<float>(max_context);
@@ -966,10 +974,10 @@ Result<CachedModel*> LazyModelLoader::loadModelInternal(
             ctx_params.rope_freq_scale = scale_factor;
             
             // YaRN-specific parameters
-            ctx_params.yarn_ext_factor = config.value("rope_yarn_ext_factor", 1.0f);
-            ctx_params.yarn_attn_factor = config.value("rope_yarn_attn_factor", 1.0f);
-            ctx_params.yarn_beta_fast = config.value("rope_yarn_beta_fast", 32.0f);
-            ctx_params.yarn_beta_slow = config.value("rope_yarn_beta_slow", 1.0f);
+            ctx_params.yarn_ext_factor = config_obj.value("rope_yarn_ext_factor", 1.0f);
+            ctx_params.yarn_attn_factor = config_obj.value("rope_yarn_attn_factor", 1.0f);
+            ctx_params.yarn_beta_fast = config_obj.value("rope_yarn_beta_fast", 32.0f);
+            ctx_params.yarn_beta_slow = config_obj.value("rope_yarn_beta_slow", 1.0f);
             
             spdlog::info("RoPE YaRN scaling: {} → {} tokens (scale: {:.4f}, ext: {:.2f}, attn: {:.2f})",
                         original_context, max_context, scale_factor,
@@ -990,7 +998,7 @@ Result<CachedModel*> LazyModelLoader::loadModelInternal(
     }
     
     // Check for embeddings mode
-    bool enable_embeddings = config.value("enable_embeddings", false);
+    bool enable_embeddings = config_obj.value("enable_embeddings", false);
     if (enable_embeddings) {
         ctx_params.embeddings = true;
         spdlog::info("Embeddings mode enabled for model: {}", model_id);
