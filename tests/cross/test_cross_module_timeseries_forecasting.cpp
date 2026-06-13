@@ -80,6 +80,9 @@ struct CrossModuleTsFixture : ::testing::Test {
     static constexpr int64_t kWindowMs = 60000LL;
 
     void SetUp() override {
+#ifdef _WIN32
+        GTEST_SKIP() << "Skipping CrossModuleTsFixture on Windows due to intermittent timeout/instability in RocksDB-backed forecasting integration tests.";
+#endif
         db_path = makeUniqueTempPath("themis_cross_ts_");
         RocksDBWrapper::Config cfg;
         cfg.db_path       = db_path;

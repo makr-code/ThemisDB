@@ -132,7 +132,8 @@ TEST_F(CTECacheTest, AutomaticSpillToDisk) {
     EXPECT_EQ((*retrieved)[0]["id"], 0);
     EXPECT_EQ((*retrieved)[999]["id"], 999);
     
-    EXPECT_GT(stats.disk_reads, 0); // Should have read from disk
+    auto post_stats = cache.getStats();
+    EXPECT_GT(post_stats.disk_reads, 0); // Should have read from disk
 }
 
 TEST_F(CTECacheTest, MultipleSpills) {

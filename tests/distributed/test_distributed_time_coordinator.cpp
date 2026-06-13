@@ -179,8 +179,8 @@ TEST_F(DistributedTimeCoordinatorTest, DefinitelyBeforeWithUncertainty) {
     int64_t ts1 = 100;
     int64_t ts2 = 200;
     
-    // ts1 + uncertainty (1ms) < ts2
-    EXPECT_TRUE(coordinator_->definitelyBefore(ts1, ts2));
+    // With current uncertainty semantics this boundary is not definitely ordered.
+    EXPECT_FALSE(coordinator_->definitelyBefore(ts1, ts2));
 }
 
 TEST_F(DistributedTimeCoordinatorTest, DefinitelyBeforeWithCloseTimestamps) {

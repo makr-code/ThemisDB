@@ -107,6 +107,7 @@ struct ShardParticipant {
     std::string endpoint;                 ///< Participant RPC endpoint.
     std::vector<std::string> operations;  ///< Serialized operations for shard.
     bool prepared = false;                ///< True when prepare acknowledged.
+    bool precommitted = false;            ///< True when 3PC pre-commit acknowledged.
     bool committed = false;               ///< True when commit acknowledged.
     bool aborted = false;                 ///< True when abort acknowledged.
     std::string error_message;            ///< Participant-specific failure detail.
@@ -448,7 +449,23 @@ public:
         std::function<bool(const std::string& /*shard_id*/,
                            const std::string& /*txn_id*/)>;
 
+    using DeferredPreCommitFn =
+        std::function<void(const std::string& /*txn_id*/,
+                           const std::vector<std::string>& /*failed_shards*/)>;
+
     void setPreCommitCallback(PreCommitRpcFn fn);
+
+    /**
+     * @brief Set callback for deferred PreCommit retry (3PC non-blocking mode).
+     * 
+     * When set, failed PreCommit operations will not immediately abort the
+     * transaction. Instead, they will be retried asynchronously via this
+     * callback. This enables non-blocking 3PC behavior for Converged Storage-Inference.
+     * 
+     * @param fn  Callable that will be invoked with the transaction ID and list of
+     *            shards that failed PreCommit, for async retry.
+     */
+    void setDeferredPreCommitCallback(DeferredPreCommitFn fn);
 
 private:
     /**
@@ -498,6 +515,11 @@ private:
      * @brief Deadlock detection thread
      */
     void deadlockDetectionThread();
+
+    /**
+     * @brief Background worker that retries deferred 3PC pre-commit RPCs.
+     */
+    void preCommitRetryThread();
     
     /**
      * @brief Build wait-for graph for deadlock detection
@@ -608,10 +630,17 @@ private:
     /// Injected 3PC PreCommit RPC callback (CST-6).
     /// Protected by callbacks_mutex_.
     PreCommitRpcFn precommit_callback_; ///< Optional injected PreCommit RPC callback.
+
+    DeferredPreCommitFn deferred_precommit_callback_;///< Optional callback for deferred PreCommit retry.
+    
+    // Deferred PreCommit tracking
+    std::map<std::string, std::vector<std::string>> deferred_precommits_; ///< txn_id -> failed shards
+    std::mutex deferred_mutex_;
     
     // Background thread
     std::atomic<bool> running_;         ///< Lifecycle flag for background workers.
     std::thread deadlock_detection_thread_; ///< Distributed deadlock detector thread.
+    std::thread precommit_retry_thread_;   ///< Thread for retrying deferred PreCommits.
     
     // Statistics
     std::atomic<uint64_t> total_transactions_;     ///< Total started transactions.

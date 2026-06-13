@@ -326,6 +326,17 @@ bool CrossShardTransactionCoordinator::start() {
         );
     }
     
+    // Start PreCommit retry thread for non-blocking 3PC
+    // Only start if deferred PreCommit callback is configured
+    {
+        std::lock_guard<std::mutex> lk(callbacks_mutex_);
+        if (deferred_precommit_callback_) {
+            precommit_retry_thread_ = std::thread(
+                &CrossShardTransactionCoordinator::preCommitRetryThread, this
+            );
+        }
+    }
+    
     spdlog::info("Cross-shard transaction coordinator started");
     return true;
 }
@@ -460,6 +471,11 @@ void CrossShardTransactionCoordinator::stop() {
     
     if (deadlock_detection_thread_.joinable()) {
         deadlock_detection_thread_.join();
+    }
+    
+    // Stop PreCommit retry thread
+    if (precommit_retry_thread_.joinable()) {
+        precommit_retry_thread_.join();
     }
     
     spdlog::info("Cross-shard transaction coordinator stopped");
@@ -1261,6 +1277,11 @@ void CrossShardTransactionCoordinator::setPreCommitCallback(PreCommitRpcFn fn) {
     precommit_callback_ = std::move(fn);
 }
 
+void CrossShardTransactionCoordinator::setDeferredPreCommitCallback(DeferredPreCommitFn fn) {
+    std::lock_guard<std::mutex> lock(callbacks_mutex_);
+    deferred_precommit_callback_ = std::move(fn);
+}
+
 // Private methods
 
 bool CrossShardTransactionCoordinator::execute2PC(CrossShardTransaction& txn) {
@@ -1467,6 +1488,9 @@ bool CrossShardTransactionCoordinator::execute3PC(CrossShardTransaction& txn) {
             precommitted = false;
         }
 
+        // Update participant state
+        participant.precommitted = precommitted;
+
         if (transaction_wal_ && precommitted) {
             try {
                 transaction_wal_->logPrepared(txn.transaction_id, shard_id, true, "pre_committed");
@@ -1485,6 +1509,44 @@ bool CrossShardTransactionCoordinator::execute3PC(CrossShardTransaction& txn) {
     }
 
     if (!all_precommitted) {
+        // Check if we have deferred PreCommit callback for non-blocking behavior
+        std::vector<std::string> failed_shards;
+        for (const auto& [shard_id, participant] : txn.participants) {
+            if (!participant.precommitted) {
+                failed_shards.push_back(shard_id);
+            }
+        }
+
+        // Non-blocking mode: If deferred callback is set, schedule retry instead of aborting
+        {
+            std::lock_guard<std::mutex> lk(callbacks_mutex_);
+            if (deferred_precommit_callback_ && !failed_shards.empty()) {
+                spdlog::warn("3PC Phase 2 (PreCommit) partial failure for transaction {}: "
+                           "{} failed shards, scheduling deferred retry",
+                           txn.transaction_id, failed_shards.size());
+                
+                // Store deferred PreCommit for retry tracking
+                {
+                    std::lock_guard<std::mutex> def_lk(deferred_mutex_);
+                    deferred_precommits_[txn.transaction_id] = failed_shards;
+                }
+                
+                // Schedule async retry via callback (non-blocking)
+                deferred_precommit_callback_(txn.transaction_id, failed_shards);
+                
+                // Continue to Phase 3 with successful shards
+                // Transaction will be in a "PRE_COMMIT_PENDING" state
+                txn.state = TransactionState::COMMITTING;
+                spdlog::info("3PC Phase 2 (PreCommit) scheduled deferred retry for transaction {}",
+                           txn.transaction_id);
+                
+                // Only proceed with shards that successfully pre-committed
+                // This allows partial progress in Converged Storage-Inference scenarios
+                return true;  // Non-blocking: continue with available shards
+            }
+        }
+
+        // Fallback: Traditional fail-closed behavior when no deferred callback
         spdlog::error("3PC Phase 2 (PreCommit) failed for transaction {}",
                      txn.transaction_id);
         for (auto& [shard_id, participant] : txn.participants) {
@@ -3199,6 +3261,145 @@ size_t PercolatorCoordinator::cleanStaleLocks(
     spdlog::info("[Percolator] cleanStaleLocks: cleaned {} / {} stale locks",
                  cleaned, stale_txn_ids.size());
     return cleaned;
+}
+
+// 3PC Non-blocking support methods
+void CrossShardTransactionCoordinator::preCommitRetryThread() {
+    spdlog::info("3PC PreCommit retry thread started");
+    
+    while (running_.load()) {
+        // Check for deferred PreCommits to retry
+        std::map<std::string, std::vector<std::string>> retries;
+        
+        {
+            std::lock_guard<std::mutex> lk(deferred_mutex_);
+            if (deferred_precommits_.empty()) {
+                // Nothing to retry, sleep and continue
+                std::this_thread::sleep_for(std::chrono::milliseconds(100));
+                continue;
+            }
+            
+            // Move all deferred PreCommits to local copy
+            retries = std::move(deferred_precommits_);
+            deferred_precommits_.clear();
+        }
+        
+        // Process each transaction with failed PreCommits
+        for (const auto& [txn_id, failed_shards] : retries) {
+            if (!running_.load()) {
+                break;
+            }
+            
+            spdlog::debug("Attempting PreCommit retry for transaction {} ({} shards)",
+                        txn_id, failed_shards.size());
+            
+            // Get the transaction
+            auto txn_opt = getTransaction(txn_id);
+            if (!txn_opt) {
+                spdlog::warn("Transaction {} not found during PreCommit retry, skipping",
+                           txn_id);
+                continue;
+            }
+            
+            auto& txn = *txn_opt;
+            
+            // Only retry if still in PREPARED or COMMITTING state
+            if (txn.state != TransactionState::PREPARED && 
+                txn.state != TransactionState::COMMITTING) {
+                spdlog::debug("Transaction {} no longer in retryable state ({}), skipping",
+                           txn_id, static_cast<int>(txn.state));
+                continue;
+            }
+            
+            // Snapshot the PreCommit callback under the lock
+            PreCommitRpcFn precommit_cb;
+            {
+                std::lock_guard<std::mutex> lk(callbacks_mutex_);
+                precommit_cb = precommit_callback_;
+            }
+            
+            if (!precommit_cb) {
+                spdlog::error("PreCommit retry: No callback configured, cannot retry");
+                continue;
+            }
+            
+            // Retry PreCommit for failed shards
+            bool all_recovered = true;
+            for (const auto& shard_id : failed_shards) {
+                try {
+                    bool success = precommit_cb(shard_id, txn_id);
+                    if (!success) {
+                        spdlog::warn("PreCommit retry failed for shard {} in txn {}",
+                                   shard_id, txn_id);
+                        all_recovered = false;
+                    } else {
+                        spdlog::info("PreCommit retry succeeded for shard {} in txn {}",
+                                   shard_id, txn_id);
+                        // Mark participant as precommitted
+                        std::lock_guard<std::timed_mutex> txn_lk(transactions_mutex_);
+                        auto txn_it = transactions_.find(txn_id);
+                        if (txn_it != transactions_.end()) {
+                            txn_it->second.participants[shard_id].precommitted = true;
+                        }
+                    }
+                } catch (const std::exception& ex) {
+                    spdlog::error("PreCommit retry threw for shard {} txn={}: {}",
+                                shard_id, txn_id, ex.what());
+                    all_recovered = false;
+                } catch (...) {
+                    spdlog::error("PreCommit retry threw unknown exception for shard {} txn={}",
+                                shard_id, txn_id);
+                    all_recovered = false;
+                }
+            }
+            
+            if (all_recovered) {
+                // All shards recovered, transaction can proceed to DoCommit
+                spdlog::info("All PreCommits recovered for transaction {}, "
+                           "proceeding to DoCommit", txn_id);
+                
+                // Transition to COMMITTING state if not already
+                {
+                    std::lock_guard<std::timed_mutex> txn_lk(transactions_mutex_);
+                    auto txn_it = transactions_.find(txn_id);
+                    if (txn_it != transactions_.end() && 
+                        txn_it->second.state == TransactionState::PREPARED) {
+                        txn_it->second.state = TransactionState::COMMITTING;
+                    }
+                }
+                
+                // Trigger commit
+                commit(txn_id);
+            } else {
+                // Some shards still failing, reschedule for later retry
+                spdlog::warn("Partial PreCommit recovery for transaction {}, "
+                           "rescheduling remaining shards", txn_id);
+                
+                std::vector<std::string> still_failed;
+                for (const auto& shard_id : failed_shards) {
+                    auto txn_opt = getTransaction(txn_id);
+                    if (txn_opt) {
+                        const auto& txn = *txn_opt;
+                        const auto participant_it = txn.participants.find(shard_id);
+                        if (participant_it != txn.participants.end() &&
+                            !participant_it->second.precommitted) {
+                            still_failed.push_back(shard_id);
+                        }
+                    }
+                }
+                
+                if (!still_failed.empty()) {
+                    std::lock_guard<std::mutex> def_lk(deferred_mutex_);
+                    deferred_precommits_[txn_id] = still_failed;
+                }
+            }
+        }
+        
+        // Small delay to prevent busy waiting
+        std::this_thread::sleep_for(std::chrono::milliseconds(50));
+    }
+    
+    spdlog::info("3PC PreCommit retry thread stopped");
 }
 
 } // namespace sharding
