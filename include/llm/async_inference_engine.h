@@ -330,6 +330,7 @@ private:
 
     // Optional deduplication cache (nullptr if disabled)
     std::shared_ptr<LLMResponseCache> dedup_cache_;
+    mutable std::mutex cache_meta_mutex_;  // Protects metadata access on cached responses
 
     // Optional prompt safety policy (nullptr → no prompt validation)
     std::shared_ptr<PromptPolicy> prompt_policy_;

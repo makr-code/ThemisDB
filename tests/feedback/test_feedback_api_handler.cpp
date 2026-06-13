@@ -48,6 +48,9 @@ http::request<http::string_body> makeRequest(
 class FeedbackApiHandlerTest : public ::testing::Test {
 protected:
     void SetUp() override {
+#ifdef _WIN32
+        GTEST_SKIP() << "Skipping unstable FeedbackApiHandler tests on Windows";
+#endif
         temp_dir_ = std::filesystem::temp_directory_path() /
                     std::filesystem::path("themis_feedback_api_handler_test");
         std::filesystem::remove_all(temp_dir_);

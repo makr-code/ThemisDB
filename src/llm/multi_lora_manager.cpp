@@ -1270,6 +1270,16 @@ bool MultiLoRAManager::importLoRA(
     spdlog::info("Importing LoRA from remote shard: {} ({} bytes)", 
                  lora_id, data.size());
     
+    // Security: Validate data size to prevent import of maliciously crafted data
+    // Reject excessively large imports that could indicate tampering or DoS
+    const size_t MAX_LORA_IMPORT_SIZE = config_.max_lora_vram_mb * 1024 * 1024 * 2; // 2x VRAM budget
+    if (data.size() > MAX_LORA_IMPORT_SIZE) {
+        spdlog::error("[SECURITY] LoRA import rejected: data size {} exceeds maximum allowed {} bytes",
+                     data.size(), MAX_LORA_IMPORT_SIZE);
+        errors::logError(errors::ErrorCode::ERR_LORA_INVALID_DATA, "data too large");
+        return false;
+    }
+    
     // Deserialize LoRA adapter
     if (data.empty()) {
         errors::logError(errors::ErrorCode::ERR_LORA_INVALID_DATA, "empty data");
@@ -1323,6 +1333,26 @@ bool MultiLoRAManager::importLoRA(
     std::memcpy(&lora->alpha, data.data() + offset, sizeof(int));
     offset += sizeof(int);
     std::memcpy(&lora->scale, data.data() + offset, sizeof(float));
+    
+    // Security: Validate deserialized values are within reasonable ranges
+    // to prevent model poisoning via crafted data
+    if (lora->vram_bytes > config_.max_lora_vram_mb * BYTES_PER_MB) {
+        spdlog::error("[SECURITY] LoRA import rejected: vram_bytes {} exceeds maximum allowed", lora->vram_bytes);
+        return false;
+    }
+    if (lora->rank < MIN_LORA_RANK || lora->rank > MAX_LORA_RANK) {
+        spdlog::error("[SECURITY] LoRA import rejected: rank {} out of range [{}, {}]",
+                     lora->rank, MIN_LORA_RANK, MAX_LORA_RANK);
+        return false;
+    }
+    if (lora->alpha < 0 || lora->alpha > 1000) {
+        spdlog::error("[SECURITY] LoRA import rejected: alpha {} out of valid range", lora->alpha);
+        return false;
+    }
+    if (lora->scale < -100.0f || lora->scale > 100.0f) {
+        spdlog::error("[SECURITY] LoRA import rejected: scale {} out of valid range", lora->scale);
+        return false;
+    }
     
     lora->base_model_id = base_model_id;
     lora->loaded_at = std::chrono::system_clock::now();
@@ -1400,6 +1430,12 @@ bool MultiLoRAManager::quantizeLoRA(LoRASlot* lora) {
     
     try {
         auto start_time = std::chrono::high_resolution_clock::now();
+        
+        // Security: Validate LoRA file path before loading to prevent path traversal
+        if (!lora->path.empty() && !isLoRAPathTrusted(lora->path)) {
+            spdlog::error("[SECURITY] quantizeLoRA rejected: untrusted path '{}'", lora->path);
+            return false;
+        }
         
         // Load actual LoRA weights from the GGUF file for quantization.
         std::vector<float> weights;

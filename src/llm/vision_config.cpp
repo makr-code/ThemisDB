@@ -95,6 +95,9 @@ std::shared_ptr<VisionConfig> VisionConfig::loadFromFile(const std::string& conf
 
         // VisionConfig has a private constructor; construct directly here.
         auto vision_config = std::shared_ptr<VisionConfig>(new VisionConfig());
+        
+        // Lock the config during initialization to prevent data races
+        std::unique_lock<std::shared_mutex> lock(vision_config->config_mutex_);
 
         // Load API configuration
         if (config["vision"]["api"]) {
@@ -392,6 +395,9 @@ std::shared_ptr<VisionConfig> VisionConfig::loadFromFile(const std::string& conf
 std::shared_ptr<VisionConfig> VisionConfig::loadFromJson(const nlohmann::json& config) {
     // Start from defaults so unspecified fields have sensible values.
     auto vision_config = getDefault();
+    
+    // Lock the config during initialization to prevent data races
+    std::unique_lock<std::shared_mutex> lock(vision_config->config_mutex_);
 
     auto get_str = [&](const nlohmann::json& j, const char* key, std::string& out) {
         if (j.contains(key) && j[key].is_string()) {
@@ -561,6 +567,9 @@ std::shared_ptr<VisionConfig> VisionConfig::loadFromJson(const nlohmann::json& c
 std::shared_ptr<VisionConfig> VisionConfig::getDefault() {
     // VisionConfig has a private constructor; construct directly here.
     auto config = std::shared_ptr<VisionConfig>(new VisionConfig());
+    
+    // Lock the config during initialization to prevent data races
+    std::unique_lock<std::shared_mutex> lock(config->config_mutex_);
 
     // Set reasonable defaults
     config->api_stability_ = VisionAPIStability::STABLE;
@@ -637,7 +646,35 @@ bool VisionConfig::validate(std::string& error_message) const {
     return error_message.empty();
 }
 
+// API Configuration Getters
+VisionAPIStability VisionConfig::getAPIStability() const {
+    std::shared_lock<std::shared_mutex> lock(config_mutex_);
+    return api_stability_;
+}
+
+const std::string& VisionConfig::getAPIVersion() const {
+    std::shared_lock<std::shared_mutex> lock(config_mutex_);
+    return api_version_;
+}
+
+const std::string& VisionConfig::getAPIPrefix() const {
+    std::shared_lock<std::shared_mutex> lock(config_mutex_);
+    return api_prefix_;
+}
+
+bool VisionConfig::isBackwardCompatible() const {
+    std::shared_lock<std::shared_mutex> lock(config_mutex_);
+    return backward_compatible_;
+}
+
+// License Management Getters
+bool VisionConfig::isLicenseEnforced() const {
+    std::shared_lock<std::shared_mutex> lock(config_mutex_);
+    return enforce_licenses_;
+}
+
 bool VisionConfig::isLicenseAllowed(const std::string& license_id) const {
+    std::shared_lock<std::shared_mutex> lock(config_mutex_);
     if (!enforce_licenses_) {
         return true;
     }
@@ -645,7 +682,24 @@ bool VisionConfig::isLicenseAllowed(const std::string& license_id) const {
     return std::find(allowed_licenses_.begin(), allowed_licenses_.end(), license_id) != allowed_licenses_.end();
 }
 
+// Resource Management Getters
+const VisionResourceLimits& VisionConfig::getResourceLimits() const {
+    std::shared_lock<std::shared_mutex> lock(config_mutex_);
+    return resource_limits_;
+}
+
+const VisionRateLimits& VisionConfig::getRateLimits() const {
+    std::shared_lock<std::shared_mutex> lock(config_mutex_);
+    return rate_limits_;
+}
+
+const VisionResourceQuota& VisionConfig::getResourceQuota() const {
+    std::shared_lock<std::shared_mutex> lock(config_mutex_);
+    return resource_quota_;
+}
+
 std::shared_ptr<ModelLicense> VisionConfig::getModelLicense(const std::string& model_id) const {
+    std::shared_lock<std::shared_mutex> lock(config_mutex_);
     auto it = licenses_.find(model_id);
     if (it != licenses_.end()) {
         return it->second;
@@ -653,7 +707,24 @@ std::shared_ptr<ModelLicense> VisionConfig::getModelLicense(const std::string& m
     return nullptr;
 }
 
+// Monitoring Getters
+const VisionMonitoringConfig& VisionConfig::getMonitoringConfig() const {
+    std::shared_lock<std::shared_mutex> lock(config_mutex_);
+    return monitoring_config_;
+}
+
+bool VisionConfig::isMonitoringEnabled() const {
+    std::shared_lock<std::shared_mutex> lock(config_mutex_);
+    return monitoring_config_.enabled;
+}
+
+bool VisionConfig::isAuditEnabled() const {
+    std::shared_lock<std::shared_mutex> lock(config_mutex_);
+    return monitoring_config_.audit.enabled;
+}
+
 bool VisionConfig::validateModelUsage(const std::string& model_id, bool is_commercial) const {
+    std::shared_lock<std::shared_mutex> lock(config_mutex_);
     if (!enforce_licenses_) {
         return true;
     }
@@ -667,15 +738,9 @@ bool VisionConfig::validateModelUsage(const std::string& model_id, bool is_comme
     return license->validateUsage(is_commercial, false, false);
 }
 
-std::string VisionConfig::getRequiredAttribution(const std::string& model_id) const {
-    auto it = models_.find(model_id);
-    if (it != models_.end() && it->second) {
-        return it->second->attribution;
-    }
-    return "";
-}
-
+// Model Registry Getters
 std::vector<std::string> VisionConfig::getAvailableModels() const {
+    std::shared_lock<std::shared_mutex> lock(config_mutex_);
     std::vector<std::string> model_ids;
     for (const auto& pair : models_) {
         model_ids.push_back(pair.first);
@@ -684,6 +749,7 @@ std::vector<std::string> VisionConfig::getAvailableModels() const {
 }
 
 std::shared_ptr<VisionModelMetadata> VisionConfig::getModelMetadata(const std::string& model_id) const {
+    std::shared_lock<std::shared_mutex> lock(config_mutex_);
     auto it = models_.find(model_id);
     if (it != models_.end()) {
         return it->second;
@@ -692,11 +758,14 @@ std::shared_ptr<VisionModelMetadata> VisionConfig::getModelMetadata(const std::s
 }
 
 bool VisionConfig::isModelProductionReady(const std::string& model_id) const {
+    std::shared_lock<std::shared_mutex> lock(config_mutex_);
     auto metadata = getModelMetadata(model_id);
     return metadata && metadata->production_ready;
 }
 
+// Feature Flag Getters
 bool VisionConfig::isFeatureEnabled(const std::string& feature_name) const {
+    std::shared_lock<std::shared_mutex> lock(config_mutex_);
     auto it = feature_flags_.find(feature_name);
     if (it != feature_flags_.end()) {
         return it->second;
@@ -705,11 +774,43 @@ bool VisionConfig::isFeatureEnabled(const std::string& feature_name) const {
 }
 
 bool VisionConfig::isExperimentalFeature(const std::string& feature_name) const {
+    std::shared_lock<std::shared_mutex> lock(config_mutex_);
     auto it = experimental_features_.find(feature_name);
     if (it != experimental_features_.end()) {
         return it->second;
     }
     return false;
+}
+
+// Security Getters
+const VisionSecurityConfig& VisionConfig::getSecurityConfig() const {
+    std::shared_lock<std::shared_mutex> lock(config_mutex_);
+    return security_config_;
+}
+
+bool VisionConfig::isSandboxingEnabled() const {
+    std::shared_lock<std::shared_mutex> lock(config_mutex_);
+    return security_config_.sandboxing.enabled;
+}
+
+bool VisionConfig::isModelVerificationEnabled() const {
+    std::shared_lock<std::shared_mutex> lock(config_mutex_);
+    return security_config_.model_verification.enabled;
+}
+
+// Pipeline Getter
+const VisionPipelineConfig& VisionConfig::getPipelineConfig() const {
+    std::shared_lock<std::shared_mutex> lock(config_mutex_);
+    return pipeline_config_;
+}
+
+std::string VisionConfig::getRequiredAttribution(const std::string& model_id) const {
+    std::shared_lock<std::shared_mutex> lock(config_mutex_);
+    auto it = models_.find(model_id);
+    if (it != models_.end() && it->second) {
+        return it->second->attribution;
+    }
+    return "";
 }
 
 } // namespace llm

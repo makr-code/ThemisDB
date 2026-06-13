@@ -1117,6 +1117,7 @@ set(THEMIS_LLM_SOURCES
     ../src/llm/safety/classifier.cpp
     ../src/llm/safety/guardian.cpp
     ../src/llm/safety/monitoring.cpp
+    ../src/llm/vision_config.cpp
     ../src/llm/vision_resource_monitor.cpp
     ../src/llm/docs_assistant.cpp
     ../src/llm/applications/themis_help_lora.cpp
@@ -1159,6 +1160,7 @@ set(THEMIS_LLM_SOURCES
     ../src/llm/lora_certificate_store.cpp
     ../src/llm/security/signature_verifier.cpp
     # Vision resource monitoring
+    ../src/llm/vision_config.cpp
     ../src/llm/vision_resource_monitor.cpp
     # LoRA framework additions (unconditional)
     $<$<BOOL:${THEMIS_ENABLE_GPU}>:../src/llm/lora_framework/distributed_dataloader.cpp>

@@ -22,6 +22,7 @@
 #include <stdexcept>
 #include "llm/lookup_decoder.h"
 #include "llm/model_router.h"
+#include "llm/prompt_safety_utils.h"
 #include "llm/shared_worker_pool.h"
 #include "llm/speculative_decoder.h"
 #include "sharding/remote_executor.h"
@@ -1281,7 +1282,15 @@ void InferenceEngineEnhanced::processBatch(
                     }
 
                     self_rag.enabled = true;
-                    self_rag.query = self_rag_it->value("query", effective_request.prompt);
+                    // Sanitize prompt to prevent injection attacks
+                    std::string sanitized_prompt = effective_request.prompt;
+                    std::string blocked_rule, blocked_reason;
+                    if (!themis::llm::prompt_safety::sanitizePromptWithSharedPolicy(
+                            sanitized_prompt, sanitized_prompt, &blocked_rule, &blocked_reason)) {
+                        spdlog::warn("Prompt sanitization failed for self_rag query: rule={}, reason={}",
+                                   blocked_rule, blocked_reason);
+                    }
+                    self_rag.query = self_rag_it->value("query", sanitized_prompt);
 
                     themis::rag::SelfRAGConfig self_rag_cfg;
                     const auto cfg_json = self_rag_it->value("config", json::object());
@@ -1412,7 +1421,15 @@ void InferenceEngineEnhanced::processBatch(
             // Active when enable_lookup_decoding == true and neither grammar
             // constraints nor draft-model speculative decoding are engaged.
             if (!used_speculative && lookup_decoder_ && !grammar_active) {
-                const auto& prompt = effective_request.prompt;
+                // Sanitize prompt to prevent injection attacks
+                std::string sanitized_prompt = effective_request.prompt;
+                std::string blocked_rule, blocked_reason;
+                if (!themis::llm::prompt_safety::sanitizePromptWithSharedPolicy(
+                            sanitized_prompt, sanitized_prompt, &blocked_rule, &blocked_reason)) {
+                    spdlog::warn("Prompt sanitization failed for lookup decoder: rule={}, reason={}",
+                               blocked_rule, blocked_reason);
+                }
+                const auto& prompt = sanitized_prompt;
                 // Build the prompt n-gram index for this request.
                 // Note: estimateTokenSequence() uses a 4-chars-per-token heuristic
                 // (the ILLMPlugin interface does not expose a standalone tokenize()

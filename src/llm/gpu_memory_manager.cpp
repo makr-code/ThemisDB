@@ -575,6 +575,7 @@ void* GPUMemoryManager::allocateGPU(const std::string& model_id, size_t bytes) {
     }
     
     void* ptr = nullptr;
+    detail::MemoryHolder::Type alloc_type = detail::MemoryHolder::Type::CPU;
     
 #ifdef THEMIS_ENABLE_CUDA
     if (gpu_available_) {
@@ -584,6 +585,7 @@ void* GPUMemoryManager::allocateGPU(const std::string& model_id, size_t bytes) {
             spdlog::error("cudaMalloc failed: {}", cudaGetErrorString(err));
             return nullptr;
         }
+        alloc_type = detail::MemoryHolder::Type::GPU;
     } else {
         // Fallback to simulation when CUDA is available but no GPU detected
         ptr = std::malloc(bytes);
@@ -592,6 +594,7 @@ void* GPUMemoryManager::allocateGPU(const std::string& model_id, size_t bytes) {
             errors::logError(errors::ErrorCode::ERR_LLM_GPU_OOM, bytes_mb, 0);
             return nullptr;
         }
+        alloc_type = detail::MemoryHolder::Type::CPU;
     }
 #else
     // Simulation mode: use regular malloc when CUDA is not enabled at build time
@@ -601,7 +604,11 @@ void* GPUMemoryManager::allocateGPU(const std::string& model_id, size_t bytes) {
         errors::logError(errors::ErrorCode::ERR_LLM_GPU_OOM, bytes_mb, 0);
         return nullptr;
     }
+    alloc_type = detail::MemoryHolder::Type::CPU;
 #endif
+    
+    // Wrap in RAII holder immediately to prevent leaks on exceptions during bookkeeping
+    auto holder = std::make_shared<detail::MemoryHolder>(ptr, bytes, alloc_type, gpu_available_, 0);
     
     // Track allocation with RAII holder for automatic cleanup.
     // Guard metadata bookkeeping so low-memory exceptions do not leak raw allocations.
@@ -611,16 +618,14 @@ void* GPUMemoryManager::allocateGPU(const std::string& model_id, size_t bytes) {
         alloc.vram_bytes = bytes;
         alloc.gpu_ptr = ptr;
         alloc.gpu_device_id = 0;  // Default GPU device
-        alloc.holder = std::make_shared<detail::MemoryHolder>(
-            ptr, bytes, detail::MemoryHolder::Type::GPU, gpu_available_, 0  // Default GPU device
-        );
+        alloc.holder = holder;  // Use the already-created RAII holder
         allocations_[model_id].push_back(std::move(alloc));
     } catch (const std::exception& e) {
-        cleanupRawAllocation(ptr, bytes, detail::MemoryHolder::Type::GPU, gpu_available_, 0);
+        // holder will automatically clean up ptr through RAII
         spdlog::error("allocateGPU metadata bookkeeping failed for model {}: {}", model_id, e.what());
         return nullptr;
     } catch (...) {
-        cleanupRawAllocation(ptr, bytes, detail::MemoryHolder::Type::GPU, gpu_available_, 0);
+        // holder will automatically clean up ptr through RAII
         spdlog::error("allocateGPU metadata bookkeeping failed for model {}: unknown exception", model_id);
         return nullptr;
     }
@@ -645,6 +650,7 @@ void* GPUMemoryManager::allocateCPU(const std::string& model_id, size_t bytes, b
     }
     
     void* ptr = nullptr;
+    detail::MemoryHolder::Type holder_type = detail::MemoryHolder::Type::CPU;
     
 #ifdef THEMIS_ENABLE_CUDA
     if (pinned && gpu_available_) {
@@ -655,15 +661,20 @@ void* GPUMemoryManager::allocateCPU(const std::string& model_id, size_t bytes, b
                         cudaGetErrorString(err));
             pinned = false;
             ptr = std::malloc(bytes);
+            holder_type = detail::MemoryHolder::Type::CPU;
+        } else {
+            holder_type = detail::MemoryHolder::Type::PINNED;
         }
     } else {
         ptr = std::malloc(bytes);
         pinned = false;
+        holder_type = detail::MemoryHolder::Type::CPU;
     }
 #else
     // Simulation mode: always use regular malloc
     ptr = std::malloc(bytes);
     pinned = false;
+    holder_type = detail::MemoryHolder::Type::CPU;
 #endif
     
     if (!ptr) {
@@ -671,19 +682,18 @@ void* GPUMemoryManager::allocateCPU(const std::string& model_id, size_t bytes, b
         return nullptr;
     }
     
+    // Wrap in RAII holder immediately to prevent leaks on exceptions during bookkeeping
+    auto holder = std::make_shared<detail::MemoryHolder>(ptr, bytes, holder_type, gpu_available_, 0);
+    
     // Track allocation with RAII holder.
     // Guard metadata bookkeeping so low-memory exceptions do not leak raw allocations.
-    const auto holder_type = pinned ? detail::MemoryHolder::Type::PINNED
-                                    : detail::MemoryHolder::Type::CPU;
     try {
         MemoryAllocation alloc;
         alloc.model_id = model_id;
         alloc.ram_bytes = bytes;
         alloc.cpu_ptr = ptr;
         alloc.is_pinned = pinned;
-        alloc.holder = std::make_shared<detail::MemoryHolder>(
-            ptr, bytes, holder_type, gpu_available_
-        );
+        alloc.holder = holder;  // Use the already-created RAII holder
         allocations_[model_id].push_back(std::move(alloc));
     } catch (const std::exception& e) {
         cleanupRawAllocation(ptr, bytes, holder_type, gpu_available_);

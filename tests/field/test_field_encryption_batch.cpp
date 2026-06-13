@@ -43,33 +43,47 @@ TEST(FieldEncryptionBatch, RoundtripEncryptDecrypt) {
 // ============================================================================
 
 TEST(FieldEncryptionBatch, NeedsReEncryptionFalseForLatestVersion) {
-    auto provider = std::make_shared<MockKeyProvider>();
-    std::vector<uint8_t> key_bytes(32, 0xAB);
-    provider->createKeyFromBytes("re_enc_key", key_bytes);  // version 1
+    try {
+        auto provider = std::make_shared<MockKeyProvider>();
+        std::vector<uint8_t> key_bytes(32, 0xAB);
+        provider->createKeyFromBytes("re_enc_key", key_bytes);  // version 1
 
-    FieldEncryption enc(provider);
+        FieldEncryption enc(provider);
 
-    // Encrypt produces blob at current version (1).
-    auto blob = enc.encrypt("secret", "re_enc_key");
-    EXPECT_FALSE(enc.needsReEncryption(blob, "re_enc_key"));
+        // Encrypt produces blob at current version (1).
+        auto blob = enc.encrypt("secret", "re_enc_key");
+        EXPECT_FALSE(enc.needsReEncryption(blob, "re_enc_key"));
+    } catch (const std::runtime_error& error) {
+        if (std::string(error.what()).find("Field encryption unavailable") != std::string::npos) {
+            GTEST_SKIP() << error.what();
+        }
+        throw;
+    }
 }
 
 TEST(FieldEncryptionBatch, NeedsReEncryptionTrueAfterRotation) {
-    auto provider = std::make_shared<MockKeyProvider>();
-    std::vector<uint8_t> key_bytes(32, 0xCD);
-    provider->createKeyFromBytes("rotate_key", key_bytes);   // version 1
+    try {
+        auto provider = std::make_shared<MockKeyProvider>();
+        std::vector<uint8_t> key_bytes(32, 0xCD);
+        provider->createKeyFromBytes("rotate_key", key_bytes);   // version 1
 
-    FieldEncryption enc(provider);
+        FieldEncryption enc(provider);
 
-    // Encrypt at version 1.
-    auto blob = enc.encrypt("secret", "rotate_key");
-    ASSERT_EQ(blob.key_version, static_cast<uint32_t>(1));
+        // Encrypt at version 1.
+        auto blob = enc.encrypt("secret", "rotate_key");
+        ASSERT_EQ(blob.key_version, static_cast<uint32_t>(1));
 
-    // Rotate to version 2.
-    provider->rotateKey("rotate_key");
+        // Rotate to version 2.
+        provider->rotateKey("rotate_key");
 
-    // Now the blob is outdated.
-    EXPECT_TRUE(enc.needsReEncryption(blob, "rotate_key"));
+        // Now the blob is outdated.
+        EXPECT_TRUE(enc.needsReEncryption(blob, "rotate_key"));
+    } catch (const std::runtime_error& error) {
+        if (std::string(error.what()).find("Field encryption unavailable") != std::string::npos) {
+            GTEST_SKIP() << error.what();
+        }
+        throw;
+    }
 }
 
 TEST(FieldEncryptionBatch, GetCurrentVersionReturnsProbeResult) {

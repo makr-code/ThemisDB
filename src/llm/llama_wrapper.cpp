@@ -780,6 +780,13 @@ bool LlamaWrapper::loadModelFromThemisDB(
             }
             spdlog::info("✓ Model integrity verified (checksum OK)");
         } else {
+            // Check if model integrity is required
+            const bool require_integrity = config.value("require_model_integrity", false);
+            if (require_integrity) {
+                spdlog::error("[SECURITY] Model {} has no checksum available and require_model_integrity is true; loading aborted", model_id);
+                std::filesystem::remove(temp_model_path);
+                return false;
+            }
             spdlog::warn("No checksum available for integrity verification of model: {}", model_id);
         }
         
@@ -1446,7 +1453,7 @@ InferenceResponse LlamaWrapper::generate(const InferenceRequest& request) {
         
         // Cache the successful response; key includes model_id to prevent cross-tenant leakage
         if (response_cache_) {
-            const std::string cache_key = request.prompt + "|" + request.model_id;
+            const std::string cache_key = safe_request.prompt + "|" + safe_request.model_id;
             auto* const response_cache = response_cache_.get();
             if (response_cache) {
                 response_cache->put(cache_key, response);
@@ -3332,8 +3339,14 @@ std::string LlamaWrapper::buildVisionPrompt(const VisionRequest& request) {
     
     // Add image tokens
     if (request.use_image_start_end) {
+        // Sanitize image_token to prevent prompt injection
+        std::string sanitized_image_token;
+        if (!sanitizePromptText(request.image_token, sanitized_image_token, nullptr, nullptr)) {
+            spdlog::warn("[SECURITY] buildVisionPrompt: image_token blocked, using default");
+            sanitized_image_token = "<image>";
+        }
         for (size_t i = 0; i < num_images; ++i) {
-            prompt += request.image_token + "\n";
+            prompt += sanitized_image_token + "\n";
         }
     }
     

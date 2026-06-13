@@ -386,6 +386,9 @@ protected:
 };
 
 TEST_F(AuditLoggerFuzzTest, LogEvent_HugePayload_NoCrash) {
+#ifdef THEMIS_COMMUNITY_EDITION
+    GTEST_SKIP() << "Field encryption is not available in the COMMUNITY edition";
+#endif
     AuditLoggerConfig cfg;
     cfg.enabled  = true;
     cfg.log_path = log_path_;
@@ -400,6 +403,9 @@ TEST_F(AuditLoggerFuzzTest, LogEvent_HugePayload_NoCrash) {
 }
 
 TEST_F(AuditLoggerFuzzTest, LogSecurityEvent_AllEventTypes_NoCrash) {
+#ifdef THEMIS_COMMUNITY_EDITION
+    GTEST_SKIP() << "Field encryption is not available in the COMMUNITY edition";
+#endif
     AuditLoggerConfig cfg;
     cfg.enabled  = true;
     cfg.log_path = log_path_;
@@ -432,6 +438,9 @@ TEST_F(AuditLoggerFuzzTest, LogSecurityEvent_AllEventTypes_NoCrash) {
 }
 
 TEST_F(AuditLoggerFuzzTest, LogEvent_DeeplyNestedJson_NoCrash) {
+#ifdef THEMIS_COMMUNITY_EDITION
+    GTEST_SKIP() << "Field encryption is not available in the COMMUNITY edition";
+#endif
     AuditLoggerConfig cfg;
     cfg.enabled  = true;
     cfg.log_path = log_path_;
@@ -449,6 +458,9 @@ TEST_F(AuditLoggerFuzzTest, LogEvent_DeeplyNestedJson_NoCrash) {
 }
 
 TEST_F(AuditLoggerFuzzTest, LogEvent_ControlCharsInFields_NoCrash) {
+#ifdef THEMIS_COMMUNITY_EDITION
+    GTEST_SKIP() << "Field encryption is not available in the COMMUNITY edition";
+#endif
     AuditLoggerConfig cfg;
     cfg.enabled  = true;
     cfg.log_path = log_path_;

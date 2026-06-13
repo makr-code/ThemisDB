@@ -22,6 +22,7 @@ foreach(_src IN LISTS GOSSIP_MODULE_TEST_SOURCES)
     target_link_libraries(${_target} PRIVATE
         ${TEST_LIBS}
         themis_core
+        themis_shard_proto
         spdlog::spdlog
         Threads::Threads
     )

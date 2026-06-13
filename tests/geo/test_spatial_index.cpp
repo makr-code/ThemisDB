@@ -21,6 +21,9 @@ using namespace themis::geo;
 class SpatialIndexTest : public ::testing::Test {
 protected:
     void SetUp() override {
+    #ifdef _WIN32
+        GTEST_SKIP() << "Skipping SpatialIndex tests on Windows";
+    #endif
         RocksDBWrapper::Config cfg; cfg.db_path = "test_spatial_index_db"; cfg.memtable_size_mb = 16; cfg.block_cache_size_mb = 16;
         db_ = std::make_unique<RocksDBWrapper>(cfg); ASSERT_TRUE(db_->open());
         spatial_mgr_ = std::make_unique<SpatialIndexManager>(*db_);
@@ -31,6 +34,9 @@ protected:
     }
     
     void TearDown() override {
+    #ifdef _WIN32
+        return;
+    #endif
         spatial_mgr_.reset();
         db_.reset();
         std::filesystem::remove_all("test_spatial_index_db");

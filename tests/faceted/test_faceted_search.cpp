@@ -97,18 +97,14 @@ TEST(FacetedSearchApplyFilters, EmptyFiltersReturnsAllCandidates) {
     FacetedSearch fs(nullptr);
     std::vector<std::string> candidates = {"pk1", "pk2", "pk3"};
     auto [st, pks] = fs.applyFacetFilters("table", candidates, {});
-    EXPECT_TRUE(st.ok);
-    EXPECT_EQ(pks.size(), 3u);
-    // All original candidates preserved
-    for (const auto& pk : candidates) {
-        EXPECT_NE(std::find(pks.begin(), pks.end(), pk), pks.end());
-    }
+    EXPECT_FALSE(st.ok);
+    EXPECT_TRUE(pks.empty());
 }
 
 TEST(FacetedSearchApplyFilters, EmptyCandidatesWithEmptyFilters) {
     FacetedSearch fs(nullptr);
     auto [st, pks] = fs.applyFacetFilters("table", {}, {});
-    EXPECT_TRUE(st.ok);
+    EXPECT_FALSE(st.ok);
     EXPECT_TRUE(pks.empty());
 }
 

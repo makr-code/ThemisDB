@@ -129,6 +129,9 @@ public:
         // GGUF Loader preference (security - embedded safetensor)
         bool prefer_custom_gguf_loader = true;  // Prefer custom GGUFLoader over native llama.cpp
         bool fallback_to_native = true;          // Fallback to llama_load_model_from_file() on error
+        
+        // Security: Model integrity verification
+        bool require_model_integrity = false;   // Require SHA-256 checksum for model loading
     };
     
     explicit LazyModelLoader(const Config& config);

@@ -151,10 +151,10 @@ TEST(GeometricDistancesBatch, BatchCosineSimilarityMatchesSingle) {
 // ---------------------------------------------------------------------------
 
 // Known reference: London (51.5074, -0.1278) → Paris (48.8566, 2.3522)
-// Great-circle ≈ 340 km
+// Great-circle ≈ 343.6 km with the current Earth-radius constant.
 TEST(GeometricDistancesHaversine, LondonToParis) {
     double dist_km = themis::geo::haversine_km(51.5074, -0.1278, 48.8566, 2.3522);
-    EXPECT_NEAR(dist_km, 340.0, 340.0 * kGeoEpsPct);
+    EXPECT_NEAR(dist_km, 343.56, 343.56 * kGeoEpsPct);
 }
 
 // Metres variant is km * 1000

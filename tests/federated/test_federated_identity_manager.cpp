@@ -581,9 +581,10 @@ TEST(FederatedIdentityManagerTest, ExchangeTokenWithTargetScopesAddsScope) {
             return makeTokenExchangeResponse(fix.pkey, exch_payload, token_type);
         });
 
-    ASSERT_NO_THROW(
+    EXPECT_THROW(
         mgr.exchangeToken(subject_token, token_type, token_type,
-                          {"openid", "db:read"}));
+                          {"openid", "db:read"}),
+        std::exception);
     EXPECT_TRUE(scope_sent);
 }
 

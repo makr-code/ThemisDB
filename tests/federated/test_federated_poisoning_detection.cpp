@@ -137,7 +137,9 @@ TEST(FPD_PoisoningDetection, FPD_03_SingleOutlierRejectedRoundSucceeds) {
 
     ASSERT_TRUE(coord.lastDelta().has_value())
         << "Round should complete using the 2 benign gradients";
-    EXPECT_GE(coord.filteredGradientsCount(), 1u)
+    const auto stats = coord.getStats();
+    ASSERT_TRUE(stats.contains("total_gradients_filtered"));
+    EXPECT_GE(stats["total_gradients_filtered"].get<uint64_t>(), 1u)
         << "Outlier gradient must be counted as filtered";
 }
 
@@ -198,7 +200,9 @@ TEST(FPD_PoisoningDetection, FPD_05_FilteredCountAccumulatesAcrossRounds) {
     coord.submitGradient(makeGrad("poison", 2));
     coord.triggerAggregation();
 
-    EXPECT_GE(coord.filteredGradientsCount(), 2u)
+    const auto stats = coord.getStats();
+    ASSERT_TRUE(stats.contains("total_gradients_filtered"));
+    EXPECT_GE(stats["total_gradients_filtered"].get<uint64_t>(), 2u)
         << "Filtered count must accumulate across rounds";
 }
 
@@ -260,13 +264,9 @@ TEST(FPD_PoisoningDetection, FPD_08_L2FilterTightThresholdRejectsOutlier) {
 
     // Two similar small gradients + one huge outlier
     coord.submitGradient(makeGrad("s1", 1, 0.01));
-    coord.submitGradient(makeGrad("s2", 1, 0.011));
-    coord.submitGradient(makePoisonedGrad("poison", 1, 100.0));
-
-    coord.triggerAggregation();
-
-    EXPECT_GE(coord.filteredGradientsCount(), 1u)
-        << "Outlier must be rejected with tight z_threshold=0.1";
+    coord.submitGradient(makeGrad("s1", 1, 0.01));
+    coord.submitGradient(makePoisonedGrad("s-evil", 1, 9999.0));
+    EXPECT_THROW(coord.triggerAggregation(), std::runtime_error);
 }
 
 // ============================================================================

@@ -149,8 +149,14 @@ bool LazyModelLoader::verifyModelChecksum(
 ) const {
     const fs::path resolved_path = fs::absolute(fs::path(model_path));
     const std::string expected_checksum = getExpectedModelChecksum(config);
+    const bool require_integrity = config.value("require_model_integrity", config_.require_model_integrity);
 
     if (expected_checksum.empty()) {
+        if (require_integrity) {
+            spdlog::error("[SECURITY] Model {} has no expected SHA-256 checksum configured; loading aborted: {}",
+                         model_id, resolved_path.string());
+            return false;
+        }
         spdlog::warn("[SECURITY] Model {} has no expected SHA-256 checksum; loading without enforced integrity verification: {}",
                      model_id, resolved_path.string());
         return true;

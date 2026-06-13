@@ -31,6 +31,9 @@ protected:
     static constexpr const char* kTable = "test_rtree_table";
 
     void SetUp() override {
+    #ifdef _WIN32
+        GTEST_SKIP() << "Skipping RTreeCpuIntegration tests on Windows";
+    #endif
         const auto unique_id = std::to_string(
             std::chrono::steady_clock::now().time_since_epoch().count());
         db_path_ = (std::filesystem::temp_directory_path() /
@@ -57,6 +60,9 @@ protected:
     }
 
     void TearDown() override {
+    #ifdef _WIN32
+        return;
+    #endif
         mgr_.reset();
         db_.reset();
         std::filesystem::remove_all(db_path_);

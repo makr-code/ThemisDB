@@ -25,6 +25,8 @@
 #include <memory>
 #include <unordered_map>
 #include <chrono>
+#include <mutex>
+#include <shared_mutex>
 #include <nlohmann/json.hpp>
 
 namespace themis {
@@ -302,35 +304,35 @@ public:
     bool validate(std::string& error_message) const;
     
     // API Configuration
-    VisionAPIStability getAPIStability() const { return api_stability_; }
-    const std::string& getAPIVersion() const { return api_version_; }
-    const std::string& getAPIPrefix() const { return api_prefix_; }
-    bool isBackwardCompatible() const { return backward_compatible_; }
+    VisionAPIStability getAPIStability() const;
+    const std::string& getAPIVersion() const;
+    const std::string& getAPIPrefix() const;
+    bool isBackwardCompatible() const;
     
     // License Management
-    bool isLicenseEnforced() const { return enforce_licenses_; }
+    bool isLicenseEnforced() const;
     bool isLicenseAllowed(const std::string& license_id) const;
     std::shared_ptr<ModelLicense> getModelLicense(const std::string& model_id) const;
     bool validateModelUsage(const std::string& model_id, bool is_commercial) const;
     std::string getRequiredAttribution(const std::string& model_id) const;
     
     // Resource Management
-    const VisionResourceLimits& getResourceLimits() const { return resource_limits_; }
-    const VisionRateLimits& getRateLimits() const { return rate_limits_; }
-    const VisionResourceQuota& getResourceQuota() const { return resource_quota_; }
+    const VisionResourceLimits& getResourceLimits() const;
+    const VisionRateLimits& getRateLimits() const;
+    const VisionResourceQuota& getResourceQuota() const;
     
     // Monitoring
-    const VisionMonitoringConfig& getMonitoringConfig() const { return monitoring_config_; }
-    bool isMonitoringEnabled() const { return monitoring_config_.enabled; }
-    bool isAuditEnabled() const { return monitoring_config_.audit.enabled; }
+    const VisionMonitoringConfig& getMonitoringConfig() const;
+    bool isMonitoringEnabled() const;
+    bool isAuditEnabled() const;
     
     // Security
-    const VisionSecurityConfig& getSecurityConfig() const { return security_config_; }
-    bool isSandboxingEnabled() const { return security_config_.sandboxing.enabled; }
-    bool isModelVerificationEnabled() const { return security_config_.model_verification.enabled; }
+    const VisionSecurityConfig& getSecurityConfig() const;
+    bool isSandboxingEnabled() const;
+    bool isModelVerificationEnabled() const;
     
     // Pipeline
-    const VisionPipelineConfig& getPipelineConfig() const { return pipeline_config_; }
+    const VisionPipelineConfig& getPipelineConfig() const;
     
     // Model Registry
     std::vector<std::string> getAvailableModels() const;
@@ -343,6 +345,9 @@ public:
 
 private:
     VisionConfig() = default;
+    
+    // Thread safety
+    mutable std::shared_mutex config_mutex_;
     
     // Configuration data
     VisionAPIStability api_stability_ = VisionAPIStability::STABLE;

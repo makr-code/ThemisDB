@@ -677,9 +677,13 @@ json AsyncInferenceEngine::getWorkerStats() const {
 void AsyncInferenceEngine::waitForCompletion() {
     spdlog::info("Waiting for all pending inference requests to complete...");
     
-    // Use condition variable for efficient waiting instead of polling with sleep
+    // Use condition variable for efficient waiting with timeout instead of polling with sleep
     std::unique_lock<std::mutex> lock(queue_mutex_);
-    queue_cv_.wait(lock, [this] { return request_queue_.empty(); });
+    using namespace std::chrono_literals;
+    const auto timeout = std::chrono::seconds(300); // 5 minute timeout
+    if (!queue_cv_.wait_for(lock, timeout, [this] { return request_queue_.empty(); })) {
+        spdlog::warn("waitForCompletion: timeout waiting for request queue to empty");
+    }
     
     spdlog::info("All inference requests completed");
 }
@@ -695,10 +699,12 @@ void AsyncInferenceEngine::shutdown() {
     running_.store(false);
     queue_cv_.notify_all();
     
-    // Wait for workers to finish
+    // Wait for workers to finish with timeout
     for (auto& worker : workers_) {
         if (worker.joinable()) {
-            worker.join();
+            if (!themis::utils::joinThreadWithin(worker)) {
+                spdlog::warn("Worker thread did not join within timeout, continuing shutdown");
+            }
         }
     }
     workers_.clear();
@@ -723,13 +729,17 @@ void AsyncInferenceEngine::workerLoop(size_t worker_id) {
     while (running_.load()) {
         RequestQueueItem item;
         
-        // Wait for work
+        // Wait for work with timeout
         {
             std::unique_lock<std::mutex> lock(queue_mutex_);
+            using namespace std::chrono_literals;
+            const auto timeout = std::chrono::seconds(30); // 30 second timeout
             
-            queue_cv_.wait(lock, [this] {
+            if (!queue_cv_.wait_for(lock, timeout, [this] {
                 return !request_queue_.empty() || !running_.load();
-            });
+            })) {
+                spdlog::warn("Worker {}: timeout waiting for work, checking running flag", worker_id);
+            }
             
             if (!running_.load() && request_queue_.empty()) {
                 break;  // Shutdown
@@ -878,6 +888,8 @@ InferenceResponse AsyncInferenceEngine::processRequest(
         if (cached.has_value()) {
             stats_.total_dedup_cache_hits.fetch_add(1, std::memory_order_relaxed);
             spdlog::debug("Dedup cache hit for request {}", request.request_id);
+            // Protect concurrent metadata access with a lock
+            std::lock_guard<std::mutex> meta_lock(cache_meta_mutex_);
             cached->cache_hit = true;
             cached->metadata["async"] = true;
             cached->metadata["queue_time_ms"] = queue_time;
@@ -1007,11 +1019,17 @@ bool AsyncInferenceEngine::handleBackpressure(std::unique_lock<std::mutex>& lock
     
     switch (config_.backpressure) {
         case Config::BackpressurePolicy::BLOCK:
-            // Wait for space (releases lock while waiting)
-            queue_cv_.wait(lock, [this] {
-                return request_queue_.size() < config_.max_queue_size ||
-                       !running_.load();
-            });
+            // Wait for space with timeout (releases lock while waiting)
+            {
+                using namespace std::chrono_literals;
+                const auto timeout = std::chrono::seconds(30); // 30 second timeout
+                if (!queue_cv_.wait_for(lock, timeout, [this] {
+                    return request_queue_.size() < config_.max_queue_size ||
+                           !running_.load();
+                })) {
+                    spdlog::warn("Backpressure BLOCK: timeout waiting for queue space");
+                }
+            }
             return running_.load();
             
         case Config::BackpressurePolicy::DROP_OLDEST:
