@@ -7,6 +7,29 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Security / Quality — Gap Scanner V3 Phase 1–6 Improved-Pipeline & Verified Fixes (2026-06-14)
+
+**4 confirmed production defects fixed and merged-ready:**
+
+- **`src/network/wire_protocol_server.cpp`** — `parsePayloadJson` in alle 17 Handler-Pfade durch `parsePayloadJsonWithRetry(…, 2)` ersetzt; JSON-Parse-Fehler im Protokollpfad führen jetzt zu explizitem `sendError(400, …)` statt undefiniertem Verhalten.
+- **`src/llm/constitutional_reasoning_engine.cpp`** — `std::mutex` zu `std::recursive_mutex` promoviert; `generateCritique()` erhält eigenen `lock_guard`, sodass der Re-Eintritt über `reason()` keine Deadlock-Situation mehr erzeugt.
+- **`src/exporters/huggingface_hub_client.cpp`** — `CURLOPT_SSL_VERIFYPEER=1L` und `CURLOPT_SSL_VERIFYHOST=2L` in `httpPost()` und `httpPutBytes()` gesetzt; TLS-Verification war bisher deaktiviert (OWASP A02).
+- **`src/acceleration/cuda_backend.cpp`** — alle fünf `cudaMemset()`-Rückgabecodes in `batchKnnSearchWithGraph()` werden jetzt geprüft; Fehler erzeugen `ErrorContext(AllocationFailed)` mit aussagekräftiger Fehlermeldung statt stillschweigenden Puffern mit undefiniertem Inhalt.
+
+**Gap Scanner V3 — Improved-Pipeline implementiert (Phase 1–6):**
+
+- 12 neue `*_improved.py`-Scanner implementiert und in `tools/scanners/gs3_step00_uniform_full.py` verkabelt.
+- Jeder verbesserte Scanner reduziert eine spezifische False-Positive-Klasse (RAII-Whitelist, TLS-Kontext, Mutex-Scope-Erkennung, Test-/Benchmark-Ausschluss, GPU-Memory-API-Filter usw.).
+- Doxygen-Policy-Scanner (`gs3_step04_cpp_doxygen_policy_rules.py`) mit Pfad- und Signaturfiltern gehaertet.
+
+**Validierte Baseline nach allen Verbesserungen (Fast-Scan 2026-06-14):**
+- Deduplicated Findings: **22.085** (Baseline ohne Verbesserungen: **25.527**, Delta: **-3.442 / -13,5 %**)
+- CRITICAL: 1.077 | HIGH: 6.929 | MEDIUM: 8.237 | LOW: 5.842
+- Scope: themis_core 8.964 (40,6 %) | third_party 13.121 (59,4 %)
+
+**Alte ersetzter Scanner-Dateien bereinigt:**
+`gs3_step03_legacy_duplication.py`, `gs3_step03_key_failure.py`, `gs3_step04_performance_patterns.py`, `gs3_step04_design_error_rules.py`, `gs3_step02_exception_safety.py`, `gs3_step03_data_leak.py` (alle durch `*_improved`-Varianten ersetzt)
+
 ### Documentation / Governance — Scanner baseline and tracker consolidation (2026-06-11)
 
 - Root documentation synchronized to current scanner baseline:

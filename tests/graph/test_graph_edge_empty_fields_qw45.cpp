@@ -323,7 +323,10 @@ TEST_F(GraphEdgeEmptyFieldsTest, EmptyFieldValidation_ErrorMessageIndicatesEmpty
     auto status = graph_mgr_->addEdge(edge);
     
     EXPECT_FALSE(status.ok);
-    EXPECT_THAT(status.message, ::testing::MatchesRegex(".*_from.*|.*empty.*")) <<
+    const bool mentions_from_or_empty =
+        status.message.find("_from") != std::string::npos ||
+        status.message.find("empty") != std::string::npos;
+    EXPECT_TRUE(mentions_from_or_empty) <<
         "Error message should indicate '_from' field issue";
 }
 

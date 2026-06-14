@@ -46,7 +46,21 @@ json parseBody(const http::response<http::string_body>& response) {
 class VoiceApiHandlerPathValidationTest : public ::testing::Test {
 protected:
     VoiceApiHandlerPathValidationTest()
-        : handler{std::make_shared<voice::VoiceAssistant>(voice::VoiceAssistant::Config{})} {}
+        : handler{createVoiceAssistant(), createAuth()} {}
+
+    static std::shared_ptr<voice::VoiceAssistant> createVoiceAssistant() {
+        return std::make_shared<voice::VoiceAssistant>(voice::VoiceAssistant::Config{});
+    }
+
+    static std::shared_ptr<themis::AuthMiddleware> createAuth() {
+        auto auth = std::make_shared<themis::AuthMiddleware>();
+        themis::AuthMiddleware::TokenConfig cfg;
+        cfg.token = "test-token";
+        cfg.user_id = "voice-test-user";
+        cfg.scopes = {"admin", "data:read", "data:write", "metrics:read"};
+        auth->addToken(cfg);
+        return auth;
+    }
 
     VoiceApiHandler handler;
 };
@@ -76,7 +90,7 @@ TEST_F(VoiceApiHandlerPathValidationTest, SessionRejectsInvalidId) {
         makeRequest(http::verb::get, "/api/v1/voice/sessions/../bad"));
 
     ASSERT_EQ(response.result(), http::status::bad_request);
-    EXPECT_EQ(parseBody(response)["details"], "Invalid session path");
+    EXPECT_EQ(parseBody(response)["details"], "Invalid session ID");
 }
 
 TEST_F(VoiceApiHandlerPathValidationTest, SessionRejectsMissingId) {
@@ -573,7 +587,7 @@ TEST_F(VoiceApiHandlerPathValidationTest, ListRecordingsRejectsInvalidLimit) {
         makeRequest(http::verb::get, "/api/v1/voice/recordings?limit=abc"));
 
     ASSERT_EQ(response.result(), http::status::bad_request);
-    EXPECT_EQ(parseBody(response)["details"], "limit must be a positive integer");
+    EXPECT_EQ(parseBody(response)["details"], "limit must be an integer between 1 and 1000");
 }
 
 TEST_F(VoiceApiHandlerPathValidationTest, SearchTranscriptsRejectsInvalidLimit) {
@@ -581,7 +595,7 @@ TEST_F(VoiceApiHandlerPathValidationTest, SearchTranscriptsRejectsInvalidLimit) 
         makeRequest(http::verb::get, "/api/v1/voice/recordings/search?q=hello&limit=abc"));
 
     ASSERT_EQ(response.result(), http::status::bad_request);
-    EXPECT_EQ(parseBody(response)["details"], "limit must be a positive integer");
+    EXPECT_EQ(parseBody(response)["details"], "limit must be an integer between 1 and 1000");
 }
 
 TEST_F(VoiceApiHandlerPathValidationTest, GetRecordingRejectsInvalidFormat) {

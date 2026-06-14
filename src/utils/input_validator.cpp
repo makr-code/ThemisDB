@@ -95,6 +95,15 @@ bool InputValidator::validatePathSegment(const std::string& segment) const {
     for (char c : segment) {
         if (isAsciiControl(c)) return false;
     }
+
+    // Enforce conservative identifier format for path-like IDs.
+    // Allowed: ASCII alnum, underscore, hyphen.
+    for (char c : segment) {
+        const unsigned char uc = static_cast<unsigned char>(c);
+        if (!(std::isalnum(uc) || c == '_' || c == '-')) {
+            return false;
+        }
+    }
     return true;
 }
 

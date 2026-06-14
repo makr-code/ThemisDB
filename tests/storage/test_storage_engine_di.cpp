@@ -109,11 +109,9 @@ TEST_F(StorageEngineErrorHandlingTest, SuccessPath) {
     auto put_result = storage_->put("test_key", "test_value");
     ASSERT_TRUE(put_result);
     
-    // In a real implementation, get would return the value
-    // For now, it returns error (not implemented)
     auto get_result = storage_->get("test_key");
-    // This is expected to fail in the stub implementation
-    ASSERT_FALSE(get_result);
+    ASSERT_TRUE(get_result);
+    EXPECT_EQ(*get_result, "test_value");
 }
 
 // Test: Result<T> can be checked with if statement
@@ -207,8 +205,9 @@ TEST_F(StorageEngineProductionGuardTest, DefaultImplementationsWorkInDevelopment
     ASSERT_TRUE(storage->open("/tmp/test_db"));
     ASSERT_TRUE(storage->put("key", "value"));
     
-    // Default evaluator always returns true
-    EXPECT_TRUE(storage->apply_filter("some_expression", nullptr));
+    // Default evaluator only accepts empty expressions and throws for non-empty
+    EXPECT_TRUE(storage->apply_filter("", nullptr));
+    EXPECT_THROW(storage->apply_filter("some_expression", nullptr), std::logic_error);
     
     // Default encryption is pass-through
     std::vector<uint8_t> data = {1, 2, 3, 4};
@@ -252,8 +251,9 @@ TEST_F(StorageEngineProductionGuardTest, DefaultEvaluatorAllowedInProduction) {
     auto evaluator = StorageEngine::createDefaultEvaluator();
     ASSERT_NE(evaluator, nullptr);
     
-    // Should still work, just logs warnings
-    EXPECT_TRUE(evaluator->evaluate("test", nullptr));
+    // Empty expressions still pass, non-empty expressions fail fast.
+    EXPECT_TRUE(evaluator->evaluate("", nullptr));
+    EXPECT_THROW(evaluator->evaluate("test", nullptr), std::logic_error);
 }
 
 TEST_F(StorageEngineProductionGuardTest, IndexManagerAllowedInProduction) {

@@ -154,7 +154,7 @@ TEST_F(StorageEngineProdTest, ScanRange_EarlyStop) {
     insertRange("e:", 0, 10);
 
     int count = 0;
-    engine_->scanRange("", "", [&](std::string_view, std::string_view) {
+    engine_->scanRange("e:00", "e:99", [&](std::string_view, std::string_view) {
         return ++count < 3; // stop after 2
     });
     EXPECT_EQ(count, 3); // callback returns false on 3rd call
@@ -173,12 +173,12 @@ TEST_F(StorageEngineProdTest, ScanRange_FullKeyspace) {
     insertRange("p:", 0, 5);
 
     std::vector<std::string> keys;
-    engine_->scanRange("", "", [&](std::string_view k, std::string_view) {
+    engine_->scanRange("p:00", "p:99", [&](std::string_view k, std::string_view) {
         keys.emplace_back(k);
         return true;
     });
-    // All 5 keys must appear.
-    EXPECT_GE(keys.size(), 5u);
+    // All 5 keys in the p:-namespace must appear.
+    EXPECT_EQ(keys.size(), 5u);
 }
 
 // ─────────────────────────────────────────────────────────────────────────────

@@ -150,6 +150,10 @@ GraphIndexManager::Status GraphIndexManager::addEdge(const BaseEntity& edge) {
 		THEMIS_ERROR("QW-45 Guard: Edge rejected - _to field is empty (fail-closed)");
 		return Status::Error("addEdge: QW-45 Guard - _to node ID cannot be empty");
 	}
+	if (eidOpt->empty()) {
+		THEMIS_ERROR("QW-45 Guard: Edge rejected - id field is empty (fail-closed)");
+		return Status::Error("addEdge: QW-45 Guard - edge ID cannot be empty");
+	}
 
 	// Variablen verwendet in addEdge-Überladung
 	[[maybe_unused]] const std::string& eid = *eidOpt;
@@ -207,6 +211,10 @@ GraphIndexManager::Status GraphIndexManager::addEdge(const BaseEntity& edge, Roc
 	if (toOpt->empty()) {
 		THEMIS_ERROR("QW-45 Guard: Edge rejected in WriteBatch - _to field is empty (fail-closed)");
 		return Status::Error("addEdge(batch): QW-45 Guard - _to node ID cannot be empty");
+	}
+	if (eidOpt->empty()) {
+		THEMIS_ERROR("QW-45 Guard: Edge rejected in WriteBatch - id field is empty (fail-closed)");
+		return Status::Error("addEdge(batch): QW-45 Guard - edge ID cannot be empty");
 	}
 	
 	const std::string& eid = *eidOpt; const std::string& from = *fromOpt; const std::string& to = *toOpt;
@@ -1376,6 +1384,10 @@ GraphIndexManager::Status GraphIndexManager::addEdge(const BaseEntity& edge, Roc
 	if (toOpt->empty()) {
 		THEMIS_ERROR("QW-45 Guard: Edge rejected in Transaction - _to field is empty (fail-closed)");
 		return Status::Error("addEdge(txn): QW-45 Guard - _to node ID cannot be empty");
+	}
+	if (eidOpt->empty()) {
+		THEMIS_ERROR("QW-45 Guard: Edge rejected in Transaction - id field is empty (fail-closed)");
+		return Status::Error("addEdge(txn): QW-45 Guard - edge ID cannot be empty");
 	}
 	
 	const std::string& eid = *eidOpt; 
