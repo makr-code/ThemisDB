@@ -16824,7 +16824,6 @@ function(add_index_focused_test target_name test_src test_name labels descriptio
                 ${THEMIS_ROOT_DIR}/src/index/gpu_memory_oversubscription.cpp
                 ${THEMIS_ROOT_DIR}/src/index/gpu_vector_index.cpp
                 ${THEMIS_ROOT_DIR}/src/gpu/gpu_memory_manager_edition.cpp
-                ${THEMIS_ROOT_DIR}/src/utils/logger.cpp
             )
         endif()
 
@@ -26095,6 +26094,7 @@ target_link_libraries(themis_tests_critical
 include(GoogleTest)
 gtest_discover_tests(themis_tests_critical
     DISCOVERY_MODE PRE_TEST
+    DISCOVERY_TIMEOUT 300
     WORKING_DIRECTORY $<TARGET_FILE_DIR:themis_tests_critical>
     EXTRA_ARGS --gtest_color=yes
     CONFIGURATIONS Release Debug
@@ -27419,9 +27419,11 @@ get_directory_property(_focused_test_targets BUILDSYSTEM_TARGETS)
 set(_logger_src_variants
     "${THEMIS_ROOT_DIR}/src/utils/logger.cpp"
     "${CMAKE_SOURCE_DIR}/src/utils/logger.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/../src/utils/logger.cpp"
+    "../src/utils/logger.cpp"
 )
 foreach(_tgt IN LISTS _focused_test_targets)
-    if(_tgt STREQUAL "themis_tests" OR _tgt STREQUAL "test_websocket_cdc_focused" OR _tgt STREQUAL "test_gpu_memory_oversubscription_focused")
+    if(_tgt STREQUAL "themis_tests" OR _tgt STREQUAL "test_websocket_cdc_focused")
         continue()
     endif()
     get_target_property(_tgt_type ${_tgt} TYPE)

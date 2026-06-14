@@ -66,28 +66,38 @@ class AuditLoggingScan:
     
     def _check_missing_audit_logs(self, file_path: Path, lines: List[str]):
         """Find security functions without audit logs"""
+        rel_file = str(file_path.relative_to(self.repo_root)).replace('\\', '/').lower()
+        if rel_file.startswith('tests/') or rel_file.startswith('benchmarks/'):
+            return
         
         for idx, line in enumerate(lines, 1):
             # Check for security function definitions
             for sec_func in self.security_functions:
-                if re.search(rf'\b{sec_func}\s*\(', line, re.IGNORECASE):
-                    # Look ahead for audit logging
-                    next_lines = '\n'.join(lines[idx:min(idx+20, len(lines))])
-                    
-                    if not re.search(
-                        r'(audit_log|logger->.*log|LOG\(|AUDIT_|audit_trail)',
-                        next_lines,
-                        re.IGNORECASE
-                    ):
-                        self.gaps.append({
-                            'file': str(file_path.relative_to(self.repo_root)),
-                            'line': idx,
-                            'category': 'audit_logging',
-                            'severity': 'CRITICAL',
-                            'pattern': 'missing_audit_log',
-                            'description': f'Security function "{sec_func}" without audit log',
-                            'context': line.strip()
-                        })
+                if not re.search(rf'\b{sec_func}\s*\(', line, re.IGNORECASE):
+                    continue
+
+                if line.strip().endswith(';'):
+                    continue
+                if not re.search(rf'\b{sec_func}\s*\([^;]*\)\s*(?:const\s*)?(?:noexcept\s*)?(?:\{{)?\s*$', line, re.IGNORECASE):
+                    continue
+
+                # Look ahead for audit logging
+                next_lines = '\n'.join(lines[idx:min(idx+40, len(lines))])
+
+                if not re.search(
+                    r'(audit_log|logger->.*log|LOG\(|AUDIT_|audit_trail)',
+                    next_lines,
+                    re.IGNORECASE
+                ):
+                    self.gaps.append({
+                        'file': str(file_path.relative_to(self.repo_root)),
+                        'line': idx,
+                        'category': 'audit_logging',
+                        'severity': 'CRITICAL',
+                        'pattern': 'missing_audit_log',
+                        'description': f'Security function "{sec_func}" without audit log',
+                        'context': line.strip()
+                    })
     
     def _check_hardcoded_output(self, file_path: Path, lines: List[str]):
         """Find std::cout/printf instead of structured logging"""

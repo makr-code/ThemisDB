@@ -1581,6 +1581,12 @@ json ThemisRPCService::handleTimeSeriesQueryInternal(
         // Extract time series parameters
         uint64_t start_time = params.value("start_time", static_cast<uint64_t>(0));
         uint64_t end_time = params.value("end_time", static_cast<uint64_t>(0));
+        if (start_time == 0) {
+            start_time = params.value("start_ts", static_cast<uint64_t>(0));
+        }
+        if (end_time == 0) {
+            end_time = params.value("end_ts", static_cast<uint64_t>(0));
+        }
         std::string aggregation(params.value("aggregation", ""));  // sum, avg, min, max, count
         std::string agg_field(params.value("field", ""));          // field to aggregate
         int limit = params.value("limit", 1000);
@@ -1616,7 +1622,7 @@ json ThemisRPCService::handleTimeSeriesQueryInternal(
         iter.Seek(prefix);
         while (iter.Valid() && count < limit) {
             ++scanned_keys;
-            if (shouldCheckDeadline(scanned_keys) && isDeadlineExceeded(deadline)) {
+            if (isDeadlineExceeded(deadline)) {
                 return createError(
                     themis::plugins::rpc::RPCErrorCode::QUERY_TIMEOUT,
                     "Request deadline exceeded during time series collection scan"
@@ -2015,7 +2021,7 @@ json ThemisRPCService::handleSearchInternal(
         iter.Seek(prefix);
         while (iter.Valid() && count < limit) {
             ++scanned_keys;
-            if (shouldCheckDeadline(scanned_keys) && isDeadlineExceeded(deadline)) {
+            if (isDeadlineExceeded(deadline)) {
                 return createError(
                     themis::plugins::rpc::RPCErrorCode::QUERY_TIMEOUT,
                     "Request deadline exceeded during search collection scan"
@@ -2429,7 +2435,7 @@ json ThemisRPCService::handlePaginatedQueryInternal(
         std::string next_cursor;
         while (iter.Valid() && count < page_size) {
             ++scanned_keys;
-            if (shouldCheckDeadline(scanned_keys) && isDeadlineExceeded(deadline)) {
+            if (isDeadlineExceeded(deadline)) {
                 return createError(
                     themis::plugins::rpc::RPCErrorCode::QUERY_TIMEOUT,
                     "Request deadline exceeded during paginated query scan"

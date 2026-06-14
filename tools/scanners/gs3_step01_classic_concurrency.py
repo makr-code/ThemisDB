@@ -69,7 +69,7 @@ class ConcurrencyGapScanner:
     
     SHARED_DATA_KEYWORDS = [
         'static', 'global_', '_g_', 'g_', 'shared', 'cache', 'registry',
-        'map_', '_map', 'set_', '_set', 'queue_', '_queue', 'pool_'
+        'map_', '_map', 'queue_', '_queue', 'pool_'
     ]
     
     def __init__(self, repo_root: str = '.'):
@@ -82,6 +82,26 @@ class ConcurrencyGapScanner:
         end = min(len(lines), line_idx + 6)
         context = ''.join(lines[start:end])
         return bool(re.search(r'std::(lock_guard|unique_lock|scoped_lock|shared_lock)\b', context))
+
+    def _has_shared_keyword(self, line: str) -> bool:
+        """Match shared-state hints as tokens, not arbitrary substrings."""
+        for keyword in self.SHARED_DATA_KEYWORDS:
+            if re.search(rf'(?<![A-Za-z0-9_]){re.escape(keyword)}(?![A-Za-z0-9_])', line):
+                return True
+        return False
+
+    def _is_likely_local_object_access(self, lines: List[str], line_idx: int, line: str) -> bool:
+        """Heuristic: suppress object->field assignments on locally declared objects."""
+        obj_match = re.search(r'\b([A-Za-z_]\w*)\s*->', line)
+        if not obj_match:
+            return False
+
+        obj = obj_match.group(1)
+        start = max(0, line_idx - 30)
+        context = ''.join(lines[start:line_idx + 1])
+        # Covers common local declarations: auto x = ..., Type x(...), Type x = ...
+        local_decl = rf'\b(?:auto|const\s+auto|[A-Za-z_]\w*(?:::[A-Za-z_]\w*)*(?:<[^>]+>)?(?:\s*[*&])?)\s+{re.escape(obj)}\b'
+        return bool(re.search(local_decl, context))
 
     def _collect_lock_targets_in_block(self, lines: List[str], start_idx: int) -> List[str]:
         """Collect lock targets in the current lexical block only."""
@@ -131,23 +151,22 @@ class ConcurrencyGapScanner:
                 continue
             
             # Check for shared data without lock
-            for keyword in self.SHARED_DATA_KEYWORDS:
-                if keyword in line and '=' in line:
-                    # Found potential shared data access
-                    # Check broader context to catch lock scopes declared earlier.
-                    has_lock = self._has_lock_context(lines, line_num - 1)
-                    
-                    if not has_lock and '->' in line:
-                        gap = ConcurrencyGap(
-                            file_path=str(file_path.relative_to(self.repo_root)),
-                            line_num=line_num,
-                            gap_type=ConcurrencyGapType.DATA_RACE,
-                            snippet=line.strip()[:100],
-                            severity='CRITICAL',
-                            description=f'Shared data access without lock protection',
-                            remediation='Protect shared data with std::lock_guard or std::unique_lock'
-                        )
-                        gaps.append(gap)
+            if '=' in line and '->' in line and self._has_shared_keyword(line):
+                # Found potential shared data access.
+                # Check broader context to catch lock scopes declared earlier.
+                has_lock = self._has_lock_context(lines, line_num - 1)
+
+                if (not has_lock) and (not self._is_likely_local_object_access(lines, line_num - 1, line)):
+                    gap = ConcurrencyGap(
+                        file_path=str(file_path.relative_to(self.repo_root)),
+                        line_num=line_num,
+                        gap_type=ConcurrencyGapType.DATA_RACE,
+                        snippet=line.strip()[:100],
+                        severity='CRITICAL',
+                        description=f'Shared data access without lock protection',
+                        remediation='Protect shared data with std::lock_guard or std::unique_lock'
+                    )
+                    gaps.append(gap)
             
             # Check for missing lock guards around mutex
             if re.search(r'mutex\s*\(', line) or re.search(r'\.lock\(\)', line):

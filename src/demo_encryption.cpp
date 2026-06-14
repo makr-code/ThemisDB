@@ -37,7 +37,7 @@ using themis::VaultKeyProvider;
 
 class EncryptionDemo {
 public:
-    EncryptionDemo(const std::string& mode) : mode_(mode) {
+    explicit EncryptionDemo(const std::string& mode) : mode_(mode) {
         std::cout << "\n";
         std::cout << "╔════════════════════════════════════════════════════════════════╗\n";
         std::cout << "║         Themis Column-Level Encryption Demo                   ║\n";

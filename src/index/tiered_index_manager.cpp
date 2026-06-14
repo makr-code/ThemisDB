@@ -323,20 +323,24 @@ MigrationResult TieredIndexManager::doMigrate(const std::string&  name,
 
     const std::string dest_path = pathForTier(name, to);
     const std::string src_path  = pathForTier(name, from);
-    const std::string target_path = dest_path.empty() ? live_path : dest_path;
-    const std::string source_path = src_path.empty() ? live_path : src_path;
+    // Always report the registered path (live_path) in migration results
+    const std::string target_path = live_path;
+    const std::string source_path = live_path;
+    // Actual filesystem paths for export/import callbacks
+    const std::string export_dest = dest_path.empty() ? live_path : dest_path;
+    const std::string import_src  = src_path.empty() ? live_path : src_path;
 
     const bool is_demotion = (static_cast<int>(to) > static_cast<int>(from));
 
     if (is_demotion) {
         // Export (serialize) the index to the destination tier path.
         try {
-            if (!export_fn(name, target_path)) {
+            if (!export_fn(name, export_dest)) {
                 std::ostringstream oss;
                 oss << "export failed while demoting from "
                     << IndexTierMeta::tierName(from) << " to "
                     << IndexTierMeta::tierName(to)
-                    << " (target=" << target_path << ")";
+                    << " (target=" << export_dest << ")";
                 return MigrationResult::Err(
                     name,
                     from,
@@ -351,7 +355,7 @@ MigrationResult TieredIndexManager::doMigrate(const std::string&  name,
             oss << "export threw while demoting from "
                 << IndexTierMeta::tierName(from) << " to "
                 << IndexTierMeta::tierName(to)
-                << " (target=" << target_path << "): "
+                << " (target=" << export_dest << "): "
                 << e.what();
             return MigrationResult::Err(
                 name,
@@ -366,7 +370,7 @@ MigrationResult TieredIndexManager::doMigrate(const std::string&  name,
             oss << "export threw non-standard exception while demoting from "
                 << IndexTierMeta::tierName(from) << " to "
                 << IndexTierMeta::tierName(to)
-                << " (target=" << target_path << ")";
+                << " (target=" << export_dest << ")";
             return MigrationResult::Err(
                 name,
                 from,
@@ -379,12 +383,12 @@ MigrationResult TieredIndexManager::doMigrate(const std::string&  name,
     } else {
         // Promotion: import (deserialize) from the source tier path.
         try {
-            if (!import_fn(name, source_path)) {
+            if (!import_fn(name, import_src)) {
                 std::ostringstream oss;
                 oss << "import failed while promoting from "
                     << IndexTierMeta::tierName(from) << " to "
                     << IndexTierMeta::tierName(to)
-                    << " (source=" << source_path << ")";
+                    << " (source=" << import_src << ")";
                 return MigrationResult::Err(
                     name,
                     from,
@@ -399,7 +403,7 @@ MigrationResult TieredIndexManager::doMigrate(const std::string&  name,
             oss << "import threw while promoting from "
                 << IndexTierMeta::tierName(from) << " to "
                 << IndexTierMeta::tierName(to)
-                << " (source=" << source_path << "): "
+                << " (source=" << import_src << "): "
                 << e.what();
             return MigrationResult::Err(
                 name,
@@ -414,7 +418,7 @@ MigrationResult TieredIndexManager::doMigrate(const std::string&  name,
             oss << "import threw non-standard exception while promoting from "
                 << IndexTierMeta::tierName(from) << " to "
                 << IndexTierMeta::tierName(to)
-                << " (source=" << source_path << ")";
+                << " (source=" << import_src << ")";
             return MigrationResult::Err(
                 name,
                 from,

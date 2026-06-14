@@ -58,7 +58,7 @@ class E2EEncryptionScanner:
     
     # TRANSIT ENCRYPTION PATTERNS
     TRANSIT_PATTERNS = {
-        'plaintext_http': re.compile(r'http://|HTTP_|socket\(|connect\(.*80\)', re.IGNORECASE),
+        'plaintext_http': re.compile(r'\bhttp://|socket\(|connect\(.*(?:\b80\b|:80\b)', re.IGNORECASE),
         'no_tls': re.compile(r'send\(.*socket|write\(.*socket|TCP.*plaintext', re.IGNORECASE),
         'weak_ssl': re.compile(r'SSLv2|SSLv3|TLSv1\(\)|verify.*false', re.IGNORECASE),
     }
@@ -84,6 +84,7 @@ class E2EEncryptionScanner:
     # APPROVED PATTERNS (WHITELIST)
     APPROVED_PATTERNS = {
         'tls_explicit': re.compile(r'HTTPS|TLS_|SSL_CONTEXT_TLS|tls://'),
+        'curl_tls_verify': re.compile(r'CURLOPT_SSL_VERIFYPEER\s*,\s*1L|CURLOPT_SSL_VERIFYHOST\s*,\s*2L', re.IGNORECASE),
         'encryption_framework': re.compile(r'EVP_encrypt|crypto_secretbox|sodium_|ChaCha20-Poly1305|AES-256-GCM'),
         'verified_encrypt': re.compile(r'HMAC|MAC|signature|EVP_CTRL_GCM_GET_TAG|auth_tag'),
     }
@@ -111,6 +112,15 @@ class E2EEncryptionScanner:
             if pattern.search(line):
                 return True
         return False
+
+    def _has_tls_verification_context(self, lines: List[str], line_idx: int) -> bool:
+        """Best-effort detection for explicit libcurl TLS verification nearby."""
+        start = max(0, line_idx - 25)
+        end = min(len(lines), line_idx + 25)
+        context = ''.join(lines[start:end])
+        has_peer = re.search(r'CURLOPT_SSL_VERIFYPEER\s*,\s*1L', context, re.IGNORECASE)
+        has_host = re.search(r'CURLOPT_SSL_VERIFYHOST\s*,\s*2L', context, re.IGNORECASE)
+        return bool(has_peer and has_host)
     
     def _check_missing_verification(self, file_path: Path, lines: List[str]) -> List[E2EEncryptionGap]:
         """Detect encryption without integrity verification (MAC/signature)"""
@@ -211,6 +221,14 @@ class E2EEncryptionScanner:
             
             # Transit encryption
             if self.TRANSIT_PATTERNS['plaintext_http'].search(line):
+                # False-positive guard: local status variables (e.g. long http_code)
+                # are not plaintext transport configuration.
+                if re.search(r'\bhttp_(?:code|status)\b', line, re.IGNORECASE):
+                    continue
+                # If line is in a verified libcurl TLS setup context and does not
+                # explicitly use plaintext URLs, suppress the finding.
+                if 'http://' not in line.lower() and self._has_tls_verification_context(lines, line_num - 1):
+                    continue
                 if not self._is_approved_usage(line):
                     gaps.append(E2EEncryptionGap(
                         file_path=str(file_path.relative_to(self.repo_root)),
