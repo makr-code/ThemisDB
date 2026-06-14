@@ -22,6 +22,13 @@ protected:
         // Create with default ReplicationConfig
         ReplicationConfig config;
         manager_ = std::make_shared<ReplicationManager>(config);
+        ASSERT_TRUE(manager_->initialize());
+    }
+
+    void TearDown() override {
+        if (manager_) {
+            manager_->shutdown();
+        }
     }
 };
 

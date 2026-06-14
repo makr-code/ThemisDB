@@ -515,10 +515,12 @@ TEST_F(ParallelDownloaderResumeTest, FreshDownloadWhenResumeDisabled) {
     EXPECT_FALSE(results[0].was_resumed);
 
     // Destination must contain only the fresh content
-    std::ifstream f(dest, std::ios::binary);
-    const std::string actual{std::istreambuf_iterator<char>(f),
-                              std::istreambuf_iterator<char>()};
-    EXPECT_EQ(actual, content);
+    {
+        std::ifstream f(dest, std::ios::binary);
+        const std::string actual{std::istreambuf_iterator<char>(f),
+                                  std::istreambuf_iterator<char>()};
+        EXPECT_EQ(actual, content);
+    }
 
     fs::remove_all(dir);
 }

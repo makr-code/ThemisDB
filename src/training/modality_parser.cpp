@@ -116,7 +116,7 @@ static bool isAlignedTableRow(const std::string& line) {
 //   Art. 14 GG
 //   §§ 123, 124 BGB  (plural)
 static const std::regex RE_STATUTORY(
-    R"((?:§§?\s*\d+(?:\s+[A-Za-z][A-Za-z]*\.?(?:\s+Abs\.\s*\d+)?)?(?:\s+(?:BGB|HGB|StGB|ZPO|GG|VwGO|AO|UStG|InsO|GmbHG|AktG|WpHG|KWG|SGB|UrhG|BRAO|BBodSchG|TKG|TMG|GDPR|DSGVO|MarkenG|PatG|[A-Z]{2,8})))|(?:Art\.\s*\d+(?:\s+Abs\.\s*\d+)?\s+[A-Z]{2,8}))",
+    R"((?:(?:§§?|\xC2\xA7(?:\xC2\xA7)?|\xA7\xA7?)\s*\d+(?:\s*Abs\.\s*\d+)?(?:\s+(?:BGB|HGB|StGB|ZPO|GG|VwGO|AO|UStG|InsO|GmbHG|AktG|WpHG|KWG|SGB|UrhG|BRAO|BBodSchG|TKG|TMG|GDPR|DSGVO|MarkenG|PatG|[A-Z]{2,10}))?)|(?:Art\.\s*\d+(?:\s*Abs\.\s*\d+)?\s+[A-Z]{2,10}))",
     std::regex_constants::optimize | std::regex_constants::ECMAScript);
 
 // Matches German court decision citations:

@@ -73,13 +73,10 @@ std::string calculateSHA256(const std::string& file_path) {
     return computeFileHash(file_path, EVP_sha256());
 }
 
-// GAP-005 resolved: calculateMD5() now delegates to SHA-256 via the EVP API.
-// The deprecated signature is kept for backward-compatible callers that still
-// reference the old symbol (e.g. llm_deployment_plugin.cpp for legacy manifests).
-// Production callers MUST migrate to calculateSHA256(). MD5 hard-rejection is
-// planned for v2.0.0 (see FUTURE_ENHANCEMENTS.md "MD5 hard-reject").
+// calculateMD5 remains available only for legacy compatibility.
+// New code must use SHA-256 via calculateSHA256().
 std::string calculateMD5(const std::string& file_path) {
-    return computeFileHash(file_path, EVP_sha256());
+    return computeFileHash(file_path, EVP_md5());
 }
 
 } // namespace utils

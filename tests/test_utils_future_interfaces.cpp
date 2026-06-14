@@ -27,6 +27,28 @@
 
 using namespace themis::utils;
 
+static bool lz4RuntimeAvailable() {
+    return lz4_compress_bound(1024) > 0;
+}
+
+static bool zstdStreamingRuntimeAvailable() {
+    ZstdStreamCompressor enc(1);
+    const uint8_t payload[] = {0x61, 0x62, 0x63};
+    auto chunk_res = enc.compress_chunk(payload, sizeof(payload));
+    auto flush_res = enc.flush();
+    if (!chunk_res.has_value() || !flush_res.has_value()) {
+        return false;
+    }
+
+    std::vector<uint8_t> frame;
+    frame.insert(frame.end(), chunk_res->begin(), chunk_res->end());
+    frame.insert(frame.end(), flush_res->begin(), flush_res->end());
+
+    ZstdStreamDecompressor dec;
+    auto out = dec.decompress_chunk(frame);
+    return out.has_value();
+}
+
 // ============================================================================
 // UUID v7
 // ============================================================================
@@ -134,6 +156,9 @@ TEST_F(LZ4CodecTests, LZ4_01_RoundTrip) {
         reinterpret_cast<const uint8_t*>(original.data()), original.size());
 
 #ifdef THEMIS_HAS_LZ4
+    if (!lz4RuntimeAvailable()) {
+        GTEST_SKIP() << "LZ4 runtime unavailable despite THEMIS_HAS_LZ4";
+    }
     ASSERT_FALSE(compressed.empty());
     const auto decompressed = lz4_decompress(compressed, original.size());
     ASSERT_EQ(decompressed.size(), original.size());
@@ -156,6 +181,9 @@ TEST_F(LZ4CodecTests, LZ4_03_SafeApiRoundTrip) {
     auto res = lz4_compress_safe(data.data(), data.size());
 
 #ifdef THEMIS_HAS_LZ4
+    if (!lz4RuntimeAvailable()) {
+        GTEST_SKIP() << "LZ4 runtime unavailable despite THEMIS_HAS_LZ4";
+    }
     ASSERT_TRUE(res.has_value());
     auto dec = lz4_decompress_safe(*res, data.size());
     ASSERT_TRUE(dec.has_value());
@@ -168,6 +196,9 @@ TEST_F(LZ4CodecTests, LZ4_03_SafeApiRoundTrip) {
 TEST_F(LZ4CodecTests, LZ4_04_CompressBoundNonZero) {
     const size_t bound = lz4_compress_bound(1024);
 #ifdef THEMIS_HAS_LZ4
+    if (!lz4RuntimeAvailable()) {
+        GTEST_SKIP() << "LZ4 runtime unavailable despite THEMIS_HAS_LZ4";
+    }
     EXPECT_GT(bound, 1024u);
 #else
     EXPECT_EQ(bound, 0u);
@@ -193,6 +224,9 @@ TEST_F(LZ4CodecTests, LZ4_07_VectorRoundTrip) {
     const auto compressed = lz4_compress(original);
 
 #ifdef THEMIS_HAS_LZ4
+    if (!lz4RuntimeAvailable()) {
+        GTEST_SKIP() << "LZ4 runtime unavailable despite THEMIS_HAS_LZ4";
+    }
     ASSERT_FALSE(compressed.empty());
     const auto decompressed = lz4_decompress(compressed, original.size());
     EXPECT_EQ(decompressed, original);
@@ -206,6 +240,9 @@ TEST_F(LZ4CodecTests, LZ4_08_StringOverload) {
     const auto compressed = lz4_compress(text);
 
 #ifdef THEMIS_HAS_LZ4
+    if (!lz4RuntimeAvailable()) {
+        GTEST_SKIP() << "LZ4 runtime unavailable despite THEMIS_HAS_LZ4";
+    }
     ASSERT_FALSE(compressed.empty());
     const auto decompressed = lz4_decompress(compressed, text.size());
     EXPECT_EQ(std::string(decompressed.begin(), decompressed.end()), text);
@@ -229,6 +266,9 @@ TEST_F(ZstdStreamTests, ZS_01_CompressorFlushProducesDecompressibleOutput) {
     auto flush_res = enc.flush();
 
 #ifdef THEMIS_HAS_ZSTD
+    if (!zstdStreamingRuntimeAvailable()) {
+        GTEST_SKIP() << "ZSTD streaming runtime unavailable despite THEMIS_HAS_ZSTD";
+    }
     ASSERT_TRUE(chunk_res.has_value());
     ASSERT_TRUE(flush_res.has_value());
 
@@ -254,6 +294,9 @@ TEST_F(ZstdStreamTests, ZS_02_DecompressorRoundTrip) {
         reinterpret_cast<const uint8_t*>(original.data()), original.size());
 
 #ifdef THEMIS_HAS_ZSTD
+    if (!zstdStreamingRuntimeAvailable()) {
+        GTEST_SKIP() << "ZSTD streaming runtime unavailable despite THEMIS_HAS_ZSTD";
+    }
     ASSERT_FALSE(frame.empty());
 
     ZstdStreamDecompressor dec;
@@ -279,6 +322,9 @@ TEST_F(ZstdStreamTests, ZS_03_MultiChunkCompressDecompress) {
     auto rf = enc.flush();
 
 #ifdef THEMIS_HAS_ZSTD
+    if (!zstdStreamingRuntimeAvailable()) {
+        GTEST_SKIP() << "ZSTD streaming runtime unavailable despite THEMIS_HAS_ZSTD";
+    }
     ASSERT_TRUE(r1.has_value()); ASSERT_TRUE(r2.has_value()); ASSERT_TRUE(rf.has_value());
     frame.insert(frame.end(), r1->begin(), r1->end());
     frame.insert(frame.end(), r2->begin(), r2->end());
@@ -305,6 +351,9 @@ TEST_F(ZstdStreamTests, ZS_04_CompressorReset) {
     auto f1 = enc.flush();
 
 #ifdef THEMIS_HAS_ZSTD
+    if (!zstdStreamingRuntimeAvailable()) {
+        GTEST_SKIP() << "ZSTD streaming runtime unavailable despite THEMIS_HAS_ZSTD";
+    }
     ASSERT_TRUE(r1.has_value()); ASSERT_TRUE(f1.has_value());
 
     enc.reset();
@@ -330,6 +379,9 @@ TEST_F(ZstdStreamTests, ZS_05_DecompressorReset) {
         reinterpret_cast<const uint8_t*>(original.data()), original.size());
 
 #ifdef THEMIS_HAS_ZSTD
+    if (!zstdStreamingRuntimeAvailable()) {
+        GTEST_SKIP() << "ZSTD streaming runtime unavailable despite THEMIS_HAS_ZSTD";
+    }
     ASSERT_FALSE(frame.empty());
 
     ZstdStreamDecompressor dec;
@@ -352,6 +404,9 @@ TEST_F(ZstdStreamTests, ZS_06_EmptyChunkIsHarmless) {
     ZstdStreamCompressor enc(1);
     auto res = enc.compress_chunk(nullptr, 0);
 #ifdef THEMIS_HAS_ZSTD
+    if (!zstdStreamingRuntimeAvailable()) {
+        GTEST_SKIP() << "ZSTD streaming runtime unavailable despite THEMIS_HAS_ZSTD";
+    }
     ASSERT_TRUE(res.has_value());
     EXPECT_TRUE(res->empty());
 #else
@@ -365,6 +420,9 @@ TEST_F(ZstdStreamTests, ZS_07_IsDoneAfterFullFrame) {
         reinterpret_cast<const uint8_t*>(original.data()), original.size());
 
 #ifdef THEMIS_HAS_ZSTD
+    if (!zstdStreamingRuntimeAvailable()) {
+        GTEST_SKIP() << "ZSTD streaming runtime unavailable despite THEMIS_HAS_ZSTD";
+    }
     ASSERT_FALSE(frame.empty());
     ZstdStreamDecompressor dec;
     EXPECT_FALSE(dec.is_done());

@@ -729,12 +729,24 @@ bool GPUMemoryManager::freeGPU(const std::string& model_id, void* ptr) {
     // The holder's destructor will automatically handle cleanup via RAII
     for (auto alloc_it = it->second.begin(); alloc_it != it->second.end(); ++alloc_it) {
         if (alloc_it->gpu_ptr == ptr) {
+            const int gpu_id = alloc_it->gpu_device_id;
             if (alloc_it->vram_bytes > total_vram_used_.load(std::memory_order_relaxed)) {
                 spdlog::error("GPUMemoryManager::freeGPU: VRAM accounting underflow for model '{}'; "
                               "clamping to 0", model_id);
                 total_vram_used_.store(0, std::memory_order_relaxed);
             } else {
                 total_vram_used_.fetch_sub(alloc_it->vram_bytes, std::memory_order_relaxed);
+            }
+
+            auto per_gpu_it = per_gpu_vram_used_.find(gpu_id);
+            if (per_gpu_it != per_gpu_vram_used_.end()) {
+                if (alloc_it->vram_bytes > per_gpu_it->second) {
+                    spdlog::error("GPUMemoryManager::freeGPU: per-GPU VRAM accounting underflow for model '{}' on GPU {}; clamping to 0",
+                                  model_id, gpu_id);
+                    per_gpu_it->second = 0;
+                } else {
+                    per_gpu_it->second -= alloc_it->vram_bytes;
+                }
             }
             
             // Erase triggers holder destructor for automatic cleanup

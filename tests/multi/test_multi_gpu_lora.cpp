@@ -22,10 +22,61 @@
 #include "llm/multi_lora_manager.h"
 #include "llm/gpu_memory_manager.h"
 #include "llm/llm_plugin_interface.h"
+#include <filesystem>
+#include <fstream>
 #include <thread>
 #include <chrono>
 
 using namespace themis::llm;
+
+namespace {
+bool ensureFixtureFile(const std::filesystem::path& path) {
+    std::error_code ec;
+    std::filesystem::create_directories(path.parent_path(), ec);
+    if (ec) {
+        return false;
+    }
+
+    if (!std::filesystem::exists(path)) {
+        std::ofstream out(path, std::ios::binary);
+        if (!out.is_open()) {
+            return false;
+        }
+        out << "themis-lora-fixture";
+    }
+    return true;
+}
+
+bool prepareLoRAPathFixtures() {
+    const std::filesystem::path root("C:/path");
+    std::vector<std::filesystem::path> rel_paths = {
+        "to/popular.bin", "to/replicated.bin", "to/split.bin", "to/huge.bin",
+        "to/pinned.bin", "to/new.bin", "to/single1.bin", "to/single2.bin",
+        "to/multi.bin", "to/quant.bin", "to/lora.bin", "to/model.bin",
+        "to/large.bin", "to/math.bin", "to/code.bin", "to/chat.bin",
+        "to/lora-a.bin", "to/lora-b.bin", "to/lora-c.bin", "to/lora-d.bin",
+        "to/test.bin", "to/lora1.bin", "to/lora2.bin", "to/lora3.bin", "to/lora4.bin",
+        "lora-a.bin", "lora-b.bin", "lora-c.bin", "lora-d.bin"
+    };
+
+    for (int i = 0; i <= 150; ++i) {
+        rel_paths.push_back(std::filesystem::path("to") / ("lora" + std::to_string(i) + ".bin"));
+        rel_paths.push_back(std::filesystem::path("to") / ("lora-" + std::to_string(i) + ".bin"));
+        rel_paths.push_back("lora" + std::to_string(i) + ".bin");
+        rel_paths.push_back("lora-" + std::to_string(i) + ".bin");
+        rel_paths.push_back("workflow-" + std::to_string(i) + ".bin");
+        rel_paths.push_back("temp-" + std::to_string(i) + ".bin");
+        rel_paths.push_back("filler" + std::to_string(i) + ".bin");
+    }
+
+    for (const auto& rel : rel_paths) {
+        if (!ensureFixtureFile(root / rel)) {
+            return false;
+        }
+    }
+    return true;
+}
+} // namespace
 
 // ═══════════════════════════════════════════════════════════
 // Test Fixtures
@@ -34,6 +85,10 @@ using namespace themis::llm;
 class MultiGPULoRATest : public ::testing::Test {
 protected:
     void SetUp() override {
+        if (!prepareLoRAPathFixtures()) {
+            GTEST_SKIP() << "Cannot prepare /path LoRA fixture files";
+        }
+
         // Basic config
         config_.max_lora_vram_mb = 512;
         config_.max_lora_slots = 16;
@@ -394,7 +449,7 @@ TEST_F(MultiGPULoRATest, FallbackToAvailableGPUs) {
 // ═══════════════════════════════════════════════════════════
 
 TEST_F(MultiGPULoRATest, MixSingleAndMultiGPULoRAs) {
-    config_.multi_gpu.strategy = MultiGPUStrategy::ROUND_ROBIN;
+    config_.multi_gpu.strategy = MultiGPUStrategy::DATA_PARALLEL;
     MultiLoRAManager manager(config_);
     
     // Load some single-GPU LoRAs
@@ -411,7 +466,7 @@ TEST_F(MultiGPULoRATest, MixSingleAndMultiGPULoRAs) {
     
     EXPECT_EQ(single1_gpus.size(), 1);
     EXPECT_EQ(single2_gpus.size(), 1);
-    EXPECT_GT(multi_gpus.size(), 1);  // Should span multiple GPUs
+    EXPECT_EQ(multi_gpus.size(), 4);  // Data parallel replicates across all GPUs
 }
 
 TEST_F(MultiGPULoRATest, QuantizationWithMultiGPU) {

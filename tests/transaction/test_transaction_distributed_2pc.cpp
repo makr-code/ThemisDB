@@ -1158,6 +1158,7 @@ TEST_F(DistributedTxnManagerTest, Stub279_RemoteCommitUsesConfiguredPhase2Dispat
     cfg.prepare_timeout = 2000ms;
     cfg.commit_timeout = 2000ms;
     cfg.default_txn_timeout = 60s;
+    cfg.liveness_check_fn = [](const std::string&, const std::string&) { return true; };
 
     std::atomic<int> dispatch_calls{0};
     std::atomic<int> commit_calls{0};
@@ -1199,6 +1200,7 @@ TEST_F(DistributedTxnManagerTest, Stub279_Phase1RpcFnYesVoteAllowsCommit) {
     cfg.prepare_timeout = 2000ms;
     cfg.commit_timeout  = 2000ms;
     cfg.default_txn_timeout = 60s;
+    cfg.liveness_check_fn = [](const std::string&, const std::string&) { return true; };
 
     std::atomic<int> p1_calls{0};
     std::atomic<int> p2_calls{0};
@@ -1242,6 +1244,7 @@ TEST_F(DistributedTxnManagerTest, Stub279_Phase1RpcFnNoVoteAbortsTransaction) {
     cfg.prepare_timeout = 2000ms;
     cfg.commit_timeout  = 2000ms;
     cfg.default_txn_timeout = 60s;
+    cfg.liveness_check_fn = [](const std::string&, const std::string&) { return true; };
 
     std::atomic<int> p1_calls{0};
     std::atomic<int> p2_calls{0};
@@ -1311,6 +1314,7 @@ TEST_F(DistributedTxnManagerTest, Stub279_RemotePhase1DispatchCommit) {
     cfg.prepare_timeout = 2000ms;
     cfg.commit_timeout  = 2000ms;
     cfg.default_txn_timeout = 60s;
+    cfg.liveness_check_fn = [](const std::string&, const std::string&) { return true; };
 
     std::atomic<int> p1_calls{0};
     std::atomic<int> p2_calls{0};
@@ -1350,6 +1354,7 @@ TEST_F(DistributedTxnManagerTest, Stub279_PureRemoteTransactionSucceedsWithPhase
     cfg.prepare_timeout = 2000ms;
     cfg.commit_timeout  = 2000ms;
     cfg.default_txn_timeout = 60s;
+    cfg.liveness_check_fn = [](const std::string&, const std::string&) { return true; };
 
     std::atomic<int> prepare_calls{0};
     std::atomic<int> commit_calls{0};
@@ -1394,6 +1399,7 @@ TEST_F(DistributedTxnManagerTest, Stub279_StaticPhase1FnCommit) {
     cfg.prepare_timeout = 2000ms;
     cfg.commit_timeout  = 2000ms;
     cfg.default_txn_timeout = 60s;
+    cfg.liveness_check_fn = [](const std::string&, const std::string&) { return true; };
     cfg.remote_phase2_dispatch = [](
             const std::string& /*txn_id*/, const std::string& /*node_id*/,
             const std::string& /*endpoint*/, bool do_commit) {

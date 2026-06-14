@@ -7,6 +7,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Documentation / Governance — 66/66 Module Status Synchronization (2026-06-14)
+
+- Root status sources were synchronized to a full `src/*` inventory with **66/66 modules** covered.
+- `ROADMAP.md` module table now reflects one evidence-based status line per module (including previously omitted modules like `plugins`, `observability`, `search`, `transaction`, `updates`).
+- Evidence artifacts generated and referenced:
+  - `logs/module_status_66_refined.csv`
+  - `logs/module_test_include_refs_66.csv`
+  - `logs/module_status_66_classified_v2.csv`
+- Current distribution (evidence-based):
+  - `PRODUCTION_CANDIDATE`: 15
+  - `HARDENING`: 45
+  - `EXPERIMENTAL`: 2 (`llama_cpp`, `stable_diffusion`)
+  - `THIN/PLACEHOLDER`: 4 (`ai_working`, `distributed_tensor`, `evaluation`, `retrieval`)
+- `plugins` reassessed from source + test-reference evidence to **HARDENING** (not "unknown/omitted").
+
 ### Security / Quality — Gap Scanner V3 Phase 1–6 Improved-Pipeline & Verified Fixes (2026-06-14)
 
 **4 confirmed production defects fixed and merged-ready:**

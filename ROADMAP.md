@@ -113,36 +113,76 @@ Audit method:
 - [x] CodeQL-Check ausgeführt (trivial docs-only change; scan übersprungen)
 
 ---
-| **base** | 🟢 PRODUCTION | 12 | 0 | Stable, safe for production |
-| **config** | 🟢 PRODUCTION | 18 | 1 | Stable configuration layer |
-| **utils** | 🟢 PRODUCTION | 28 | 2 | Solid utility functions |
-| **cache** | 🟢 PRODUCTION | 35 | 3 | Cache layer functional |
-| **plugins** | 🟢 PRODUCTION | 42 | 4 | Plugin system operational |
-| **auth** | 🟡 HARDENING | 145 | 35 | Fixing input validation, hardcoded secrets |
-| **api** | 🟡 HARDENING | 156 | 38 | Error handling gaps being fixed |
-| **governance** | 🟡 HARDENING | 168 | 41 | Policy validation in progress |
-| **metadata** | 🟡 HARDENING | 124 | 31 | NULL checks, error propagation needed |
-| **cdc** | 🟡 HARDENING | 137 | 33 | Exception handling improvements underway |
-| **chaos** | 🟡 HARDENING | 142 | 34 | Test coverage expansion in progress |
-| **aql** | 🟡 HARDENING | 151 | 37 | Parser edge cases being addressed |
-| **core** | 🟡 HARDENING | 167 | 40 | DI container robustness improvements |
-| **maintenance** | 🟡 HARDENING | 133 | 32 | Schedule validation being fixed |
-| **analytics** | 🟡 HARDENING | 128 | 31 | Numeric stability improvements |
-| **rpc_grpc** | 🟡 HARDENING | 142 | 34 | Timeout patterns, error handling being added |
-| **temporal** | 🟡 HARDENING | 159 | 38 | Time precision logic being improved |
-| **storage** | � HARDENING | Kernfunktionalität stabil; Transaktions-Randfälle in Härtung |
-| **index** | 🟡 HARDENING | Bounds-Checks ergänzt; Query-Correctness-Arbeit läuft |
-| **query** | 🟡 HARDENING | Parser-Exception-Safety geliefert (Welle 2026-06); weitere Randfälle offen |
-| **security** | 🟡 HARDENING | TLS-Fix done; Input-Validation-Lücken offen — kein bestätigter Exploit |
-| **content** | 🟡 HARDENING | Format-Validierung läuft; Office-Payload-Guards hinzugefügt |
-| **network** | 🟡 HARDENING | Wire-Protocol-Retry fix-bereit; Timeout-Muster offen |
-| **server** | 🟡 HARDENING | Basisprotokoll stabil; Retry/Timeout-Layer offen |
-| **replication** | 🔴 EXPERIMENTAL | HA-Pfade funktional; bekannte Race-Conditions bei Failover |
-| **llm** | 🔴 EXPERIMENTAL | Breite Feature-Coverage; bewusste Stubs; nicht für Produktion |
-| **sharding** | 🔴 EXPERIMENTAL | Konsistenz-Garantien ausstehend; experimentell |
-| **rag / training / voice / whisper** | 🔴 EXPERIMENTAL | Forschungscharakter; kein Produktionseinsatz |
+| Module | Status | Evidence Snapshot |
+|--------|--------|-------------------|
+| **acceleration** | HARDENING | LOC=26894, Stub/KLOC=7,7, Tests=332, TestRefs=119 |
+| **ai** | HARDENING | LOC=1060, Stub/KLOC=6,6, Tests=47, TestRefs=4 |
+| **ai_working** | THIN/PLACEHOLDER | LOC=0, Stub/KLOC=0, Tests=0, TestRefs=0 |
+| **analytics** | PRODUCTION_CANDIDATE | LOC=34524, Stub/KLOC=3,42, Tests=872, TestRefs=63 |
+| **api** | HARDENING | LOC=9861, Stub/KLOC=8,82, Tests=242, TestRefs=56 |
+| **aql** | HARDENING | LOC=14658, Stub/KLOC=6,21, Tests=1231, TestRefs=73 |
+| **auth** | HARDENING | LOC=23259, Stub/KLOC=6,19, Tests=0, TestRefs=117 |
+| **base** | HARDENING | LOC=5394, Stub/KLOC=2,97, Tests=75, TestRefs=0 |
+| **cache** | HARDENING | LOC=12510, Stub/KLOC=7,03, Tests=265, TestRefs=48 |
+| **cdc** | HARDENING | LOC=12588, Stub/KLOC=6,99, Tests=659, TestRefs=105 |
+| **chaos** | HARDENING | LOC=406, Stub/KLOC=9,85, Tests=90, TestRefs=4 |
+| **chimera** | HARDENING | LOC=4645, Stub/KLOC=10,98, Tests=144, TestRefs=3 |
+| **config** | HARDENING | LOC=5980, Stub/KLOC=6,02, Tests=366, TestRefs=18 |
+| **content** | HARDENING | LOC=26802, Stub/KLOC=6,08, Tests=595, TestRefs=79 |
+| **core** | HARDENING | LOC=10828, Stub/KLOC=6,1, Tests=0, TestRefs=44 |
+| **distributed_knowledge** | HARDENING | LOC=2803, Stub/KLOC=4,64, Tests=0, TestRefs=33 |
+| **distributed_tensor** | THIN/PLACEHOLDER | LOC=0, Stub/KLOC=0, Tests=0, TestRefs=0 |
+| **document** | HARDENING | LOC=2362, Stub/KLOC=8,89, Tests=47, TestRefs=20 |
+| **ethics_ai** | HARDENING | LOC=6315, Stub/KLOC=10,45, Tests=0, TestRefs=42 |
+| **evaluation** | THIN/PLACEHOLDER | LOC=0, Stub/KLOC=0, Tests=0, TestRefs=0 |
+| **exporters** | HARDENING | LOC=9810, Stub/KLOC=7,03, Tests=378, TestRefs=15 |
+| **failover** | HARDENING | LOC=1259, Stub/KLOC=6,35, Tests=17, TestRefs=6 |
+| **geo** | HARDENING | LOC=8825, Stub/KLOC=8,95, Tests=761, TestRefs=38 |
+| **governance** | HARDENING | LOC=16142, Stub/KLOC=7,19, Tests=75, TestRefs=71 |
+| **gpu** | HARDENING | LOC=7747, Stub/KLOC=8,13, Tests=975, TestRefs=0 |
+| **graph** | PRODUCTION_CANDIDATE | LOC=14828, Stub/KLOC=3,51, Tests=682, TestRefs=29 |
+| **importers** | HARDENING | LOC=22576, Stub/KLOC=6,07, Tests=0, TestRefs=40 |
+| **index** | PRODUCTION_CANDIDATE | LOC=42914, Stub/KLOC=4,94, Tests=343, TestRefs=419 |
+| **ingestion** | HARDENING | LOC=22666, Stub/KLOC=6,13, Tests=752, TestRefs=75 |
+| **llama_cpp** | EXPERIMENTAL | LOC=1805, Stub/KLOC=41,55, Tests=68, TestRefs=2 |
+| **llm** | PRODUCTION_CANDIDATE | LOC=126274, Stub/KLOC=5,5, Tests=1172, TestRefs=258 |
+| **maintenance** | HARDENING | LOC=2981, Stub/KLOC=3,69, Tests=0, TestRefs=6 |
+| **metadata** | HARDENING | LOC=8895, Stub/KLOC=6,63, Tests=443, TestRefs=80 |
+| **network** | PRODUCTION_CANDIDATE | LOC=20893, Stub/KLOC=4,98, Tests=1175, TestRefs=59 |
+| **observability** | PRODUCTION_CANDIDATE | LOC=13640, Stub/KLOC=5,72, Tests=42, TestRefs=87 |
+| **onnx_clip** | HARDENING | LOC=474, Stub/KLOC=10,55, Tests=0, TestRefs=4 |
+| **performance** | HARDENING | LOC=18058, Stub/KLOC=8,97, Tests=370, TestRefs=49 |
+| **plugins** | HARDENING | LOC=9768, Stub/KLOC=6,14, Tests=0, TestRefs=52 |
+| **process** | HARDENING | LOC=11255, Stub/KLOC=7,29, Tests=243, TestRefs=15 |
+| **projects** | HARDENING | LOC=2797, Stub/KLOC=12,16, Tests=39, TestRefs=6 |
+| **prompt_engineering** | PRODUCTION_CANDIDATE | LOC=18392, Stub/KLOC=4,51, Tests=0, TestRefs=86 |
+| **query** | PRODUCTION_CANDIDATE | LOC=64778, Stub/KLOC=4,48, Tests=493, TestRefs=218 |
+| **rag** | PRODUCTION_CANDIDATE | LOC=39068, Stub/KLOC=4,12, Tests=988, TestRefs=124 |
+| **replication** | PRODUCTION_CANDIDATE | LOC=14339, Stub/KLOC=3,14, Tests=442, TestRefs=20 |
+| **retrieval** | THIN/PLACEHOLDER | LOC=0, Stub/KLOC=0, Tests=0, TestRefs=0 |
+| **rpc_grpc** | HARDENING | LOC=465, Stub/KLOC=4,3, Tests=0, TestRefs=8 |
+| **scheduler** | HARDENING | LOC=8707, Stub/KLOC=2,99, Tests=31, TestRefs=33 |
+| **scraper** | HARDENING | LOC=4032, Stub/KLOC=7,94, Tests=60, TestRefs=0 |
+| **search** | HARDENING | LOC=8101, Stub/KLOC=9,75, Tests=98, TestRefs=44 |
+| **security** | HARDENING | LOC=31263, Stub/KLOC=15,03, Tests=1478, TestRefs=153 |
+| **server** | PRODUCTION_CANDIDATE | LOC=100168, Stub/KLOC=5,53, Tests=227, TestRefs=296 |
+| **sharding** | PRODUCTION_CANDIDATE | LOC=75912, Stub/KLOC=5,23, Tests=314, TestRefs=215 |
+| **stable_diffusion** | EXPERIMENTAL | LOC=1975, Stub/KLOC=26,84, Tests=63, TestRefs=2 |
+| **storage** | HARDENING | LOC=45121, Stub/KLOC=6,03, Tests=118, TestRefs=704 |
+| **temporal** | PRODUCTION_CANDIDATE | LOC=11376, Stub/KLOC=5,36, Tests=544, TestRefs=21 |
+| **tensor** | HARDENING | LOC=7711, Stub/KLOC=14,01, Tests=325, TestRefs=19 |
+| **themis** | HARDENING | LOC=18554, Stub/KLOC=8,52, Tests=130, TestRefs=136 |
+| **timeseries** | HARDENING | LOC=11654, Stub/KLOC=7,47, Tests=59, TestRefs=65 |
+| **toolbox** | HARDENING | LOC=2859, Stub/KLOC=12,94, Tests=86, TestRefs=10 |
+| **training** | PRODUCTION_CANDIDATE | LOC=12377, Stub/KLOC=5,57, Tests=206, TestRefs=58 |
+| **transaction** | PRODUCTION_CANDIDATE | LOC=15051, Stub/KLOC=5,12, Tests=334, TestRefs=151 |
+| **updates** | HARDENING | LOC=13767, Stub/KLOC=5,96, Tests=118, TestRefs=32 |
+| **user_storage_encrypted** | HARDENING | LOC=3326, Stub/KLOC=7,82, Tests=0, TestRefs=4 |
+| **utils** | HARDENING | LOC=31871, Stub/KLOC=7,53, Tests=84, TestRefs=284 |
+| **voice** | HARDENING | LOC=11483, Stub/KLOC=6,01, Tests=603, TestRefs=26 |
+| **whisper** | HARDENING | LOC=2766, Stub/KLOC=18,08, Tests=76, TestRefs=4 |
 
-**Legend:** 🟢 PRODUCTION · 🟡 HARDENING · 🟤 ACTIVE WORK · 🚨 BLOCKED/NOT READY · *(see table; scanner baseline tracks 65 modules)*
+**Legend:** PRODUCTION_CANDIDATE · HARDENING · EXPERIMENTAL · THIN/PLACEHOLDER *(full src coverage: 66/66 modules, evidence from logs/module_status_66_refined.csv and logs/module_test_include_refs_66.csv)*
 
 **Phase 1-4 Gap Scanner Results Summary (2026-05-18):**
 - Total gaps: 31,720 across 8 categories

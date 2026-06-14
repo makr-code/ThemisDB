@@ -7,7 +7,7 @@
 [![Version](https://img.shields.io/badge/version-1.9.0--beta-blue)](CHANGELOG.md)
 [![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 [![Status](https://img.shields.io/badge/status-ACTIVE_DEVELOPMENT-orange)](ROADMAP.md)
-[![Maturity](https://img.shields.io/badge/maturity-5_PROD_12_HARDENING_43_DEV-red)](ai_working/MODULE_MATURITY_MATRIX.md)
+[![Maturity](https://img.shields.io/badge/maturity-66_sync__15_PC__45_H__2_E__4_T-orange)](ROADMAP.md)
 [![Contributing](https://img.shields.io/badge/contributions-welcome-brightgreen)](CONTRIBUTING.md)
 
 [📚 Documentation](docs/Home.md) · [🚀 Quick Start](QUICKSTART.md) · [🛠️ Setup](SETUP.md) · [⚠️ Status](ROADMAP.md) · [🆘 Support](SUPPORT.md) · [Release Notes](CHANGELOG.md)
@@ -16,15 +16,20 @@
 
 ---
 
-## ⚠️ IMPORTANT: Module Maturity Status
+## ⚠️ IMPORTANT: Module Status Snapshot (66/66)
 
-**This is an active development project.** Current maturity snapshot:
-- ✅ **5 modules** are production-ready (base, config, utils, cache, plugins)
-- 🟡 **12 modules** are in hardening (API, auth, governance, etc.)
-- 🔴 **18 modules** are in active development (storage, query, index, etc.)
-- 🚨 **25+ modules** are not production-ready yet (server, llm, sharding, security, etc.)
+**This is an active development project.** Current synchronized status snapshot (source-based):
+- ✅ **15 modules** are `PRODUCTION_CANDIDATE`
+- 🟡 **45 modules** are `HARDENING`
+- 🔴 **2 modules** are `EXPERIMENTAL` (`llama_cpp`, `stable_diffusion`)
+- ⚪ **4 modules** are `THIN/PLACEHOLDER` (`ai_working`, `distributed_tensor`, `evaluation`, `retrieval`)
 
-**See [ai_working/MODULE_MATURITY_MATRIX.md](ai_working/MODULE_MATURITY_MATRIX.md) for details.**
+**See [ROADMAP.md](ROADMAP.md) for the full 66-module table.**
+
+Evidence artifacts:
+- [logs/module_status_66_refined.csv](logs/module_status_66_refined.csv)
+- [logs/module_test_include_refs_66.csv](logs/module_test_include_refs_66.csv)
+- [logs/module_status_66_classified_v2.csv](logs/module_status_66_classified_v2.csv)
 
 ## Documentation Sync (2026-05-26)
 
@@ -55,9 +60,9 @@
 
 ## What is ThemisDB?
 
-ThemisDB is a **high-performance multi-model database engine in active development** that aims to combine relational, graph, vector, document, geospatial, and time-series storage in a single system — with native AI/LLM integration. **Current Status:** Core infrastructure and utilities are stable and production-ready (5 modules). Critical modules like server, sharding, storage, and LLM are not yet production-ready and require focused hardening before production deployment. See [ai_working/MODULE_MATURITY_MATRIX.md](ai_working/MODULE_MATURITY_MATRIX.md) for detailed module status assessment.
+ThemisDB is a **high-performance multi-model database engine in active development** that aims to combine relational, graph, vector, document, geospatial, and time-series storage in a single system with native AI/LLM integration.
 
-ThemisDB is under active development with comprehensive module documentation. **⚠️ Current Status:** Only 5 modules are production-ready; 12 are in hardening; 18 are in active development; 25 are not ready for production (see [ROADMAP.md](ROADMAP.md) and [ai_working/MODULE_MATURITY_MATRIX.md](ai_working/MODULE_MATURITY_MATRIX.md) for details).
+**Current Status (2026-06-14, source-evidence based):** 66 modules are tracked in `src`; 15 are `PRODUCTION_CANDIDATE`, 45 are `HARDENING`, 2 are `EXPERIMENTAL`, and 4 are `THIN/PLACEHOLDER`. See [ROADMAP.md](ROADMAP.md) for detailed per-module status.
 
 **Key capabilities at a glance:**
 
