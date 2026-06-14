@@ -11,6 +11,7 @@
 
 #include <filesystem>
 #include <fstream>
+#include <cstdint>
 #include <string>
 
 using namespace themis::utils;
@@ -77,16 +78,16 @@ TEST_F(HashChainAuditTest, HeadHashChangesAfterEachWrite) {
 
 TEST_F(HashChainAuditTest, ChainSeedChangesGenesisHash) {
     HashChainAuditWriterConfig cfg2 = cfg;
-    cfg2.log_path        = "/tmp/test_hc_audit2.jsonl";
-    cfg2.chain_head_path = "/tmp/test_hc_head2.bin";
+    const auto unique_suffix = std::to_string(reinterpret_cast<std::uintptr_t>(this));
+    cfg2.log_path        = "/tmp/test_hc_audit2_" + unique_suffix + ".jsonl";
+    cfg2.chain_head_path = "/tmp/test_hc_head2_" + unique_suffix + ".bin";
 
-    HashChainAuditWriter w1(cfg,  "seed-A");
-    HashChainAuditWriter w2(cfg2, "seed-B");
+    {
+        HashChainAuditWriter w1(cfg,  "seed-A");
+        HashChainAuditWriter w2(cfg2, "seed-B");
 
-    EXPECT_NE(w1.headHash(), w2.headHash());
-
-    fs::remove(cfg2.log_path);
-    fs::remove(cfg2.chain_head_path);
+        EXPECT_NE(w1.headHash(), w2.headHash());
+    }
 }
 
 // ============================================================================

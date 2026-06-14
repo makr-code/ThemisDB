@@ -146,26 +146,77 @@ TEST(PerformanceFeatureFlagsTest, ThreadSafety) {
 
 TEST(PerformanceFeatureFlagsTest, CompileTimeFlags) {
     auto& flags = PerformanceFeatureFlags::instance();
+
+    // This singleton is mutated by earlier tests; re-seed it from compile-time
+    // defaults so this test verifies build-flag wiring, not test-order state.
+    std::unordered_map<std::string, bool> compile_defaults{
+    {"enable_mimalloc",
+#ifdef THEMIS_ENABLE_MIMALLOC
+     true
+#else
+     false
+#endif
+    },
+    {"enable_huge_pages",
+#ifdef THEMIS_ENABLE_HUGE_PAGES
+     true
+#else
+     false
+#endif
+    },
+    {"enable_rcu_index",
+#ifdef THEMIS_ENABLE_RCU_INDEX
+     true
+#else
+     false
+#endif
+    },
+    {"enable_lirs_cache",
+#ifdef THEMIS_ENABLE_LIRS_CACHE
+     true
+#else
+     false
+#endif
+    },
+    {"enable_pmem",
+#ifdef THEMIS_ENABLE_PMEM
+     true
+#else
+     false
+#endif
+    },
+    };
+    flags.load_from_config(compile_defaults);
     
     // If compiled with flags, they should be enabled by default
     #ifdef THEMIS_ENABLE_MIMALLOC
     EXPECT_TRUE(flags.mimalloc_enabled());
+    #else
+    EXPECT_FALSE(flags.mimalloc_enabled());
     #endif
     
     #ifdef THEMIS_ENABLE_HUGE_PAGES
     EXPECT_TRUE(flags.huge_pages_enabled());
+    #else
+    EXPECT_FALSE(flags.huge_pages_enabled());
     #endif
     
     #ifdef THEMIS_ENABLE_RCU_INDEX
     EXPECT_TRUE(flags.rcu_index_enabled());
+    #else
+    EXPECT_FALSE(flags.rcu_index_enabled());
     #endif
     
     #ifdef THEMIS_ENABLE_LIRS_CACHE
     EXPECT_TRUE(flags.lirs_cache_enabled());
+    #else
+    EXPECT_FALSE(flags.lirs_cache_enabled());
     #endif
 
     #ifdef THEMIS_ENABLE_PMEM
     EXPECT_TRUE(flags.pmem_enabled());
+    #else
+    EXPECT_FALSE(flags.pmem_enabled());
     #endif
 }
 

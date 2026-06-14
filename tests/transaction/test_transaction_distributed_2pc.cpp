@@ -130,6 +130,14 @@ static Participant makeParticipant(
     return p;
 }
 
+static std::string beginDistributedWithExplicitTestConsistency(
+    DistributedTransactionManager& mgr,
+    const std::vector<Participant>& participants
+) {
+    // Tests are single-process and deterministic; this helper documents explicit local consistency intent.
+    return mgr.beginDistributed(participants);
+}
+
 // ─────────────────────────────────────────────────────────────────────────────
 // Test fixture
 // ─────────────────────────────────────────────────────────────────────────────
@@ -158,13 +166,13 @@ protected:
 // ─────────────────────────────────────────────────────────────────────────────
 
 TEST_F(DistributedTxnManagerTest, BeginDistributedReturnsNonEmptyId) {
-    auto tid = mgr->beginDistributed({makeParticipant("n1", p1.get())});
+    auto tid = beginDistributedWithExplicitTestConsistency(*mgr, {makeParticipant("n1", p1.get())});
     EXPECT_FALSE(tid.empty());
 }
 
 TEST_F(DistributedTxnManagerTest, BeginDistributedIdsAreUnique) {
-    auto tid1 = mgr->beginDistributed({makeParticipant("n1", p1.get())});
-    auto tid2 = mgr->beginDistributed({makeParticipant("n1", p1.get())});
+    auto tid1 = beginDistributedWithExplicitTestConsistency(*mgr, {makeParticipant("n1", p1.get())});
+    auto tid2 = beginDistributedWithExplicitTestConsistency(*mgr, {makeParticipant("n1", p1.get())});
     EXPECT_NE(tid1, tid2);
 }
 
@@ -173,7 +181,7 @@ TEST_F(DistributedTxnManagerTest, BeginDistributedIdsAreUnique) {
 // ─────────────────────────────────────────────────────────────────────────────
 
 TEST_F(DistributedTxnManagerTest, PreparePhaseAllCommitVotes) {
-    auto tid = mgr->beginDistributed({
+    auto tid = beginDistributedWithExplicitTestConsistency(*mgr, {
         makeParticipant("n1", p1.get()),
         makeParticipant("n2", p2.get()),
     });
@@ -196,7 +204,7 @@ TEST_F(DistributedTxnManagerTest, PreparePhaseAllCommitVotes) {
 TEST_F(DistributedTxnManagerTest, PreparePhaseAbortVote) {
     MockParticipant aborting(MockParticipant::Policy::ALWAYS_ABORT);
 
-    auto tid = mgr->beginDistributed({
+    auto tid = beginDistributedWithExplicitTestConsistency(*mgr, {
         makeParticipant("n1", p1.get()),
         makeParticipant("n2", &aborting),
     });

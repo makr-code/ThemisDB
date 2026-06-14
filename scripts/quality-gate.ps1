@@ -160,8 +160,7 @@ function Invoke-External {
     param(
         [string]$Command,
         [string[]]$Arguments,
-        [string]$LogFile,
-        [hashtable]$Environment = @{}
+        [string]$LogFile
     )
 
     $targetLog = Join-Path $script:ReportPath $LogFile
@@ -176,13 +175,6 @@ function Invoke-External {
     $nativeErrorVar = Get-Variable -Name PSNativeCommandUseErrorActionPreference -ErrorAction SilentlyContinue
     $previousNativeErrorMode = $null
     $previousErrorActionPreference = $ErrorActionPreference
-    $previousEnvironment = @{}
-
-    foreach ($entry in $Environment.GetEnumerator()) {
-        $name = [string]$entry.Key
-        $previousEnvironment[$name] = [Environment]::GetEnvironmentVariable($name, "Process")
-        [Environment]::SetEnvironmentVariable($name, [string]$entry.Value, "Process")
-    }
 
     if ($nativeErrorVar) {
         $previousNativeErrorMode = $PSNativeCommandUseErrorActionPreference
@@ -199,11 +191,6 @@ function Invoke-External {
     }
     finally {
         $ErrorActionPreference = $previousErrorActionPreference
-
-        foreach ($name in $previousEnvironment.Keys) {
-            [Environment]::SetEnvironmentVariable($name, $previousEnvironment[$name], "Process")
-        }
-
         if ($nativeErrorVar) {
             $PSNativeCommandUseErrorActionPreference = $previousNativeErrorMode
         }
@@ -306,9 +293,7 @@ try {
     }
 
     Invoke-Step -Name "CMake Build" -Skip:$SkipBuild -Action {
-        # sccache can intermittently lock .obj outputs on Windows in very large builds.
-        # Run local quality-gate builds with launcher bypassed for stability.
-        Invoke-External -Command "cmake" -Arguments @("--build", "--preset", $BuildPreset, "--parallel", "4") -LogFile "02-build.log" -Environment @{ SCCACHE_DISABLE = "1" }
+        Invoke-External -Command "cmake" -Arguments @("--build", "--preset", $BuildPreset, "--parallel", "4") -LogFile "02-build.log"
     }
 
     Invoke-Step -Name "CTest" -Skip:$SkipTests -Action {

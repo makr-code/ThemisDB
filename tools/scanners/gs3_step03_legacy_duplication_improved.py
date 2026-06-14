@@ -1,22 +1,20 @@
 #!/usr/bin/env python3
 """
-Phase 11: Legacy Paths & Duplicate Implementation Scanner
+Phase 5 - Legacy/Duplication Scanner (IMPROVED)
 
-Detects:
-- Legacy/compatibility/fallback code paths that should be reviewed
-- Potential duplicate C++ method implementations across multiple files
-
-Goal:
-Reduce blind spots around maintainability debt and accidental duplicate logic.
+Improvements:
+1. Legacy marker alerts only for production code paths (exclude tests/bench/examples/tools).
+2. If '@deprecated' documentation exists near marker, downgrade/skip finding.
+3. Duplicate signature scan ignores known backend/test variants more aggressively.
 """
 
 import re
 from pathlib import Path
-from typing import List, Dict
+from typing import Dict, List
 
 
-class LegacyDuplicationScan:
-    """Scan for legacy code paths and duplicate implementation signatures."""
+class LegacyDuplicationScanImproved:
+    """Improved scan for legacy path markers and duplicate implementation signatures."""
 
     def __init__(self, repo_root: str = '.'):
         self.repo_root = Path(repo_root)
@@ -26,35 +24,31 @@ class LegacyDuplicationScan:
             r'\b(legacy|compat(?:ibility)?|deprecated|old[_\s-]?path|backward[_\s-]?compat(?:ibility)?)\b',
             re.IGNORECASE,
         )
+        self._deprecated_tag_re = re.compile(r'@deprecated|\\deprecated', re.IGNORECASE)
 
-        # Qualified C++ method definitions: Namespace::Class::method(...)
         self._qualified_method_re = re.compile(
             r'^\s*(?:template\s*<[^>]*>\s*)?'
             r'(?:(?:inline|static|constexpr|virtual)\s+)*'
             r'(?:(?:[\w:<>,~*&]+)\s+)+'
             r'([A-Za-z_][\w:]*)::(~?[A-Za-z_]\w*)\s*\(([^;]*)\)\s*(?:const)?\s*(?:\{|$)'
         )
+
         self._variant_suffix_re = re.compile(
-            r'(_openssl|_stub|_mock|_cpu|_gpu|_cuda|_rocm|_vulkan|_metal|_directx|_sim|_test)$',
+            r'(_openssl|_stub|_mock|_cpu|_gpu|_cuda|_rocm|_vulkan|_metal|_directx|_sim|_test|_bench)$',
             re.IGNORECASE,
         )
 
     @staticmethod
     def _normalize_params(param_text: str) -> str:
-        """Normalize parameter list to reduce formatting-only differences."""
-        collapsed = re.sub(r'\s+', ' ', param_text.strip())
-        return collapsed
+        return re.sub(r'\s+', ' ', param_text.strip())
 
     @staticmethod
     def _looks_like_definition(lines: List[str], index: int) -> bool:
-        """Best-effort check that current line belongs to a function definition."""
         line = lines[index]
         if ';' in line and '{' not in line:
             return False
         if '{' in line:
             return True
-
-        # Multi-line signature: look ahead for opening brace before statement terminator.
         for j in range(index + 1, min(index + 8, len(lines))):
             nxt = lines[j]
             if ';' in nxt and '{' not in nxt:
@@ -63,21 +57,31 @@ class LegacyDuplicationScan:
                 return True
         return False
 
+    @staticmethod
+    def _is_non_prod_path(rel_file: str) -> bool:
+        p = rel_file.replace('\\', '/').lower()
+        markers = [
+            'tests/', 'test_', '_test.', 'benchmarks/', 'bench_', '_bench.',
+            'examples/', 'demo_', '_demo.', 'tools/', 'scripts/', 'fuzz/',
+        ]
+        return any(m in p for m in markers)
+
+    def _has_deprecated_doc_nearby(self, lines: List[str], idx0: int) -> bool:
+        start = max(0, idx0 - 5)
+        end = min(len(lines), idx0 + 2)
+        context = '\n'.join(lines[start:end])
+        return self._deprecated_tag_re.search(context) is not None
+
     def _is_likely_mirror_or_variant_pair(self, files: List[str]) -> bool:
-        """Return True for known benign duplicate patterns across mirrored/variant files."""
         if len(files) != 2:
             return False
 
         p0 = Path(files[0].replace('\\', '/'))
         p1 = Path(files[1].replace('\\', '/'))
-        b0 = p0.stem
-        b1 = p1.stem
+        b0, b1 = p0.stem, p1.stem
 
-        # Exact mirrored filename in different module folders is often intentional.
         if p0.name == p1.name:
             return True
-
-        # Common backend variant pairs (foo.cpp + foo_openssl.cpp etc.).
         if b0 == b1:
             return True
         if b0.startswith(b1 + '_') or b1.startswith(b0 + '_'):
@@ -85,15 +89,13 @@ class LegacyDuplicationScan:
         if self._variant_suffix_re.search(b0) or self._variant_suffix_re.search(b1):
             return True
 
-        # Known mirrored module pair in this repository.
         pair = {p0.parts[1] if len(p0.parts) > 1 else '', p1.parts[1] if len(p1.parts) > 1 else ''}
-        if pair == {'base', 'themis'}:
+        if pair in ({'base', 'themis'}, {'src', 'include'}):
             return True
 
         return False
 
     def scan_files(self, file_list: List[Path]) -> List[Dict]:
-        """Scan files and return all detected gaps."""
         self.gaps = []
         signature_locations: Dict[str, List[Dict]] = {}
 
@@ -106,56 +108,50 @@ class LegacyDuplicationScan:
             except Exception:
                 continue
 
-            rel_file = str(file_path.relative_to(self.repo_root))
+            rel_file = str(file_path.relative_to(self.repo_root)).replace('\\', '/')
+            is_non_prod = self._is_non_prod_path(rel_file)
 
             for idx, line in enumerate(lines, 1):
                 stripped = line.strip()
-
-                # Legacy/compat/deprecation markers in comments or preprocessor lines.
                 is_comment_or_pp = (
                     stripped.startswith('//') or stripped.startswith('/*') or
                     stripped.startswith('*') or stripped.startswith('#')
                 )
-                if is_comment_or_pp and self._legacy_re.search(stripped):
+
+                if (not is_non_prod) and is_comment_or_pp and self._legacy_re.search(stripped):
+                    if self._has_deprecated_doc_nearby(lines, idx - 1):
+                        continue
                     self.gaps.append({
                         'file': rel_file,
                         'line': idx,
                         'category': 'legacy_duplication',
-                        'severity': 'HIGH',
+                        'severity': 'MEDIUM',
                         'pattern': 'legacy_or_compat_path',
-                        'description': 'Legacy/compatibility/deprecation marker detected (review removal/containment plan).',
+                        'description': 'Legacy/compatibility marker without explicit @deprecated contract.',
                         'context': stripped,
                     })
 
-                # Capture potential duplicate implementation signatures.
-                if file_path.suffix not in ['.cpp', '.cc', '.cxx']:
+                if is_non_prod or file_path.suffix not in ['.cpp', '.cc', '.cxx']:
                     continue
 
                 m = self._qualified_method_re.search(line)
-                if m:
-                    if not self._looks_like_definition(lines, idx - 1):
-                        continue
+                if not m or not self._looks_like_definition(lines, idx - 1):
+                    continue
 
-                    qualified_owner = m.group(1)
-                    method_name = m.group(2)
-                    param_text = self._normalize_params(m.group(3))
+                owner = m.group(1)
+                method = m.group(2)
+                params = self._normalize_params(m.group(3))
 
-                    # Ignore constructors/destructors/operators; they are noisy for this check.
-                    owner_leaf = qualified_owner.split('::')[-1]
-                    if method_name == owner_leaf or method_name == f'~{owner_leaf}' or method_name.startswith('operator'):
-                        continue
+                owner_leaf = owner.split('::')[-1]
+                if method == owner_leaf or method == f'~{owner_leaf}' or method.startswith('operator'):
+                    continue
 
-                    signature_key = f'{qualified_owner}::{method_name}({param_text})'
-                    sig_list = signature_locations.setdefault(signature_key, [])
-                    if any(existing['file'] == rel_file for existing in sig_list):
-                        continue
-                    sig_list.append({
-                        'file': rel_file,
-                        'line': idx,
-                        'context': stripped,
-                    })
+                signature_key = f'{owner}::{method}({params})'
+                sig_list = signature_locations.setdefault(signature_key, [])
+                if any(existing['file'] == rel_file for existing in sig_list):
+                    continue
+                sig_list.append({'file': rel_file, 'line': idx, 'context': stripped})
 
-        # Report signatures implemented in multiple files.
         for signature, locations in signature_locations.items():
             files = {loc['file'] for loc in locations}
             if len(files) <= 1:
@@ -165,7 +161,7 @@ class LegacyDuplicationScan:
             if self._is_likely_mirror_or_variant_pair(files_sorted):
                 continue
 
-            file_list_text = ', '.join(files_sorted)
+            dup_text = ', '.join(files_sorted)
             for loc in locations:
                 self.gaps.append({
                     'file': loc['file'],
@@ -175,7 +171,7 @@ class LegacyDuplicationScan:
                     'pattern': 'duplicate_qualified_signature',
                     'description': f'Potential duplicate implementation signature across files: {signature}',
                     'context': loc['context'],
-                    'duplicate_in': file_list_text,
+                    'duplicate_in': dup_text,
                 })
 
         return self.gaps

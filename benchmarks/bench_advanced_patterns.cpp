@@ -41,6 +41,7 @@
 #include "index/vector_index.h"
 #include "index/secondary_index.h"
 #include "index/graph_index.h"
+#include "utils/logger.h"
 
 namespace fs = std::filesystem;
 using namespace themis;
@@ -154,6 +155,8 @@ public:
     
     template<typename Callable>
     void execute(Callable&& work, int iterations_per_thread) {
+        THEMIS_TRACE("ParallelExecutor::execute start: threads={}, iterations_per_thread={}",
+                     num_threads_, iterations_per_thread);
         std::vector<std::thread> threads;
         
         // Create all threads
@@ -170,6 +173,8 @@ public:
         for (auto& t : threads) {
             t.join();
         }
+        THEMIS_TRACE("ParallelExecutor::execute done: threads={}, total_iterations={}",
+                     num_threads_, num_threads_ * iterations_per_thread);
     }
 
 private:

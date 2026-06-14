@@ -14,6 +14,12 @@ foreach(_src IN LISTS ANALYTICS_MODULE_TEST_SOURCES)
     set(_link_only_impl_stems
         distributed_analytics
         process_pattern_matcher
+        arrow_export
+        arrow_flight
+        incremental_view
+        jit_aggregation
+        ml_serving
+        model_serving
     )
     if(EXISTS "${_impl_src}" AND NOT _impl_stem IN_LIST _link_only_impl_stems)
         list(APPEND _extra_sources "${_impl_src}")

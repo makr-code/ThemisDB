@@ -1247,8 +1247,10 @@ HttpServer::HttpServer(
         }
         
         feedback_api_handler_ = std::make_unique<server::FeedbackAPIHandler>(feedback_storage);
-        feedback_api_handler_->setLiveFeedbackCollector(live_feedback_collector_);
-        feedback_api_handler_->setLearningOrchestrator(continuous_learning_orchestrator_);
+        if (feedback_api_handler_) {
+            feedback_api_handler_->setLiveFeedbackCollector(live_feedback_collector_);
+            feedback_api_handler_->setLearningOrchestrator(continuous_learning_orchestrator_);
+        }
         THEMIS_INFO("Feedback API Handler initialized");
     } catch (const std::exception& e) {
         THEMIS_WARN("Failed to initialize Feedback API Handler: {}", e.what());

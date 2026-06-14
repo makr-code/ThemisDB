@@ -61,6 +61,7 @@
 #include <chrono>
 #include <cstring>
 #include <cstdio>  // For snprintf
+#include <exception>
 #include <future>
 #include <thread>
 #ifdef _WIN32
@@ -283,6 +284,7 @@ uint32_t crc32Update(uint32_t crc, const uint8_t* data, size_t len) {
 }
 
 json parsePayloadJson(const std::vector<uint8_t>& payload_buffer);
+json parsePayloadJsonWithRetry(const std::vector<uint8_t>& payload_buffer, int max_attempts);
 
 // ---------------------------------------------------------------------------
 // GEO_QUERY injection bridge globals (stub #284 replacement)
@@ -1512,7 +1514,7 @@ void WireProtocolServer::Session::handleAuthRequest() {
                 return;
             }
 
-            json request = parsePayloadJson(payload_buffer_);
+            json request = parsePayloadJsonWithRetry(payload_buffer_, 2);
             if (!request.is_object()) {
                 sendError(400, "Invalid AUTH payload: expected JSON object");
                 return;
@@ -1604,7 +1606,7 @@ void WireProtocolServer::Session::handleGet() {
             return;
         }
 
-        json request = parsePayloadJson(payload_buffer_);
+        json request = parsePayloadJsonWithRetry(payload_buffer_, 2);
         if (!request.is_object()) {
             sendError(400, "Invalid GET payload: expected JSON object");
             return;
@@ -1677,7 +1679,7 @@ void WireProtocolServer::Session::handlePut() {
             return;
         }
 
-        json request = parsePayloadJson(payload_buffer_);
+        json request = parsePayloadJsonWithRetry(payload_buffer_, 2);
         if (!request.is_object()) {
             sendError(400, "Invalid PUT payload: expected JSON object");
             return;
@@ -1747,7 +1749,7 @@ void WireProtocolServer::Session::handleDelete() {
             return;
         }
 
-        json request = parsePayloadJson(payload_buffer_);
+        json request = parsePayloadJsonWithRetry(payload_buffer_, 2);
         if (!request.is_object()) {
             sendError(400, "Invalid DELETE payload: expected JSON object");
             return;
@@ -1805,7 +1807,7 @@ void WireProtocolServer::Session::handleBatchGet() {
             return;
         }
 
-        json request = parsePayloadJson(payload_buffer_);
+        json request = parsePayloadJsonWithRetry(payload_buffer_, 2);
         if (!request.is_object()) {
             sendError(400, "Invalid BATCH_GET payload: expected JSON object");
             return;
@@ -1922,7 +1924,7 @@ void WireProtocolServer::Session::handleBatchPut() {
             return;
         }
 
-        json request = parsePayloadJson(payload_buffer_);
+        json request = parsePayloadJsonWithRetry(payload_buffer_, 2);
         if (!request.is_object()) {
             sendError(400, "Invalid BATCH_PUT payload: expected JSON object");
             return;
@@ -2081,7 +2083,7 @@ void WireProtocolServer::Session::handleTransactionBegin() {
             return;
         }
 
-        json request = parsePayloadJson(payload_buffer_);
+        json request = parsePayloadJsonWithRetry(payload_buffer_, 2);
         if (!request.is_object()) {
             sendError(400, "Invalid TRANSACTION_BEGIN payload: expected JSON object");
             return;
@@ -2152,7 +2154,7 @@ void WireProtocolServer::Session::handleTransactionCommit() {
             return;
         }
 
-        json request = parsePayloadJson(payload_buffer_);
+        json request = parsePayloadJsonWithRetry(payload_buffer_, 2);
         if (!request.is_object()) {
             sendError(400, "Invalid TRANSACTION_COMMIT payload: expected JSON object");
             return;
@@ -2219,7 +2221,7 @@ void WireProtocolServer::Session::handleTransactionAbort() {
             return;
         }
 
-        json request = parsePayloadJson(payload_buffer_);
+        json request = parsePayloadJsonWithRetry(payload_buffer_, 2);
         if (!request.is_object()) {
             sendError(400, "Invalid TRANSACTION_ABORT payload: expected JSON object");
             return;
@@ -2282,7 +2284,7 @@ void WireProtocolServer::Session::handleGraphTraverse() {
             return;
         }
 
-        json request = parsePayloadJson(payload_buffer_);
+        json request = parsePayloadJsonWithRetry(payload_buffer_, 2);
         if (!request.is_object()) {
             sendError(400, "Invalid GRAPH_TRAVERSE payload: expected JSON object");
             return;
@@ -2419,7 +2421,7 @@ void WireProtocolServer::Session::handleQuery() {
             return;
         }
 
-        json request = parsePayloadJson(payload_buffer_);
+        json request = parsePayloadJsonWithRetry(payload_buffer_, 2);
         if (!request.is_object()) {
             sendError(400, "Invalid QUERY payload: expected JSON object");
             return;
@@ -2545,7 +2547,7 @@ void WireProtocolServer::Session::handleCursorNext() {
             return;
         }
 
-        json request = parsePayloadJson(payload_buffer_);
+        json request = parsePayloadJsonWithRetry(payload_buffer_, 2);
         if (!request.is_object()) {
             sendError(400, "Invalid CURSOR_NEXT payload: expected JSON object");
             return;
@@ -2639,7 +2641,7 @@ void WireProtocolServer::Session::handleCursorClose() {
             return;
         }
 
-        json request = parsePayloadJson(payload_buffer_);
+        json request = parsePayloadJsonWithRetry(payload_buffer_, 2);
         if (!request.is_object()) {
             sendError(400, "Invalid CURSOR_CLOSE payload: expected JSON object");
             return;
@@ -2692,7 +2694,7 @@ void WireProtocolServer::Session::handleVectorSearch() {
     }
 
     try {
-        json request = parsePayloadJson(payload_buffer_);
+        json request = parsePayloadJsonWithRetry(payload_buffer_, 2);
 
         if (request.contains("k") && !request["k"].is_number_integer()) {
             sendError(400, "Invalid 'k' type in VECTOR_SEARCH request");
@@ -2797,7 +2799,7 @@ void WireProtocolServer::Session::handleGeoQuery() {
     }
 
     try {
-        json request = parsePayloadJson(payload_buffer_);
+        json request = parsePayloadJsonWithRetry(payload_buffer_, 2);
 
         if (request.contains("collection") && !request["collection"].is_string()) {
             sendError(400, "Invalid 'collection' type in GEO_QUERY request");
@@ -3388,6 +3390,27 @@ namespace {
         std::string payload_str(payload_buffer.begin(), payload_buffer.end());
         return json::parse(payload_str);
     }
+
+    // Retry parsing a bounded number of times for transient/incomplete payload edge cases.
+    json parsePayloadJsonWithRetry(const std::vector<uint8_t>& payload_buffer, int max_attempts) {
+        std::string payload_str(payload_buffer.begin(), payload_buffer.end());
+        std::exception_ptr last_error;
+        const int attempts = std::max(1, max_attempts);
+        for (int attempt = 1; attempt <= attempts; ++attempt) {
+            try {
+                return json::parse(payload_str);
+            } catch (const nlohmann::json::parse_error&) {
+                last_error = std::current_exception();
+                if (attempt == attempts) {
+                    throw;
+                }
+            }
+        }
+        if (last_error) {
+            std::rethrow_exception(last_error);
+        }
+        throw std::runtime_error("JSON parse failed after retry");
+    }
 }
 
 void WireProtocolServer::Session::handleBpmnStartProcess() {
@@ -3409,7 +3432,7 @@ void WireProtocolServer::Session::handleBpmnStartProcess() {
 
         // Parse JSON payload
         // Expected format: { "process_definition_key": "...", "variables": {...}, "business_key": "..." }
-        json request = parsePayloadJson(payload_buffer_);
+        json request = parsePayloadJsonWithRetry(payload_buffer_, 2);
 
         if (!request.is_object()) {
             sendError(400, "Invalid request: expected JSON object");
@@ -3544,7 +3567,7 @@ void WireProtocolServer::Session::handleBpmnTaskComplete() {
 
         // Parse JSON payload
         // Expected format: { "task_id": "...", "variables": {...}, "assignee": "..." }
-        json request = parsePayloadJson(payload_buffer_);
+        json request = parsePayloadJsonWithRetry(payload_buffer_, 2);
 
         if (!request.is_object()) {
             sendError(400, "Invalid request: expected JSON object");
@@ -3683,7 +3706,7 @@ void WireProtocolServer::Session::handleBpmnQueryInstance() {
 
         // Parse JSON payload
         // Expected format: { "process_instance_id": "...", "include_variables": true/false, "include_history": true/false }
-        json request = parsePayloadJson(payload_buffer_);
+        json request = parsePayloadJsonWithRetry(payload_buffer_, 2);
 
         if (!request.is_object()) {
             sendError(400, "Invalid request: expected JSON object");
@@ -3838,3 +3861,4 @@ void WireProtocolServer::Session::handleBpmnQueryInstance() {
 }
 
 } // namespace themis::network
+

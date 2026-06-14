@@ -27,6 +27,12 @@ using namespace themis::llm::lora::cuda;
 
 namespace {
 
+#define ASSERT_CUDA_SUCCESS(call) \
+    do { \
+        const cudaError_t _cuda_err = (call); \
+        ASSERT_EQ(_cuda_err, cudaSuccess) << #call << " failed: " << cudaGetErrorString(_cuda_err); \
+    } while (false)
+
 /**
  * @brief Generate random test data
  * @param size Number of elements
@@ -79,13 +85,13 @@ TEST(QLoRAGPUKernels, NF4QuantizationBasic) {
     float* d_scales;
     float* d_zeros;
     
-    cudaMalloc(&d_input, num_elements * sizeof(float));
-    cudaMalloc(&d_output, (num_elements + 1) / 2);
-    cudaMalloc(&d_scales, num_blocks * sizeof(float));
-    cudaMalloc(&d_zeros, num_blocks * sizeof(float));
+    ASSERT_CUDA_SUCCESS(cudaMalloc(&d_input, num_elements * sizeof(float)));
+    ASSERT_CUDA_SUCCESS(cudaMalloc(&d_output, (num_elements + 1) / 2));
+    ASSERT_CUDA_SUCCESS(cudaMalloc(&d_scales, num_blocks * sizeof(float)));
+    ASSERT_CUDA_SUCCESS(cudaMalloc(&d_zeros, num_blocks * sizeof(float)));
     
     // Copy input to device
-    cudaMemcpy(d_input, input.data(), num_elements * sizeof(float), cudaMemcpyHostToDevice);
+    ASSERT_CUDA_SUCCESS(cudaMemcpy(d_input, input.data(), num_elements * sizeof(float), cudaMemcpyHostToDevice));
     
     // Launch quantization kernel
     cudaError_t err = launch_quantize_nf4_kernel(
@@ -93,16 +99,16 @@ TEST(QLoRAGPUKernels, NF4QuantizationBasic) {
     ASSERT_EQ(err, cudaSuccess);
     
     // Wait for completion
-    cudaDeviceSynchronize();
+    ASSERT_CUDA_SUCCESS(cudaDeviceSynchronize());
     
     // Copy results back
     std::vector<uint8_t> output((num_elements + 1) / 2);
     std::vector<float> scales(num_blocks);
     std::vector<float> zeros(num_blocks);
     
-    cudaMemcpy(output.data(), d_output, (num_elements + 1) / 2, cudaMemcpyDeviceToHost);
-    cudaMemcpy(scales.data(), d_scales, num_blocks * sizeof(float), cudaMemcpyDeviceToHost);
-    cudaMemcpy(zeros.data(), d_zeros, num_blocks * sizeof(float), cudaMemcpyDeviceToHost);
+    ASSERT_CUDA_SUCCESS(cudaMemcpy(output.data(), d_output, (num_elements + 1) / 2, cudaMemcpyDeviceToHost));
+    ASSERT_CUDA_SUCCESS(cudaMemcpy(scales.data(), d_scales, num_blocks * sizeof(float), cudaMemcpyDeviceToHost));
+    ASSERT_CUDA_SUCCESS(cudaMemcpy(zeros.data(), d_zeros, num_blocks * sizeof(float), cudaMemcpyDeviceToHost));
     
     // Verify results
     EXPECT_GT(output.size(), 0);
@@ -135,13 +141,13 @@ TEST(QLoRAGPUKernels, NF4DequantizationRoundTrip) {
     float* d_zeros;
     float* d_output;
     
-    cudaMalloc(&d_input, num_elements * sizeof(float));
-    cudaMalloc(&d_quantized, (num_elements + 1) / 2);
-    cudaMalloc(&d_scales, num_blocks * sizeof(float));
-    cudaMalloc(&d_zeros, num_blocks * sizeof(float));
-    cudaMalloc(&d_output, num_elements * sizeof(float));
+    ASSERT_CUDA_SUCCESS(cudaMalloc(&d_input, num_elements * sizeof(float)));
+    ASSERT_CUDA_SUCCESS(cudaMalloc(&d_quantized, (num_elements + 1) / 2));
+    ASSERT_CUDA_SUCCESS(cudaMalloc(&d_scales, num_blocks * sizeof(float)));
+    ASSERT_CUDA_SUCCESS(cudaMalloc(&d_zeros, num_blocks * sizeof(float)));
+    ASSERT_CUDA_SUCCESS(cudaMalloc(&d_output, num_elements * sizeof(float)));
     
-    cudaMemcpy(d_input, input.data(), num_elements * sizeof(float), cudaMemcpyHostToDevice);
+    ASSERT_CUDA_SUCCESS(cudaMemcpy(d_input, input.data(), num_elements * sizeof(float), cudaMemcpyHostToDevice));
     
     // Quantize
     launch_quantize_nf4_kernel(d_input, d_quantized, d_scales, d_zeros, num_elements, block_size);
@@ -149,11 +155,11 @@ TEST(QLoRAGPUKernels, NF4DequantizationRoundTrip) {
     // Dequantize
     launch_dequantize_nf4_kernel(d_quantized, d_scales, d_zeros, d_output, num_elements, block_size);
     
-    cudaDeviceSynchronize();
+    ASSERT_CUDA_SUCCESS(cudaDeviceSynchronize());
     
     // Copy result back
     std::vector<float> output(num_elements);
-    cudaMemcpy(output.data(), d_output, num_elements * sizeof(float), cudaMemcpyDeviceToHost);
+    ASSERT_CUDA_SUCCESS(cudaMemcpy(output.data(), d_output, num_elements * sizeof(float), cudaMemcpyDeviceToHost));
     
     // Compute error
     float mse = computeMSE(input, output);
@@ -183,24 +189,24 @@ TEST(QLoRAGPUKernels, INT8QuantizationBasic) {
     int8_t* d_output;
     float* d_scales;
     
-    cudaMalloc(&d_input, num_elements * sizeof(float));
-    cudaMalloc(&d_output, num_elements * sizeof(int8_t));
-    cudaMalloc(&d_scales, num_blocks * sizeof(float));
+    ASSERT_CUDA_SUCCESS(cudaMalloc(&d_input, num_elements * sizeof(float)));
+    ASSERT_CUDA_SUCCESS(cudaMalloc(&d_output, num_elements * sizeof(int8_t)));
+    ASSERT_CUDA_SUCCESS(cudaMalloc(&d_scales, num_blocks * sizeof(float)));
     
-    cudaMemcpy(d_input, input.data(), num_elements * sizeof(float), cudaMemcpyHostToDevice);
+    ASSERT_CUDA_SUCCESS(cudaMemcpy(d_input, input.data(), num_elements * sizeof(float), cudaMemcpyHostToDevice));
     
     // Launch kernel
     cudaError_t err = launch_quantize_int8_kernel(d_input, d_output, d_scales, num_elements, block_size);
     ASSERT_EQ(err, cudaSuccess);
     
-    cudaDeviceSynchronize();
+    ASSERT_CUDA_SUCCESS(cudaDeviceSynchronize());
     
     // Verify
     std::vector<int8_t> output(num_elements);
     std::vector<float> scales(num_blocks);
     
-    cudaMemcpy(output.data(), d_output, num_elements * sizeof(int8_t), cudaMemcpyDeviceToHost);
-    cudaMemcpy(scales.data(), d_scales, num_blocks * sizeof(float), cudaMemcpyDeviceToHost);
+    ASSERT_CUDA_SUCCESS(cudaMemcpy(output.data(), d_output, num_elements * sizeof(int8_t), cudaMemcpyDeviceToHost));
+    ASSERT_CUDA_SUCCESS(cudaMemcpy(scales.data(), d_scales, num_blocks * sizeof(float), cudaMemcpyDeviceToHost));
     
     EXPECT_EQ(output.size(), num_elements);
     EXPECT_EQ(scales.size(), num_blocks);
@@ -224,22 +230,22 @@ TEST(QLoRAGPUKernels, INT8DequantizationRoundTrip) {
     float* d_scales;
     float* d_output;
     
-    cudaMalloc(&d_input, num_elements * sizeof(float));
-    cudaMalloc(&d_quantized, num_elements * sizeof(int8_t));
-    cudaMalloc(&d_scales, num_blocks * sizeof(float));
-    cudaMalloc(&d_output, num_elements * sizeof(float));
+    ASSERT_CUDA_SUCCESS(cudaMalloc(&d_input, num_elements * sizeof(float)));
+    ASSERT_CUDA_SUCCESS(cudaMalloc(&d_quantized, num_elements * sizeof(int8_t)));
+    ASSERT_CUDA_SUCCESS(cudaMalloc(&d_scales, num_blocks * sizeof(float)));
+    ASSERT_CUDA_SUCCESS(cudaMalloc(&d_output, num_elements * sizeof(float)));
     
-    cudaMemcpy(d_input, input.data(), num_elements * sizeof(float), cudaMemcpyHostToDevice);
+    ASSERT_CUDA_SUCCESS(cudaMemcpy(d_input, input.data(), num_elements * sizeof(float), cudaMemcpyHostToDevice));
     
     // Quantize and dequantize
     launch_quantize_int8_kernel(d_input, d_quantized, d_scales, num_elements, block_size);
     launch_dequantize_int8_kernel(d_quantized, d_scales, d_output, num_elements, block_size);
     
-    cudaDeviceSynchronize();
+    ASSERT_CUDA_SUCCESS(cudaDeviceSynchronize());
     
     // Copy result
     std::vector<float> output(num_elements);
-    cudaMemcpy(output.data(), d_output, num_elements * sizeof(float), cudaMemcpyDeviceToHost);
+    ASSERT_CUDA_SUCCESS(cudaMemcpy(output.data(), d_output, num_elements * sizeof(float), cudaMemcpyDeviceToHost));
     
     // Verify accuracy
     float mse = computeMSE(input, output);
@@ -273,33 +279,33 @@ TEST(QLoRAGPUKernels, FusedDequantMatMulNF4) {
     float* d_scales;
     float* d_zeros;
     
-    cudaMalloc(&d_weights_fp32, K * N * sizeof(float));
-    cudaMalloc(&d_weights_quant, (K * N + 1) / 2);
-    cudaMalloc(&d_scales, num_blocks * sizeof(float));
-    cudaMalloc(&d_zeros, num_blocks * sizeof(float));
+    ASSERT_CUDA_SUCCESS(cudaMalloc(&d_weights_fp32, K * N * sizeof(float)));
+    ASSERT_CUDA_SUCCESS(cudaMalloc(&d_weights_quant, (K * N + 1) / 2));
+    ASSERT_CUDA_SUCCESS(cudaMalloc(&d_scales, num_blocks * sizeof(float)));
+    ASSERT_CUDA_SUCCESS(cudaMalloc(&d_zeros, num_blocks * sizeof(float)));
     
-    cudaMemcpy(d_weights_fp32, weights.data(), K * N * sizeof(float), cudaMemcpyHostToDevice);
+    ASSERT_CUDA_SUCCESS(cudaMemcpy(d_weights_fp32, weights.data(), K * N * sizeof(float), cudaMemcpyHostToDevice));
     launch_quantize_nf4_kernel(d_weights_fp32, d_weights_quant, d_scales, d_zeros, K * N, block_size);
     
     // Allocate input and output
     float* d_input;
     float* d_output;
     
-    cudaMalloc(&d_input, M * K * sizeof(float));
-    cudaMalloc(&d_output, M * N * sizeof(float));
+    ASSERT_CUDA_SUCCESS(cudaMalloc(&d_input, M * K * sizeof(float)));
+    ASSERT_CUDA_SUCCESS(cudaMalloc(&d_output, M * N * sizeof(float)));
     
-    cudaMemcpy(d_input, input.data(), M * K * sizeof(float), cudaMemcpyHostToDevice);
+    ASSERT_CUDA_SUCCESS(cudaMemcpy(d_input, input.data(), M * K * sizeof(float), cudaMemcpyHostToDevice));
     
     // Launch fused kernel
     cudaError_t err = launch_fused_dequant_matmul_kernel(
         d_weights_quant, d_scales, d_zeros, d_input, d_output, M, K, N, block_size, true);
     ASSERT_EQ(err, cudaSuccess);
     
-    cudaDeviceSynchronize();
+    ASSERT_CUDA_SUCCESS(cudaDeviceSynchronize());
     
     // Verify output
     std::vector<float> output(M * N);
-    cudaMemcpy(output.data(), d_output, M * N * sizeof(float), cudaMemcpyDeviceToHost);
+    ASSERT_CUDA_SUCCESS(cudaMemcpy(output.data(), d_output, M * N * sizeof(float), cudaMemcpyDeviceToHost));
     
     EXPECT_EQ(output.size(), M * N);
     
@@ -329,16 +335,16 @@ TEST(QLoRAGPUKernels, PerformanceNF4Quantization) {
     float* d_scales;
     float* d_zeros;
     
-    cudaMalloc(&d_input, num_elements * sizeof(float));
-    cudaMalloc(&d_output, (num_elements + 1) / 2);
-    cudaMalloc(&d_scales, num_blocks * sizeof(float));
-    cudaMalloc(&d_zeros, num_blocks * sizeof(float));
+    ASSERT_CUDA_SUCCESS(cudaMalloc(&d_input, num_elements * sizeof(float)));
+    ASSERT_CUDA_SUCCESS(cudaMalloc(&d_output, (num_elements + 1) / 2));
+    ASSERT_CUDA_SUCCESS(cudaMalloc(&d_scales, num_blocks * sizeof(float)));
+    ASSERT_CUDA_SUCCESS(cudaMalloc(&d_zeros, num_blocks * sizeof(float)));
     
-    cudaMemcpy(d_input, input.data(), num_elements * sizeof(float), cudaMemcpyHostToDevice);
+    ASSERT_CUDA_SUCCESS(cudaMemcpy(d_input, input.data(), num_elements * sizeof(float), cudaMemcpyHostToDevice));
     
     // Warmup
     launch_quantize_nf4_kernel(d_input, d_output, d_scales, d_zeros, num_elements, block_size);
-    cudaDeviceSynchronize();
+    ASSERT_CUDA_SUCCESS(cudaDeviceSynchronize());
     
     // Measure performance
     cudaEvent_t start, stop;
@@ -403,17 +409,17 @@ TEST(QLoRAGPUKernels, AsyncTransfer) {
     
     // Create stream
     cudaStream_t stream;
-    cudaStreamCreate(&stream);
+    ASSERT_CUDA_SUCCESS(cudaStreamCreate(&stream));
     
     // Async transfer
     cudaError_t err = manager.transferToGPUAsync(device_buffer, host_data.data(), size, stream);
     EXPECT_EQ(err, cudaSuccess);
     
     // Wait
-    cudaStreamSynchronize(stream);
+    ASSERT_CUDA_SUCCESS(cudaStreamSynchronize(stream));
     
     // Cleanup
-    cudaStreamDestroy(stream);
+    ASSERT_CUDA_SUCCESS(cudaStreamDestroy(stream));
     manager.freeDevice(device_buffer);
 }
 

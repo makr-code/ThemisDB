@@ -8,8 +8,24 @@ foreach(_src IN LISTS PERFORMANCE_MODULE_TEST_SOURCES)
     get_filename_component(_stem "${_src}" NAME_WE)
     set(_target "module_performance_${_stem}_focused")
     set(_ctest "${_stem}_PerformanceFocusedTests")
+    set(_extra_sources)
 
-    add_executable(${_target} "${_src}")
+    if(_stem STREQUAL "test_cicada")
+        list(APPEND _extra_sources
+            ${THEMIS_ROOT_DIR}/src/performance/cicada.cpp
+        )
+    endif()
+
+    if(_stem STREQUAL "test_performance_hardware_accelerator")
+        list(APPEND _extra_sources
+            ${THEMIS_ROOT_DIR}/src/performance/hardware_accelerator.cpp
+        )
+    endif()
+
+    add_executable(${_target}
+        "${_src}"
+        ${_extra_sources}
+    )
     target_include_directories(${_target} PRIVATE
         ${THEMIS_ROOT_DIR}/include
         ${THEMIS_ROOT_DIR}/src

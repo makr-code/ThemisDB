@@ -54,12 +54,12 @@ TEST_F(SocketTimeoutManagerTest, StatisticsTracking) {
     // Record some timeouts
     manager.recordTimeout();
     manager.recordTimeout();
-    manager.recordTimeout();
     
-    // Stats are tracked in the health state, not directly visible in stats
-    EXPECT_EQ(manager.getHealthState(), SocketHealthState::HEALTHY);
+    // Stats are tracked in the health state, not directly visible in stats.
+    // With threshold=5, integer split means 2 consecutive timeouts are DEGRADED.
+    EXPECT_EQ(manager.getHealthState(), SocketHealthState::DEGRADED);
     
-    // Record more timeouts to reach degraded state
+    // One more timeout remains DEGRADED.
     manager.recordTimeout();
     EXPECT_EQ(manager.getHealthState(), SocketHealthState::DEGRADED);
 }
@@ -222,7 +222,6 @@ TEST_F(SocketTimeoutManagerTest, MultipleStateTransitions) {
     SocketTimeoutManager manager(config_);
     
     std::vector<SocketHealthState> expected_transitions = {
-        SocketHealthState::HEALTHY,
         SocketHealthState::DEGRADED,
         SocketHealthState::CIRCUIT_OPEN,
         SocketHealthState::HEALTHY

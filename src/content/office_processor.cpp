@@ -57,6 +57,7 @@ constexpr const char *PPTX_CONTENT_TYPE = "application/vnd.openxmlformats-office
 
 // ZIP signatures
 constexpr uint32_t ZIP_SIGNATURE = 0x04034b50; // PK\x03\x04
+constexpr size_t MAX_OFFICE_BLOB_BYTES = 256ULL * 1024ULL * 1024ULL; // 256 MiB safety ceiling
 
 // ============================================================================
 // OfficeProcessor Implementation
@@ -145,6 +146,24 @@ ExtractionResult OfficeProcessor::extract(const std::string &blob, const Content
     ExtractionResult result;
     result.ok       = false;
     result.metadata = json::object();
+
+    if (blob.empty()) {
+        result.error_message = "Empty Office payload";
+        if (config_.metrics) {
+            config_.metrics->recordExtractError();
+        }
+        return result;
+    }
+
+    if (blob.size() > MAX_OFFICE_BLOB_BYTES) {
+        result.error_message = "Office payload exceeds maximum supported size";
+        result.metadata["size_bytes"] = blob.size();
+        result.metadata["max_size_bytes"] = MAX_OFFICE_BLOB_BYTES;
+        if (config_.metrics) {
+            config_.metrics->recordExtractError();
+        }
+        return result;
+    }
 
     // Detect document type
     OfficeDocumentType doc_type   = detectDocumentType(blob);

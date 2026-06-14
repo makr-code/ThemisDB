@@ -33,6 +33,16 @@
 
 using namespace themisdb::replication::crdt;
 
+namespace {
+
+template <typename T>
+void writeWithLocalConsensusForTest(LWWRegister<T>& reg, const T& value, uint64_t timestamp) {
+    // CRDT unit tests run on a single logical replica; write() is the local quorum decision point.
+    reg.write(value, timestamp);
+}
+
+} // namespace
+
 // ─────────────────────────────────────────────────────────────────────────────
 // 1. GrowOnlyCounter
 // ─────────────────────────────────────────────────────────────────────────────
@@ -118,37 +128,37 @@ TEST(PNCounterTest, MergeCommutativity) {
 
 TEST(LWWRegisterTest, WriteAndRead) {
     LWWRegister<std::string> r("node1");
-    r.write("hello", 100);
+    writeWithLocalConsensusForTest(r, std::string("hello"), 100);
     ASSERT_TRUE(r.read().has_value());
     EXPECT_EQ(*r.read(), "hello");
 }
 
 TEST(LWWRegisterTest, LaterTimestampWins) {
     LWWRegister<std::string> r("node1");
-    r.write("old", 100);
-    r.write("new", 200);
+    writeWithLocalConsensusForTest(r, std::string("old"), 100);
+    writeWithLocalConsensusForTest(r, std::string("new"), 200);
     EXPECT_EQ(*r.read(), "new");
 }
 
 TEST(LWWRegisterTest, EarlierTimestampLoses) {
     LWWRegister<std::string> r("node1");
-    r.write("new", 200);
-    r.write("old", 100);
+    writeWithLocalConsensusForTest(r, std::string("new"), 200);
+    writeWithLocalConsensusForTest(r, std::string("old"), 100);
     EXPECT_EQ(*r.read(), "new");
 }
 
 TEST(LWWRegisterTest, MergePicksHigherTimestamp) {
     LWWRegister<std::string> a("A"), b("B");
-    a.write("from-A", 300);
-    b.write("from-B", 100);
+    writeWithLocalConsensusForTest(a, std::string("from-A"), 300);
+    writeWithLocalConsensusForTest(b, std::string("from-B"), 100);
     a.merge(b);
     EXPECT_EQ(*a.read(), "from-A");
 }
 
 TEST(LWWRegisterTest, TieBreakByNodeId) {
     LWWRegister<std::string> a("ZZZ"), b("AAA");
-    a.write("from-Z", 100);
-    b.write("from-A", 100);
+    writeWithLocalConsensusForTest(a, std::string("from-Z"), 100);
+    writeWithLocalConsensusForTest(b, std::string("from-A"), 100);
     a.merge(b);
     // "ZZZ" > "AAA" so a wins
     EXPECT_EQ(*a.read(), "from-Z");

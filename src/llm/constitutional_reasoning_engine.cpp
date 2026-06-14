@@ -37,7 +37,7 @@ std::string invokePromptRunner(void* llm_wrapper, const std::string& prompt) {
 struct ConstitutionalReasoningEngine::Impl {
     ConstitutionalReasoningConfig config;
     mutable Statistics stats;
-    mutable std::mutex mutex;
+    mutable std::recursive_mutex mutex;
     
     // Cache for critiques
     std::unordered_map<std::string, std::vector<std::string>> critique_cache;
@@ -72,7 +72,7 @@ ConstitutionalReasoningResult ConstitutionalReasoningEngine::reason(
     const std::string& query,
     void* llm_wrapper
 ) {
-    std::lock_guard<std::mutex> lock(impl_->mutex);
+    std::lock_guard<std::recursive_mutex> lock(impl_->mutex);
     impl_->stats.total_reasonings++;
     
     auto start = std::chrono::steady_clock::now();
@@ -225,6 +225,10 @@ std::string ConstitutionalReasoningEngine::generateCritique(
     const ConstitutionalPrinciple& principle,
     void* llm_wrapper
 ) {
+    // Lock guards both the direct public-API path and the re-entrant path
+    // from reason() (which also holds this mutex). std::recursive_mutex allows
+    // the same thread to acquire the lock multiple times without deadlock.
+    std::lock_guard<std::recursive_mutex> lock(impl_->mutex);
     // Check cache
     std::string cache_key = response + "|" + principle.id;
     if (impl_->config.cache_critiques) {
@@ -370,12 +374,12 @@ float ConstitutionalReasoningEngine::scoreResponse(const std::string& response) 
 // ═══════════════════════════════════════════════════════════
 
 void ConstitutionalReasoningEngine::addPrinciple(const ConstitutionalPrinciple& principle) {
-    std::lock_guard<std::mutex> lock(impl_->mutex);
+    std::lock_guard<std::recursive_mutex> lock(impl_->mutex);
     impl_->config.principles.push_back(principle);
 }
 
 void ConstitutionalReasoningEngine::removePrinciple(const std::string& principle_id) {
-    std::lock_guard<std::mutex> lock(impl_->mutex);
+    std::lock_guard<std::recursive_mutex> lock(impl_->mutex);
     auto& principles = impl_->config.principles;
     principles.erase(
         std::remove_if(
@@ -388,12 +392,12 @@ void ConstitutionalReasoningEngine::removePrinciple(const std::string& principle
 }
 
 std::vector<ConstitutionalPrinciple> ConstitutionalReasoningEngine::getPrinciples() const {
-    std::lock_guard<std::mutex> lock(impl_->mutex);
+    std::lock_guard<std::recursive_mutex> lock(impl_->mutex);
     return impl_->config.principles;
 }
 
 void ConstitutionalReasoningEngine::loadDefaultPrinciples() {
-    std::lock_guard<std::mutex> lock(impl_->mutex);
+    std::lock_guard<std::recursive_mutex> lock(impl_->mutex);
     impl_->config.principles.clear();
 
     const auto add = [&](const char* id,
@@ -591,17 +595,17 @@ void ConstitutionalReasoningEngine::loadDefaultPrinciples() {
 // ═══════════════════════════════════════════════════════════
 
 void ConstitutionalReasoningEngine::setConfig(const ConstitutionalReasoningConfig& config) {
-    std::lock_guard<std::mutex> lock(impl_->mutex);
+    std::lock_guard<std::recursive_mutex> lock(impl_->mutex);
     impl_->config = config;
 }
 
 ConstitutionalReasoningConfig ConstitutionalReasoningEngine::getConfig() const {
-    std::lock_guard<std::mutex> lock(impl_->mutex);
+    std::lock_guard<std::recursive_mutex> lock(impl_->mutex);
     return impl_->config;
 }
 
 void ConstitutionalReasoningEngine::clearCache() {
-    std::lock_guard<std::mutex> lock(impl_->mutex);
+    std::lock_guard<std::recursive_mutex> lock(impl_->mutex);
     impl_->critique_cache.clear();
 }
 
@@ -610,19 +614,19 @@ void ConstitutionalReasoningEngine::clearCache() {
 // ═══════════════════════════════════════════════════════════
 
 ConstitutionalReasoningEngine::Statistics ConstitutionalReasoningEngine::getStatistics() const {
-    std::lock_guard<std::mutex> lock(impl_->mutex);
+    std::lock_guard<std::recursive_mutex> lock(impl_->mutex);
     return impl_->stats;
 }
 
 void ConstitutionalReasoningEngine::resetStatistics() {
-    std::lock_guard<std::mutex> lock(impl_->mutex);
+    std::lock_guard<std::recursive_mutex> lock(impl_->mutex);
     impl_->stats = Statistics();
 }
 
 void ConstitutionalReasoningEngine::setReasoningCallback(
     std::function<void(const ConstitutionalReasoningResult&)> callback
 ) {
-    std::lock_guard<std::mutex> lock(impl_->mutex);
+    std::lock_guard<std::recursive_mutex> lock(impl_->mutex);
     impl_->callback = callback;
 }
 
@@ -849,3 +853,4 @@ std::unique_ptr<ConstitutionalReasoningEngine> ConstitutionalReasoningFactory::c
 
 } // namespace llm
 } // namespace themis
+

@@ -156,31 +156,27 @@ bool executeWithTimeout(uint32_t timeout_ms, Func operation) {
 }
 
 /**
- * @brief Join a thread with a shutdown timeout.
+ * @brief Join a thread on the cooperative shutdown path.
  *
- * Sets @p t to a moved-from (non-joinable) state after the call.
- * If the thread does not exit within @p timeout_ms milliseconds a warning
- * is logged and the join watcher is detached so shutdown does not block
- * indefinitely (thread_join_no_timeout).
+ * Replication worker loops observe stop flags and condition-variable
+ * notifications, so shutdown must wait for the worker to exit before
+ * destroying the owning object graph.
  *
- * @param t          Thread to join; moved-from on return.
- * @param timeout_ms Maximum milliseconds to wait before detaching.
+ * @param t          Thread to join.
+ * @param timeout_ms Unused legacy timeout parameter.
  */
 static void timedJoin(std::thread& t, int timeout_ms = 5000) noexcept {
     if (!t.joinable()) return;
-    std::promise<void> done;
-    auto fut = done.get_future();
-    std::thread watcher([inner = std::move(t), p = std::move(done)]() mutable {
-        if (inner.joinable()) inner.join();
-        p.set_value();
-    });
-    watcher.detach();
-    if (fut.wait_for(std::chrono::milliseconds(timeout_ms)) !=
-            std::future_status::ready) {
-        THEMIS_WARN("Thread did not finish within {} ms during shutdown; detaching.",
-                    timeout_ms);
+
+    (void)timeout_ms;
+
+    try {
+        t.join();
+    } catch (const std::exception& e) {
+        THEMIS_ERROR("Thread join failed: {}", e.what());
+    } catch (...) {
+        THEMIS_ERROR("Thread join failed with unknown exception");
     }
-    // t is now moved-from (not joinable)
 }
 
 }  // namespace
@@ -953,7 +949,12 @@ ReplicationStream::ReplicationStream(
     const ReplicationConfig& config)
     : follower_endpoint_(follower_endpoint)
     , wal_(wal)
-    , config_(config) {
+    , config_(config)
+    , follower_info_{}
+    , last_acked_sequence_(0)
+    , running_(false)
+    , consecutive_failures_(0)
+    , compressed_stream_(nullptr) {
     
     follower_info_.endpoint = follower_endpoint;
     follower_info_.role = ReplicationRole::FOLLOWER;
@@ -995,11 +996,11 @@ void ReplicationStream::start() {
 
 void ReplicationStream::stop() {
     running_.store(false);
-    timedJoin(stream_thread_);
     wait_cv_.notify_all();
-    if (stream_thread_.joinable()) {
-        stream_thread_.join();
+    if (!stream_thread_.joinable()) {
+        return;  // Never started, nothing to join
     }
+    timedJoin(stream_thread_);
 }
 
 bool ReplicationStream::isHealthy() const {

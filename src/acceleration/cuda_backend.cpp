@@ -745,11 +745,25 @@ CUDAVectorBackend::batchKnnSearchWithGraph(const float *queries, size_t numQueri
             newEntry.d_topkDistances = raii::CudaDeviceMemory(topkDistSize);
 
             // Initialize buffers so the capture is valid (kernels read valid data)
-            cudaMemset(newEntry.d_queries.get(), 0, querySize);
-            cudaMemset(newEntry.d_vectors.get(), 0, vectorSize);
-            cudaMemset(newEntry.d_distances.get(), 0, distanceSize);
-            cudaMemset(newEntry.d_topkIndices.get(), 0, topkIdxSize);
-            cudaMemset(newEntry.d_topkDistances.get(), 0, topkDistSize);
+            const auto initializeBuffer = [&](void* buffer, size_t bytes, std::string_view buffer_name) -> bool {
+                const cudaError_t memset_err = cudaMemset(buffer, 0, bytes);
+                if (memset_err != cudaSuccess) {
+                    setError(ErrorContext(AccelerationErrorCode::AllocationFailed, "CUDA",
+                                          "Failed to initialize " + std::string(buffer_name) + ": "
+                                              + std::string(cudaGetErrorString(memset_err)),
+                                          "Check CUDA device state and available memory"));
+                    std::cerr << lastError_.format() << std::endl;
+                    return false;
+                }
+                return true;
+            };
+            if (!initializeBuffer(newEntry.d_queries.get(), querySize, "query buffer")
+                || !initializeBuffer(newEntry.d_vectors.get(), vectorSize, "vector buffer")
+                || !initializeBuffer(newEntry.d_distances.get(), distanceSize, "distance buffer")
+                || !initializeBuffer(newEntry.d_topkIndices.get(), topkIdxSize, "top-k index buffer")
+                || !initializeBuffer(newEntry.d_topkDistances.get(), topkDistSize, "top-k distance buffer")) {
+                return {};
+            }
             // cudaMemset is synchronous: it blocks the host until the fill is
             // complete, so the buffers are ready before capture begins.
 

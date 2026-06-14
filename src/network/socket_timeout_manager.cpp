@@ -394,10 +394,8 @@ void SocketTimeoutManager::recordTimeout() {
 
 void SocketTimeoutManager::recordSuccess() {
     consecutive_timeouts_ = 0;
-    if (health_state_ == SocketHealthState::CIRCUIT_OPEN) {
-        // Circuit recovered
-        updateHealthState();
-    }
+    // Any successful operation resets timeout streak and should recover health state.
+    updateHealthState();
 }
 
 void SocketTimeoutManager::updateHealthState() {

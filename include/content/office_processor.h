@@ -145,7 +145,9 @@ public:
      * 
      * @param blob Raw document bytes (ZIP-based OOXML or ODF)
      * @param content_type Content type info
-     * @return ExtractionResult with text and metadata
+      * @return ExtractionResult with text and metadata.
+      *         Returns ok=false for empty payloads and for payloads above
+      *         the internal safety size limit.
      */
     ExtractionResult extract(
         const std::string& blob,

@@ -11,7 +11,11 @@ foreach(_src IN LISTS AQL_MODULE_TEST_SOURCES)
     set(_extra_sources)
     string(REGEX REPLACE "^test_" "" _impl_stem "${_stem}")
     set(_impl_src "${THEMIS_ROOT_DIR}/src/aql/${_impl_stem}.cpp")
-    if(EXISTS "${_impl_src}" AND NOT _stem STREQUAL "test_aql_query_validator")
+    # Only include the implementation source directly if themis_query does NOT
+    # exist as a build target. When themis_query is available it already
+    # contains every src/aql/*.cpp translation unit (via Unity build), so
+    # adding the same file again produces LNK2005 duplicate-symbol errors.
+    if(EXISTS "${_impl_src}" AND NOT _stem STREQUAL "test_aql_query_validator" AND NOT TARGET themis_query)
         list(APPEND _extra_sources "${_impl_src}")
     endif()
 

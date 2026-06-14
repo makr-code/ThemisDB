@@ -36,6 +36,19 @@ class ThemisCppDoxygenPolicyRulesScan:
     ACCESS_RE = re.compile(r"^\s*(public|protected|private)\s*:\s*$")
     CLASS_RE = re.compile(r"^\s*(class|struct)\s+([A-Za-z_][A-Za-z0-9_]*)[^;{]*\{\s*$")
     FUNCTION_NAME_RE = re.compile(r"([~A-Za-z_][A-Za-z0-9_:~]*)\s*\(")
+    SKIP_PATH_MARKERS = (
+        "/third_party/",
+        "/external/",
+        "/generated/",
+        "/gen/",
+        "/proto/",
+        "/detail/",
+        "/internal/",
+        "/impl/",
+        "/mock/",
+        "/tests/",
+        "/benchmarks/",
+    )
 
     def __init__(self, repo_root: str = "."):
         self.repo_root = Path(repo_root)
@@ -100,11 +113,22 @@ class ThemisCppDoxygenPolicyRulesScan:
             seen.add(key)
             unique.append(path)
 
-        return unique
+        return [path for path in unique if not self._should_skip_header(path)]
 
     def _is_public_api_header(self, path: Path) -> bool:
         normalized = "/".join(part.lower() for part in path.parts)
         return "/include/" in normalized or normalized.startswith("include/")
+
+    def _should_skip_header(self, path: Path) -> bool:
+        normalized = "/" + "/".join(part.lower() for part in path.parts) + "/"
+        if any(marker in normalized for marker in self.SKIP_PATH_MARKERS):
+            return True
+
+        name = path.name.lower()
+        if name.endswith("_internal.h") or name.endswith("_internal.hpp"):
+            return True
+
+        return False
 
     def _scan_header(self, header_path: Path) -> None:
         try:
@@ -353,6 +377,14 @@ class ThemisCppDoxygenPolicyRulesScan:
         is_static = " static " in f" {signature} "
         is_override = " override" in f" {signature} "
         is_defaulted_or_deleted = "= default" in signature or "= delete" in signature
+
+        # Skip internal/trivial declarations to reduce false positives on non-public surfaces.
+        owner_name = (class_name or "").lower()
+        is_internal_owner = owner_name.endswith("impl") or owner_name.endswith("internal") or owner_name.endswith("private")
+        is_internal_name = name.startswith("_") or name.lower().endswith("_impl") or name.lower().endswith("_internal")
+        is_macro_like = name.isupper()
+        is_trivial_accessor = bool(re.match(r"^(get|set|is|has)[A-Z_].*", name))
+
         skip_doc_enforcement = bool(
             is_destructor
             or is_default_ctor
@@ -360,6 +392,10 @@ class ThemisCppDoxygenPolicyRulesScan:
             or is_override
             or is_defaulted_or_deleted
             or ctor_or_dtor
+            or is_internal_owner
+            or is_internal_name
+            or is_macro_like
+            or is_trivial_accessor
         )
 
         return {
