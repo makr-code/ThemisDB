@@ -3,10 +3,12 @@
 # ROADMAP
 
 ## Current Status
-- [~] Modul `benchmarks/tests` dokumentiert; Backlog für weitere Härtung und Ausbau wird gepflegt.
+- [x] Modul `benchmarks/tests` dokumentiert; Backlog für weitere Härtung und Ausbau wird gepflegt.
+- [x] Python-Syntax-Fehler (C-style `/* */` Header) in allen 4 Test-Dateien behoben (2026-06-15)
+- [x] CLI-Integrationstests für `scientific_evaluation_framework.py` hinzugefügt (BENCH-A01 geschlossen, 2026-06-15)
 
 ## In Progress
-- [ ] Dokumentations- und Qualitätslücken schließen (Target: 2026-Q2)
+- [ ] Dokumentations- und Qualitätslücken schließen (Target: 2026-Q3)
 
 ## Planned Features
 - [ ] Schnittstellen und Verantwortlichkeiten präzisieren (Target: 2026-Q3)
@@ -27,8 +29,9 @@
 - [ ] Edge-Case-Handling und Guardrails ergänzen (Target: 2026-Q3)
 
 ### Phase 4: Tests
-- [ ] Unit-Tests für Kernpfade ausbauen (Target: 2026-Q3)
-- [ ] Integrations- und Regressionstests ergänzen (Target: 2026-Q3)
+- [x] Unit-Tests für Kernpfade ausbauen — `test_scientific_evaluation_framework_unittest.py` (4 Tests, grün) (Target: 2026-Q2)
+- [x] CLI-Integrationstests ergänzen — `test_scientific_evaluation_framework_cli.py` (9 Tests, grün, BENCH-A01) (Target: 2026-Q2)
+- [ ] Integrations- und Regressionstests für weitere Skripte ergänzen (Target: 2026-Q3)
 
 ### Phase 5: Performance/Hardening
 - [ ] Performance-Bottlenecks messen und reduzieren (Target: 2026-Q4)

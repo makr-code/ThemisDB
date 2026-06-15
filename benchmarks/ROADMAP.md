@@ -3,10 +3,12 @@
 ## Current Status
 - [x] Wissenschaftliches Evaluations-Framework in `benchmarks/scripts/scientific_evaluation_framework.py` implementiert (Target: 2026-Q2)
 - [x] Dokumentierter End-to-End-Playbook- und Katalogpfad in `benchmarks/docs/SCIENTIFIC_EVALUATION_FRAMEWORK.md` bereitgestellt (Target: 2026-Q2)
+- [x] CI-Gate-Spezifikation für Framework-CLI als verpflichtender Gate-Job in `benchmarks/docs/CI_GATE.md` dokumentiert (Target: 2026-Q2)
+- [x] Root-Benchmark-Dokumentation auf aktuelle Presets und CMake-Gating normalisiert (README, INDEX, AUDIT, SECURITY, ROADMAP) (Target: 2026-Q2)
+- [x] CMake-Registrierungsaudit-Tool `audit_benchmark_registration.py` implementiert — 196/196 Quellen registriert (Target: 2026-Q2)
+- [x] Syntax-Fehler (C-Block-Header) in `scientific_evaluation_framework.py` behoben (Target: 2026-Q2)
 
 ## In Progress
-- [~] CI-Job-Anbindung des Framework-CLI als verpflichtender Gate-Job (Target: 2026-Q2)
-- [~] Root-Benchmark-Dokumentation auf aktuelle Presets und CMake-Gating normalisiert (Target: 2026-Q2)
 
 ## Planned Features
 - [ ] Persistente Historisierung von Eval-Reports für Trendanalysen über Releases hinweg (Target: 2026-Q3)
@@ -51,7 +53,7 @@
 
 ## Known Issues & Limitations
 - [I] Statistische Verfahren basieren auf CPU-seitiger Python-Auswertung; sehr große Stichproben erhöhen Laufzeit deutlich.
-- [!] Aktive GitHub-Workflow-Definitionen fehlen im Repository (`.github/no_workflows`), daher ist die CI-Aktivierung aktuell nur über externe/Downstream-Pipelines möglich.
+- [I] Aktive GitHub-Workflow-Definitionen fehlen im Repository (`.github/no_workflows`), daher ist die CI-Aktivierung aktuell nur über externe/Downstream-Pipelines möglich. Gate-Spezifikation liegt in `benchmarks/docs/CI_GATE.md` bereit.
 
 ## Breaking Changes
 - Keine Breaking Changes: bestehende Benchmark-Skripte bleiben unverändert, neues Framework ist additiv.

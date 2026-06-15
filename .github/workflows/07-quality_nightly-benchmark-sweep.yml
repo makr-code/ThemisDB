@@ -72,6 +72,7 @@ jobs:
       # -------------------------------------------------------------------------
       - name: Prepare LLM/LoRA benchmark artefacts (stub mode)
         run: |
+          set -o pipefail
           bash scripts/download_models.sh --stub-only \
             2>&1 | tee "$ARTIFACT_DIR/artifact_prep.log"
           echo "THEMIS_MODEL_DIR=$THEMIS_MODEL_DIR" >> "$GITHUB_ENV"
@@ -87,6 +88,7 @@ jobs:
         id: cmake_configure
         continue-on-error: true
         run: |
+          set -o pipefail
           cmake --preset nightly-bench-sweep 2>&1 | tee "$ARTIFACT_DIR/cmake_configure.log"
           echo "cmake_ok=$?" >> "$GITHUB_OUTPUT"
 
@@ -95,6 +97,7 @@ jobs:
         if: steps.cmake_configure.outcome == 'success'
         continue-on-error: true
         run: |
+          set -o pipefail
           cmake --build build-gcc-linux-nightly --target all -j$(nproc) 2>&1 | tee "$ARTIFACT_DIR/cmake_build.log"
 
       # -------------------------------------------------------------------------
@@ -103,6 +106,7 @@ jobs:
       - name: Run benchmark sweep
         if: steps.cmake_build.outcome == 'success'
         run: |
+          set -o pipefail
           shopt -s nullglob
           BENCH_COUNT=0
           BENCH_FAILED=0
@@ -160,6 +164,7 @@ jobs:
         if: steps.cmake_build.outcome == 'success'
         continue-on-error: true
         run: |
+          set -o pipefail
           cmake --preset nightly-bench-sweep-asan 2>&1 | tee "$ARTIFACT_DIR/cmake_configure_asan.log"
 
       - name: Build ASan bench targets
@@ -167,11 +172,13 @@ jobs:
         if: steps.cmake_configure_asan.outcome == 'success'
         continue-on-error: true
         run: |
+          set -o pipefail
           cmake --build build-gcc-linux-nightly-asan --target all -j$(nproc) 2>&1 | tee "$ARTIFACT_DIR/cmake_build_asan.log"
 
       - name: Run ASan smoke benchmark
         if: steps.cmake_build_asan.outcome == 'success'
         run: |
+          set -o pipefail
           shopt -s nullglob
           benches=(build-gcc-linux-nightly-asan/bench_*)
           if [ "${#benches[@]}" -eq 0 ]; then
@@ -203,6 +210,7 @@ jobs:
       # -------------------------------------------------------------------------
       - name: Generate coverage report
         run: |
+          set -o pipefail
           PREV_DIR=""
           if [ -d artifacts/nightly-prev ]; then
             PREV_DIR="--prev-dir artifacts/nightly-prev"
@@ -220,6 +228,7 @@ jobs:
       - name: Verify goal-to-benchmark mapping (Check 7a)
         if: always()
         run: |
+          set -o pipefail
           python3 tools/verify_benchmark_mapping.py \
             2>&1 | tee "$ARTIFACT_DIR/audit/mapping_check.log"
           echo "" >> "$GITHUB_STEP_SUMMARY"
