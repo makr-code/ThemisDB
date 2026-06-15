@@ -20,6 +20,7 @@ Kondensierter Navigationsindex auf Basis des aktuellen Repository-Inhalts.
 
 ## Fachbereiche
 
+- Modul-Benchmarks: [`ai/`](ai/), [`analytics/`](analytics/), [`aql/`](aql/), [`core/`](core/), [`query/`](query/), [`rag/`](rag/), [`transaction/`](transaction/)
 - Standards & Suites: [`tpc/README.md`](tpc/README.md), [`ycsb/README.md`](ycsb/README.md), [`mmdb/README.md`](mmdb/README.md), [`ann/README.md`](ann/README.md), [`ldbc/README.md`](ldbc/README.md)
 - CHIMERA: [`chimera/README.md`](chimera/README.md)
 - Analyse/Reports: [`results_analysis_reports/README.md`](results_analysis_reports/README.md)
