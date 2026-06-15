@@ -265,7 +265,52 @@ git tag -s military-v1.9.0 -m "ThemisDB Military v1.9.0"
 git push origin military-v1.9.0
 ```
 
-## 8. Artefacts
+## 8. Historical Release and Tag Reassignment Policy
+
+Historical releases and tags must be reassigned logically to the canonical edition lanes, but published tags should normally remain immutable.
+
+### 8.1 Core rule
+
+A Git tag points to a commit, not to a branch. Therefore, historical release correction should prefer branch and documentation alignment over tag rewriting.
+
+### 8.2 Preferred correction order
+
+1. identify the intended edition and canonical target branch
+2. ensure the tagged release commit is reachable from the correct canonical edition branch
+3. correct release notes, changelog, and governance references
+4. only retag if the tag is clearly internal/unpublished and explicit human approval exists
+
+### 8.3 Community migration rule
+
+Historical Community releases cut from `main` should be treated as Community releases and migrated logically to `community`.
+
+### 8.4 Military migration rule
+
+Historical Military releases associated with `millitary` should be treated as Military releases and migrated logically to `military`.
+
+### 8.5 Published tag immutability
+
+Published or externally consumed tags should not be force-moved as a normal migration step.
+
+If a historical tag is wrong, preferred remedies are:
+
+- preserve the old tag as historical fact
+- create a corrected replacement release if necessary
+- document the correction in release notes and governance docs
+
+### 8.6 Required historical inventory
+
+Each historical tag/release should be inventoried with:
+
+- tag name
+- commit SHA
+- publication status
+- intended edition
+- current reachable branches
+- canonical target branch
+- required corrective action
+
+## 9. Artefacts
 
 Typical artefacts of one release:
 
@@ -281,7 +326,7 @@ Rules:
 - Artefact names may differ by platform or edition.
 - Artefact checksums should be published together with the release.
 
-## 9. Manual Checklist
+## 10. Manual Checklist
 
 Before tagging, verify manually:
 
@@ -296,7 +341,14 @@ Before tagging, verify manually:
 - checksums were generated if required
 - no unintended local changes are included
 
-## 10. Rollback
+For historical reassignment work, also verify:
+
+- canonical edition is identified correctly
+- target release commit is reachable from the canonical branch
+- legacy branch references are documented or removed as planned
+- no published tag is rewritten without explicit approval
+
+## 11. Rollback
 
 If a release must be reverted:
 
@@ -315,7 +367,7 @@ git tag -s v1.9.1 -m "ThemisDB v1.9.1"
 git push origin v1.9.1
 ```
 
-## 11. Best-Practice Summary
+## 12. Best-Practice Summary
 
 - keep one tag per released source state
 - keep one milestone per release scope
@@ -325,6 +377,7 @@ git push origin v1.9.1
 - keep package variants under one release
 - keep the process manual, short, and auditable
 - keep branch and edition naming aligned with `BRANCHING_STRATEGY.md`
+- prefer canonical branch alignment over rewriting published tags
 
 ---
 Zuletzt geprueft (Root-Sync): 2026-06-15

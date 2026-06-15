@@ -228,11 +228,68 @@ For each historical branch capture:
 - legacy naming issues
 - recommended action
 
-## 10. AI / Agent Governance
+## 10. Historical Branch Retention and Deletion Policy
+
+Historical branches are temporary migration objects, not the long-term archive of release history.
+
+### 10.1 Archive principle
+
+The durable historical record should be preserved through:
+
+- Git tags
+- release notes
+- `CHANGELOG.md`
+- roadmap/governance documents
+- Git history reachable from canonical branches where required
+
+Historical branches should not be kept indefinitely if they no longer serve an active operational purpose.
+
+### 10.2 Retention classes
+
+Each historical branch must be assigned exactly one retention state:
+
+- `keep-canonical` — permanent branch in active use
+- `temporary-legacy` — legacy branch kept only during migration
+- `merged-can-delete` — fully merged and safe to remove
+- `stale-archive` — not active, retained only for short-term review/audit
+- `needs-human-decision` — contains unclear or exclusive history
+
+### 10.3 Deletion preconditions
+
+A historical branch may be deleted only when all of the following are true:
+
+1. no open pull requests target it
+2. no required workflow or branch protection depends on it
+3. no active documentation still points contributors to it as a canonical target
+4. no required exclusive commits would be lost
+5. its relevant release state is preserved by tags, release notes, or canonical branch history
+6. the canonical replacement branch is established and protected
+
+### 10.4 Legacy branch policy
+
+For current legacy branches:
+
+- `main` should be treated as `temporary-legacy` until Community release migration is complete, then deleted
+- `millitary` should be treated as `temporary-legacy` until Military release migration is complete, then deleted
+
+### 10.5 Release branches
+
+Historical `release/*` branches should normally be deleted after:
+
+- release tagging is complete
+- release notes exist
+- the target release lane contains the released state
+- any required back-merge/cherry-pick work is done
+
+### 10.6 Feature and bugfix branches
+
+Historical `feature/*` and `bugfix/*` branches should be deleted after merge. Stale, abandoned, or superseded topic branches should be classified and removed in cleanup waves.
+
+## 11. AI / Agent Governance
 
 AI agents operating in this repository MUST follow this branch model.
 
-### 10.1 Canonical assumptions
+### 11.1 Canonical assumptions
 
 Unless the user explicitly says otherwise:
 
@@ -241,7 +298,7 @@ Unless the user explicitly says otherwise:
 - military release work targets `military`
 - legacy names `main` and `millitary` must not be proposed for new work
 
-### 10.2 Required document synchronization
+### 11.2 Required document synchronization
 
 When branch governance changes, keep these files aligned:
 
@@ -254,7 +311,7 @@ When branch governance changes, keep these files aligned:
 - `ROADMAP.md`
 - `FUTURE_ENHANCEMENTS.md`
 
-### 10.3 AI review blockers
+### 11.3 AI review blockers
 
 AI-generated changes are incomplete if they:
 
@@ -264,7 +321,7 @@ AI-generated changes are incomplete if they:
 - update release rules without updating AI instruction files
 - update governance docs without cross-document synchronization
 
-## 11. Migration Status
+## 12. Migration Status
 
 Current migration intent:
 
@@ -273,7 +330,7 @@ Current migration intent:
 - keep temporary legacy awareness only for migration and audit purposes
 - remove legacy references progressively from docs, workflows, templates, and automation
 
-## 12. Review and Ownership
+## 13. Review and Ownership
 
 - Project Lead owns final branch governance decisions
 - Release management must enforce canonical branch names
