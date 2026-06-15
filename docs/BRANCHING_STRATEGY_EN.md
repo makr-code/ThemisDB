@@ -2,39 +2,75 @@
 
 ## Overview
 
-ThemisDB uses a modified **Git Flow** strategy where the `main` branch is always production-ready and serves as the release branch. All development work happens through the `develop` branch.
+ThemisDB now uses a canonical edition-based branching strategy centered on a protected `develop` integration branch and explicit release branches per edition. The historical `main` branch is no longer the canonical release branch name for Community; it is replaced by `community`.
 
 ## Branch Structure
 
 ### 🎯 Main Branches
 
-#### `main` Branch
-- **Purpose**: Production-ready Release Branch
+#### `community` Branch
+- **Purpose**: Production-ready Community release branch
 - **Protection**: ✅ Fully protected
-- **Merges**: Only from `release/*` and `hotfix/*` branches
-- **Status**: Every commit represents a production-ready version
-- **Tags**: All release tags (e.g., `v1.4.0`) are created here
-- **CI/CD**: Automatic deployment to production
+- **Merges**: Only from `release/*`, `hotfix/*`, or explicitly approved release-maintenance work
+- **Status**: Represents the Community release lane
+- **Tags**: Community tags (e.g., `v1.4.0`) are created here
+- **CI/CD**: Community release workflows and production packaging
 
 **Rules:**
 - ❌ Direct commits forbidden
 - ❌ No feature branches merged directly
 - ✅ Only via Pull Requests with code review
-- ✅ All CI/CD checks must pass
+- ✅ All required checks must pass
 - ✅ At least 1 maintainer approval required
 
 #### `develop` Branch
 - **Purpose**: Integration branch for ongoing development
 - **Protection**: ✅ Protected
-- **Merges**: From `feature/*`, `bugfix/*`, and `release/*` (after release)
-- **Status**: Contains the latest completed features
+- **Merges**: From `feature/*`, `bugfix/*`, and back-merges where applicable
+- **Status**: Contains the latest completed development work
 - **CI/CD**: Automatic tests and validation
 
 **Rules:**
-- ❌ Avoid direct commits (Exception: Documentation)
-- ✅ Feature branches are merged here
+- ❌ Avoid direct commits
+- ✅ Feature and bugfix branches are merged here
 - ✅ Pull Requests with code review
-- ✅ CI/CD checks must pass
+- ✅ Required checks must pass
+
+### 🎯 Additional Canonical Release Branches
+
+#### `minimal` Branch
+- **Purpose**: Production-ready Minimal release branch
+- **Protection**: ✅ Protected
+- **Tags**: `minimal-vX.Y.Z`
+
+#### `enterprise` Branch
+- **Purpose**: Production-ready Enterprise release branch
+- **Protection**: ✅ Protected
+- **Tags**: `enterprise-vX.Y.Z`
+
+#### `hyperscaler` Branch
+- **Purpose**: Production-ready Hyperscaler release branch
+- **Protection**: ✅ Protected
+- **Tags**: `hyperscaler-vX.Y.Z`
+
+#### `military` Branch
+- **Purpose**: Production-ready Military release branch
+- **Protection**: ✅ Protected
+- **Tags**: `military-vX.Y.Z`
+
+### ⚠️ Legacy Branch Names
+
+#### `main`
+- **Status**: Legacy only
+- **Historical Role**: Old Community release branch name
+- **Replacement**: `community`
+
+#### `millitary`
+- **Status**: Legacy only
+- **Historical Role**: Misspelled Military branch name
+- **Replacement**: `military`
+
+New work must not target these legacy names.
 
 ### 🚀 Supporting Branches
 
@@ -45,597 +81,170 @@ ThemisDB uses a modified **Git Flow** strategy where the `main` branch is always
 - **Lifetime**: Until feature is complete
 - **Naming**: `feature/<issue-nr>-<description>` or `feature/<description>`
 
-**Examples:**
-```bash
-feature/123-vector-search-optimization
-feature/llm-streaming-support
-feature/postgres-wire-protocol
-```
-
-**Workflow:**
-```bash
-# Create feature branch
-git checkout develop
-git pull origin develop
-git checkout -b feature/123-vector-search
-
-# Develop feature
-git add .
-git commit -m "feat(search): Implement vector search optimization"
-
-# Complete feature
-git push origin feature/123-vector-search
-# Create Pull Request to develop
-```
-
 #### `bugfix/*` Branches
-- **Purpose**: Bug fixes for develop branch
+- **Purpose**: Bug fixes for `develop`
 - **Base**: `develop`
 - **Merge Target**: `develop`
 - **Lifetime**: Until bug is fixed
 - **Naming**: `bugfix/<issue-nr>-<description>` or `bugfix/<description>`
 
-**Examples:**
-```bash
-bugfix/456-connection-pool-leak
-bugfix/query-timeout-handling
-```
-
 #### `hotfix/*` Branches
-- **Purpose**: Critical bugfixes for production
-- **Base**: `main`
-- **Merge Target**: `main` AND `develop`
-- **Lifetime**: Immediately after fix
-- **Naming**: `hotfix/<version>-<description>`
+- **Purpose**: Critical fixes for a specific release lane
+- **Base**: affected edition release branch
+- **Merge Target**: affected edition release branch, then back-merge or cherry-pick to `develop`
+- **Naming**: `hotfix/<edition>/<version>-<description>`
 
-**Examples:**
+**Example:**
 ```bash
-hotfix/1.3.4-security-vulnerability
-hotfix/1.3.4-critical-crash
-```
-
-**Workflow:**
-```bash
-# Create hotfix branch
-git checkout main
-git pull origin main
-git checkout -b hotfix/1.3.4-security-fix
-
-# Implement fix
-git add .
-git commit -m "fix(security): Patch critical vulnerability"
-
-# Bump version
-echo "1.3.4" > VERSION
-git add VERSION
-git commit -m "chore: Bump version to 1.3.4"
-
-# Merge to main
-git checkout main
-git merge --no-ff hotfix/1.3.4-security-fix
-git tag -a v1.3.4 -m "Release v1.3.4 - Security Fix"
-git push origin main --tags
-
-# Merge back to develop
-git checkout develop
-git merge --no-ff hotfix/1.3.4-security-fix
-git push origin develop
-
-# Delete hotfix branch
-git branch -d hotfix/1.3.4-security-fix
-git push origin --delete hotfix/1.3.4-security-fix
+hotfix/community/1.3.4-security-vulnerability
+hotfix/military/1.3.4-critical-crash
 ```
 
 #### `release/*` Branches
 - **Purpose**: Release preparation and stabilization
 - **Base**: `develop`
-- **Merge Target**: `main` AND `develop` (after release)
+- **Merge Target**: the matching edition release branch
 - **Lifetime**: Until release is complete
-- **Naming**: `release/<version>`
+- **Naming**: `release/<edition>/v<version>`
 
 **Examples:**
 ```bash
-release/1.4.0
-release/2.0.0-beta.1
-```
-
-**Workflow:**
-```bash
-# Create release branch
-git checkout develop
-git pull origin develop
-git checkout -b release/1.4.0
-
-# Prepare version and documentation
-echo "1.4.0" > VERSION
-./.github/workflows/04-release_create-release-archive.yml 1.4.0
-git add VERSION CHANGELOG.md
-git commit -m "chore: Prepare release v1.4.0"
-
-# Bug fixes during release phase
-git commit -m "fix(docs): Update release notes"
-
-# Finalize release
-git checkout main
-git merge --no-ff release/1.4.0
-git tag -a v1.4.0 -m "Release v1.4.0"
-git push origin main --tags
-
-# Merge back to develop
-git checkout develop
-git merge --no-ff release/1.4.0
-git push origin develop
-
-# Delete release branch
-git branch -d release/1.4.0
-git push origin --delete release/1.4.0
+release/community/v1.4.0
+release/enterprise/v2.0.0-rc1
+release/military/v1.8.0
 ```
 
 ## Merge Strategy
 
 > [!IMPORTANT]
-> **ThemisDB uses different merge methods depending on the branch type:**
+> ThemisDB uses different merge methods depending on branch type and target.
 
 | Branch Type | Merge Method | Reason |
 |------------|--------------|---------|
 | **feature/** → develop | **Squash and merge** ✅ | Keeps develop history clean, one commit per feature |
 | **bugfix/** → develop | **Squash and merge** ✅ | Keeps develop history clean, one commit per fix |
-| **release/** → main | **Merge commit** | Preserves full release history and commit metadata |
-| **hotfix/** → main | **Merge commit** | Preserves full hotfix history for audit purposes |
-
-**Why squash merge for features/bugfixes?**
-- ✅ Cleaner, more readable git history
-- ✅ One logical commit per feature/fix
-- ✅ Easier to revert if needed
-- ✅ Better changelog generation
-- ❌ Development commits (WIP, fix typo, etc.) stay in feature branch
-
-**Configuring GitHub Repository Settings:**
-
-Maintainers should configure the repository settings on GitHub to enforce this:
-1. Go to Settings → General → Pull Requests
-2. Enable "Allow squash merging" ✅
-3. Enable "Allow merge commits" ✅ (needed for releases)
-4. Disable "Allow rebase merging" ❌ (optional)
-5. Set "Squash merging" as the default for the repository
-
-## Branch Protection Rules
-
-### `main` Branch Protection
-
-**Required Settings (via GitHub):**
-
-```yaml
-# Example .github/branch-protection.yml
-main:
-  required_pull_request_reviews:
-    required_approving_review_count: 1
-    require_code_owner_reviews: true
-    dismiss_stale_reviews: true
-  required_status_checks:
-    strict: true
-    contexts:
-      - "CI / Build & Test (ubuntu-latest)"
-      - "CI / Build & Test (windows-latest)"
-      - "Code Quality / clang-tidy"
-      - "Code Quality / cppcheck"
-      - "Security / Gitleaks"
-  enforce_admins: true
-  required_linear_history: false  # Allows merge commits
-  allow_force_pushes: false
-  allow_deletions: false
-  restrictions:
-    users: []
-    teams: ["maintainers"]
-```
-
-**Manual Configuration:**
-1. GitHub Repo Settings → Branches → Add rule
-2. Branch name pattern: `main`
-3. Enable:
-   - ✅ Require a pull request before merging
-   - ✅ Require approvals (1)
-   - ✅ Require status checks to pass before merging
-   - ✅ Require branches to be up to date before merging
-   - ✅ Require conversation resolution before merging
-   - ✅ Include administrators
-   - ✅ Do not allow bypassing the above settings
-
-### `develop` Branch Protection
-
-```yaml
-develop:
-  required_pull_request_reviews:
-    required_approving_review_count: 1
-    dismiss_stale_reviews: false
-  required_status_checks:
-    strict: true
-    contexts:
-      - "CI / Build & Test (ubuntu-latest)"
-      - "Code Quality / clang-tidy"
-  enforce_admins: false
-  allow_force_pushes: false
-  allow_deletions: false
-```
+| **release/** → edition branch | **Merge commit** | Preserves full release history and commit metadata |
+| **hotfix/** → edition branch | **Merge commit** | Preserves hotfix history for audit purposes |
 
 ## Release Process
 
-### 1. Feature Freeze (Start Release Cycle)
+### Community release example
 
 ```bash
-# Complete development
+# Create release branch from develop
 git checkout develop
 git pull origin develop
+git checkout -b release/community/v1.4.0
 
-# Create release branch
-git checkout -b release/1.4.0
-
-# Bump version
+# Prepare release
 echo "1.4.0" > VERSION
-./.github/workflows/04-release_create-release-archive.yml 1.4.0
+git add VERSION CHANGELOG.md
+git commit -m "chore: Prepare Community release v1.4.0"
 
-git add VERSION CHANGELOG.md RELEASE_NOTES_v1.4.0.md
-git commit -m "chore: Prepare release v1.4.0"
-git push origin release/1.4.0
+# Finalize release
+git checkout community
+git pull origin community
+git merge --no-ff release/community/v1.4.0
+git tag -a v1.4.0 -m "Release v1.4.0"
+git push origin community --tags
 ```
 
-### 2. Release Testing & Stabilization
+### Hotfix example
 
 ```bash
-# Work on release branch
-git checkout release/1.4.0
+# Create hotfix from community
+git checkout community
+git pull origin community
+git checkout -b hotfix/community/1.3.4-security-fix
 
-# Bug fixes (critical only!)
-git commit -m "fix(docs): Correct installation instructions"
-git commit -m "fix(build): Resolve build warning on Windows"
+# Implement fix
+git add .
+git commit -m "fix(security): Patch critical vulnerability"
 
-# Push updates
-git push origin release/1.4.0
-```
-
-### 3. Release Finalization
-
-```bash
-# Final checks
-cd build
-ctest --output-on-failure
-cd ..
-./scripts/check-quality.sh
-
-# Merge to main
-git checkout main
-git pull origin main
-git merge --no-ff release/1.4.0 -m "Release v1.4.0"
-
-# Create tag
-git tag -a v1.4.0 -m "Release v1.4.0
-
-Highlights:
-- Feature A: Description
-- Feature B: Description
-- Performance improvements
-
-See RELEASE_NOTES_v1.4.0.md for details."
-
-# Push main and tags
-git push origin main
-git push origin v1.4.0
+# Merge to community
+git checkout community
+git merge --no-ff hotfix/community/1.3.4-security-fix
+git tag -a v1.3.4 -m "Release v1.3.4 - Security Fix"
+git push origin community --tags
 
 # Merge back to develop
 git checkout develop
-git pull origin develop
-git merge --no-ff release/1.4.0 -m "Merge release v1.4.0 back to develop"
+git merge --no-ff hotfix/community/1.3.4-security-fix
 git push origin develop
-
-# Delete release branch
-git branch -d release/1.4.0
-git push origin --delete release/1.4.0
 ```
 
-### 4. Automatic Deployment
+## Branch Protection Rules
 
-GitHub Actions will automatically trigger via tag `v1.4.0`:
-- Build and push Docker images
-- Generate release notes
-- Create GitHub Release
-- Deploy documentation
+### `community` Branch Protection
+
+Protect Community release work with the strictest rules.
+
+### `develop` Branch Protection
+
+Protect integration work and require PR-based merges.
+
+### Edition release branches
+
+Apply protected-branch rules consistently to:
+- `minimal`
+- `enterprise`
+- `hyperscaler`
+- `military`
 
 ## Pull Request Workflows
 
 ### Feature Development → develop
 
-```bash
-# Develop feature
-git checkout -b feature/new-awesome-feature develop
-# ... commits ...
-git push origin feature/new-awesome-feature
-```
-
-**Create PR:**
 - **Base**: `develop`
-- **Compare**: `feature/new-awesome-feature`
-- **Title**: `feat(module): Add awesome feature`
-- **Labels**: `enhancement`, `feature`
-- **Reviewers**: Select team member
+- **Compare**: `feature/*`
 
-**PR Checklist:**
-- [ ] Code follows style guidelines
-- [ ] Tests added and passing
-- [ ] Documentation updated
-- [ ] No new warnings
-- [ ] CI checks passing
+### Community release → community
 
-### Hotfix → main + develop
+- **Base**: `community`
+- **Compare**: `release/community/*`
 
-```bash
-# Create hotfix
-git checkout -b hotfix/1.3.4-critical-bug main
-# ... fix ...
-git push origin hotfix/1.3.4-critical-bug
-```
+### Community hotfix → community + develop
 
-**Create PR to main:**
-- **Base**: `main`
-- **Compare**: `hotfix/1.3.4-critical-bug`
-- **Title**: `hotfix: Fix critical production bug`
-- **Labels**: `hotfix`, `critical`
-- **Priority**: HIGH
-
-**After merge to main:**
-- Cherry-pick to develop or create new PR to develop
-
-## Merge Strategies
-
-### Feature → develop
-- **Strategy**: Squash and Merge (preferred) or Merge Commit
-- **Reason**: Clean history, feature as one unit
-
-### Release → main
-- **Strategy**: Merge Commit (--no-ff)
-- **Reason**: Preserve release history
-
-### Release → develop (back-merge)
-- **Strategy**: Merge Commit (--no-ff)
-- **Reason**: Adopt changes from release phase
-
-### Hotfix → main
-- **Strategy**: Merge Commit (--no-ff)
-- **Reason**: Preserve hotfix history
+- **Base**: `community`
+- **Compare**: `hotfix/community/*`
+- **Follow-up**: merge or cherry-pick to `develop`
 
 ## Best Practices
 
 ### ✅ DOs
 
-1. **Always branch from develop** (except hotfixes)
-   ```bash
-   git checkout develop
-   git pull origin develop
-   git checkout -b feature/my-feature
-   ```
-
-2. **Regularly pull develop**
-   ```bash
-   git checkout feature/my-feature
-   git pull origin develop
-   # Resolve merge conflicts if necessary
-   ```
-
-3. **Meaningful Commit Messages**
-   ```bash
-   feat(storage): Add incremental backup support
-   fix(query): Resolve off-by-one error in pagination
-   docs(readme): Update installation instructions
-   ```
-
-4. **Delete branch after merge**
-   ```bash
-   git push origin --delete feature/my-feature
-   ```
-
-5. **Stay small and focused**
-   - One feature = One branch
-   - Commit regularly
-   - Open Pull Request early (Draft PR for feedback)
+1. **Always branch from develop** for normal feature and bugfix work
+2. **Use canonical edition branch names** (`community`, `military`, etc.)
+3. **Delete branches after merge**
+4. **Keep work focused and small**
+5. **Treat `main` and `millitary` as migration-only names**
 
 ### ❌ DON'Ts
 
-1. ❌ **Don't push directly to main/develop**
-2. ❌ **No long-lived feature branches** (> 2 weeks)
-3. ❌ **No cherry-picking without reason**
-4. ❌ **Don't merge main into feature branches**
-5. ❌ **No force-pushes on shared branches**
+1. ❌ Don't push directly to protected release branches
+2. ❌ Don't target legacy `main` for new Community work
+3. ❌ Don't target legacy `millitary` for new Military work
+4. ❌ Don't keep long-lived feature branches without rebasing
+5. ❌ Don't add new automation that assumes `main` is canonical
 
 ## Migration Guide for Existing Contributors
 
-### For Developers with Open PRs to main
+### For Developers with Open PRs to legacy branches
 
-1. **Change PR base:**
-   ```bash
-   # Update local branch
-   git checkout your-feature-branch
-   git fetch origin
-   
-   # Rebase onto develop
-   git rebase origin/develop
-   
-   # Force push (only for feature branches!)
-   git push origin your-feature-branch --force-with-lease
-   ```
-
-2. **Change PR target on GitHub:**
-   - Open PR
-   - Click "Edit" next to Base Branch
-   - Change from `main` to `develop`
-
-### For New Features
-
-From now on:
-```bash
-# NEW: Branch from develop
-git checkout develop
-git pull origin develop
-git checkout -b feature/my-feature
-
-# OLD (no longer use):
-# git checkout main
-# git checkout -b feature/my-feature
-```
-
-## Versioning Schema
-
-ThemisDB follows **Semantic Versioning 2.0.0**:
-
-```
-MAJOR.MINOR.PATCH[-PRERELEASE][+BUILD]
-
-Examples:
-1.4.0         - Standard Release
-1.4.1         - Patch Release (Bugfix)
-2.0.0         - Major Release (Breaking Changes)
-2.0.0-beta.1  - Pre-Release
-2.0.0+20231215 - Build Metadata
-```
-
-**Version Bump Rules:**
-- **MAJOR**: Breaking Changes (API changes)
-- **MINOR**: New Features (backward-compatible)
-- **PATCH**: Bug Fixes (backward-compatible)
+- Change Community release PRs from `main` to `community`
+- Change Military release PRs from `millitary` to `military`
+- Change normal feature PRs to `develop`
 
 ## CI/CD Integration
 
-ThemisDB uses a comprehensive Git Flow CI/CD pipeline with dedicated workflows for each branch type.
+ThemisDB CI/CD must align with canonical branch names.
 
-### Automated Workflows
+Examples:
+- `develop` for integration validation
+- `community` for Community release-lane workflows
+- edition-specific branches for edition-specific release packaging
 
-**Feature/Bugfix Development:**
-- Workflow: `feature-ci.yml`
-- Triggers: PRs to `develop` from `feature/*` or `bugfix/*`
-- Validates: Branch strategy, build, tests, code quality, security
-
-**Develop Branch:**
-- Workflow: `develop-ci.yml`
-- Triggers: Push to `develop`, PRs to `develop`
-- Runs: Full CI suite, integration tests, creates artifacts
-
-**Release Preparation:**
-- Workflow: `release-ci.yml`
-- Triggers: Push to `release/*`, PRs to `main` from `release/*`
-- Validates: Version number, changelog, runs full test suite
-
-**Hotfix:**
-- Workflow: `hotfix-ci.yml`
-- Triggers: PRs to `main` from `hotfix/*`
-- Runs: Accelerated tests, auto-creates PR to sync to `develop`
-
-**Production Deployment:**
-- Workflow: `main-ci.yml`
-- Triggers: Push to `main`, tags `v*`
-- Deploys: Creates releases, publishes Docker images, deploys docs
-
-**For complete workflow documentation, see [CI_CD_WORKFLOWS.md](CI_CD_WORKFLOWS.md)**
-
-### Branch Protection
-
-All workflows integrate with GitHub branch protection rules:
-- `main`: Requires approval + CI checks (release-ci.yml or hotfix-ci.yml)
-- `develop`: Requires approval + CI checks (develop-ci.yml, feature-ci.yml)
-
-See [BRANCH_PROTECTION_SETUP.md](BRANCH_PROTECTION_SETUP.md) for configuration.
-
-## Troubleshooting
-
-### Problem: Feature branch is outdated
-
-**Symptom**: Merge conflicts with develop
-
-**Solution:**
-```bash
-git checkout feature/my-feature
-git fetch origin
-git rebase origin/develop
-
-# Resolve conflicts
-git add .
-git rebase --continue
-
-# Force push (safe for feature branch)
-git push origin feature/my-feature --force-with-lease
-```
-
-### Problem: Accidental commit to develop
-
-**Solution:**
-```bash
-# Undo last commit (locally)
-git checkout develop
-git reset --soft HEAD~1
-
-# Create feature branch
-git checkout -b feature/my-feature
-git commit -m "feat: My feature"
-git push origin feature/my-feature
-```
-
-### Problem: Hotfix needs to go to develop too
-
-**Solution 1: Cherry-Pick**
-```bash
-git checkout develop
-git cherry-pick <hotfix-commit-sha>
-git push origin develop
-```
-
-**Solution 2: Merge**
-```bash
-git checkout develop
-git merge --no-ff hotfix/1.3.4-fix
-git push origin develop
-```
-
-## Additional Resources
-
-- **Git Flow**: https://nvie.com/posts/a-successful-git-branching-model/
-- **Semantic Versioning**: https://semver.org/
-- **Conventional Commits**: https://www.conventionalcommits.org/
-- **GitHub Flow**: https://guides.github.com/introduction/flow/
-
-## FAQ
-
-### When do I create a release/* branch?
-
-When develop is stable and ready for production:
-- All planned features for the version are merged
-- Tests are green
-- Documentation is up to date
-
-### Can I develop multiple features simultaneously?
-
-Yes! Create separate feature branches:
-```bash
-git checkout -b feature/feature-a develop
-git checkout -b feature/feature-b develop
-```
-
-### What if my feature depends on another feature?
-
-**Option 1**: Wait until the first feature is merged to develop
-
-**Option 2**: Branch temporarily from the other feature branch:
-```bash
-git checkout feature/feature-a
-git checkout -b feature/feature-b-depends-on-a
-
-# Later: Rebase onto develop when feature-a is merged
-git rebase origin/develop
-```
-
-### How long should a feature branch live?
-
-**Recommendation**: Max. 1-2 weeks
-
-**Why**: The longer the branch lives, the higher the probability of merge conflicts
-
-**Tip**: Break large features into smaller tasks
+Any remaining workflow, badge, or doc references to `main` should be treated as migration debt unless explicitly marked as legacy context.
 
 ## Contact
 
@@ -645,6 +254,6 @@ For questions about the branching strategy:
 
 ---
 
-**Last Updated**: 2026-04-06  
-**Version**: 1.0  
+**Last Updated**: 2026-06-15  
+**Version**: 2.0  
 **Maintainer**: ThemisDB Core Team
