@@ -161,6 +161,9 @@ endif()
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/rag/CMakeLists.txt")
     add_subdirectory(rag)
 endif()
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/server/CMakeLists.txt")
+    add_subdirectory(server)
+endif()
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/transaction/CMakeLists.txt")
     add_subdirectory(transaction)
 endif()
@@ -1880,94 +1883,6 @@ endif()
 # Targets: JWT < 5 ms (cached), TOTP < 10 ms.
 # ============================================================================
 
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_auth_token_validation.cpp")
-    message(STATUS "Adding auth token validation latency benchmarks")
-
-    add_executable(bench_auth_token_validation
-        bench_auth_token_validation.cpp
-    )
-
-    target_link_libraries(bench_auth_token_validation PRIVATE
-        ${BENCHMARK_LIBS}
-        themis_core
-        OpenSSL::SSL
-        OpenSSL::Crypto
-        nlohmann_json::nlohmann_json
-        Threads::Threads
-    )
-
-    target_compile_definitions(bench_auth_token_validation PRIVATE
-        THEMIS_BENCHMARK_BUILD=1
-    )
-
-    themis_apply_benchmark_release_flags(bench_auth_token_validation)
-
-    install(TARGETS bench_auth_token_validation
-        RUNTIME DESTINATION bin/benchmarks
-        COMPONENT benchmarks
-    )
-
-    message(STATUS "  Auth benchmarks: JWT RS256 (cached JWKS), JTI blacklist, TOTP, API token lookup")
-endif()
-
-# ============================================================================
-# API Endpoint Performance Benchmarks (Issue #1511)
-# Measures per-operation latency for GraphQL parsing (cached/uncached),
-# GraphQL execution with mock resolvers, correlation ID UUID v4 generation,
-# JSON response serialisation, HTTP message construction, and end-to-end
-# REST endpoint roundtrips via an in-process HttpServer.
-#
-# Targets (src/api/FUTURE_ENHANCEMENTS.md):
-#   - GraphQL parse+execute (10-field query): < 2 ms p99
-#   - Correlation ID generation overhead:     < 10 µs/req
-# ============================================================================
-
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_api_endpoints.cpp")
-    message(STATUS "Adding API endpoint performance benchmarks")
-
-    add_executable(bench_api_endpoints
-        bench_api_endpoints.cpp
-    )
-
-    set(_bench_api_endpoint_libs
-        ${BENCHMARK_LIBS}
-        themis_core
-        OpenSSL::SSL
-        OpenSSL::Crypto
-        nlohmann_json::nlohmann_json
-        Threads::Threads
-    )
-
-    # Boost.Asio/Beast are often header-only; link imported targets only when available.
-    if(TARGET Boost::asio)
-        list(APPEND _bench_api_endpoint_libs Boost::asio)
-    endif()
-    if(TARGET Boost::beast)
-        list(APPEND _bench_api_endpoint_libs Boost::beast)
-    endif()
-    if(TARGET Boost::boost)
-        list(APPEND _bench_api_endpoint_libs Boost::boost)
-    elseif(TARGET Boost::headers)
-        list(APPEND _bench_api_endpoint_libs Boost::headers)
-    elseif(DEFINED Boost_INCLUDE_DIRS)
-        target_include_directories(bench_api_endpoints PRIVATE ${Boost_INCLUDE_DIRS})
-    endif()
-
-    target_link_libraries(bench_api_endpoints PRIVATE ${_bench_api_endpoint_libs})
-
-    target_compile_definitions(bench_api_endpoints PRIVATE
-        THEMIS_BENCHMARK_BUILD=1
-    )
-
-    themis_apply_benchmark_release_flags(bench_api_endpoints)
-
-    install(TARGETS bench_api_endpoints
-        RUNTIME DESTINATION bin/benchmarks
-        COMPONENT benchmarks
-    )
-
-    message(STATUS "  API benchmarks: GraphQL parse/execute, correlation ID UUID, JSON serialisation, HTTP endpoint roundtrips")
-endif()
 
 # ============================================================================
 # Governance Policy Evaluation Latency Benchmarks (Issue #1779)
@@ -4592,9 +4507,6 @@ themis_add_standard_benchmark(bench_pagerank               bench_pagerank.cpp)
 themis_add_standard_benchmark(bench_phase1_flash_attention bench_phase1_flash_attention.cpp)
 themis_add_standard_benchmark(bench_plugin_hot_plug        bench_plugin_hot_plug.cpp)
 themis_add_standard_benchmark(bench_plugin_system          bench_plugin_system.cpp)
-themis_add_standard_benchmark(bench_postgres_e2e           bench_postgres_e2e.cpp)
-themis_add_standard_benchmark(bench_postgres_protocol      bench_postgres_protocol.cpp)
-themis_add_standard_benchmark(bench_postgres_transactions  bench_postgres_transactions.cpp)
 themis_add_standard_benchmark(bench_qlora_gpu_kernels      bench_qlora_gpu_kernels.cpp)
 themis_add_standard_benchmark(bench_raid_lora              bench_raid_lora.cpp)
 themis_add_standard_benchmark(bench_saga_compensation      bench_saga_compensation.cpp)
@@ -4603,14 +4515,12 @@ themis_add_standard_benchmark(bench_scalability_comprehensive bench_scalability_
 themis_add_standard_benchmark(bench_shard_resource_manager bench_shard_resource_manager.cpp)
 themis_add_standard_benchmark(bench_simd_distance          bench_simd_distance.cpp)
 themis_add_standard_benchmark(bench_simple_insert_test     bench_simple_insert_test.cpp)
-themis_add_standard_benchmark(bench_stream_protocol        bench_stream_protocol.cpp)
 themis_add_standard_benchmark(bench_tensor_deduplication_manager bench_tensor_deduplication_manager.cpp)
 themis_add_standard_benchmark(bench_tpcc                   bench_tpcc.cpp)
 themis_add_standard_benchmark(bench_tpch                   bench_tpch.cpp)
 themis_add_standard_benchmark(bench_v1_3_0_features        bench_v1_3_0_features.cpp)
 themis_add_standard_benchmark(bench_v1_3_4_optimizations   bench_v1_3_4_optimizations.cpp)
 themis_add_standard_benchmark(bench_video_processor        bench_video_processor.cpp)
-themis_add_standard_benchmark(bench_wal_apply_grpc         bench_wal_apply_grpc.cpp)
 themis_add_standard_benchmark(bench_wal_stress             bench_wal_stress.cpp)
 themis_add_standard_benchmark(benchmark_distributed_hybrid_search benchmark_distributed_hybrid_search.cpp)
 themis_add_standard_benchmark(benchmark_hybrid_search      benchmark_hybrid_search.cpp)
