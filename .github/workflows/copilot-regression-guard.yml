@@ -48,7 +48,7 @@ jobs:
             --cmake-file tests/CMakeLists.txt \
             --output-json artifacts/copilot-regression-guard/report.json
 
-      - name: Repro check: strict missing-source detection must fail on broken fixture
+      - name: "Repro check: strict missing-source detection must fail on broken fixture"
         run: |
           FIXTURE_DIR="$(mktemp -d)"
           mkdir -p "$FIXTURE_DIR"/{src/replication,tests,include,cmake}
@@ -87,7 +87,7 @@ jobs:
             exit 1
           fi
 
-      - name: Repro check: LNK parser must fail on LNK2019 fixture
+      - name: "Repro check: LNK parser must fail on LNK2019 fixture"
         run: |
           FIXTURE_DIR="$(mktemp -d)"
           mkdir -p "$FIXTURE_DIR"/{src/replication,tests,include,cmake}
