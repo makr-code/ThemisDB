@@ -43,7 +43,7 @@ The table below maps each source module to its responsible maintainer. All code 
 
 ### Project Lead
 - Final decision authority on architecture, API stability, and release dates
-- Merges PRs to `main`, `enterprise`, and `hyperscaler` release branches
+- Merges PRs to protected release branches such as `community`, `enterprise`, `hyperscaler`, `military`, and `minimal`
 - Creates release tags and publishes GitHub Releases
 - Manages the security advisory process
 
@@ -90,5 +90,4 @@ ThemisDB is currently a single-maintainer project. If you are interested in taki
 - **Bug reports:** [GitHub Issues](https://github.com/makr-code/ThemisDB/issues)
 
 ---
-Zuletzt geprueft (Root-Sync): 2026-05-26
-
+Zuletzt geprueft (Root-Sync): 2026-06-15
