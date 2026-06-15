@@ -46,7 +46,12 @@ endif()
 
 # Auto-discover modularized test folders under tests/<module>/CMakeLists.txt.
 # integration is added separately with an explicit binary directory below.
-file(GLOB _TEST_MODULE_CMAKES RELATIVE "${CMAKE_CURRENT_SOURCE_DIR}" "*/CMakeLists.txt")
+file(GLOB _TEST_MODULE_CMAKES
+    CONFIGURE_DEPENDS
+    RELATIVE "${CMAKE_CURRENT_SOURCE_DIR}"
+    "*/CMakeLists.txt"
+)
+list(SORT _TEST_MODULE_CMAKES)
 foreach(_module_cmake IN LISTS _TEST_MODULE_CMAKES)
     get_filename_component(_module_dir "${_module_cmake}" DIRECTORY)
     if(_module_dir STREQUAL "cmake" OR
@@ -56,7 +61,9 @@ foreach(_module_cmake IN LISTS _TEST_MODULE_CMAKES)
        _module_dir STREQUAL "config")
         continue()
     endif()
-    add_subdirectory("${_module_dir}")
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/${_module_dir}/CMakeLists.txt")
+        add_subdirectory("${_module_dir}")
+    endif()
 endforeach()
 
 message(STATUS "GTest found - building unified test binary")

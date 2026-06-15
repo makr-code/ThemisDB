@@ -21,9 +21,12 @@ docker build -f Dockerfile.community-simple -t themisdb:community-simple .
 
 ## Branch policy
 
-Community Docker images are the **only** Docker images allowed in the `main`
+Community Docker images are the **only** Docker images allowed in the `community`
 branch (Community release lane). Hyperscaler and Enterprise Docker images live
 in `docker/hyperscaler/` and `docker/enterprise/` respectively and are blocked
-from `main` by the PR path gate.
+from `community` by the PR path gate.
 
-See [RELEASE_STRATEGY.md](../../RELEASE_STRATEGY.md) for details.
+The historical branch name `main` is legacy-only and has been replaced by `community`
+for new release-lane work.
+
+See [RELEASE_STRATEGY.md](../../RELEASE_STRATEGY.md) and [BRANCHING_STRATEGY.md](../../BRANCHING_STRATEGY.md) for details.

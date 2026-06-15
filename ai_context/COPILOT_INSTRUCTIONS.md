@@ -23,6 +23,7 @@ If the task involves documentation (any change under `docs/**`):
 For root governance or release/versioning updates, treat the following files as one aligned set:
 
 - `COPILOT_INSTRUCTIONS.md` (AI-/Agent-Prozessregeln)
+- `BRANCHING_STRATEGY.md` (canonical branch/edition/merge model)
 - `VERSIONING.md` (SemVer + release type model)
 - `RELEASE_STRATEGY.md` (branch/tag/milestone flow)
 - `CHANGELOG.md` (released + unreleased traceability)
@@ -32,8 +33,17 @@ For root governance or release/versioning updates, treat the following files as 
 Alignment rules:
 
 1) Keep release type mapping consistent across `VERSIONING.md`, `RELEASE_STRATEGY.md`, and `CHANGELOG.md`.
-2) Keep terminology consistent: shipped scope = `ROADMAP.md`; open backlog = `FUTURE_ENHANCEMENTS.md`.
-3) For governance updates, include review/audit references from:
+2) Keep branch, edition, and release-lane naming consistent across `BRANCHING_STRATEGY.md`, `RELEASE_STRATEGY.md`, `.github/copilot-instructions.md`, and this file.
+3) Keep terminology consistent: shipped scope = `ROADMAP.md`; open backlog = `FUTURE_ENHANCEMENTS.md`.
+4) Use canonical branch names for all new governance changes:
+   - `develop`
+   - `minimal`
+   - `community`
+   - `enterprise`
+   - `hyperscaler`
+   - `military`
+5) Treat `main` and `millitary` as legacy-only names for migration/audit context; do not use them as canonical targets in new AI-authored governance, workflow, or process updates.
+6) For governance updates, include review/audit references from:
    - `docs/DOCUMENTATION_REVIEW_GUIDELINES.md`
    - `docs/SYSTEMATISCHER_REVIEWPLAN.md`
    - `docs/PR_DOCUMENTATION_CHECKLIST.md`

@@ -128,6 +128,7 @@ jobs:
           CC: ${{ matrix.cc }}
           CXX: ${{ matrix.cxx }}
         run: |
+          set -o pipefail
           cmake -B build_voice_bench -G Ninja \
             -DCMAKE_BUILD_TYPE=Release \
             -DCMAKE_C_COMPILER="${{ matrix.cc }}" \
@@ -159,6 +160,7 @@ jobs:
         if: steps.cmake_configure.outcome == 'success'
         continue-on-error: true
         run: |
+          set -o pipefail
           cmake --build build_voice_bench \
             --target bench_voice_assistant \
             -- -j$(nproc) \
@@ -173,6 +175,7 @@ jobs:
         if: steps.cmake_build.outcome == 'success'
         continue-on-error: true
         run: |
+          set -o pipefail
           ./build_voice_bench/bench_voice_assistant \
             --benchmark_format=json \
             --benchmark_out=benchmark_results/voice/voice_bench_results.json \

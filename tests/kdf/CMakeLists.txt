@@ -1,8 +1,7 @@
 # kdf module tests
 
 file(GLOB KDF_MODULE_TEST_SOURCES
-    "
-${CMAKE_CURRENT_SOURCE_DIR}/test_*.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/test_*.cpp"
 )
 
 foreach(_src IN LISTS KDF_MODULE_TEST_SOURCES)
