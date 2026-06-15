@@ -1,0 +1,283 @@
+# ThemisDB Branching Strategy
+
+> Status: Active
+> Purpose: canonical branch, edition, merge, and branch-normalization governance for ThemisDB
+>
+> Canonical root governance set:
+> `BRANCHING_STRATEGY.md` → `RELEASE_STRATEGY.md` → `VERSIONING.md` → `ROADMAP.md` → `FUTURE_ENHANCEMENTS.md` → `CHANGELOG.md`
+
+## 1. Purpose
+
+This document defines the canonical Git branch model for ThemisDB across all editions.
+
+It exists to ensure:
+
+- clear mapping between product editions and release lanes
+- reproducible release preparation and tagging
+- deterministic merge and hotfix flows
+- clean classification and normalization of long-lived and historical branches
+- unambiguous rules for human maintainers, contributors, and AI agents
+
+## 2. Canonical Branch Model
+
+### 2.1 Permanent Branches
+
+- `develop` — primary integration branch
+- `minimal` — release lane for Minimal Edition
+- `community` — release lane for Community Edition
+- `enterprise` — release lane for Enterprise Edition
+- `hyperscaler` — release lane for Hyperscaler Edition
+- `military` — release lane for Military Edition
+
+### 2.2 Legacy Branches
+
+The following names are legacy-only and must not be used for new work:
+
+- `main` — historical name of the Community release lane; replaced by `community`
+- `millitary` — historical misspelling; replaced by `military`
+
+Rules:
+
+- no new feature, fix, release, or hotfix branch may target `main`
+- no new feature, fix, release, or hotfix branch may target `millitary`
+- any remaining references must be migrated to the canonical names
+
+## 3. Edition-to-Branch Mapping
+
+| Edition | Canonical Branch |
+|---|---|
+| Minimal | `minimal` |
+| Community | `community` |
+| Enterprise | `enterprise` |
+| Hyperscaler | `hyperscaler` |
+| Military | `military` |
+
+`develop` is not an edition branch. It is the integration branch for ongoing work.
+
+## 4. Default Branch Policy
+
+`develop` is the default branch for normal development and pull requests.
+
+Implications:
+
+- feature work targets `develop`
+- normal bugfix work targets `develop`
+- release preparation promotes selected states from `develop` into edition release lanes
+- edition branches are not primary development branches
+
+## 5. Branch Types
+
+### 5.1 Feature Branches
+
+Format:
+
+- `feature/<area>/<ticket>-<slug>`
+
+Base branch:
+
+- `develop`
+
+Target branch:
+
+- `develop`
+
+### 5.2 Bugfix Branches
+
+Format:
+
+- `bugfix/<area>/<ticket>-<slug>`
+
+Base branch:
+
+- `develop`
+
+Target branch:
+
+- `develop`
+
+### 5.3 Release Preparation Branches
+
+Format:
+
+- `release/<edition>/vX.Y.Z`
+- `release/<edition>/vX.Y.Z-rcN`
+
+Base branch:
+
+- usually `develop`
+
+Target branch:
+
+- `minimal`
+- `community`
+- `enterprise`
+- `hyperscaler`
+- `military`
+
+depending on the edition
+
+### 5.4 Hotfix Branches
+
+Format:
+
+- `hotfix/<edition>/<ticket>-<slug>`
+
+Base branch:
+
+- affected edition release lane
+
+Target branch:
+
+- affected edition release lane
+
+Mandatory follow-up:
+
+- back-merge or cherry-pick into `develop`
+- evaluate propagation into other edition release lanes
+
+### 5.5 Spike / Experiment Branches
+
+Format:
+
+- `spike/<topic>`
+- `experiment/<topic>`
+
+These branches must not become permanent release carriers.
+
+## 6. Merge and Promotion Rules
+
+### 6.1 Normal Development Flow
+
+- `feature/*` → `develop`
+- `bugfix/*` → `develop`
+
+### 6.2 Release Promotion Flow
+
+Releases are promoted from `develop` into the target edition lane.
+
+Examples:
+
+- `release/community/v1.9.0` → `community`
+- `release/enterprise/v1.9.0` → `enterprise`
+- `release/military/v1.9.0` → `military`
+
+### 6.3 Edition Branch Rules
+
+- do not develop directly on edition release lanes
+- do not use edition lanes as long-lived feature branches
+- only merge release-prepared or emergency hotfix content into edition lanes
+
+### 6.4 Hotfix Rules
+
+If an urgent production fix must land directly on an edition lane:
+
+1. branch from the affected edition lane
+2. merge hotfix into that edition lane
+3. back-merge or cherry-pick the fix into `develop`
+4. assess whether the fix must also be applied to other editions
+
+## 7. Canonical Naming Rules
+
+Mandatory canonical names:
+
+- `community` instead of `main`
+- `military` instead of `millitary`
+
+AI agents, automation, workflow definitions, documentation, and review templates must use canonical names only.
+
+## 8. Branch Protection Intent
+
+Protected permanent branches:
+
+- `develop`
+- `minimal`
+- `community`
+- `enterprise`
+- `hyperscaler`
+- `military`
+
+Protection intent:
+
+- no force-pushes
+- no direct pushes except explicitly authorized release maintenance
+- PR review required
+- required checks as defined by repository policy
+- conversation resolution required for protected release lanes
+
+## 9. Branch Inventory and Normalization Program
+
+The historical branch inventory must be classified into one of these states:
+
+- `active-topic`
+- `active-release-prep`
+- `active-hotfix`
+- `merged-can-delete`
+- `stale-archive`
+- `legacy-rename`
+- `needs-human-decision`
+
+For each historical branch capture:
+
+- branch name
+- canonical target edition (if any)
+- source/base branch
+- last commit date
+- last author
+- open PR state
+- merged/unmerged status
+- legacy naming issues
+- recommended action
+
+## 10. AI / Agent Governance
+
+AI agents operating in this repository MUST follow this branch model.
+
+### 10.1 Canonical assumptions
+
+Unless the user explicitly says otherwise:
+
+- normal implementation work targets `develop`
+- community release work targets `community`
+- military release work targets `military`
+- legacy names `main` and `millitary` must not be proposed for new work
+
+### 10.2 Required document synchronization
+
+When branch governance changes, keep these files aligned:
+
+- `BRANCHING_STRATEGY.md`
+- `RELEASE_STRATEGY.md`
+- `.github/copilot-instructions.md`
+- `ai_context/COPILOT_INSTRUCTIONS.md`
+- `VERSIONING.md`
+- `CHANGELOG.md`
+- `ROADMAP.md`
+- `FUTURE_ENHANCEMENTS.md`
+
+### 10.3 AI review blockers
+
+AI-generated changes are incomplete if they:
+
+- introduce or retain `main` as canonical community branch
+- introduce or retain `millitary` as canonical branch name
+- propose PR targets against legacy branches
+- update release rules without updating AI instruction files
+- update governance docs without cross-document synchronization
+
+## 11. Migration Status
+
+Current migration intent:
+
+- rename conceptual Community lane from `main` to `community`
+- normalize `millitary` to `military`
+- keep temporary legacy awareness only for migration and audit purposes
+- remove legacy references progressively from docs, workflows, templates, and automation
+
+## 12. Review and Ownership
+
+- Project Lead owns final branch governance decisions
+- Release management must enforce canonical branch names
+- Documentation and AI-instruction updates are part of governance completion, not optional follow-up work
+
+---
+Zuletzt geprueft: 2026-06-15

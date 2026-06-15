@@ -6,6 +6,40 @@ Diese Regeln steuern, wie Copilot in diesem Repository aus `ROADMAP.md` und `FUT
 
 Roadmap-Einträge müssen so konkret sein, dass Copilot **produktiven Sourcecode** statt Stub/Rumpf erzeugen kann.
 
+## 1.1) Branch / Edition Governance (MUST)
+
+Copilot und andere AI-Agenten müssen das kanonische Branch-Modell aus `BRANCHING_STRATEGY.md` verwenden.
+
+Kanonische permanente Branches:
+
+- `develop`
+- `minimal`
+- `community`
+- `enterprise`
+- `hyperscaler`
+- `military`
+
+Legacy-Namen:
+
+- `main` → ersetzt durch `community`
+- `millitary` → ersetzt durch `military`
+
+Regeln:
+
+1. Normale Implementierungsarbeit zielt auf `develop`, sofern der Benutzer nicht ausdrücklich editionsspezifische Arbeit verlangt.
+2. Community-Release-Arbeit zielt auf `community`, niemals auf `main`.
+3. Military-Release-Arbeit zielt auf `military`, niemals auf `millitary`.
+4. Keine neuen PRs, Branches, Automationen oder Doku-Anweisungen gegen Legacy-Branch-Namen vorschlagen.
+5. Wenn eine Aufgabe Branch-Governance, Release-Fluss oder Editions-Mapping ändert, müssen diese Dateien zusammen aktualisiert werden:
+   - `BRANCHING_STRATEGY.md`
+   - `RELEASE_STRATEGY.md`
+   - `.github/copilot-instructions.md`
+   - `ai_context/COPILOT_INSTRUCTIONS.md`
+   - `VERSIONING.md`
+   - `CHANGELOG.md`
+   - `ROADMAP.md`
+   - `FUTURE_ENHANCEMENTS.md`
+
 ## 2) Pflichtstruktur für `ROADMAP.md` je Modul
 
 Jede Modul-Roadmap MUSS diese Abschnitte enthalten:
@@ -101,7 +135,7 @@ Beim Implementieren aus Roadmap/Future-Enhancement gilt:
 3. Tests müssen reale Funktionalität verifizieren.
 4. Akzeptanzkriterien aus Roadmap sind bindend.
 5. Bei fehlenden Details zuerst Roadmap/Future-Enhancement präzisieren statt raten.
-6. Wenn Stubs, Mock-Pfade oder Simulationen im Sourcecode erforderlich sind, müssen sie explizit dokumentiert werden (Zweck, Aktivierungsbedingungen, Unterschiede zur Produktionslogik, geplanter Rückbau).
+6. Wenn Stubs, Mock-Pfade oder Simulationen im Sourcecode erforderlich sind, müssen sie explizit dokumentiert werden (Zweck, Aktivierungsbedingungen, Unterschiede zur Produktionslogik, geplanter Entfernungspfad).
 
 ## 7) Beispiel für guten Roadmap-Eintrag
 
@@ -136,7 +170,7 @@ cpp_best_practices:
     - "Use RAII to bind resource lifetime to object lifetime."
     - "Use std::lock_guard or std::unique_lock for mutex locking."
     - "Avoid manual new/delete; prefer smart pointers (std::unique_ptr/std::shared_ptr)."
-    - "Any intentional new/delete usage is review-exception only and must be declared in the PR under the "AI-Generated Code (KI-generierter Code)" checklist plus explicit justification in the PR description."
+    - "Any intentional new/delete usage is review-exception only and must be declared in the PR under the AI-Generated Code checklist plus explicit justification in the PR body."
     - "Ensure resources are released automatically when objects go out of scope."
 
   avoid_unnecessary_copies:
