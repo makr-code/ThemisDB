@@ -78,7 +78,7 @@
 - `tests/test_scientific_evaluation_framework.py` (sofern vorhanden) deckt: Klassifikation, Determinismus, n≥30-Validierung, Gate/Ticket-Logik, Regressionspfad.
 - `audit_benchmark_registration.py` ist selbst testbar (CLI mit Exitcodes).
 
-**Befund:** ⚠️ Integrations-Testabdeckung für den vollständigen CLI-Aufruf (`--input/--output`) sollte ergänzt werden (als eigenständiges Test-Target).
+**Befund:** ✅ CLI-Integration-Tests hinzugefügt in `benchmarks/tests/test_scientific_evaluation_framework_cli.py` (9 Tests, alle grün). Deckt: happy path, Classification, Tickets-Output, leere Tickets, fehlende Flags, nicht existente Datei, ungültiges JSON, verschachtelte Output-Pfade.
 
 ---
 
@@ -86,7 +86,7 @@
 
 | ID | Priorität | Befund | Status |
 |----|-----------|--------|--------|
-| BENCH-A01 | LOW | CLI-Integration-Test für `scientific_evaluation_framework.py` fehlt | Offen |
+| BENCH-A01 | LOW | CLI-Integration-Test für `scientific_evaluation_framework.py` fehlt | ✅ Geschlossen — `tests/test_scientific_evaluation_framework_cli.py` (9 Tests) |
 | BENCH-A02 | INFO | `performance_optimizations/phase2/benchmark_phase2.cpp` bewusst deaktiviert — Reaktivierungsentscheidung dokumentieren | Akzeptiert |
 
 ---
