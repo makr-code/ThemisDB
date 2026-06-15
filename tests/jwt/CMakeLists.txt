@@ -1,8 +1,7 @@
 # jwt module tests
 
 file(GLOB JWT_MODULE_TEST_SOURCES
-    "
-${CMAKE_CURRENT_SOURCE_DIR}/test_*.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/test_*.cpp"
 )
 
 foreach(_src IN LISTS JWT_MODULE_TEST_SOURCES)
