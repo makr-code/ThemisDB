@@ -138,6 +138,12 @@ function(themis_add_standard_benchmark target_name source_file)
     )
 endfunction()
 
+# Module-style benchmark layout (analogous to tests/<module>/CMakeLists.txt).
+# Modules that provide their own benchmark CMake registration are wired here.
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/performance_optimizations/CMakeLists.txt")
+    add_subdirectory(performance_optimizations)
+endif()
+
 themis_add_standard_benchmark(bench_aql_functions bench_aql_functions.cpp)
 themis_add_standard_benchmark(bench_branch_manager bench_branch_manager.cpp)
 themis_add_standard_benchmark(bench_diff_engine bench_diff_engine.cpp)
@@ -4193,7 +4199,7 @@ endif()
 
 option(THEMIS_AUTO_REGISTER_ELIGIBLE_BENCHMARKS
     "Auto-register missing benchmark targets that are eligible in current edition/feature configuration"
-    ON)
+    OFF)
 
 if(THEMIS_AUTO_REGISTER_ELIGIBLE_BENCHMARKS)
     file(GLOB _all_benchmark_sources

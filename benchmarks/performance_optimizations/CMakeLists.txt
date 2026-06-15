@@ -1,79 +1,24 @@
-# Performance Optimization Benchmarks
-# Uses Google Benchmark for performance validation
+# performance_optimizations benchmark module
 
-cmake_minimum_required(VERSION 3.15)
-
-# Find Google Benchmark
-find_package(benchmark CONFIG)
-
-if(NOT benchmark_FOUND)
-    message(WARNING "Google Benchmark not found. Benchmarks will not be built.")
-    message(WARNING "Install with: vcpkg install benchmark")
+if(NOT THEMIS_BUILD_BENCHMARKS)
     return()
 endif()
 
-message(STATUS "Found Google Benchmark: ${benchmark_DIR}")
+message(STATUS "Configuring benchmark module: performance_optimizations")
 
-# Helper function to add a benchmark
-function(add_perf_benchmark name)
-    add_executable(${name} ${ARGN})
-    target_link_libraries(${name} 
-        PRIVATE 
-            benchmark::benchmark
-            benchmark::benchmark_main
-            themis_core  # Link against themis_core to get compile definitions
-    )
-    if(TARGET themis_storage)
-        target_link_libraries(${name} PRIVATE themis_storage)
-    endif()
-    if(TARGET themis_llm)
-        target_link_libraries(${name} PRIVATE themis_llm)
-    endif()
-    target_include_directories(${name} 
-        PRIVATE 
-            ${CMAKE_SOURCE_DIR}/include
-    )
-    
-    set_target_properties(${name} PROPERTIES
-        CXX_STANDARD 20
-        CXX_STANDARD_REQUIRED ON
-        RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/benchmarks
-    )
-endfunction()
+# Standard Google Benchmark sources in this module.
+themis_add_standard_benchmark(benchmark_huge_pages benchmark_huge_pages.cpp)
+themis_add_standard_benchmark(benchmark_lirs_cache benchmark_lirs_cache.cpp)
+themis_add_standard_benchmark(benchmark_mimalloc benchmark_mimalloc.cpp)
+themis_add_standard_benchmark(benchmark_rcu_index benchmark_rcu_index.cpp)
 
-# Mimalloc benchmark
-if(THEMIS_BUILD_BENCHMARKS)
-    add_perf_benchmark(benchmark_mimalloc 
-        benchmark_mimalloc.cpp
-    )
-    
-    add_perf_benchmark(benchmark_huge_pages
-        benchmark_huge_pages.cpp
-    )
-    
-    add_perf_benchmark(benchmark_rcu_index
-        benchmark_rcu_index.cpp
-    )
-    
-    add_perf_benchmark(benchmark_lirs_cache
-        benchmark_lirs_cache.cpp
-    )
-    
-    add_perf_benchmark(benchmark_safe_fail
-        benchmark_safe_fail.cpp
-    )
-    
-    message(STATUS "Performance benchmarks enabled:")
-    message(STATUS "  - benchmark_mimalloc")
-    message(STATUS "  - benchmark_huge_pages")
-    message(STATUS "  - benchmark_rcu_index")
-    message(STATUS "  - benchmark_lirs_cache")
-    message(STATUS "  - benchmark_safe_fail")
-    message(STATUS "")
-    message(STATUS "Run benchmarks with:")
-    message(STATUS "  ./build/benchmarks/benchmark_mimalloc")
-    message(STATUS "  ./build/benchmarks/benchmark_huge_pages")
-    message(STATUS "  ./build/benchmarks/benchmark_rcu_index")
-    message(STATUS "  ./build/benchmarks/benchmark_lirs_cache")
-    message(STATUS "  ./build/benchmarks/benchmark_safe_fail")
+# Uses llm::GPUSafeFailManager and should follow LLM feature-gating.
+if(THEMIS_ENABLE_LLM)
+    themis_add_standard_benchmark(benchmark_safe_fail benchmark_safe_fail.cpp)
+else()
+    message(STATUS "Skipping benchmark_safe_fail (THEMIS_ENABLE_LLM=OFF)")
 endif()
+
+# Intentionally excluded:
+# - phase2/benchmark_phase2.cpp is currently a disabled placeholder benchmark
+#   ("pending implementation sync") and is not part of default benchmark builds.
