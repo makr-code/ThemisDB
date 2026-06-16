@@ -78,6 +78,7 @@ public:
     template<typename Fn>
     std::shared_ptr<Result> Do(const std::string& key, Fn&& fn) {
         std::shared_future<std::shared_ptr<Result>> fut;
+        std::shared_ptr<std::promise<std::shared_ptr<Result>>> prom;
         bool is_owner = false;
 
         {
@@ -88,12 +89,10 @@ public:
                 fut = it->second;
             } else {
                 // We are the owner: insert a shared_future backed by a promise.
-                auto prom = std::make_shared<std::promise<std::shared_ptr<Result>>>();
+                prom = std::make_shared<std::promise<std::shared_ptr<Result>>>();
                 fut = prom->get_future().share();
                 inflight_.emplace(key, fut);
                 is_owner = true;
-                // Store the promise so we can fulfil it after releasing the lock.
-                owner_promise_ = std::move(prom);
             }
         }
 
@@ -103,7 +102,6 @@ public:
         }
 
         // We are the owner: execute fn() outside the mutex.
-        auto prom = std::move(owner_promise_);
         std::shared_ptr<Result> res;
         try {
             res = std::make_shared<Result>(fn());
@@ -146,10 +144,6 @@ private:
     mutable std::mutex mu_;
     std::unordered_map<std::string,
                        std::shared_future<std::shared_ptr<Result>>> inflight_;
-
-    // Temporary storage for the owner's promise between lock release and fn() call.
-    // Only written/read by the owner thread before fn() is called; no sharing needed.
-    std::shared_ptr<std::promise<std::shared_ptr<Result>>> owner_promise_;
 };
 
 }} // namespace themis::cache
