@@ -17,7 +17,7 @@
 
 ---
 
-## Option 1 — Docker (recommended)
+-- ## Option 1 — Docker (recommended)
 
 ### 1. Pull and run
 
@@ -39,7 +39,7 @@ docker run -d \
 | `8771` | gRPC (optional) |
 
 ### 2. Verify the server is healthy
-
+--
 ```bash
 curl http://localhost:8765/health
 # {"status":"ok","version":"1.8.x"}
