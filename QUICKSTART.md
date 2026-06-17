@@ -17,19 +17,11 @@
 
 ---
 
--- ## Option 1 — Docker (recommended)
+## Option 1 — Docker (recommended)
 
 ### 1. Pull and run
 
-```bash
-docker pull ghcr.io/makr-code/themisdb:latest
-docker run -d \
-  --name themisdb \
-  -p 8765:8765 \
-  -p 8766:8766 \
-  -v themis-data:/data \
-  ghcr.io/makr-code/themisdb:latest
-```
+curently not avaible
 
 | Port | Protocol |
 |---|---|
@@ -39,7 +31,7 @@ docker run -d \
 | `8771` | gRPC (optional) |
 
 ### 2. Verify the server is healthy
---
+
 ```bash
 curl http://localhost:8765/health
 # {"status":"ok","version":"1.8.x"}
