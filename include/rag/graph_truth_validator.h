@@ -42,6 +42,11 @@ struct GraphTruthEvidence {
 struct GraphTruthValidationResult {
     std::vector<GraphTruthEvidence> evidences;
     std::string routing_reason;
+    std::string routing_reason_code;
+    std::string correlation_id;
+    std::string fallback_mode;
+    std::string fallback_reason_code;
+    std::string escalation_source_layer;
     bool used_ontology_validation = false;
 };
 
@@ -63,7 +68,8 @@ public:
     [[nodiscard]] GraphTruthValidationResult validate(
         const std::string& query,
         const tensor::TensorLayerSummary& tensor_summary,
-        const GraphTruthValidatorConfig& config = {}) const;
+        const GraphTruthValidatorConfig& config = {},
+        const std::string& correlation_id = {}) const;
 
 private:
     [[nodiscard]] static std::vector<judge::RetrievedDocument> makeCandidateDocuments(

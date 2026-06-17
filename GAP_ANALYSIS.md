@@ -114,18 +114,33 @@ The final generation layer is now formalized as the explicit ANN → Tensor → 
 ## 4. Cross-Cutting Gaps
 
 ### 4.1 Governance
-- insufficiently formalized approximation boundaries
-- incomplete end-to-end provenance and package governance
+- approximation boundaries are only partially formalized across layers
+	- **implementiert**: explicit stage boundaries ANN -> Tensor -> Graph -> Final Layer
+	- **implementiert**: cross-layer policy contracts via `reason_codes.h`, `FallbackMode` enum, and ADR E2-005
+- end-to-end provenance and package governance remain incomplete
+	- **implementiert**: package-aware final-layer resolution and compatibility checks
+	- **implementiert**: unified provenance chain (`RetrievalProvenanceRecord` in `include/observability/retrieval_provenance.h`) — links trigger → tensor candidates → graph evidence → final-layer resolution into one exportable, audit-ready record; emitted as `retrieval_provenance_record` JSON log per step()
+	- **offen**: persistent provenance store and queryable provenance export (post-generation lineage)
 
 ### 4.2 Distributed Retrieval
-- no full tensor-summary-first federated retrieval path
-- cross-shard retrieval may remain more expensive than necessary
+- no full tensor-summary-first federated retrieval execution path
+	- **implementiert**: shard-aware ANN routing and federated tensor summary APIs
+	- **implementiert**: end-to-end distributed execution policy in ANN Frontdoor (fan-out limits, deterministic merge semantics, shard retry/failover, partial-result and fail-closed fallback policy)
+- cross-shard retrieval cost control is still incomplete
+	- **offen**: adaptive shard pruning, cost-aware candidate budgeting, and quality/cost guardrails under load
 
 ### 4.3 Observability
 - layered tracing and reasoning observability need expansion
+	- **implementiert**: per-layer correlation IDs propagated through all four layers
+	- **implementiert**: routing-reason telemetry via `layer_decision_log.h` emitter (event `layer_handoff_decision`) in ANN / Tensor / Graph / Final Layer — validated by focused regression tests
+	- **implementiert**: unified provenance chain log (`retrieval_provenance_record`) for decision lineage visibility
+	- **offen**: production-grade dashboards/SLOs for ANN/Tensor/Graph/Final-Layer handoff quality (infrastructure concern)
 
 ### 4.4 Lifecycle Management
-- adapter/package/model lifecycle still needs stronger structure
+- adapter/package/model lifecycle needs hardening beyond current baseline
+	- **implementiert**: package registration/update/status + compatibility matrix
+	- **implementiert**: promotion/rollback workflows + policy-gated deployment stages in `FinalLayerOrchestrator` (`promotePackage()`, `rollbackToPackage()`, deployment-stage serving gate)
+	- **offen**: operational runbooks and production release governance automation
 
 ---
 
@@ -137,7 +152,7 @@ The final generation layer is now formalized as the explicit ANN → Tensor → 
 
 ## Priority 2
 - strengthen provenance and package governance end-to-end
-- close remaining lifecycle-management rough edges
+- formalize cross-layer fallback and confidence-governance contracts
 
 ## Priority 3
 - optimize federated shard-summary retrieval behavior
@@ -145,10 +160,10 @@ The final generation layer is now formalized as the explicit ANN → Tensor → 
 
 ## Priority 4
 - harden package/model switching with broader integration coverage
-- extend compatibility policies where rebuild-first constraints evolve
+- implement promotion/rollback and policy-gated lifecycle transitions
 
 ## Priority 5
-- prepare federated shard summary architecture
+- implement full distributed execution policy on top of federated summaries
 
 ## Priority 6
 - broaden end-to-end orchestration coverage in builds, focused tests, and operational docs
@@ -157,7 +172,12 @@ The final generation layer is now formalized as the explicit ANN → Tensor → 
 
 ## 6. Next Deliverables
 
-- issue tree for implementation
-- per-layer technical inventory
-- ADR set
-- research-backed design documents
+- cross-cutting issue tree (implemented): `docs/implementation/CROSS_CUTTING_GAPS_ISSUE_TREE_2026-06-17.md`
+- cross-layer governance ADRs (partially implemented):
+	- `docs/adr/adr-e2-005-cross-layer-fallback-confidence-policy.md`
+- observability spec and metric taxonomy for ANN/Tensor/Graph/Final-Layer handoff (partially implemented):
+	- `docs/implementation/CROSS_LAYER_OBSERVABILITY_SPEC_2026-06-17.md`
+- distributed retrieval execution design (partially implemented):
+	- `docs/implementation/DISTRIBUTED_RETRIEVAL_EXECUTION_DESIGN_2026-06-17.md`
+- lifecycle runbook for package promotion, rollback, and compatibility-gated release (partially implemented):
+	- `docs/implementation/LIFECYCLE_PROMOTION_ROLLBACK_RUNBOOK_2026-06-17.md`

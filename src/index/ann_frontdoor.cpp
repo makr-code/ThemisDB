@@ -19,15 +19,42 @@
 //   structures on the critical path.
 
 #include "index/ann_frontdoor.h"
+#include "observability/layer_decision_log.h"
+#include "observability/reason_codes.h"
+#include "observability/telemetry_keys.h"
 #include "utils/logger.h"
 
 #include <algorithm>
+#include <cstddef>
+#include <exception>
+#include <limits>
 #include <sstream>
 #include <stdexcept>
 #include <string>
+#include <unordered_map>
+#include <utility>
+#include <vector>
 
 namespace themis {
 namespace index {
+
+namespace {
+
+const char* strategyReasonCode(AnnStrategy strategy) {
+    using namespace themis::observability::reason_codes::ann;
+    switch (strategy) {
+        case AnnStrategy::HNSW: return kRouteHnsw.data();
+        case AnnStrategy::SCANN: return kRouteScann.data();
+        case AnnStrategy::DISKANN: return kRouteDiskann.data();
+        case AnnStrategy::DISTRIBUTED: return kRouteDistributed.data();
+        case AnnStrategy::FLAT_BRUTE_FORCE: return kRouteFlatBruteForce.data();
+    }
+    return kRouteUnknown.data();
+}
+
+constexpr const char* kDistributedMergePolicy = "DISTANCE_ASC_THEN_ID";
+
+}
 
 // ============================================================================
 // Lifecycle
@@ -120,7 +147,7 @@ AnnRetrievalPlan AnnFrontdoor::planRetrieval(
     }
 
     if (have_scope_backend) {
-        if (effective_hot && vim_ && context.dataset_size <= config_.hnsw_max_elements) {
+        if (effective_hot && context.dataset_size <= config_.hnsw_max_elements) {
             plan.strategy = AnnStrategy::HNSW;
             plan.hot_path = true;
             plan.reason = "scope backend routed through hot HNSW path";
@@ -144,6 +171,12 @@ AnnRetrievalPlan AnnFrontdoor::planRetrieval(
         plan.strategy = AnnStrategy::HNSW;
         plan.hot_path = true;
         plan.reason = "hot tier routed to HNSW";
+        return plan;
+    }
+
+    if (!have_scope_backend && !have_global_backend && !vim_) {
+        plan.strategy = AnnStrategy::FLAT_BRUTE_FORCE;
+        plan.reason = "no ANN backend or vector index manager available; using brute-force fallback";
         return plan;
     }
 
@@ -203,33 +236,115 @@ AnnFrontdoorResult AnnFrontdoor::search(const float*          query_vector,
     result.estimated_recall = recallEstimate(strategy);
     result.routing_reason   = plan.reason.empty() ? buildRoutingReason(strategy, context)
                                                   : plan.reason;
+    result.routing_reason_code = strategyReasonCode(strategy);
+    result.correlation_id = context.correlation_id.empty()
+        ? std::string(observability::telemetry::defaults::kAnnNoCorrelation)
+        : context.correlation_id;
+    result.confidence_policy_version = context.confidence_policy_version.empty()
+        ? std::string(observability::reason_codes::kPolicyVersionDefault)
+        : context.confidence_policy_version;
+    result.confidence_threshold_key = context.confidence_threshold_key.empty()
+        ? std::string(observability::reason_codes::ann::kThresholdKeyDefault)
+        : context.confidence_threshold_key;
     result.is_distributed   = plan.distributed;
+    result.distributed_merge_policy = kDistributedMergePolicy;
 
     switch (strategy) {
 
     // ------------------------------------------------------------------
     case AnnStrategy::DISTRIBUTED: {
-        // Fan out to all registered shard backends, merge, and re-rank.
+        std::vector<std::pair<std::string, std::shared_ptr<IAnnIndex>>> shard_backends;
+        shard_backends.reserve(backends_.size());
+        for (const auto& [scope, backend] : backends_) {
+            if (scope.empty() || !backend) {
+                continue;
+            }
+            shard_backends.push_back({scope, backend});
+        }
+        std::sort(shard_backends.begin(), shard_backends.end(),
+                  [](const auto& a, const auto& b) {
+                      return a.first < b.first;
+                  });
+
+        const std::size_t fanout_limit = (config_.distributed_max_fanout == 0)
+            ? shard_backends.size()
+            : std::min(config_.distributed_max_fanout, shard_backends.size());
+
+        std::vector<std::pair<std::string, std::shared_ptr<IAnnIndex>>> execution_backends;
+        execution_backends.reserve(fanout_limit + 1u);
+        for (std::size_t i = 0; i < fanout_limit; ++i) {
+            execution_backends.push_back(shard_backends[i]);
+        }
+        if (config_.distributed_include_global_backend) {
+            if (auto global = resolveBackend(""); global) {
+                execution_backends.push_back({"", std::move(global)});
+            }
+        }
+
+        result.shards_attempted = execution_backends.size();
+
+        std::unordered_map<int64_t, float> best_distance_by_id;
+        for (const auto& [scope, backend] : execution_backends) {
+            (void)scope;
+            bool success = false;
+            const int attempts = std::max(0, config_.distributed_retry_attempts) + 1;
+            for (int attempt = 0; attempt < attempts; ++attempt) {
+                try {
+                    const auto partial = executeSearch(*backend, query_vector, dim, k);
+                    for (const auto& candidate : partial) {
+                        auto it = best_distance_by_id.find(candidate.id);
+                        if (it == best_distance_by_id.end() || candidate.distance < it->second) {
+                            best_distance_by_id[candidate.id] = candidate.distance;
+                        }
+                    }
+                    success = true;
+                    break;
+                } catch (const std::exception&) {
+                    // retry loop continues until attempts exhausted
+                }
+            }
+            if (success) {
+                ++result.shards_succeeded;
+            } else {
+                ++result.shards_failed;
+            }
+        }
+
         std::vector<AnnSearchResult> merged;
-        for (auto& [scope, backend] : backends_) {
-            if (scope.empty()) continue;  // skip global backend
-            auto partial = executeSearch(*backend, query_vector, dim, k);
-            merged.insert(merged.end(), partial.begin(), partial.end());
+        merged.reserve(best_distance_by_id.size());
+        for (const auto& [id, distance] : best_distance_by_id) {
+            merged.push_back({id, distance});
         }
-        // Also include global backend if present
-        if (auto global = resolveBackend(""); global) {
-            auto partial = executeSearch(*global, query_vector, dim, k);
-            merged.insert(merged.end(), partial.begin(), partial.end());
-        }
-        // Sort merged by ascending distance and keep top-k
         std::sort(merged.begin(), merged.end(),
                   [](const AnnSearchResult& a, const AnnSearchResult& b) {
+                      if (a.distance == b.distance) {
+                          return a.id < b.id;
+                      }
                       return a.distance < b.distance;
                   });
+
+        result.merged_candidates_before_trim = merged.size();
         if (static_cast<int>(merged.size()) > k) {
             merged.resize(static_cast<std::size_t>(k));
         }
         result.candidates = std::move(merged);
+
+        if (result.shards_failed > 0 && result.shards_succeeded > 0) {
+            result.partial_results = true;
+            if (config_.distributed_allow_partial_results) {
+                result.fallback_mode = std::string(observability::reason_codes::fallback_mode::kDegradedContinue);
+                result.fallback_reason_code = std::string(observability::reason_codes::ann::kFallbackDistributedPartialFailure);
+            }
+        }
+
+        if (result.shards_succeeded == 0) {
+            if (config_.distributed_allow_partial_results) {
+                result.fallback_mode = std::string(observability::reason_codes::fallback_mode::kDegradedContinue);
+            } else {
+                result.fallback_mode = std::string(observability::reason_codes::fallback_mode::kFailClosed);
+            }
+            result.fallback_reason_code = std::string(observability::reason_codes::ann::kFallbackDistributedAllShardsFailed);
+        }
         break;
     }
 
@@ -264,6 +379,9 @@ AnnFrontdoorResult AnnFrontdoor::search(const float*          query_vector,
             result.candidates = bruteForceSearch(query_vector, dim, k, context);
             result.strategy_used    = AnnStrategy::FLAT_BRUTE_FORCE;
             result.estimated_recall = recallEstimate(AnnStrategy::FLAT_BRUTE_FORCE);
+            result.routing_reason_code = strategyReasonCode(AnnStrategy::FLAT_BRUTE_FORCE);
+            result.fallback_mode = std::string(observability::reason_codes::fallback_mode::kDegradedContinue);
+            result.fallback_reason_code = std::string(observability::reason_codes::ann::kFallbackBackendUnavailable);
         }
         break;
     }
@@ -278,11 +396,24 @@ AnnFrontdoorResult AnnFrontdoor::search(const float*          query_vector,
             result.candidates = executeSearch(*global, query_vector, dim, k);
         } else {
             result.candidates = bruteForceSearch(query_vector, dim, k, context);
+            result.fallback_mode = std::string(observability::reason_codes::fallback_mode::kDegradedContinue);
+            result.fallback_reason_code = std::string(observability::reason_codes::ann::kFallbackBackendUnavailable);
         }
         break;
     }
 
     } // end switch
+
+    observability::emitLayerDecisionLog(
+        observability::telemetry::layers::kAnn,
+        result.correlation_id,
+        result.routing_reason_code,
+        result.confidence_policy_version,
+        result.confidence_threshold_key,
+        result.fallback_mode,
+        result.fallback_reason_code,
+        observability::telemetry::layers::kAnn,
+        !result.candidates.empty());
 
     return result;
 }

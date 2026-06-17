@@ -616,6 +616,7 @@ set(THEMIS_QUERY_SOURCES
     ../src/query/functions/lora_functions.cpp
     ../src/query/functions/tensor_functions.cpp
     ../src/query/tensor_contraction_engine.cpp
+    ../src/rag/ontology_aware_retriever.cpp
     ../src/rag/graph_truth_validator.cpp
     ../src/query/functions/process_mining_functions.cpp
     ../src/query/functions/udf_registry.cpp

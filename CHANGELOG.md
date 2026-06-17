@@ -7,6 +7,135 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added — Layered Retrieval Orchestration Completion (2026-06-17)
+
+- **Final Layer in Tensor-RAG-Pipeline integriert**
+  - `TensorRAGPipeline` um final-layer Konfiguration und Auflösung erweitert
+    (`setFinalLayerOrchestrator(...)`, `RAGDecision.final_layer_resolution`).
+  - Final-layer Request-Aufbau aus Laufzeitkontext (Package, Base-Model, Version,
+    Metadaten) und Übergabe an `FinalLayerOrchestrator::resolve(...)`.
+  - `RAGDecision` um Cross-Layer-Policy-/Telemetry-Felder erweitert
+    (`correlation_id`, `routing_reason_code`, `confidence_policy_version`,
+    `confidence_threshold_key`, `fallback_mode`, `fallback_reason_code`,
+    `escalation_source_layer`) und in `step(...)` deterministisch befüllt.
+  - Graph- und Final-Layer-Telemetrie durchgezogen:
+    `GraphTruthValidationResult` und `FinalLayerResolution` führen jetzt
+    Correlation-/Reason-/Fallback-Metadaten; Pipeline propagiert Werte
+    explizit zwischen den Layern.
+  - (`include/rag/tensor_rag_pipeline.h`, `src/rag/tensor_rag_pipeline.cpp`)
+
+- **Final-Layer API stabilisiert**
+  - Header-/Implementation-Signaturen synchronisiert.
+  - Header-Parserproblem durch explizite JSON-Sichtbarkeit behoben.
+  - (`include/llm/final_layer_orchestrator.h`,
+    `src/llm/final_layer_orchestrator.cpp`,
+    `tests/model/test_final_layer_orchestrator.cpp`)
+
+- **Modular-Build Linker-Fixes (Windows/MSVC, modular profile)**
+  - Storage-Source-Set vervollständigt für `TensorMidLayer`-Abhängigkeiten:
+    `adapter_repository.cpp` und `tensor_fingerprint_graph.cpp` zu
+    `THEMIS_STORAGE_SOURCES` ergänzt.
+  - Query-Source-Set ergänzt um `ontology_aware_retriever.cpp`, damit
+    `GraphTruthValidator`-Pfad (`OntologyAwareRetriever::retrieve`) in
+    `themis_content.dll` korrekt linkt.
+  - (`cmake/ModularBuild.cmake`)
+
+- **ANN-Fallback über Modulgrenzen gehärtet**
+  - Storage-seitige direkte Abhängigkeit auf
+    `VectorIndexManager::searchKnn(...)` aus `AnnFrontdoor`-Fallback entfernt,
+    um Cross-DLL-Unresolved-Externals zu vermeiden.
+  - Search-seitigen Legacy-Fallback in `HybridSearch` ergänzt, wenn Frontdoor im
+    Fallback-Pfad keine Kandidaten liefert.
+  - `AnnFrontdoor` um Observability-/Policy-Felder erweitert:
+    `correlation_id`, `routing_reason_code`, `confidence_policy_version`,
+    `confidence_threshold_key`, `fallback_mode`, `fallback_reason_code`.
+  - Zentrale Reason-Code-Registry eingeführt:
+    `include/observability/reason_codes.h` als gemeinsame Quelle für
+    ANN/Tensor/Graph/Final-Layer Routing- und Fallback-Codes.
+  - Zentrale Telemetry-Key-Registry ergänzt:
+    `include/observability/telemetry_keys.h` für Feldnamen,
+    Layer-Namen, Default-Correlation-IDs und Metadata-Keys.
+  - Harte String-Literale in den betroffenen Layern und Fokus-Tests auf
+    gemeinsame Konstanten refaktoriert (Drift-Schutz).
+  - Routing-/Fallback-Codes vereinheitlicht (`ANN_BACKEND_UNAVAILABLE`) und
+    Planungslogik korrigiert, sodass no-backend korrekt `FLAT_BRUTE_FORCE`
+    plant und hot scoped backends konsistent auf HNSW routen.
+  - (`src/index/ann_frontdoor.cpp`, `src/search/hybrid_search.cpp`)
+
+- **Testabdeckung erweitert und ausgerichtet**
+  - Neuer Pipeline-Test:
+    `TensorRAGPipeline.TRPL14_final_layer_resolution_attached_when_orchestrator_set`.
+  - Neue Policy-/Fallback-Tests:
+    `TensorRAGPipeline.TRPL15_policy_metadata_present_for_flare_trigger`,
+    `TensorRAGPipeline.TRPL16_fail_closed_when_embedding_backend_throws`.
+  - Neuer End-to-End-Propagationstest:
+    `TensorRAGPipeline.TRPL17_correlation_and_reason_codes_propagate_to_graph_and_final_layer`.
+  - Neue strukturierte Logging-Regression:
+    `TensorRAGPipeline.TRPL18_structured_layer_handoff_json_log_emitted`
+    validiert den JSON-Handoff-Event (`layer_handoff_decision`) inklusive
+    Schema-Schlüsseln (`event`, `layer_name`, `correlation_id`, `resolved`).
+  - Neue ANN-Routing-Observability-Tests:
+    `AnnFrontdoorRouting.CorrelationAndPolicyMetadataPropagated`,
+    `AnnFrontdoorRouting.MissingBackendSetsDegradedFallbackReason`.
+  - Korrektur auf aktuelles API-Feld `primary_adapter_id` im aktiven Fokus-Testfile.
+  - Drift-Fix im parallelen Duplicate-Testfile (`tests/tensor/...`) ebenfalls
+    nachgezogen.
+  - (`tests/test_tensor_phase3.cpp`, `tests/tensor/test_tensor_phase3.cpp`)
+
+- **Validierte Ausführung**
+  - Build: `ninja -j1 themis_content` → Exit 0.
+  - Build: `ninja -j1 test_tensor_phase3_focused` → Exit 0.
+  - Test: `test_tensor_phase3_focused.exe --gtest_filter=TensorRAGPipeline.*`
+    → 15/15 passed.
+  - Test: `... --gtest_filter=TensorRAGPipeline.TRPL14_final_layer_resolution_attached_when_orchestrator_set`
+    → 1/1 passed.
+  - Test: `... --gtest_filter=TensorRAGPipeline.TRPL15_*:TensorRAGPipeline.TRPL16_*`
+    → 2/2 passed.
+  - Test: `... --gtest_filter=TensorRAGPipeline.TRPL17_*`
+    → 1/1 passed.
+  - Test: `module_index_test_ann_frontdoor_focused.exe`
+    → 29/29 passed.
+
+- **Implementierungsdokumentation ergänzt**
+  - `docs/implementation/LAYERED_RETRIEVAL_IMPLEMENTATION_2026-06-17.md`
+    hinzugefügt (Scope, Architekturintegration, Linker-Fixes, Validierung,
+    Follow-ups).
+  - `docs/implementation/CROSS_CUTTING_GAPS_ISSUE_TREE_2026-06-17.md`
+    hinzugefügt (Track 4.1-4.4 mit Arbeitspaketen, Akzeptanzkriterien,
+    Validierungszielen und Sequenzierung).
+  - `docs/adr/adr-e2-005-cross-layer-fallback-confidence-policy.md`
+    hinzugefügt (verbindliche Cross-Layer-Policy für Fallback, Confidence,
+    Fail-Closed inklusive Metadaten- und Testanforderungen).
+  - `docs/implementation/CROSS_LAYER_OBSERVABILITY_SPEC_2026-06-17.md`
+    hinzugefügt (Korrelation, Routing-Reason-Telemetrie, Metrics-Taxonomie,
+    SLO-Definitionen, Dashboard- und Validierungsanforderungen).
+  - `docs/implementation/DISTRIBUTED_RETRIEVAL_EXECUTION_DESIGN_2026-06-17.md`
+    hinzugefügt (Fan-out/Timeout/Retry-Policy, deterministische Merge-Regeln,
+    cost-aware shard pruning, Validierungs- und Rollout-Plan).
+  - `docs/implementation/LIFECYCLE_PROMOTION_ROLLBACK_RUNBOOK_2026-06-17.md`
+    hinzugefügt (Promotion-/Rollback-State-Machine, Pre-Checks,
+    Ausführungsschritte, Abbruchkriterien und Nachweisartefakte).
+
+- **Structured Cross-Layer Decision Logging integriert**
+  - Einheitlicher JSON-Emitter eingeführt:
+    `include/observability/layer_decision_log.h` mit Event-Schema
+    `layer_handoff_decision`.
+  - Zentrale Telemetry-Key-Registry erweitert um Event-/Schema-Keys:
+    `event`, `layer_name`, `resolved` sowie
+    `events::kLayerHandoffDecision`.
+  - Runtime-Integration in allen vier Layern umgesetzt (jeweils vor Return):
+    - `AnnFrontdoor::search(...)`
+    - `TensorRAGPipeline::step(...)`
+    - `GraphTruthValidator::validate(...)` (alle Return-Pfade)
+    - `FinalLayerOrchestrator::resolve(...)` (alle Return-Pfade)
+  - Strukturierte Log-Payload enthält konsistente Felder für Correlation,
+    Routing-Reason, Confidence-Policy, Fallback-Mode/-Reason,
+    Escalation-Layer und `resolved`.
+  - Validierung nach Integration:
+    - `module_index_test_ann_frontdoor_focused.exe` -> 29/29 passed
+    - `test_tensor_phase3_focused.exe --gtest_filter=TensorRAGPipeline.*`
+      -> 16/16 passed
+
 ### Documentation / Governance — 66/66 Module Status Synchronization (2026-06-14)
 
 - Root status sources were synchronized to a full `src/*` inventory with **66/66 modules** covered.

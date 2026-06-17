@@ -15,6 +15,7 @@
 #include "rag/graph_truth_validator.h"
 #include "rag/targ_retrieval.h"
 #include "llm/final_layer_orchestrator.h"
+#include "observability/retrieval_provenance.h"
 #include "tensor/tensor_mid_layer.h"
 
 #include <cstddef>
@@ -114,6 +115,15 @@ struct RAGDecision {
         BOTH         ///< Both gates fired simultaneously
     };
 
+    /**
+     * @brief Cross-layer fallback mode selected for this decision.
+     */
+    enum class FallbackMode {
+        NONE,              ///< No fallback required
+        DEGRADED_CONTINUE, ///< Continue execution with reduced guarantees
+        FAIL_CLOSED        ///< Stop sensitive path due to policy/safety violation
+    };
+
     // ─── Primary decision ─────────────────────────────────────────────────
 
     /**
@@ -127,6 +137,41 @@ struct RAGDecision {
      * @brief Which gate(s) caused `should_retrieve = true`.
      */
     Trigger trigger         = Trigger::NONE;
+
+    /**
+     * @brief Stable correlation identifier propagated across layer handoffs.
+     */
+    std::string correlation_id;
+
+    /**
+     * @brief Machine-readable reason code for the selected routing branch.
+     */
+    std::string routing_reason_code;
+
+    /**
+     * @brief Version tag of the confidence policy used for this decision.
+     */
+    std::string confidence_policy_version;
+
+    /**
+     * @brief Confidence threshold key that governed this decision.
+     */
+    std::string confidence_threshold_key;
+
+    /**
+     * @brief Selected fallback behavior for this decision.
+     */
+    FallbackMode fallback_mode = FallbackMode::NONE;
+
+    /**
+     * @brief Machine-readable reason code when a fallback mode was applied.
+     */
+    std::string fallback_reason_code;
+
+    /**
+     * @brief Source layer that escalated this request, if any.
+     */
+    std::string escalation_source_layer;
 
     // ─── FLARE details ────────────────────────────────────────────────────
 
@@ -188,9 +233,27 @@ struct RAGDecision {
     std::string graph_truth_reason;
 
     /**
+     * @brief Machine-readable graph-truth routing reason code.
+     */
+    std::string graph_truth_routing_reason_code;
+
+    /**
+     * @brief Correlation id propagated by graph-truth validation.
+     */
+    std::string graph_truth_correlation_id;
+
+    /**
      * @brief Final-layer orchestration result when an LLM/LoRA package was resolved.
      */
     llm::FinalLayerResolution final_layer_resolution;
+
+    /**
+     * @brief Unified end-to-end provenance record for this retrieval decision.
+     *
+     * Populated by step() when at least one gate fires. Can be exported for
+     * audit, diagnostics, and provenance dashboards.
+     */
+    observability::RetrievalProvenanceRecord provenance;
 
     // ─── TARG details ─────────────────────────────────────────────────────
 

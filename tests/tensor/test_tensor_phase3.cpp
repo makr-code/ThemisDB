@@ -2331,7 +2331,7 @@ TEST(TensorRAGPipeline, TRPL14_final_layer_resolution_attached_when_orchestrator
     EXPECT_TRUE(decision.should_retrieve);
     EXPECT_TRUE(decision.final_layer_resolution.resolved);
     EXPECT_EQ(decision.final_layer_resolution.package_id, "session-final");
-    EXPECT_EQ(decision.final_layer_resolution.selected_adapter_id, "legal-general");
+    EXPECT_EQ(decision.final_layer_resolution.primary_adapter_id, "legal-general");
 }
 
 } // namespace

@@ -10,12 +10,19 @@
 //   - explainStrategy() and annStrategyName() utility
 
 #include "index/ann_frontdoor.h"
+#include "observability/reason_codes.h"
+#include "utils/logger.h"
 
 #include <gtest/gtest.h>
 #include <algorithm>
+#include <chrono>
 #include <cmath>
 #include <cstdint>
+#include <filesystem>
+#include <fstream>
+#include <functional>
 #include <memory>
+#include <stdexcept>
 #include <string>
 #include <vector>
 
@@ -55,6 +62,47 @@ public:
 
 private:
     std::vector<Entry> data_;
+};
+
+class FlakyAnnIndex : public IAnnIndex {
+public:
+    FlakyAnnIndex(int fail_count_before_success,
+                  std::vector<StubAnnIndex::Entry> data)
+        : remaining_failures_(fail_count_before_success),
+          data_(std::move(data)) {}
+
+    bool build(const float*, const int64_t*, size_t, size_t) override {
+        return true;
+    }
+
+    [[nodiscard]] bool add(int64_t, const float*, size_t) override {
+        return true;
+    }
+
+    std::vector<AnnSearchResult> search(const float*, size_t, int k) const override {
+        ++calls_;
+        if (remaining_failures_ > 0) {
+            --remaining_failures_;
+            throw std::runtime_error("simulated shard backend failure");
+        }
+
+        std::vector<AnnSearchResult> out;
+        const int take = std::min<int>(k, static_cast<int>(data_.size()));
+        out.reserve(static_cast<std::size_t>(take));
+        for (int i = 0; i < take; ++i) {
+            out.push_back({data_[static_cast<std::size_t>(i)].id,
+                           data_[static_cast<std::size_t>(i)].distance});
+        }
+        return out;
+    }
+
+    [[nodiscard]] std::size_t size() const override { return data_.size(); }
+    [[nodiscard]] int calls() const { return calls_; }
+
+private:
+    mutable int remaining_failures_ = 0;
+    mutable int calls_ = 0;
+    std::vector<StubAnnIndex::Entry> data_;
 };
 
 static std::shared_ptr<StubAnnIndex> makeStub(int n_results,
@@ -273,6 +321,118 @@ TEST(AnnFrontdoorSearch, DistributedTopKTruncated) {
     EXPECT_LE(result.candidates.size(), 5u);
 }
 
+TEST(AnnFrontdoorSearch, DistributedFanoutLimitRespected) {
+    AnnFrontdoor::Config cfg;
+    cfg.distributed_max_fanout = 1;
+    cfg.distributed_include_global_backend = false;
+    AnnFrontdoor fd(cfg);
+
+    fd.registerBackend("a", makeStub(2, 0.1f));
+    fd.registerBackend("b", makeStub(2, 0.05f));
+    fd.registerBackend("c", makeStub(2, 0.2f));
+
+    AnnQueryContext ctx;
+    ctx.shard_aware = true;
+
+    auto result = fd.search(kQuery, kDim, 5, ctx);
+    EXPECT_TRUE(result.is_distributed);
+    EXPECT_EQ(result.shards_attempted, 1u);
+    EXPECT_EQ(result.shards_succeeded, 1u);
+    EXPECT_EQ(result.shards_failed, 0u);
+}
+
+TEST(AnnFrontdoorSearch, DistributedRetryRecoversFlakyShard) {
+    AnnFrontdoor::Config cfg;
+    cfg.distributed_retry_attempts = 1;
+    cfg.distributed_include_global_backend = false;
+    AnnFrontdoor fd(cfg);
+
+    auto flaky = std::make_shared<FlakyAnnIndex>(
+        1, std::vector<StubAnnIndex::Entry>{{7, 0.12f}, {8, 0.20f}});
+    fd.registerBackend("flaky", flaky, AnnScopeKind::ShardSummary);
+
+    AnnQueryContext ctx;
+    ctx.shard_aware = true;
+
+    auto result = fd.search(kQuery, kDim, 3, ctx);
+    EXPECT_EQ(result.shards_attempted, 1u);
+    EXPECT_EQ(result.shards_succeeded, 1u);
+    EXPECT_EQ(result.shards_failed, 0u);
+    EXPECT_FALSE(result.candidates.empty());
+    EXPECT_GE(flaky->calls(), 2);
+}
+
+TEST(AnnFrontdoorSearch, DistributedPartialFailureReturnsDegradedWhenAllowed) {
+    AnnFrontdoor::Config cfg;
+    cfg.distributed_retry_attempts = 0;
+    cfg.distributed_allow_partial_results = true;
+    cfg.distributed_include_global_backend = false;
+    AnnFrontdoor fd(cfg);
+
+    auto always_fail = std::make_shared<FlakyAnnIndex>(
+        100, std::vector<StubAnnIndex::Entry>{{99, 0.5f}});
+    fd.registerBackend("fail", always_fail, AnnScopeKind::ShardSummary);
+    fd.registerBackend("ok", makeStub(2, 0.05f), AnnScopeKind::ShardSummary);
+
+    AnnQueryContext ctx;
+    ctx.shard_aware = true;
+
+    auto result = fd.search(kQuery, kDim, 3, ctx);
+    EXPECT_TRUE(result.partial_results);
+    EXPECT_EQ(result.fallback_mode, "degraded_continue");
+    EXPECT_EQ(result.fallback_reason_code,
+              std::string(themis::observability::reason_codes::ann::kFallbackDistributedPartialFailure));
+    EXPECT_EQ(result.shards_failed, 1u);
+    EXPECT_EQ(result.shards_succeeded, 1u);
+    EXPECT_FALSE(result.candidates.empty());
+}
+
+TEST(AnnFrontdoorSearch, DistributedAllShardFailuresFailClosedWhenPartialDisabled) {
+    AnnFrontdoor::Config cfg;
+    cfg.distributed_retry_attempts = 0;
+    cfg.distributed_allow_partial_results = false;
+    cfg.distributed_include_global_backend = false;
+    AnnFrontdoor fd(cfg);
+
+    fd.registerBackend("f0", std::make_shared<FlakyAnnIndex>(
+        100, std::vector<StubAnnIndex::Entry>{{1, 0.2f}}), AnnScopeKind::ShardSummary);
+    fd.registerBackend("f1", std::make_shared<FlakyAnnIndex>(
+        100, std::vector<StubAnnIndex::Entry>{{2, 0.3f}}), AnnScopeKind::ShardSummary);
+
+    AnnQueryContext ctx;
+    ctx.shard_aware = true;
+
+    auto result = fd.search(kQuery, kDim, 3, ctx);
+    EXPECT_TRUE(result.candidates.empty());
+    EXPECT_EQ(result.shards_succeeded, 0u);
+    EXPECT_EQ(result.shards_failed, 2u);
+    EXPECT_EQ(result.fallback_mode, "fail_closed");
+    EXPECT_EQ(result.fallback_reason_code,
+              std::string(themis::observability::reason_codes::ann::kFallbackDistributedAllShardsFailed));
+}
+
+TEST(AnnFrontdoorSearch, DistributedMergeDeterministicDistanceThenId) {
+    AnnFrontdoor::Config cfg;
+    cfg.distributed_include_global_backend = false;
+    AnnFrontdoor fd(cfg);
+
+    fd.registerBackend("s0", std::make_shared<StubAnnIndex>(
+        std::vector<StubAnnIndex::Entry>{{42, 0.2f}, {10, 0.1f}, {20, 0.1f}}));
+    fd.registerBackend("s1", std::make_shared<StubAnnIndex>(
+        std::vector<StubAnnIndex::Entry>{{10, 0.3f}, {30, 0.1f}}));
+
+    AnnQueryContext ctx;
+    ctx.shard_aware = true;
+
+    auto result = fd.search(kQuery, kDim, 10, ctx);
+    ASSERT_GE(result.candidates.size(), 4u);
+    EXPECT_EQ(result.candidates[0].id, 10);
+    EXPECT_EQ(result.candidates[1].id, 20);
+    EXPECT_EQ(result.candidates[2].id, 30);
+    EXPECT_EQ(result.candidates[3].id, 42);
+    EXPECT_EQ(result.merged_candidates_before_trim, result.candidates.size());
+}
+
 TEST(AnnFrontdoorSearch, NoBackendReturnsEmptyCandidateList) {
     AnnFrontdoor fd;  // no backend, no VIM
     auto result = fd.search(kQuery, kDim, 5);
@@ -313,6 +473,33 @@ TEST(AnnFrontdoorRouting, EstimatedRecallInRange) {
     auto result = fd.search(kQuery, kDim, 5);
     EXPECT_GE(result.estimated_recall, 0.0);
     EXPECT_LE(result.estimated_recall, 1.0);
+}
+
+TEST(AnnFrontdoorRouting, CorrelationAndPolicyMetadataPropagated) {
+    AnnFrontdoor fd;
+    fd.registerBackend("", makeStub(3));
+
+    AnnQueryContext ctx;
+    ctx.correlation_id = "corr-ann-01";
+    ctx.confidence_policy_version = "policy-v1";
+    ctx.confidence_threshold_key = "ann.strict";
+
+    auto result = fd.search(kQuery, kDim, 3, ctx);
+    EXPECT_EQ(result.correlation_id, "corr-ann-01");
+    EXPECT_EQ(result.confidence_policy_version, "policy-v1");
+    EXPECT_EQ(result.confidence_threshold_key, "ann.strict");
+    EXPECT_FALSE(result.routing_reason_code.empty());
+}
+
+TEST(AnnFrontdoorRouting, MissingBackendSetsDegradedFallbackReason) {
+    AnnFrontdoor fd;
+    AnnQueryContext ctx;
+    ctx.scope_id = "missing-scope";
+
+    auto result = fd.search(kQuery, kDim, 3, ctx);
+    EXPECT_EQ(result.strategy_used, AnnStrategy::FLAT_BRUTE_FORCE);
+    EXPECT_EQ(result.fallback_mode, "degraded_continue");
+    EXPECT_EQ(result.fallback_reason_code, std::string(themis::observability::reason_codes::ann::kFallbackBackendUnavailable));
 }
 
 // ============================================================================
@@ -371,4 +558,44 @@ TEST(AnnFrontdoorGuards, RegisterNullTieredManagerIsAllowed) {
     AnnFrontdoor fd;
     // nullptr is explicitly allowed for TieredIndexManager
     EXPECT_NO_THROW(fd.registerTieredIndexManager(nullptr));
+}
+
+// ============================================================================
+// Structured JSON log emission
+// ============================================================================
+
+TEST(AnnFrontdoorLogging, StructuredLayerHandoffJsonLogEmitted) {
+    const auto now_ticks = std::chrono::steady_clock::now().time_since_epoch().count();
+    const auto log_path = std::filesystem::temp_directory_path() /
+                          ("themis_ann_log_" + std::to_string(now_ticks) + ".log");
+
+    themis::utils::Logger::shutdown();
+    themis::utils::Logger::init(log_path.string(), themis::utils::Logger::Level::INFO);
+    themis::utils::Logger::setPattern("%v");
+
+    AnnFrontdoor fd;
+    fd.registerBackend("", makeStub(5));
+
+    AnnQueryContext ctx;
+    ctx.correlation_id = "corr-ann-log";
+    fd.search(kQuery, kDim, 3, ctx);
+
+    const auto logger = themis::utils::Logger::get();
+    ASSERT_NE(logger, nullptr);
+    logger->flush();
+    themis::utils::Logger::shutdown();
+
+    std::ifstream in(log_path, std::ios::binary);
+    ASSERT_TRUE(in.is_open());
+    const std::string content((std::istreambuf_iterator<char>(in)),
+                               std::istreambuf_iterator<char>());
+
+    EXPECT_NE(content.find("\"event\":\"layer_handoff_decision\""), std::string::npos);
+    EXPECT_NE(content.find("\"layer_name\":\"ann\""), std::string::npos);
+    EXPECT_NE(content.find("\"correlation_id\":\"corr-ann-log\""), std::string::npos);
+    EXPECT_NE(content.find("\"routing_reason_code\":"), std::string::npos);
+    EXPECT_NE(content.find("\"resolved\":"), std::string::npos);
+
+    std::error_code ec;
+    std::filesystem::remove(log_path, ec);
 }

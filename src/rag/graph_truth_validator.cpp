@@ -1,4 +1,7 @@
 #include "rag/graph_truth_validator.h"
+#include "observability/layer_decision_log.h"
+#include "observability/reason_codes.h"
+#include "observability/telemetry_keys.h"
 
 #include <algorithm>
 #include <unordered_map>
@@ -18,22 +21,68 @@ void GraphTruthValidator::setKnowledgeGraphRetriever(
 GraphTruthValidationResult GraphTruthValidator::validate(
     const std::string& query,
     const tensor::TensorLayerSummary& tensor_summary,
-    const GraphTruthValidatorConfig& config) const {
+    const GraphTruthValidatorConfig& config,
+    const std::string& correlation_id) const {
     auto candidates = makeCandidateDocuments(tensor_summary, config.max_evidence_candidates);
 
     if (config.use_ontology_validation && ontology_retriever_) {
         auto ontology_result = ontology_retriever_->retrieve(query, candidates);
-        return buildFromOntologyResult(tensor_summary, ontology_result, config);
+        auto result = buildFromOntologyResult(tensor_summary, ontology_result, config);
+        result.correlation_id = correlation_id;
+        result.routing_reason_code = std::string(observability::reason_codes::graph_truth::kOntologyValidation);
+        result.fallback_mode = std::string(observability::reason_codes::fallback_mode::kNone);
+        result.escalation_source_layer = std::string(observability::telemetry::layers::kGraph);
+        observability::emitLayerDecisionLog(
+            observability::telemetry::layers::kGraph,
+            result.correlation_id,
+            result.routing_reason_code,
+            std::string(observability::reason_codes::kPolicyVersionDefault),
+            std::string(observability::reason_codes::tensor_rag::kThresholdKeyNone),
+            result.fallback_mode,
+            result.fallback_reason_code,
+            result.escalation_source_layer,
+            !result.evidences.empty());
+        return result;
     }
 
     if (kg_retriever_) {
         auto kg_result = kg_retriever_->retrieve(query, candidates);
-        return buildFromKgResult(tensor_summary, kg_result, config);
+        auto result = buildFromKgResult(tensor_summary, kg_result, config);
+        result.correlation_id = correlation_id;
+        result.routing_reason_code = std::string(observability::reason_codes::graph_truth::kKgValidation);
+        result.fallback_mode = std::string(observability::reason_codes::fallback_mode::kNone);
+        result.escalation_source_layer = std::string(observability::telemetry::layers::kGraph);
+        observability::emitLayerDecisionLog(
+            observability::telemetry::layers::kGraph,
+            result.correlation_id,
+            result.routing_reason_code,
+            std::string(observability::reason_codes::kPolicyVersionDefault),
+            std::string(observability::reason_codes::tensor_rag::kThresholdKeyNone),
+            result.fallback_mode,
+            result.fallback_reason_code,
+            result.escalation_source_layer,
+            !result.evidences.empty());
+        return result;
     }
 
     GraphTruthValidationResult result;
     result.routing_reason = "graph truth validator has no retriever configured";
+    result.routing_reason_code = std::string(observability::reason_codes::graph_truth::kNoRetriever);
+    result.correlation_id = correlation_id;
+    result.fallback_mode = std::string(observability::reason_codes::fallback_mode::kDegradedContinue);
+    result.fallback_reason_code = std::string(observability::reason_codes::graph_truth::kFallbackRetrieverNotConfigured);
+    result.escalation_source_layer = std::string(observability::telemetry::layers::kGraph);
     result.used_ontology_validation = false;
+    observability::emitLayerDecisionLog(
+        observability::telemetry::layers::kGraph,
+        result.correlation_id,
+        result.routing_reason_code,
+        std::string(observability::reason_codes::kPolicyVersionDefault),
+        std::string(observability::reason_codes::tensor_rag::kThresholdKeyNone),
+        result.fallback_mode,
+        result.fallback_reason_code,
+        result.escalation_source_layer,
+        false);
     return result;
 }
 
@@ -83,7 +132,7 @@ GraphTruthValidationResult GraphTruthValidator::buildFromOntologyResult(
             }
         }
 
-        auto reasoning_it = doc.document.metadata.find("reasoning_chain");
+        auto reasoning_it = doc.document.metadata.find(std::string(observability::telemetry::metadata_keys::kReasoningChain));
         if (reasoning_it != doc.document.metadata.end()) {
             evidence.reasoning_chain = reasoning_it->second;
         }
@@ -121,7 +170,7 @@ GraphTruthValidationResult GraphTruthValidator::buildFromKgResult(
             }
         }
 
-        auto reasoning_it = doc.document.metadata.find("reasoning_chain");
+        auto reasoning_it = doc.document.metadata.find(std::string(observability::telemetry::metadata_keys::kReasoningChain));
         if (reasoning_it != doc.document.metadata.end()) {
             evidence.reasoning_chain = reasoning_it->second;
         }

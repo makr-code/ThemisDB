@@ -10,6 +10,10 @@
  */
 
 #include "rag/tensor_rag_pipeline.h"
+#include "observability/layer_decision_log.h"
+#include "observability/reason_codes.h"
+#include "observability/retrieval_provenance.h"
+#include "observability/telemetry_keys.h"
 #include <stdexcept>
 
 #include <cstdio>
@@ -71,6 +75,11 @@ RAGDecision TensorRAGPipeline::step(const std::string&        token_text,
     ++stats_.total_token_steps;
 
     RAGDecision decision;
+    decision.correlation_id = cfg_.session_id.empty()
+        ? std::string(observability::telemetry::defaults::kTensorRagNoSessionCorrelation)
+        : cfg_.session_id;
+    decision.confidence_policy_version = std::string(observability::reason_codes::kPolicyVersionDefault);
+    decision.confidence_threshold_key = std::string(observability::reason_codes::tensor_rag::kThresholdKeyNone);
     bool        targ_fired  = false;
     bool        flare_fired = false;
 
@@ -112,6 +121,8 @@ RAGDecision TensorRAGPipeline::step(const std::string&        token_text,
                             "(fail-closed).\n",
                             decision.flare_query.size());
                         decision.flare_query_embedding.clear();
+                        decision.fallback_mode = RAGDecision::FallbackMode::FAIL_CLOSED;
+                        decision.fallback_reason_code = std::string(observability::reason_codes::tensor_rag::kFallbackEmbeddingFnThrow);
                     }
                 }
             }
@@ -124,16 +135,25 @@ RAGDecision TensorRAGPipeline::step(const std::string&        token_text,
 
     if (targ_fired && flare_fired) {
         decision.trigger = RAGDecision::Trigger::BOTH;
+        decision.routing_reason_code = std::string(observability::reason_codes::tensor_rag::kTriggerBoth);
+        decision.confidence_threshold_key = std::string(observability::reason_codes::tensor_rag::kThresholdKeyBoth);
         ++stats_.combined_triggers;
     } else if (flare_fired) {
         decision.trigger = RAGDecision::Trigger::FLARE_ONLY;
+        decision.routing_reason_code = std::string(observability::reason_codes::tensor_rag::kTriggerFlare);
+        decision.confidence_threshold_key = std::string(observability::reason_codes::tensor_rag::kThresholdKeyFlare);
     } else if (targ_fired) {
         decision.trigger = RAGDecision::Trigger::TARG_ONLY;
+        decision.routing_reason_code = std::string(observability::reason_codes::tensor_rag::kTriggerTarg);
+        decision.confidence_threshold_key = std::string(observability::reason_codes::tensor_rag::kThresholdKeyTarg);
     } else {
         decision.trigger = RAGDecision::Trigger::NONE;
+        decision.routing_reason_code = std::string(observability::reason_codes::tensor_rag::kNoRetrieval);
+        decision.confidence_threshold_key = std::string(observability::reason_codes::tensor_rag::kThresholdKeyNone);
     }
 
     if (decision.should_retrieve && tensor_mid_layer_) {
+        decision.escalation_source_layer = std::string(observability::telemetry::layers::kTensor);
         tensor::TensorLayerContext tensor_context;
         tensor_context.tenant_id = cfg_.session_id;
         tensor_context.scope_id = cfg_.session_id.empty() ? "__tensor_rag_pipeline__" : cfg_.session_id;
@@ -147,9 +167,14 @@ RAGDecision TensorRAGPipeline::step(const std::string&        token_text,
         if (graph_truth_validator_) {
             const auto graph_validation = graph_truth_validator_->validate(
                 decision.flare_query.empty() ? token_text : decision.flare_query,
-                summary);
+                summary,
+                {},
+                decision.correlation_id);
             decision.graph_truth_evidences = graph_validation.evidences;
             decision.graph_truth_reason = graph_validation.routing_reason;
+            decision.graph_truth_routing_reason_code = graph_validation.routing_reason_code;
+            decision.graph_truth_correlation_id = graph_validation.correlation_id;
+            decision.escalation_source_layer = std::string(observability::telemetry::layers::kGraph);
         }
 
         if (final_layer_orchestrator_) {
@@ -159,10 +184,74 @@ RAGDecision TensorRAGPipeline::step(const std::string&        token_text,
             request.requested_package_id = cfg_.final_layer_package_id;
             request.base_model_name = cfg_.final_layer_base_model;
             request.base_model_version = cfg_.final_layer_base_model_version;
+            request.correlation_id = decision.correlation_id;
+            request.confidence_policy_version = decision.confidence_policy_version;
+            request.confidence_threshold_key = decision.confidence_threshold_key;
+            request.upstream_routing_reason_code = decision.routing_reason_code;
+            request.escalation_source_layer = decision.escalation_source_layer;
             request.allow_draft_adapter = true;
             decision.final_layer_resolution = final_layer_orchestrator_->resolve(request);
+            decision.escalation_source_layer = std::string(observability::telemetry::layers::kFinalLayer);
+            if (!decision.final_layer_resolution.routing_reason_code.empty()) {
+                decision.routing_reason_code = decision.final_layer_resolution.routing_reason_code;
+            }
+            if (decision.fallback_mode == RAGDecision::FallbackMode::NONE) {
+                if (decision.final_layer_resolution.fallback_mode == "fail_closed") {
+                    decision.fallback_mode = RAGDecision::FallbackMode::FAIL_CLOSED;
+                    decision.fallback_reason_code = decision.final_layer_resolution.fallback_reason_code;
+                } else if (decision.final_layer_resolution.fallback_mode == "degraded_continue") {
+                    decision.fallback_mode = RAGDecision::FallbackMode::DEGRADED_CONTINUE;
+                    decision.fallback_reason_code = decision.final_layer_resolution.fallback_reason_code;
+                }
+            }
+        }
+
+        if (decision.tensor_summary_candidates.empty() &&
+            decision.fallback_mode == RAGDecision::FallbackMode::NONE) {
+            decision.fallback_mode = RAGDecision::FallbackMode::DEGRADED_CONTINUE;
+            decision.fallback_reason_code = std::string(observability::reason_codes::tensor_rag::kFallbackTensorSummaryEmpty);
         }
     }
+
+    const auto fallback_mode_sv =
+        decision.fallback_mode == RAGDecision::FallbackMode::FAIL_CLOSED
+            ? observability::reason_codes::fallback_mode::kFailClosed
+            : (decision.fallback_mode == RAGDecision::FallbackMode::DEGRADED_CONTINUE
+                ? observability::reason_codes::fallback_mode::kDegradedContinue
+                : observability::reason_codes::fallback_mode::kNone);
+
+    observability::emitLayerDecisionLog(
+        observability::telemetry::layers::kTensor,
+        decision.correlation_id,
+        decision.routing_reason_code,
+        decision.confidence_policy_version,
+        decision.confidence_threshold_key,
+        fallback_mode_sv,
+        decision.fallback_reason_code,
+        decision.escalation_source_layer,
+        decision.should_retrieve);
+
+    // ── Build and emit unified provenance record ───────────────────────────
+    observability::RetrievalProvenanceRecord prov;
+    prov.correlation_id             = decision.correlation_id;
+    prov.confidence_policy_version  = decision.confidence_policy_version;
+    prov.trigger_reason_code        = decision.routing_reason_code;
+    prov.flare_fired                = decision.flare_triggered;
+    prov.targ_fired                 = decision.targ_triggered;
+    prov.tensor_candidate_count     = decision.tensor_summary_candidates.size();
+    prov.tensor_routing_reason      = decision.tensor_routing_reason;
+    prov.graph_evidence_count       = decision.graph_truth_evidences.size();
+    prov.graph_routing_reason_code  = decision.graph_truth_routing_reason_code;
+    prov.final_resolved             = decision.final_layer_resolution.resolved;
+    prov.final_package_id           = decision.final_layer_resolution.package_id;
+    prov.final_adapter_id           = decision.final_layer_resolution.primary_adapter_id;
+    prov.final_routing_reason_code  = decision.final_layer_resolution.routing_reason_code;
+    prov.fallback_mode              = std::string(fallback_mode_sv);
+    prov.fallback_reason_code       = decision.fallback_reason_code;
+    prov.chain_complete             = decision.should_retrieve
+                                      && (prov.fallback_mode != std::string(observability::reason_codes::fallback_mode::kFailClosed));
+    decision.provenance = prov;
+    observability::emitProvenanceLog(prov);
 
     return decision;
 }

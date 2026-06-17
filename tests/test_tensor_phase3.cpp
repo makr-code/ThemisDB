@@ -131,15 +131,23 @@
 #include "rag/targ_retrieval.h"
 #include "rag/flare_retrieval.h"
 #include "rag/tensor_rag_pipeline.h"
+#include "llm/final_layer_orchestrator.h"
 #include "storage/tensor_compaction_filter.h"
 #include "storage/tensor_train_decomposer.h"
 #include "storage/ggml_tensor_bridge.h"
 #include "tensor/tensor_butterfly_operator.h"
 #include "tensor/adapter_repository.h"
 #include "tensor/tensor_fingerprint_graph.h"
+#include "tensor/tensor_mid_layer.h"
+#include "index/ann_frontdoor.h"
+#include "observability/reason_codes.h"
+#include "utils/logger.h"
 
 #include <gtest/gtest.h>
+#include <chrono>
 #include <cmath>
+#include <filesystem>
+#include <fstream>
 #include <memory>
 #include <numeric>
 #include <stdexcept>
@@ -169,6 +177,14 @@ static std::vector<float> iota(std::size_t n) {
     std::vector<float> v(n);
     std::iota(v.begin(), v.end(), 0.0f);
     return v;
+}
+
+static std::string readFileContent(const std::filesystem::path& path) {
+    std::ifstream in(path, std::ios::binary);
+    if (!in) {
+        return {};
+    }
+    return std::string((std::istreambuf_iterator<char>(in)), std::istreambuf_iterator<char>());
 }
 
 /// Dense reference for project (sum over axis).
@@ -1629,6 +1645,19 @@ namespace {
 static std::vector<float> confidentLogits2() { return {10.0f, 4.0f, 3.0f, 2.0f}; }
 static std::vector<float> uncertainLogits2() { return {1.0f,  0.9f, 0.8f, 0.7f}; }
 
+static themis::llm::AdapterMetadata makeFinalLayerAdapter(std::string adapter_id,
+                                                          std::string base_model,
+                                                          std::string architecture,
+                                                          themis::llm::AdapterRole role = themis::llm::AdapterRole::GENERAL) {
+    themis::llm::AdapterMetadata meta;
+    meta.adapter_id = std::move(adapter_id);
+    meta.base_model_name = std::move(base_model);
+    meta.architecture = std::move(architecture);
+    meta.role = role;
+    meta.status = themis::llm::AdapterMetadata::Status::DEPLOYED;
+    return meta;
+}
+
 TEST(TensorRAGPipeline, TRPL09_flare_query_embedding_empty_when_no_fn) {
     TensorRAGPipeline::setEmbeddingQueryFn(nullptr);
 
@@ -1681,6 +1710,285 @@ TEST(TensorRAGPipeline, TRPL11_flare_query_embedding_empty_when_flare_not_trigge
     EXPECT_TRUE(d.flare_query_embedding.empty());
 
     TensorRAGPipeline::setEmbeddingQueryFn(nullptr);
+}
+
+TEST(TensorRAGPipeline, TRPL14_final_layer_resolution_attached_when_orchestrator_set) {
+    auto backend = std::make_shared<InMemoryTensorBackend>();
+    auto repo = std::make_shared<AdapterRepository>(backend, "session-final");
+    auto graph = std::make_shared<TensorFingerprintGraph>();
+    auto frontdoor = std::make_shared<themis::index::AnnFrontdoor>();
+
+    repo->setFingerprintGraph(graph);
+    repo->setAnnFrontdoor(frontdoor);
+    ASSERT_TRUE(repo->store("legal", "mA", make1DTrain({1.0f, 0.0f, 0.0f, 0.0f})));
+
+    auto mid = std::make_shared<TensorMidLayer>();
+    mid->setAdapterRepository(repo);
+    mid->setFingerprintGraph(graph);
+    mid->setAnnFrontdoor(frontdoor);
+
+    auto registry = std::make_shared<themis::llm::AdapterRegistry>(nullptr);
+    ASSERT_TRUE(registry->registerAdapter(makeFinalLayerAdapter("legal-general", "llama-7b", "llama")));
+
+    auto orchestrator = std::make_shared<themis::llm::FinalLayerOrchestrator>();
+    orchestrator->setAdapterRegistry(registry);
+
+    themis::llm::FinalLayerPackage package;
+    package.package_id = "session-final";
+    package.target_model_id = "llama-7b";
+    package.model_family = "llama";
+    package.base_model_version = "3.1";
+    package.primary_adapter_id = "legal-general";
+    package.domain = "legal";
+    ASSERT_TRUE(orchestrator->registerPackage(package));
+
+    TensorRAGPipelineConfig cfg;
+    cfg.session_id = "session-final";
+    cfg.final_layer_package_id = "session-final";
+    cfg.final_layer_base_model = "llama-7b";
+    cfg.final_layer_base_model_version = "3.1";
+    cfg.use_flare = true;
+    cfg.use_targ = false;
+    cfg.flare_config.confidence_threshold = -2.303f;
+    cfg.flare_config.min_consecutive_uncertain = 1;
+
+    TensorRAGPipeline pipeline(cfg);
+    pipeline.setTensorMidLayer(mid);
+    pipeline.setFinalLayerOrchestrator(orchestrator);
+
+    auto decision = pipeline.step("legal", -5.0f, uncertainLogits2());
+    EXPECT_TRUE(decision.should_retrieve);
+    EXPECT_TRUE(decision.final_layer_resolution.resolved);
+    EXPECT_EQ(decision.final_layer_resolution.package_id, "session-final");
+    EXPECT_EQ(decision.final_layer_resolution.primary_adapter_id, "legal-general");
+}
+
+TEST(TensorRAGPipeline, TRPL15_policy_metadata_present_for_flare_trigger) {
+    TensorRAGPipeline::setEmbeddingQueryFn(nullptr);
+
+    TensorRAGPipelineConfig cfg;
+    cfg.session_id = "corr-15";
+    cfg.use_flare = true;
+    cfg.use_targ = false;
+    cfg.flare_config.confidence_threshold = -2.303f;
+    cfg.flare_config.min_consecutive_uncertain = 1;
+
+    TensorRAGPipeline pipeline(cfg);
+    auto d = pipeline.step("tok", -5.0f, uncertainLogits2());
+
+    EXPECT_TRUE(d.should_retrieve);
+    EXPECT_EQ(d.correlation_id, "corr-15");
+    EXPECT_EQ(d.routing_reason_code, std::string(themis::observability::reason_codes::tensor_rag::kTriggerFlare));
+    EXPECT_EQ(d.confidence_policy_version, std::string(themis::observability::reason_codes::kPolicyVersionDefault));
+    EXPECT_EQ(d.confidence_threshold_key, std::string(themis::observability::reason_codes::tensor_rag::kThresholdKeyFlare));
+}
+
+TEST(TensorRAGPipeline, TRPL16_fail_closed_when_embedding_backend_throws) {
+    TensorRAGPipeline::setEmbeddingQueryFn([](const std::string&) -> std::vector<float> {
+        throw std::runtime_error("embedding backend failure");
+    });
+
+    TensorRAGPipelineConfig cfg;
+    cfg.use_flare = true;
+    cfg.use_targ = false;
+    cfg.flare_config.confidence_threshold = -2.303f;
+    cfg.flare_config.min_consecutive_uncertain = 1;
+
+    TensorRAGPipeline pipeline(cfg);
+    auto d = pipeline.step("tok", -5.0f, uncertainLogits2());
+
+    EXPECT_TRUE(d.should_retrieve);
+    EXPECT_EQ(d.fallback_mode, RAGDecision::FallbackMode::FAIL_CLOSED);
+    EXPECT_EQ(d.fallback_reason_code, std::string(themis::observability::reason_codes::tensor_rag::kFallbackEmbeddingFnThrow));
+    EXPECT_TRUE(d.flare_query_embedding.empty());
+
+    TensorRAGPipeline::setEmbeddingQueryFn(nullptr);
+}
+
+TEST(TensorRAGPipeline, TRPL17_correlation_and_reason_codes_propagate_to_graph_and_final_layer) {
+    auto backend = std::make_shared<InMemoryTensorBackend>();
+    auto repo = std::make_shared<AdapterRepository>(backend, "session-17");
+    auto graph = std::make_shared<TensorFingerprintGraph>();
+    auto frontdoor = std::make_shared<themis::index::AnnFrontdoor>();
+
+    repo->setFingerprintGraph(graph);
+    repo->setAnnFrontdoor(frontdoor);
+    ASSERT_TRUE(repo->store("legal", "mA", make1DTrain({1.0f, 0.0f, 0.0f, 0.0f})));
+
+    auto mid = std::make_shared<TensorMidLayer>();
+    mid->setAdapterRepository(repo);
+    mid->setFingerprintGraph(graph);
+    mid->setAnnFrontdoor(frontdoor);
+
+    auto graph_truth = std::make_shared<GraphTruthValidator>();
+
+    auto registry = std::make_shared<themis::llm::AdapterRegistry>(nullptr);
+    ASSERT_TRUE(registry->registerAdapter(makeFinalLayerAdapter("legal-general", "llama-7b", "llama")));
+
+    auto orchestrator = std::make_shared<themis::llm::FinalLayerOrchestrator>();
+    orchestrator->setAdapterRegistry(registry);
+
+    themis::llm::FinalLayerPackage package;
+    package.package_id = "session-17";
+    package.target_model_id = "llama-7b";
+    package.model_family = "llama";
+    package.base_model_version = "3.1";
+    package.primary_adapter_id = "legal-general";
+    package.domain = "legal";
+    ASSERT_TRUE(orchestrator->registerPackage(package));
+
+    TensorRAGPipelineConfig cfg;
+    cfg.session_id = "corr-17";
+    cfg.final_layer_package_id = "session-17";
+    cfg.final_layer_base_model = "llama-7b";
+    cfg.final_layer_base_model_version = "3.1";
+    cfg.use_flare = true;
+    cfg.use_targ = false;
+    cfg.flare_config.confidence_threshold = -2.303f;
+    cfg.flare_config.min_consecutive_uncertain = 1;
+
+    TensorRAGPipeline pipeline(cfg);
+    pipeline.setTensorMidLayer(mid);
+    pipeline.setGraphTruthValidator(graph_truth);
+    pipeline.setFinalLayerOrchestrator(orchestrator);
+
+    auto decision = pipeline.step("legal", -5.0f, uncertainLogits2());
+
+    EXPECT_TRUE(decision.should_retrieve);
+    EXPECT_EQ(decision.correlation_id, "corr-17");
+    EXPECT_EQ(decision.graph_truth_correlation_id, "corr-17");
+    EXPECT_EQ(decision.graph_truth_routing_reason_code, std::string(themis::observability::reason_codes::graph_truth::kNoRetriever));
+
+    EXPECT_TRUE(decision.final_layer_resolution.resolved);
+    EXPECT_EQ(decision.final_layer_resolution.correlation_id, "corr-17");
+    EXPECT_EQ(decision.final_layer_resolution.routing_reason_code, std::string(themis::observability::reason_codes::final_layer::kSelectedDirect));
+    EXPECT_EQ(decision.routing_reason_code, std::string(themis::observability::reason_codes::final_layer::kSelectedDirect));
+}
+
+TEST(TensorRAGPipeline, TRPL18_structured_layer_handoff_json_log_emitted) {
+    const auto now_ticks = std::chrono::steady_clock::now().time_since_epoch().count();
+    const auto log_path = std::filesystem::temp_directory_path() /
+                          ("themis_trpl18_" + std::to_string(now_ticks) + ".log");
+
+    themis::utils::Logger::shutdown();
+    themis::utils::Logger::init(log_path.string(), themis::utils::Logger::Level::INFO);
+    themis::utils::Logger::setPattern("%v");
+
+    TensorRAGPipelineConfig cfg;
+    cfg.session_id = "corr-18";
+    cfg.use_flare = true;
+    cfg.use_targ = false;
+    cfg.flare_config.confidence_threshold = -2.303f;
+    cfg.flare_config.min_consecutive_uncertain = 1;
+
+    TensorRAGPipeline pipeline(cfg);
+    const auto decision = pipeline.step("tok", -5.0f, uncertainLogits2());
+    ASSERT_TRUE(decision.should_retrieve);
+
+    const auto logger = themis::utils::Logger::get();
+    ASSERT_NE(logger, nullptr);
+    logger->flush();
+    themis::utils::Logger::shutdown();
+
+    const std::string content = readFileContent(log_path);
+    EXPECT_NE(content.find("\"event\":\"layer_handoff_decision\""), std::string::npos);
+    EXPECT_NE(content.find("\"layer_name\":\"tensor\""), std::string::npos);
+    EXPECT_NE(content.find("\"correlation_id\":\"corr-18\""), std::string::npos);
+    EXPECT_NE(content.find("\"routing_reason_code\":"), std::string::npos);
+    EXPECT_NE(content.find("\"resolved\":true"), std::string::npos);
+
+    std::error_code ec;
+    std::filesystem::remove(log_path, ec);
+
+    // Restore logger to a working state so subsequent tests are not affected.
+    themis::utils::Logger::init();
+}
+
+TEST(TensorRAGPipeline, TRPL19_provenance_record_populated_after_step) {
+    // Ensure logger is initialised before the test body triggers structured
+    // log emission (guards against Logger::shutdown() called in TRPL18).
+    themis::utils::Logger::get();
+    auto backend = std::make_shared<InMemoryTensorBackend>();
+    auto repo = std::make_shared<AdapterRepository>(backend, "session-19");
+    auto graph = std::make_shared<TensorFingerprintGraph>();
+    auto frontdoor = std::make_shared<themis::index::AnnFrontdoor>();
+
+    repo->setFingerprintGraph(graph);
+    repo->setAnnFrontdoor(frontdoor);
+    ASSERT_TRUE(repo->store("legal", "mA", make1DTrain({1.0f, 0.0f, 0.0f, 0.0f})));
+
+    auto mid = std::make_shared<TensorMidLayer>();
+    mid->setAdapterRepository(repo);
+    mid->setFingerprintGraph(graph);
+    mid->setAnnFrontdoor(frontdoor);
+
+    auto graph_truth = std::make_shared<GraphTruthValidator>();
+
+    auto registry = std::make_shared<themis::llm::AdapterRegistry>(nullptr);
+    ASSERT_TRUE(registry->registerAdapter(makeFinalLayerAdapter("legal-general", "llama-7b", "llama")));
+
+    auto orchestrator = std::make_shared<themis::llm::FinalLayerOrchestrator>();
+    orchestrator->setAdapterRegistry(registry);
+
+    themis::llm::FinalLayerPackage package;
+    package.package_id = "session-19";
+    package.target_model_id = "llama-7b";
+    package.model_family = "llama";
+    package.base_model_version = "3.1";
+    package.primary_adapter_id = "legal-general";
+    package.domain = "legal";
+    ASSERT_TRUE(orchestrator->registerPackage(package));
+
+    TensorRAGPipelineConfig cfg;
+    cfg.session_id = "corr-19";
+    cfg.final_layer_package_id = "session-19";
+    cfg.final_layer_base_model = "llama-7b";
+    cfg.final_layer_base_model_version = "3.1";
+    cfg.use_flare = true;
+    cfg.use_targ = false;
+    cfg.flare_config.confidence_threshold = -2.303f;
+    cfg.flare_config.min_consecutive_uncertain = 1;
+
+    TensorRAGPipeline pipeline(cfg);
+    pipeline.setTensorMidLayer(mid);
+    pipeline.setGraphTruthValidator(graph_truth);
+    pipeline.setFinalLayerOrchestrator(orchestrator);
+
+    const auto decision = pipeline.step("legal", -5.0f, uncertainLogits2());
+    ASSERT_TRUE(decision.should_retrieve);
+
+    const auto& prov = decision.provenance;
+
+    // identity
+    EXPECT_EQ(prov.correlation_id, std::string{"corr-19"});
+    const std::string expected_policy{themis::observability::reason_codes::kPolicyVersionDefault};
+    EXPECT_EQ(prov.confidence_policy_version, expected_policy);
+
+    // trigger stage
+    EXPECT_TRUE(prov.flare_fired);
+    EXPECT_FALSE(prov.targ_fired);
+    EXPECT_TRUE(!prov.trigger_reason_code.empty());
+
+    // graph stage (no retriever configured -> kNoRetriever reason code)
+    const std::string expected_graph{themis::observability::reason_codes::graph_truth::kNoRetriever};
+    EXPECT_EQ(prov.graph_routing_reason_code, expected_graph);
+
+    // final-layer stage
+    EXPECT_TRUE(prov.final_resolved);
+    EXPECT_EQ(prov.final_package_id, std::string{"session-19"});
+    EXPECT_EQ(prov.final_adapter_id, std::string{"legal-general"});
+    const std::string expected_final{themis::observability::reason_codes::final_layer::kSelectedDirect};
+    EXPECT_EQ(prov.final_routing_reason_code, expected_final);
+
+    // chain summary
+    // AnnFrontdoor brute-force path on an in-memory store returns no candidates,
+    // so the pipeline marks fallback as degraded_continue (not fail_closed).
+    // chain_complete stays true because the final layer still resolved.
+    const std::string expected_fallback_mode{themis::observability::reason_codes::fallback_mode::kDegradedContinue};
+    const std::string expected_fallback_code{themis::observability::reason_codes::tensor_rag::kFallbackTensorSummaryEmpty};
+    EXPECT_EQ(prov.fallback_mode, expected_fallback_mode);
+    EXPECT_EQ(prov.fallback_reason_code, expected_fallback_code);
+    EXPECT_TRUE(prov.chain_complete);
 }
 
 } // namespace

@@ -125,6 +125,15 @@ struct AnnQueryContext {
     ///   - Adapter retrieval: adapter_id = "lora-codegen-v3"
     ///   - Package retrieval: "pkg:themis-ner-2026q2"
     std::string scope_id;
+
+    /// Stable request correlation id propagated across retrieval layers.
+    std::string correlation_id;
+
+    /// Optional confidence policy version propagated from caller.
+    std::string confidence_policy_version;
+
+    /// Optional confidence threshold key propagated from caller.
+    std::string confidence_threshold_key;
 };
 
 /**
@@ -180,8 +189,44 @@ struct AnnFrontdoorResult {
     /// Example: "HNSW selected: dataset_size=120000 < hnsw_max=1000000, hot_tier=true"
     std::string routing_reason;
 
+    /// Machine-readable code for the selected routing branch.
+    std::string routing_reason_code;
+
+    /// Stable request correlation id propagated from AnnQueryContext.
+    std::string correlation_id;
+
+    /// Effective confidence policy version for this ANN decision.
+    std::string confidence_policy_version;
+
+    /// Effective confidence threshold key for this ANN decision.
+    std::string confidence_threshold_key;
+
+    /// Selected fallback mode for this ANN decision.
+    std::string fallback_mode = "none";
+
+    /// Machine-readable reason code when fallback was applied.
+    std::string fallback_reason_code;
+
     /// True when results were merged from multiple shard backends.
     bool is_distributed = false;
+
+    /// Number of shard/global backends selected for distributed execution.
+    std::size_t shards_attempted = 0;
+
+    /// Number of backends that returned at least one successful response.
+    std::size_t shards_succeeded = 0;
+
+    /// Number of backends that failed after all retry attempts.
+    std::size_t shards_failed = 0;
+
+    /// Candidate count immediately after merge, before top-k truncation.
+    std::size_t merged_candidates_before_trim = 0;
+
+    /// True when at least one backend failed but partial results were returned.
+    bool partial_results = false;
+
+    /// Machine-readable merge policy used for distributed execution.
+    std::string distributed_merge_policy;
 };
 
 // ============================================================================
@@ -249,6 +294,21 @@ public:
         /// Whether the DiskANN backend was compiled in (THEMIS_ENABLE_DISKANN).
         /// Set to true only if a DiskANN IAnnIndex is actually registered.
         bool diskann_available = false;
+
+        /// Max number of shard backends queried in DISTRIBUTED mode.
+        /// Value 0 means no explicit limit (all registered shard backends).
+        std::size_t distributed_max_fanout = 0;
+
+        /// Number of retry attempts after the initial shard call.
+        /// Example: 0 => single try, 1 => one retry.
+        int distributed_retry_attempts = 1;
+
+        /// If true, return partial shard results when one or more shards fail.
+        /// If false, all-shard failure drives fail-closed semantics.
+        bool distributed_allow_partial_results = true;
+
+        /// If true, include the global backend in distributed fan-out.
+        bool distributed_include_global_backend = true;
     };
 
     // -----------------------------------------------------------------------
