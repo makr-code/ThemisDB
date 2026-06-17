@@ -548,3 +548,32 @@ ai_working/*.py  # Temporary/auto-generated scripts
 !ai_working/SYSTEM_OVERVIEW.md
 !ai_working/README.md
 !ai_working/CLEANUP_*.md*
+
+# --- Root-Cleanup-Patterns (hinzugefuegt 2026-06-17) ---
+# Build-Logs im Root
+/build_*.log
+/build_*.txt
+/monolith_themis_tests_build.log
+/quic_http3_config.log
+/reconfigure_after_logger_fix.log
+/rc14_run.log
+
+# CTest-Rohdaten im Root
+/ctest_*.log
+/ctest_*.log.tmp*
+/.tmp_ctest_list.txt
+/targets_help.txt
+
+# Debug-Snippets im Root
+/witness_quorum*.txt
+/witness_test_output.txt
+/epoch_fencing_numbered_head.txt
+/remaining_warning_hotspots.txt
+
+# Scan-JSONs im Root (gehoeren nach ai_working/scans/)
+/scan_*.json
+
+# Laufzeit-Daten im Root
+/ingestion_tracker.db
+/ingestion.log
+/themisdb.log

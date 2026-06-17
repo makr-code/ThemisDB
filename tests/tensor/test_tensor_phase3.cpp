@@ -130,13 +130,17 @@
 #include "query/tensor_aware_query_optimizer.h"
 #include "rag/targ_retrieval.h"
 #include "rag/flare_retrieval.h"
+#include "rag/graph_truth_validator.h"
 #include "rag/tensor_rag_pipeline.h"
+#include "llm/final_layer_orchestrator.h"
 #include "storage/tensor_compaction_filter.h"
 #include "storage/tensor_train_decomposer.h"
 #include "storage/ggml_tensor_bridge.h"
 #include "tensor/tensor_butterfly_operator.h"
 #include "tensor/adapter_repository.h"
 #include "tensor/tensor_fingerprint_graph.h"
+#include "tensor/tensor_mid_layer.h"
+#include "index/ann_frontdoor.h"
 
 #include <gtest/gtest.h>
 #include <cmath>
@@ -2012,6 +2016,83 @@ TEST(AdapterRepositoryPhase3, AR17_store_overwrite_keeps_total_adapter_count_sta
     EXPECT_EQ(s.total_adapters, 1u);
 }
 
+TEST(AdapterRepositoryPhase3, AR18_ann_frontdoor_registers_package_scope_kind) {
+    auto backend = std::make_shared<InMemoryTensorBackend>();
+    AdapterRepository repo(backend, "tenant-scope");
+
+    auto frontdoor = std::make_shared<themis::index::AnnFrontdoor>();
+    repo.setAnnFrontdoor(frontdoor);
+
+    ASSERT_TRUE(repo.store("pkg:legal", "llama3", make1DTrain({1.0f, 2.0f, 3.0f, 4.0f})));
+
+    const std::string scope_key = "__adapters__:tenant-scope:pkg:legal:llama3";
+    EXPECT_EQ(frontdoor->getScopeKind(scope_key), themis::index::AnnScopeKind::Package);
+}
+
+TEST(AdapterRepositoryPhase3, AR19_tensor_mid_layer_summarizes_adapter_scope) {
+    auto backend = std::make_shared<InMemoryTensorBackend>();
+    auto repo = std::make_shared<AdapterRepository>(backend, "tenant-mid");
+    auto graph = std::make_shared<TensorFingerprintGraph>();
+    auto frontdoor = std::make_shared<themis::index::AnnFrontdoor>();
+
+    repo->setFingerprintGraph(graph);
+    repo->setAnnFrontdoor(frontdoor);
+
+    ASSERT_TRUE(repo->store("legal", "mA", make1DTrain({1.0f, 0.0f, 0.0f, 0.0f})));
+    ASSERT_TRUE(repo->store("legal", "mB", make1DTrain({0.9f, 0.1f, 0.0f, 0.0f})));
+
+    TensorMidLayer mid;
+    mid.setAdapterRepository(repo);
+    mid.setFingerprintGraph(graph);
+    mid.setAnnFrontdoor(frontdoor);
+
+    TensorLayerContext ctx;
+    ctx.tenant_id = "tenant-mid";
+    ctx.domain = "legal";
+    ctx.base_model_id = "mA";
+    ctx.top_k = 1;
+
+    const auto plan = mid.plan(ctx);
+    EXPECT_EQ(plan.layer_kind, TensorLayerKind::FingerprintSummary);
+    EXPECT_EQ(plan.ann_scope_kind, themis::index::AnnScopeKind::Adapter);
+    EXPECT_FALSE(plan.scope_key.empty());
+
+    const auto summary = mid.summarize(ctx);
+    EXPECT_EQ(summary.ann_scope_kind, themis::index::AnnScopeKind::Adapter);
+    EXPECT_FALSE(summary.routing_reason.empty());
+}
+
+TEST(AdapterRepositoryPhase3, AR20_tensor_mid_layer_merges_federated_shard_summaries) {
+    auto backend = std::make_shared<InMemoryTensorBackend>();
+    auto repo = std::make_shared<AdapterRepository>(backend, "tenant-fed");
+    auto graph = std::make_shared<TensorFingerprintGraph>();
+    auto frontdoor = std::make_shared<themis::index::AnnFrontdoor>();
+
+    repo->setFingerprintGraph(graph);
+    repo->setAnnFrontdoor(frontdoor);
+
+    ASSERT_TRUE(repo->store("shard:alpha", "mA", make1DTrain({1.0f, 0.0f, 0.0f, 0.0f})));
+    ASSERT_TRUE(repo->store("shard:beta", "mB", make1DTrain({0.9f, 0.1f, 0.0f, 0.0f})));
+
+    TensorMidLayer mid;
+    mid.setAdapterRepository(repo);
+    mid.setFingerprintGraph(graph);
+    mid.setAnnFrontdoor(frontdoor);
+
+    TensorLayerContext ctx;
+    ctx.tenant_id = "tenant-fed";
+    ctx.top_k = 2;
+    ctx.shard_aware = true;
+    ctx.shard_scope_ids = {
+        "__adapters__:tenant-fed:shard:alpha:mA",
+        "__adapters__:tenant-fed:shard:beta:mB"
+    };
+
+    const auto federated = mid.summarizeFederatedShards(ctx);
+    EXPECT_EQ(federated.shard_summaries.size(), 2u);
+    EXPECT_FALSE(federated.routing_reason.empty());
+}
+
 } // namespace
 
 // ============================================================================
@@ -2131,6 +2212,126 @@ TEST(TensorButterflyOperatorPhase3, TBO12_clear_radon_fn_reverts_throw) {
     EXPECT_THROW(
         TensorButterflyOperator::build(OperatorType::RADON, {4u}),
         std::logic_error);
+}
+
+TEST(TensorRAGPipeline, TRPL12_tensor_mid_layer_summary_attached_when_retrieval_triggers) {
+    auto backend = std::make_shared<InMemoryTensorBackend>();
+    auto repo = std::make_shared<AdapterRepository>(backend, "session-rag");
+    auto graph = std::make_shared<TensorFingerprintGraph>();
+    auto frontdoor = std::make_shared<themis::index::AnnFrontdoor>();
+
+    repo->setFingerprintGraph(graph);
+    repo->setAnnFrontdoor(frontdoor);
+    ASSERT_TRUE(repo->store("legal", "mA", make1DTrain({1.0f, 0.0f, 0.0f, 0.0f})));
+    ASSERT_TRUE(repo->store("legal", "mB", make1DTrain({0.9f, 0.1f, 0.0f, 0.0f})));
+
+    auto mid = std::make_shared<TensorMidLayer>();
+    mid->setAdapterRepository(repo);
+    mid->setFingerprintGraph(graph);
+    mid->setAnnFrontdoor(frontdoor);
+
+    TensorRAGPipelineConfig cfg;
+    cfg.session_id = "session-rag";
+    cfg.use_flare = true;
+    cfg.use_targ = false;
+    cfg.flare_config.confidence_threshold = -2.303f;
+    cfg.flare_config.min_consecutive_uncertain = 1;
+
+    TensorRAGPipeline pipeline(cfg);
+    pipeline.setTensorMidLayer(mid);
+
+    auto decision = pipeline.step("tok", -5.0f, uncertainLogits2());
+    EXPECT_TRUE(decision.should_retrieve);
+    EXPECT_FALSE(decision.tensor_routing_reason.empty());
+}
+
+TEST(TensorRAGPipeline, TRPL13_graph_truth_evidence_attached_when_validator_set) {
+    kg::KnowledgeGraph graph;
+    graph.addNode({"n-legal", "legal", {}, kg::EntityType::CONCEPT, {}});
+
+    auto kg_retriever = std::make_shared<kg::KnowledgeGraphRetriever>(graph);
+    auto graph_validator = std::make_shared<GraphTruthValidator>();
+    graph_validator->setKnowledgeGraphRetriever(kg_retriever);
+
+    auto backend = std::make_shared<InMemoryTensorBackend>();
+    auto repo = std::make_shared<AdapterRepository>(backend, "session-graph");
+    auto fp_graph = std::make_shared<TensorFingerprintGraph>();
+    auto frontdoor = std::make_shared<themis::index::AnnFrontdoor>();
+
+    repo->setFingerprintGraph(fp_graph);
+    repo->setAnnFrontdoor(frontdoor);
+    ASSERT_TRUE(repo->store("legal", "mA", make1DTrain({1.0f, 0.0f, 0.0f, 0.0f})));
+
+    auto mid = std::make_shared<TensorMidLayer>();
+    mid->setAdapterRepository(repo);
+    mid->setFingerprintGraph(fp_graph);
+    mid->setAnnFrontdoor(frontdoor);
+
+    TensorRAGPipelineConfig cfg;
+    cfg.session_id = "session-graph";
+    cfg.use_flare = true;
+    cfg.use_targ = false;
+    cfg.flare_config.confidence_threshold = -2.303f;
+    cfg.flare_config.min_consecutive_uncertain = 1;
+
+    TensorRAGPipeline pipeline(cfg);
+    pipeline.setTensorMidLayer(mid);
+    pipeline.setGraphTruthValidator(graph_validator);
+
+    auto decision = pipeline.step("legal", -5.0f, uncertainLogits2());
+    EXPECT_TRUE(decision.should_retrieve);
+    EXPECT_FALSE(decision.graph_truth_reason.empty());
+}
+
+TEST(TensorRAGPipeline, TRPL14_final_layer_resolution_attached_when_orchestrator_set) {
+    auto backend = std::make_shared<InMemoryTensorBackend>();
+    auto repo = std::make_shared<AdapterRepository>(backend, "session-final");
+    auto graph = std::make_shared<TensorFingerprintGraph>();
+    auto frontdoor = std::make_shared<themis::index::AnnFrontdoor>();
+
+    repo->setFingerprintGraph(graph);
+    repo->setAnnFrontdoor(frontdoor);
+    ASSERT_TRUE(repo->store("legal", "mA", make1DTrain({1.0f, 0.0f, 0.0f, 0.0f})));
+
+    auto mid = std::make_shared<TensorMidLayer>();
+    mid->setAdapterRepository(repo);
+    mid->setFingerprintGraph(graph);
+    mid->setAnnFrontdoor(frontdoor);
+
+    auto registry = std::make_shared<themis::llm::AdapterRegistry>(nullptr);
+    ASSERT_TRUE(registry->registerAdapter(makeAdapter("legal-general", "llama-7b", "llama")));
+
+    auto orchestrator = std::make_shared<themis::llm::FinalLayerOrchestrator>();
+    orchestrator->setAdapterRegistry(registry);
+
+    themis::llm::FinalLayerPackage package;
+    package.package_id = "session-final";
+    package.target_model_id = "llama-7b";
+    package.model_family = "llama";
+    package.base_model_version = "3.1";
+    package.primary_adapter_id = "legal-general";
+    package.domain = "legal";
+    ASSERT_TRUE(orchestrator->registerPackage(package));
+
+    TensorRAGPipelineConfig cfg;
+    cfg.session_id = "session-final";
+    cfg.final_layer_package_id = "session-final";
+    cfg.final_layer_base_model = "llama-7b";
+    cfg.final_layer_base_model_version = "3.1";
+    cfg.use_flare = true;
+    cfg.use_targ = false;
+    cfg.flare_config.confidence_threshold = -2.303f;
+    cfg.flare_config.min_consecutive_uncertain = 1;
+
+    TensorRAGPipeline pipeline(cfg);
+    pipeline.setTensorMidLayer(mid);
+    pipeline.setFinalLayerOrchestrator(orchestrator);
+
+    auto decision = pipeline.step("legal", -5.0f, uncertainLogits2());
+    EXPECT_TRUE(decision.should_retrieve);
+    EXPECT_TRUE(decision.final_layer_resolution.resolved);
+    EXPECT_EQ(decision.final_layer_resolution.package_id, "session-final");
+    EXPECT_EQ(decision.final_layer_resolution.selected_adapter_id, "legal-general");
 }
 
 } // namespace

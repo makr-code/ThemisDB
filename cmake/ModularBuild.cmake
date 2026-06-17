@@ -328,6 +328,9 @@ set(THEMIS_STORAGE_SOURCES
     ../src/tensor/tensor_index_manager.cpp
     ../src/tensor/tensor_ingestion_bridge.cpp
     ../src/tensor/tensor_core_bridge.cpp
+    ../src/tensor/tensor_fingerprint_graph.cpp
+    ../src/tensor/adapter_repository.cpp
+    ../src/tensor/tensor_mid_layer.cpp
     ../src/storage/batch_write_optimizer.cpp
     # ../src/storage/pitr_manager.cpp  # Temporarily disabled - needs transaction module
     ../src/storage/blob_redundancy_manager.cpp
@@ -405,6 +408,7 @@ set(THEMIS_STORAGE_SOURCES
     ../src/index/secondary_index.cpp
     ../src/index/index_compression.cpp
     ../src/index/ann_index.cpp
+        ../src/index/ann_frontdoor.cpp
     ../src/index/rotary_embeddings.cpp
     ../src/index/rotary_embeddings_gpu_cpu.cpp
     ../src/index/learnable_rope.cpp
@@ -612,6 +616,7 @@ set(THEMIS_QUERY_SOURCES
     ../src/query/functions/lora_functions.cpp
     ../src/query/functions/tensor_functions.cpp
     ../src/query/tensor_contraction_engine.cpp
+    ../src/rag/graph_truth_validator.cpp
     ../src/query/functions/process_mining_functions.cpp
     ../src/query/functions/udf_registry.cpp
     
@@ -1092,6 +1097,7 @@ set(THEMIS_LLM_SOURCES
     ../src/llm/lookup_decoder.cpp
     ../src/llm/model_router.cpp
     ../src/llm/adapter_registry.cpp
+    ../src/llm/final_layer_orchestrator.cpp
     ../src/llm/inference_engine_enhanced.cpp
     ../src/llm/streaming_handler.cpp
     ../src/llm/openai_compat_adapter.cpp

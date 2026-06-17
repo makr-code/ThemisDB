@@ -1,0 +1,135 @@
+#include "rag/graph_truth_validator.h"
+
+#include <algorithm>
+#include <unordered_map>
+#include <utility>
+
+namespace themis::rag {
+
+void GraphTruthValidator::setOntologyRetriever(std::shared_ptr<OntologyAwareRetriever> retriever) {
+    ontology_retriever_ = std::move(retriever);
+}
+
+void GraphTruthValidator::setKnowledgeGraphRetriever(
+    std::shared_ptr<kg::KnowledgeGraphRetriever> retriever) {
+    kg_retriever_ = std::move(retriever);
+}
+
+GraphTruthValidationResult GraphTruthValidator::validate(
+    const std::string& query,
+    const tensor::TensorLayerSummary& tensor_summary,
+    const GraphTruthValidatorConfig& config) const {
+    auto candidates = makeCandidateDocuments(tensor_summary, config.max_evidence_candidates);
+
+    if (config.use_ontology_validation && ontology_retriever_) {
+        auto ontology_result = ontology_retriever_->retrieve(query, candidates);
+        return buildFromOntologyResult(tensor_summary, ontology_result, config);
+    }
+
+    if (kg_retriever_) {
+        auto kg_result = kg_retriever_->retrieve(query, candidates);
+        return buildFromKgResult(tensor_summary, kg_result, config);
+    }
+
+    GraphTruthValidationResult result;
+    result.routing_reason = "graph truth validator has no retriever configured";
+    result.used_ontology_validation = false;
+    return result;
+}
+
+std::vector<judge::RetrievedDocument> GraphTruthValidator::makeCandidateDocuments(
+    const tensor::TensorLayerSummary& tensor_summary,
+    std::size_t max_candidates) {
+    std::vector<judge::RetrievedDocument> documents;
+    const auto take = std::min<std::size_t>(tensor_summary.similar_adapters.size(), max_candidates);
+    documents.reserve(take);
+
+    for (std::size_t i = 0; i < take; ++i) {
+        const auto& candidate = tensor_summary.similar_adapters[i];
+        judge::RetrievedDocument doc;
+        doc.id = candidate.adapter_key;
+        doc.content = candidate.domain + " " + candidate.base_model_id + " " + candidate.adapter_key;
+        doc.similarity_score = candidate.score;
+        documents.push_back(std::move(doc));
+    }
+
+    return documents;
+}
+
+GraphTruthValidationResult GraphTruthValidator::buildFromOntologyResult(
+    const tensor::TensorLayerSummary& tensor_summary,
+    const OntologyRetrievalResult& ontology_result,
+    const GraphTruthValidatorConfig& config) {
+    GraphTruthValidationResult result;
+    result.used_ontology_validation = true;
+    result.routing_reason = "graph truth validation via OntologyAwareRetriever";
+
+    std::unordered_map<std::string, double> tensor_scores;
+    for (const auto& candidate : tensor_summary.similar_adapters) {
+        tensor_scores.emplace(candidate.adapter_key, candidate.score);
+    }
+
+    result.evidences.reserve(ontology_result.documents.size());
+    for (const auto& doc : ontology_result.documents) {
+        GraphTruthEvidence evidence;
+        evidence.candidate_id = doc.document.id;
+        evidence.graph_score = doc.kg_boost;
+        evidence.tensor_score = tensor_scores.contains(doc.document.id) ? tensor_scores[doc.document.id] : 0.0;
+        evidence.validated = doc.final_score >= config.min_graph_truth_score;
+
+        for (const auto& link : doc.entity_links) {
+            if (link.is_linked) {
+                evidence.supporting_nodes.push_back(link.node_id);
+            }
+        }
+
+        auto reasoning_it = doc.document.metadata.find("reasoning_chain");
+        if (reasoning_it != doc.document.metadata.end()) {
+            evidence.reasoning_chain = reasoning_it->second;
+        }
+
+        result.evidences.push_back(std::move(evidence));
+    }
+
+    return result;
+}
+
+GraphTruthValidationResult GraphTruthValidator::buildFromKgResult(
+    const tensor::TensorLayerSummary& tensor_summary,
+    const kg::KGRetrievalResult& kg_result,
+    const GraphTruthValidatorConfig& config) {
+    GraphTruthValidationResult result;
+    result.used_ontology_validation = false;
+    result.routing_reason = "graph truth validation via KnowledgeGraphRetriever";
+
+    std::unordered_map<std::string, double> tensor_scores;
+    for (const auto& candidate : tensor_summary.similar_adapters) {
+        tensor_scores.emplace(candidate.adapter_key, candidate.score);
+    }
+
+    result.evidences.reserve(kg_result.documents.size());
+    for (const auto& doc : kg_result.documents) {
+        GraphTruthEvidence evidence;
+        evidence.candidate_id = doc.document.id;
+        evidence.graph_score = doc.kg_boost;
+        evidence.tensor_score = tensor_scores.contains(doc.document.id) ? tensor_scores[doc.document.id] : 0.0;
+        evidence.validated = doc.final_score >= config.min_graph_truth_score;
+
+        for (const auto& link : doc.entity_links) {
+            if (link.is_linked) {
+                evidence.supporting_nodes.push_back(link.node_id);
+            }
+        }
+
+        auto reasoning_it = doc.document.metadata.find("reasoning_chain");
+        if (reasoning_it != doc.document.metadata.end()) {
+            evidence.reasoning_chain = reasoning_it->second;
+        }
+
+        result.evidences.push_back(std::move(evidence));
+    }
+
+    return result;
+}
+
+} // namespace themis::rag

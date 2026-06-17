@@ -7,9 +7,12 @@
  */
 
 #include <gtest/gtest.h>
+#include "index/ann_frontdoor.h"
 #include "search/hybrid_search.h"
 #include "index/vector_index.h"
+#include <algorithm>
 #include <stdexcept>
+#include <utility>
 #include <vector>
 #include <string>
 
@@ -109,6 +112,53 @@ TEST(HybridSearchVectorMetric, CanSetCosineMetric) {
     cfg.vector_metric = VectorIndexManager::Metric::COSINE;
     HybridSearch hs(nullptr, nullptr, cfg);
     EXPECT_EQ(hs.getConfig().vector_metric, VectorIndexManager::Metric::COSINE);
+}
+
+// ============================================================================
+// ANN Frontdoor integration tests
+// ============================================================================
+
+namespace {
+
+class HybridSearchStubAnnIndex : public themis::index::IAnnIndex {
+public:
+    explicit HybridSearchStubAnnIndex(std::vector<themis::index::AnnSearchResult> results)
+        : results_(std::move(results)) {}
+
+    bool build(const float*, const int64_t*, size_t, size_t) override { return true; }
+    [[nodiscard]] bool add(int64_t, const float*, size_t) override { return true; }
+
+    std::vector<themis::index::AnnSearchResult> search(const float*, size_t, int k) const override {
+        const auto take = std::min<int>(k, static_cast<int>(results_.size()));
+        return std::vector<themis::index::AnnSearchResult>(results_.begin(), results_.begin() + take);
+    }
+
+    [[nodiscard]] std::size_t size() const override { return results_.size(); }
+
+private:
+    std::vector<themis::index::AnnSearchResult> results_;
+};
+
+} // namespace
+
+TEST(HybridSearchVectorMetric, CanRouteVectorSearchThroughAnnFrontdoor) {
+    HybridSearch::Config cfg;
+    cfg.use_rrf = false;
+    cfg.top_k = 5;
+
+    HybridSearch hs(nullptr, nullptr, cfg);
+
+    themis::index::AnnFrontdoor frontdoor;
+    frontdoor.registerBackend("", std::make_shared<HybridSearchStubAnnIndex>(
+        std::vector<themis::index::AnnSearchResult>{{42, 0.2f}, {7, 0.5f}}
+    ));
+    hs.setAnnFrontdoor(std::make_shared<themis::index::AnnFrontdoor>(std::move(frontdoor)));
+
+    const float query[2] = {1.0f, 0.0f};
+    auto results = hs.search("", query, 2);
+
+    ASSERT_FALSE(results.empty());
+    EXPECT_EQ(results[0].document_id, "42");
 }
 
 // ============================================================================

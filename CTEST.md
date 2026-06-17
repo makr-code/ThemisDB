@@ -1,7 +1,7 @@
 # CTest Inventory — ThemisDB
 
-> Preset: `msvc-ninja-release` · Stand: 2026-03-30 · Build: `build-msvc-ninja-release`
-> Letzter Komplett-Run: `ctest --preset msvc-ninja-release --output-on-failure --parallel 4`
+> Preset: `windows-release` · Stand: 2026-03-30 (Snapshot) · Build: `build-msvc-windows-release`
+> Letzter Komplett-Run: `ctest --preset windows-release --output-on-failure --parallel 4`
 > Laufzeit: 1338 Sek (~22 Min) · Datum: 30.03.2026 17:43 UTC
 >
 > Einstiegspfad fuer neue Nutzer/Admins: [README.md](README.md) → [QUICKSTART.md](QUICKSTART.md) → [SETUP.md](SETUP.md) → [SUPPORT.md](SUPPORT.md)
@@ -26,8 +26,8 @@ Security-relevante Aussagen in Root-Dokumenten:
 
 | Nachweisziel | Verifikationspfad |
 |---|---|
-| Authentifizierung/Autorisierung (JWT, LDAP, TOTP) | `ctest --preset msvc-ninja-release --output-on-failure -R "^(JWTValidatorTests|LDAPAuthenticatorTests|LDAPConnectionPoolTests|TOTPReplayCacheTests|TOTPSecretEncryptionTests)$"` |
-| Plugin-/PKI-Sicherheitsprüfungen (inkl. CRL/OCSP) | `ctest --preset msvc-ninja-release --output-on-failure -R "^(PluginSecurityCRLOCSPTests|PluginSecurityAuditFocusedTests|PluginMarketplaceManifestFocusedTests)$"` |
+| Authentifizierung/Autorisierung (JWT, LDAP, TOTP) | `ctest --preset windows-release --output-on-failure -R "^(JWTValidatorTests|LDAPAuthenticatorTests|LDAPConnectionPoolTests|TOTPReplayCacheTests|TOTPSecretEncryptionTests)$"` |
+| Plugin-/PKI-Sicherheitsprüfungen (inkl. CRL/OCSP) | `ctest --preset windows-release --output-on-failure -R "^(PluginSecurityCRLOCSPTests|PluginSecurityAuditFocusedTests|PluginMarketplaceManifestFocusedTests)$"` |
 | Root-Audit-Toolchain (SAST/Secrets/Dependencies) | `./scripts/comprehensive-code-audit.sh` (siehe [SECURITY.md](SECURITY.md) und [audit/AUDIT.md](audit/AUDIT.md)) |
 | Audit-Evidenzmodell / Reporting | [docs/audit-framework/AUDIT_RUNBOOK.md](docs/audit-framework/AUDIT_RUNBOOK.md) |
 
@@ -121,8 +121,8 @@ Total Test time (real) = 1338.74 sec
   : Assertions auf RFC-konformes Filter-Escaping, Lazy-Checkout unter LDAP, LRU-Eviction im Replay-Cache und Rotation-Status im Manager ausgerichtet.
 
 - Ergebnis nach Fix:
-    - JWT: `ctest --preset msvc-ninja-release --output-on-failure -R "^JWTValidatorTests$"` -> **1/1 Passed, 0 Failed**
-    - LDAP/TOTP: `ctest --preset msvc-ninja-release --output-on-failure -R "^(LDAPAuthenticatorTests|LDAPConnectionPoolTests|TOTPReplayCacheTests|TOTPSecretEncryptionTests)$"` -> **4/4 Passed, 0 Failed**
+    - JWT: `ctest --preset windows-release --output-on-failure -R "^JWTValidatorTests$"` -> **1/1 Passed, 0 Failed**
+    - LDAP/TOTP: `ctest --preset windows-release --output-on-failure -R "^(LDAPAuthenticatorTests|LDAPConnectionPoolTests|TOTPReplayCacheTests|TOTPSecretEncryptionTests)$"` -> **4/4 Passed, 0 Failed**
 
 ## Update 2026-04-02 (Plugin-Block vollständig stabilisiert)
 
@@ -143,7 +143,7 @@ Total Test time (real) = 1338.74 sec
     - OpenSSL-Abfrage auf serial-basierte Suche (`X509_CRL_get0_by_serial`) umgestellt.
 
 - Ergebnis nach Fix:
-    - Zielblock: `ctest --preset msvc-ninja-release --output-on-failure -R "^(PluginManagerFocusedTests|PluginHealthMonitorFocusedTests|PluginMetricsIntegrationFocusedTests|PluginSecurityAuditFocusedTests|PluginSecurityCRLOCSPTests|PluginMarketplaceManifestFocusedTests|PluginManagerComprehensiveFocusedTests|LlmDeploymentPluginFocusedTests)$"` -> **8/8 Passed, 0 Failed**
+    - Zielblock: `ctest --preset windows-release --output-on-failure -R "^(PluginManagerFocusedTests|PluginHealthMonitorFocusedTests|PluginMetricsIntegrationFocusedTests|PluginSecurityAuditFocusedTests|PluginSecurityCRLOCSPTests|PluginMarketplaceManifestFocusedTests|PluginManagerComprehensiveFocusedTests|LlmDeploymentPluginFocusedTests)$"` -> **8/8 Passed, 0 Failed**
     - Laufzeit: **5.18 sec**
 
 ## Update 2026-04-02 (SAGA/PII/Utils-Block stabilisiert)
@@ -159,10 +159,10 @@ Total Test time (real) = 1338.74 sec
 
 - Verifikation:
     - Build der relevanten Targets:
-        - `cmake --build --preset msvc-ninja-release --target test_saga_logger_focused test_pii_stream_scanner_focused test_utils_interfaces_focused`
-        - `cmake --build --preset msvc-ninja-release --target test_utilities_comprehensive`
+        - `cmake --build --preset windows-release --target test_saga_logger_focused test_pii_stream_scanner_focused test_utils_interfaces_focused`
+        - `cmake --build --preset windows-release --target test_utilities_comprehensive`
     - Testlauf:
-        - `ctest --preset msvc-ninja-release --output-on-failure -R "^(SAGALoggerFocusedTests|PIIStreamScannerFocusedTests|UtilsInterfacesFocusedTests|UtilitiesComprehensiveTests)$"`
+        - `ctest --preset windows-release --output-on-failure -R "^(SAGALoggerFocusedTests|PIIStreamScannerFocusedTests|UtilsInterfacesFocusedTests|UtilitiesComprehensiveTests)$"`
         - Ergebnis: **4/4 Passed, 0 Failed**
 
 ## Update 2026-04-02 (Rate-Limiting-Block stabilisiert)
@@ -173,15 +173,15 @@ Total Test time (real) = 1338.74 sec
     - Ein paralleler Voll-CTest hielt Build-Artefakte offen; nach Stop des Hintergrundlaufs konnte das Ziel sauber gebaut werden.
 
 - Verifikation:
-    - `cmake --build --preset msvc-ninja-release --target test_rate_limiting_improvements_focused`
-    - `ctest --preset msvc-ninja-release --output-on-failure -R "^(RateLimitingImprovementsFocusedTests)$"`
+    - `cmake --build --preset windows-release --target test_rate_limiting_improvements_focused`
+    - `ctest --preset windows-release --output-on-failure -R "^(RateLimitingImprovementsFocusedTests)$"`
     - Ergebnis: **1/1 Passed, 0 Failed**
 
 ## Update 2026-04-02 (Vollpreset neu ausgefuehrt)
 
-- Vollrun erneut gestartet mit `ctest --preset msvc-ninja-release --output-on-failure --parallel 4`.
-- Registrierte Tests: **617** (`ctest --preset msvc-ninja-release -N`).
-- Aktuelle Failure-Liste aus `build-msvc-ninja-release/Testing/Temporary/LastTestsFailed.log`: **556** Eintraege (davon **24** `_NOT_BUILT`).
+- Vollrun erneut gestartet mit `ctest --preset windows-release --output-on-failure --parallel 4`.
+- Registrierte Tests: **617** (`ctest --preset windows-release -N`).
+- Aktuelle Failure-Liste aus `build-msvc-windows-release/Testing/Temporary/LastTestsFailed.log`: **556** Eintraege (davon **24** `_NOT_BUILT`).
 - Interpretation:
     - Der Run ist aktuell **nicht 1:1** mit dem Baseline-Run vom 30.03.2026 vergleichbar, weil sehr viele Tests als `Not Run` gelistet sind (fehlende, nicht gebaute Binaries ausserhalb der fokussierten Presets).
     - Die zuvor stabilisierten Fokusbereiche bleiben weiterhin gruen (Graph/Cache/CDC/Transaction/Replication in ihren jeweiligen Presets inkl. Main 45/45).
@@ -227,7 +227,7 @@ Total Test time (real) = 1338.74 sec
 
 > **Zur Methodik:** Alle 544 zuvor mit `EXCLUDE_FROM_ALL` markierten Test-Binaries
 > wurden in einem dedizierten Build-Schritt kompiliert. Anschließend wurde der
-> vollständige 617-Test-Run via `ctest --preset msvc-ninja-release` durchgeführt.
+> vollständige 617-Test-Run via `ctest --preset windows-release` durchgeführt.
 > `Not Run`-Tests betreffen entweder noch nicht gebaute v1.9.0-Targets (Temporal,
 > CUDA) oder `_NOT_BUILT`-Platzhalter.
 >
@@ -987,30 +987,30 @@ Sie sind in CTest registriert, um den Fehlerstatus sichtbar zu machen.
 
 | Preset | Enthält | Tests |
 |--------|---------|-------|
+| `windows-release` | Alle Tests (Release, Standard-Preset) | 617 |
+| `windows-debug` | Alle Tests (Debug-Build) | 617 |
 | `graph-tests-release` | Nur Graph/GraphQL/Distributed/Analytics/Chimera/Process | 29 |
-| `msvc-ninja-release` | Alle 617 Tests | 617 |
-| `msvc-ninja-debug` | Alle Tests (Debug-Build) | 617 |
+| `windows-release-gate` | Nur lauffähige CI-Gate-Tests | —
+| `windows-release-module-*` | Modul-spezifische Teilmengen (acceleration, query, transaction, utils, sharding) | — |
 
 ---
 
 ## Schnellstart: Alle fehlenden Binaries bauen
 
 ```powershell
-# Alle 545 EXCLUDE_FROM_ALL Targets auf einmal bauen (ca. 45–90 min):
-$env:SCCACHE_DISABLED=1
-cmake --build --preset vscode-windows-release
+# Alle Targets bauen (sccache aktiv, --parallel 16 fuer schnellen Build):
+cmake --build --preset windows-release --parallel 16
 
-# Danach alle Tests ausführen:
-$env:PATH = "C:\VCC\themis\build-msvc-ninja-release\cmake\tests_gd_shared_out;" + `
-             "C:\VCC\themis\build-msvc-ninja-release\cmake\tests_gd_out;" + `
-             "C:\VCC\themis\build-msvc-ninja-release\cmake\tests;" + `
-             "C:\VCC\themis\build-msvc-ninja-release\bin;" + $env:PATH
-ctest --preset msvc-ninja-release --output-on-failure --parallel 4
+# Danach alle Tests ausfuehren:
+$env:PATH = "$PSScriptRoot\build-msvc-windows-release\bin;" + `
+             "$PSScriptRoot\vcpkg_installed\x64-windows\bin;" + `
+             $env:PATH
+ctest --preset windows-release --output-on-failure --parallel 4
 ```
 
 > Hinweis: `_NOT_BUILT`-Tests bleiben immer `Not Run`. Sie repräsentieren
 > Features, die noch nicht vollständig implementiert oder explizit gated sind.
 
 ---
-Zuletzt geprueft (Root-Sync): 2026-05-26
+Zuletzt geprueft (Root-Sync): 2026-06-17
 

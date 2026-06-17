@@ -10,6 +10,7 @@
  */
 
 #include "tensor/adapter_repository.h"
+#include "index/ann_frontdoor.h"
 
 #include <algorithm>
 #include <cstdio>
@@ -32,6 +33,16 @@ std::mutex& exactSimilarityFnMutex() { static std::mutex m; return m; }
 AdapterRepository::ExactSimilarityFn& exactSimilarityFnStorage() {
     static AdapterRepository::ExactSimilarityFn fn;
     return fn;
+}
+
+themis::index::AnnScopeKind scopeKindForDomain(const std::string& domain) {
+    if (domain.rfind("pkg:", 0) == 0 || domain.rfind("package:", 0) == 0) {
+        return themis::index::AnnScopeKind::Package;
+    }
+    if (domain.rfind("shard:", 0) == 0 || domain.rfind("shard-summary:", 0) == 0) {
+        return themis::index::AnnScopeKind::ShardSummary;
+    }
+    return themis::index::AnnScopeKind::Adapter;
 }
 } // namespace
 
@@ -57,6 +68,10 @@ void AdapterRepository::setExactSimilarityFn(ExactSimilarityFn fn) {
 void AdapterRepository::clearExactSimilarityFn() {
     std::lock_guard<std::mutex> lk(exactSimilarityFnMutex());
     exactSimilarityFnStorage() = {};
+}
+
+void AdapterRepository::setAnnFrontdoor(std::shared_ptr<index::AnnFrontdoor> frontdoor) {
+    ann_frontdoor_ = std::move(frontdoor);
 }
 
 // ============================================================================
@@ -140,6 +155,10 @@ bool AdapterRepository::store(const std::string&      domain,
         if (graph) {
             graph->addAdapter(key, adapter_train, domain, base_model_id, tenant_id_);
         }
+
+        if (ann_frontdoor_) {
+            ann_frontdoor_->registerScopeKind(key, scopeKindForDomain(domain));
+        }
     }
     return ok;
 }
@@ -169,6 +188,10 @@ bool AdapterRepository::remove(const std::string& domain,
         }
         if (graph) {
             graph->removeAdapter(key);
+        }
+
+        if (ann_frontdoor_) {
+            ann_frontdoor_->registerScopeKind(key, scopeKindForDomain(domain));
         }
     }
     return ok;
@@ -237,6 +260,10 @@ AdapterRepository::loadAdapter(const std::string& domain,
         std::unique_lock lock(stats_mutex_);
         ++stats_.load_misses;
         return desc;
+    }
+
+    if (ann_frontdoor_) {
+        ann_frontdoor_->registerScopeKind(desc.adapter_key, scopeKindForDomain(domain));
     }
 
     desc.train = std::move(*train_opt);
@@ -332,7 +359,15 @@ AdapterRepository::findSimilarAdapters(const std::string& domain,
     }
     if (exact_fn_copy) {
         try {
-            return exact_fn_copy(key, k, backend_);
+            auto results = exact_fn_copy(key, k, backend_);
+            if (ann_frontdoor_) {
+                index::AnnQueryContext context;
+                context.scope_id = key;
+                context.dataset_size = results.size();
+                context.hot_tier = true;
+                (void)ann_frontdoor_->planRetrieval(context);
+            }
+            return results;
         } catch (const std::exception& e) {
             std::fprintf(stderr,
                 "[ThemisDB][WARN] AdapterRepository::findSimilarAdapters: "
@@ -359,6 +394,15 @@ AdapterRepository::findSimilarAdapters(const std::string& domain,
     }
     if (!graph) {
         return {};
+    }
+
+    if (ann_frontdoor_) {
+        ann_frontdoor_->registerScopeKind(key, scopeKindForDomain(domain));
+        index::AnnQueryContext context;
+        context.scope_id = key;
+        context.dataset_size = graph->size();
+        context.hot_tier = true;
+        (void)ann_frontdoor_->planRetrieval(context);
     }
 
     return graph->findSimilar(key, k);

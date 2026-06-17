@@ -25,6 +25,9 @@
 #include <vector>
 
 namespace themis {
+namespace index {
+class AnnFrontdoor;
+}
 namespace tensor {
 
 // ============================================================================
@@ -258,6 +261,15 @@ public:
     /** @brief Remove a previously injected exact similarity backend. */
     static void clearExactSimilarityFn();
 
+    /**
+     * @brief Inject an ANN frontdoor for adapter-scoped routing metadata.
+     *
+     * When configured, findSimilarAdapters() exposes the adapter scope to the
+     * ANN frontdoor so the retrieval plan can be tracked uniformly alongside
+     * other ANN consumers.
+     */
+    void setAnnFrontdoor(std::shared_ptr<index::AnnFrontdoor> frontdoor);
+
 private:
     /// Build the RocksDB key for a given (domain, base_model_id) pair.
     [[nodiscard]] std::string makeKey(const std::string& domain,
@@ -271,6 +283,7 @@ private:
     /// lock-order inversions; graph reads must never hold stats_mutex_).
     mutable std::shared_mutex               graph_mutex_;
     std::shared_ptr<TensorFingerprintGraph> fingerprint_graph_;
+    std::shared_ptr<index::AnnFrontdoor>    ann_frontdoor_;
 
     mutable std::shared_mutex stats_mutex_;
     mutable RepositoryStats   stats_;

@@ -31,6 +31,9 @@ namespace themis {
 
 class SecondaryIndexManager;
 class VectorIndexManager;
+namespace index {
+class AnnFrontdoor;
+}
 
 /**
  * @brief Hybrid Search combining BM25 (full-text) and Vector (semantic) search
@@ -182,6 +185,18 @@ public:
     void setConfig(const Config& config) { config_ = config; }
 
     /**
+     * @brief Inject an ANN frontdoor used by the vector search path.
+     *
+     * When configured, HybridSearch routes dense candidate generation through
+     * AnnFrontdoor instead of calling VectorIndexManager directly. Passing
+     * nullptr disables the frontdoor path and restores the legacy vector-index
+     * fallback.
+     *
+     * @param frontdoor Shared ANN frontdoor instance (may be null).
+     */
+    void setAnnFrontdoor(std::shared_ptr<index::AnnFrontdoor> frontdoor);
+
+    /**
      * @brief Attach an LLM re-ranker to the search pipeline.
      *
      * When set, `search()` applies the re-ranker as a final step after RRF
@@ -212,6 +227,7 @@ private:
     SecondaryIndexManager* fulltext_index_;
     VectorIndexManager* vector_index_;
     Config config_;
+    std::shared_ptr<index::AnnFrontdoor> ann_frontdoor_;
     std::optional<LlmReranker> reranker_; ///< Optional LLM re-ranker (Phase 3)
 };
 

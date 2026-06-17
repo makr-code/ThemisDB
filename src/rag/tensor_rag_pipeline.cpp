@@ -45,6 +45,21 @@ TensorRAGPipeline::TensorRAGPipeline(TensorRAGPipelineConfig cfg)
     , stats_{}
 {}
 
+void TensorRAGPipeline::setTensorMidLayer(
+    std::shared_ptr<tensor::TensorMidLayer> tensor_mid_layer) {
+    tensor_mid_layer_ = std::move(tensor_mid_layer);
+}
+
+void TensorRAGPipeline::setGraphTruthValidator(
+    std::shared_ptr<GraphTruthValidator> graph_truth_validator) {
+    graph_truth_validator_ = std::move(graph_truth_validator);
+}
+
+void TensorRAGPipeline::setFinalLayerOrchestrator(
+    std::shared_ptr<llm::FinalLayerOrchestrator> final_layer_orchestrator) {
+    final_layer_orchestrator_ = std::move(final_layer_orchestrator);
+}
+
 // ============================================================================
 // step() — core per-token evaluation
 // ============================================================================
@@ -116,6 +131,37 @@ RAGDecision TensorRAGPipeline::step(const std::string&        token_text,
         decision.trigger = RAGDecision::Trigger::TARG_ONLY;
     } else {
         decision.trigger = RAGDecision::Trigger::NONE;
+    }
+
+    if (decision.should_retrieve && tensor_mid_layer_) {
+        tensor::TensorLayerContext tensor_context;
+        tensor_context.tenant_id = cfg_.session_id;
+        tensor_context.scope_id = cfg_.session_id.empty() ? "__tensor_rag_pipeline__" : cfg_.session_id;
+        tensor_context.top_k = 5;
+        tensor_context.use_fingerprint_summary = true;
+
+        const auto summary = tensor_mid_layer_->summarize(tensor_context);
+        decision.tensor_summary_candidates = summary.similar_adapters;
+        decision.tensor_routing_reason = summary.routing_reason;
+
+        if (graph_truth_validator_) {
+            const auto graph_validation = graph_truth_validator_->validate(
+                decision.flare_query.empty() ? token_text : decision.flare_query,
+                summary);
+            decision.graph_truth_evidences = graph_validation.evidences;
+            decision.graph_truth_reason = graph_validation.routing_reason;
+        }
+
+        if (final_layer_orchestrator_) {
+            llm::FinalLayerRequest request;
+            request.prompt = decision.flare_query.empty() ? token_text : decision.flare_query;
+            request.metadata = cfg_.final_layer_metadata;
+            request.requested_package_id = cfg_.final_layer_package_id;
+            request.base_model_name = cfg_.final_layer_base_model;
+            request.base_model_version = cfg_.final_layer_base_model_version;
+            request.allow_draft_adapter = true;
+            decision.final_layer_resolution = final_layer_orchestrator_->resolve(request);
+        }
     }
 
     return decision;

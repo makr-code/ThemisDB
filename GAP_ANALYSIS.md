@@ -6,6 +6,10 @@
 **Status:** Draft  
 **Date:** 2026-06-01
 
+**Update 2026-06-17:** ANN-Frontdoor-Gap (Abschnitt 3.1) implementiert:
+`include/index/ann_frontdoor.h`, `src/index/ann_frontdoor.cpp`,
+`tests/index/test_ann_frontdoor.cpp`.
+
 ---
 
 ## 1. Purpose
@@ -25,7 +29,7 @@ ThemisDB already contains strong capabilities in graph, vector retrieval, LoRA/t
 
 ### High-Level Gap Statement
 
-The current system is a capable modular hybrid stack, but it is not yet a fully orchestrated layered knowledge architecture.
+The current system is a capable modular hybrid stack. The ANN, Tensor, Graph, and Final-Layer gaps are now closed as explicit orchestration stages; remaining work is primarily cross-cutting hardening, observability, and lifecycle governance.
 
 ---
 
@@ -38,13 +42,18 @@ The current system is a capable modular hybrid stack, but it is not yet a fully 
 - embedding-aware retrieval concepts
 
 ### Missing / Incomplete
-- explicit ANN-frontdoor abstraction
-- unified HNSW/DiskANN strategy
-- ANN for adapters/packages/shard summaries
-- clear hot/cold retrieval planning
+- explicit ANN-frontdoor abstraction → **implementiert**: `AnnFrontdoor` in `include/index/ann_frontdoor.h`
+- unified HNSW/DiskANN strategy → **implementiert** in `AnnFrontdoor::planRetrieval()` / `planStrategy()`
+- ANN for adapters/packages/shard summaries → **implementiert** über `AnnScopeKind`, AdapterRepository-Scopes und shard-aware routing
+- clear hot/cold retrieval planning → **implementiert** in `AnnRetrievalPlan` / `planRetrieval()` und an den Search-/Adapter-Aufrufstellen verdrahtet
 
 ### Consequence
-Semantic retrieval is available, but not yet formalized as the first universal retrieval gate.
+Semantic retrieval is now formalized as the first universal retrieval gate in the ANN path; remaining work is in higher-layer tensor/graph/LLM orchestration.
+
+### Current Focus
+- cross-cutting observability and reasoning traces
+- stronger end-to-end provenance and package governance
+- lifecycle hardening around package/model operations
 
 ---
 
@@ -56,14 +65,14 @@ Semantic retrieval is available, but not yet formalized as the first universal r
 - summary/compression potential
 
 ### Missing / Incomplete
-- explicit tensor mid-layer abstraction
-- unified tensor fingerprints
-- tensor routing and summary APIs
-- cross-layer use of tensor structures in RAG
-- federated shard summary model
+- explicit tensor mid-layer abstraction → **implementiert**: `TensorMidLayer` in `include/tensor/tensor_mid_layer.h`
+- unified tensor fingerprints → **implementiert** über `TensorFingerprintGraph`
+- tensor routing and summary APIs → **implementiert** über `TensorLayerPlan`, `TensorLayerSummary`, `summarize()` und `summarizeFederatedShards()`
+- cross-layer use of tensor structures in RAG → **implementiert** über `TensorRAGPipeline::setTensorMidLayer()` und tensor summary propagation im `RAGDecision`
+- federated shard summary model → **implementiert** als erste Mid-Layer-Stufe über `FederatedTensorSummary`
 
 ### Consequence
-Tensor capabilities exist but are not yet a coherent system-level compression and routing layer.
+Tensor capabilities are now elevated into a coherent system-level compression and routing layer; remaining work shifts to graph-truth validation and final-layer LLM/LoRA orchestration.
 
 ---
 
@@ -75,12 +84,12 @@ Tensor capabilities exist but are not yet a coherent system-level compression an
 - evidence potential
 
 ### Missing / Incomplete
-- consistent graph evidence assembly flow
-- explicit graph-based validation stage in the target retrieval pipeline
-- strong integration with tensor summary outputs
+- consistent graph evidence assembly flow → **implementiert** über `GraphTruthValidator` und `GraphTruthEvidence`
+- explicit graph-based validation stage in the target retrieval pipeline → **implementiert** über `TensorRAGPipeline::setGraphTruthValidator()`
+- strong integration with tensor summary outputs → **implementiert** über TensorMidLayer → GraphTruthValidator Übergabe
 
 ### Consequence
-Graph is strong, but not yet fully formalized as the exact post-approximation validation layer.
+Graph is now formalized as the explicit post-approximation validation layer for the ANN → Tensor → Graph path; remaining work shifts primarily to final-layer LLM/LoRA orchestration and lifecycle maturity.
 
 ---
 
@@ -92,13 +101,13 @@ Graph is strong, but not yet fully formalized as the exact post-approximation va
 - registry and provenance-adjacent ideas
 
 ### Missing / Incomplete
-- package-oriented adapter lifecycle
-- explicit final-layer orchestration over layered context
-- robust model-switch workflow
-- compatibility matrix and rebuild-first logic
+- package-oriented adapter lifecycle → **implementiert** über `FinalLayerPackage`, `registerPackage()`, `updatePackage()` und `setPackageStatus()`
+- explicit final-layer orchestration over layered context → **implementiert** über `FinalLayerOrchestrator` und `TensorRAGPipeline::setFinalLayerOrchestrator()`
+- robust model-switch workflow → **implementiert** über paketbasierte Auflösung, Router-Fallback und Draft-Adapter-Erkennung
+- compatibility matrix and rebuild-first logic → **implementiert** über `buildCompatibilityMatrix()` und `resolve()`-Kompatibilitätsprüfung
 
 ### Consequence
-The final generation layer exists, but lifecycle and orchestration maturity remain incomplete.
+The final generation layer is now formalized as the explicit ANN → Tensor → Graph → LLM/LoRA completion stage, with package-aware adapter resolution and compatibility-aware model switching wired into the retrieval pipeline.
 
 ---
 
@@ -123,23 +132,26 @@ The final generation layer exists, but lifecycle and orchestration maturity rema
 ## 5. Recommended Priorities
 
 ## Priority 1
-- formalize ANN frontdoor
-- identify quick wins in retrieval routing and candidate reduction
+- expand layered observability across ANN → Tensor → Graph → Final Layer
+- identify quick wins in tracing, diagnostics, and failure visibility
 
 ## Priority 2
-- define tensor mid-layer abstractions
-- introduce tensor fingerprints and summaries
+- strengthen provenance and package governance end-to-end
+- close remaining lifecycle-management rough edges
 
 ## Priority 3
-- formalize graph truth validation stage
-- align provenance with graph evidence flow
+- optimize federated shard-summary retrieval behavior
+- validate cross-shard cost and merge quality under load
 
 ## Priority 4
-- move LoRA toward package/product lifecycle
-- add model-switch compatibility workflow
+- harden package/model switching with broader integration coverage
+- extend compatibility policies where rebuild-first constraints evolve
 
 ## Priority 5
 - prepare federated shard summary architecture
+
+## Priority 6
+- broaden end-to-end orchestration coverage in builds, focused tests, and operational docs
 
 ---
 

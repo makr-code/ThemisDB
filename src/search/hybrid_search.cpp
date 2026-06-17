@@ -19,6 +19,7 @@
  */
 
 #include "search/hybrid_search.h"
+#include "index/ann_frontdoor.h"
 #include "index/secondary_index.h"
 #include "index/vector_index.h"
 #include "utils/logger.h"
@@ -111,6 +112,10 @@ void HybridSearch::setReranker(LlmReranker::LlmBackend backend,
                  config.batch_size, config.llm_weight);
 }
 
+void HybridSearch::setAnnFrontdoor(std::shared_ptr<index::AnnFrontdoor> frontdoor) {
+    ann_frontdoor_ = std::move(frontdoor);
+}
+
 std::vector<HybridSearch::Result> HybridSearch::search(
     const std::string& text_query,
     const float* vector_query,
@@ -153,30 +158,81 @@ std::vector<HybridSearch::Result> HybridSearch::search(
     }
     
     // Vector ANN search
-    if (vector_query && vector_dim > 0 && vector_index_) {
+    if (vector_query && vector_dim > 0 && (ann_frontdoor_ || vector_index_)) {
         try {
             std::vector<float> query_vec(vector_query, vector_query + vector_dim);
-            auto [status, vec_results] = vector_index_->searchKnn(
-                query_vec,
-                config_.k_vector
-            );
-            
-            if (status.ok) {
-                vector_results.reserve(vec_results.size());
-                for (size_t i = 0; i < vec_results.size(); ++i) {
-                    const auto& vec_result = vec_results[i];
+            if (ann_frontdoor_) {
+                index::AnnQueryContext context;
+                auto frontdoor_result = ann_frontdoor_->search(
+                    query_vec.data(),
+                    vector_dim,
+                    static_cast<int>(config_.k_vector),
+                    context
+                );
+
+                vector_results.reserve(frontdoor_result.candidates.size());
+                for (size_t i = 0; i < frontdoor_result.candidates.size(); ++i) {
+                    const auto& candidate = frontdoor_result.candidates[i];
                     Result r;
-                    r.document_id = vec_result.pk;
-                    // Convert distance to similarity based on configured metric
-                    r.vector_score = distanceToSimilarity(vec_result.distance, 
+                    r.document_id = std::to_string(candidate.id);
+                    r.vector_score = distanceToSimilarity(candidate.distance,
                                                           config_.vector_metric);
                     r.vector_rank = static_cast<int>(i + 1);
                     vector_results.push_back(r);
                 }
+
+                if (vector_results.empty() &&
+                    vector_index_ != nullptr &&
+                    (frontdoor_result.strategy_used == index::AnnStrategy::FLAT_BRUTE_FORCE ||
+                     frontdoor_result.strategy_used == index::AnnStrategy::HNSW)) {
+                    auto [status, vec_results] = vector_index_->searchKnn(
+                        query_vec,
+                        config_.k_vector
+                    );
+
+                    if (status.ok) {
+                        vector_results.reserve(vec_results.size());
+                        for (size_t i = 0; i < vec_results.size(); ++i) {
+                            const auto& vec_result = vec_results[i];
+                            Result r;
+                            r.document_id = vec_result.pk;
+                            r.vector_score = distanceToSimilarity(vec_result.distance,
+                                                                  config_.vector_metric);
+                            r.vector_rank = static_cast<int>(i + 1);
+                            vector_results.push_back(r);
+                        }
+                    } else {
+                        THEMIS_WARN("HybridSearch: legacy vector fallback after AnnFrontdoor returned no candidates failed: {}",
+                                    status.message);
+                    }
+                }
+
                 vector_ok = true;
-                THEMIS_DEBUG("Vector search returned {} results", vector_results.size());
+                THEMIS_DEBUG("Vector search returned {} results via AnnFrontdoor",
+                             vector_results.size());
             } else {
-                THEMIS_WARN("Vector search failed: {}", status.message);
+                auto [status, vec_results] = vector_index_->searchKnn(
+                    query_vec,
+                    config_.k_vector
+                );
+
+                if (status.ok) {
+                    vector_results.reserve(vec_results.size());
+                    for (size_t i = 0; i < vec_results.size(); ++i) {
+                        const auto& vec_result = vec_results[i];
+                        Result r;
+                        r.document_id = vec_result.pk;
+                        // Convert distance to similarity based on configured metric
+                        r.vector_score = distanceToSimilarity(vec_result.distance,
+                                                              config_.vector_metric);
+                        r.vector_rank = static_cast<int>(i + 1);
+                        vector_results.push_back(r);
+                    }
+                    vector_ok = true;
+                    THEMIS_DEBUG("Vector search returned {} results", vector_results.size());
+                } else {
+                    THEMIS_WARN("Vector search failed: {}", status.message);
+                }
             }
         } catch (const std::exception& e) {
             THEMIS_ERROR("Vector search exception: {}", e.what());
@@ -186,7 +242,8 @@ std::vector<HybridSearch::Result> HybridSearch::search(
     // Detect partial-result condition: both sources were available and attempted,
     // but exactly one of them failed while the other returned candidates.
     bool bm25_attempted  = !text_query.empty() && fulltext_index_ != nullptr;
-    bool vector_attempted = vector_query != nullptr && vector_dim > 0 && vector_index_ != nullptr;
+    bool vector_attempted = vector_query != nullptr && vector_dim > 0 &&
+                            (ann_frontdoor_ != nullptr || vector_index_ != nullptr);
     bool bm25_failed_but_vector_succeeded =
         bm25_attempted && !bm25_ok && vector_ok && !vector_results.empty();
     bool vector_failed_but_bm25_succeeded =

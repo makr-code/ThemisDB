@@ -12,10 +12,14 @@
 #pragma once
 
 #include "rag/flare_retrieval.h"
+#include "rag/graph_truth_validator.h"
 #include "rag/targ_retrieval.h"
+#include "llm/final_layer_orchestrator.h"
+#include "tensor/tensor_mid_layer.h"
 
 #include <cstddef>
 #include <functional>
+#include <memory>
 #include <string>
 #include <vector>
 
@@ -70,6 +74,26 @@ struct TensorRAGPipelineConfig {
      * Not used by pipeline logic; propagated to stats for tracing.
      */
     std::string session_id;
+
+    /**
+     * @brief Optional final-layer package to resolve when retrieval triggers.
+     */
+    std::string final_layer_package_id;
+
+    /**
+     * @brief Optional base model name used for final-layer compatibility checks.
+     */
+    std::string final_layer_base_model;
+
+    /**
+     * @brief Optional base model version used for final-layer compatibility checks.
+     */
+    std::string final_layer_base_model_version;
+
+    /**
+     * @brief Optional metadata forwarded to the final-layer orchestrator.
+     */
+    nlohmann::json final_layer_metadata = nlohmann::json::object();
 };
 
 // ============================================================================
@@ -140,6 +164,34 @@ struct RAGDecision {
      */
     std::vector<float> flare_query_embedding;
 
+    /**
+     * @brief Optional tensor mid-layer summary generated for this decision.
+     *
+     * Populated when a TensorMidLayer is attached and at least one gate
+     * triggered retrieval.
+     */
+    std::vector<tensor::SimilarityResult> tensor_summary_candidates;
+
+    /**
+     * @brief Human-readable tensor-layer routing explanation.
+     */
+    std::string tensor_routing_reason;
+
+    /**
+     * @brief Graph-truth evidences attached after tensor summary validation.
+     */
+    std::vector<GraphTruthEvidence> graph_truth_evidences;
+
+    /**
+     * @brief Human-readable graph-truth routing explanation.
+     */
+    std::string graph_truth_reason;
+
+    /**
+     * @brief Final-layer orchestration result when an LLM/LoRA package was resolved.
+     */
+    llm::FinalLayerResolution final_layer_resolution;
+
     // ─── TARG details ─────────────────────────────────────────────────────
 
     /**
@@ -177,6 +229,24 @@ public:
      * @param cfg  Pipeline configuration.
      */
     explicit TensorRAGPipeline(TensorRAGPipelineConfig cfg = {});
+
+    /**
+     * @brief Attach a TensorMidLayer used for higher-layer retrieval summaries.
+     *
+     * When set, `step()` derives a tensor-layer summary after FLARE/TARG
+     * triggers and exposes it through `RAGDecision`.
+     */
+    void setTensorMidLayer(std::shared_ptr<tensor::TensorMidLayer> tensor_mid_layer);
+
+    /**
+     * @brief Attach a GraphTruthValidator used after tensor mid-layer summarization.
+     */
+    void setGraphTruthValidator(std::shared_ptr<GraphTruthValidator> graph_truth_validator);
+
+    /**
+     * @brief Attach the final LLM/LoRA orchestration layer.
+     */
+    void setFinalLayerOrchestrator(std::shared_ptr<llm::FinalLayerOrchestrator> final_layer_orchestrator);
 
     // ─── Embedding injection bridge (STUB #261) ───────────────────────────
 
@@ -294,6 +364,9 @@ private:
     FlareRetrieval          flare_;
     TARGRetrieval           targ_;
     PipelineStats           stats_;
+    std::shared_ptr<tensor::TensorMidLayer> tensor_mid_layer_;
+    std::shared_ptr<GraphTruthValidator> graph_truth_validator_;
+    std::shared_ptr<llm::FinalLayerOrchestrator> final_layer_orchestrator_;
 };
 
 } // namespace rag
