@@ -21,15 +21,7 @@
 
 ### 1. Pull and run
 
-```bash
-docker pull ghcr.io/makr-code/themisdb:latest
-docker run -d \
-  --name themisdb \
-  -p 8765:8765 \
-  -p 8766:8766 \
-  -v themis-data:/data \
-  ghcr.io/makr-code/themisdb:latest
-```
+curently not avaible
 
 | Port | Protocol |
 |---|---|
