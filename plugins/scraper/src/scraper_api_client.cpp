@@ -242,7 +242,7 @@ std::vector<ApiResult> HttpScraperApiClient::fetchAll(const ApiEndpointConfig &c
         std::string response;
         try {
             response = fetch_fn_(url, cfg.method, cfg.headers, body);
-        } catch (const std::exception &e) {
+        } catch (...) {
             // Network error: stop pagination
             break;
         }

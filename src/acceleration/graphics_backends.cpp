@@ -36,6 +36,7 @@
 #include <cstring>
 #include <fstream>
 #include <iostream>
+#include <limits>
 #include <memory>
 #include <mutex>
 #include <queue>
@@ -265,6 +266,14 @@ public:
     }
 
     static std::vector<uint32_t> loadSPIRV(const std::string& path) {
+        // Authorization check: reject path traversal sequences and null bytes
+        // before opening any file (CWE-862 / CWE-22).
+        if (path.empty() ||
+            path.find("..") != std::string::npos ||
+            path.size() != std::strlen(path.c_str())) {
+            throw std::runtime_error("[ShaderIntegrity] Rejected unsafe shader path");
+        }
+
         std::ifstream f(path, std::ios::ate | std::ios::binary);
         if (!f.is_open())
             throw std::runtime_error("Cannot open SPIR-V: " + path);
@@ -319,7 +328,7 @@ public:
 
         VkPhysicalDevice bestDevice = VK_NULL_HANDLE;
         VkPhysicalDeviceProperties bestProps{};
-        int bestScore = -1;
+        int bestScore = std::numeric_limits<int>::min();
 
         for (const auto& d : devs) {
             VkPhysicalDeviceProperties p;
@@ -1298,13 +1307,13 @@ bool VulkanVectorBackend::initialize() {
         try {
             initialized_ = fn();
             return initialized_;
-        } catch (...) {
-            initialized_ = false;
-            return false;
         } catch (const std::string&) {
             initialized_ = false;
             return false;
         } catch (const char*) {
+            initialized_ = false;
+            return false;
+        } catch (...) {
             initialized_ = false;
             return false;
         }
@@ -1463,11 +1472,11 @@ std::vector<float> VulkanVectorBackend::computeDistances(
     if (fn) {
         try {
             return fn(queries, numQueries, dim, vectors, numVectors, useL2);
-        } catch (...) {
-            return {};
         } catch (const std::string&) {
             return {};
         } catch (const char*) {
+            return {};
+        } catch (...) {
             return {};
         }
     }
@@ -1576,11 +1585,11 @@ std::vector<std::vector<std::pair<uint32_t, float>>> VulkanVectorBackend::batchK
     if (fn) {
         try {
             return fn(queries, numQueries, dim, vectors, numVectors, k, useL2);
-        } catch (...) {
-            return {};
         } catch (const std::string&) {
             return {};
         } catch (const char*) {
+            return {};
+        } catch (...) {
             return {};
         }
     }

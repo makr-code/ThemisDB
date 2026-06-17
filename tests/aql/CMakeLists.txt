@@ -4,6 +4,17 @@ file(GLOB AQL_MODULE_TEST_SOURCES
     "${CMAKE_CURRENT_SOURCE_DIR}/test_aql_*.cpp"
 )
 
+# Some LLM-oriented AQL implementations are not part of themis_query in modular
+# builds. Keep these focused tests self-contained to avoid unresolved externals.
+set(AQL_FORCE_LOCAL_IMPL_TESTS
+    test_aql_autocomplete
+    test_aql_agent
+    test_aql_lora_finetuner
+    test_aql_model_router
+    test_aql_query_diff_explainer
+    test_aql_rollback_suggester
+)
+
 foreach(_src IN LISTS AQL_MODULE_TEST_SOURCES)
     get_filename_component(_stem "${_src}" NAME_WE)
     set(_target "module_aql_${_stem}_focused")
@@ -15,7 +26,8 @@ foreach(_src IN LISTS AQL_MODULE_TEST_SOURCES)
     # exist as a build target. When themis_query is available it already
     # contains every src/aql/*.cpp translation unit (via Unity build), so
     # adding the same file again produces LNK2005 duplicate-symbol errors.
-    if(EXISTS "${_impl_src}" AND NOT _stem STREQUAL "test_aql_query_validator" AND NOT TARGET themis_query)
+    if(EXISTS "${_impl_src}" AND NOT _stem STREQUAL "test_aql_query_validator"
+       AND (NOT TARGET themis_query OR _stem IN_LIST AQL_FORCE_LOCAL_IMPL_TESTS))
         list(APPEND _extra_sources "${_impl_src}")
     endif()
 

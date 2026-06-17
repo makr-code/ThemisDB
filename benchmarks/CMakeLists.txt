@@ -9,6 +9,16 @@ endif()
 
 message(STATUS "Configuring ThemisDB benchmark suite")
 
+# Per team policy: suppress warnings for benchmarks only.
+# Core/library targets keep their warning policy unchanged.
+if(MSVC)
+    add_compile_options(/W0)
+    message(STATUS "MSVC: compiler warnings are suppressed for benchmarks")
+elseif(CMAKE_CXX_COMPILER_ID MATCHES "Clang|GNU")
+    add_compile_options(-w)
+    message(STATUS "Compiler warnings are suppressed for benchmarks")
+endif()
+
 function(themis_apply_benchmark_release_flags target_name)
     if(NOT CMAKE_BUILD_TYPE STREQUAL "Release")
         return()

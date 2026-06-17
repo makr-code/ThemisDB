@@ -23,6 +23,7 @@
 #include "acceleration/compute_backend.h"
 #include "acceleration/error_context.h"
 #include <memory>
+#include <mutex>
 #include <vector>
 #include <string>
 
@@ -195,13 +196,18 @@ private:
     // GPU resources (null for CPU-only index types such as HNSW_FLAT)
     std::unique_ptr<faiss::gpu::StandardGpuResources> gpuResources_;
 
-    // Faiss index (concrete type depends on config_.indexType)
-    void* index_ = nullptr;
+    // Faiss index (concrete type depends on config_.indexType).
+    // Owned via unique_ptr with a type-dispatching custom deleter.
+    struct IndexDeleter {
+        IndexType type = IndexType::IVF_FLAT;
+        void operator()(faiss::Index* p) const noexcept;
+    };
+    std::unique_ptr<faiss::Index, IndexDeleter> index_;
     IndexType currentIndexType_ = IndexType::IVF_FLAT;
+    mutable std::mutex indexMutex_; // guards index_ and config_.nprobe accesses
 
     // Helper methods
-    void* createIndex(IndexType type, int dimension);
-    void destroyIndex();
+    std::unique_ptr<faiss::Index, IndexDeleter> createIndex(IndexType type, int dimension);
     bool transferIndexToGPU();
 
     void setError(AccelerationErrorCode code, const std::string& msg,

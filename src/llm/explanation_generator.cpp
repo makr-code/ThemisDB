@@ -383,6 +383,12 @@ std::vector<std::string> ExplanationGenerator::extractKeywords(const std::string
     keywords.reserve(text.length() / 6); // Rough estimate: avg 6 chars per word
     
     // Common stop words to skip (could be expanded or made configurable)
+    // Note: In a production system, consider using a more comprehensive stop word list
+    // and possibly stemming/lemmatization for better keyword extraction.
+    //TODO: Enhance keyword extraction with NLP techniques (stemming, lemmatization, POS tagging)
+    // Stub: Basic keyword extraction using simple heuristics. Replace with NLP library for better results.
+    // Mock: This method currently uses a simple heuristic to extract keywords. In a real implementation, we would use an NLP library like spaCy or NLTK for more accurate keyword extraction, including
+    // stemming and lemmatization. For now, it just extracts alphanumeric words and filters out common stop words.
     static const std::set<std::string> stop_words = {
         "the", "and", "for", "are", "was", "with", "this", "that",
         "from", "they", "have", "been", "will", "their", "what"
@@ -390,7 +396,7 @@ std::vector<std::string> ExplanationGenerator::extractKeywords(const std::string
     
     // Process text character by character to avoid istringstream overhead
     std::string word;
-    word.reserve(20); // Most words are < 20 chars
+    word.reserve(20); // Most words are < 20 chars; this reduces allocations, maybe tuned based on typical input
     
     for (char c : text) {
         if (std::isalnum(static_cast<unsigned char>(c))) {

@@ -9,9 +9,8 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-"#include \"document/encrypted_entities.h\"" // Re-stating the include path, but relying on stubs to make it work. A more advanced fix would involve modifying macro definitions or factory calls.
+#include "document/encrypted_entities.h"
 #include "security/encryption.h"
-
 #include "security/key_provider.h" // Stub dependency added/corrected
 #include "security/mock_key_provider.h"
 #include "security/vault_key_provider.h"

@@ -109,8 +109,8 @@ CUDAVectorBackend::~CUDAVectorBackend() {
 bool CUDAVectorBackend::isAvailable() const noexcept {
 #ifdef THEMIS_ENABLE_CUDA
     int deviceCount = 0;
-    cudaError_t err = cudaGetDeviceCount(&deviceCount);
-    return (err == cudaSuccess && deviceCount > 0);
+    cudaError_t availErr = cudaGetDeviceCount(&deviceCount);
+    return (availErr == cudaSuccess && deviceCount >= 1);
 #else
     return false;
 #endif
@@ -147,14 +147,14 @@ bool CUDAVectorBackend::initialize() {
     if (!isAvailable()) {
         // Enhanced error logging: enumerate devices and provide diagnostic info
         int deviceCount = 0;
-        cudaError_t err = cudaGetDeviceCount(&deviceCount);
+        cudaError_t initErr = cudaGetDeviceCount(&deviceCount);
 
         // Set structured error context
         if (deviceCount == 0) {
             setError(ErrorContextHelpers::createNoDevicesError("CUDA"));
         } else {
             setError(ErrorContext(AccelerationErrorCode::DriverNotInstalled, "CUDA",
-                                  "CUDA driver or runtime not accessible: " + std::string(cudaGetErrorString(err)),
+                                  "CUDA driver or runtime not accessible: " + std::string(cudaGetErrorString(initErr)),
                                   "Install NVIDIA CUDA driver and runtime"));
         }
 
@@ -177,11 +177,12 @@ bool CUDAVectorBackend::initialize() {
         // v1.1.0: Create CUDA stream with low priority for vLLM co-location using RAII
 #ifdef THEMIS_VLLM_COLOCATION
         // Non-blocking stream with low priority (doesn't block vLLM)
-        int leastPriority, greatestPriority;
-        cudaError_t err = cudaDeviceGetStreamPriorityRange(&leastPriority, &greatestPriority);
-        if (err != cudaSuccess) {
+        int leastPriority = 0;
+        int greatestPriority = 0;
+        cudaError_t priorityErr = cudaDeviceGetStreamPriorityRange(&leastPriority, &greatestPriority);
+        if (priorityErr != cudaSuccess) {
             setError(ErrorContextHelpers::createQueueError("CUDA", "Failed to get stream priority range: "
-                                                                       + std::string(cudaGetErrorString(err))));
+                                                                       + std::string(cudaGetErrorString(priorityErr))));
             std::cerr << lastError_.format() << std::endl;
             return false;
         }
@@ -858,8 +859,14 @@ CUDAVectorBackend::batchKnnSearchWithGraph(const float *queries, size_t numQueri
         // ------------------------------------------------------------------
 
         // H2D: copy input data into the pre-allocated device buffers
-        cudaMemcpyAsync(entry->d_queries.get(), queries, querySize, cudaMemcpyHostToDevice, mainStream);
-        cudaMemcpyAsync(entry->d_vectors.get(), vectors, vectorSize, cudaMemcpyHostToDevice, mainStream);
+        if (cudaMemcpyAsync(entry->d_queries.get(), queries, querySize, cudaMemcpyHostToDevice, mainStream) != cudaSuccess ||
+            cudaMemcpyAsync(entry->d_vectors.get(), vectors, vectorSize, cudaMemcpyHostToDevice, mainStream) != cudaSuccess) {
+            setError(ErrorContext(AccelerationErrorCode::MemoryCopyFailed, "CUDA",
+                                  "H2D memcpy failed before graph replay",
+                                  "Check available GPU memory"));
+            std::cerr << lastError_.format() << std::endl;
+            return {};
+        }
 
         // Launch the captured graph (runs after the H2D copies on the same stream)
         cudaError_t launchErr = cudaGraphLaunch(entry->exec, mainStream);
@@ -875,10 +882,16 @@ CUDAVectorBackend::batchKnnSearchWithGraph(const float *queries, size_t numQueri
         std::vector<int> topkIndices(numQueries * effectiveK);
         std::vector<float> topkDistances(numQueries * effectiveK);
 
-        cudaMemcpyAsync(topkIndices.data(), entry->d_topkIndices.get(), topkIdxSize, cudaMemcpyDeviceToHost,
-                        mainStream);
-        cudaMemcpyAsync(topkDistances.data(), entry->d_topkDistances.get(), topkDistSize, cudaMemcpyDeviceToHost,
-                        mainStream);
+        if (cudaMemcpyAsync(topkIndices.data(), entry->d_topkIndices.get(), topkIdxSize, cudaMemcpyDeviceToHost,
+                             mainStream) != cudaSuccess ||
+            cudaMemcpyAsync(topkDistances.data(), entry->d_topkDistances.get(), topkDistSize, cudaMemcpyDeviceToHost,
+                             mainStream) != cudaSuccess) {
+            setError(ErrorContext(AccelerationErrorCode::MemoryCopyFailed, "CUDA",
+                                  "D2H memcpy failed after graph replay",
+                                  "Check GPU/stream state"));
+            std::cerr << lastError_.format() << std::endl;
+            return {};
+        }
 
         cudaError_t syncErr = cudaStreamSynchronize(mainStream);
         if (syncErr != cudaSuccess) {
@@ -1117,8 +1130,8 @@ CUDAGraphBackend::~CUDAGraphBackend() {
 bool CUDAGraphBackend::isAvailable() const noexcept {
 #ifdef THEMIS_ENABLE_CUDA
     int deviceCount = 0;
-    cudaError_t err = cudaGetDeviceCount(&deviceCount);
-    return (err == cudaSuccess && deviceCount > 0);
+    cudaError_t availErr = cudaGetDeviceCount(&deviceCount);
+    return (availErr == cudaSuccess && deviceCount >= 1);
 #else
     return false;
 #endif
@@ -1149,12 +1162,12 @@ bool CUDAGraphBackend::initialize() {
 #ifdef THEMIS_ENABLE_CUDA
     if (!isAvailable()) {
         int deviceCount = 0;
-        cudaError_t err = cudaGetDeviceCount(&deviceCount);
+        cudaError_t initErr = cudaGetDeviceCount(&deviceCount);
         if (deviceCount == 0) {
             setError(ErrorContextHelpers::createNoDevicesError("CUDA"));
         } else {
             setError(ErrorContext(AccelerationErrorCode::DriverNotInstalled, "CUDA",
-                                  "CUDA driver or runtime not accessible: " + std::string(cudaGetErrorString(err)),
+                                  "CUDA driver or runtime not accessible: " + std::string(cudaGetErrorString(initErr)),
                                   "Install NVIDIA CUDA driver and runtime"));
         }
         std::cerr << lastError_.format() << std::endl;
@@ -1367,8 +1380,14 @@ std::vector<std::vector<uint32_t>> CUDAGraphBackend::batchBFS(const uint32_t *ad
         // ------------------------------------------------------------------
         // Replay: copy inputs → device, launch graph, copy results ← device
         // ------------------------------------------------------------------
-        cudaMemcpyAsync(entry->d_adjacency.get(), adjacency, adjSize, cudaMemcpyHostToDevice, mainStream);
-        cudaMemcpyAsync(entry->d_startVertices.get(), startVertices, svSize, cudaMemcpyHostToDevice, mainStream);
+        if (cudaMemcpyAsync(entry->d_adjacency.get(), adjacency, adjSize, cudaMemcpyHostToDevice, mainStream) != cudaSuccess ||
+            cudaMemcpyAsync(entry->d_startVertices.get(), startVertices, svSize, cudaMemcpyHostToDevice, mainStream) != cudaSuccess) {
+            setError(ErrorContext(AccelerationErrorCode::MemoryCopyFailed, "CUDA",
+                                  "H2D memcpy failed before BFS graph replay",
+                                  "Check available GPU memory"));
+            std::cerr << lastError_.format() << std::endl;
+            return {};
+        }
 
         cudaError_t launchErr = cudaGraphLaunch(entry->exec, mainStream);
         if (launchErr != cudaSuccess) {
@@ -1382,10 +1401,16 @@ std::vector<std::vector<uint32_t>> CUDAGraphBackend::batchBFS(const uint32_t *ad
         std::vector<uint32_t> h_result_vertices(numStarts * numVertices);
         std::vector<int> h_result_sizes(numStarts);
 
-        cudaMemcpyAsync(h_result_vertices.data(), entry->d_result_vertices.get(), resultsSz, cudaMemcpyDeviceToHost,
-                        mainStream);
-        cudaMemcpyAsync(h_result_sizes.data(), entry->d_result_sizes.get(), sizesSz, cudaMemcpyDeviceToHost,
-                        mainStream);
+        if (cudaMemcpyAsync(h_result_vertices.data(), entry->d_result_vertices.get(), resultsSz, cudaMemcpyDeviceToHost,
+                             mainStream) != cudaSuccess ||
+            cudaMemcpyAsync(h_result_sizes.data(), entry->d_result_sizes.get(), sizesSz, cudaMemcpyDeviceToHost,
+                             mainStream) != cudaSuccess) {
+            setError(ErrorContext(AccelerationErrorCode::MemoryCopyFailed, "CUDA",
+                                  "D2H memcpy failed after BFS graph replay",
+                                  "Check GPU/stream state"));
+            std::cerr << lastError_.format() << std::endl;
+            return {};
+        }
 
         cudaError_t syncErr = cudaStreamSynchronize(mainStream);
         if (syncErr != cudaSuccess) {
@@ -1552,9 +1577,15 @@ std::vector<std::vector<uint32_t>> CUDAGraphBackend::batchShortestPath(const uin
         // ------------------------------------------------------------------
         // Replay
         // ------------------------------------------------------------------
-        cudaMemcpyAsync(entry->d_adjacency.get(), adjacency, adjSize, cudaMemcpyHostToDevice, mainStream);
-        cudaMemcpyAsync(entry->d_weights.get(), weights, wgtSize, cudaMemcpyHostToDevice, mainStream);
-        cudaMemcpyAsync(entry->d_startVertices.get(), startVertices, svSize, cudaMemcpyHostToDevice, mainStream);
+        if (cudaMemcpyAsync(entry->d_adjacency.get(), adjacency, adjSize, cudaMemcpyHostToDevice, mainStream) != cudaSuccess ||
+            cudaMemcpyAsync(entry->d_weights.get(), weights, wgtSize, cudaMemcpyHostToDevice, mainStream) != cudaSuccess ||
+            cudaMemcpyAsync(entry->d_startVertices.get(), startVertices, svSize, cudaMemcpyHostToDevice, mainStream) != cudaSuccess) {
+            setError(ErrorContext(AccelerationErrorCode::MemoryCopyFailed, "CUDA",
+                                  "H2D memcpy failed before SP graph replay",
+                                  "Check available GPU memory"));
+            std::cerr << lastError_.format() << std::endl;
+            return {};
+        }
 
         cudaError_t launchErr = cudaGraphLaunch(entry->exec, mainStream);
         if (launchErr != cudaSuccess) {
@@ -1568,9 +1599,16 @@ std::vector<std::vector<uint32_t>> CUDAGraphBackend::batchShortestPath(const uin
         std::vector<float> h_distances(numPairs * numVertices);
         std::vector<int> h_predecessors(numPairs * numVertices);
 
-        cudaMemcpyAsync(h_distances.data(), entry->d_distances.get(), distSize, cudaMemcpyDeviceToHost, mainStream);
-        cudaMemcpyAsync(h_predecessors.data(), entry->d_predecessors.get(), predSize, cudaMemcpyDeviceToHost,
-                        mainStream);
+        if (cudaMemcpyAsync(h_distances.data(), entry->d_distances.get(), distSize, cudaMemcpyDeviceToHost,
+                             mainStream) != cudaSuccess ||
+            cudaMemcpyAsync(h_predecessors.data(), entry->d_predecessors.get(), predSize, cudaMemcpyDeviceToHost,
+                             mainStream) != cudaSuccess) {
+            setError(ErrorContext(AccelerationErrorCode::MemoryCopyFailed, "CUDA",
+                                  "D2H memcpy failed after SP graph replay",
+                                  "Check GPU/stream state"));
+            std::cerr << lastError_.format() << std::endl;
+            return {};
+        }
 
         cudaError_t syncErr = cudaStreamSynchronize(mainStream);
         if (syncErr != cudaSuccess) {
@@ -1596,8 +1634,8 @@ std::vector<std::vector<uint32_t>> CUDAGraphBackend::batchShortestPath(const uin
 
             std::vector<uint32_t> path;
             uint32_t cur = endV;
-            // Guard against predecessor cycles (maximum path length = numVertices)
-            for (size_t step = 0; step <= numVertices; ++step) {
+            // Guard against predecessor cycles (maximum path length < numVertices)
+            for (size_t step = 0; step < numVertices; ++step) {
                 path.push_back(cur);
                 if (cur == startV)
                     break;
@@ -1637,8 +1675,8 @@ CUDAGeoBackend::~CUDAGeoBackend() {
 bool CUDAGeoBackend::isAvailable() const noexcept {
 #ifdef THEMIS_ENABLE_CUDA
     int deviceCount = 0;
-    cudaError_t err = cudaGetDeviceCount(&deviceCount);
-    return (err == cudaSuccess && deviceCount > 0);
+    cudaError_t availErr = cudaGetDeviceCount(&deviceCount);
+    return (availErr == cudaSuccess && deviceCount >= 1);
 #else
     return false;
 #endif
@@ -1669,12 +1707,12 @@ bool CUDAGeoBackend::initialize() {
 #ifdef THEMIS_ENABLE_CUDA
     if (!isAvailable()) {
         int deviceCount = 0;
-        cudaError_t err = cudaGetDeviceCount(&deviceCount);
+        cudaError_t initErr = cudaGetDeviceCount(&deviceCount);
         if (deviceCount == 0) {
             setError(ErrorContextHelpers::createNoDevicesError("CUDA-Geo"));
         } else {
             setError(ErrorContext(AccelerationErrorCode::DriverNotInstalled, "CUDA-Geo",
-                                  "CUDA driver or runtime not accessible: " + std::string(cudaGetErrorString(err)),
+                                  "CUDA driver or runtime not accessible: " + std::string(cudaGetErrorString(initErr)),
                                   "Install NVIDIA CUDA driver and runtime"));
         }
         std::cerr << lastError_.format() << std::endl;
@@ -1956,8 +1994,8 @@ CUDAMatrixBackend::~CUDAMatrixBackend() {
 bool CUDAMatrixBackend::isAvailable() const noexcept {
 #ifdef THEMIS_ENABLE_CUDA
     int deviceCount = 0;
-    cudaError_t err = cudaGetDeviceCount(&deviceCount);
-    return (err == cudaSuccess && deviceCount > 0);
+    cudaError_t availErr = cudaGetDeviceCount(&deviceCount);
+    return (availErr == cudaSuccess && deviceCount >= 1);
 #else
     return false;
 #endif

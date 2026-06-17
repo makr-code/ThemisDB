@@ -184,27 +184,28 @@ inline std::string RAIDPaxosConfig::getRAIDModeDescription() const {
 }
 
 inline bool RAIDPaxosConfig::canRecoverFromFailures(const std::vector<int>& failed_shards) const {
-    int max_tolerable = getMaxTolerableFailures(data_shard_indices.size() + 
+    int max_tolerable = getMaxTolerableFailures(static_cast<int>(data_shard_indices.size()) + 
                                                (raid_mode == RAIDMode::PARITY ? 1 : 0));
     return static_cast<int>(failed_shards.size()) <= max_tolerable;
 }
 
 inline int RAIDPaxosConfig::getMaxTolerableFailures(int total_shards) const {
+    (void)total_shards; // Suppress unused parameter warning
     switch (raid_mode) {
         case RAIDMode::STRIPE:
             return 0;  // RAID 0: No tolerance
-            
+
         case RAIDMode::MIRROR:
             // Can tolerate mirror_factor - 1 failures per stripe
             return mirror_factor - 1;
-            
+
         case RAIDMode::PARITY:
             return 1;  // RAID 5: Can tolerate 1 failure
-            
+
         case RAIDMode::HYBRID:
             // Can tolerate mirror_factor - 1 failures per stripe
             return mirror_factor - 1;
-            
+
         default:
             return 0;
     }

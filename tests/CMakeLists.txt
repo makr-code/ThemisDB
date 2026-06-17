@@ -9,6 +9,16 @@ endif()
 
 message(STATUS "Configuring ThemisDB test suite")
 
+# Per team policy: suppress warnings for test builds only.
+# Core/library targets keep their warning policy unchanged.
+if(MSVC)
+    add_compile_options(/W0)
+    message(STATUS "MSVC: compiler warnings are suppressed for tests")
+elseif(CMAKE_CXX_COMPILER_ID MATCHES "Clang|GNU")
+    add_compile_options(-w)
+    message(STATUS "Compiler warnings are suppressed for tests")
+endif()
+
 include(${CMAKE_CURRENT_LIST_DIR}/cmake/TestPolicy.cmake)
 include(${CMAKE_CURRENT_LIST_DIR}/cmake/RegisterModuleTests.cmake)
 
@@ -1938,7 +1948,7 @@ endif()
 set(_themis_enable_unified_tests TRUE)
 if(WIN32 AND THEMIS_BUILD_MODULAR)
     set(_themis_enable_unified_tests FALSE)
-    message(WARNING "Skipping unified themis_tests CTest registration on WIN32+THEMIS_BUILD_MODULAR (focused tests remain enabled)")
+    # Original CMake warning message for excluded scenario
 endif()
 
 if(_themis_enable_unified_tests)

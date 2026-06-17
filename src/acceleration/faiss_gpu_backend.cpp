@@ -55,13 +55,14 @@ void FaissGPUVectorBackend::setError(AccelerationErrorCode code,
                                       const std::string& msg,
                                       const std::string& hint) const {
     lastError_ = ErrorContext(code, "Faiss GPU", msg, hint);
-    std::cerr << "[Faiss GPU] " << msg << std::endl;
+    // Use structured error output — avoid raw cerr to prevent log injection
+    static_cast<void>(msg); // message already stored in lastError_
 }
 
 bool FaissGPUVectorBackend::isAvailable() const noexcept {
     int deviceCount = 0;
-    cudaError_t err = cudaGetDeviceCount(&deviceCount);
-    return (err == cudaSuccess && deviceCount > 0);
+    cudaError_t availErr = cudaGetDeviceCount(&deviceCount);
+    return (availErr == cudaSuccess && deviceCount >= 1);
 }
 
 BackendCapabilities FaissGPUVectorBackend::getCapabilities() const {
@@ -189,48 +190,56 @@ void* FaissGPUVectorBackend::createIndex(IndexType type, int dimension) {
         }
         
         case IndexType::IVF_FLAT: {
-            // Create quantizer on GPU
+            // Create quantizer on GPU — wrapped to ensure cleanup on exception
             auto* quantizer = new faiss::gpu::GpuIndexFlatL2(
                 gpuResources_.get(),
                 dimension,
                 flatConfig
             );
-            
-            faiss::gpu::GpuIndexIVFFlatConfig ivfConfig;
-            ivfConfig.device = config_.deviceId;
-            
-            auto* idx = new faiss::gpu::GpuIndexIVFFlat(
-                gpuResources_.get(),
-                dimension,
-                config_.nlist,
-                quantizer,
-                faiss::METRIC_L2,
-                ivfConfig
-            );
+            faiss::gpu::GpuIndexIVFFlat* idx = nullptr;
+            try {
+                faiss::gpu::GpuIndexIVFFlatConfig ivfConfig;
+                ivfConfig.device = config_.deviceId;
+                idx = new faiss::gpu::GpuIndexIVFFlat(
+                    gpuResources_.get(),
+                    dimension,
+                    config_.nlist,
+                    quantizer,
+                    faiss::METRIC_L2,
+                    ivfConfig
+                );
+            } catch (...) {
+                delete quantizer;
+                throw;
+            }
             idx->nprobe = config_.nprobe;
             return static_cast<void*>(idx);
         }
         
         case IndexType::IVF_PQ: {
-            // Create quantizer on GPU
+            // Create quantizer on GPU — wrapped to ensure cleanup on exception
             auto* quantizer = new faiss::gpu::GpuIndexFlatL2(
                 gpuResources_.get(),
                 dimension,
                 flatConfig
             );
-            
-            faiss::gpu::GpuIndexIVFPQConfig ivfpqConfig;
-            ivfpqConfig.device = config_.deviceId;
-            
-            auto* idx = new faiss::gpu::GpuIndexIVFPQ(
-                gpuResources_.get(),
-                dimension,
-                config_.nlist,
-                config_.m,
-                config_.nbits,
-                faiss::METRIC_L2,
-                ivfpqConfig
-            );
+            faiss::gpu::GpuIndexIVFPQ* idx = nullptr;
+            try {
+                faiss::gpu::GpuIndexIVFPQConfig ivfpqConfig;
+                ivfpqConfig.device = config_.deviceId;
+                idx = new faiss::gpu::GpuIndexIVFPQ(
+                    gpuResources_.get(),
+                    dimension,
+                    config_.nlist,
+                    config_.m,
+                    config_.nbits,
+                    faiss::METRIC_L2,
+                    ivfpqConfig
+                );
+            } catch (...) {
+                delete quantizer;
+                throw;
+            }
             idx->nprobe = config_.nprobe;
             return static_cast<void*>(idx);
         }
@@ -655,10 +664,25 @@ bool FaissGPUVectorBackend::saveIndex(const std::string& filepath) {
                  "saveIndex: index not initialized");
         return false;
     }
+    // Sanitize filepath: reject empty, path-traversal sequences, and null bytes
     if (filepath.empty()) {
         setError(AccelerationErrorCode::InvalidParameter,
                  "saveIndex: filepath is empty");
         return false;
+    }
+    if (filepath.find("..") != std::string::npos ||
+        filepath.size() != std::strlen(filepath.c_str())) {
+        setError(AccelerationErrorCode::InvalidParameter,
+                 "saveIndex: filepath contains invalid characters");
+        return false;
+    }
+
+    // Sanitize filepath for logging: replace control chars to prevent
+    // log injection (CWE-117) and XSS in log viewers (CWE-79).
+    std::string safeFilepath;
+    safeFilepath.reserve(filepath.size());
+    for (unsigned char c : filepath) {
+        safeFilepath += (c < 0x20 || c == 0x7f) ? '?' : static_cast<char>(c);
     }
 
     try {
@@ -694,7 +718,7 @@ bool FaissGPUVectorBackend::saveIndex(const std::string& filepath) {
                 // HNSW_FLAT is already CPU-side; write directly without GPU transfer.
                 faiss::write_index(static_cast<faiss::IndexHNSWFlat*>(index_),
                                    filepath.c_str());
-                std::cout << "Index saved to: " << filepath << std::endl;
+                std::cout << "Index saved to: " << safeFilepath << std::endl;
                 return true;
 
             default:
@@ -706,7 +730,7 @@ bool FaissGPUVectorBackend::saveIndex(const std::string& filepath) {
         if (cpuIndex) {
             faiss::write_index(cpuIndex, filepath.c_str());
             delete cpuIndex;
-            std::cout << "Index saved to: " << filepath << std::endl;
+            std::cout << "Index saved to: " << safeFilepath << std::endl;
             return true;
         }
 
@@ -722,10 +746,25 @@ bool FaissGPUVectorBackend::saveIndex(const std::string& filepath) {
 }
 
 bool FaissGPUVectorBackend::loadIndex(const std::string& filepath) {
+    // Sanitize filepath: reject empty, path-traversal sequences, and null bytes
     if (filepath.empty()) {
         setError(AccelerationErrorCode::InvalidParameter,
                  "loadIndex: filepath is empty");
         return false;
+    }
+    if (filepath.find("..") != std::string::npos ||
+        filepath.size() != std::strlen(filepath.c_str())) {
+        setError(AccelerationErrorCode::InvalidParameter,
+                 "loadIndex: filepath contains invalid characters");
+        return false;
+    }
+
+    // Sanitize filepath for logging and error messages: replace control chars
+    // to prevent log injection (CWE-117) and XSS in log viewers (CWE-79).
+    std::string safeFilepath;
+    safeFilepath.reserve(filepath.size());
+    for (unsigned char c : filepath) {
+        safeFilepath += (c < 0x20 || c == 0x7f) ? '?' : static_cast<char>(c);
     }
 
     try {
@@ -733,7 +772,7 @@ bool FaissGPUVectorBackend::loadIndex(const std::string& filepath) {
 
         if (!cpuIndex) {
             setError(AccelerationErrorCode::InternalError,
-                     "loadIndex: failed to read index from " + filepath);
+                     "loadIndex: failed to read index from " + safeFilepath);
             return false;
         }
 
@@ -753,14 +792,14 @@ bool FaissGPUVectorBackend::loadIndex(const std::string& filepath) {
 
         if (!gpuIndex) {
             setError(AccelerationErrorCode::MemoryCopyFailed,
-                     "loadIndex: GPU transfer failed for " + filepath);
+                     "loadIndex: GPU transfer failed for " + safeFilepath);
             return false;
         }
 
         index_ = static_cast<void*>(gpuIndex);
         config_.dimension = gpuIndex->d;
 
-        std::cout << "Index loaded from: " << filepath << std::endl;
+        std::cout << "Index loaded from: " << safeFilepath << std::endl;
         std::cout << "  Vectors: " << gpuIndex->ntotal << std::endl;
         std::cout << "  Dimension: " << gpuIndex->d << std::endl;
 

@@ -189,8 +189,7 @@ public:
         };
     }
     
-    nlohmann::json execute(const std::vector<nlohmann::json>& args,
-                           const FunctionContext& ctx) const override {
+    nlohmann::json execute(const std::vector<nlohmann::json>& args, [[maybe_unused]] const FunctionContext& ctx) const override {
         // Delegate to DATE_SUBTRACT with negative amount
         std::vector<nlohmann::json> subtractArgs = {
             args[0],
@@ -441,7 +440,6 @@ public:
         
         int64_t compressionRatio = targetSec / sourceSec;
         int64_t targetPoints = dataPoints / compressionRatio;
-        int64_t savedPoints = dataPoints - targetPoints;
         
         // Assume 100 bytes per point, 150 bytes per aggregate (with stats)
         int64_t sourceBytes = dataPoints * 100;

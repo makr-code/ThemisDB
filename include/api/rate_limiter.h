@@ -72,7 +72,7 @@ public:
         size_t refill_rate;
         
         Bucket(size_t cap, size_t rate)
-            : tokens(cap)
+            : tokens(static_cast<double>(cap))
             , last_refill(std::chrono::steady_clock::now())
             , capacity(cap)
             , refill_rate(rate)

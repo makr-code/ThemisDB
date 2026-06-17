@@ -1118,6 +1118,23 @@ void PluginSecurityAuditor::clearEvents() {
 }
 
 bool PluginSecurityAuditor::exportEvents(const std::string &outputPath) const {
+    // Validate output path against traversal and injection (CWE-22/23/24).
+    if (outputPath.empty()) {
+        return false;
+    }
+    if (outputPath.find("..") != std::string::npos) {
+        return false;
+    }
+    if (outputPath.size() != std::strlen(outputPath.c_str())) {
+        return false;
+    }
+    {
+        std::error_code ec;
+        std::filesystem::path canonical = std::filesystem::weakly_canonical(outputPath, ec);
+        if (ec || !canonical.is_absolute()) {
+            return false;
+        }
+    }
     std::vector<PluginSecurityEvent> snapshot;
     {
         std::lock_guard<std::mutex> lock(mutex_);
@@ -1505,7 +1522,7 @@ EnhancedPluginSecurityVerifier::extractEmbeddedCertificate(const std::string &pl
         file.read(reinterpret_cast<char *>(&sec_rva), sizeof(sec_rva));
         file.read(reinterpret_cast<char *>(&sec_size), sizeof(sec_size));
 
-        if (!file.good() || sec_rva == 0 || sec_size < 8u) {
+        if (!file.good() || sec_rva == 0 || sec_size < 8) {
             return std::nullopt;
         }
 
