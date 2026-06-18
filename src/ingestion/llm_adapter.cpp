@@ -20,6 +20,7 @@
 
 #include "ingestion/llm_adapter.h"
 #include <nlohmann/json.hpp>
+#include <filesystem>
 #include <fstream>
 #include <stdexcept>
 
@@ -29,6 +30,24 @@
 
 namespace themis {
 namespace ingestion {
+
+namespace {
+
+bool isReadableModelFile(const std::string& model_path) {
+    if (model_path.empty()) {
+        return false;
+    }
+
+    std::error_code ec;
+    if (!std::filesystem::exists(model_path, ec) || ec) {
+        return false;
+    }
+
+    auto model_stream = std::ifstream(model_path, std::ios::binary);
+    return model_stream.good();
+}
+
+} // namespace
 
 // ============================================================================
 // LegalLlmAdapter implementation
@@ -54,10 +73,19 @@ const LlmAdapterConfig& LegalLlmAdapter::getConfig() const {
 }
 
 bool LegalLlmAdapter::isLlmAvailable() const {
+    if (config_.hasModel()) {
+        return isReadableModelFile(config_.model_path);
+    }
+
     return backend_ && backend_->isAvailable();
 }
 
 DeonticExtractor::ExtractorFn LegalLlmAdapter::buildExtractorFn() const {
+    if (config_.hasModel() && !isReadableModelFile(config_.model_path)) {
+        throw std::runtime_error(
+            "Configured LLM model file is not accessible: " + config_.model_path);
+    }
+
     if (!isLlmAvailable()) {
         // No backend available — return empty fn so DeonticExtractor uses regex.
         return {};

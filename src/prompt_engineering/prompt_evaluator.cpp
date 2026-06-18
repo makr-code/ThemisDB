@@ -365,9 +365,17 @@ bool PromptEvaluator::isStatisticallySignificant(
 }
 
 double PromptEvaluator::computeWeightedScore(const EvaluationMetrics& metrics) const {
-    return config_.similarity_weight * metrics.semantic_similarity +
-           config_.exact_match_weight * metrics.exact_match +
-           config_.relevance_weight * metrics.relevance;
+    const double partial_fallback = metrics.partial_match;
+    const double semantic_component = std::max(metrics.semantic_similarity,
+                                              partial_fallback);
+    const double exact_component = std::max(metrics.exact_match,
+                                           partial_fallback);
+    const double relevance_component = std::max(metrics.relevance,
+                                               partial_fallback);
+
+    return config_.similarity_weight * semantic_component +
+           config_.exact_match_weight * exact_component +
+           config_.relevance_weight * relevance_component;
 }
 
 std::string PromptEvaluator::normalizeString(const std::string& s) {

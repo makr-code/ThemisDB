@@ -307,12 +307,17 @@ CompressionResult SimplePromptCompressor::compress(
         return result;
     }
 
-    // Enforce max_compression_ratio: floor of tokens that may be dropped.
-    const int max_drop =
-        static_cast<int>(result.original_token_count * config.max_compression_ratio);
-    const int effective_budget =
-        std::max(1, result.original_token_count - max_drop);
-    const int budget = std::max(config.target_token_budget, effective_budget);
+    int budget = std::max(1, config.target_token_budget);
+    if (config.max_compression_ratio >= 0.0f &&
+        config.max_compression_ratio < 1.0f) {
+        // Enforce max_compression_ratio as a floor on the retained budget only
+        // when callers explicitly request a cap below 100% drop allowance.
+        const int max_drop =
+            static_cast<int>(result.original_token_count * config.max_compression_ratio);
+        const int effective_budget =
+            std::max(1, result.original_token_count - max_drop);
+        budget = std::max(budget, effective_budget);
+    }
 
     std::string compressed;
     switch (config.strategy) {

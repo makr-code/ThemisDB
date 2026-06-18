@@ -435,8 +435,11 @@ TEST(GenericApiIntegrationTest, OffsetPaginationTwoPages) {
     // then an empty page.
     std::atomic<int> call_count{0};
     mgr.setApiHttpGetForTesting(
-        [&](const std::string& /*url*/, const std::string& /*auth*/)
+        [&](const std::string& url, const std::string& /*auth*/)
         -> std::pair<int, std::string> {
+            if (url.find("limit=") == std::string::npos) {
+                return {200, "{\"status\":\"ok\"}"};
+            }
             int n = call_count.fetch_add(1);
             if (n < 2) return {200, makeApiPage(3, 6)};
             return {200, makeApiPage(0)};
@@ -465,8 +468,11 @@ TEST(GenericApiIntegrationTest, CursorPaginationThreePages) {
 
     std::atomic<int> call_count{0};
     mgr.setApiHttpGetForTesting(
-        [&](const std::string& /*url*/, const std::string& /*auth*/)
+        [&](const std::string& url, const std::string& /*auth*/)
         -> std::pair<int, std::string> {
+            if (url.find("limit=") == std::string::npos) {
+                return {200, "{\"status\":\"ok\"}"};
+            }
             int n = call_count.fetch_add(1);
             if (n == 0) return {200, makeApiPage(4, 0, "cursor_page2")};
             if (n == 1) return {200, makeApiPage(4, 0, "cursor_page3")};
@@ -667,8 +673,17 @@ TEST(MultiSourceIntegrationTest, AllThreeConnectorTypesInOneRun) {
 
     std::atomic<int> api_page{0};
     mgr.setApiHttpGetForTesting(
-        [&](const std::string& /*url*/, const std::string& /*auth*/)
+        [&](const std::string& url, const std::string& /*auth*/)
         -> std::pair<int, std::string> {
+            if (url.find("huggingface.co/api/datasets/") != std::string::npos) {
+                if (url.find("/metadata") != std::string::npos) {
+                    return {200, "{\"rows\":" + std::to_string(DEFAULT_HF_TEST_ROWS) + "}"};
+                }
+                return {200, "{\"status\":\"ok\"}"};
+            }
+            if (url.find("limit=") == std::string::npos) {
+                return {200, "{\"status\":\"ok\"}"};
+            }
             int n = api_page.fetch_add(1);
             if (n == 0) return {200, makeApiPage(5, 0, "page2token")};
             return {200, makeApiPage(5)};  // no next_cursor

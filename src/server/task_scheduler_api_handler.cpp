@@ -77,15 +77,20 @@ int64_t checkedSecondsToMilliseconds(int64_t seconds, const char* field_name) {
 
 /// Convert a system_clock time_point to an ISO-8601 string (UTC).
 std::string timePointToIso(std::chrono::system_clock::time_point tp) {
-    if (tp == std::chrono::system_clock::time_point{}) {
+    if (tp == std::chrono::system_clock::time_point{} ||
+        tp == std::chrono::system_clock::time_point::max()) {
         return "";
     }
     std::time_t t = std::chrono::system_clock::to_time_t(tp);
     std::tm tm{};
 #ifdef _WIN32
-    gmtime_s(&tm, &t);
+    if (gmtime_s(&tm, &t) != 0) {
+        return "";
+    }
 #else
-    gmtime_r(&t, &tm);
+    if (gmtime_r(&t, &tm) == nullptr) {
+        return "";
+    }
 #endif
     char buf[32];
     std::strftime(buf, sizeof(buf), "%Y-%m-%dT%H:%M:%SZ", &tm);

@@ -288,7 +288,7 @@ void WorkStealingPool::workerFn(size_t my_idx, ProgressCallback cb) {
             std::this_thread::yield();
             got = tryPopOwn(my_idx, src);
             if (!got) got = trySteal(my_idx, src);
-            if (!got) break;
+            if (!got) continue;
         }
 
         // We own `src` — decrement the global remaining count.

@@ -777,6 +777,7 @@ TEST(WorkStealingPoolTest, IdleWorkerStealsFromBusyWorker) {
     auto mock1 = std::make_shared<MockWorkerNode>("ws-steal-1");
     mock0->docs_per_source_ = 1;
     mock1->docs_per_source_ = 1;
+    mock0->sleep_us_per_source_ = 250;
 
     WorkStealingPool pool({mock0, mock1}, "col", std::chrono::seconds(30));
     for (int i = 0; i < 4; ++i) {

@@ -64,8 +64,6 @@ OptimizerResult PromptOptimizer::optimize(
     THEMIS_INFO("Initial prompt score: {:.4f}", current_score);
     
     for (size_t i = 0; i < config_.max_iterations; ++i) {
-        result.iterations = i + 1;
-        
         // Check if we should continue
         if (!shouldContinue(i, current_score, previous_score)) {
             THEMIS_INFO("Optimization converged after {} iterations", i + 1);
@@ -100,6 +98,7 @@ OptimizerResult PromptOptimizer::optimize(
         }
         
         current_prompt = improved_prompt;
+        result.iterations++;
     }
     
     result.optimized_prompt = current_prompt;

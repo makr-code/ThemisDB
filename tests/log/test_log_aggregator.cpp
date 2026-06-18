@@ -377,7 +377,7 @@ TEST(LogAggregatorTest, LogWithContextAsyncInjectsTraceFields) {
     agg.logWithContextAsync(Level::INFO, "async ctx", ctx,
                              {{"extra", "data"}}).get();
     ASSERT_EQ(1u, agg.size());
-    auto& entry = agg.entries()[0];
+    auto entry = agg.entries()[0];
     EXPECT_EQ("trace-async", entry.fields.at("trace_id"));
     EXPECT_EQ("span-async",  entry.fields.at("span_id"));
     EXPECT_EQ("req-async",   entry.fields.at("request_id"));

@@ -121,6 +121,37 @@ gemeinsame Baseline:
 
 ---
 
+## 🧱 Security Tiering Model (Normativ)
+
+ThemisDB uses a security tier model from trusted core modules to least-trusted plugin boundaries. This model is normative for architecture, implementation, and release review.
+
+Primary reference: [ARCHITECTURE.md](ARCHITECTURE.md#security--hardening-tiering-model-core-module---plugin)
+
+| Tier | Scope | Mandatory Control Focus |
+|---|---|---|
+| **T0: Trusted Core** | Core bootstrap and trust anchors | Startup invariants, memory/lifecycle correctness, anti-tamper checks |
+| **T1: Security & Platform Services** | Identity, crypto, policy, config, audit | RBAC, key isolation, immutable audit guarantees, production-mode enforcement |
+| **T2: Data Plane Engines** | Query, transaction, storage/index, replication/sharding | Data integrity, recovery safety, quota/resource enforcement |
+| **T3: Interface & Protocol Edge** | HTTP/gRPC/Wire ingress and protocol handlers | AuthN/AuthZ at ingress, parser bounds, DoS protection, tenant isolation |
+| **T4: Managed Extension Runtime** | In-tree extensions (LLM/content/model runtime) | Capability gating, bounded runtime budgets, sanitized inputs/outputs |
+| **T5: Plugin Boundary** | Dynamic plugins and adapters | Signature/provenance checks, sandboxing, capability-scoped invocation |
+
+### Mandatory Tier Rules
+
+1. Dependencies are one-way: higher-numbered tiers can depend on lower-numbered tiers, never vice versa.
+2. T5 code must never directly invoke privileged T0/T1 internals without brokered policy checks.
+3. All T3/T4/T5 entry points require authentication, authorization, input validation, rate limiting, and audit events.
+4. Security decisions are fail-closed: uncertainty in auth/policy/config must reject the operation.
+5. Every tier-crossing public interface must document auth model, input contract, error behavior, and audit semantics.
+
+### Tier Evidence Required in PRs
+
+- State affected tier(s) and trust-boundary crossings in the PR description.
+- Provide at least one boundary-focused test for changed T3/T4/T5 code paths.
+- If a change alters effective trust level, include threat model delta and maintainer sign-off.
+
+---
+
 ## 🛡️ Security Measures
 
 ThemisDB implements **defense-in-depth** security across all layers:

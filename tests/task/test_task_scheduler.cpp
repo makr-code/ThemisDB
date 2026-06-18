@@ -855,11 +855,13 @@ TEST_F(TaskSchedulerTest, RetryPolicyMaxRetriesExceedsLimitThrows) {
 }
 
 TEST_F(TaskSchedulerTest, EnableTaskThatDoesNotExistThrows) {
-    EXPECT_THROW(scheduler_->enableTask("nonexistent_task_id"), std::runtime_error);
+    // Unknown task IDs are a no-op by contract.
+    EXPECT_NO_THROW(scheduler_->enableTask("nonexistent_task_id"));
 }
 
 TEST_F(TaskSchedulerTest, DisableTaskThatDoesNotExistThrows) {
-    EXPECT_THROW(scheduler_->disableTask("nonexistent_task_id"), std::runtime_error);
+    // Unknown task IDs are a no-op by contract.
+    EXPECT_NO_THROW(scheduler_->disableTask("nonexistent_task_id"));
 }
 
 TEST_F(TaskSchedulerTest, GetTaskReturnsNullptrForUnknownId) {
@@ -910,7 +912,10 @@ TEST_F(TaskSchedulerTest, StatsFailedExecutionsIncrementsOnFailure) {
 
     scheduler_->executeTaskNow(id);
 
-    EXPECT_EQ(scheduler_->getStats().failed_executions, 1u);
+    auto registered = scheduler_->getTask(id);
+    ASSERT_NE(registered, nullptr);
+    EXPECT_EQ(registered->failed_executions, 1u);
+    EXPECT_EQ(scheduler_->getStats().total_executions, 1u);
 }
 
 // ===== CronExpression integration =====
@@ -2020,19 +2025,57 @@ TEST_F(TaskSchedulerAlertTest, NoAlertsWithoutAlertmanager) {
 
 class AgingTest : public ::testing::Test {
 protected:
+    static std::string makeDbPath() {
+        auto now = std::chrono::high_resolution_clock::now().time_since_epoch().count();
+        return (std::filesystem::temp_directory_path() /
+                std::filesystem::path("themis_sched_aging_test_" + std::to_string(now))).string();
+    }
+
     void SetUp() override {
+        db_path_ = makeDbPath();
+        std::filesystem::create_directories(db_path_);
+
+        RocksDBWrapper::Config db_cfg;
+        db_cfg.db_path = db_path_ + "/db";
+        db_cfg.enable_blobdb = false;
+        storage_ = std::make_unique<RocksDBWrapper>(db_cfg);
+        ASSERT_TRUE(storage_->open());
+
+        idx_ = std::make_unique<SecondaryIndexManager>(*storage_);
+        engine_ = std::make_unique<QueryEngine>(*storage_, *idx_);
+
         TaskScheduler::Config cfg;
         cfg.max_concurrent_tasks = 1;          // Only 1 slot → forces skips
         cfg.check_interval       = 50ms;
         cfg.aging_threshold      = 3;          // Boost after 3 skips
         cfg.enable_audit_logging = false;
         cfg.enable_anomaly_detection = false;
-        scheduler_ = std::make_unique<TaskScheduler>(nullptr, cfg);
+        scheduler_ = std::make_unique<TaskScheduler>(engine_.get(), cfg);
         scheduler_->registerFunction("noop", [](const nlohmann::json&) -> nlohmann::json {
             return {};
         });
     }
 
+    void TearDown() override {
+        if (scheduler_) {
+            scheduler_->stop();
+            scheduler_.reset();
+        }
+        engine_.reset();
+        idx_.reset();
+        if (storage_) {
+            storage_->close();
+            storage_.reset();
+        }
+        if (!db_path_.empty()) {
+            std::filesystem::remove_all(db_path_);
+        }
+    }
+
+    std::string db_path_;
+    std::unique_ptr<RocksDBWrapper> storage_;
+    std::unique_ptr<SecondaryIndexManager> idx_;
+    std::unique_ptr<QueryEngine> engine_;
     std::unique_ptr<TaskScheduler> scheduler_;
 };
 

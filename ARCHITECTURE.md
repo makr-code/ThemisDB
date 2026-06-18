@@ -374,6 +374,51 @@ Lifecycle management for LLM prompts and domain-specific fine-tuning adapters:
 
 ---
 
+## Security & Hardening Tiering Model (Core Module -> Plugin)
+
+To make security ownership and hardening requirements explicit, ThemisDB uses a
+strict tier model from trusted core modules to untrusted plugin boundaries.
+
+### Tier Definitions
+
+| Tier | Scope | Typical Modules | Trust Level | Blast Radius |
+|---|---|---|---|---|
+| **T0: Trusted Core** | Minimal trusted computing base, bootstrapping, memory/lifecycle primitives | `src/core/`, `src/base/`, `src/themis/`, `src/utils/` | Highest | System-wide compromise risk |
+| **T1: Security & Platform Services** | Identity, cryptography, policy, config validation, audit | `src/security/`, `src/auth/`, `src/governance/`, `src/config/` | Very high | Cross-module security policy bypass |
+| **T2: Data Plane Engines** | Query, transaction, storage, index, sharding/replication logic | `src/query/`, `src/storage/`, `src/index/`, `src/transaction/`, `src/sharding/`, `src/replication/` | High | Data corruption, consistency and integrity impact |
+| **T3: Interface & Protocol Edge** | External protocol handling and request ingress | `src/server/`, `src/network/`, `src/rpc_grpc/`, `src/api/`, `src/cdc/` | Medium | Remote attack surface and tenant boundary violations |
+| **T4: Managed Extension Runtime** | In-tree feature extensions with controlled interfaces | `src/llm/`, `src/llama_cpp/`, `src/whisper/`, `src/stable_diffusion/`, `src/content/`, `src/onnx_clip/` | Medium-low | Feature-domain scoped, can escalate if guardrails fail |
+| **T5: Plugin Boundary (Least Trusted)** | Dynamically loaded or remotely controlled plugin code and adapters | `src/plugins/`, selected adapters in `adapters/` | Lowest | Arbitrary code execution within plugin sandbox scope |
+
+### Dependency and Privilege Rules (Mandatory)
+
+1. **One-way dependency direction:** Higher-numbered tiers may depend on lower-numbered tiers; lower tiers must not depend on higher tiers.
+2. **No direct T5 -> T0/T1 privileged calls:** Plugins interact via brokered interfaces (`PluginManager`, RPC contracts, policy checks).
+3. **Security mediation at boundaries:** Every T3/T4/T5 entry path must pass authentication, authorization, input validation, rate limits, and audit hooks.
+4. **Least privilege by default:** Capabilities must be explicitly granted and denied by default (network, filesystem, model loading, data export).
+5. **Fail-closed behavior:** On policy/config/auth uncertainty, requests must be rejected rather than downgraded.
+
+### Hardening Baseline per Tier
+
+| Tier | Required Security Controls | Hardening Requirements | Release Gate Evidence |
+|---|---|---|---|
+| **T0** | Memory-safety review, strict ownership/lifetime validation, anti-tamper bootstrap checks | Warnings-as-errors, UB/sanitizer clean paths where supported, deterministic startup invariants | Security maintainer sign-off + focused unit/integration tests |
+| **T1** | Cryptographic policy enforcement, key-material isolation, immutable audit trail, RBAC enforcement | Production-mode gating (`THEMIS_PRODUCTION_MODE`), no insecure fallback in production, explicit error taxonomy | Security regression suite + audit evidence in `audit/` |
+| **T2** | Transaction integrity, input/schema validation, secure defaults in persistence/indexing | Safe failure semantics, WAL/recovery correctness, resource limits and quota enforcement | CTest coverage for recovery/conflict/security-relevant paths |
+| **T3** | Protocol authentication, request validation, DoS/rate limiting, tenant isolation | TLS/mTLS profile checks, strict parser limits, bounded request/body/stream settings | API security tests + protocol-specific focused tests |
+| **T4** | Model/plugin operation policy checks, content sanitization, output filtering | Runtime capability gates, bounded resource budgets, deterministic fallback behavior | Feature security tests + policy conformance checks |
+| **T5** | Signature verification, sandboxing, capability-scoped RPC, provenance checks | No implicit trust of plugin manifests, explicit allowlist/denylist, kill-switch support | Plugin verification tests + signed artifact validation |
+
+### Promotion and Change Management
+
+- Any component moving toward a lower-trust tier (for example, from T4 to T5) must include an explicit threat model update and new boundary tests.
+- Any component requiring higher trust (for example, T3 -> T2) requires architecture review plus security maintainer approval.
+- Public interfaces crossing tier boundaries must document auth model, input contract, error behavior, and audit events.
+
+This tiering is normative for architecture changes and complements the controls in [SECURITY.md](SECURITY.md), [AUDIT.md](AUDIT.md), and [GOVERNANCE.md](GOVERNANCE.md).
+
+---
+
 ## Namespace Organization
 
 ### Hierarchy

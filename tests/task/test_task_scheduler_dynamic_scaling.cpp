@@ -274,8 +274,12 @@ TEST_F(DynamicScalingTest, ScaleDown_LimitDecreasesAfterIdleTicks) {
     }
 
     scheduler_->start();
-    std::this_thread::sleep_for(300ms);
+    // Allow scale-up with bounded polling to avoid timing flakiness on slower CI hosts.
     size_t limit_after_scaleup = scheduler_->getDynamicConcurrencyLimit();
+    for (int i = 0; i < 40 && limit_after_scaleup <= 1u; ++i) {
+        std::this_thread::sleep_for(25ms);
+        limit_after_scaleup = scheduler_->getDynamicConcurrencyLimit();
+    }
 
     // Release all tasks and remove them so queue empties
     release.store(true);
@@ -286,9 +290,12 @@ TEST_F(DynamicScalingTest, ScaleDown_LimitDecreasesAfterIdleTicks) {
         scheduler_->disableTask("t_" + std::to_string(i));
     }
 
-    // Wait for scale-down_idle_ticks * tick_interval + margin
-    std::this_thread::sleep_for(300ms);
+    // Wait for scale-down with bounded polling.
     size_t limit_after_scaledown = scheduler_->getDynamicConcurrencyLimit();
+    for (int i = 0; i < 40 && limit_after_scaledown >= limit_after_scaleup; ++i) {
+        std::this_thread::sleep_for(25ms);
+        limit_after_scaledown = scheduler_->getDynamicConcurrencyLimit();
+    }
 
     EXPECT_GT(limit_after_scaleup,  1u) << "Should have scaled up first";
     EXPECT_LT(limit_after_scaledown, limit_after_scaleup)

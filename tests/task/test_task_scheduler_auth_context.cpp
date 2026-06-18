@@ -158,7 +158,11 @@ TEST_F(TaskSchedulerAuthContextTest, ThreadLocalContextIsIsolatedPerThread) {
 TEST_F(TaskSchedulerAuthContextTest, RegisterTaskAuditEventUsesThreadLocalUser) {
     auto sched = makeAuditScheduler();
 
-    TaskScheduler::setRequestContext({"operator1", "192.168.0.100"});
+    TaskScheduler::RequestContext ctx;
+    ctx.user_id = "operator1";
+    ctx.client_ip = "192.168.0.100";
+    ctx.granted_permissions.insert("task:register");
+    TaskScheduler::setRequestContext(ctx);
 
     ScheduledTask task;
     task.id   = "auth_ctx_task";

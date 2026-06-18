@@ -497,7 +497,9 @@ public:
                                     config_.source_id,
                                     file_path.string());
                                 ++processed;
-                                if (progress_callback && processed % 10 == 0) {
+                                if (progress_callback &&
+                                    (processed % 10 == 0 ||
+                                     processed == files_to_process.size())) {
                                     progress_callback(config_.source_id, processed,
                                                       files_to_process.size(),
                                                       "Validation failed: " +
@@ -525,7 +527,9 @@ public:
                     processed++;
                     
                     // Report progress
-                    if (progress_callback && processed % 10 == 0) {
+                    if (progress_callback &&
+                        (processed % 10 == 0 ||
+                         processed == files_to_process.size())) {
                         progress_callback(config_.source_id, processed, 
                                         files_to_process.size(),
                                         "Processing: " + file_path.filename().string());

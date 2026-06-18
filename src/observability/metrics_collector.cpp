@@ -239,6 +239,7 @@ void MetricsCollector::reset() {
     counters_.clear();
     gauges_.clear();
     histograms_.clear();
+    cardinality_limit_ = 0;
     series_count_per_metric_.clear();
     dropped_series_.store(0);
 }

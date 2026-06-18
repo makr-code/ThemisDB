@@ -22,6 +22,7 @@
 #include "security/encryption.h"
 #include "utils/pki_client.h"
 #include "storage/rocksdb_wrapper.h"
+#include "index/secondary_index.h"
 #include "cdc/changefeed.h"
 #include "query/query_engine.h"
 
@@ -55,9 +56,26 @@ private:
  */
 class TaskSchedulerSIEMIntegrationTest : public ::testing::Test {
 protected:
+    static std::string makeTestDir() {
+        auto ns = std::chrono::high_resolution_clock::now().time_since_epoch().count();
+        return (std::filesystem::temp_directory_path() /
+                std::filesystem::path("siem_test_" + std::to_string(ns))).string();
+    }
+
     void SetUp() override {
+    #ifdef THEMIS_EDITION_COMMUNITY
+        GTEST_SKIP() << "TaskScheduler SIEM integration tests require field_encryption support (Enterprise/Hyperscaler).";
+    #endif
+
+        // Explicitly opt in for test-only mock key provider usage.
+    #ifdef _WIN32
+        _putenv_s("THEMIS_ALLOW_MOCK_KEY_PROVIDER", "1");
+    #else
+        setenv("THEMIS_ALLOW_MOCK_KEY_PROVIDER", "1", 1);
+    #endif
+
         // Clean up any previous test artifacts
-        test_dir_ = "test_data/siem_test_" + std::to_string(time(nullptr));
+        test_dir_ = makeTestDir();
         std::filesystem::create_directories(test_dir_);
         
         // Initialize storage (required for QueryEngine)
@@ -65,18 +83,26 @@ protected:
         db_config.db_path = test_dir_ + "/db";
         // create_if_missing is default behavior
         db_wrapper_ = std::make_unique<RocksDBWrapper>(db_config);
-        db_wrapper_->open();
+        ASSERT_TRUE(db_wrapper_->open());
         
         // Initialize changefeed for CDC events
-        // NOTE: Changefeed expects rocksdb::TransactionDB*, not RocksDBWrapper*
-        changefeed_ = std::make_shared<Changefeed>(nullptr);
+        changefeed_ = std::make_shared<Changefeed>(db_wrapper_->getRawDB());
         
-        // Initialize query engine (stubbed for testing)
-        // NOTE: QueryEngine constructor changed - no longer accepts RocksDBWrapper*
-        // query_engine_ = std::make_unique<QueryEngine>(db_wrapper_.get());
+        // Initialize query engine required by TaskScheduler.
+        idx_ = std::make_unique<SecondaryIndexManager>(*db_wrapper_);
+        query_engine_ = std::make_unique<QueryEngine>(*db_wrapper_, *idx_);
         
-        // Initialize encryption (mock implementation for testing)
-        encryption_ = FieldEncryption::createDefault();
+        // Initialize encryption (mock implementation for testing).
+        // Community edition may not provide field_encryption; skip gracefully.
+        try {
+            encryption_ = FieldEncryption::createDefault();
+        } catch (const std::exception& e) {
+            const std::string msg = e.what();
+            if (msg.find("field_encryption") != std::string::npos) {
+                GTEST_SKIP() << "Field encryption unavailable in current edition: " << msg;
+            }
+            throw;
+        }
         
         // Initialize PKI client (mock)
         pki_client_ = std::make_shared<MockPKIClient>();
@@ -106,7 +132,7 @@ protected:
         scheduler_config.enable_audit_logging = true;
         
         scheduler_ = std::make_unique<TaskScheduler>(
-            nullptr,  // NOTE: QueryEngine not initialized
+            query_engine_.get(),
             scheduler_config,
             changefeed_.get(),
             audit_logger_  // NOTE: Changed from raw pointer to shared_ptr
@@ -117,10 +143,24 @@ protected:
         // Stop scheduler if running
         if (scheduler_) {
             scheduler_->stop();
+            scheduler_.reset();
+        }
+
+        changefeed_.reset();
+        query_engine_.reset();
+        idx_.reset();
+        audit_logger_.reset();
+        encryption_.reset();
+        pki_client_.reset();
+        
+        if (db_wrapper_) {
+            db_wrapper_->close();
+            db_wrapper_.reset();
         }
         
         // Clean up test directory
-        std::filesystem::remove_all(test_dir_);
+        std::error_code ec;
+        std::filesystem::remove_all(test_dir_, ec);
     }
     
     // Helper to read audit log entries
@@ -162,6 +202,7 @@ protected:
     std::string test_dir_;
     std::unique_ptr<RocksDBWrapper> db_wrapper_;
     std::shared_ptr<Changefeed> changefeed_;
+    std::unique_ptr<SecondaryIndexManager> idx_;
     std::unique_ptr<QueryEngine> query_engine_;
     std::shared_ptr<FieldEncryption> encryption_;
     std::shared_ptr<MockPKIClient> pki_client_;
@@ -338,9 +379,13 @@ TEST_F(TaskSchedulerSIEMIntegrationTest, CEFFormatGeneration) {
         {{"execution_time_ms", 123.45}, {"severity", "LOW"}}
     );
     
-    // The event should be logged (actual CEF formatting is internal)
-    auto entries = readAuditLog();
-    EXPECT_GT(entries.size(), 0);
+    // The event should be logged to the configured CEF file.
+    const std::string cef_path = test_dir_ + "/cef_audit.jsonl";
+    ASSERT_TRUE(std::filesystem::exists(cef_path));
+    std::ifstream ifs(cef_path);
+    std::string line;
+    ASSERT_TRUE(static_cast<bool>(std::getline(ifs, line)));
+    EXPECT_FALSE(line.empty());
 }
 
 /**

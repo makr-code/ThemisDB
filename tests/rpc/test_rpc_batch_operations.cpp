@@ -622,7 +622,7 @@ TEST_F(RPCBatchOperationsTest, DispatchTimesOutDuringSearchScan) {
         {
             {"collection", "search_timeout"},
             {"filter", {{"type", "gamma"}}},
-            {"limit", 100}
+            {"limit", 30000}
         },
         ctx
     );
@@ -647,7 +647,7 @@ TEST_F(RPCBatchOperationsTest, DispatchTimesOutDuringPaginatedQueryScan) {
         "paginated_query",
         {
             {"collection", "paginated_timeout"},
-            {"page_size", 50}
+            {"page_size", 30000}
         },
         ctx
     );

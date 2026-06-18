@@ -155,12 +155,21 @@ OptimizationResult SelfImprovementOrchestrator::optimizePrompt(
     result.prompt_id = prompt_id;
     result.status = OptimizationStatus::NOT_STARTED;
     result.started_at = std::chrono::system_clock::now();
+
+    auto finalizeResult = [&](OptimizationStatus fallback_status) {
+        if (result.status == OptimizationStatus::NOT_STARTED) {
+            result.status = fallback_status;
+        }
+        result.completed_at = std::chrono::system_clock::now();
+        optimization_history_[prompt_id].push_back(result);
+        last_optimization_[prompt_id] = result.completed_at;
+        return result;
+    };
     
     if (!optimizer_ || !manager_ || !tracker_) {
         THEMIS_ERROR("Required components not available");
         result.status = OptimizationStatus::FAILED;
-        result.completed_at = std::chrono::system_clock::now();
-        return result;
+        return finalizeResult(OptimizationStatus::FAILED);
     }
     
     // Get current prompt template
@@ -168,8 +177,7 @@ OptimizationResult SelfImprovementOrchestrator::optimizePrompt(
     if (!template_opt.has_value()) {
         THEMIS_ERROR("Prompt template not found: {}", prompt_id);
         result.status = OptimizationStatus::FAILED;
-        result.completed_at = std::chrono::system_clock::now();
-        return result;
+        return finalizeResult(OptimizationStatus::FAILED);
     }
     
     result.original_version = template_opt->content;
@@ -285,13 +293,9 @@ OptimizationResult SelfImprovementOrchestrator::optimizePrompt(
         result.metadata["error"] = e.what();
     }
     
-    result.completed_at = std::chrono::system_clock::now();
-    
-    // Save to history
-    optimization_history_[prompt_id].push_back(result);
-    last_optimization_[prompt_id] = result.completed_at;
-    
-    return result;
+    return finalizeResult(result.status == OptimizationStatus::NOT_STARTED
+                              ? OptimizationStatus::COMPLETED
+                              : result.status);
 }
 
 std::string SelfImprovementOrchestrator::startABTest(

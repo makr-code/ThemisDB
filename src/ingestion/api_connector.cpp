@@ -496,9 +496,10 @@ public:
                                                             cursor_response_field_);
                     if (current_cursor.empty()) break;
                 } else {
-                    // Advance offset; stop if fewer docs than requested (last page)
+                    // Advance offset; keep paging until the API returns an empty
+                    // page or an explicit total has been reached.
                     offset += docs.size();
-                    if (docs.size() < page_size_) break;
+                    if (total_hint > 0 && stats.documents_processed >= total_hint) break;
                 }
             }
         } catch (const std::exception& e) {

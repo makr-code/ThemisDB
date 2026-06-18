@@ -179,7 +179,9 @@ ReflectionStrategy DynamicReflectionPromptBuilder::getStrategy() const noexcept 
 std::string DynamicReflectionPromptBuilder::buildSelfAwareContextHeader(
     const SelfAwareContext& ctx) const {
     // Only inject a header when it carries actionable information.
-    if (ctx.uncertainty_markers.empty() && ctx.confidence >= 0.7) {
+    if (ctx.uncertainty_markers.empty() &&
+        ctx.confidence >= 0.4 &&
+        ctx.confidence <= 0.9) {
         return {};
     }
 

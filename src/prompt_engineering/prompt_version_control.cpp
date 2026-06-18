@@ -634,8 +634,13 @@ std::optional<PromptVersion> PromptVersionControl::getByTag(
     if (tag_it == prompt_it->second.end()) {
         return std::nullopt;
     }
-    
-    return getVersion(tag_it->second);
+
+    auto version_it = versions_.find(tag_it->second);
+    if (version_it == versions_.end()) {
+        return std::nullopt;
+    }
+
+    return version_it->second;
 }
 
 std::unordered_map<std::string, std::string> PromptVersionControl::listTags(

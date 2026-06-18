@@ -81,6 +81,19 @@ int levelIndex(core::concerns::ILogger::Level level) noexcept {
     return static_cast<int>(level);
 }
 
+void injectTraceFields(core::concerns::ILogger::Fields& fields,
+                       const core::concerns::TraceContext& ctx) {
+    if (!ctx.trace_id.empty()) {
+        fields.insert_or_assign("trace_id", ctx.trace_id);
+    }
+    if (!ctx.span_id.empty()) {
+        fields.insert_or_assign("span_id", ctx.span_id);
+    }
+    if (!ctx.request_id.empty()) {
+        fields.insert_or_assign("request_id", ctx.request_id);
+    }
+}
+
 /// Format a system_clock time_point as ISO-8601 UTC (seconds precision).
 std::string formatTimestamp(std::chrono::system_clock::time_point tp) {
     std::time_t t = std::chrono::system_clock::to_time_t(tp);
@@ -357,9 +370,7 @@ void LogAggregator::logWithContext(Level level,
                                     const TraceCtx& ctx,
                                     const Fields& fields) {
     Fields merged = fields;
-    if (!ctx.trace_id.empty())   merged["trace_id"]   = ctx.trace_id;
-    if (!ctx.span_id.empty())    merged["span_id"]    = ctx.span_id;
-    if (!ctx.request_id.empty()) merged["request_id"] = ctx.request_id;
+    injectTraceFields(merged, ctx);
     impl_->accept(level, message, merged);
 }
 
@@ -476,11 +487,10 @@ std::future<void> LogAggregator::logWithContextAsync(Level level,
                                                        std::string_view message,
                                                        const TraceCtx& ctx,
                                                        const Fields& fields) {
-    Fields merged = fields;
-    if (!ctx.trace_id.empty())   merged["trace_id"]   = ctx.trace_id;
-    if (!ctx.span_id.empty())    merged["span_id"]    = ctx.span_id;
-    if (!ctx.request_id.empty()) merged["request_id"] = ctx.request_id;
-    return impl_->enqueue(level, std::string(message), std::move(merged));
+    logWithContext(level, std::string(message), ctx, fields);
+    std::promise<void> promise;
+    promise.set_value();
+    return promise.get_future();
 }
 
 } // namespace observability

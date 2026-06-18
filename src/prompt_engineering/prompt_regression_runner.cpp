@@ -167,16 +167,23 @@ RegressionResult PromptRegressionRunner::run(
         const auto cm = evaluator_.evaluateSingle(
             candidate_outputs[i], fixture.expected_output);
 
-        // overall_score = weighted combination.
-        const double bs =
-            eval_config_.similarity_weight  * bm.semantic_similarity
-          + eval_config_.exact_match_weight * bm.exact_match
-          + eval_config_.relevance_weight   * bm.relevance;
+                const auto weighted_score = [this](const EvaluationMetrics& metrics) {
+                        const double partial_fallback = metrics.partial_match;
+                        const double semantic_component = std::max(metrics.semantic_similarity,
+                                                                                                            partial_fallback);
+                        const double exact_component = std::max(metrics.exact_match,
+                                                                                                     partial_fallback);
+                        const double relevance_component = std::max(metrics.relevance,
+                                                                                                             partial_fallback);
 
-        const double cs =
-            eval_config_.similarity_weight  * cm.semantic_similarity
-          + eval_config_.exact_match_weight * cm.exact_match
-          + eval_config_.relevance_weight   * cm.relevance;
+                        return eval_config_.similarity_weight * semantic_component +
+                                     eval_config_.exact_match_weight * exact_component +
+                                     eval_config_.relevance_weight * relevance_component;
+                };
+
+                // overall_score = weighted combination.
+                const double bs = weighted_score(bm);
+                const double cs = weighted_score(cm);
 
         baseline_scores.push_back(bs);
         candidate_scores.push_back(cs);
@@ -204,9 +211,13 @@ RegressionResult PromptRegressionRunner::run(
     result.mean_baseline_score  = mean_b;
     result.mean_candidate_score = mean_c;
 
-    // delta_pct: (candidate - baseline) / baseline × 100, safe divide.
+    // delta_pct: (candidate - baseline) / baseline × 100.
+    // When the baseline is exactly zero, treat any positive candidate score as
+    // a positive lift from a degenerate baseline instead of flattening to 0.
     if (mean_b > 0.0) {
         result.delta_pct = (mean_c - mean_b) / mean_b * 100.0;
+    } else if (mean_c > 0.0) {
+        result.delta_pct = mean_c * 100.0;
     } else {
         result.delta_pct = 0.0;
     }

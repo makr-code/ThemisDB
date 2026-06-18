@@ -34,6 +34,24 @@
 - [ ] Manual testing performed
 - [ ] Benchmarks run (if performance-sensitive change)
 
+## Security Tiering Impact (Required for Runtime Changes)
+
+<!-- Reference model: ARCHITECTURE.md -> Security & Hardening Tiering Model -->
+
+- Impacted tier(s):
+  - [ ] T0 Trusted Core
+  - [ ] T1 Security & Platform Services
+  - [ ] T2 Data Plane Engines
+  - [ ] T3 Interface & Protocol Edge
+  - [ ] T4 Managed Extension Runtime
+  - [ ] T5 Plugin Boundary
+  - [ ] N/A (docs-only / non-runtime)
+
+- [ ] Trust-boundary crossings documented in PR description (example: T3 -> T2, T5 -> T4 brokered call)
+- [ ] Boundary controls validated for affected T3/T4/T5 paths (AuthN/AuthZ, validation, rate limits, audit)
+- [ ] Boundary-focused tests added/updated or explicit N/A rationale provided
+- [ ] If trust level/privilege increased, security maintainer approval is attached
+
 ## 📚 Research & Knowledge (wenn applicable)
 
 - [ ] Diese PR basiert auf wissenschaftlichen Paper(s) oder Best Practices?

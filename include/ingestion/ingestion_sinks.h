@@ -373,6 +373,7 @@ private:
     std::string node_key_prefix_;
     mutable std::mutex mtx_;
     std::unordered_set<std::string> written_node_ids_;
+    std::unordered_set<std::string> written_edge_ids_;
 };
 
 /**

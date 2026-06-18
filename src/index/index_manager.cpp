@@ -326,11 +326,23 @@ Result<ISecondaryIndex*> IndexManager::createSecondaryIndex(
     }
     
     std::string name_str(name);
+    const std::string registry_key = name_str + "##" + std::string(field_name);
+
+    if (auto exact_it = secondary_indices_.find(registry_key);
+        exact_it != secondary_indices_.end()) {
+        auto* existing = exact_it->second;
+        if (existing == nullptr) {
+            THEMIS_ERROR("IndexManager::createSecondaryIndex: Index '{}.{}' registry entry is null", name_str, field_name);
+            span.setStatus(false, "Index registry entry is null");
+            return Err<ISecondaryIndex*>(errors::ErrorCode::ERR_INDEX_NOT_FOUND,
+                                         fmt::format("Index '{}.{}' exists but registry entry is null", name_str, field_name));
+        }
+        return Ok<ISecondaryIndex*>(std::move(existing));
+    }
     
     // Check if index already exists
     if (auto existing_it = secondary_indices_.find(name_str);
         existing_it != secondary_indices_.end()) {
-        THEMIS_WARN("IndexManager::createSecondaryIndex: Index '{}' already exists", name_str);
         auto* existing = existing_it->second;
         if (existing == nullptr) {
             THEMIS_ERROR("IndexManager::createSecondaryIndex: Index '{}' registry entry is null", name_str);
@@ -338,7 +350,11 @@ Result<ISecondaryIndex*> IndexManager::createSecondaryIndex(
             return Err<ISecondaryIndex*>(errors::ErrorCode::ERR_INDEX_NOT_FOUND,
                                          fmt::format("Index '{}' exists but registry entry is null", name_str));
         }
-        return Ok<ISecondaryIndex*>(std::move(existing));
+
+        const auto* existing_adapter = dynamic_cast<SecondaryIndexAdapter*>(existing);
+        if (existing_adapter != nullptr && existing_adapter->getFieldName() == field_name) {
+            return Ok<ISecondaryIndex*>(std::move(existing));
+        }
     }
     
     // Parse config for index type (default: REGULAR)
@@ -389,9 +405,15 @@ Result<ISecondaryIndex*> IndexManager::createSecondaryIndex(
         secondary_manager_, name_str, std::string(field_name),
         is_partial, predicate);
     ISecondaryIndex* raw_ptr = adapter.get();
-    owned_secondary_adapters_[name_str] = std::move(adapter);
-    secondary_indices_[name_str] = raw_ptr;
-    index_types_[name_str] = IndexType::SECONDARY;
+
+    if (secondary_indices_.find(name_str) == secondary_indices_.end()) {
+        owned_secondary_adapters_[name_str] = std::move(adapter);
+        secondary_indices_[name_str] = raw_ptr;
+        index_types_[name_str] = IndexType::SECONDARY;
+    } else {
+        owned_secondary_adapters_[registry_key] = std::move(adapter);
+        secondary_indices_[registry_key] = raw_ptr;
+    }
 
     THEMIS_INFO("IndexManager::createSecondaryIndex: Created {} index '{}'",
                 is_partial ? fmt::format("partial({})", predicate) : "regular",

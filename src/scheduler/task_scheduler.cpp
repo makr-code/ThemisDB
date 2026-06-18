@@ -1626,6 +1626,9 @@ void TaskScheduler::schedulerLoop() {
             const size_t effective_limit = config_.enable_dynamic_scaling
                 ? dynamic_limit_.load()
                 : config_.max_concurrent_tasks;
+            // Track slots consumed by already-running tasks and by tasks selected
+            // in this tick to avoid over-dispatching past effective_limit.
+            size_t scheduled_count = active_task_threads_.load();
             
             for (auto& [id, task] : tasks_) {
                 if (!task->enabled || task->running) {
@@ -1634,9 +1637,7 @@ void TaskScheduler::schedulerLoop() {
                 
                 if (shouldExecute(*task, now)) {
                     // Check concurrent task limit
-                    size_t running_count = active_task_threads_.load();
-                    
-                    if (running_count >= effective_limit) {
+                    if (scheduled_count >= effective_limit) {
                         THEMIS_DEBUG("Max concurrent tasks reached ({}), delaying task {}",
                                     effective_limit, id);
                         ++pending_count;
@@ -1672,6 +1673,7 @@ void TaskScheduler::schedulerLoop() {
                     }
                     
                     tasks_to_execute.push_back(task);
+                    ++scheduled_count;
                 }
             }
         }

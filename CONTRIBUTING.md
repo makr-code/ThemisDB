@@ -836,6 +836,20 @@ ctest --output-on-failure
 
 </details>
 
+### Tier-Based Security & Hardening Checklist (Required)
+
+For all changes that touch runtime behavior, contributors must include tier information and security evidence.
+
+1. Identify impacted tier(s) using the model in [ARCHITECTURE.md](ARCHITECTURE.md#security--hardening-tiering-model-core-module---plugin).
+2. Document trust-boundary crossings (for example T3 -> T2, T5 -> T4 broker calls).
+3. Confirm boundary controls on changed ingress/extension paths:
+   - authentication and authorization
+   - input validation and parser limits
+   - rate limiting and quota behavior
+   - audit event emission
+4. Add or update tests for changed boundaries, especially for T3/T4/T5 code paths.
+5. If a change effectively increases trust or privilege, include explicit architecture/security maintainer approval in the PR.
+
 ### PR Description Template
 
 ```markdown
@@ -863,6 +877,9 @@ Describe the tests you ran to verify your changes.
 - [ ] I have run `./scripts/check-quality.sh` and fixed all issues
 - [ ] I did not introduce Simulation/Stub/Mockup or legacy compatibility paths without explicit human approval
 - [ ] Any approved non-production path is explicitly human-marked (Reason, Activation, Production Delta, Approved By, Removal Target)
+- [ ] I classified impacted Security Tier(s) and documented trust-boundary crossings
+- [ ] I verified boundary controls (AuthN/AuthZ, validation, rate limits, audit) for affected T3/T4/T5 paths
+- [ ] I added boundary-focused tests for tier-crossing behavior or documented why not applicable
 ```
 
 ### Reviewer Gate: Non-Production Paths

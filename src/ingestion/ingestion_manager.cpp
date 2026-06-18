@@ -562,7 +562,7 @@ public:
                 
                 case SourceType::FILESYSTEM: {
                     auto fs_ingester = std::make_unique<FileSystemIngester>();
-                    if (!fs_ingester->initialize(config)) {
+                    if (!fs_ingester->initialize(config) && !dry_run_) {
                         stats.addError(IngestionErrorCode::CONNECTOR_INIT_FAILED,
                                        IngestionErrorSeverity::ERROR,
                                        "Failed to initialize filesystem ingester",
@@ -742,8 +742,10 @@ public:
                     return stats;
             }
             
-            // Check availability
-            if (!connector->isAvailable()) {
+            // Check availability for real ingestion runs. Dry-run mode is allowed
+            // to inspect source metadata or report zero-count previews without
+            // requiring the backing source to be currently reachable.
+            if (!dry_run_ && !connector->isAvailable()) {
                 stats.addError(IngestionErrorCode::SOURCE_UNAVAILABLE,
                                IngestionErrorSeverity::ERROR,
                                "Source not available: " + source_id, source_id);

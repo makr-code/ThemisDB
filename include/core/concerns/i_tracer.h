@@ -53,6 +53,20 @@ public:
         virtual void setAttribute(const std::string& key, const std::string& value) = 0;
 
         /**
+         * @brief Set a string attribute from a C string literal or buffer.
+         *
+         * This overload prevents C string arguments from binding to the bool
+         * overload through implicit pointer-to-bool conversion.
+         * A null pointer is normalised to the empty string.
+         *
+         * @param key   Attribute name (OpenTelemetry semantic convention recommended).
+         * @param value Null-terminated string value, or null for empty.
+         */
+        void setAttribute(const std::string& key, const char* value) {
+            setAttribute(key, std::string(value != nullptr ? value : ""));
+        }
+
+        /**
          * @brief Set an integer attribute on the span.
          * @param key   Attribute name.
          * @param value 64-bit integer value.

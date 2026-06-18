@@ -370,8 +370,13 @@ bool PromptABExperimentFramework::recordOutcome(
         const std::string& request_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     auto it = experiments_.find(experiment_id);
-    if (it == experiments_.end() ||
-        it->second.status != ExperimentStatus::RUNNING) {
+    if (it == experiments_.end()) {
+        return false;
+    }
+
+    const auto status = it->second.status;
+    if (status == ExperimentStatus::INCONCLUSIVE ||
+        status == ExperimentStatus::COMPLETED) {
         return false;
     }
 
@@ -391,9 +396,12 @@ bool PromptABExperimentFramework::recordOutcome(
         store.treatment.push_back(score);
     }
 
-    // Auto-check significance once both sides have min_samples.
+    // Auto-check significance only while the experiment is still actively
+    // collecting evidence. Late-arriving observations after a winner was
+    // declared are still retained for summaries and audit trails.
     const std::size_t min = it->second.min_samples;
-    if (store.control.size()   >= min &&
+    if (status == ExperimentStatus::RUNNING &&
+        store.control.size()   >= min &&
         store.treatment.size() >= min) {
         checkSignificanceLocked(experiment_id);
     }
@@ -539,9 +547,11 @@ std::optional<ExperimentSummary> PromptABExperimentFramework::getSummary(
         s.winner_version_id = eit->second.treatment_version_id;
     } else if (st == ExperimentStatus::WINNER_CONTROL ||
                st == ExperimentStatus::COMPLETED) {
-        // COMPLETED after promoteWinner() from either side; we can check
-        // which side won by comparing means (conservative fallback).
         if (st == ExperimentStatus::WINNER_CONTROL) {
+            s.winner_version_id = eit->second.control_version_id;
+        } else if (s.mean_treatment_score > s.mean_control_score) {
+            s.winner_version_id = eit->second.treatment_version_id;
+        } else if (s.control_samples > 0 || s.treatment_samples > 0) {
             s.winner_version_id = eit->second.control_version_id;
         }
     }

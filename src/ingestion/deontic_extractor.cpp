@@ -187,12 +187,19 @@ DeonticExtraction DeonticExtractor::extractRegex(const std::string& text) const 
     const auto& patterns = getDeonticPatterns();
     double total_confidence = 0.0;
     int    matched_count    = 0;
+    bool   matched_prohibition = false;
 
     for (const auto& dp : patterns) {
         if (std::regex_search(text, dp.re)) {
+            if (dp.category == DeonticCategory::PERMISSION && matched_prohibition) {
+                continue;
+            }
             double conf = dp.base_confidence;
             if (conf >= confidence_threshold_) {
                 result.deontic_categories.push_back(dp.category);
+                if (dp.category == DeonticCategory::PROHIBITION) {
+                    matched_prohibition = true;
+                }
                 total_confidence += conf;
                 ++matched_count;
             } else {

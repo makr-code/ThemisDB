@@ -454,6 +454,10 @@ WireProtocolConnectionPool::getOrCreateTargetPool(const std::string& target) {
 
 WireProtocolConnectionPool::ConnectionHandle 
 WireProtocolConnectionPool::acquireConnection(const std::string& target) {
+    // Validate the target format before creating pool state or entering the
+    // retry loop so malformed inputs fail fast with std::invalid_argument.
+    static_cast<void>(parseTarget(target));
+
     auto pool = getOrCreateTargetPool(target);
     std::unique_lock<std::mutex> lock(pool->mutex);
     

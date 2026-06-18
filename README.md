@@ -172,6 +172,20 @@ ThemisDB is organised into tracked source modules under `src/`, grouped into fou
 → Full architecture reference: [ARCHITECTURE.md](ARCHITECTURE.md)  
 → Module list and status: [ROADMAP.md](ROADMAP.md)
 
+### Security Tiering Quick Reference
+
+For security and hardening reviews, use the tier model (T0 Trusted Core -> T5 Plugin Boundary) as the default classification.
+
+| What | Where |
+|---|---|
+| Tier model and trust boundaries | [ARCHITECTURE.md](ARCHITECTURE.md#security--hardening-tiering-model-core-module---plugin) |
+| Normative security rules per tier | [SECURITY.md](SECURITY.md#-security-tiering-model-normativ) |
+| Contributor checklist for tier/boundary evidence | [CONTRIBUTING.md](CONTRIBUTING.md#tier-based-security--hardening-checklist-required) |
+| PR template section (required for runtime changes) | [.github/pull_request_template.md](.github/pull_request_template.md#security-tiering-impact-required-for-runtime-changes) |
+| Tier-to-test verification mapping | [CTEST.md](CTEST.md#tier-zu-test-mapping-security--hardening) |
+
+Rule of thumb: architecture is layered, but security acceptance is tier-based.
+
 ---
 
 ## Documentation

@@ -94,7 +94,7 @@ TEST(StubRemediation297, UnsetModifyFieldsAreNullopt) {
 TEST(StubRemediation297, PartialModifyOnlyMetadata) {
     ValidationResponse resp;
     resp.result            = FeedbackValidationResult::MODIFY;
-    resp.modified_metadata = {{"auto_tagged", true}};
+    resp.modified_metadata = nlohmann::json::object({{"auto_tagged", true}});
     // modified_comment intentionally not set
 
     EXPECT_FALSE(resp.modified_comment.has_value());

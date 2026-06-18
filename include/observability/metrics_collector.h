@@ -133,7 +133,13 @@ public:
     // Get metrics in Prometheus text format
     std::string getPrometheusMetrics() const;
     
-    // Reset all metrics (for testing)
+    /**
+     * @brief Reset all collected metric state to defaults.
+     *
+     * Clears counters, gauges, histograms, cardinality tracking, dropped-series
+     * counters, and restores the cardinality limit to the default disabled
+     * state (`0`). Intended primarily for tests and process-wide reinitialization.
+     */
     void reset();
 
     // ===== Cardinality control =====

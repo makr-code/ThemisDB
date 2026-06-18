@@ -36,6 +36,31 @@ Diese Pfade dienen als Referenz für den Root-Dokument-Abgleich zwischen
 
 ---
 
+## Tier-zu-Test-Mapping (Security & Hardening)
+
+Dieses Mapping operationalisiert das Security-Tiering aus
+[ARCHITECTURE.md](ARCHITECTURE.md#security--hardening-tiering-model-core-module---plugin)
+und dient als Mindest-Nachweis fuer tier-uebergreifende PRs.
+
+| Tier | Fokus | Mindest-Verifikation (Beispielpfad) |
+|---|---|---|
+| **T0: Trusted Core** | Bootstrap- und Kerninvarianten, Wire/Core-Basis | `ctest --preset windows-release --output-on-failure -R "^(BuildInfoTests|EditionManagerTests|ThemisWireProtocolV1Tests)$"` |
+| **T1: Security & Platform Services** | AuthN/AuthZ, Krypto, Policy, Audit | `ctest --preset windows-release --output-on-failure -R "^(JWTValidatorTests|LDAPAuthenticatorTests|LDAPConnectionPoolTests|TOTPReplayCacheTests|TOTPSecretEncryptionTests)$"` |
+| **T2: Data Plane Engines** | Integritaet, Recovery, Transaktionssicherheit | `ctest --preset transaction-tests-release --output-on-failure --parallel 2` |
+| **T3: Interface & Protocol Edge** | Ingress-Sicherheit, Parser-/Rate-Limits, Tenant-Grenzen | `ctest --preset windows-release --output-on-failure -R "^(ThemisWireProtocolV1Tests|RateLimitingImprovementsFocusedTests|.*ApiHandler.*)$"` |
+| **T4: Managed Extension Runtime** | Runtime-Capability-Gates, Sanitization, Modellpfade | `ctest --preset windows-release --output-on-failure -R "^(LlmDeploymentPluginFocusedTests|LegalDomainFocusedTests|LegalExtractionFocusedTests)$"` |
+| **T5: Plugin Boundary** | Signatur, Provenienz, Sandbox, Plugin-Policy | `ctest --preset windows-release --output-on-failure -R "^(PluginManagerFocusedTests|PluginSecurityCRLOCSPTests|PluginSecurityAuditFocusedTests|PluginMarketplaceManifestFocusedTests|PluginManagerComprehensiveFocusedTests)$"` |
+
+### Review-Regel fuer tier-relevante PRs
+
+1. PR beschreibt betroffene Tier(s) und Trust-Boundary-Crossings.
+2. Mindestens ein passender CTest-Nachweis aus der Tabelle wird in der PR referenziert.
+3. Bei T3/T4/T5-Aenderungen sind Boundary-Kontrollen (AuthN/AuthZ, Validation, Rate Limits, Audit) explizit nachzuweisen.
+
+Hinweis: Die RegEx-Beispiele sind Mindestpfade und duerfen durch fokussierte Modul-Tests erweitert werden.
+
+---
+
 ## Ergebnis des Komplett-Runs (Istzustand 30.03.2026)
 
 ```

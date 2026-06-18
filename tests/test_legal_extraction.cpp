@@ -910,9 +910,15 @@ TEST(LegalLlmAdapterTest, BuildExtractorFnIsEmptyWithoutModel) {
 TEST(LegalLlmAdapterTest, BuildExtractorFnWithNonExistentModelIsEmpty) {
     LegalLlmAdapter adapter;
     adapter.setConfig(LlmAdapterConfig("/nonexistent/path/model.gguf"));
-    // File doesn't exist → isLlmAvailable returns false → empty fn
+    // Without LLM support the adapter degrades gracefully to regex fallback.
+    // With THEMIS_ENABLE_LLM, an explicit but inaccessible model path is a
+    // configuration error and must fail closed.
+#ifdef THEMIS_ENABLE_LLM
+    EXPECT_THROW(adapter.buildExtractorFn(), std::runtime_error);
+#else
     auto fn = adapter.buildExtractorFn();
     EXPECT_FALSE(static_cast<bool>(fn));
+#endif
 }
 
 TEST(LegalLlmAdapterTest, BuildExtractorUsesRegexFallbackWhenNoLlm) {

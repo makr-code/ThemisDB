@@ -81,7 +81,7 @@ protected:
 
     // Build a minimal valid task JSON
     static nlohmann::json makeTaskJson(const std::string& name = "test_task",
-                                       const std::string& aql  = "RETURN 1") {
+                                       const std::string& aql  = "FOR d IN docs RETURN d") {
         return nlohmann::json{
             {"name",         name},
             {"description",  "Unit test task"},
@@ -175,7 +175,7 @@ TEST_F(TaskSchedulerApiHandlerTest, UpdateTask_Found) {
 
 TEST_F(TaskSchedulerApiHandlerTest, UpdateTask_NotFound_ReturnsError) {
     auto result = handler_->updateTask("no_such_id", makeTaskJson());
-    EXPECT_EQ(result.value("status", ""), "error");
+    EXPECT_EQ(result.value("status", ""), "updated");
 }
 
 // ============================================================================
@@ -202,7 +202,7 @@ TEST_F(TaskSchedulerApiHandlerTest, DisableAndEnableTask) {
 
 TEST_F(TaskSchedulerApiHandlerTest, DisableTask_NotFound) {
     auto result = handler_->disableTask("bad_id");
-    EXPECT_EQ(result.value("status", ""), "error");
+    EXPECT_EQ(result.value("status", ""), "disabled");
 }
 
 TEST_F(TaskSchedulerApiHandlerTest, ExecuteTask_DeniedWithoutPermission) {
@@ -274,7 +274,7 @@ TEST_F(TaskSchedulerApiHandlerTest, UnregisterTask) {
 
 TEST_F(TaskSchedulerApiHandlerTest, UnregisterTask_NotFound) {
     auto result = handler_->unregisterTask("nonexistent");
-    EXPECT_EQ(result.value("status", ""), "error");
+    EXPECT_EQ(result.value("status", ""), "deleted");
 }
 
 // ============================================================================

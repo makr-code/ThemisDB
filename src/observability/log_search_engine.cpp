@@ -21,10 +21,22 @@
 #include "observability/log_search_engine.h"
 
 #include <algorithm>
+#include <cctype>
 #include <set>
 
 namespace themis {
 namespace observability {
+
+namespace {
+
+std::string toLowerCopy(const std::string& text) {
+    std::string lower = text;
+    std::transform(lower.begin(), lower.end(), lower.begin(),
+                   [](unsigned char c) { return static_cast<char>(std::tolower(c)); });
+    return lower;
+}
+
+} // namespace
 
 // ---------------------------------------------------------------------------
 // LogFieldFilter::matches
@@ -73,7 +85,9 @@ bool LogSearchEngine::matchesQuery(const LogEntry& entry,
 
     // Message substring search
     if (!query.message_contains.empty()) {
-        if (entry.message.find(query.message_contains) == std::string::npos) {
+        const std::string message_lower = toLowerCopy(entry.message);
+        const std::string needle_lower = toLowerCopy(query.message_contains);
+        if (message_lower.find(needle_lower) == std::string::npos) {
             return false;
         }
     }

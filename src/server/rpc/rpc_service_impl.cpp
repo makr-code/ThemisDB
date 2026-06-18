@@ -1992,6 +1992,13 @@ json ThemisRPCService::handleSearchInternal(
                 "Database storage not initialized"
             );
         }
+
+        if (isDeadlineExceeded(deadline)) {
+            return createError(
+                themis::plugins::rpc::RPCErrorCode::QUERY_TIMEOUT,
+                "Request deadline exceeded during search setup"
+            );
+        }
         
         // Extract search parameters
         std::string model(params.value("model", ""));
@@ -2394,6 +2401,13 @@ json ThemisRPCService::handlePaginatedQueryInternal(
             return createError(
                 themis::plugins::rpc::RPCErrorCode::INTERNAL_ERROR,
                 "Database storage not initialized"
+            );
+        }
+
+        if (isDeadlineExceeded(deadline)) {
+            return createError(
+                themis::plugins::rpc::RPCErrorCode::QUERY_TIMEOUT,
+                "Request deadline exceeded during paginated query setup"
             );
         }
         

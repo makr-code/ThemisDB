@@ -208,8 +208,9 @@ TEST(LLMAQLEmbeddingBridge, EMB_05_LibraryUsesBridgeForSemanticRanking) {
     int provider_call_count = 0;
     CapturingBridge provider([&](const std::string& text) -> std::vector<float> {
         ++provider_call_count;
-        // Make "list all users" most similar to the query "enumerate users"
-        if (text.find("users") != std::string::npos) {
+        // Map only the exact target example and the query to the same vector.
+        // All other built-in examples are mapped away to make ranking deterministic.
+        if (text == "list all users" || text == "enumerate users") {
             return {1.0f, 0.0f};
         }
         return {0.0f, 1.0f};
@@ -218,8 +219,9 @@ TEST(LLMAQLEmbeddingBridge, EMB_05_LibraryUsesBridgeForSemanticRanking) {
     library.setEmbeddingProvider(&provider);
     library.rebuildEmbeddingIndex();
 
-    // The rebuild should have called the provider for each stored example.
-    EXPECT_EQ(provider_call_count, 2)
+    // The rebuild should call the provider for every currently registered example
+    // (built-ins + the custom examples from this test).
+    EXPECT_EQ(provider_call_count, static_cast<int>(library.size()))
         << "rebuildEmbeddingIndex() must embed all stored examples";
 
     // findRelevant should call the provider once for the query and return

@@ -429,6 +429,10 @@ Result<void> GraphStoreSinkAdapter::writeRelations(const std::vector<EntityRelat
                       "failed to persist edge '" + edge.from_id + "->" + edge.to_id +
                       "': " + status.message));
         }
+
+        written_edge_ids_.insert(
+            edge.from_id + "\n" + edge.to_id + "\n" +
+            std::to_string(static_cast<int>(edge.relation_type)));
     }
     return {};
 }
@@ -439,7 +443,8 @@ std::size_t GraphStoreSinkAdapter::nodeCount() const {
 }
 
 std::size_t GraphStoreSinkAdapter::edgeCount() const {
-    return graph_index_->getTopologyEdgeCount();
+    std::lock_guard<std::mutex> lock(mtx_);
+    return written_edge_ids_.size();
 }
 
 VectorIndexSinkAdapter::VectorIndexSinkAdapter(

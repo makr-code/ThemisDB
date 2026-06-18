@@ -39,7 +39,7 @@ enum class CompressionStrategy {
 struct PromptCompressionConfig {
     CompressionStrategy strategy              = CompressionStrategy::SELECTIVE_TRIM;
     int                 target_token_budget   = 2048; ///< Target tokens after compression.
-    float               max_compression_ratio = 0.5f; ///< Max fraction of tokens to drop.
+    float               max_compression_ratio = 1.0f; ///< Max fraction of tokens to drop; 1.0 disables the limit.
     bool                preserve_system_prompt = true; ///< Keep leading system-prompt block.
     int                 preserve_last_n_turns  = 3;    ///< Keep last N conversational turns.
     std::string         summary_model_id;              ///< Model ID hint for SUMMARY strategy.

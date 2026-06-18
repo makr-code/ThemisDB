@@ -240,50 +240,84 @@ std::vector<std::pair<std::size_t, GesetzNode>> GesetzParser::extractParagraphsW
 {
     std::vector<std::pair<std::size_t, GesetzNode>> result;
 
-    // Split on §-boundaries; capture (match_start, body_start)
-    const std::regex para_split(
-        R"((?:^|\n)(§§?\s*\d+[a-zA-Z]?(?:\s+\w+)?)\s*\n)",
-        std::regex::icase);
+    auto parseParagraphHeader = [](const std::string& line,
+                                   std::string& number,
+                                   std::string& heading) {
+        const std::string trimmed = themis::utils::trim(line);
+        if (trimmed.empty() || trimmed.rfind("§", 0) != 0) {
+            return false;
+        }
 
-    // headers[i] = { heading_text, body_start_offset }
-    // match_starts[i] = byte offset of the § match start in text
-    std::vector<std::pair<std::string, std::size_t>> headers;
-    std::vector<std::size_t> match_starts;
+        std::size_t pos = trimmed.find_first_not_of("§ ", 0);
+        if (pos == std::string::npos || !std::isdigit(static_cast<unsigned char>(trimmed[pos]))) {
+            return false;
+        }
 
-    auto it = std::sregex_iterator(text.begin(), text.end(), para_split);
-    for (auto e = std::sregex_iterator(); it != e; ++it) {
-        match_starts.push_back(static_cast<std::size_t>((*it).position()));
-        headers.emplace_back(themis::utils::trim((*it)[1].str()),
-                             static_cast<std::size_t>((*it).position() + (*it).length()));
-    }
+        std::size_t end = pos;
+        while (end < trimmed.size() &&
+               (std::isalnum(static_cast<unsigned char>(trimmed[end])) || trimmed[end] == '.')) {
+            ++end;
+        }
 
-    for (std::size_t i = 0; i < headers.size(); ++i) {
-        const auto body_start = headers[i].second;
-        const auto body_end   = (i + 1 < headers.size())
-                                    ? (headers[i + 1].second - headers[i + 1].first.size() - 1)
-                                    : text.size();
+        number = themis::utils::trim(trimmed.substr(0, end));
+        heading = themis::utils::trim(trimmed.substr(end));
+        return !number.empty();
+    };
 
-        const std::string body = (body_start < text.size())
-            ? text.substr(body_start, body_end > body_start ? body_end - body_start : 0)
-            : "";
+    auto finalizeParagraph = [&](std::size_t start_offset,
+                                 const std::string& number,
+                                 const std::string& heading,
+                                 std::string& body) {
+        if (number.empty()) {
+            return;
+        }
 
         GesetzNode para;
-        para.type   = GesetzNodeType::PARAGRAPH;
-        para.number = headers[i].first;
-        para.text   = themis::utils::trim(body);
+        para.type = GesetzNodeType::PARAGRAPH;
+        para.number = themis::utils::trim(number);
+        para.heading = themis::utils::trim(heading);
+        para.text = themis::utils::trim(body);
 
-        // Extract Absätze
-        auto abs_it = std::sregex_iterator(body.begin(), body.end(), RE_ABSATZ);
+        auto abs_it = std::sregex_iterator(para.text.begin(), para.text.end(), RE_ABSATZ);
         for (auto ae = std::sregex_iterator(); abs_it != ae; ++abs_it) {
             GesetzNode abs;
-            abs.type   = GesetzNodeType::ABSATZ;
+            abs.type = GesetzNodeType::ABSATZ;
             abs.number = "(" + (*abs_it)[1].str() + ")";
-            abs.text   = themis::utils::trim((*abs_it)[2].str());
+            abs.text = themis::utils::trim((*abs_it)[2].str());
             para.children.push_back(std::move(abs));
         }
 
-        result.emplace_back(match_starts[i], std::move(para));
+        result.emplace_back(start_offset, std::move(para));
+        body.clear();
+    };
+
+    std::istringstream input(text);
+    std::string line;
+    std::string current_number;
+    std::string current_heading;
+    std::string current_body;
+    std::size_t current_offset = 0;
+    std::size_t line_offset = 0;
+
+    while (std::getline(input, line)) {
+        std::string parsed_number;
+        std::string parsed_heading;
+        if (parseParagraphHeader(line, parsed_number, parsed_heading)) {
+            finalizeParagraph(current_offset, current_number, current_heading, current_body);
+            current_offset = line_offset;
+            current_number = std::move(parsed_number);
+            current_heading = std::move(parsed_heading);
+        } else if (!current_number.empty()) {
+            if (!current_body.empty()) {
+                current_body += "\n";
+            }
+            current_body += line;
+        }
+
+        line_offset += line.size() + 1;
     }
+
+    finalizeParagraph(current_offset, current_number, current_heading, current_body);
 
     return result;
 }
@@ -527,7 +561,7 @@ BescheidEntity BescheidExtractor::extract(const std::string& text) const {
 
     // Aktenzeichen
     static const std::regex re_az(
-        R"((?:Aktenzeichen|Az\.|Geschäftszeichen|AZ)[:\s]+([A-Z0-9\-/]+(?:\s[A-Z0-9\-/]+)?))",
+        R"((?:Aktenzeichen|Az\.|Geschäftszeichen|AZ)\s*:\s*([^\r\n]+))",
         std::regex::icase);
     // Antragsteller
     static const std::regex re_ant(

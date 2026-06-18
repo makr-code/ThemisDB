@@ -151,10 +151,13 @@ public:
     /**
      * @brief Check whether a real LLM backend is available.
      *
-     * Delegates to `ITextGenerationBackend::isAvailable()` on the injected
-     * backend.  Returns `false` when using the default `NullTextGenerationBackend`.
+        * When a `model_path` is configured, this validates that the referenced
+        * model file is accessible for reading. Without a configured model path,
+        * the check delegates to `ITextGenerationBackend::isAvailable()` on the
+        * injected backend.
      *
-     * @return true if the backend is ready for inference
+        * @return true if a configured model file is readable or the injected
+        *         backend reports that it is ready for inference
      */
     bool isLlmAvailable() const;
 
@@ -168,10 +171,16 @@ public:
      * inference engine with a structured German legal extraction prompt and
      * parses the JSON response into a `DeonticExtraction`.
      *
+    * Throws when a model path is explicitly configured but the file cannot
+    * be opened. This keeps misconfigured deployments fail-closed instead of
+    * silently degrading to regex extraction.
+    *
      * The returned function captures the model configuration by value so it
      * remains valid independently of the `LegalLlmAdapter` instance lifetime.
      *
      * @return ExtractorFn (may be empty in Phase 1 / when no model is set)
+    * @throws std::runtime_error if `config_.model_path` is set but the model
+    *         file is not readable
      */
     DeonticExtractor::ExtractorFn buildExtractorFn() const;
 
