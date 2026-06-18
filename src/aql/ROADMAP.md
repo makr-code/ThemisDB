@@ -13,6 +13,20 @@ Production AQL-assistance surfaces exist across translation, validation, tooling
 - [x] hardening of generated-query safety and degraded-mode behaviors (Target: Q3 2026) **COMPLETED v1.6.0**
 - [~] performance gate consolidation for AQL assistance benchmark paths (Target: Q3 2026)
 - [~] consistency hardening across helper and bridge integration surfaces (Target: Q3 2026)
+- [~] **AQL Parser Integration Consolidation** — Phase 1-2 (coordinated with src/query/, 2026-06-18 → ongoing)
+  - Formalize dependency contract between LLM layer (this module) and Query Engine (src/query/)
+  - [x] Phase 1: Define integration boundary (12 hrs) ✅ 2026-06-18
+    - Created `src/query/AQL_LLM_INTEGRATION_CONTRACT.md` (canonical specification)
+    - Updated architecture docs in both src/query/ and src/aql/
+  - [~] Phase 2: Wire parser validation + metrics (20 hrs) 🔄 IN PROGRESS
+    - ✅ validateAQLWithParser() already implemented in llm_aql_handler.cpp
+    - ✅ translateNLToAQL() calls validation with retry-on-error logic
+    - ✅ Prometheus metrics instrumentation added to validation pipeline
+    - ✅ Created integration test suite (16 test cases)
+  - [ ] Phase 3: Consolidate documentation (12 hrs) 📋 PLANNED
+    - Unify duplicate content across AQL roadmaps
+  - [ ] Phase 4: Unify testing and performance SLA (20 hrs) 📋 PLANNED
+  - Full details: [src/query/AQL_CONSOLIDATION_AUDIT_2026_06_18.md](../query/AQL_CONSOLIDATION_AUDIT_2026_06_18.md)
 
 ## Planned Features
 

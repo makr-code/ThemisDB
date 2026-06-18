@@ -325,6 +325,81 @@ else()
     message(STATUS "QueryFederation routing focused tests not found at ${CMAKE_CURRENT_LIST_DIR}/test_query_federation_routing.cpp")
 endif()
 
+if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_aql_llm_integration.cpp")
+    message(STATUS "Adding AQL LLM Integration validation tests (AQL Consolidation Phase 2)")
+
+    add_executable(test_aql_llm_integration_focused
+        test_aql_llm_integration.cpp
+    )
+
+    target_include_directories(test_aql_llm_integration_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_aql_llm_integration_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        nlohmann_json::nlohmann_json
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_aql_llm_integration_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    themis_register_module_focused_test(
+        MODULE query
+        NAME AQLLLMIntegrationTests
+        TARGET test_aql_llm_integration_focused
+        TIER integration
+        TIMEOUT 60
+        LABELS aql parser llm validation consolidation
+    )
+
+    message(STATUS "  AQL LLM Integration: Parser validation, diagnostic enrichment, error feedback, retry pipeline")
+else()
+    message(STATUS "AQL LLM Integration tests not found at ${CMAKE_CURRENT_LIST_DIR}/test_aql_llm_integration.cpp")
+endif()
+
+if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_aql_validation_performance.cpp")
+    message(STATUS "Adding AQL Validation Performance tests (AQL Consolidation Phase 4)")
+
+    add_executable(test_aql_validation_performance_focused
+        test_aql_validation_performance.cpp
+    )
+
+    target_include_directories(test_aql_validation_performance_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_aql_validation_performance_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_aql_validation_performance_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    themis_register_module_focused_test(
+        MODULE query
+        NAME AQLValidationPerformanceTests
+        TARGET test_aql_validation_performance_focused
+        TIER performance
+        TIMEOUT 120
+        LABELS aql parser validation performance sla consolidation
+    )
+
+    message(STATUS "  AQL Validation Performance: SLA verification (≤500ms), throughput (≥100q/s), error enrichment")
+else()
+    message(STATUS "AQL Validation Performance tests not found at ${CMAKE_CURRENT_LIST_DIR}/test_aql_validation_performance.cpp")
+endif()
+
 # AUTOGEN PREFIX BLOCK: query
 file(GLOB QUERY_AUTOGEN_PREFIX_TEST_SOURCES
     "${CMAKE_CURRENT_SOURCE_DIR}/test_query_*.cpp"

@@ -84,6 +84,42 @@ public:
     );
     
     /**
+     * @brief Record AQL parser validation metrics
+     * 
+     * Tracks AQL validation operations for consolidation Phase 2.
+     * Metric: aql_validation_total{status="success|parse_error|timeout|exception"}
+     */
+    void recordAQLValidation(
+        bool success,
+        std::chrono::milliseconds duration,
+        const std::string& error_reason = ""  // e.g., "parse_error", "timeout", "exception"
+    );
+    
+    /**
+     * @brief Record AQL generation attempt metrics
+     * 
+     * Tracks NL-to-AQL generation attempts for consolidation Phase 2.
+     * Metric: aql_generation_attempts_total{status="success|parse_error|retry|rejected"}
+     */
+    void recordAQLGenerationAttempt(
+        bool success,
+        int attempt_number,
+        std::chrono::milliseconds duration,
+        const std::string& outcome = ""  // e.g., "success", "parse_error", "max_retries_exceeded"
+    );
+    
+    /**
+     * @brief Record AQL validation retry
+     * 
+     * Tracks retry attempts after validation failure.
+     * Metric: aql_validation_retries_total{outcome="success|failed"}
+     */
+    void recordValidationRetry(
+        bool retry_succeeded,
+        int attempt_number
+    );
+    
+    /**
      * @brief Record cache hit/miss
      */
     void recordCacheAccess(

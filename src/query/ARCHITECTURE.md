@@ -220,10 +220,53 @@ AQL: "FOR doc IN documents
 
 ---
 
-## 12. References
+## 12. LLM Integration Points
+
+The Query module intentionally exposes only a **read-only, public parser interface** for consumption by the LLM assistance layer (`src/aql/`). This prevents circular dependencies and keeps the query engine independent of LLM components.
+
+### 12.1 Public APIs for LLM Layer
+
+**See:** `src/query/AQL_LLM_INTEGRATION_CONTRACT.md` (canonical integration specification)
+
+**Exposed Interfaces:**
+- `AQLParserService` abstract class (stable interface for parser calls)
+- `AQLParserServiceImpl` concrete implementation
+- `ParseResult` struct (AST + diagnostics)
+- `ParserDiagnostics` struct (error location, suggestions)
+
+**One-Way Dependency:**
+```
+src/aql/ (LLM Integration)
+    └─→ calls AQLParserService::parse() [src/query/]
+    
+src/query/ (Query Engine)
+    └─→ NEVER imports from src/aql/
+```
+
+### 12.2 LLM Validation Pipeline
+
+When the LLM layer generates candidate AQL strings (from natural language), it **MUST**:
+1. Call `AQLParserService::parse(aql_string)` to validate syntax
+2. On parse failure: attempt retry with corrective feedback (max 1 retry)
+3. Return only validated AQL to the user (never unvalidated strings)
+4. Emit metrics: `aql_validation_failures_total`, `aql_validation_successes_total`
+
+**Location:** `src/aql/llm_aql_handler.cpp::validateAQLWithParser()`
+
+### 12.3 SLA & Guarantees
+
+- **Parser call duration:** ≤ 500ms (includes AST construction and diagnostics)
+- **Timeout handling:** Convert to `ParseResult::error` if exceeded
+- **Backward compatibility:** Query engine continues to work if LLM layer is unavailable
+
+---
+
+## 13. References
 
 - `src/query/README.md` — module overview
 - `src/query/FUTURE_ENHANCEMENTS.md` — roadmap
+- `src/query/AQL_LLM_INTEGRATION_CONTRACT.md` — LLM integration specification (canonical)
+- `src/aql/README.md` — LLM integration layer overview
 - `docs/aql_language_guide.md` — AQL language reference
 - `docs/query_optimizer.md` — optimizer internals
 - `ARCHITECTURE.md` (root) — full system architecture

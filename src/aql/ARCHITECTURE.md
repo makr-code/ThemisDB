@@ -32,6 +32,31 @@ The AQL module composes assistance-oriented components around AQL authoring and 
 | context/scoring interfaces | manage quality signals and bounded conversation state |
 | tooling interfaces | expose helper utilities for docs, templates, and orchestration |
 
+## Integration with Query Module (src/query/)
+
+This module is **intentionally layered on top** of the core Query Engine. It depends on but is not depended upon:
+
+**Dependency:**
+```
+src/aql/ (LLM Assistance)
+    └─→ calls AQLParserService::parse() [from src/query/]
+    └─→ reads FunctionRegistry [from src/query/]
+    └─→ uses QueryOptimizer::estimateCost() [from src/query/]
+
+src/query/ (Query Engine)
+    └─→ NEVER imports from src/aql/
+```
+
+**Validation Pipeline:**
+When LLM generates candidate AQL (in `llm_aql_handler.cpp`):
+1. Generate NL→AQL via LLM client
+2. **Call `AQLParserService::parse(aql_string)` → validate syntax** (NEW)
+3. On failure: attempt retry with corrective feedback (max 1×)
+4. Return only validated AQL to user
+5. Emit metrics to Prometheus
+
+**For Details:** See [`src/query/AQL_LLM_INTEGRATION_CONTRACT.md`](../query/AQL_LLM_INTEGRATION_CONTRACT.md) (canonical integration specification)
+
 ## Failure Semantics
 
 - malformed or unsupported flows return structured errors rather than silent acceptance.

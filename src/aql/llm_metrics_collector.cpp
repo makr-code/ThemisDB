@@ -213,6 +213,74 @@ void LLMMetricsCollector::recordCircuitBreakerState(const std::string &operation
     exporter_->setGauge("llm_circuit_breaker_state", state_value, {{"operation", operation}});
 }
 
+void LLMMetricsCollector::recordAQLValidation(
+    bool success,
+    std::chrono::milliseconds duration,
+    const std::string& error_reason) {
+    std::lock_guard<std::mutex> lock(mutex_);
+
+    // Record validation latency
+    exporter_->observeHistogram(
+        "aql_validation_duration_seconds",
+        duration.count() / 1000.0,
+        {{"status", success ? "success" : "failed"}});
+
+    // Record validation result
+    std::string status = success ? "success" : "parse_error";
+    if (!error_reason.empty()) {
+        status = error_reason;  // Use specific error reason if provided
+    }
+
+    exporter_->incrementCounter(
+        "aql_validation_total",
+        {{"status", status}});
+}
+
+void LLMMetricsCollector::recordAQLGenerationAttempt(
+    bool success,
+    int attempt_number,
+    std::chrono::milliseconds duration,
+    const std::string& outcome) {
+    std::lock_guard<std::mutex> lock(mutex_);
+
+    // Record generation latency
+    exporter_->observeHistogram(
+        "aql_generation_duration_seconds",
+        duration.count() / 1000.0,
+        {{"attempt", std::to_string(attempt_number)},
+         {"status", success ? "success" : "failed"}});
+
+    // Record generation attempt
+    std::string result_status = success ? "success" : "parse_error";
+    if (!outcome.empty()) {
+        result_status = outcome;  // Use specific outcome if provided
+    }
+
+    exporter_->incrementCounter(
+        "aql_generation_attempts_total",
+        {{"attempt_number", std::to_string(attempt_number)},
+         {"status", result_status}});
+
+    // Track retries
+    if (!success && attempt_number > 1) {
+        exporter_->incrementCounter(
+            "aql_generation_retries_total",
+            {{"attempt", std::to_string(attempt_number)},
+             {"outcome", result_status}});
+    }
+}
+
+void LLMMetricsCollector::recordValidationRetry(
+    bool retry_succeeded,
+    int attempt_number) {
+    std::lock_guard<std::mutex> lock(mutex_);
+
+    exporter_->incrementCounter(
+        "aql_validation_retries_total",
+        {{"attempt", std::to_string(attempt_number)},
+         {"outcome", retry_succeeded ? "success" : "failed"}});
+}
+
 LLMMetricsCollector &LLMMetricsCollector::instance() {
     static LLMMetricsCollector instance;
     return instance;

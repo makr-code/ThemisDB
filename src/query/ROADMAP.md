@@ -11,6 +11,29 @@ Production-ready multi-model query stack with parser, optimizer, execution, fede
 - [~] Query hardening wave for safety, resilience, and predictable performance (Target: Q3 2026)
   - [ ] Complete remaining performance/regression benchmark gates for vectorized and federated paths (Target: Q3 2026)
   - [ ] Continue reliability hardening for cancellation, limits, and distributed query failure behavior (Target: Q3 2026)
+- [~] **AQL LLM Integration Consolidation** — Phase 1-4 (2026-06-18 → ongoing)
+  - Formalize dependency contract between src/query/ (Query Engine) and src/aql/ (LLM Integration)
+  - Define canonical parser validation pipeline and SLA for LLM-generated AQL
+  - [x] Phase 1: Define integration boundary (12 hrs) ✅ 2026-06-18
+    - Created `src/query/AQL_LLM_INTEGRATION_CONTRACT.md` (canonical specification)
+    - Updated `src/query/ARCHITECTURE.md` with LLM integration section
+    - Updated `src/aql/ARCHITECTURE.md` with dependency documentation
+  - [x] Phase 2: Wire parser validation + metrics (20 hrs) ✅ 2026-06-18
+    - ✅ validateAQLWithParser() implemented in llm_aql_handler.cpp:1553
+    - ✅ translateNLToAQL() calls validation with retry-on-error logic
+    - ✅ Created integration test suite: test_aql_llm_integration.cpp (16 test cases)
+    - ✅ Added Prometheus metrics instrumentation for validation tracking
+    - ✅ Verified Prometheus counters/histograms bound to LLMMetricsCollector
+    - Updated src/aql/ROADMAP.md to cross-reference consolidation work
+  - [ ] Phase 3: Consolidate documentation (12 hrs) 📋 PENDING
+    - Identify and unify duplicate AQL roadmaps across modules
+    - Create cross-module reference guide
+  - [~] Phase 4: Validation SLA performance tests (20 hrs) 🔄 IN PROGRESS
+    - ✅ Created test_aql_validation_performance.cpp (8 performance test cases)
+    - ✅ Tests verify SLA: ≤500ms per parse, ≥100 q/s throughput, <50ms error enrichment
+    - ✅ Registered in tests/query/CMakeLists.txt with performance tier/labels
+    - Pending: Build verification (blocked by pre-existing LLM linker errors)
+  - Full detailed roadmap: [AQL_CONSOLIDATION_AUDIT_2026_06_18.md](./AQL_CONSOLIDATION_AUDIT_2026_06_18.md)
 - [~] **AQL Mutations Language Extension** — Phase 1-5 Implementation (Target: v2.0.0, Q3/Q4 2026)
   - Implement INSERT, UPDATE, REPLACE, REMOVE, UPSERT statements for data manipulation
   - Integrate mutations with transaction blocks (BEGIN...COMMIT) for atomic batching

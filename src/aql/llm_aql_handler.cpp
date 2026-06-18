@@ -23,6 +23,7 @@
 #include <algorithm>
 #include <atomic>
 #include <cctype>
+#include <chrono>
 #include <cmath>
 #include <future>
 #include <regex>
@@ -1554,9 +1555,17 @@ static std::pair<bool, std::string> validateAQLWithParser(
     const std::string& aql_query,
     const std::shared_ptr<query::AQLParserService>& parser_service_ptr)
 {
+    // Timing for metrics
+    auto start_time = std::chrono::steady_clock::now();
+    
     // Phase 0.3 Bridge: Try AST parsing first if parser service available
     if (parser_service_ptr) {
         auto parse_result = parser_service_ptr->parse(aql_query);
+        
+        // Record validation metrics
+        auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(
+            std::chrono::steady_clock::now() - start_time);
+        
         if (!parse_result.success) {
             // Enrich error message with parser diagnostics
             std::string error_msg = "Parser error: " + parse_result.diagnostics.error_message;
@@ -1586,15 +1595,26 @@ static std::pair<bool, std::string> validateAQLWithParser(
                 }
             }
             
+            // Record validation failure metrics
+            LLMMetricsCollector::instance().recordAQLValidation(
+                false,
+                duration,
+                parse_result.diagnostics.error_category.empty() ? "parse_error" : parse_result.diagnostics.error_category);
+            
             return {false, error_msg};
         }
         // AST parsing succeeded
+        LLMMetricsCollector::instance().recordAQLValidation(true, duration, "");
         return {true, ""};
     }
 
     // Fallback: String-level validation via AQLQueryValidator (v1.x compatibility)
     AQLQueryValidator validator;
     auto vresult = validator.validate(aql_query);
+    
+    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(
+        std::chrono::steady_clock::now() - start_time);
+    
     if (vresult.hasErrors()) {
         auto err_it = std::find_if(vresult.issues.begin(), vresult.issues.end(),
                                    [](const ValidationIssue &i) {
@@ -1607,8 +1627,17 @@ static std::pair<bool, std::string> validateAQLWithParser(
             error_msg += " (" + err_it->clause + ")";
         }
         
+        // Record validation failure metrics (legacy path)
+        LLMMetricsCollector::instance().recordAQLValidation(
+            false,
+            duration,
+            err_it != vresult.issues.end() && !err_it->clause.empty() ? err_it->clause : "validation_error");
+        
         return {false, error_msg};
     }
+    
+    // Record validation success metrics (legacy path)
+    LLMMetricsCollector::instance().recordAQLValidation(true, duration, "");
     return {true, ""};
 }
 
@@ -1680,9 +1709,22 @@ std::string LLMAQLHandler::translateNLToAQL(const std::string &nl_query, const s
                 spdlog::warn("NL-to-AQL: Validation failed (attempt {}/{}): {}", 
                             attempt + 1, max_attempts, parse_error);
                 
+                // Record validation retry metric
+                if (attempt > 0) {
+                    LLMMetricsCollector::instance().recordValidationRetry(false, static_cast<int>(attempt + 1));
+                }
+                
                 if (mode == TranslationValidationMode::REJECT_ON_ERROR || attempt + 1 >= max_attempts) {
                     spdlog::error("NL-to-AQL: Rejecting query due to validation error (mode={:d})", 
                                  static_cast<int>(mode));
+                    
+                    // Record final attempt failure
+                    LLMMetricsCollector::instance().recordAQLGenerationAttempt(
+                        false,
+                        static_cast<int>(attempt + 1),
+                        std::chrono::milliseconds(0),
+                        "max_retries_exceeded");
+                    
                     throw LLMException(LLMErrorCode::INVALID_RESPONSE,
                                        "Generated AQL failed validation: " + validation_feedback);
                 }
@@ -1692,6 +1734,17 @@ std::string LLMAQLHandler::translateNLToAQL(const std::string &nl_query, const s
             }
 
             spdlog::info("NL-to-AQL: Validation passed (attempt {}/{})", attempt + 1, max_attempts);
+
+            // Record successful generation/validation
+            LLMMetricsCollector::instance().recordAQLGenerationAttempt(
+                true,
+                static_cast<int>(attempt + 1),
+                std::chrono::milliseconds(0),
+                "success");
+            
+            if (attempt > 0) {
+                LLMMetricsCollector::instance().recordValidationRetry(true, static_cast<int>(attempt + 1));
+            }
 
             // Log any structural issues from syntax highlighter
             AQLSyntaxHighlighter validator(/*use_ansi=*/false);
