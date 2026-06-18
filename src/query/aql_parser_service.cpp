@@ -38,9 +38,6 @@ public:
 // AQLParserServiceImpl Implementation
 // ============================================================================
 
-AQLParserServiceImpl::AQLParserServiceImpl()
-    : impl_(std::make_unique<Impl>()) {}
-
 AQLParserServiceImpl::AQLParserServiceImpl(
     bool enable_mutations,
     bool enable_ddl,
@@ -76,7 +73,8 @@ ParseResult AQLParserServiceImpl::parse(const std::string& aql_query) {
         }
         
         result.success = true;
-        result.ast = std::move(ast);
+        // PHASE GATE: AST is not exposed in ParseResult until Phase 1.
+        // Phase 0.3 limitation: Full AST access deferred pending ASTNode exposure.
         
     } catch (const std::exception& e) {
         result.success = false;

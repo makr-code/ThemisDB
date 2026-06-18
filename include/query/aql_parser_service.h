@@ -131,9 +131,6 @@ public:
  */
 class AQLParserServiceImpl : public AQLParserService {
 public:
-    /// @brief Create parser service with default configuration
-    AQLParserServiceImpl();
-    
     /// @brief Create parser service with custom feature flags
     /// @param enable_mutations Enable INSERT/UPDATE/DELETE/REPLACE/REMOVE/UPSERT
     /// @param enable_ddl Enable CREATE/DROP/ALTER

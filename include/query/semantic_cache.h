@@ -30,14 +30,19 @@
 
 #pragma once
 
-#include "storage/rocksdb_wrapper.h"
 #include "index/vector_index.h"
-#include "storage/base_entity.h"
 #include <string>
 #include <vector>
 #include <optional>
 #include <map>
 #include <chrono>
+
+// Forward declarations to avoid rocksdb header inclusion in query namespace context
+class RocksDBWrapper;
+namespace themis {
+    class VectorIndexManager;
+    struct BaseEntity;
+}
 #include <mutex>
 #include <list>
 
