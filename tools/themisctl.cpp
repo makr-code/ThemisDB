@@ -58,6 +58,7 @@
  *   snapshot create [tag]        Create a snapshot tag
  *   admin stats                  Show observability health / node stats
  *   admin cache                  Show cache health and statistics
+ *   provenance-export [options]  Export observability provenance records (--query-id, --start-ts, --end-ts, --limit, --format, --output)
  *   self-report                  Bundle self-disclosure (content + health)
  *   index recommend [table]      Show automatic index recommendations
  *   chat [options] <prompt>      Chat mode via LLM or RAG
@@ -1429,6 +1430,206 @@ static int cmdAdmin(const std::vector<std::string>& args) {
     return 2;
 }
 
+// ── provenance-export ─────────────────────────────────────────────────────────
+//
+// Export provenance records from the observability store.
+//
+// Usage:
+//   themisctl provenance-export [--query-id <id>] [--start-ts <ms>] [--end-ts <ms>]
+//                               [--limit <n>] [--format json|csv] [--output <file>]
+
+static int cmdProvenanceExport(const std::vector<std::string>& args) {
+    std::string query_id;
+    int64_t start_ts_ms = -1;
+    int64_t end_ts_ms = -1;
+    int limit = 1000;
+    std::string format = "json";
+    std::string output_file;
+
+    for (size_t i = 0; i < args.size(); ++i) {
+        const std::string& arg = args[i];
+        if (arg == "--query-id") {
+            if (i + 1 >= args.size()) {
+                std::cerr << "[" << fail() << "] --query-id requires an argument\n";
+                return 2;
+            }
+            query_id = args[++i];
+        } else if (arg == "--start-ts") {
+            if (i + 1 >= args.size()) {
+                std::cerr << "[" << fail() << "] --start-ts requires a numeric argument (milliseconds)\n";
+                return 2;
+            }
+            try {
+                start_ts_ms = std::stoll(args[++i]);
+            } catch (...) {
+                std::cerr << "[" << fail() << "] --start-ts: invalid number: " << args[i] << "\n";
+                return 2;
+            }
+        } else if (arg == "--end-ts") {
+            if (i + 1 >= args.size()) {
+                std::cerr << "[" << fail() << "] --end-ts requires a numeric argument (milliseconds)\n";
+                return 2;
+            }
+            try {
+                end_ts_ms = std::stoll(args[++i]);
+            } catch (...) {
+                std::cerr << "[" << fail() << "] --end-ts: invalid number: " << args[i] << "\n";
+                return 2;
+            }
+        } else if (arg == "--limit") {
+            if (i + 1 >= args.size()) {
+                std::cerr << "[" << fail() << "] --limit requires a numeric argument\n";
+                return 2;
+            }
+            try {
+                limit = std::stoi(args[++i]);
+            } catch (...) {
+                std::cerr << "[" << fail() << "] --limit: invalid number: " << args[i] << "\n";
+                return 2;
+            }
+            if (limit <= 0) {
+                std::cerr << "[" << fail() << "] --limit must be > 0\n";
+                return 2;
+            }
+        } else if (arg == "--format") {
+            if (i + 1 >= args.size()) {
+                std::cerr << "[" << fail() << "] --format requires an argument (json or csv)\n";
+                return 2;
+            }
+            format = args[++i];
+            if (format != "json" && format != "csv") {
+                std::cerr << "[" << fail() << "] --format must be 'json' or 'csv'\n";
+                return 2;
+            }
+        } else if (arg == "--output") {
+            if (i + 1 >= args.size()) {
+                std::cerr << "[" << fail() << "] --output requires a file path\n";
+                return 2;
+            }
+            output_file = args[++i];
+        } else {
+            std::cerr << "[" << fail() << "] unknown option: " << arg << "\n";
+            return 2;
+        }
+    }
+
+    // Build query string
+    std::ostringstream qs;
+    qs << "/api/v1/observability/provenance?limit=" << limit;
+    if (!query_id.empty()) {
+        qs << "&query_id=" << query_id;
+    }
+    if (start_ts_ms >= 0) {
+        qs << "&start_ts_ms=" << start_ts_ms;
+    }
+    if (end_ts_ms >= 0) {
+        qs << "&end_ts_ms=" << end_ts_ms;
+    }
+
+    Response r = httpGet(qs.str());
+    if (r.status == -1) {
+        std::cerr << "[" << fail() << "] Connection error: " << r.body << "\n";
+        return 3;
+    }
+    if (!r.ok()) {
+        std::cerr << "[" << fail() << "] HTTP " << r.status << "\n";
+        if (!r.body.empty()) {
+            try {
+                std::cerr << json::parse(r.body).dump(2) << "\n";
+            } catch (...) {
+                std::cerr << r.body << "\n";
+            }
+        }
+        return 1;
+    }
+
+    // Parse response
+    json response_data;
+    try {
+        response_data = json::parse(r.body);
+    } catch (const std::exception& e) {
+        std::cerr << "[" << fail() << "] Failed to parse response JSON: " << e.what() << "\n";
+        return 1;
+    }
+
+    // Extract records array
+    json records = json::array();
+    if (response_data.is_object() && response_data.contains("records")) {
+        records = response_data["records"];
+    } else if (response_data.is_array()) {
+        records = response_data;
+    }
+
+    if (!records.is_array()) {
+        std::cerr << "[" << fail() << "] Response does not contain a records array\n";
+        return 1;
+    }
+
+    // Format and output
+    std::ostringstream output_stream;
+    if (format == "csv") {
+        // CSV header
+        output_stream << "query_id,operation,timestamp_ms,details\n";
+
+        for (const auto& rec : records) {
+            if (!rec.is_object()) continue;
+
+            std::string query_id_str = rec.value("query_id", "");
+            std::string operation = rec.value("operation", "");
+            int64_t ts_ms = rec.value("timestamp_ms", 0);
+
+            // Escape quotes in details for CSV
+            std::string details_str;
+            if (rec.contains("details")) {
+                try {
+                    details_str = rec["details"].dump();
+                } catch (...) {
+                    details_str = "{}";
+                }
+            }
+            // Escape quotes
+            for (char c : details_str) {
+                if (c == '"') {
+                    output_stream << "\"";
+                }
+                output_stream << c;
+            }
+
+            // CSV row
+            output_stream << query_id_str << ","
+                          << operation << ","
+                          << ts_ms << ","
+                          << "\"" << details_str << "\"\n";
+        }
+    } else {
+        // JSON output (default)
+        json output_obj;
+        output_obj["count"] = records.size();
+        output_obj["records"] = records;
+        output_stream << output_obj.dump(2) << "\n";
+    }
+
+    // Write to file or stdout
+    if (!output_file.empty()) {
+        std::ofstream out(output_file);
+        if (!out) {
+            std::cerr << "[" << fail() << "] Cannot open output file: " << output_file << "\n";
+            return 1;
+        }
+        out << output_stream.str();
+        out.close();
+        if (!g_ctx.raw_json) {
+            std::cout << "[" << ok() << "] Provenance records exported to: " << output_file << "\n";
+            kv("format", format);
+            kv("count", std::to_string(records.size()));
+        }
+    } else {
+        std::cout << output_stream.str();
+    }
+
+    return 0;
+}
+
 // ── self-report ──────────────────────────────────────────────────────────────
 
 static int cmdSelfReport(const std::vector<std::string>& args) {
@@ -2592,6 +2793,7 @@ static int dispatchCommand(const std::string& cmd,
         {"branch",   cmdBranch},
         {"snapshot", cmdSnapshot},
         {"admin",    cmdAdmin},
+        {"provenance-export", cmdProvenanceExport},
         {"self-report", cmdSelfReport},
         {"index",    cmdIndex},
         {"chat",     cmdChat},

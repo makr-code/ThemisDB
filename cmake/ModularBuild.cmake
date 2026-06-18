@@ -1723,6 +1723,8 @@ set(THEMIS_NETWORK_SOURCES
     
     # Observability (GAP-008: Alertmanager integration + full stack)
     ../src/observability/alertmanager.cpp
+    # Observability: persistent provenance storage / export support (GAP-4.1)
+    ../src/observability/provenance_store.cpp
     # Observability: continuous profiling (pprof / async-profiler compatible)
     ../src/observability/continuous_profiler.cpp
     # Observability: eBPF-based kernel-level tracing (Issue #2055)

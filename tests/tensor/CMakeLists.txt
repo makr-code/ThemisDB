@@ -14,6 +14,18 @@ foreach(_src IN LISTS TENSOR_MODULE_TEST_SOURCES)
     endif()
 
     add_executable(${_target} "${_src}")
+    if("${_stem}" STREQUAL "test_tensor_phase3")
+        target_sources(${_target} PRIVATE
+            ${THEMIS_ROOT_DIR}/src/query/tensor_aware_query_optimizer.cpp
+            ${THEMIS_ROOT_DIR}/src/rag/targ_retrieval.cpp
+            ${THEMIS_ROOT_DIR}/src/rag/flare_retrieval.cpp
+            ${THEMIS_ROOT_DIR}/src/rag/tensor_rag_pipeline.cpp
+            ${THEMIS_ROOT_DIR}/src/storage/tensor_compaction_filter.cpp
+            ${THEMIS_ROOT_DIR}/src/tensor/tensor_butterfly_operator.cpp
+            ${THEMIS_ROOT_DIR}/src/tensor/tensor_fingerprint_graph.cpp
+            ${THEMIS_ROOT_DIR}/src/tensor/adapter_repository.cpp
+        )
+    endif()
     target_include_directories(${_target} PRIVATE
         ${THEMIS_ROOT_DIR}/include
         ${THEMIS_ROOT_DIR}/src

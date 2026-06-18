@@ -2605,6 +2605,8 @@ set(THEMIS_CORE_SOURCES
     ../src/observability/ml_anomaly_detector.cpp
     # Observability: automated root cause identification for performance issues (v1.7.0, Issue #84)
     ../src/observability/root_cause_analyzer.cpp
+    # Observability: post-generation lineage queryability (GAP-4.1, 2026-06-18)
+    ../src/observability/provenance_store.cpp
     # Observability: per-tenant metric namespacing (v1.8.0)
     ../src/observability/tenant_metrics_namespace.cpp
     # RPC service implementation

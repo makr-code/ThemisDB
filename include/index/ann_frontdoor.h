@@ -83,6 +83,20 @@ enum class AnnScopeKind : uint8_t {
     ShardSummary,
 };
 
+/**
+ * @brief Metadata for one shard in a distributed plan.
+ *
+ * Used for cost-aware pruning and shard selection ranking.
+ */
+struct ShardMetadata {
+    std::string shard_id;
+    double estimated_cost = 1.0;      /// latency_ms + io_cost
+    double estimated_relevance = 0.5; /// 0.0-1.0, inferred from shard summary
+    double estimated_freshness = 1.0; /// 0.0-1.0, age factor
+    double estimated_locality = 0.5;  /// 0.0-1.0, network locality
+    double estimated_recall = 0.95;   /// expected recall on this shard
+};
+
 // ============================================================================
 // AnnQueryContext — routing hints provided by the caller
 // ============================================================================
@@ -161,6 +175,9 @@ struct AnnRetrievalPlan {
 
     /// Human-readable route explanation.
     std::string reason;
+
+    /// Shards included after cost-aware pruning (if applicable).
+    std::vector<std::string> pruned_shard_ids;
 };
 
 // ============================================================================
@@ -309,6 +326,21 @@ public:
 
         /// If true, include the global backend in distributed fan-out.
         bool distributed_include_global_backend = true;
+
+        /// Cost-aware pruning budget: max total "cost units" across all shards.
+        /// Cost is estimated as latency_ms + io_cost.
+        /// Value 0 means no budget limit (all selected shards execute).
+        double distributed_cost_budget = 0.0;
+
+        /// Quality floor: minimum estimated recall ratio for shard participation.
+        /// Shards with estimated recall below this floor are pruned.
+        /// Range [0.0, 1.0]; 0.0 means no quality gate.
+        double distributed_quality_floor = 0.0;
+
+        /// Weights for utility scoring: alpha*relevance + beta*freshness + gamma*locality.
+        double distributed_utility_alpha = 0.6;
+        double distributed_utility_beta = 0.2;
+        double distributed_utility_gamma = 0.2;
     };
 
     // -----------------------------------------------------------------------

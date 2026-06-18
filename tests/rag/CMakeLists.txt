@@ -14,6 +14,14 @@ foreach(_src IN LISTS RAG_MODULE_TEST_SOURCES)
         ${THEMIS_ROOT_DIR}/include
         ${THEMIS_ROOT_DIR}/src
     )
+    if("${_stem}" STREQUAL "test_tensor_rag_provenance")
+        target_sources(${_target} PRIVATE
+            ${THEMIS_ROOT_DIR}/src/query/tensor_aware_query_optimizer.cpp
+            ${THEMIS_ROOT_DIR}/src/rag/targ_retrieval.cpp
+            ${THEMIS_ROOT_DIR}/src/rag/flare_retrieval.cpp
+            ${THEMIS_ROOT_DIR}/src/rag/tensor_rag_pipeline.cpp
+        )
+    endif()
     target_link_libraries(${_target} PRIVATE
         ${TEST_LIBS}
         themis_core

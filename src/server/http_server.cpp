@@ -64,6 +64,7 @@
 #include "utils/cursor.h"
 #include "utils/pii_detector.h"
 #include "observability/alertmanager.h"
+#include "observability/provenance_store.h"
 #include "performance/phase3/bao.h"
 #include "performance/workload_adaptive_optimizer.h"
 #include "prompt_engineering/feedback_collector.h"
@@ -892,6 +893,22 @@ HttpServer::HttpServer(
         &running_, &active_requests_, &active_connections_,
         concerns_   // may be nullptr - MonitoringApiHandler tolerates that
     );
+    try {
+        observability::RocksDBProvenanceStore::Config provenance_cfg;
+        if (const char* provenance_path = std::getenv("THEMIS_PROVENANCE_DB_PATH");
+            provenance_path && *provenance_path != '\0') {
+            provenance_cfg.db_path = provenance_path;
+        } else {
+            provenance_cfg.db_path = "themis_provenance_store";
+        }
+
+        provenance_store_ = std::make_shared<observability::RocksDBProvenanceStore>(
+            std::move(provenance_cfg));
+        monitoring_api_->setProvenanceStore(provenance_store_);
+        THEMIS_INFO("Provenance store initialized for observability export endpoint");
+    } catch (const std::exception& e) {
+        THEMIS_WARN("Failed to initialize provenance store: {}", e.what());
+    }
     bao_optimizer_ = std::make_shared<themis::performance::phase3::BaoOptimizer>();
     workload_optimizer_ = std::make_shared<themis::performance::WorkloadAdaptiveOptimizer>();
     live_feedback_collector_ =
@@ -2642,6 +2659,7 @@ namespace {
         ObservabilityAlertsGet,        // GET  /api/v1/observability/alerts
         ObservabilityAlertSilencePost, // POST /api/v1/observability/alerts/{id}/silence
         ObservabilityHealthGet,        // GET  /api/v1/observability/health
+        ObservabilityProvenanceGet,    // GET  /api/v1/observability/provenance
         LicenseStatusGet,              // GET  /api/v1/license/status
         Config,
         AdminBackupPost,
@@ -3063,6 +3081,7 @@ namespace {
     // Operator observability REST API (Q1)
     if (target == "/api/v1/observability/alerts" && method == http::verb::get) return Route::ObservabilityAlertsGet;
     if (target == "/api/v1/observability/health" && method == http::verb::get) return Route::ObservabilityHealthGet;
+    if (path_only == "/api/v1/observability/provenance" && method == http::verb::get) return Route::ObservabilityProvenanceGet;
     if (target == "/api/v1/license/status"       && method == http::verb::get) return Route::LicenseStatusGet;
     {
         // POST /api/v1/observability/alerts/{id}/silence
@@ -5009,6 +5028,20 @@ http::response<http::string_body> HttpServer::routeRequest(
             }
             if (monitoring_api_) {
                 response = monitoring_api_->handleObservabilityHealth(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable,
+                    "Monitoring API handler not initialized", req);
+            }
+            break;
+        case Route::ObservabilityProvenanceGet:
+            // Provenance export exposes request lineage and routing reasons; require monitoring read.
+            if (auto auth_err = requireAccess(req, "monitoring:read", "monitoring.provenance.read",
+                                              "/api/v1/observability/provenance")) {
+                response = *auth_err;
+                break;
+            }
+            if (monitoring_api_) {
+                response = monitoring_api_->handleObservabilityProvenance(req);
             } else {
                 response = makeErrorResponse(http::status::service_unavailable,
                     "Monitoring API handler not initialized", req);
@@ -13265,6 +13298,7 @@ std::vector<HttpServer::RegisteredEndpoint> HttpServer::getRegisteredEndpoints()
     endpoints.push_back({"GET",  "/api/v1/observability/alerts",            "Operator alerts"});
     endpoints.push_back({"POST", "/api/v1/observability/alerts/{id}/silence", "Silence alert"});
     endpoints.push_back({"GET",  "/api/v1/observability/health",            "Observability health"});
+    endpoints.push_back({"GET",  "/api/v1/observability/provenance",        "Retrieval provenance export"});
     endpoints.push_back({"GET",  "/api/v1/license/status",                  "License status"});
 
     // Entity API (CRUD)

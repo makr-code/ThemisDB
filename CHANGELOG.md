@@ -7,6 +7,98 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added — Observability Provenance Export Surfaces (2026-06-19)
+
+- **Operational Provenance Export API and CLI (GAP-4.1 Completion)**
+  - **API Endpoint**: GET `/api/v1/observability/provenance`
+    - Query parameters: `query_id` (for chain queries), `start_ts_ms`, `end_ts_ms` (for time-range queries), `limit` (default 1000, max 10000)
+    - Response: JSON array of provenance records with query_id, operation, timestamp_ms, and details
+    - Error handling: 400 for invalid parameters (e.g., start_ts > end_ts), 503 if provenance store not configured
+    - Full auth middleware integration via `requireAccess()` with scopes `monitoring:read` and `monitoring.provenance.read`
+    - OpenAPI metadata registered in `MonitoringApiHandler` for API discovery
+  - **CLI Command**: `themisctl provenance-export [options]`
+    - Options: `--query-id <id>`, `--start-ts <ms>`, `--end-ts <ms>`, `--limit <n>`, `--format json|csv`, `--output <file>`
+    - Supports three query modes: chain (by query_id), time-range (by timestamp window), full aggregate (all records)
+    - Output formats: JSON (default, with count and records array) or CSV (with headers: query_id, operation, timestamp_ms, details)
+    - File export capability with optional `--output` flag
+    - (`include/server/monitoring_api_handler.h`, `src/server/monitoring_api_handler.cpp`, `src/server/http_server.cpp`, `tools/themisctl.cpp`)
+  - **Test Coverage**:
+    - 4 focused API tests (`test_gap008_provenance_api_focused.cpp`): chain query filtering, time-range filtering, invalid time-range rejection, 503 without store
+    - 11 focused CLI tests (`test_gap008_provenance_cli_focused.cpp`): query string construction, parameter parsing, JSON/CSV formatting, nested details handling
+    - All tests passing: 15/15 (API: 4/4, CLI: 11/11)
+  - **Build Integration**:
+    - `cmake/ModularBuild.cmake` updated: `src/observability/provenance_store.cpp` added to `THEMIS_NETWORK_SOURCES`
+    - Both monolithic and modular CMake configurations synchronized
+    - No compiler diagnostics; successful link completion on windows-release preset
+
+### Added — Distributed Retrieval and Package Lifecycle Completion (2026-06-18)
+
+- **Cost-Aware Shard Pruning in Distributed ANN (4.2 Part 2)**
+  - `AnnFrontdoor::Config` um Utility-Score-Felder erweitert:
+    `distributed_cost_budget` (0.0 = unlimited), `distributed_quality_floor`,
+    `distributed_utility_alpha/beta/gamma` für Relevance/Freshness/Locality-Gewichtung.
+  - `ShardMetadata` Struktur eingeführt mit estimated_cost, relevance, freshness, locality, recall.
+  - `AnnRetrievalPlan::pruned_shard_ids` Feld für post-Pruning Shard-Liste hinzugefügt.
+  - Neue Helper-Funktion `pruneShardsAwareCost()` implementiert:
+    1. Filter nach Quality-Floor (estimated_recall >= distributed_quality_floor).
+    2. Utility-Scoring: utility = alpha*relevance + beta*freshness + gamma*locality.
+    3. Priorität-Ranking: priority = utility / cost.
+    4. Budget-gesteuerte Shard-Auswahl bis max_shards oder budget_used >= distributed_cost_budget.
+  - `planRetrieval()` integriert Cost-Aware Pruning für Shard-Scope-Queries.
+  - `search()` respektiert pruned_shard_ids aus Plan wenn distributed_cost_budget > 0.0,
+    sonst Fallback zu distributed_max_fanout-Limit.
+  - (`include/index/ann_frontdoor.h`, `src/index/ann_frontdoor.cpp`)
+  - Regressionstests hinzugefügt (alle 10/10 passing):
+    - `DistributedCostAwarePruningRespectsQualityFloor`: Quality-Floor-Filterung validiert.
+    - `DistributedCostBudgetPruning`: Budget-gesteuerte Pruning-Grenze prüft.
+    - `DistributedSearchRespectsPrunedShardList`: Search respektiert Plan-Pruning.
+
+- **Package Lifecycle Promotion/Rollback APIs (4.4 Part 1)**
+  - `FinalLayerDeploymentStage` Enum eingeführt:
+    Draft, Staging, Canary, Production, PreviousKnownGood.
+  - `FinalLayerTransitionPolicy` Struct mit require_compatibility_gate, allow_direct_draft_to_production.
+  - Neue `FinalLayerOrchestrator` APIs:
+    - `promotePackage(package_id, target_stage, base_model_name, base_model_version)`:
+      Enforced State-Machine (Draft→Staging→Canary→Production, oder optional Draft→Production);
+      Kompatibilität via AdapterRegistry gegen base_model validieren.
+    - `rollbackToPackage(source_id, target_id, ...)`: source→DEPRECATED+STAGING, target→ACTIVE+PREVIOUS_KNOWN_GOOD.
+    - `setTransitionPolicy()`, `transitionPolicy()`.
+  - `FinalLayerPackage` um `deployment_stage` Feld erweitert.
+  - Helper `canPromote()`: State-Machine Validierung.
+  - Helper `isServingStage()`: Nur Production/Canary/PreviousKnownGood können Requests servieren.
+  - `resolve()` integriert Serving-Gate: nicht-serving stages → fail_closed mit kPackageNotDeployable.
+  - Zentrale Reason-Codes ergänzt: `kPackageNotDeployable`, `kFallbackPackageNotDeployable`.
+  - (`include/llm/final_layer_orchestrator.h`, `src/llm/final_layer_orchestrator.cpp`)
+  - Regressionstests hinzugefügt (alle 4/4 passing):
+    - `PromotionWorkflowRequiresAllowedTransitions`: State-Machine Transitions prüft.
+    - `PromotionCompatibilityGateRejectsIncompatibleAdapter`: Kompatibilität-Gate validiert.
+    - `RollbackDemotesSourceAndActivatesKnownGoodTarget`: Rollback-Zustandsübergänge prüft.
+    - `ResolveRejectsNonServingDeploymentStage`: Nicht-serving Serving-Gate prüft.
+
+- **Validierte Ausführung (Cost-Aware Pruning)**
+  - Build: `cmake --build ... --target module_index_test_ann_frontdoor_focused` → Exit 0.
+  - Test: `module_index_test_ann_frontdoor_focused.exe --gtest_filter=AnnFrontdoorSearch.Distributed*`
+    → 10/10 passed (3 neuer Cost-Aware Tests + 7 bestehende Distributed Tests).
+
+- **Validierte Ausführung (Lifecycle APIs)**
+  - Build: `cmake --build ... --target module_model_test_final_layer_orchestrator_focused` → Exit 0.
+  - Test: `module_model_test_final_layer_orchestrator_focused.exe --gtest_filter=FinalLayerOrchestratorTest.Promotion*`
+    → 4/4 passed (2 neue Lifecycle Tests + 2 bestehende Promotion Tests).
+
+- **Validierte Ausführung (4.1 Provenance Persistence Integration)**
+  - Build: `cmake --build ... --target module_rag_test_tensor_rag_provenance_focused` → Exit 0.
+  - Test: `module_rag_test_tensor_rag_provenance_focused.exe --gtest_filter=TensorRAGProvenanceIntegration.*`
+    → 2/2 passed.
+  - Build: `cmake --build ... --target module_tensor_test_tensor_phase3_focused` → Exit 0.
+  - Test: `module_tensor_test_tensor_phase3_focused.exe --gtest_filter="TensorRAGPipeline.TRPL12_*:TensorRAGPipeline.TRPL13_*"`
+    → 4/4 passed.
+
+- **Verbleibende Gaps dokumentiert in GAP_ANALYSIS.md**
+  - 4.1: Offen sind API/CLI-Provenance-Exports und Governance-Automation fuer Production-Rollouts.
+  - 4.2: Per-Query SLO-Guardrails und Production-Load-Validierung.
+  - 4.3: Production-grade Observability-Dashboards und SLO-Infrastruktur.
+  - 4.4: Production release governance automation und operational runbook validation.
+
 ### Added — Layered Retrieval Orchestration Completion (2026-06-17)
 
 - **Final Layer in Tensor-RAG-Pipeline integriert**

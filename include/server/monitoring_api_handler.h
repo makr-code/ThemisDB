@@ -39,6 +39,10 @@ class PrometheusMetrics;
 class SLOMonitor;
 }
 
+namespace observability {
+class IProvenanceStore;
+}
+
 namespace rag::learning {
 class ContinuousLearningOrchestrator;
 }
@@ -76,6 +80,7 @@ namespace server {
  * - GET /api/v1/observability/alerts - List active alerts (JSON)
  * - POST /api/v1/observability/alerts/{id}/silence - Silence an alert
  * - GET /api/v1/observability/health - Aggregate observability health
+ * - GET /api/v1/observability/provenance - Query persisted retrieval provenance records
  * 
  * Features:
  * - Health monitoring
@@ -268,6 +273,25 @@ public:
         const http::request<http::string_body>& req);
 
     /**
+     * @brief GET /api/v1/observability/provenance
+     * Returns persisted retrieval provenance records for operational analysis.
+     *
+     * Supported query parameters:
+     * - query_id=<id>: return full provenance chain for one query.
+     * - start_ts_ms=<epoch_ms>&end_ts_ms=<epoch_ms>: return records in time window.
+     * - limit=<n>: cap returned records (default 1000, max 10000).
+     *
+     * If both query_id and a time window are provided, the query chain is
+     * filtered to records inside the time window.
+     *
+     * @param req HTTP request
+     * @return HTTP 200 with JSON response, 400 for invalid query params, 503
+     *         when no provenance store is configured
+     */
+    http::response<http::string_body> handleObservabilityProvenance(
+        const http::request<http::string_body>& req);
+
+    /**
      * @brief GET /api/v1/license/status
      * Returns runtime license state as a JSON document:
      *   - initialized:      whether the RuntimeLicenseGate has been set up
@@ -303,6 +327,16 @@ public:
      */
     void setAlertmanager(std::shared_ptr<observability::DefaultAlertmanager> alertmanager) {
         alertmanager_ = std::move(alertmanager);
+    }
+
+    /**
+     * @brief Set the provenance store used by observability export endpoints.
+     *
+     * Optional: when not set, provenance export endpoints return service
+     * unavailable instead of failing implicitly.
+     */
+    void setProvenanceStore(std::shared_ptr<observability::IProvenanceStore> provenance_store) {
+        provenance_store_ = std::move(provenance_store);
     }
 
     /**
@@ -355,6 +389,7 @@ private:
     const std::atomic<uint64_t>* active_connections_{nullptr};
     std::shared_ptr<core::concerns::ConcernsContext> concerns_;
     std::shared_ptr<observability::DefaultAlertmanager> alertmanager_;
+    std::shared_ptr<observability::IProvenanceStore> provenance_store_;
     std::shared_ptr<themis::rag::learning::ContinuousLearningOrchestrator>
         continuous_learning_orchestrator_;
 

@@ -433,6 +433,62 @@ TEST(AnnFrontdoorSearch, DistributedMergeDeterministicDistanceThenId) {
     EXPECT_EQ(result.merged_candidates_before_trim, result.candidates.size());
 }
 
+TEST(AnnFrontdoorSearch, DistributedCostAwarePruningRespectsQualityFloor) {
+    AnnFrontdoor::Config cfg;
+    cfg.distributed_cost_budget = 2.0;
+    cfg.distributed_quality_floor = 0.9;
+    cfg.distributed_include_global_backend = false;
+    AnnFrontdoor fd(cfg);
+
+    fd.registerBackend("high-quality", makeStub(3, 0.1f), AnnScopeKind::ShardSummary);
+    fd.registerBackend("low-quality", makeStub(3, 0.15f), AnnScopeKind::ShardSummary);
+
+    AnnQueryContext ctx;
+    ctx.shard_aware = true;
+
+    const auto plan = fd.planRetrieval(ctx);
+    EXPECT_TRUE(plan.distributed);
+    EXPECT_FALSE(plan.pruned_shard_ids.empty());
+}
+
+TEST(AnnFrontdoorSearch, DistributedCostBudgetPruning) {
+    AnnFrontdoor::Config cfg;
+    cfg.distributed_cost_budget = 1.0;
+    cfg.distributed_max_fanout = 0;
+    cfg.distributed_include_global_backend = false;
+    AnnFrontdoor fd(cfg);
+
+    fd.registerBackend("s0", makeStub(2, 0.1f), AnnScopeKind::ShardSummary);
+    fd.registerBackend("s1", makeStub(2, 0.15f), AnnScopeKind::ShardSummary);
+    fd.registerBackend("s2", makeStub(2, 0.2f), AnnScopeKind::ShardSummary);
+
+    AnnQueryContext ctx;
+    ctx.shard_aware = true;
+
+    const auto plan = fd.planRetrieval(ctx);
+    EXPECT_TRUE(plan.distributed);
+    EXPECT_LE(plan.pruned_shard_ids.size(), 2u);
+}
+
+TEST(AnnFrontdoorSearch, DistributedSearchRespectsPrunedShardList) {
+    AnnFrontdoor::Config cfg;
+    cfg.distributed_cost_budget = 1.0;
+    cfg.distributed_include_global_backend = false;
+    AnnFrontdoor fd(cfg);
+
+    auto s0 = makeStub(2, 0.1f);
+    auto s1 = makeStub(2, 0.2f);
+    fd.registerBackend("s0", s0, AnnScopeKind::ShardSummary);
+    fd.registerBackend("s1", s1, AnnScopeKind::ShardSummary);
+
+    AnnQueryContext ctx;
+    ctx.shard_aware = true;
+
+    auto result = fd.search(kQuery, kDim, 5, ctx);
+    EXPECT_TRUE(result.is_distributed);
+    EXPECT_FALSE(result.candidates.empty());
+}
+
 TEST(AnnFrontdoorSearch, NoBackendReturnsEmptyCandidateList) {
     AnnFrontdoor fd;  // no backend, no VIM
     auto result = fd.search(kQuery, kDim, 5);

@@ -117,30 +117,35 @@ The final generation layer is now formalized as the explicit ANN → Tensor → 
 - approximation boundaries are only partially formalized across layers
 	- **implementiert**: explicit stage boundaries ANN -> Tensor -> Graph -> Final Layer
 	- **implementiert**: cross-layer policy contracts via `reason_codes.h`, `FallbackMode` enum, and ADR E2-005
-- end-to-end provenance and package governance remain incomplete
+- end-to-end provenance and package governance are largely implemented; remaining gaps are operationalization and rollout governance
 	- **implementiert**: package-aware final-layer resolution and compatibility checks
 	- **implementiert**: unified provenance chain (`RetrievalProvenanceRecord` in `include/observability/retrieval_provenance.h`) — links trigger → tensor candidates → graph evidence → final-layer resolution into one exportable, audit-ready record; emitted as `retrieval_provenance_record` JSON log per step()
-	- **offen**: persistent provenance store and queryable provenance export (post-generation lineage)
+	- **implementiert**: persistent provenance store (`IProvenanceStore` / `RocksDBProvenanceStore` in `include/observability/provenance_store.h`, `src/observability/provenance_store.cpp`) with query-id/step retrieval, chain queries, and time-range queries
+	- **implementiert**: configurable retention policies in `RocksDBProvenanceStore::Config` (`retention_max_records`, `retention_max_age_ms`) with write-time pruning
+	- **implementiert**: Tensor-RAG step persistence wiring via optional `TensorRAGPipelineConfig::provenance_store` (validated by focused tests)
+	- **implementiert**: operational provenance export surfaces (API/CLI endpoints) — GET `/api/v1/observability/provenance` with query_id/time-range/limit filters; `themisctl provenance-export` CLI command with JSON/CSV output and file export (GAP-4.1, v1.9.0)
 
 ### 4.2 Distributed Retrieval
 - no full tensor-summary-first federated retrieval execution path
 	- **implementiert**: shard-aware ANN routing and federated tensor summary APIs
 	- **implementiert**: end-to-end distributed execution policy in ANN Frontdoor (fan-out limits, deterministic merge semantics, shard retry/failover, partial-result and fail-closed fallback policy)
-- cross-shard retrieval cost control is still incomplete
-	- **offen**: adaptive shard pruning, cost-aware candidate budgeting, and quality/cost guardrails under load
+	- **implementiert**: cost-aware shard pruning with quality floor and budget-aware shard selection in `AnnFrontdoor::planRetrieval()` and `AnnFrontdoorResult` pruning metadata
+- cross-shard retrieval cost control
+	- **implementiert**: adaptive shard pruning based on utility scoring (relevance, freshness, locality) and cost budgets
+	- **offen**: per-query guardrails and production load testing under SLO constraints; this is the remaining open item in 4.2
 
 ### 4.3 Observability
-- layered tracing and reasoning observability need expansion
+- layered tracing and reasoning observability are partially implemented and need production hardening
 	- **implementiert**: per-layer correlation IDs propagated through all four layers
 	- **implementiert**: routing-reason telemetry via `layer_decision_log.h` emitter (event `layer_handoff_decision`) in ANN / Tensor / Graph / Final Layer — validated by focused regression tests
 	- **implementiert**: unified provenance chain log (`retrieval_provenance_record`) for decision lineage visibility
-	- **offen**: production-grade dashboards/SLOs for ANN/Tensor/Graph/Final-Layer handoff quality (infrastructure concern)
+	- **offen**: production-grade dashboards and SLOs for ANN/Tensor/Graph/Final-Layer handoff quality (infrastructure concern); this is the remaining open item in 4.3
 
 ### 4.4 Lifecycle Management
 - adapter/package/model lifecycle needs hardening beyond current baseline
 	- **implementiert**: package registration/update/status + compatibility matrix
 	- **implementiert**: promotion/rollback workflows + policy-gated deployment stages in `FinalLayerOrchestrator` (`promotePackage()`, `rollbackToPackage()`, deployment-stage serving gate)
-	- **offen**: operational runbooks and production release governance automation
+	- **offen**: production release governance automation and operational runbook validation; this is the remaining open item in 4.4
 
 ---
 

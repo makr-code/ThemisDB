@@ -17,6 +17,7 @@
 #include <stdexcept>
 
 #include <cstdio>
+#include <ctime>
 #include <mutex>
 
 namespace themis {
@@ -253,6 +254,32 @@ RAGDecision TensorRAGPipeline::step(const std::string&        token_text,
     decision.provenance = prov;
     observability::emitProvenanceLog(prov);
 
+    // Persist one lineage step for post-generation provenance queries.
+    if (cfg_.provenance_store) {
+        observability::ProvenanceStepRecord step_record;
+        step_record.query_id                  = decision.correlation_id;
+        step_record.step_number               = static_cast<int>(step_sequence_);
+        step_record.correlation_id            = decision.correlation_id;
+        step_record.timestamp_ms              = static_cast<int64_t>(std::time(nullptr)) * 1000;
+        step_record.layer_name                = decision.escalation_source_layer.empty()
+                                                    ? std::string(observability::telemetry::layers::kTensor)
+                                                    : decision.escalation_source_layer;
+        step_record.source_layer              = decision.escalation_source_layer;
+        step_record.input_vector_hash         = decision.flare_query;
+        step_record.num_candidates            = static_cast<int64_t>(decision.tensor_summary_candidates.size());
+        step_record.num_selected              = static_cast<int64_t>(decision.graph_truth_evidences.size());
+        step_record.backend_name              = "TensorRAGPipeline";
+        step_record.routing_reason_code       = decision.routing_reason_code;
+        step_record.fallback_mode             = std::string(fallback_mode_sv);
+        step_record.confidence_policy_version = decision.confidence_policy_version;
+        step_record.decision_duration_us      = 0;
+
+        (void)cfg_.provenance_store->storeRecord(step_record.query_id,
+                                                 step_record.step_number,
+                                                 step_record);
+    }
+    ++step_sequence_;
+
     return decision;
 }
 
@@ -280,6 +307,7 @@ void TensorRAGPipeline::reset()
     flare_.reset();
     targ_.reset();
     stats_ = {};
+    step_sequence_ = 0;
 }
 
 } // namespace rag

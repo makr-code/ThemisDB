@@ -108,6 +108,7 @@ namespace themis::performance::phase3 { class BaoOptimizer; }
 namespace themis::performance { class WorkloadAdaptiveOptimizer; }
 namespace themis::prompt_engineering { class FeedbackCollector; }
 namespace themis::rag::learning { class ContinuousLearningOrchestrator; }
+namespace themis::observability { class IProvenanceStore; }
 #include "server/udf_api_handler.h"
 #include "server/task_scheduler_api_handler.h"
 #include "server/async_job_api_handler.h"
@@ -1003,6 +1004,8 @@ private:
     // Shared Alertmanager instance – created during monitoring init, reused for
     // TaskScheduler SLA-breach alerts and Cache SLO monitor.
     std::shared_ptr<observability::DefaultAlertmanager> alertmanager_;
+    // Shared persistent provenance store used by observability export endpoints.
+    std::shared_ptr<observability::IProvenanceStore> provenance_store_;
     // Cross-cutting concerns (lifecycle hooks + health probes); optional.
     std::shared_ptr<core::concerns::ConcernsContext> concerns_;
     // Query API Handler

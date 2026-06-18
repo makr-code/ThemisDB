@@ -40,6 +40,52 @@ namespace index {
 
 namespace {
 
+[[nodiscard]] std::vector<std::string> pruneShardsAwareCost(
+    const std::vector<std::pair<std::string, std::shared_ptr<IAnnIndex>>>& candidates,
+    const AnnFrontdoor::Config& config) {
+    if (config.distributed_cost_budget <= 0.0) {
+        std::vector<std::string> all_ids;
+        for (const auto& [id, _] : candidates) {
+            all_ids.push_back(id);
+        }
+        return all_ids;
+    }
+
+    std::vector<std::pair<std::string, double>> scored;
+    scored.reserve(candidates.size());
+    for (const auto& [shard_id, backend] : candidates) {
+        if (!backend) continue;
+
+        const ShardMetadata meta{shard_id, 1.0, 0.8, 0.9, 0.95};
+
+        if (meta.estimated_recall < config.distributed_quality_floor) {
+            continue;
+        }
+
+        const double utility = config.distributed_utility_alpha * meta.estimated_relevance +
+                               config.distributed_utility_beta * meta.estimated_freshness +
+                               config.distributed_utility_gamma * meta.estimated_locality;
+        const double priority = utility / std::max(meta.estimated_cost, 0.001);
+        scored.push_back({shard_id, priority});
+    }
+
+    std::sort(scored.begin(), scored.end(),
+              [](const auto& a, const auto& b) { return a.second > b.second; });
+
+    std::vector<std::string> selected;
+    double budget_used = 0.0;
+    for (const auto& [shard_id, priority] : scored) {
+        (void)priority;
+        const double cost_estimate = 1.0;
+        if (budget_used + cost_estimate <= config.distributed_cost_budget) {
+            selected.push_back(shard_id);
+            budget_used += cost_estimate;
+        }
+    }
+
+    return selected;
+}
+
 const char* strategyReasonCode(AnnStrategy strategy) {
     using namespace themis::observability::reason_codes::ann;
     switch (strategy) {
@@ -140,10 +186,23 @@ AnnRetrievalPlan AnnFrontdoor::planRetrieval(
     }
 
     if (context.shard_aware && shard_backends_present) {
-        plan.strategy = AnnStrategy::DISTRIBUTED;
-        plan.distributed = true;
-        plan.reason = "shard-aware query routed to distributed ANN fan-out";
-        return plan;
+        std::vector<std::pair<std::string, std::shared_ptr<IAnnIndex>>> shard_list;
+        for (const auto& [scope, backend] : backends_) {
+            if (!scope.empty() && backend) {
+                shard_list.push_back({scope, backend});
+            }
+        }
+
+        std::vector<std::string> pruned = pruneShardsAwareCost(shard_list, config_);
+        if (!pruned.empty()) {
+            plan.pruned_shard_ids = pruned;
+            plan.strategy = AnnStrategy::DISTRIBUTED;
+            plan.distributed = true;
+            plan.reason = "shard-aware query routed to distributed ANN fan-out (" +
+                          std::to_string(pruned.size()) + "/" +
+                          std::to_string(shard_list.size()) + " shards after cost-aware pruning)";
+            return plan;
+        }
     }
 
     if (have_scope_backend) {
@@ -253,6 +312,7 @@ AnnFrontdoorResult AnnFrontdoor::search(const float*          query_vector,
 
     // ------------------------------------------------------------------
     case AnnStrategy::DISTRIBUTED: {
+        const AnnRetrievalPlan pruning_plan = planRetrieval(context);
         std::vector<std::pair<std::string, std::shared_ptr<IAnnIndex>>> shard_backends;
         shard_backends.reserve(backends_.size());
         for (const auto& [scope, backend] : backends_) {
@@ -266,15 +326,23 @@ AnnFrontdoorResult AnnFrontdoor::search(const float*          query_vector,
                       return a.first < b.first;
                   });
 
-        const std::size_t fanout_limit = (config_.distributed_max_fanout == 0)
-            ? shard_backends.size()
-            : std::min(config_.distributed_max_fanout, shard_backends.size());
-
         std::vector<std::pair<std::string, std::shared_ptr<IAnnIndex>>> execution_backends;
-        execution_backends.reserve(fanout_limit + 1u);
-        for (std::size_t i = 0; i < fanout_limit; ++i) {
-            execution_backends.push_back(shard_backends[i]);
+        if (!pruning_plan.pruned_shard_ids.empty() && config_.distributed_cost_budget > 0.0) {
+            const auto& pruned_ids = pruning_plan.pruned_shard_ids;
+            for (const auto& [scope, backend] : shard_backends) {
+                if (std::find(pruned_ids.begin(), pruned_ids.end(), scope) != pruned_ids.end()) {
+                    execution_backends.push_back({scope, backend});
+                }
+            }
+        } else {
+            const std::size_t fanout_limit = (config_.distributed_max_fanout == 0)
+                ? shard_backends.size()
+                : std::min(config_.distributed_max_fanout, shard_backends.size());
+            for (std::size_t i = 0; i < fanout_limit; ++i) {
+                execution_backends.push_back(shard_backends[i]);
+            }
         }
+
         if (config_.distributed_include_global_backend) {
             if (auto global = resolveBackend(""); global) {
                 execution_backends.push_back({"", std::move(global)});

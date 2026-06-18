@@ -36,11 +36,13 @@
 #include "utils/logger.h"
 #include "utils/tracing.h"
 #include "observability/metrics_collector.h"
+#include "observability/provenance_store.h"
 #include "config/config_metrics_exporter.h"
 #include "rag/continuous_learning_orchestrator.h"
 #include <algorithm>
 #include <ctime>
 #include <sstream>
+#include <string_view>
 #include <vector>
 #ifndef _WIN32
 #include <sys/resource.h>
@@ -1134,6 +1136,75 @@ json MonitoringApiHandler::buildConcernsJson(
     return result;
 }
 
+namespace {
+
+[[nodiscard]] std::string urlDecode(std::string_view input) {
+    std::string out;
+    out.reserve(input.size());
+
+    auto hexValue = [](char c) -> int {
+        if (c >= '0' && c <= '9') return c - '0';
+        if (c >= 'a' && c <= 'f') return 10 + (c - 'a');
+        if (c >= 'A' && c <= 'F') return 10 + (c - 'A');
+        return -1;
+    };
+
+    for (std::size_t i = 0; i < input.size(); ++i) {
+        const char ch = input[i];
+        if (ch == '+') {
+            out.push_back(' ');
+            continue;
+        }
+        if (ch == '%' && i + 2 < input.size()) {
+            const int hi = hexValue(input[i + 1]);
+            const int lo = hexValue(input[i + 2]);
+            if (hi >= 0 && lo >= 0) {
+                out.push_back(static_cast<char>((hi << 4) | lo));
+                i += 2;
+                continue;
+            }
+        }
+        out.push_back(ch);
+    }
+
+    return out;
+}
+
+[[nodiscard]] std::vector<std::pair<std::string, std::string>> parseQueryParams(
+    std::string_view target) {
+    std::vector<std::pair<std::string, std::string>> params;
+    const auto query_pos = target.find('?');
+    if (query_pos == std::string_view::npos || query_pos + 1 >= target.size()) {
+        return params;
+    }
+
+    std::string_view query = target.substr(query_pos + 1);
+    std::size_t pos = 0;
+    while (pos < query.size()) {
+        const auto amp = query.find('&', pos);
+        const auto token_end = (amp == std::string_view::npos) ? query.size() : amp;
+        const auto eq = query.find('=', pos);
+
+        if (eq != std::string_view::npos && eq < token_end) {
+            auto key = urlDecode(query.substr(pos, eq - pos));
+            auto value = urlDecode(query.substr(eq + 1, token_end - eq - 1));
+            params.emplace_back(std::move(key), std::move(value));
+        } else {
+            auto key = urlDecode(query.substr(pos, token_end - pos));
+            params.emplace_back(std::move(key), std::string{});
+        }
+
+        if (amp == std::string_view::npos) {
+            break;
+        }
+        pos = amp + 1;
+    }
+
+    return params;
+}
+
+} // namespace
+
 // ============================================================================
 // Operator Observability REST API  (Q1)
 // ============================================================================
@@ -1339,6 +1410,174 @@ http::response<http::string_body> MonitoringApiHandler::handleObservabilityHealt
     } catch (const std::exception& e) {
         return makeErrorResponse(http::status::internal_server_error,
                                  std::string("Failed to get observability health: ") + e.what(),
+                                 req);
+    }
+}
+
+http::response<http::string_body> MonitoringApiHandler::handleObservabilityProvenance(
+    const http::request<http::string_body>& req)
+{
+    auto span = Tracer::startSpan("handleObservabilityProvenance");
+    try {
+        if (!provenance_store_) {
+            return makeErrorResponse(http::status::service_unavailable,
+                                     "Provenance store not configured", req);
+        }
+
+        std::optional<std::string> query_id;
+        std::optional<int64_t> start_ts_ms;
+        std::optional<int64_t> end_ts_ms;
+        std::size_t limit = 1000;
+
+        const auto parse_i64 = [](const std::string& value, int64_t& out) -> bool {
+            if (value.empty()) {
+                return false;
+            }
+            try {
+                std::size_t consumed = 0;
+                out = std::stoll(value, &consumed);
+                return consumed == value.size();
+            } catch (...) {
+                return false;
+            }
+        };
+
+        const auto params = parseQueryParams(
+            std::string_view(req.target().data(), req.target().size()));
+        for (const auto& [key, value] : params) {
+            if (key == "query_id") {
+                if (!value.empty()) {
+                    query_id = value;
+                }
+                continue;
+            }
+            if (key == "start_ts_ms") {
+                int64_t parsed = 0;
+                if (!parse_i64(value, parsed)) {
+                    return makeErrorResponse(http::status::bad_request,
+                                             "Invalid start_ts_ms query parameter", req);
+                }
+                start_ts_ms = parsed;
+                continue;
+            }
+            if (key == "end_ts_ms") {
+                int64_t parsed = 0;
+                if (!parse_i64(value, parsed)) {
+                    return makeErrorResponse(http::status::bad_request,
+                                             "Invalid end_ts_ms query parameter", req);
+                }
+                end_ts_ms = parsed;
+                continue;
+            }
+            if (key == "limit") {
+                int64_t parsed = 0;
+                if (!parse_i64(value, parsed) || parsed <= 0) {
+                    return makeErrorResponse(http::status::bad_request,
+                                             "limit must be a positive integer", req);
+                }
+                limit = static_cast<std::size_t>(parsed);
+            }
+        }
+
+        if ((start_ts_ms.has_value() && !end_ts_ms.has_value()) ||
+            (!start_ts_ms.has_value() && end_ts_ms.has_value())) {
+            return makeErrorResponse(http::status::bad_request,
+                                     "Both start_ts_ms and end_ts_ms are required for time-range queries",
+                                     req);
+        }
+        if (start_ts_ms.has_value() && end_ts_ms.has_value() && *start_ts_ms > *end_ts_ms) {
+            return makeErrorResponse(http::status::bad_request,
+                                     "start_ts_ms must be <= end_ts_ms", req);
+        }
+
+        constexpr std::size_t kMaxLimit = 10000;
+        if (limit > kMaxLimit) {
+            limit = kMaxLimit;
+        }
+
+        std::vector<observability::ProvenanceStepRecord> records;
+        std::string source = "all_queries";
+        if (query_id.has_value()) {
+            source = "query_chain";
+            records = provenance_store_->getProvenanceChain(*query_id);
+            if (start_ts_ms.has_value()) {
+                records.erase(
+                    std::remove_if(records.begin(), records.end(),
+                                   [&](const observability::ProvenanceStepRecord& rec) {
+                                       return rec.timestamp_ms < *start_ts_ms ||
+                                              rec.timestamp_ms > *end_ts_ms;
+                                   }),
+                    records.end());
+                source = "query_chain_time_range";
+            }
+        } else if (start_ts_ms.has_value()) {
+            source = "time_range";
+            records = provenance_store_->getRecordsByTimeRange(*start_ts_ms, *end_ts_ms);
+        } else {
+            const auto query_ids = provenance_store_->listQueryIds();
+            for (const auto& id : query_ids) {
+                auto chain = provenance_store_->getProvenanceChain(id);
+                records.insert(records.end(), chain.begin(), chain.end());
+            }
+        }
+
+        std::sort(records.begin(), records.end(),
+                  [](const observability::ProvenanceStepRecord& lhs,
+                     const observability::ProvenanceStepRecord& rhs) {
+                      if (lhs.timestamp_ms != rhs.timestamp_ms) {
+                          return lhs.timestamp_ms < rhs.timestamp_ms;
+                      }
+                      if (lhs.query_id != rhs.query_id) {
+                          return lhs.query_id < rhs.query_id;
+                      }
+                      return lhs.step_number < rhs.step_number;
+                  });
+
+        bool truncated = false;
+        if (records.size() > limit) {
+            records.resize(limit);
+            truncated = true;
+        }
+
+        json out = json::object();
+        out["source"] = source;
+        out["limit"] = limit;
+        out["count"] = records.size();
+        out["truncated"] = truncated;
+        if (query_id.has_value()) {
+            out["query_id"] = *query_id;
+        }
+        if (start_ts_ms.has_value()) {
+            out["start_ts_ms"] = *start_ts_ms;
+            out["end_ts_ms"] = *end_ts_ms;
+        }
+
+        json rows = json::array();
+        for (const auto& rec : records) {
+            rows.push_back({
+                {"query_id", rec.query_id},
+                {"step_number", rec.step_number},
+                {"correlation_id", rec.correlation_id},
+                {"timestamp_ms", rec.timestamp_ms},
+                {"layer_name", rec.layer_name},
+                {"source_layer", rec.source_layer},
+                {"num_candidates", rec.num_candidates},
+                {"num_selected", rec.num_selected},
+                {"input_vector_hash", rec.input_vector_hash},
+                {"shard_id", rec.shard_id},
+                {"backend_name", rec.backend_name},
+                {"routing_reason_code", rec.routing_reason_code},
+                {"fallback_mode", rec.fallback_mode},
+                {"confidence_policy_version", rec.confidence_policy_version},
+                {"decision_duration_us", rec.decision_duration_us}
+            });
+        }
+        out["records"] = std::move(rows);
+
+        return makeResponse(http::status::ok, out.dump(), req);
+    } catch (const std::exception& e) {
+        return makeErrorResponse(http::status::internal_server_error,
+                                 std::string("Failed to query provenance records: ") + e.what(),
                                  req);
     }
 }
@@ -1701,6 +1940,25 @@ void MonitoringApiHandler::registerRoutes() {
         "getObservabilityHealth", {"observability"}, {}, {},
         {{"200",{{"description","Observability health status"},
                  {"content",{{"application/json",{{"schema",{{"type","object"}}}}}}}}}  }
+    }});
+    reg.registerRoute({"/api/v1/observability/provenance", "get", {
+        "Query persisted retrieval provenance",
+        "Returns retrieval provenance records from the persistent store. "
+        "Supports query_id chain export, time-range filtering, and limit capping.",
+        "getObservabilityProvenance", {"observability"},
+        {
+            RouteParam{"query_id", "query", false, "Query identifier", {{"type","string"}}},
+            RouteParam{"start_ts_ms", "query", false, "Start timestamp (ms since epoch)", {{"type","integer"}}},
+            RouteParam{"end_ts_ms", "query", false, "End timestamp (ms since epoch)", {{"type","integer"}}},
+            RouteParam{"limit", "query", false, "Maximum returned records (default 1000, max 10000)", {{"type","integer"}}}
+        },
+        {},
+        {
+            {"200",{{"description","Provenance export payload"},
+                     {"content",{{"application/json",{{"schema",{{"type","object"}}}}}}}}},
+            {"400",{{"description","Invalid query parameters"}}},
+            {"503",{{"description","Provenance store not configured"}}}
+        }
     }});
 
     // --- License ---

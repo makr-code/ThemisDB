@@ -3,7 +3,7 @@
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
 
 **Version:** 2.4  
-**Last Updated:** 2026-06-14  
+**Last Updated:** 2026-06-18
 **Scope:** Aggregated roadmap across tracked modules in `src/` (improved scanner pipeline Phase 1–6 complete; active baseline 22.085 deduplicated findings)
 
 > For module-specific details see each module's `src/<module>/ROADMAP.md`.
@@ -777,18 +777,24 @@ Focus: Enterprise-grade monitoring, alerting, and automated operations.
 - [I] End-to-end distributed trace correlation across all 58 modules (Target: Q4 2026)
 - [I] Anomaly-driven alerting with root cause analysis hints (Target: Q4 2026)
 - [I] Continuous profiling integration (eBPF / perf) (Target: Q4 2026)
+- [x] Operational provenance export surfaces for retrieval lineage (Target: Q2 2026) — GET `/api/v1/observability/provenance` plus `themisctl provenance-export` with query_id/time-range filters, JSON/CSV output, and optional file export ✅
 
 #### 4.2 Scheduler — Intelligent Retention
 - [I] ML-based retention policy recommendations (Target: Q4 2026)
 - [I] Cost-aware task prioritisation (Target: Q4 2026)
+- [I] Per-query retrieval guardrails for federated cost/pruning policies (Target: Q4 2026) — enforce query-level ceilings and fail-closed thresholds for distributed shard participation
+- [I] Production load validation for distributed retrieval under SLO constraints (Target: Q4 2026) — benchmark fan-out, merge determinism, and pruning quality under concurrent load
 
 #### 4.3 Updates — Advanced Migration
 - [x] Schema migration dry-run with impact analysis report (Target: Q4 2026) — `validateMigration` regression tests added (PR: #3433)
 - [x] Blue-green deployment support for zero-downtime major upgrades (PR: #3421) ✅
+- [I] Production-grade observability dashboards for ANN/Tensor/Graph/Final-Layer handoff quality (Target: Q4 2026) — add SLO panels, fallback-rate alerts, and confidence-escalation tracking
 
 #### 4.4 Config — Full Migration Tooling
 - [I] Automated legacy config migration script with dry-run mode (Issue: #1661) (Target: Q4 2026)
 - [I] Integration with JSON Schema / YAML schema validation (Issue: #1666) (Target: Q4 2026)
+- [I] Production release governance automation for promotion/rollback workflows (Target: Q4 2026) — standardize operator approvals, compatibility gates, and rollout audit events
+- [I] Operational runbook validation for package/model lifecycle changes (Target: Q4 2026) — staging drill, rollback rehearsal, and incident evidence checklist
 
 #### 4.5 Maintenance — Advanced Orchestration
 - [x] Explicit per-task DAG dependency graph with topological sort (Target: v1.2.0) — `MaintenanceTaskDependency` + `resolveTaskExecutionOrder` (Kahn's algorithm) in `database_maintenance_orchestrator.h/cpp` ✅
@@ -825,6 +831,7 @@ Focus: Enterprise-grade monitoring, alerting, and automated operations.
   - 9 tokenizer unit tests
 - [x] `themisctl config` schema validation — dry-run + diff output (Target: Q3 2026) — `themisctl config validate [key=value ...]` → POST `/config/validate`; diff display in `tools/themisctl.cpp` ✅
 - [x] AgentRAG integration — `themisctl rag query [--collection C] [--top-k N] [--lora ID] <nl-question>` → POST `/api/v1/llm/rag`; answer + retrieval metadata display in `tools/themisctl.cpp` (2026-04-17) ✅
+- [x] Provenance export CLI — `themisctl provenance-export [--query-id <id>] [--start-ts <ms>] [--end-ts <ms>] [--limit <n>] [--format json|csv] [--output <file>]` → GET `/api/v1/observability/provenance`; supports chain, time-range, and full-aggregate exports (GAP-4.1, 2026-06-18) ✅
 
 ---
 

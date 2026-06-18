@@ -15,6 +15,7 @@
 #include "rag/graph_truth_validator.h"
 #include "rag/targ_retrieval.h"
 #include "llm/final_layer_orchestrator.h"
+#include "observability/provenance_store.h"
 #include "observability/retrieval_provenance.h"
 #include "tensor/tensor_mid_layer.h"
 
@@ -95,6 +96,14 @@ struct TensorRAGPipelineConfig {
      * @brief Optional metadata forwarded to the final-layer orchestrator.
      */
     nlohmann::json final_layer_metadata = nlohmann::json::object();
+
+    /**
+     * @brief Optional persistent provenance store for per-step lineage records.
+     *
+     * When configured, step() persists one ProvenanceStepRecord per call,
+     * allowing post-generation chain queryability by query_id.
+     */
+    std::shared_ptr<observability::IProvenanceStore> provenance_store;
 };
 
 // ============================================================================
@@ -430,6 +439,7 @@ private:
     std::shared_ptr<tensor::TensorMidLayer> tensor_mid_layer_;
     std::shared_ptr<GraphTruthValidator> graph_truth_validator_;
     std::shared_ptr<llm::FinalLayerOrchestrator> final_layer_orchestrator_;
+    std::size_t step_sequence_ = 0;
 };
 
 } // namespace rag

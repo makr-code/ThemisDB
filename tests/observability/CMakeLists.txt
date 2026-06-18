@@ -14,6 +14,11 @@ foreach(_src IN LISTS OBSERVABILITY_MODULE_TEST_SOURCES)
     endif()
 
     add_executable(${_target} "${_src}")
+    if(_stem STREQUAL "test_provenance_store")
+        target_sources(${_target} PRIVATE
+            ${THEMIS_ROOT_DIR}/src/observability/provenance_store.cpp
+        )
+    endif()
     target_include_directories(${_target} PRIVATE
         ${THEMIS_ROOT_DIR}/include
         ${THEMIS_ROOT_DIR}/src
@@ -21,6 +26,8 @@ foreach(_src IN LISTS OBSERVABILITY_MODULE_TEST_SOURCES)
     target_link_libraries(${_target} PRIVATE
         ${TEST_LIBS}
         themis_core
+        rocksdb
+        nlohmann_json
         spdlog::spdlog
         Threads::Threads
     )
