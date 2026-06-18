@@ -217,6 +217,20 @@ public:
         const std::vector<std::string>* whitelistPks = nullptr
     ) const;
 
+    /// KNN-Suche mit optionalem Evaluator-basiertem Kandidatenfilter.
+    ///
+    /// Der Evaluator wird nur fuer den JSON-Kontextvertrag
+    /// `themis_json_context_v1` angewendet (Kontext: `const nlohmann::json*`).
+    /// Fuer andere Evaluator-Typen faellt die Methode auf `searchKnn(...)`
+    /// ohne Evaluatorfilter zurueck.
+    std::pair<Status, std::vector<Result>> searchKnnEvaluated(
+        const std::vector<float>& query,
+        size_t k,
+        const IExpressionEvaluator* evaluator,
+        size_t candidateMultiplier = 4,
+        const std::vector<std::string>* whitelistPks = nullptr
+    ) const;
+
     // KNN-Suche mit Attribut-Filter (Post-Filtering)
     // Filtert Ergebnisse basierend auf Entity-Attributen nach HNSW-Suche
     struct AttributeFilter {
@@ -286,6 +300,20 @@ public:
         const std::vector<float>& query,
         float epsilon,
         size_t max_results = 0,  // 0 = unbegrenzt
+        const std::vector<std::string>* whitelistPks = nullptr
+    ) const;
+
+    /// Radius-Suche mit optionalem Evaluator-basiertem Kandidatenfilter.
+    ///
+    /// Der Evaluator wird nur fuer den JSON-Kontextvertrag
+    /// `themis_json_context_v1` angewendet (Kontext: `const nlohmann::json*`).
+    /// Fuer andere Evaluator-Typen faellt die Methode auf
+    /// `searchKnnRadius(...)` ohne Evaluatorfilter zurueck.
+    std::pair<Status, std::vector<Result>> searchKnnRadiusEvaluated(
+        const std::vector<float>& query,
+        float epsilon,
+        size_t max_results,
+        const IExpressionEvaluator* evaluator,
         const std::vector<std::string>* whitelistPks = nullptr
     ) const;
     

@@ -344,6 +344,8 @@ public:
         bool enable_audit_logging = true;      // Enable comprehensive audit logging
         bool enable_anomaly_detection = true;  // Enable anomaly detection
         bool enable_gdpr_mode = false;         // Enable GDPR-compliant data masking
+        /// Path for the audit log JSONL file. Empty string = use TaskAuditManager default.
+        std::string audit_log_path;
 
         // Result store configuration
         bool   enable_result_store = false;         // Store task output in ThemisDB after each run

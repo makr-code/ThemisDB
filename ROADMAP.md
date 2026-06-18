@@ -71,6 +71,63 @@ Audit method:
 
 ---
 
+## § AQL 2.0.0 Feature Roadmap — Complete Language Standard
+
+**Status:** 🔵 **PLANNED** — Detailed implementation roadmaps ready; Phase 1 kickoff pending team assignment  
+**Target Release:** Q4 2026 (18–23 weeks)  
+**Scope:** Full AQL standard coverage (Mutations, DDL, Geospatial, FTS)
+
+### Master Roadmap & Feature Roadmaps
+
+| Feature | Duration | Roadmap | Status | Remarks |
+|---------|----------|---------|--------|---------|
+| **Mutations (INSERT/UPDATE/DELETE/REPLACE/REMOVE/UPSERT)** | 12–15 weeks | [src/query/AQL_MUTATIONS_ROADMAP.md](src/query/AQL_MUTATIONS_ROADMAP.md) | 📋 Ready | 5-phase plan: Parser → Safety → Executor → Transactions → Testing |
+| **DDL (CREATE/DROP/ALTER COLLECTION/INDEX/VIEW)** | 4–6 weeks | [Pending] | 🔵 Planned | Team B assignment; depends on Phase 1 Mutations parser |
+| **Geospatial (ST_* parser integration)** | 2–3 weeks | [Pending] | 🔵 Planned | 70% existing functions; focus on parser integration (**-2 weeks vs. original estimate**) |
+| **FTS (Full-text search enhancement)** | 2–3 weeks | [Pending] | 🔵 Planned | Team C assignment; parallel with Geospatial |
+| **Integration & Testing** | 3–4 weeks | [Pending] | 🔵 Planned | Cross-feature tests, benchmarks, security audit |
+| **Total** | **18–23 weeks** | [src/query/AQL_V2_0_0_COMPLETE_ROADMAP.md](src/query/AQL_V2_0_0_COMPLETE_ROADMAP.md) | 📋 Ready | Audit-verified timeline reduction from 20–25 weeks |
+
+### Codebase Audit Findings (2026-06-18)
+
+✅ **Geospatial Functions Already Implemented:**
+- Location: `src/query/let_evaluator.cpp`
+- Functions: ST_Point, ST_Distance (Haversine), ST_Within, ST_Contains, ST_Intersects, ST_GeomFromGeoJSON, ST_AsGeoJSON
+- Status: Functional but not parser-wired (LET-only, not FILTER-capable)
+- Impact: **-40% effort on Geospatial phase** (2 weeks saved)
+
+✅ **SQL DML Parser Exists as Reference:**
+- Location: `src/query/sql_parser.cpp`
+- Coverage: parseInsert(), parseUpdate(), parseDelete() with full statement parsing
+- Purpose: Use as reference architecture for AQL DML roadmap (AST patterns, error handling)
+
+✅ **Transaction Foundation Ready:**
+- Location: `src/query/aql_runner.cpp` (added 2026-06-18)
+- Status: BEGIN/COMMIT/ROLLBACK tokenization + multi-statement execution
+- Impact: Mutations Phase 4 not blocked; focuses on mutation semantics, not engine redesign
+
+⚠️ **Documentation-Implementation Gap:**
+- Issue: `docs/de/aql/AQL_COMPLETE_LANGUAGE_SCOPE.md` claims 72 keywords and DML support (v1.3.1 proposal)
+- Reality: Parser only has 36 tokens; v1.x is read-only
+- Action: Update docs to clarify v1.x vs. v2.0.0 feature status
+- Ref: [DOCUMENTATION_AUDIT_2026_06_18.md](DOCUMENTATION_AUDIT_2026_06_18.md)
+
+### Phase 1 Kickoff Checklist
+
+- [ ] Team Assignment: Team A (2–3 engineers for Mutations + DDL), Team B (1–2 for DDL after Phase 1), Team C (1 for Geospatial + FTS)
+- [ ] Architecture Review: Present AQL_MUTATIONS_ROADMAP.md to architecture board
+- [ ] GitHub Issues: Convert roadmap checkbox tasks into issues with phase labels
+- [ ] Documentation Updates:
+  - [ ] Mark `docs/de/aql/AQL_COMPLETE_LANGUAGE_SCOPE.md` as v1.3.1 proposal
+  - [ ] Add v2.0.0 disclaimers to `docs/de/aql/aql_syntax.md` (Geospatial LET-only for v1.x)
+  - [ ] Create `docs/de/aql/AQL_2_0_0_ROADMAP_INDEX.md` linking to implementation roadmaps
+- [ ] Feature Branches:
+  - [ ] `feature/aql-mutations-phase1` (Tokenizer + AST)
+  - [ ] `feature/aql-geospatial-parser` (Parser integration)
+  - [ ] `feature/aql-fts-enhancement` (Query optimizer)
+
+---
+
 ## Module Status Summary — Evidence-Based (from Gap Scanner v3 Improved Pipeline 2026-06-14)
 
 > ✅ **CURRENT BASELINE (2026-06-14):** Improved scanner pipeline (Phase 1–6) fully implemented and validated. Latest fast-scan: **22.085 deduplicated findings** (CRITICAL 1.077 | HIGH 6.929 | MEDIUM 8.237 | LOW 5.842). themis_core scope: **8.964** (40,6 %).

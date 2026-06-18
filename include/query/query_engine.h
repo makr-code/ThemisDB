@@ -793,7 +793,7 @@ private:
             : engine_(engine) {}
         
         // Delegates to AQL parser + QueryEngine::evaluateCondition()
-        bool evaluate(const std::string& expression, const void* context) override;
+        bool evaluate(const std::string& expression, const void* context) const override;
         std::string get_expression_type() const override;
 
         // Helpers for richer evaluation paths (non-override)

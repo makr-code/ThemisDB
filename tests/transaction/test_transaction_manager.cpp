@@ -144,6 +144,40 @@ TEST_F(TransactionManagerTest, RollbackTransaction) {
     EXPECT_EQ(stats.active_count, 0);
 }
 
+TEST_F(TransactionManagerTest, ReadEntityJsonReturnsUncommittedWriteInSameTransaction) {
+    auto txn_id = tx_manager_->beginTransaction();
+    auto txn = tx_manager_->getTransaction(txn_id);
+    ASSERT_NE(txn, nullptr);
+
+    BaseEntity entity("user-read-1");
+    entity.setField("name", std::string("Alice"));
+    entity.setField("age", int64_t(42));
+    ASSERT_TRUE(txn->putEntity("users", entity).ok);
+
+    auto json = txn->readEntityJson("users", "user-read-1");
+    ASSERT_TRUE(json.has_value());
+    EXPECT_NE(json->find("Alice"), std::string::npos);
+}
+
+TEST_F(TransactionManagerTest, ReadEntityJsonSeesDeleteInSameTransaction) {
+    auto seed_txn_id = tx_manager_->beginTransaction();
+    auto seed_txn = tx_manager_->getTransaction(seed_txn_id);
+    ASSERT_NE(seed_txn, nullptr);
+
+    BaseEntity entity("user-read-2");
+    entity.setField("name", std::string("Bob"));
+    ASSERT_TRUE(seed_txn->putEntity("users", entity).ok);
+    ASSERT_TRUE(tx_manager_->commitTransaction(seed_txn_id).ok);
+
+    auto txn_id = tx_manager_->beginTransaction();
+    auto txn = tx_manager_->getTransaction(txn_id);
+    ASSERT_NE(txn, nullptr);
+
+    ASSERT_TRUE(txn->eraseEntity("users", "user-read-2").ok);
+    auto json = txn->readEntityJson("users", "user-read-2");
+    EXPECT_FALSE(json.has_value());
+}
+
 // ===== Atomicity Tests =====
 
 TEST_F(TransactionManagerTest, AtomicMultiEntityCommit) {

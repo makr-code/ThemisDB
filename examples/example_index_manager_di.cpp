@@ -35,8 +35,8 @@ using namespace themis;
 // Example 1: Simple expression evaluator implementation
 class SimpleExpressionEvaluator : public IExpressionEvaluator {
 public:
-    bool evaluate(const std::string& expression, const void* context) override {
-        // Simple implementation that always returns true for demo
+    bool evaluate(const std::string& expression, const void* context) const override {
+        (void)context;
         std::cout << "Evaluating expression: " << expression << std::endl;
         return true;
     }

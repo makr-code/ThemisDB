@@ -69,7 +69,7 @@ enum class TokenType {
     IDENTIFIER, STRING, INTEGER, FLOAT,
     
     // Punctuation
-    DOT, COMMA, COLON, LPAREN, RPAREN, LBRACE, RBRACE, LBRACKET, RBRACKET,
+    DOT, COMMA, SEMICOLON, COLON, LPAREN, RPAREN, LBRACE, RBRACE, LBRACKET, RBRACKET,
     
     // Special
     END_OF_FILE, INVALID
@@ -315,6 +315,7 @@ private:
             case '%': return Token(TokenType::MODULO, "%", line, col);
             case '.': return Token(TokenType::DOT, ".", line, col);
             case ',': return Token(TokenType::COMMA, ",", line, col);
+            case ';': return Token(TokenType::SEMICOLON, ";", line, col);
             case '(': return Token(TokenType::LPAREN, "(", line, col);
             case ')': return Token(TokenType::RPAREN, ")", line, col);
             case '{': return Token(TokenType::LBRACE, "{", line, col);
@@ -1268,7 +1269,7 @@ Result<AqlTransactionBlock> AQLParser::parseTransactionBlock(const std::string& 
 
         // Walk through the token stream slicing out individual statements.
         // Each statement starts at FOR (or WITH) and ends just before the
-        // next FOR/WITH/COMMIT/ROLLBACK/END_OF_FILE.
+        // next top-level separator (';') or FOR/WITH/COMMIT/ROLLBACK/END_OF_FILE.
         size_t start = 1; // skip BEGIN token
         const size_t n = tokens.size();
 
@@ -1278,8 +1279,19 @@ Result<AqlTransactionBlock> AQLParser::parseTransactionBlock(const std::string& 
         auto isTerminator = [](TokenType t) {
             return t == TokenType::COMMIT || t == TokenType::ROLLBACK || t == TokenType::END_OF_FILE;
         };
+        auto isSeparator = [](TokenType t) {
+            return t == TokenType::SEMICOLON;
+        };
 
-        while (start < n && !isTerminator(tokens[start].type)) {
+        while (start < n) {
+            // Allow PostgreSQL-like optional semicolons between BEGIN/statement/terminator.
+            while (start < n && isSeparator(tokens[start].type)) {
+                ++start;
+            }
+            if (start >= n || isTerminator(tokens[start].type)) {
+                break;
+            }
+
             if (!isStatementStart(tokens[start].type)) {
                 return Err<AqlTransactionBlock>(
                     errors::ErrorCode::ERR_QUERY_INVALID_SYNTAX,
@@ -1315,7 +1327,7 @@ Result<AqlTransactionBlock> AQLParser::parseTransactionBlock(const std::string& 
                 }
 
                 // Only recognise statement/block boundaries at the top level
-                if (depth == 0 && (isStatementStart(tok.type) || isTerminator(tok.type))) {
+                if (depth == 0 && (isSeparator(tok.type) || isStatementStart(tok.type) || isTerminator(tok.type))) {
                     break;
                 }
                 ++end;
@@ -1337,6 +1349,12 @@ Result<AqlTransactionBlock> AQLParser::parseTransactionBlock(const std::string& 
             }
             block.statements.push_back(std::move(*stmtResult));
             start = end;
+
+            // Consume one separator here; additional separators are consumed
+            // at the top of the next iteration.
+            if (start < n && isSeparator(tokens[start].type)) {
+                ++start;
+            }
         }
 
         if (start >= n || !isTerminator(tokens[start].type)) {
@@ -1355,6 +1373,23 @@ Result<AqlTransactionBlock> AQLParser::parseTransactionBlock(const std::string& 
             return Err<AqlTransactionBlock>(
                 errors::ErrorCode::ERR_QUERY_INVALID_SYNTAX,
                 "Transaction block is missing COMMIT or ROLLBACK"
+            );
+        }
+
+        // Accept optional trailing semicolons after COMMIT/ROLLBACK, but no
+        // additional tokens.
+        ++start;
+        while (start < n && isSeparator(tokens[start].type)) {
+            ++start;
+        }
+        if (start < n && tokens[start].type != TokenType::END_OF_FILE) {
+            return Err<AqlTransactionBlock>(
+                errors::ErrorCode::ERR_QUERY_INVALID_SYNTAX,
+                fmt::format(
+                    "Unexpected token '{}' after transaction terminator at line {}, column {}",
+                    tokens[start].value,
+                    tokens[start].line,
+                    tokens[start].column)
             );
         }
 

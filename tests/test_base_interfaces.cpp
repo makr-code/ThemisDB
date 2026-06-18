@@ -113,7 +113,7 @@ private:
 class MockExpressionEvaluator : public IExpressionEvaluator {
 public:
     bool evaluate(const std::string& /*expression*/,
-                  const void* /*context*/) override { return true; }
+                  const void* /*context*/) const override { return true; }
 
     std::string get_expression_type() const override { return "MOCK"; }
 };

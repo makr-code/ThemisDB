@@ -15,6 +15,7 @@
 #include <chrono>
 #include <string>
 #include <vector>
+#include <nlohmann/json.hpp>
 
 #include "index/index_manager.h"
 #include "index/secondary_index.h"
@@ -23,6 +24,38 @@
 #include "themis/base/interfaces/index_interface.h"
 
 using namespace themis;
+
+namespace {
+
+class JsonEmbeddingThresholdEvaluator final : public IExpressionEvaluator {
+public:
+    explicit JsonEmbeddingThresholdEvaluator(double threshold)
+        : threshold_(threshold) {}
+
+    bool evaluate(const std::string& /*expression*/, const void* context) const override {
+        if (!context) {
+            return false;
+        }
+        const auto* doc = static_cast<const nlohmann::json*>(context);
+        if (!doc || !doc->is_object() || !doc->contains("embedding")) {
+            return false;
+        }
+        const auto& emb = (*doc)["embedding"];
+        if (!emb.is_array() || emb.empty() || !emb[0].is_number()) {
+            return false;
+        }
+        return emb[0].get<double>() >= threshold_;
+    }
+
+    std::string get_expression_type() const override {
+        return "themis_json_context_v1";
+    }
+
+private:
+    double threshold_;
+};
+
+} // namespace
 
 // ---------------------------------------------------------------------------
 // Helpers
@@ -319,6 +352,25 @@ TEST(IndexManagerDI, ExportIndexStats_MultipleIndexes_ReturnsAll) {
     }
     EXPECT_TRUE(found_email);
     EXPECT_TRUE(found_dept);
+}
+
+TEST(IndexManagerDI, VectorIndexAdapter_AppliesJsonContextEvaluatorFilter) {
+    auto [db, mgr] = makeIndexManager(makeTempDbPath("idx_vector_eval_"));
+    ASSERT_NE(db, nullptr);
+
+    auto vec_result = mgr->createVectorIndex("users_vec", 2);
+    ASSERT_TRUE(vec_result.has_value()) << vec_result.error().message();
+    auto* vec = *vec_result;
+    ASSERT_NE(vec, nullptr);
+
+    ASSERT_TRUE(vec->insert("user_low", std::vector<float>{0.10f, 0.10f}));
+    ASSERT_TRUE(vec->insert("user_high", std::vector<float>{0.90f, 0.90f}));
+
+    JsonEmbeddingThresholdEvaluator evaluator(0.5);
+    const auto hits = vec->search(std::vector<float>{1.0f, 1.0f}, 2, &evaluator);
+
+    ASSERT_EQ(hits.size(), 1u);
+    EXPECT_EQ(hits[0].primary_key, "user_high");
 }
 
 TEST(IndexManagerDI, ExportIndexStats_WrongTable_ReturnsEmpty) {

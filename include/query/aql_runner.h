@@ -104,11 +104,11 @@ Result<std::string> explainAqlDot(const std::string& aql, QueryEngine& engine);
 /// Execute a multi-statement AQL transaction block.
 ///
 /// The @p aql string must have the form:
-///   BEGIN
-///     <AQL statement 1>
-///     <AQL statement 2>
+///   BEGIN [;]
+///     <AQL statement 1> [;]
+///     <AQL statement 2> [;]
 ///     ...
-///   COMMIT | ROLLBACK
+///   COMMIT | ROLLBACK [;]
 ///
 /// If the block ends with COMMIT, every statement is executed in order and the
 /// combined results are returned as a JSON array (one entry per statement).

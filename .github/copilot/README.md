@@ -48,8 +48,17 @@ cp -r .vscode.example .vscode
 ### For Contributors
 
 1. Read the main instructions in [../copilot-instructions.md](../copilot-instructions.md).
-2. Follow links into the relevant module guides.
-3. Use [VSCODE_CONTEXT.md](VSCODE_CONTEXT.md) for local environment setup.
+2. Read the team workflow in [AI_CUSTOMIZATION_WORKFLOW.md](AI_CUSTOMIZATION_WORKFLOW.md).
+3. Follow links into the relevant module guides.
+4. Use [VSCODE_CONTEXT.md](VSCODE_CONTEXT.md) for local environment setup.
+
+## AI Workflow Quick Links
+
+- Team workflow playbook: [AI_CUSTOMIZATION_WORKFLOW.md](AI_CUSTOMIZATION_WORKFLOW.md)
+- PR AI report template: [PR_AI_REPORT_TEMPLATE.md](PR_AI_REPORT_TEMPLATE.md)
+- Review severity policy: [REVIEW_SEVERITY_POLICY.md](REVIEW_SEVERITY_POLICY.md)
+- Agents: [../agents/themisdb-implementer.agent.md](../agents/themisdb-implementer.agent.md), [../agents/themisdb-reviewer.agent.md](../agents/themisdb-reviewer.agent.md)
+- Prompts: [../prompts/roadmap-to-production.prompt.md](../prompts/roadmap-to-production.prompt.md), [../prompts/build-triage-windows-release.prompt.md](../prompts/build-triage-windows-release.prompt.md), [../prompts/pr-diff-findings-review.prompt.md](../prompts/pr-diff-findings-review.prompt.md), [../prompts/security-hardening-review.prompt.md](../prompts/security-hardening-review.prompt.md), [../prompts/api-change-impact-review.prompt.md](../prompts/api-change-impact-review.prompt.md), [../prompts/release-readiness-check.prompt.md](../prompts/release-readiness-check.prompt.md), [../prompts/compose-ai-pr-report.prompt.md](../prompts/compose-ai-pr-report.prompt.md), [../prompts/verify-high-exception-record.prompt.md](../prompts/verify-high-exception-record.prompt.md)
 
 ### For Maintainers
 

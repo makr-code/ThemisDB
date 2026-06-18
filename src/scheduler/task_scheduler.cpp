@@ -448,6 +448,9 @@ TaskScheduler::TaskScheduler(QueryEngine* query_engine, const Config& config,
         audit_config.enable_audit_logging = config_.enable_audit_logging;
         audit_config.enable_anomaly_detection = config_.enable_anomaly_detection;
         audit_config.enable_gdpr_mode = config_.enable_gdpr_mode;
+        if (!config_.audit_log_path.empty()) {
+            audit_config.audit_log_path = config_.audit_log_path;
+        }
         
         audit_manager_ = std::make_shared<scheduler::TaskAuditManager>(
             audit_logger, audit_config);

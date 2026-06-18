@@ -173,6 +173,23 @@ public:
         Status putEntity(std::string_view table, const BaseEntity& entity);
         Status eraseEntity(std::string_view table, std::string_view pk);
 
+        /**
+         * @brief Read an entity through the active transaction snapshot.
+         *
+         * Performs a point lookup on the canonical entity key
+         * `entity:{table}:{pk}` using the transaction's MVCC view. The lookup
+         * observes this transaction's own uncommitted writes (read-your-writes)
+         * and remains isolated from uncommitted writes of other transactions.
+         *
+         * @param table Logical table/collection name.
+         * @param pk    Primary key.
+         * @return JSON string representation of the entity when present;
+         *         std::nullopt when the entity does not exist in the current
+         *         transaction snapshot or when no active transaction exists.
+         */
+        std::optional<std::string> readEntityJson(std::string_view table,
+                              std::string_view pk);
+
         // Graph
         Status addEdge(const BaseEntity& edgeEntity);
         Status deleteEdge(std::string_view edgeId);

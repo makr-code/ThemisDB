@@ -470,6 +470,37 @@ class LLMAQLHandler::Impl {
 
         // Initialize metrics collector
         LLMMetricsCollector::instance().initialize();
+        
+        // Phase 0.3: Initialize parser service + validation pipeline
+        // If parser_service is injected in Config, use it; otherwise create default
+        if (cfg.parser_service) {
+            parser_service_ = cfg.parser_service;
+        } else {
+            parser_service_ = query::AQLParserServiceFactory::create();
+        }
+        
+        // Phase 0.4: Initialize LLM client + validation pipeline
+        // Wire the full validation pipeline with parser + LLM client
+        if (cfg.llm_client) {
+            llm_client_ = cfg.llm_client;
+            spdlog::info("LLMAQLHandler: Custom LLM client injected");
+        } else {
+            // Create default mock LLM client for testing/development
+            extern std::shared_ptr<llm::LLMClient> createDefaultLLMClient();
+            llm_client_ = createDefaultLLMClient();
+            spdlog::info("LLMAQLHandler: Default (mock) LLM client initialized");
+        }
+        
+        // Wire the validation pipeline with parser + LLM client
+        try {
+            validation_pipeline_ = LLMValidationPipelineFactory::createWithConfig(
+                parser_service_, llm_client_, cfg.validation_config);
+            spdlog::info("LLMAQLHandler: Validation pipeline wired (max_retries={}, timeout_ms={})",
+                         cfg.validation_config.max_retries, cfg.validation_config.timeout_ms);
+        } catch (const std::exception& e) {
+            spdlog::error("LLMAQLHandler: Failed to wire validation pipeline: {}", e.what());
+            // Keep validation_pipeline_ as nullptr; fallback validation will be used
+        }
     }
 
     sharding::CircuitBreaker &getBreaker(const std::string &key) {
@@ -526,6 +557,17 @@ class LLMAQLHandler::Impl {
 
     // Optional storage layer for RAG document content hydration (B5)
     std::shared_ptr<RocksDBWrapper> storage_;
+    
+    // Phase 0.3: Parser service + validation pipeline for AQL mutation support
+    /// Parser service for AST validation (injected or created from Config)
+    std::shared_ptr<query::AQLParserService> parser_service_;
+    
+    /// LLM client for text/AQL generation (Phase 0.4)
+    std::shared_ptr<llm::LLMClient> llm_client_;
+    
+    /// Validation pipeline that orchestrates LLM → Parser → Retry
+    std::shared_ptr<LLMValidationPipeline> validation_pipeline_;
+    
     // Wire the shard-load callback between batch_scheduler_ and
     // adaptive_shard_router_ whenever either is changed.  Both must be
     // non-null and local_shard_id_ must be non-empty for wiring to happen.
@@ -563,6 +605,62 @@ void LLMAQLHandler::setCollectionAccessChecker(
 
 TranslationValidationMode LLMAQLHandler::getValidationMode() const {
     return impl_->validation_mode_;
+}
+
+void LLMAQLHandler::setValidationPipelineConfig(const LLMValidationPipelineConfig& config) {
+    impl_->config_.validation_config = config;
+    if (impl_->validation_pipeline_) {
+        impl_->validation_pipeline_->setConfig(config);
+        spdlog::info("LLMAQLHandler: Validation pipeline config updated (max_retries={}, timeout_ms={})",
+                     config.max_retries, config.timeout_ms);
+    }
+}
+
+LLMValidationPipelineConfig LLMAQLHandler::getValidationPipelineConfig() const {
+    return impl_->config_.validation_config;
+}
+
+// Phase 0.3 Task 7: Parser service configuration getters/setters
+void LLMAQLHandler::setParserService(std::shared_ptr<query::AQLParserService> parser_service) {
+    impl_->parser_service_ = std::move(parser_service);
+    if (impl_->parser_service_) {
+        spdlog::info("LLMAQLHandler: Parser service configured");
+    } else {
+        spdlog::warn("LLMAQLHandler: Parser service disabled (nullptr)");
+    }
+}
+
+std::shared_ptr<query::AQLParserService> LLMAQLHandler::getParserService() const {
+    return impl_->parser_service_;
+}
+
+// Phase 0.4: LLM Client configuration getters/setters
+void LLMAQLHandler::setLLMClient(std::shared_ptr<llm::LLMClient> llm_client) {
+    impl_->llm_client_ = std::move(llm_client);
+    if (impl_->llm_client_) {
+        spdlog::info("LLMAQLHandler: LLM client configured (provider={})",
+                     impl_->llm_client_->getProviderName());
+        // Re-wire the validation pipeline with new LLM client
+        try {
+            impl_->validation_pipeline_ = LLMValidationPipelineFactory::createWithConfig(
+                impl_->parser_service_, impl_->llm_client_,
+                impl_->config_.validation_config);
+            spdlog::info("LLMAQLHandler: Validation pipeline re-wired");
+        } catch (const std::exception& e) {
+            spdlog::error("LLMAQLHandler: Failed to re-wire validation pipeline: {}", e.what());
+        }
+    } else {
+        spdlog::warn("LLMAQLHandler: LLM client disabled (nullptr)");
+        impl_->validation_pipeline_ = nullptr;
+    }
+}
+
+std::shared_ptr<llm::LLMClient> LLMAQLHandler::getLLMClient() const {
+    return impl_->llm_client_;
+}
+
+std::shared_ptr<LLMValidationPipeline> LLMAQLHandler::getValidationPipeline() const {
+    return impl_->validation_pipeline_;
 }
 
 void LLMAQLHandler::setValidationLimits(const ValidationLimitsConfig &config) {
@@ -1440,6 +1538,80 @@ std::string LLMAQLHandler::stripMarkdownFences(std::string raw) {
     return themis::prompt_engineering::stripMarkdownFences(raw);
 }
 
+/**
+ * @brief Phase 0.3 Helper: Validate AQL via AST parser with fallback to string-level validation
+ *
+ * If parser_service_ is available, uses AST parsing for robust validation with parser diagnostics.
+ * Otherwise, falls back to AQLQueryValidator for backward compatibility.
+ *
+ * @param aql_query The generated AQL query to validate
+ * @param parser_service_ptr Shared pointer to AQLParserService (may be nullptr)
+ * @return Pair of (success: bool, error_details: string). 
+ *         If success, error_details is empty.
+ *         If failure, error_details includes line/column, suggestions, and context.
+ */
+static std::pair<bool, std::string> validateAQLWithParser(
+    const std::string& aql_query,
+    const std::shared_ptr<query::AQLParserService>& parser_service_ptr)
+{
+    // Phase 0.3 Bridge: Try AST parsing first if parser service available
+    if (parser_service_ptr) {
+        auto parse_result = parser_service_ptr->parse(aql_query);
+        if (!parse_result.success) {
+            // Enrich error message with parser diagnostics
+            std::string error_msg = "Parser error: " + parse_result.diagnostics.error_message;
+            
+            // Add location information (line:column)
+            if (parse_result.diagnostics.line_number > 0 || parse_result.diagnostics.column_number > 0) {
+                error_msg += " at ";
+                if (parse_result.diagnostics.line_number > 0) {
+                    error_msg += "line " + std::to_string(parse_result.diagnostics.line_number);
+                }
+                if (parse_result.diagnostics.column_number > 0) {
+                    error_msg += ", col " + std::to_string(parse_result.diagnostics.column_number);
+                }
+            }
+            
+            // Add category hint if available
+            if (!parse_result.diagnostics.error_category.empty()) {
+                error_msg += " (" + parse_result.diagnostics.error_category + ")";
+            }
+            
+            // Add suggestions for LLM retry feedback
+            if (!parse_result.diagnostics.suggestions.empty()) {
+                error_msg += ". Suggestions: ";
+                for (size_t i = 0; i < parse_result.diagnostics.suggestions.size() && i < 2; ++i) {
+                    if (i > 0) error_msg += "; ";
+                    error_msg += parse_result.diagnostics.suggestions[i];
+                }
+            }
+            
+            return {false, error_msg};
+        }
+        // AST parsing succeeded
+        return {true, ""};
+    }
+
+    // Fallback: String-level validation via AQLQueryValidator (v1.x compatibility)
+    AQLQueryValidator validator;
+    auto vresult = validator.validate(aql_query);
+    if (vresult.hasErrors()) {
+        auto err_it = std::find_if(vresult.issues.begin(), vresult.issues.end(),
+                                   [](const ValidationIssue &i) {
+                                       return i.severity == ValidationIssue::Severity::ERROR;
+                                   });
+        std::string error_msg = (err_it != vresult.issues.end()) ? err_it->message : "unknown validation error";
+        
+        // Include clause hint from legacy validator
+        if (err_it != vresult.issues.end() && !err_it->clause.empty()) {
+            error_msg += " (" + err_it->clause + ")";
+        }
+        
+        return {false, error_msg};
+    }
+    return {true, ""};
+}
+
 void LLMAQLHandler::logAnnotations(const std::vector<AQLAnnotation> &annotations, const std::string &query_preview,
                                    const std::string &function_name) {
     if (annotations.empty()) {
@@ -1461,13 +1633,11 @@ void LLMAQLHandler::logAnnotations(const std::vector<AQLAnnotation> &annotations
 
 std::string LLMAQLHandler::translateNLToAQL(const std::string &nl_query, const std::string &schema_context) {
     // Sanitize inputs before embedding them in the LLM prompt.
-    // Both nl_query and schema_context are injected verbatim into the system/user
-    // prompt, making them potential vectors for prompt injection attacks.
-    // NOTE: Called outside the try/catch so that LLMException(PROMPT_INJECTION)
-    // propagates to the caller with its error code intact (not wrapped by the
-    // generic catch below).
     sanitizePromptInput(nl_query, "nl_query", impl_->validation_limits_.max_nl_query_length);
     sanitizePromptInput(schema_context, "schema_context", impl_->validation_limits_.max_schema_context_length);
+
+    spdlog::debug("NL-to-AQL: Starting translation for query: {}", 
+                  nl_query.size() > 100 ? nl_query.substr(0, 100) + "..." : nl_query);
 
     const TranslationValidationMode mode = impl_->validation_mode_;
     const size_t max_attempts
@@ -1476,6 +1646,8 @@ std::string LLMAQLHandler::translateNLToAQL(const std::string &nl_query, const s
 
     for (size_t attempt = 0; attempt < max_attempts; ++attempt) {
         try {
+            spdlog::debug("NL-to-AQL: LLM invocation attempt {}/{}", attempt + 1, max_attempts);
+            
             // Build system prompt using the shared helper
             const std::string sys_prompt
                 = buildNLToAQLSystemPrompt(schema_context, {}, attempt > 0 ? validation_feedback : "");
@@ -1492,28 +1664,34 @@ std::string LLMAQLHandler::translateNLToAQL(const std::string &nl_query, const s
 
             // Use chat interface for better results
             auto response = executeChat(messages);
+            spdlog::debug("NL-to-AQL: LLM generated {} chars of response", response.size());
 
             // Clean up response – strip markdown fences and trim whitespace
             std::string aql_query = stripMarkdownFences(std::move(response));
 
-            // Post-generation structural validation via AQLQueryValidator
-            AQLQueryValidator aql_validator;
-            auto vresult = aql_validator.validate(aql_query);
-            if (vresult.hasErrors()) {
-                // Locate the first ERROR-severity issue for the feedback message.
-                auto err_it = std::find_if(vresult.issues.begin(), vresult.issues.end(), [](const ValidationIssue &i) {
-                    return i.severity == ValidationIssue::Severity::ERROR;
-                });
-                validation_feedback = (err_it != vresult.issues.end()) ? err_it->message : "unknown validation error";
+            // Phase 0.3: Use parser-aware validation with fallback
+            spdlog::debug("NL-to-AQL: Validating generated AQL (parser_service available: {})", 
+                         impl_->parser_service_ != nullptr);
+            auto [parse_success, parse_error] = validateAQLWithParser(aql_query, impl_->parser_service_);
+            
+            if (!parse_success) {
+                // Validation failed
+                validation_feedback = parse_error;
+                spdlog::warn("NL-to-AQL: Validation failed (attempt {}/{}): {}", 
+                            attempt + 1, max_attempts, parse_error);
+                
                 if (mode == TranslationValidationMode::REJECT_ON_ERROR || attempt + 1 >= max_attempts) {
+                    spdlog::error("NL-to-AQL: Rejecting query due to validation error (mode={:d})", 
+                                 static_cast<int>(mode));
                     throw LLMException(LLMErrorCode::INVALID_RESPONSE,
                                        "Generated AQL failed validation: " + validation_feedback);
                 }
                 // RETRY_ON_ERROR: log warning and retry with feedback
-                spdlog::warn("NL-to-AQL validation error (attempt {}/{}): {}", attempt + 1, max_attempts,
-                             validation_feedback);
+                spdlog::info("NL-to-AQL: Retrying with error feedback...");
                 continue;
             }
+
+            spdlog::info("NL-to-AQL: Validation passed (attempt {}/{})", attempt + 1, max_attempts);
 
             // Log any structural issues from syntax highlighter
             AQLSyntaxHighlighter validator(/*use_ansi=*/false);
@@ -1525,6 +1703,7 @@ std::string LLMAQLHandler::translateNLToAQL(const std::string &nl_query, const s
             {
                 std::string scope_err = checkGeneratedAQLCollectionScope(aql_query, schema_context);
                 if (!scope_err.empty()) {
+                    spdlog::error("NL-to-AQL: Collection scope check failed: {}", scope_err);
                     throw LLMException(LLMErrorCode::INVALID_RESPONSE, scope_err);
                 }
             }
@@ -1532,10 +1711,12 @@ std::string LLMAQLHandler::translateNLToAQL(const std::string &nl_query, const s
                 std::string acl_err =
                     checkGeneratedAQLCollectionAccess(aql_query, impl_->collection_access_checker_);
                 if (!acl_err.empty()) {
+                    spdlog::error("NL-to-AQL: Collection ACL check failed: {}", acl_err);
                     throw LLMException(LLMErrorCode::ACCESS_DENIED, acl_err);
                 }
             }
 
+            spdlog::info("NL-to-AQL: Translation successful");
             return aql_query;
 
         } catch (const LLMException &) {
@@ -1543,13 +1724,14 @@ std::string LLMAQLHandler::translateNLToAQL(const std::string &nl_query, const s
             // unchanged so callers can distinguish them from generic errors.
             throw;
         } catch (const std::exception &e) {
+            spdlog::error("NL-to-AQL: Translation exception: {}", e.what());
             throw std::runtime_error(std::string("NL to AQL translation failed: ") + e.what());
         }
     }
 
     // Reached only when max_attempts > 1 and all retries produced validation errors.
-    throw LLMException(LLMErrorCode::INVALID_RESPONSE,
-                       "Generated AQL failed validation after all retries: " + validation_feedback);
+    spdlog::error("NL-to-AQL: Exhausted all {} retries with validation errors", max_attempts);
+    throw LLMException(LLMErrorCode::INVALID_RESPONSE, "NL-to-AQL generation exhausted retries with validation errors");
 }
 
 std::string LLMAQLHandler::translateNLToAQLStreaming(const std::string &nl_query,

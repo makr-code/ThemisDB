@@ -29,8 +29,11 @@ namespace themis { class RocksDBWrapper; }
 #include "aql/llm_token_estimator.h"
 #include "aql/llm_error_codes.h"
 #include "aql/llm_timeout_manager.h"
+#include "aql/llm_validation_pipeline.h"
+#include "llm/llm_client.h"
 #include "llm/llm_plugin_interface.h"
 #include "llm/llama_wrapper.h"
+#include "query/aql_parser_service.h"
 #include "sharding/circuit_breaker.h"
 #include "utils/expected.h"
 #include <nlohmann/json.hpp>
@@ -200,6 +203,25 @@ public:
         /// Optional Wave C C2 telemetry forwarding for runtime output metrics.
         bool enable_c2_federated_telemetry = false;
         FederatedTelemetryFn c2_federated_telemetry_fn;
+
+        /// @brief Parser service for AQL validation (Phase 0.3 integration)
+        /// When provided, enables parser-based validation with retry logic.
+        /// If null, falls back to string-level AQLQueryValidator (backward compat).
+        std::shared_ptr<query::AQLParserService> parser_service = nullptr;
+
+        /// @brief Validation pipeline configuration (Phase 0.3 integration)
+        /// Controls retry behavior, timeout, and feedback strategies.
+        LLMValidationPipelineConfig validation_config{
+            .max_retries = 1,
+            .timeout_ms = 5000,
+            .reject_on_error = false,
+            .log_level = spdlog::level::warn
+        };
+
+        /// @brief LLM client for text/AQL generation (Phase 0.4 integration)
+        /// When provided, enables full validation pipeline with retry feedback.
+        /// If null, creates a default mock client automatically.
+        std::shared_ptr<llm::LLMClient> llm_client = nullptr;
     };
 
     /**
@@ -615,8 +637,78 @@ public:
     TranslationValidationMode getValidationMode() const;
 
     // =========================================================================
+    // Phase 0.3: Parser service configuration for AST-based validation
+    // =========================================================================
+
+    /**
+     * @brief Inject a custom AQL parser service for AST-based validation.
+     *
+     * When provided, all translateNLToAQL*() calls will use AST parsing via this
+     * service instead of the fallback string-level AQLQueryValidator. This enables:
+     *  - Detailed parser diagnostics (line/column, error category, suggestions)
+     *  - Retry loop with meaningful LLM feedback
+     *  - Guaranteed valid AQL before returning to user
+     *
+     * If not set, creates a default parser service automatically.
+     *
+     * @param parser_service  Shared pointer to AQLParserService. Pass nullptr to disable.
+     */
+    void setParserService(std::shared_ptr<query::AQLParserService> parser_service);
+
+    /**
+     * @brief Retrieve the current AQL parser service.
+     * @return Shared pointer to the parser service (may be nullptr if not set).
+     */
+    std::shared_ptr<query::AQLParserService> getParserService() const;
+
+    /**
+     * @brief Configure validation pipeline behavior (retry count, timeout, etc).
+     *
+     * Phase 0.3 integration: Allows fine-grained control over retry logic and timing
+     * for generated AQL validation.
+     *
+     * @param config  New validation pipeline configuration.
+     */
+    void setValidationPipelineConfig(const LLMValidationPipelineConfig& config);
+
+    /**
+     * @brief Retrieve the current validation pipeline configuration.
+     * @return Current validation pipeline config.
+     */
+    LLMValidationPipelineConfig getValidationPipelineConfig() const;
+
+    // =========================================================================
+    // Phase 0.4: LLM Client configuration for full validation pipeline
+    // =========================================================================
+
+    /**
+     * @brief Inject a custom LLM client for AQL generation.
+     *
+     * When provided, enables the full validation pipeline with retry feedback.
+     * The LLM client is used by LLMValidationPipeline::execute() to generate
+     * AQL from natural language queries.
+     *
+     * @param llm_client  Shared pointer to LLMClient implementation.
+     *                    Pass nullptr to use default mock client.
+     */
+    void setLLMClient(std::shared_ptr<llm::LLMClient> llm_client);
+
+    /**
+     * @brief Retrieve the current LLM client.
+     * @return Shared pointer to the LLM client (may be nullptr).
+     */
+    std::shared_ptr<llm::LLMClient> getLLMClient() const;
+
+    /**
+     * @brief Get the validation pipeline (read-only access).
+     * @return Shared pointer to LLMValidationPipeline if wired, nullptr otherwise.
+     */
+    std::shared_ptr<LLMValidationPipeline> getValidationPipeline() const;
+
+    // =========================================================================
     // Collection-level access control for generated AQL (LLM-2 fix)
     // =========================================================================
+
 
     /**
      * @brief Register a per-collection access checker for NL→AQL translation.

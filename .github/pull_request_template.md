@@ -3,6 +3,7 @@
 ## Description
 
 <!-- Describe the changes in this PR -->
+<!-- For AI-assisted PRs, use `.github/prompts/compose-ai-pr-report.prompt.md` and paste into `.github/copilot/PR_AI_REPORT_TEMPLATE.md` structure. -->
 
 ## Linked Issues
 
@@ -73,6 +74,36 @@
 - [ ] RAII und Exception-Safety für neue/angepasste Pfade geprüft
 - [ ] Keine unnötig komplexen KI-Abstraktionen eingeführt
 - [ ] Performance-Metriken geprüft, falls Hotpath betroffen
+
+## AI Review Workflow (Required for AI-assisted PRs)
+
+<!-- Use prompts under `.github/prompts/` with the `themisdb-reviewer` agent -->
+
+- [ ] Findings-first review performed with `.github/prompts/pr-diff-findings-review.prompt.md`
+- [ ] Security hardening review performed for security-sensitive/runtime changes with `.github/prompts/security-hardening-review.prompt.md` (or N/A documented)
+- [ ] API impact review performed for API/contract changes with `.github/prompts/api-change-impact-review.prompt.md` (or N/A documented)
+- [ ] All Critical/High findings are resolved or explicitly accepted with rationale in PR description
+- [ ] Residual risks and follow-up actions documented in PR description
+- [ ] Severity policy applied according to `.github/copilot/REVIEW_SEVERITY_POLICY.md`
+
+## High-Finding Exception Record (only if High is accepted)
+
+<!-- Validate this section with `.github/prompts/verify-high-exception-record.prompt.md` before merge. -->
+
+- [ ] High-finding exception claimed in this PR
+
+- Finding reference:
+- Maintainer approver:
+- Mitigation in current release:
+- Target fix milestone:
+- Tracking issue:
+- Validation evidence:
+
+## Release Readiness Gate (Required for release-scoped changes)
+
+- [ ] Release readiness reviewed with `.github/prompts/release-readiness-check.prompt.md` for branch transition scope
+- [ ] Branch governance validated against `BRANCHING_STRATEGY.md` and `RELEASE_STRATEGY.md`
+- [ ] Versioning/changelog impact validated against `VERSIONING.md` and `CHANGELOG.md`
 
 ## Checklist
 

@@ -57,7 +57,7 @@ public:
      * @param context Opaque context pointer (e.g., document, row data)
      * @return true if expression evaluates to true, false otherwise
      */
-    [[nodiscard]] virtual bool evaluate(const std::string& expression, const void* context) = 0;
+    [[nodiscard]] virtual bool evaluate(const std::string& expression, const void* context) const = 0;
     
     /**
      * @brief Get the type of expression language supported

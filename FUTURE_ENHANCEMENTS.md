@@ -738,18 +738,21 @@ Every stub replacement **must** follow these six phases before marking `[x]`:
 
 ---
 
-### B-02 · `analytics` — `ExporterFactory` Stub Replacement
+### B-02 · `analytics` — `ExporterFactory` Stub Replacement ✅ Done (verified 2026-06-18)
 **Priority:** 🟠 High | **Target:** v1.8.0 | **Issue:** #3868
-**Stub location:** `src/analytics/analytics_export.cpp` line 728 — `createExporter()` always returns the same stub exporter regardless of `ExportFormat`; Parquet/Feather silently unavailable.
+**Previous stub location:** `src/analytics/analytics_export.cpp` line 728 — historical note (now replaced).
 
 **Affected files:** `src/analytics/analytics_export.cpp`
 
 **Implementation:**
-- `[ ]` Switch on `format`; return `ParquetExporter`, `FeatherExporter`, `CSVExporter` as appropriate.
-- `[ ]` When `THEMIS_HAS_ARROW` is not defined: return `std::unexpected(ExportError::FormatUnavailable)` with clear message.
-- `[ ]` Unit test: assert `createExporter(ExportFormat::FMT_ARROW_PARQUET)` returns non-stub type when `THEMIS_HAS_ARROW` is defined.
+- `[x]` Switch on `format`; return concrete exporters (`JSONCSVExporter`, `ArrowIPCExporter`, `ParquetExporter`, `FeatherExporter`).
+- `[x]` When `THEMIS_HAS_ARROW` is not defined: fail fast with explicit runtime error via `throwArrowUnavailable(...)`.
+- `[x]` Unit coverage validates Arrow export factory behavior (`tests/analytics/test_arrow_export.cpp`).
 
-**Tests:** All 5 export formats: round-trip write/read; assert no data loss.
+**Verification (2026-06-18):**
+- `ctest --preset windows-release --output-on-failure -R "^ArrowExportFocusedTests$|^test_arrow_export_AnalyticsFocusedTests$" -j 1` → 2/2 passed.
+
+**Tests:** Export-format specific focused tests passing; round-trip coverage remains in `tests/analytics/test_arrow_export.cpp`.
 **Detail:** [→ src/analytics/FUTURE_ENHANCEMENTS.md](src/analytics/FUTURE_ENHANCEMENTS.md#1--exporterfactory-stub-replacement)
 
 ---
@@ -773,8 +776,8 @@ in `tests/analytics/test_automl.cpp`.
 **Affected files:** `src/analytics/automl.cpp`
 
 **Implementation:**
-- `[ ]` Implement real k-NN regression: Euclidean distance to `k` nearest training points; weighted average of labels.
-- `[ ]` Wire to existing `KNNModel` implementation already present in `automl.cpp`.
+- `[x]` Implement real k-NN regression: Euclidean distance to `k` nearest training points; weighted average of labels.
+- `[x]` Wired in `KNNModel::predictOneReg(...)` (inverse-distance weighting).
 
 **Tests:** MAE < 0.05 on held-out synthetic dataset; performance: ≤ 1 ms per prediction at k=5, N=10 000.
 **Detail:** [→ src/analytics/FUTURE_ENHANCEMENTS.md](src/analytics/FUTURE_ENHANCEMENTS.md#10--automlcpp--knnregressormodelpredictoreg-stub)
@@ -789,12 +792,34 @@ in `tests/analytics/test_automl.cpp`.
 - `src/api/themisdb_grpc_service.cpp`
 - `src/api/grpc_server.cpp`
 - `include/api/themisdb_grpc_service.h`
+- `src/main_server.cpp`
 
 **Implementation:**
-- `[ ]` Wire each RPC method to its corresponding service handler (query engine, ingestion, admin).
-- `[ ]` Propagate `ThemisError` → appropriate gRPC status code (see `grpc_error_mapper.cpp`).
-- `[ ]` Add per-RPC Prometheus counters: `grpc_requests_total{method, status}`.
-- `[ ]` TLS: enforce `fail_closed` (no insecure fallback); certificate hot-reload.
+- `[x]` Register `ThemisDBGrpcService` at server startup when gRPC stubs are present; share the same gRPC server bootstrap path with WAL service and skip startup only when neither service is available.
+- `[~]` Wire each RPC method to its corresponding service handler (query engine, ingestion, admin).
+	- Progress: `VectorSearch`, `FilteredVectorSearch`, `HybridSearch` now honor `fetch_docs` by resolving and attaching document payloads via storage backend.
+	- Progress: `transaction_id` is now resolved to an active `TransactionManager::Transaction` in CRUD/Batch/AQL RPCs (format + active transaction existence checks).
+	- Progress: write RPCs (`CreateDocument`, `UpdateDocument`, `DeleteDocument`, `BatchWrite`) now execute through transaction-bound handlers (`putEntity`/`eraseEntity`) when `transaction_id` is provided, instead of direct storage writes.
+	- Progress: read RPCs (`GetDocument`, `BatchRead`) now use transaction-scoped snapshot reads for active `transaction_id` values via `Transaction::readEntityJson` (read-your-writes semantics).
+	- Progress: non-transactional reads now include a compatibility fallback for canonical transaction-persisted entity keys (`entity:{collection}:{key}`).
+	- Progress: `fetch_docs` document hydration in `VectorSearch`, `FilteredVectorSearch`, and `HybridSearch` now uses the same canonical entity-key fallback, so transaction-committed entities are resolved consistently.
+	- Progress: `FilteredVectorSearch` now applies server-side `_key`/`_id` filters (`eq`, `ne`, `in`) as a production fallback while non-supported filter clauses remain explicitly warned and ignored.
+	- Progress: `FilteredVectorSearch` also applies top-level attribute filters via document fallback resolution when storage is wired: string (`eq`, `ne`, `in`), numeric `in`, and numeric comparisons (`gt`, `gte`, `lt`, `lte`); numeric `eq`/`ne`/`in` use tolerant floating-point matching; mixed-type/non-scalar `in` arrays are treated as unsupported and ignored with warning.
+	- Progress: `VectorIndexAdapter` no longer ignores the optional `IExpressionEvaluator* filter`; it now forwards to evaluator-aware `VectorIndexManager` search paths (`searchKnnEvaluated`, `searchKnnRadiusEvaluated`) for JSON-context filter execution.
+	- Progress: evaluator API contract is now const-correct end-to-end (`IExpressionEvaluator::evaluate(... ) const`) across query/storage/api paths and test/example implementations; temporary `const_cast` workarounds in vector evaluator paths were removed.
+	- Test status: proto-backed RPC transaction path tests are active in `ThemisDBGrpcServiceTests` (`GrpcTransactionPathTest.*`) and now validate deferred write/delete visibility, transactional read-your-writes (`GetDocument`, `BatchRead`) and non-transactional entity-key fallback reads.
+	- Test status: additional RPC regression tests validate `fetch_docs` fallback behavior plus `_key`/`_id`, top-level string attribute filtering, top-level numeric `in`/comparison filters (including floating-point tolerance checks for `eq`/`ne`/`in`), and mixed-type/invalid numeric `in` hardening for vector search endpoints (`GrpcVectorFetchDocsFallbackTest.*`).
+	- Test status: new DI regression `IndexManagerDI.VectorIndexAdapter_AppliesJsonContextEvaluatorFilter` verifies adapter-level forwarding of JSON-context evaluators.
+- `[x]` Propagate `ThemisError` → gRPC transport status in AQL execution paths (`ExecuteAQL`, `StreamAQL`, `FullTextSearch`) with canonical `ErrorCode` mapping.
+- `[x]` Add per-RPC Prometheus counters: `grpc_requests_total{method, status}` in `ThemisDBGrpcService`, including registry wiring from `main_server`.
+- `[x]` TLS: enforce `fail_closed` by default for gRPC startup (no implicit insecure fallback) and add SIGHUP-driven gRPC certificate hot-reload via controlled server restart.
+
+**Verification (2026-06-18):**
+- `cmake --build --preset windows-release --target themis_server --parallel 16` → success.
+- `cmake --build --preset windows-release --target test_index_manager_di test_themisdb_grpc_service --parallel 16` → success.
+- `build-msvc-windows-release/bin/test_index_manager_di.exe --gtest_filter=IndexManagerDI.VectorIndexAdapter_AppliesJsonContextEvaluatorFilter` → passed (1/1).
+- `build-msvc-windows-release/bin/test_themisdb_grpc_service.exe --gtest_filter=GrpcVectorFetchDocsFallbackTest.*` → passed (16/16).
+- `ctest --preset windows-release --output-on-failure -R "^GrpcApiServerTests$|^ThemisDBGrpcServiceTests$|^TransactionManagerFocusedTests$" -j 1` → 3/3 passed.
 
 **Tests:** End-to-end gRPC test: `ExecuteAQL`, `IngestDocument`, `GetDocument`, `DeleteCollection` RPCs; test `UNIMPLEMENTED` RPCs no longer reachable.
 **Detail:** [→ src/api/FUTURE_ENHANCEMENTS.md](src/api/FUTURE_ENHANCEMENTS.md#grpc-api-surface--wire-stub-implementations)
@@ -1223,6 +1248,44 @@ CPU fallback must remain available and tested independently.
 **Label:** `epic:thread-safety` | **Target:** v1.8.0
 All exclusive-mutex read paths upgraded to `std::shared_mutex`:
 `analytics` (#41–45), `plugins` (#193), `maintenance` `schedules_mutex_` (#185), `graph` `DistributedGraphManager` (#174), `config` `ConfigEncryptedStore` (#164).
+
+### Epic: AQL 2.0.0 — Complete Language Standard
+**Label:** `epic:aql-2.0.0` | **Target:** Q4 2026 (18–23 weeks)
+
+**Scope:** Full AQL standard coverage across 4 major features:
+1. **Mutations** (DML: INSERT, UPDATE, DELETE, REPLACE, REMOVE, UPSERT) — 12–15 weeks
+2. **DDL** (CREATE/DROP/ALTER COLLECTION/INDEX/VIEW) — 4–6 weeks  
+3. **Geospatial** (Parser integration of existing ST_* functions) — 2–3 weeks
+4. **FTS** (Full-text search query enhancement) — 2–3 weeks
+5. **Integration & Testing** (Cross-feature tests, performance gates) — 3–4 weeks
+
+**Roadmap Files:**
+- [src/query/AQL_MUTATIONS_ROADMAP.md](src/query/AQL_MUTATIONS_ROADMAP.md) — 5-phase plan for DML implementation
+- [src/query/AQL_V2_0_0_COMPLETE_ROADMAP.md](src/query/AQL_V2_0_0_COMPLETE_ROADMAP.md) — Master roadmap with 6 go/no-go gates + codebase audit findings
+- [src/query/AQL_DDL_ROADMAP.md](src/query/AQL_DDL_ROADMAP.md) — *Pending Team B assignment*
+- [src/geospatial/AQL_GEOSPATIAL_ROADMAP.md](src/geospatial/AQL_GEOSPATIAL_ROADMAP.md) — *Pending Team C assignment* (functions 70% exist, need parser integration)
+- [src/index/AQL_FTS_ROADMAP.md](src/index/AQL_FTS_ROADMAP.md) — *Pending Team C assignment*
+
+**Audit Findings (2026-06-18):**
+- ⚠️ **Documentation-Implementation Gap**: AQL parser currently read-only (v1.x); DML/DDL/Geospatial keywords documented in `docs/de/aql/` but NOT implemented in parser
+- ✅ **Geospatial Functions Exist**: ST_Distance, ST_Within, ST_Contains, ST_Intersects, ST_GeomFromGeoJSON in `src/query/let_evaluator.cpp` (70% complete, only need parser wiring)
+- ✅ **SQL DML Parser Reference**: `src/query/sql_parser.cpp` provides reference architecture for mutation AST construction
+- ✅ **Transaction Foundation**: BEGIN/COMMIT/ROLLBACK tokenization + multi-statement execution ready in `src/query/aql_runner.cpp`
+- ⚠️ **Timeline Reduction**: Geospatial effort reduced 40% (2 weeks saved) due to existing functions → **18–23 weeks total (vs. 20–25 weeks original)**
+
+**Critical Action Items:**
+- `[ ]` **P0 (This Week)**: Update ROADMAP.md + FUTURE_ENHANCEMENTS.md with AQL 2.0.0 section
+- `[ ]` **P0 (This Week)**: Update `docs/de/aql/AQL_COMPLETE_LANGUAGE_SCOPE.md` — mark as v1.3.1 proposal, note parser not implemented
+- `[ ]` **P1 (Next Sprint)**: Create DDL, Geospatial, FTS roadmap documents
+- `[ ]` **P1 (Next Sprint)**: Assign Teams A/B/C; Phase 1 kickoff for Mutations parser
+- See: [DOCUMENTATION_AUDIT_2026_06_18.md](DOCUMENTATION_AUDIT_2026_06_18.md) for full audit report
+
+**Performance Gates (v2.0.0 Release Requirements):**
+- **Gate 1 (Week 3)**: Mutations parser complete; tokenizer + AST nodes + 100+ parser tests
+- **Gate 2 (Week 8)**: Mutations executor working; INSERT/UPDATE/DELETE produce correct results in 50+ integration tests
+- **Gate 4 (Week 12)**: Geospatial performance ≥ 50× vs. O(n²) baseline on 100K geometries
+- **Gate 5 (Week 14)**: FTS phrase queries ≤ 100ms on 100K documents
+- **Gate 6 (Week 22)**: All 1000+ cross-feature tests pass; zero regressions vs. v1.x; release candidate ready
 
 ---
 

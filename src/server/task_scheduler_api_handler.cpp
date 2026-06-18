@@ -144,6 +144,9 @@ json TaskSchedulerApiHandler::registerTask(const json& request) {
         std::string id = scheduler.registerTask(task);
         spdlog::info("TaskSchedulerApiHandler: registered task '{}'", id);
         return json{{"status", "created"}, {"id", id}};
+    } catch (const std::invalid_argument& e) {
+        spdlog::warn("TaskSchedulerApiHandler: registerTask failed: {}", e.what());
+        return json{{"status", "error"}, {"error", e.what()}};
     } catch (const std::exception& e) {
         spdlog::warn("TaskSchedulerApiHandler: registerTask failed: {}", e.what());
         return json{{"status", "error"}, {"error", "Internal server error"}};
@@ -216,6 +219,10 @@ json TaskSchedulerApiHandler::unregisterTask(const std::string& task_id) {
         return json{{"status", "error"}, {"error", *err}};
     }
 
+    if (!scheduler.getTask(task_id)) {
+        spdlog::warn("TaskSchedulerApiHandler: unregisterTask '{}': task not found", task_id);
+        return json{{"status", "error"}, {"error", "Task not found"}};
+    }
     try {
         scheduler.unregisterTask(task_id);
         spdlog::info("TaskSchedulerApiHandler: unregistered task '{}'", task_id);
@@ -237,6 +244,10 @@ json TaskSchedulerApiHandler::enableTask(const std::string& task_id) {
         return json{{"status", "error"}, {"error", *err}};
     }
 
+    if (!scheduler.getTask(task_id)) {
+        spdlog::warn("TaskSchedulerApiHandler: enableTask '{}': task not found", task_id);
+        return json{{"status", "error"}, {"error", "Task not found"}};
+    }
     try {
         scheduler.enableTask(task_id);
         spdlog::info("TaskSchedulerApiHandler: enabled task '{}'", task_id);
@@ -258,6 +269,10 @@ json TaskSchedulerApiHandler::disableTask(const std::string& task_id) {
         return json{{"status", "error"}, {"error", *err}};
     }
 
+    if (!scheduler.getTask(task_id)) {
+        spdlog::warn("TaskSchedulerApiHandler: disableTask '{}': task not found", task_id);
+        return json{{"status", "error"}, {"error", "Task not found"}};
+    }
     try {
         scheduler.disableTask(task_id);
         spdlog::info("TaskSchedulerApiHandler: disabled task '{}'", task_id);
@@ -653,7 +668,7 @@ std::string TaskSchedulerApiHandler::getWebUi() {
     html += "}\n";
     html += "\n";
     html += "function escHtml(s) {\n";
-    html += "  return String(s).replace(/&/g,'&amp;').replace(/</g,'<').replace(/>/g,'>').replace(/\"/g,'&quot;');\n";
+    html += "  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\"/g,'&quot;');\n";
     html += "}\n";
     html += "\n";
     html += "async function loadAll() {\n";

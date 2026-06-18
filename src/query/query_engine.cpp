@@ -239,7 +239,7 @@ static bool evalAqlExpression(const std::string& expression,
 
 bool QueryEngine::QueryExpressionEvaluator::evaluate(
 	const std::string& expression,
-	const void* context) {
+	const void* context) const {
     if (!engine_ || expression.empty()) return false;
     // `context` may be a QueryEngine::EvaluationContext* or a nlohmann::json*.
     // We support both: if EvaluationContext*, use it directly; if json*, build

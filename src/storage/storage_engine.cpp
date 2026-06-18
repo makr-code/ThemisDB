@@ -72,7 +72,7 @@ public:
         }
     }
 
-    bool evaluate(const std::string& expression, [[maybe_unused]] const void* context) override {
+    bool evaluate(const std::string& expression, [[maybe_unused]] const void* context) const override {
         if (expression.empty()) {
             // No predicate → every document matches; this is intentional.
             return true;

@@ -3113,6 +3113,11 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/themisdb/test_themisdb_grpc_service.cpp")
         Threads::Threads
     )
 
+    if(TARGET themis_api_proto)
+        target_link_libraries(test_themisdb_grpc_service PRIVATE themis_api_proto)
+        add_dependencies(test_themisdb_grpc_service themis_api_proto)
+    endif()
+
     if(THEMIS_ENABLE_GRPC)
         target_link_libraries(test_themisdb_grpc_service PRIVATE gRPC::grpc++)
         target_compile_definitions(test_themisdb_grpc_service PRIVATE THEMIS_ENABLE_GRPC)
@@ -3120,6 +3125,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/themisdb/test_themisdb_grpc_service.cpp")
 
     target_include_directories(test_themisdb_grpc_service PRIVATE
         ${THEMIS_ROOT_DIR}/include
+        ${CMAKE_BINARY_DIR}/proto_generated
     )
 
     add_test(NAME ThemisDBGrpcServiceTests COMMAND test_themisdb_grpc_service)

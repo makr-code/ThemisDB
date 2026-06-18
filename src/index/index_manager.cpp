@@ -147,11 +147,12 @@ public:
     std::vector<VectorSearchResult> search(
         const std::vector<float>& query_vector,
         uint32_t k,
-        const IExpressionEvaluator* /*filter*/ = nullptr) const override {
+        const IExpressionEvaluator* filter = nullptr) const override {
 
-        auto [status, results] = manager_->searchKnn(query_vector, k);
+        auto [status, results] = manager_->searchKnnEvaluated(
+            query_vector, k, filter, /*candidateMultiplier=*/4, /*whitelist=*/nullptr);
         if (!status.ok) {
-            THEMIS_WARN("VectorIndexAdapter::search: underlying searchKnn failed: {}", status.message);
+            THEMIS_WARN("VectorIndexAdapter::search: underlying evaluator-aware search failed: {}", status.message);
             return {};
         }
         std::vector<VectorSearchResult> out;
@@ -165,12 +166,12 @@ public:
     std::vector<VectorSearchResult> rangeSearch(
         const std::vector<float>& query_vector,
         float max_distance,
-        const IExpressionEvaluator* /*filter*/ = nullptr) const override {
+        const IExpressionEvaluator* filter = nullptr) const override {
 
-        auto [status, results] = manager_->searchKnnRadius(
-            query_vector, max_distance, /*max_results=*/0, /*whitelist=*/nullptr);
+        auto [status, results] = manager_->searchKnnRadiusEvaluated(
+            query_vector, max_distance, /*max_results=*/0, filter, /*whitelist=*/nullptr);
         if (!status.ok) {
-            THEMIS_WARN("VectorIndexAdapter::rangeSearch: underlying searchKnnRadius failed: {}", status.message);
+            THEMIS_WARN("VectorIndexAdapter::rangeSearch: underlying evaluator-aware radius search failed: {}", status.message);
             return {};
         }
         std::vector<VectorSearchResult> out;

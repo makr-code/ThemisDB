@@ -70,6 +70,20 @@ TEST(AqlMultiStatementTransactionParser, ParseMultipleStatements) {
     EXPECT_NE(result->statements[1], nullptr);
 }
 
+TEST(AqlMultiStatementTransactionParser, ParsePostgresStyleSemicolons) {
+    AQLParser parser;
+    std::string aql = R"(
+        BEGIN;
+          FOR doc IN users FILTER doc.active == true RETURN doc;
+          FOR order IN orders RETURN order;
+        COMMIT;
+    )";
+    auto result = parser.parseTransactionBlock(aql);
+    ASSERT_TRUE(result) << (result ? "" : result.error().message());
+    EXPECT_EQ(result->action, AqlTransactionAction::Commit);
+    ASSERT_EQ(result->statements.size(), 2u);
+}
+
 TEST(AqlMultiStatementTransactionParser, ErrorMissingBegin) {
     AQLParser parser;
     std::string aql = "FOR doc IN users RETURN doc COMMIT";
@@ -83,6 +97,13 @@ TEST(AqlMultiStatementTransactionParser, ErrorMissingTerminator) {
         BEGIN
           FOR doc IN users RETURN doc
     )";
+    auto result = parser.parseTransactionBlock(aql);
+    EXPECT_FALSE(result);
+}
+
+TEST(AqlMultiStatementTransactionParser, ErrorTrailingTokensAfterTerminator) {
+    AQLParser parser;
+    std::string aql = "BEGIN COMMIT FOR doc IN users RETURN doc";
     auto result = parser.parseTransactionBlock(aql);
     EXPECT_FALSE(result);
 }
@@ -201,6 +222,20 @@ TEST_F(MultiStatementAqlRunnerTest, CommitReturnsCombinedResults) {
           FOR doc IN users FILTER doc.active == "true" RETURN doc
           FOR order IN orders FILTER order.status == "open" RETURN order
         COMMIT
+    )";
+    auto result = executeMultiStatementAql(aql, *engine_);
+    ASSERT_TRUE(result) << (result ? "" : result.error().message());
+    auto& j = *result;
+    EXPECT_EQ(j["type"], "commit");
+    EXPECT_EQ(j["results"].size(), 2u);
+}
+
+TEST_F(MultiStatementAqlRunnerTest, CommitWithSemicolonsReturnsCombinedResults) {
+    std::string aql = R"(
+        BEGIN;
+          FOR doc IN users FILTER doc.active == "true" RETURN doc;
+          FOR order IN orders FILTER order.status == "open" RETURN order;
+        COMMIT;
     )";
     auto result = executeMultiStatementAql(aql, *engine_);
     ASSERT_TRUE(result) << (result ? "" : result.error().message());

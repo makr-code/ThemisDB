@@ -1076,6 +1076,26 @@ TransactionManager::Status TransactionManager::Transaction::eraseEntity(std::str
     return Status::OK();
 }
 
+std::optional<std::string> TransactionManager::Transaction::readEntityJson(
+    std::string_view table,
+    std::string_view pk
+) {
+    if (!mvcc_txn_ || !mvcc_txn_->isActive()) {
+        return std::nullopt;
+    }
+
+    const std::string key = makeNamespacedKey(
+        std::string("entity:") + std::string(table) + ":" + std::string(pk));
+
+    auto value = mvcc_txn_->get(key);
+    if (!value) {
+        return std::nullopt;
+    }
+
+    const auto entity = BaseEntity::deserialize(pk, *value);
+    return entity.toJson();
+}
+
 TransactionManager::Status TransactionManager::Transaction::addEdge(const BaseEntity& edgeEntity) {
     if (!mvcc_txn_ || !mvcc_txn_->isActive()) return Status::Error("addEdge: keine aktive Transaktion");
     if (isTimedOut()) return Status::Error("addEdge: transaction timed out");

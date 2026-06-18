@@ -21,6 +21,7 @@
 // Vector ANN index implementation
 
 #include "index/vector_index.h"
+#include "themis/base/interfaces/query_interface.h"
 #include <stdexcept>
 #include "index/advanced_vector_index.h"
 #include "index/ann_index.h"
@@ -1619,6 +1620,118 @@ VectorIndexManager::searchKnn(const std::vector<float>& query, size_t k, const s
 	}
 	
 	return {Status::OK(), std::move(results)};
+}
+
+std::pair<VectorIndexManager::Status, std::vector<VectorIndexManager::Result>>
+VectorIndexManager::searchKnnEvaluated(
+	const std::vector<float>& query,
+	size_t k,
+	const IExpressionEvaluator* evaluator,
+	size_t candidateMultiplier,
+	const std::vector<std::string>* whitelist
+) const {
+	if (!evaluator || k == 0) {
+		return searchKnn(query, k, whitelist);
+	}
+
+	const std::string evaluator_type = evaluator->get_expression_type();
+	if (evaluator_type != "themis_json_context_v1") {
+		THEMIS_WARN("searchKnnEvaluated: unsupported evaluator type '{}', falling back to unfiltered search", evaluator_type);
+		return searchKnn(query, k, whitelist);
+	}
+
+	const size_t safe_multiplier = std::max<size_t>(1, candidateMultiplier);
+	const size_t candidate_count = std::max(k, k * safe_multiplier);
+	auto [status, candidates] = searchKnn(query, candidate_count, whitelist);
+	if (!status.ok) {
+		return {status, {}};
+	}
+
+	std::vector<Result> filtered;
+	filtered.reserve(std::min(k, candidates.size()));
+	for (const auto& candidate : candidates) {
+		auto entity_blob = db_.get(makeObjectKey(candidate.pk));
+		if (!entity_blob.has_value()) {
+			continue;
+		}
+
+		nlohmann::json doc_json;
+		try {
+			BaseEntity entity = BaseEntity::deserialize(candidate.pk, *entity_blob);
+			doc_json = nlohmann::json::parse(entity.toJson());
+			if (!doc_json.is_object()) {
+				continue;
+			}
+			doc_json["_key"] = candidate.pk;
+			doc_json["_id"] = std::string(objectName_) + "/" + candidate.pk;
+		} catch (const std::exception&) {
+			continue;
+		}
+
+		if (evaluator->evaluate(evaluator_type, &doc_json)) {
+			filtered.push_back(candidate);
+			if (filtered.size() >= k) {
+				break;
+			}
+		}
+	}
+
+	return {Status::OK(), std::move(filtered)};
+}
+
+std::pair<VectorIndexManager::Status, std::vector<VectorIndexManager::Result>>
+VectorIndexManager::searchKnnRadiusEvaluated(
+	const std::vector<float>& query,
+	float epsilon,
+	size_t max_results,
+	const IExpressionEvaluator* evaluator,
+	const std::vector<std::string>* whitelist
+) const {
+	if (!evaluator) {
+		return searchKnnRadius(query, epsilon, max_results, whitelist);
+	}
+
+	const std::string evaluator_type = evaluator->get_expression_type();
+	if (evaluator_type != "themis_json_context_v1") {
+		THEMIS_WARN("searchKnnRadiusEvaluated: unsupported evaluator type '{}', falling back to unfiltered radius search", evaluator_type);
+		return searchKnnRadius(query, epsilon, max_results, whitelist);
+	}
+
+	auto [status, candidates] = searchKnnRadius(query, epsilon, max_results, whitelist);
+	if (!status.ok) {
+		return {status, {}};
+	}
+
+	std::vector<Result> filtered;
+	filtered.reserve(candidates.size());
+	for (const auto& candidate : candidates) {
+		auto entity_blob = db_.get(makeObjectKey(candidate.pk));
+		if (!entity_blob.has_value()) {
+			continue;
+		}
+
+		nlohmann::json doc_json;
+		try {
+			BaseEntity entity = BaseEntity::deserialize(candidate.pk, *entity_blob);
+			doc_json = nlohmann::json::parse(entity.toJson());
+			if (!doc_json.is_object()) {
+				continue;
+			}
+			doc_json["_key"] = candidate.pk;
+			doc_json["_id"] = std::string(objectName_) + "/" + candidate.pk;
+		} catch (const std::exception&) {
+			continue;
+		}
+
+		if (evaluator->evaluate(evaluator_type, &doc_json)) {
+			filtered.push_back(candidate);
+			if (max_results > 0 && filtered.size() >= max_results) {
+				break;
+			}
+		}
+	}
+
+	return {Status::OK(), std::move(filtered)};
 }
 
 // =============================================================================

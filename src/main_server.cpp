@@ -172,6 +172,7 @@
 #include <grpcpp/grpcpp.h>
 #include <grpcpp/security/server_credentials.h>
 #include "server/wal_grpc_service.h"
+#include "api/themisdb_grpc_service.h"
 #include "utils/file_utils.h"
 #endif
 
@@ -195,6 +196,7 @@ std::shared_ptr<server::HttpServer> g_server;
 #ifdef THEMIS_ENABLE_GRPC
 static std::unique_ptr<grpc::Server> g_wal_grpc_server;
 static std::unique_ptr<server::WalGrpcService> g_wal_grpc_service;
+static std::unique_ptr<api::ThemisDBGrpcService> g_themisdb_grpc_service;
 #endif
 
 static std::shared_ptr<themis::sharding::WALShipper> g_wal_shipper;
@@ -2310,114 +2312,146 @@ int main(int argc, char* argv[]) {
 #endif
 
 #ifdef THEMIS_ENABLE_GRPC
-        // Start WAL gRPC Apply service (if stubs are available)
+        // Start gRPC services (WAL Apply + ThemisDB API) when available.
         g_wal_grpc_service = std::make_unique<server::WalGrpcService>(wal_applier);
-        if (auto* wal_service = g_wal_grpc_service->service()) {
+        g_themisdb_grpc_service = std::make_unique<api::ThemisDBGrpcService>(db, tx_manager);
+#ifdef THEMIS_HAS_PROMETHEUS
+        if (g_themisdb_grpc_service && g_config_prom_registry) {
+            g_themisdb_grpc_service->setPrometheusRegistry(g_config_prom_registry);
+        }
+#endif
+
+        bool grpc_tls_active = false;
+
+        auto parseBoolEnv = [](const char* value, bool default_value) -> bool {
+            if (!value) {
+                return default_value;
+            }
+            std::string s(value);
+            for (char& c : s) {
+                if (c >= 'A' && c <= 'Z') {
+                    c = static_cast<char>(c - 'A' + 'a');
+                }
+            }
+            if (s == "1" || s == "true" || s == "yes" || s == "on") {
+                return true;
+            }
+            if (s == "0" || s == "false" || s == "no" || s == "off") {
+                return false;
+            }
+            return default_value;
+        };
+
+        auto startGrpcServer = [&]() -> bool {
+            auto* wal_service = g_wal_grpc_service ? g_wal_grpc_service->service() : nullptr;
+            auto* api_service = g_themisdb_grpc_service ? g_themisdb_grpc_service->service() : nullptr;
+
+            if (!wal_service && !api_service) {
+                THEMIS_INFO("No gRPC service stubs found (WAL/ThemisDB API); skipping gRPC startup");
+                grpc_tls_active = false;
+                return false;
+            }
+
             std::string grpc_host = "0.0.0.0";
             int grpc_port = 50051;
             if (const char* h = std::getenv("THEMIS_WAL_GRPC_HOST")) grpc_host = h;
             if (const char* p = std::getenv("THEMIS_WAL_GRPC_PORT")) {
                 try { grpc_port = std::stoi(p); } catch (...) {}
             }
-            std::string grpc_addr = grpc_host + ":" + std::to_string(grpc_port);
+            const std::string grpc_addr = grpc_host + ":" + std::to_string(grpc_port);
 
-            grpc::ServerBuilder builder;
-            
-            // Configure server credentials (mTLS support)
+            const bool enable_tls = parseBoolEnv(std::getenv("THEMIS_WAL_GRPC_ENABLE_MTLS"), false);
+            const bool allow_insecure = parseBoolEnv(std::getenv("THEMIS_WAL_GRPC_ALLOW_INSECURE"), false);
+
             std::shared_ptr<grpc::ServerCredentials> credentials;
-            bool enable_mtls = false;
-            std::string actual_mode = "insecure"; // Track actual credential mode for accurate logging
-            
-            if (const char* mtls_env = std::getenv("THEMIS_WAL_GRPC_ENABLE_MTLS")) {
-                std::string mtls_str(mtls_env);
-                enable_mtls = (mtls_str == "true" || mtls_str == "1" || mtls_str == "yes");
-            }
-            
-            if (enable_mtls) {
-                // mTLS enabled - create SSL server credentials
+            std::string actual_mode = "failed";
+
+            if (enable_tls) {
                 try {
                     grpc::SslServerCredentialsOptions ssl_opts;
-                    
-                    // Load server certificate and private key (required)
+
                     const char* cert_path = std::getenv("THEMIS_WAL_GRPC_CERT_PATH");
                     const char* key_path = std::getenv("THEMIS_WAL_GRPC_KEY_PATH");
                     if (!cert_path || !key_path || std::strlen(cert_path) == 0 || std::strlen(key_path) == 0) {
-                        throw std::runtime_error("THEMIS_WAL_GRPC_CERT_PATH and THEMIS_WAL_GRPC_KEY_PATH are required when mTLS is enabled");
+                        throw std::runtime_error("THEMIS_WAL_GRPC_CERT_PATH and THEMIS_WAL_GRPC_KEY_PATH are required when THEMIS_WAL_GRPC_ENABLE_MTLS is true");
                     }
-                    
+
                     grpc::SslServerCredentialsOptions::PemKeyCertPair key_cert_pair;
                     key_cert_pair.private_key = themis::utils::readFileContents(key_path);
                     key_cert_pair.cert_chain = themis::utils::readFileContents(cert_path);
                     ssl_opts.pem_key_cert_pairs.push_back(key_cert_pair);
-                    THEMIS_INFO("WAL gRPC: Loaded server certificate from: {}", cert_path);
-                    
-                    // Configure client certificate requirement
-                    bool require_client_cert = true;
-                    if (const char* req_client = std::getenv("THEMIS_WAL_GRPC_REQUIRE_CLIENT_CERT")) {
-                        std::string req_str(req_client);
-                        require_client_cert = (req_str != "false" && req_str != "0" && req_str != "no");
-                    }
-                    
+
+                    const bool require_client_cert = parseBoolEnv(
+                        std::getenv("THEMIS_WAL_GRPC_REQUIRE_CLIENT_CERT"), true);
+
                     if (require_client_cert) {
-                        // Mutual TLS mode - CA certificate is required for client verification
                         const char* ca_cert_path = std::getenv("THEMIS_WAL_GRPC_CA_CERT_PATH");
                         if (!ca_cert_path || std::strlen(ca_cert_path) == 0) {
                             throw std::runtime_error("THEMIS_WAL_GRPC_CA_CERT_PATH is required when THEMIS_WAL_GRPC_REQUIRE_CLIENT_CERT is true");
                         }
                         ssl_opts.pem_root_certs = themis::utils::readFileContents(ca_cert_path);
-                        THEMIS_INFO("WAL gRPC: Loaded CA certificate from: {}", ca_cert_path);
-                        
                         ssl_opts.client_certificate_request = GRPC_SSL_REQUEST_AND_REQUIRE_CLIENT_CERTIFICATE_AND_VERIFY;
-                        THEMIS_INFO("WAL gRPC: Client certificate verification enabled (mutual TLS)");
                         actual_mode = "mTLS";
                     } else {
-                        // Server-side TLS with optional client certificates
                         const char* ca_cert_path = std::getenv("THEMIS_WAL_GRPC_CA_CERT_PATH");
                         if (ca_cert_path && std::strlen(ca_cert_path) > 0) {
                             ssl_opts.pem_root_certs = themis::utils::readFileContents(ca_cert_path);
-                            THEMIS_INFO("WAL gRPC: Loaded CA certificate from: {}", ca_cert_path);
                         }
-                        
                         ssl_opts.client_certificate_request = GRPC_SSL_REQUEST_CLIENT_CERTIFICATE_AND_VERIFY;
-                        THEMIS_INFO("WAL gRPC: Server-side TLS with optional client certificate verification (if provided)");
                         actual_mode = "TLS";
                     }
-                    
+
                     credentials = grpc::SslServerCredentials(ssl_opts);
-                    THEMIS_INFO("WAL gRPC: TLS/mTLS configured successfully for production deployment");
-                    
+                    grpc_tls_active = true;
                 } catch (const std::exception& e) {
-                    THEMIS_ERROR("WAL gRPC: Failed to configure mTLS: {}. Server will NOT start to avoid insecure fallback in production.", e.what());
-                    THEMIS_ERROR("WAL gRPC: Fix the TLS configuration or set THEMIS_WAL_GRPC_ENABLE_MTLS=false for development.");
-                    // Skip gRPC server startup when mTLS is explicitly enabled but misconfigured
+                    THEMIS_ERROR("WAL gRPC: TLS/mTLS configuration failed: {}", e.what());
+                    THEMIS_ERROR("WAL gRPC: fail-closed active; gRPC server will not start");
                     credentials = nullptr;
-                    actual_mode = "failed";
+                    grpc_tls_active = false;
                 }
-            } else {
-                // mTLS not enabled - use insecure credentials (development only)
+            } else if (allow_insecure) {
                 credentials = grpc::InsecureServerCredentials();
                 actual_mode = "insecure";
-                THEMIS_WARN("WAL gRPC: mTLS is disabled. This is insecure and should only be used in development.");
-            }
-            
-            if (credentials) {
-                builder.AddListeningPort(grpc_addr, credentials);
-                builder.RegisterService(static_cast<grpc::Service*>(wal_service));
-                builder.SetMaxReceiveMessageSize(100 * 1024 * 1024);
-                builder.SetMaxSendMessageSize(100 * 1024 * 1024);
-
-                g_wal_grpc_server = builder.BuildAndStart();
-                if (g_wal_grpc_server) {
-                    THEMIS_INFO("WAL gRPC Apply service listening on {} (mode: {})", grpc_addr, actual_mode);
-                } else {
-                    THEMIS_WARN("Failed to start WAL gRPC Apply service (address: {})", grpc_addr); // NOPII: grpc_addr is a server bind address, not personal data
-                }
+                grpc_tls_active = false;
+                THEMIS_WARN("WAL gRPC: insecure mode explicitly enabled via THEMIS_WAL_GRPC_ALLOW_INSECURE=true");
             } else {
-                THEMIS_ERROR("WAL gRPC Apply service NOT started due to TLS configuration errors");
+                THEMIS_ERROR("WAL gRPC: TLS disabled and insecure mode not explicitly allowed");
+                THEMIS_ERROR("WAL gRPC: set THEMIS_WAL_GRPC_ENABLE_MTLS=true, or THEMIS_WAL_GRPC_ALLOW_INSECURE=true for development only");
+                credentials = nullptr;
+                grpc_tls_active = false;
             }
-        } else {
-            THEMIS_INFO("WAL gRPC stubs not found; skipping gRPC Apply service startup");
-        }
+
+            if (!credentials) {
+                return false;
+            }
+
+            grpc::ServerBuilder builder;
+            builder.AddListeningPort(grpc_addr, credentials);
+            if (wal_service) {
+                builder.RegisterService(static_cast<grpc::Service*>(wal_service));
+            }
+            if (api_service) {
+                builder.RegisterService(static_cast<grpc::Service*>(api_service));
+            }
+            builder.SetMaxReceiveMessageSize(100 * 1024 * 1024);
+            builder.SetMaxSendMessageSize(100 * 1024 * 1024);
+
+            g_wal_grpc_server = builder.BuildAndStart();
+            if (!g_wal_grpc_server) {
+                THEMIS_ERROR("Failed to start gRPC server (address: {})", grpc_addr);
+                grpc_tls_active = false;
+                return false;
+            }
+
+            THEMIS_INFO("gRPC server listening on {} (mode: {}, wal_service={}, themisdb_api={})",
+                        grpc_addr,
+                        actual_mode,
+                        wal_service != nullptr,
+                        api_service != nullptr);
+            return true;
+        };
+
+        (void)startGrpcServer();
 #endif
         
         // Setup signal handlers
@@ -3108,6 +3142,18 @@ int main(int argc, char* argv[]) {
                     }
                 }
 #endif
+#ifdef THEMIS_ENABLE_GRPC
+                if (g_wal_grpc_server && grpc_tls_active) {
+                    THEMIS_INFO("SIGHUP received - reloading gRPC TLS certificates...");
+                    g_wal_grpc_server->Shutdown();
+                    g_wal_grpc_server.reset();
+                    if (startGrpcServer()) {
+                        THEMIS_INFO("gRPC TLS certificates hot-reloaded successfully");
+                    } else {
+                        THEMIS_ERROR("gRPC TLS hot-reload failed; gRPC server remains stopped (fail-closed)");
+                    }
+                }
+#endif
             }
 #endif
         }
@@ -3126,8 +3172,9 @@ int main(int argc, char* argv[]) {
             THEMIS_INFO("Stopping WAL gRPC Apply service...");
             g_wal_grpc_server->Shutdown();
             g_wal_grpc_server.reset();
-            g_wal_grpc_service.reset();
         }
+    g_wal_grpc_service.reset();
+    g_themisdb_grpc_service.reset();
 #endif
 #ifdef THEMIS_ENABLE_HTTP_SERVER
         g_server->stop();

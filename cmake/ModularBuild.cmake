@@ -553,6 +553,7 @@ set(THEMIS_QUERY_SOURCES
     ../src/query/optimizer_cost_model.cpp
     ../src/query/aql_parser.cpp
     ../src/query/aql_parser_json.cpp
+    ../src/query/aql_parser_service.cpp
     ../src/query/sql_parser.cpp
     ../src/query/aql_translator.cpp
     ../src/query/aql_runner.cpp
@@ -2246,6 +2247,7 @@ function(themis_build_modular)
                 themis_storage
                 themis_security
                 themis_sharding
+                themis_query
         )
         if(THEMIS_MODULE_LLM_SPLIT AND THEMIS_LLM_EXT_SOURCES)
             themis_add_module(llm_ext
@@ -2258,6 +2260,7 @@ function(themis_build_modular)
                     themis_security
                     themis_sharding
                     themis_llm
+                    themis_query
             )
         endif()
         if(THEMIS_MODULE_GRAPH)

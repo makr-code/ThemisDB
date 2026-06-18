@@ -23,6 +23,10 @@
 #include <functional>
 #include <memory>
 
+#ifdef THEMIS_HAS_PROMETHEUS
+#include <prometheus/registry.h>
+#endif
+
 // Forward declarations of the internal components required by the service.
 namespace themis {
 class RocksDBWrapper;
@@ -132,6 +136,18 @@ public:
      * Pass an empty function to remove a previously registered callback.
      */
     static void setServiceFn(ServiceFn fn);
+
+#ifdef THEMIS_HAS_PROMETHEUS
+    /**
+     * @brief Register gRPC request counters in a Prometheus registry.
+     *
+     * Registers `grpc_requests_total{method,status}` for transport-level gRPC
+     * status codes emitted by this service instance.
+     *
+     * @param registry Shared Prometheus registry used by the server process.
+     */
+    void setPrometheusRegistry(std::shared_ptr<prometheus::Registry> registry);
+#endif
 
 private:
     std::shared_ptr<RocksDBWrapper>             db_;

@@ -730,14 +730,16 @@ public:
     /**
      * Parse a multi-statement transaction block.
      *
-     * Expects input of the form:
-     *   BEGIN
-     *     <AQL statement 1>
-     *     <AQL statement 2>
-     *     ...
-     *   COMMIT | ROLLBACK
+    * Expects input of the form:
+    *   BEGIN [;]
+    *     <AQL statement 1> [;]
+    *     <AQL statement 2> [;]
+    *     ...
+    *   COMMIT | ROLLBACK [;]
      *
-     * Each statement must be a valid AQL query (starting with FOR or WITH).
+    * Each statement must be a valid AQL query (starting with FOR or WITH).
+    * Semicolons are optional statement separators and are interpreted only at
+    * top-level (not inside parenthesized subqueries).
      *
      * @param input  The full multi-statement AQL transaction string.
      * @return       Result<AqlTransactionBlock> or an error.

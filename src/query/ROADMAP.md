@@ -11,10 +11,20 @@ Production-ready multi-model query stack with parser, optimizer, execution, fede
 - [~] Query hardening wave for safety, resilience, and predictable performance (Target: Q3 2026)
   - [ ] Complete remaining performance/regression benchmark gates for vectorized and federated paths (Target: Q3 2026)
   - [ ] Continue reliability hardening for cancellation, limits, and distributed query failure behavior (Target: Q3 2026)
+- [~] **AQL Mutations Language Extension** — Phase 1-5 Implementation (Target: v2.0.0, Q3/Q4 2026)
+  - Implement INSERT, UPDATE, REPLACE, REMOVE, UPSERT statements for data manipulation
+  - Integrate mutations with transaction blocks (BEGIN...COMMIT) for atomic batching
+  - Full detailed roadmap: [AQL_MUTATIONS_ROADMAP.md](./AQL_MUTATIONS_ROADMAP.md)
+  - [ ] Phase 1: Parser & Tokenizer Enhancement (Target: Q3 Week 1-2)
+  - [ ] Phase 2: Safety & Semantic Validation (Target: Q3 Week 2-3)
+  - [ ] Phase 3: Translation & Execution Plan (Target: Q3 Week 3-4)
+  - [ ] Phase 4: Transaction Support & Atomicity (Target: Q3 Week 5-6)
+  - [ ] Phase 5: Testing, Performance & Documentation (Target: Q3 Week 7-8)
 
 ## Planned Features
 
 ### Short-term (3-6 months)
+- [ ] **AQL Mutations** — INSERT/UPDATE/REPLACE/REMOVE/UPSERT for data manipulation (Target: v2.0.0-beta Q3 2026)
 - [ ] Harden optimizer decision quality under skewed statistics and changing workloads (Target: Q4 2026)
 - [ ] Expand federated query failure handling with deterministic partial-result policies (Target: Q4 2026)
 - [ ] Strengthen query resource-limit enforcement diagnostics and operator-facing observability (Target: Q4 2026)
