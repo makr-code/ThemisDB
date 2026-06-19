@@ -52,8 +52,8 @@ public:
             return result;
         }
         
-        // Success path
-        result.ast = std::make_unique<query::ASTNode>();
+        // Success path - Phase 0.3 design: AST not included in ParseResult
+        // Full AST access planned for Phase 1
         return result;
     }
     

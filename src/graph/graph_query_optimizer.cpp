@@ -40,9 +40,6 @@
 #include <limits>
 #include <map>
 
-namespace themis {
-namespace graph {
-
 // ─────────────────────────────────────────────────────────────────────────────
 // Schema-aware helper: check whether a node's comma-separated "_labels" field
 // contains at least one of the required labels (OR semantics).
@@ -2927,8 +2924,5 @@ Result<std::vector<GraphAnalytics::PathInfo>> GraphQueryOptimizer::executeKShort
 
     return Ok(std::move(paths));
 }
-
-} // namespace graph
-} // namespace themis
 
 

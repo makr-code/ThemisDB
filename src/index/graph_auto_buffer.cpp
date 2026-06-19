@@ -25,8 +25,6 @@
 #include "utils/tracing.h"
 #include <algorithm>
 
-namespace themis {
-
 // ===== GraphAutoBuffer Implementation =====
 
 size_t GraphAutoBuffer::BufferedOp::estimateEntitySize(const BaseEntity& entity) {
@@ -404,5 +402,3 @@ void GraphAutoBuffer::setConfig(const GraphAutoBufferConfig& config) {
                 config_.max_edges_per_buffer,
                 config_.flush_interval.count());
 }
-
-} // namespace themis

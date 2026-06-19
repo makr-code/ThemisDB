@@ -22,8 +22,6 @@
 #include <sstream>
 #include <iomanip>
 
-namespace themis {
-
 std::string TemporalStats::toString() const {
     std::ostringstream oss;
     oss << "Temporal Statistics:\n";
@@ -53,5 +51,3 @@ std::string TemporalStats::toString() const {
     
     return oss.str();
 }
-
-} // namespace themis

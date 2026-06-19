@@ -16,6 +16,7 @@ from typing import Any, Dict, Iterable, List
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from gs3_base_scanner import BaseGapScanner, Gap, ScannerPriority
+from scanners.gs3_step01_braces_check import BracesCheckScanner
 from scanners.gs3_step01_error_handling import ErrorHandlingScanner
 from scanners.gs3_step01_memory_safety_improved import MemorySafetyScannerImproved as MemorySafetyScanner
 from scanners.gs3_step01_raii import RAIIScanner as ModernRAIIScanner
@@ -99,6 +100,7 @@ class UniformFullScanner(BaseGapScanner):
 
         # Modern phase 1 scanners (uniform local implementation)
         modern_phase1 = [
+            ("phase1_braces_check", BracesCheckScanner()),
             ("phase1_memory_safety", MemorySafetyScanner()),
             ("phase1_error_handling", ErrorHandlingScanner()),
             ("phase1_thread_safety", ThreadSafetyScanner()),

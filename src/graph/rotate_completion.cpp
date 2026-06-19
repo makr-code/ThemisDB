@@ -21,9 +21,6 @@
 #include <stdexcept>
 #include <unordered_map>
 
-namespace themis {
-namespace graph {
-
 namespace {
 constexpr float kPi = std::numbers::pi_v<float>;
 }
@@ -524,6 +521,3 @@ std::vector<LinkPrediction> KGCompletionEngine::completeHead(
 {
     return link_head_.predictHead(relation, tail, top_k);
 }
-
-} // namespace graph
-} // namespace themis

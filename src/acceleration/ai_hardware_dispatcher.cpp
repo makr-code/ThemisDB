@@ -121,7 +121,7 @@
 #endif
 
 namespace themis {
-namespace acceleration {
+namespace graph {
 
 namespace {
 std::mutex s_apple_ane_dispatch_mutex;
@@ -949,7 +949,4 @@ AiInferenceResult AiHardwareDispatcher::dispatchCpuFallback(AiInferenceRequest &
     result.latency_ms = std::chrono::duration<double, std::milli>(t1 - t0).count();
     return result;
 }
-
-} // namespace acceleration
-} // namespace themis
 

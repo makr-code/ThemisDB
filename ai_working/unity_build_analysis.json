@@ -1,0 +1,661 @@
+{
+  "themis_graph": {
+    "module": "themis_graph",
+    "files_analyzed": 21,
+    "files": [
+      {
+        "index": 1,
+        "file": "src\\acceleration\\ai_hardware_dispatcher.cpp",
+        "opens": 113,
+        "closes": 113,
+        "balance": 0,
+        "cumulative_balance": 0,
+        "namespace_opens": [
+          [
+            123,
+            "themis"
+          ],
+          [
+            124,
+            "acceleration"
+          ]
+        ],
+        "namespace_closes": [
+          953,
+          954
+        ]
+      },
+      {
+        "index": 2,
+        "file": "src\\index\\graph_auto_buffer.cpp",
+        "opens": 83,
+        "closes": 83,
+        "balance": 0,
+        "cumulative_balance": 0,
+        "namespace_opens": [
+          [
+            28,
+            "themis"
+          ]
+        ],
+        "namespace_closes": [
+          408
+        ]
+      },
+      {
+        "index": 3,
+        "file": "src\\index\\spatial_index.cpp",
+        "opens": 240,
+        "closes": 240,
+        "balance": 0,
+        "cumulative_balance": 0,
+        "namespace_opens": [
+          [
+            30,
+            "themis"
+          ],
+          [
+            31,
+            "index"
+          ]
+        ],
+        "namespace_closes": [
+          1469,
+          1470
+        ]
+      },
+      {
+        "index": 4,
+        "file": "src\\index\\temporal_graph.cpp",
+        "opens": 7,
+        "closes": 7,
+        "balance": 0,
+        "cumulative_balance": 0,
+        "namespace_opens": [
+          [
+            25,
+            "themis"
+          ]
+        ],
+        "namespace_closes": [
+          57
+        ]
+      },
+      {
+        "index": 5,
+        "file": "src\\index\\property_graph.cpp",
+        "opens": 265,
+        "closes": 265,
+        "balance": 0,
+        "cumulative_balance": 0,
+        "namespace_opens": [
+          [
+            35,
+            "themis"
+          ]
+        ],
+        "namespace_closes": [
+          1291
+        ]
+      },
+      {
+        "index": 6,
+        "file": "src\\index\\edge_types.cpp",
+        "opens": 60,
+        "closes": 60,
+        "balance": 0,
+        "cumulative_balance": 0,
+        "namespace_opens": [
+          [
+            28,
+            "themis"
+          ]
+        ],
+        "namespace_closes": [
+          459
+        ]
+      },
+      {
+        "index": 7,
+        "file": "src\\index\\process_graph.cpp",
+        "opens": 581,
+        "closes": 581,
+        "balance": 0,
+        "cumulative_balance": 0,
+        "namespace_opens": [
+          [
+            42,
+            "themis"
+          ]
+        ],
+        "namespace_closes": [
+          3351
+        ]
+      },
+      {
+        "index": 8,
+        "file": "src\\index\\gnn_embeddings.cpp",
+        "opens": 171,
+        "closes": 171,
+        "balance": 0,
+        "cumulative_balance": 0,
+        "namespace_opens": [
+          [
+            32,
+            "themis"
+          ]
+        ],
+        "namespace_closes": [
+          974
+        ]
+      },
+      {
+        "index": 9,
+        "file": "src\\index\\graph_analytics.cpp",
+        "opens": 186,
+        "closes": 186,
+        "balance": 0,
+        "cumulative_balance": 0,
+        "namespace_opens": [
+          [
+            28,
+            "themis"
+          ]
+        ],
+        "namespace_closes": [
+          818
+        ]
+      },
+      {
+        "index": 10,
+        "file": "src\\graph\\graph_query_optimizer.cpp",
+        "opens": 420,
+        "closes": 420,
+        "balance": 0,
+        "cumulative_balance": 0,
+        "namespace_opens": [
+          [
+            43,
+            "themis"
+          ],
+          [
+            44,
+            "graph"
+          ]
+        ],
+        "namespace_closes": [
+          2931,
+          2932
+        ]
+      },
+      {
+        "index": 11,
+        "file": "src\\graph\\explain_plan.cpp",
+        "opens": 26,
+        "closes": 26,
+        "balance": 0,
+        "cumulative_balance": 0,
+        "namespace_opens": [
+          [
+            25,
+            "themis"
+          ],
+          [
+            26,
+            "graph"
+          ]
+        ],
+        "namespace_closes": [
+          145,
+          146
+        ]
+      },
+      {
+        "index": 12,
+        "file": "src\\graph\\ontology_manager.cpp",
+        "opens": 161,
+        "closes": 162,
+        "balance": -1,
+        "cumulative_balance": -1,
+        "namespace_opens": [
+          [
+            38,
+            "themis"
+          ],
+          [
+            39,
+            "graph"
+          ]
+        ],
+        "namespace_closes": [
+          701,
+          702
+        ]
+      },
+      {
+        "index": 13,
+        "file": "src\\graph\\knowledge_graph_reasoner.cpp",
+        "opens": 113,
+        "closes": 113,
+        "balance": 0,
+        "cumulative_balance": -1,
+        "namespace_opens": [
+          [
+            48,
+            "themis"
+          ],
+          [
+            49,
+            "graph"
+          ]
+        ],
+        "namespace_closes": [
+          583,
+          584
+        ]
+      },
+      {
+        "index": 14,
+        "file": "src\\graph\\rotate_completion.cpp",
+        "opens": 74,
+        "closes": 74,
+        "balance": 0,
+        "cumulative_balance": -1,
+        "namespace_opens": [
+          [
+            24,
+            "themis"
+          ],
+          [
+            25,
+            "graph"
+          ]
+        ],
+        "namespace_closes": [
+          528,
+          529
+        ]
+      },
+      {
+        "index": 15,
+        "file": "src\\query\\result_stream.cpp",
+        "opens": 51,
+        "closes": 51,
+        "balance": 0,
+        "cumulative_balance": -1,
+        "namespace_opens": [
+          [
+            29,
+            "themis"
+          ],
+          [
+            30,
+            "query"
+          ]
+        ],
+        "namespace_closes": [
+          328,
+          329
+        ]
+      },
+      {
+        "index": 16,
+        "file": "src\\graph\\path_constraints.cpp",
+        "opens": 140,
+        "closes": 140,
+        "balance": 0,
+        "cumulative_balance": -1,
+        "namespace_opens": [
+          [
+            32,
+            "themis"
+          ],
+          [
+            33,
+            "graph"
+          ]
+        ],
+        "namespace_closes": [
+          752,
+          753
+        ]
+      },
+      {
+        "index": 17,
+        "file": "src\\graph\\distributed_graph.cpp",
+        "opens": 63,
+        "closes": 63,
+        "balance": 0,
+        "cumulative_balance": -1,
+        "namespace_opens": [
+          [
+            37,
+            "themis"
+          ],
+          [
+            38,
+            "graph"
+          ]
+        ],
+        "namespace_closes": [
+          385,
+          386
+        ]
+      },
+      {
+        "index": 18,
+        "file": "src\\graph\\gpu_traversal.cpp",
+        "opens": 76,
+        "closes": 76,
+        "balance": 0,
+        "cumulative_balance": -1,
+        "namespace_opens": [
+          [
+            43,
+            "themis"
+          ],
+          [
+            44,
+            "graph"
+          ],
+          [
+            72,
+            "cuda_impl"
+          ]
+        ],
+        "namespace_closes": [
+          82,
+          513,
+          514
+        ]
+      },
+      {
+        "index": 19,
+        "file": "src\\graph\\parallel_traversal.cpp",
+        "opens": 67,
+        "closes": 67,
+        "balance": 0,
+        "cumulative_balance": -1,
+        "namespace_opens": [
+          [
+            34,
+            "themis"
+          ],
+          [
+            35,
+            "graph"
+          ]
+        ],
+        "namespace_closes": [
+          389,
+          390
+        ]
+      },
+      {
+        "index": 20,
+        "file": "src\\graph\\scheduled_edge_refresh.cpp",
+        "opens": 199,
+        "closes": 199,
+        "balance": 0,
+        "cumulative_balance": -1,
+        "namespace_opens": [
+          [
+            37,
+            "themis"
+          ],
+          [
+            38,
+            "graph"
+          ]
+        ],
+        "namespace_closes": [
+          969,
+          970
+        ]
+      },
+      {
+        "index": 21,
+        "file": "src\\graph\\graph_query_rewriter.cpp",
+        "opens": 178,
+        "closes": 178,
+        "balance": 0,
+        "cumulative_balance": -1,
+        "namespace_opens": [
+          [
+            33,
+            "themis"
+          ],
+          [
+            34,
+            "graph"
+          ]
+        ],
+        "namespace_closes": [
+          890,
+          891
+        ]
+      }
+    ],
+    "cumulative_analysis": [
+      {
+        "after_file": 1,
+        "cumulative_opens": 113,
+        "cumulative_closes": 113,
+        "cumulative_balance": 0
+      },
+      {
+        "after_file": 2,
+        "cumulative_opens": 196,
+        "cumulative_closes": 196,
+        "cumulative_balance": 0
+      },
+      {
+        "after_file": 3,
+        "cumulative_opens": 436,
+        "cumulative_closes": 436,
+        "cumulative_balance": 0
+      },
+      {
+        "after_file": 4,
+        "cumulative_opens": 443,
+        "cumulative_closes": 443,
+        "cumulative_balance": 0
+      },
+      {
+        "after_file": 5,
+        "cumulative_opens": 708,
+        "cumulative_closes": 708,
+        "cumulative_balance": 0
+      },
+      {
+        "after_file": 6,
+        "cumulative_opens": 768,
+        "cumulative_closes": 768,
+        "cumulative_balance": 0
+      },
+      {
+        "after_file": 7,
+        "cumulative_opens": 1349,
+        "cumulative_closes": 1349,
+        "cumulative_balance": 0
+      },
+      {
+        "after_file": 8,
+        "cumulative_opens": 1520,
+        "cumulative_closes": 1520,
+        "cumulative_balance": 0
+      },
+      {
+        "after_file": 9,
+        "cumulative_opens": 1706,
+        "cumulative_closes": 1706,
+        "cumulative_balance": 0
+      },
+      {
+        "after_file": 10,
+        "cumulative_opens": 2126,
+        "cumulative_closes": 2126,
+        "cumulative_balance": 0
+      },
+      {
+        "after_file": 11,
+        "cumulative_opens": 2152,
+        "cumulative_closes": 2152,
+        "cumulative_balance": 0
+      },
+      {
+        "after_file": 12,
+        "cumulative_opens": 2313,
+        "cumulative_closes": 2314,
+        "cumulative_balance": -1
+      },
+      {
+        "after_file": 13,
+        "cumulative_opens": 2426,
+        "cumulative_closes": 2427,
+        "cumulative_balance": -1
+      },
+      {
+        "after_file": 14,
+        "cumulative_opens": 2500,
+        "cumulative_closes": 2501,
+        "cumulative_balance": -1
+      },
+      {
+        "after_file": 15,
+        "cumulative_opens": 2551,
+        "cumulative_closes": 2552,
+        "cumulative_balance": -1
+      },
+      {
+        "after_file": 16,
+        "cumulative_opens": 2691,
+        "cumulative_closes": 2692,
+        "cumulative_balance": -1
+      },
+      {
+        "after_file": 17,
+        "cumulative_opens": 2754,
+        "cumulative_closes": 2755,
+        "cumulative_balance": -1
+      },
+      {
+        "after_file": 18,
+        "cumulative_opens": 2830,
+        "cumulative_closes": 2831,
+        "cumulative_balance": -1
+      },
+      {
+        "after_file": 19,
+        "cumulative_opens": 2897,
+        "cumulative_closes": 2898,
+        "cumulative_balance": -1
+      },
+      {
+        "after_file": 20,
+        "cumulative_opens": 3096,
+        "cumulative_closes": 3097,
+        "cumulative_balance": -1
+      },
+      {
+        "after_file": 21,
+        "cumulative_opens": 3274,
+        "cumulative_closes": 3275,
+        "cumulative_balance": -1
+      }
+    ],
+    "problems_detected": [
+      {
+        "severity": "ERROR",
+        "file_index": 12,
+        "file": "src\\graph\\ontology_manager.cpp",
+        "issue": "CLOSES_WITHOUT_OPEN",
+        "detail": "File has closing braces without opening (line 702)",
+        "line": 702
+      },
+      {
+        "severity": "WARNING",
+        "file_index": 12,
+        "file": "src\\graph\\ontology_manager.cpp",
+        "issue": "NAMESPACE_REOPENING_AFTER_IMBALANCE",
+        "detail": "File opens namespaces at line 38 but cumulative balance already negative (0)",
+        "line": 38
+      },
+      {
+        "severity": "WARNING",
+        "file_index": 13,
+        "file": "src\\graph\\knowledge_graph_reasoner.cpp",
+        "issue": "NAMESPACE_REOPENING_AFTER_IMBALANCE",
+        "detail": "File opens namespaces at line 48 but cumulative balance already negative (-1)",
+        "line": 48
+      },
+      {
+        "severity": "WARNING",
+        "file_index": 14,
+        "file": "src\\graph\\rotate_completion.cpp",
+        "issue": "NAMESPACE_REOPENING_AFTER_IMBALANCE",
+        "detail": "File opens namespaces at line 24 but cumulative balance already negative (-1)",
+        "line": 24
+      },
+      {
+        "severity": "WARNING",
+        "file_index": 15,
+        "file": "src\\query\\result_stream.cpp",
+        "issue": "NAMESPACE_REOPENING_AFTER_IMBALANCE",
+        "detail": "File opens namespaces at line 29 but cumulative balance already negative (-1)",
+        "line": 29
+      },
+      {
+        "severity": "WARNING",
+        "file_index": 16,
+        "file": "src\\graph\\path_constraints.cpp",
+        "issue": "NAMESPACE_REOPENING_AFTER_IMBALANCE",
+        "detail": "File opens namespaces at line 32 but cumulative balance already negative (-1)",
+        "line": 32
+      },
+      {
+        "severity": "WARNING",
+        "file_index": 17,
+        "file": "src\\graph\\distributed_graph.cpp",
+        "issue": "NAMESPACE_REOPENING_AFTER_IMBALANCE",
+        "detail": "File opens namespaces at line 37 but cumulative balance already negative (-1)",
+        "line": 37
+      },
+      {
+        "severity": "WARNING",
+        "file_index": 18,
+        "file": "src\\graph\\gpu_traversal.cpp",
+        "issue": "NAMESPACE_REOPENING_AFTER_IMBALANCE",
+        "detail": "File opens namespaces at line 43 but cumulative balance already negative (-1)",
+        "line": 43
+      },
+      {
+        "severity": "WARNING",
+        "file_index": 19,
+        "file": "src\\graph\\parallel_traversal.cpp",
+        "issue": "NAMESPACE_REOPENING_AFTER_IMBALANCE",
+        "detail": "File opens namespaces at line 34 but cumulative balance already negative (-1)",
+        "line": 34
+      },
+      {
+        "severity": "WARNING",
+        "file_index": 20,
+        "file": "src\\graph\\scheduled_edge_refresh.cpp",
+        "issue": "NAMESPACE_REOPENING_AFTER_IMBALANCE",
+        "detail": "File opens namespaces at line 37 but cumulative balance already negative (-1)",
+        "line": 37
+      },
+      {
+        "severity": "WARNING",
+        "file_index": 21,
+        "file": "src\\graph\\graph_query_rewriter.cpp",
+        "issue": "NAMESPACE_REOPENING_AFTER_IMBALANCE",
+        "detail": "File opens namespaces at line 33 but cumulative balance already negative (-1)",
+        "line": 33
+      }
+    ],
+    "status": "CRITICAL",
+    "error_count": 1,
+    "warning_count": 10
+  }
+}

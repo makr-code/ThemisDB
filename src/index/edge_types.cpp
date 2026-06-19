@@ -25,8 +25,6 @@
 
 #include <mutex>
 
-namespace themis {
-
 namespace {
     std::once_flag init_flag;
 }
@@ -454,6 +452,3 @@ std::optional<EdgeCategory> EdgeTypeRegistry::categoryFromString(std::string_vie
     if (str == "ACCESS")     return EdgeCategory::ACCESS;
     if (str == "CUSTOM")     return EdgeCategory::CUSTOM;
     return std::nullopt;
-}
-
-} // namespace themis

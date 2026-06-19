@@ -878,5 +878,4 @@ struct QueryEngine::EvaluationContext {
     }
 };
 
-} // namespace themis
 

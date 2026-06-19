@@ -38,8 +38,8 @@
 #include <chrono>
 
 // Forward declarations to avoid rocksdb header inclusion in query namespace context
-class RocksDBWrapper;
 namespace themis {
+    class RocksDBWrapper;
     class VectorIndexManager;
     struct BaseEntity;
 }

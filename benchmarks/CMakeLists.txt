@@ -913,15 +913,6 @@ else()
 endif()
 
 # ============================================================================
-# Existing Benchmarks
-# ============================================================================
-
-# Add existing benchmark subdirectories
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/performance_optimizations")
-    add_subdirectory(performance_optimizations)
-endif()
-
-# ============================================================================
 # RAG Ethics Benchmarks
 # ============================================================================
 

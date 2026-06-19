@@ -31,9 +31,6 @@
 
 #include "utils/error_registry.h"
 
-namespace themis {
-namespace graph {
-
 // ---------------------------------------------------------------------------
 // Constructor
 // ---------------------------------------------------------------------------
@@ -385,6 +382,3 @@ Result<ParallelTraversal::MultiSourceResult> ParallelTraversal::multiSourceDFS(c
 
     return Ok(mergeResults(std::move(per_source), wall_ms));
 }
-
-} // namespace graph
-} // namespace themis

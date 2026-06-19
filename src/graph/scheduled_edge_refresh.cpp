@@ -34,8 +34,6 @@
 #include <unordered_set>
 
 #include "storage/base_entity.h"
-namespace themis {
-namespace graph {
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Internal helpers
@@ -965,7 +963,4 @@ void ScheduledGraphEdgeRefreshEngine::appendAudit(RefreshAuditEntry entry) {
 
     audit_trail_.push_back(std::move(entry));
 }
-
-} // namespace graph
-} // namespace themis
 

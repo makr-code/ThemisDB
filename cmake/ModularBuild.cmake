@@ -33,7 +33,7 @@ if(THEMIS_BUILD_MODULAR)
     option(THEMIS_MODULE_INGESTION "Include ingestion module (all data-intake connectors)" ON)
     option(THEMIS_MODULES_ENABLE_UNITY "Enable Unity Build for modular libraries on MSVC" ON)
     set(THEMIS_MODULES_UNITY_BATCH_SIZE "20" CACHE STRING "Unity batch size for modular libraries")
-    set(THEMIS_MODULES_UNITY_ALLOWLIST "network;query;sharding;geo;graph;content;timeseries;security;transaction;ingestion;llm;llm_ext" CACHE STRING
+    set(THEMIS_MODULES_UNITY_ALLOWLIST "network;query;sharding;geo;content;timeseries;security;transaction;ingestion;llm;llm_ext" CACHE STRING
         "Semicolon-separated module names for Unity Build (or ALL)")
 
     # llm_ext existed as a linker-symbol-count mitigation. With the current
@@ -1271,6 +1271,7 @@ set(THEMIS_LLM_SOURCES
 
     # LLM-owned AQL support files
     ../src/aql/llm_aql_handler.cpp
+    ../src/aql/llm_validation_pipeline.cpp
     ../src/aql/aql_query_validator.cpp
     ../src/aql/aql_query_builder.cpp
     ../src/aql/aql_schema_provider.cpp
@@ -1278,6 +1279,7 @@ set(THEMIS_LLM_SOURCES
     ../src/aql/aql_syntax_highlighter.cpp
     ../src/aql/aql_confidence_scorer.cpp
     ../src/aql/llm_metrics_collector.cpp
+    ../src/llm/llm_client_default.cpp
     # Phase 4: Multi-modal RAG (image + text retrieval)
     ../src/rag/multimodal_rag.cpp
     # Phase 1–4: Missing RAG evaluators and orchestrators
@@ -1834,21 +1836,11 @@ else()
 endif()
 
 set(THEMIS_GRAPH_SOURCES
-    ../src/acceleration/ai_hardware_dispatcher.cpp
-    ../src/index/graph_auto_buffer.cpp
-    ../src/index/spatial_index.cpp
-    ../src/index/temporal_graph.cpp
-    ../src/index/property_graph.cpp
-    ../src/index/edge_types.cpp
-    ../src/index/process_graph.cpp
-    ../src/index/gnn_embeddings.cpp
-    ../src/index/graph_analytics.cpp
     ../src/graph/graph_query_optimizer.cpp
     ../src/graph/explain_plan.cpp
     ../src/graph/ontology_manager.cpp
     ../src/graph/knowledge_graph_reasoner.cpp
     ../src/graph/rotate_completion.cpp
-    ../src/query/result_stream.cpp
     ../src/graph/path_constraints.cpp
     ../src/graph/distributed_graph.cpp
     ../src/graph/gpu_traversal.cpp

@@ -4,6 +4,9 @@ Compatibility shim for legacy gap_scanner_v3.py invocation.
 
 This module forwards execution to the new uniform scanner orchestrator
 (tools/gs3_orchestrator.py) so historical commands continue to work.
+
+For Unity Build Validation, use the dedicated tool:
+  python tools/unity_build_validator.py [--module themis_graph]
 """
 
 from __future__ import annotations
@@ -43,6 +46,8 @@ def _legacy_main(argv: list[str]) -> int:
 
     if known.help:
         print("Use: python tools/gs3_orchestrator.py [source_dir] [--output <file>] [--verbose]")
+        print("\nFor Unity Build Validation:")
+        print("  python tools/unity_build_validator.py [--module <name>] [--all-modules]")
         return 0
 
     forwarded = [known.repo_root]
@@ -63,6 +68,7 @@ def _invoke_gs3(args: list[str]) -> int:
 
 def main() -> int:
     return _legacy_main(sys.argv[1:])
+
 
 
 if __name__ == "__main__":

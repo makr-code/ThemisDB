@@ -29,8 +29,6 @@
 #include <unordered_set>
 #include <stdexcept>
 
-namespace themis {
-
 namespace {
 
 std::optional<BaseEntity> deserializeEntitySafe(
@@ -970,6 +968,4 @@ GNNEmbeddingManager::getStats() const {
     
     return {Status::OK(), stats};
 }
-
-} // namespace themis
 

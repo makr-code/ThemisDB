@@ -45,9 +45,6 @@ static std::string makeTripleKey(const themis::graph::Triple &t) {
     return k;
 }
 
-namespace themis {
-namespace graph {
-
 // ─────────────────────────────────────────────────────────────────────────────
 // InferenceStore — helpers
 // ─────────────────────────────────────────────────────────────────────────────
@@ -579,6 +576,3 @@ void KnowledgeGraphReasoner::applyLoRAScore(InferenceChain &chain, std::string_v
 void KnowledgeGraphReasoner::setMaxHops(int hops) noexcept {
     max_hops_ = std::max(1, std::min(hops, kHardMaxHops));
 }
-
-} // namespace graph
-} // namespace themis

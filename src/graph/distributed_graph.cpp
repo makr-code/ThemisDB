@@ -34,9 +34,6 @@
 
 #include "utils/error_registry.h"
 
-namespace themis {
-namespace graph {
-
 // ─────────────────────────────────────────────────────────────────────────────
 // LocalShardGraphExecutor
 // ─────────────────────────────────────────────────────────────────────────────
@@ -381,6 +378,3 @@ DistributedGraphManager::optimizePlan([[maybe_unused]] std::string_view start_ve
 
     return Ok(std::move(plan));
 }
-
-} // namespace graph
-} // namespace themis

@@ -35,13 +35,9 @@
 // would be fine in production, but this approach keeps ontology_manager.cpp
 // dependency-free and testable without vcpkg headers in isolated unit tests.
 
-namespace themis {
-namespace graph {
-
 // ============================================================================
 // Helpers
 // ============================================================================
-namespace {
 
 // --------------------------------------------------------------------------
 // Ultra-light JSON parser — supports only the schema we need:
@@ -698,5 +694,3 @@ bool OntologyManager::parseYaml(const std::string &text) {
     return true;
 }
 
-} // namespace graph
-} // namespace themis

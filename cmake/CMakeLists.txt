@@ -1,5 +1,109 @@
 cmake_minimum_required(VERSION 3.20)
 
+# LOAD MSVC COMPILER INIT (MUST be before any project() or subdirectory)
+include("${CMAKE_CURRENT_SOURCE_DIR}/msvc-compiler-init.cmake" OPTIONAL RESULT_VARIABLE _INIT_LOADED)
+if(NOT _INIT_LOADED)
+    message(WARNING "msvc-compiler-init.cmake not found - compiler ABI tests may fail")
+endif()
+
+# ============================================================================
+# WINDOWS COMPILER VALIDATION FIX (PRIORITY 0 - Before all else)
+# ============================================================================
+# MSVC compiler ABI detection tests create deep TryCompile-* directories
+# that can exceed Windows MAX_PATH in nested ExternalProject contexts.
+# Solution: Pre-validate compiler to skip these expensive tests in ALL sub-processes
+# MUST be set as CACHE FORCE before any project() or sub-include that triggers compiler checks
+if(WIN32 AND MSVC)
+    set(CMAKE_C_COMPILER_WORKS ON CACHE BOOL "C compiler pre-validated" FORCE)
+    set(CMAKE_CXX_COMPILER_WORKS ON CACHE BOOL "CXX compiler pre-validated" FORCE)
+endif()
+
+# ============================================================================
+# WINDOWS MAX_PATH FLATTENING SOLUTION
+# ============================================================================
+# Problem: ExternalProject (llama.cpp) + Sub-CMake (Vulkan Shader Generator)
+# create deeply nested paths that exceed Windows MAX_PATH (260 chars).
+# Example:
+#   C:\Projects\ThemisDB\build-x\
+#   └─ _deps/llama_cpp-build/ggml/src/ggml-vulkan/vulkan-shaders-gen-prefix/src/vulkan-shaders-gen-build/CMakeFiles/CMakeScratch/TryCompile-xxx/
+# 
+# Solution: Flatten ExternalProject directories + enable Long Paths on Windows
+# ============================================================================
+
+# 0. WINDOWS SDK LIBRARY PATH FIX FOR EXTERNALPROJECT SUB-CMAKE PROCESSES
+# When ExternalProject spawns isolated sub-CMake processes (e.g., Vulkan Shader Generator),
+# they lose access to Windows SDK library directories, causing LNK1104 errors.
+# Solution: Set CMAKE_LIBRARY_PATH globally to ensure libraries are found in all sub-processes
+if(WIN32 AND MSVC AND NOT CMAKE_LIBRARY_PATH)
+    # Find Windows SDK and MSVC library directories
+    set(_WIN_SDK_VERSIONS "10.0.26100.0" "10.0.22621.0" "10.0.19041.0")
+    set(_CMAKE_LIB_PATH_LIST "")
+    
+    # Add MSVC library paths
+    file(GLOB _MSVC_LIB_PATHS "C:/Program Files*/Microsoft Visual Studio/*/Professional/VC/Tools/MSVC/*/lib/x64")
+    if(_MSVC_LIB_PATHS)
+        list(APPEND _CMAKE_LIB_PATH_LIST ${_MSVC_LIB_PATHS})
+    endif()
+    
+    # Add Windows SDK library paths
+    foreach(_VER ${_WIN_SDK_VERSIONS})
+        set(_SDK_UM_PATH "C:/Program Files (x86)/Windows Kits/10/Lib/${_VER}/um/x64")
+        set(_SDK_UCRT_PATH "C:/Program Files (x86)/Windows Kits/10/Lib/${_VER}/ucrt/x64")
+        if(EXISTS "${_SDK_UM_PATH}")
+            list(APPEND _CMAKE_LIB_PATH_LIST "${_SDK_UM_PATH}")
+        endif()
+        if(EXISTS "${_SDK_UCRT_PATH}")
+            list(APPEND _CMAKE_LIB_PATH_LIST "${_SDK_UCRT_PATH}")
+        endif()
+    endforeach()
+    
+    # Set CMAKE_LIBRARY_PATH as global cache variable (visible to all sub-CMake processes)
+    if(_CMAKE_LIB_PATH_LIST)
+        string(REPLACE ";" "\\;" _CMAKE_LIB_PATH_STR "${_CMAKE_LIB_PATH_LIST}")
+        set(CMAKE_LIBRARY_PATH "${_CMAKE_LIB_PATH_STR}" CACHE STRING "Windows SDK and MSVC library paths" FORCE)
+        message(STATUS "[Windows SDK Fix] CMAKE_LIBRARY_PATH configured for sub-CMake processes")
+    endif()
+endif()
+
+# 1. FLATTEN EXTERNAL PROJECT DIRECTORIES
+# Instead of nested _deps/llama_cpp-build/..., use flat directory in ThemisDB root
+# This keeps ExternalProject builds persistent across clean builds and minimizes path depth
+set(CMAKE_EXTERNALS_BASE_DIR "${THEMIS_ROOT_DIR}/_e")
+file(MAKE_DIRECTORY "${CMAKE_EXTERNALS_BASE_DIR}")
+message(STATUS "ExternalProject base directory: ${CMAKE_EXTERNALS_BASE_DIR}")
+
+# 2. WINDOWS EXTENDED PATHS (LongPathsEnabled on Windows 10+)
+# Allows paths > 260 chars if explicitly enabled
+if(WIN32)
+    # Enable long paths in Windows registry (requires admin or Group Policy)
+    # This is informational; actual setting is system-level, not CMake-level
+    message(STATUS "Windows detected: Long path support recommended. To enable:")
+    message(STATUS "  PowerShell (Admin): Set-ItemProperty -Path 'HKLM:\\SYSTEM\\CurrentControlSet\\Control\\FileSystem' -Name 'LongPathsEnabled' -Value 1")
+    message(STATUS "  Or: Group Policy Editor > Computer Config > Admin Temp > System > Filesystem > Enable Win32 Long Paths")
+    
+    # Increase CMAKE_OBJECT_PATH_MAX to accommodate longer build paths
+    set(CMAKE_OBJECT_PATH_MAX 512 CACHE STRING "Max path length for object files (default 250, set to 512 for long paths)")
+endif()
+
+# 3. MSVC-SPECIFIC: Reduce compiler test directory depth
+if(MSVC)
+    # Skip ABI detection for sub-projects to avoid deep CMakeScratch directories
+    set(CMAKE_C_COMPILER_WORKS ON CACHE BOOL "C compiler pre-validated" FORCE)
+    set(CMAKE_CXX_COMPILER_WORKS ON CACHE BOOL "CXX compiler pre-validated" FORCE)
+    
+    # Use config-style package discovery to avoid deep library searches
+    set(CMAKE_FIND_PACKAGE_PREFER_CONFIG ON CACHE BOOL "Prefer -config.cmake over Find modules" FORCE)
+endif()
+
+# 4. EXTERNAL PROJECT PATH FLATTENING FUNCTION
+# Defines helper to redirect ExternalProject to flat directories instead of nesting
+function(add_external_project_flat PROJECT_NAME)
+    # This function ensures external projects go to CMAKE_EXTERNALS_BASE_DIR
+    # Usage: add_external_project_flat(llama_cpp ...)
+    # Creates: _exts/llama_cpp/ instead of _deps/llama_cpp-build/...
+    set(${PROJECT_NAME}_BINARY_DIR "${CMAKE_EXTERNALS_BASE_DIR}/${PROJECT_NAME}" PARENT_SCOPE)
+endfunction()
+
 # When building directly from the cmake/ subdirectory (e.g. cmake -S cmake),
 # THEMIS_ROOT_DIR is not yet set.  Default it to the parent of this file.
 if(NOT THEMIS_ROOT_DIR)
@@ -150,50 +254,7 @@ if(MSVC AND VCPKG_TARGET_TRIPLET MATCHES "static")
     set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>" CACHE STRING "" FORCE)
 endif()
 
-# Enable CUDA only when a CUDA compiler is actually available.
-if(THEMIS_ENABLE_CUDA)
-    if(NOT DEFINED CMAKE_CUDA_COMPILER OR CMAKE_CUDA_COMPILER STREQUAL "")
-        set(_themis_cuda_nvcc_candidates)
-
-        if(DEFINED ENV{CUDACXX} AND EXISTS "$ENV{CUDACXX}")
-            list(APPEND _themis_cuda_nvcc_candidates "$ENV{CUDACXX}")
-        endif()
-        if(DEFINED ENV{CUDA_PATH} AND EXISTS "$ENV{CUDA_PATH}/bin/nvcc.exe")
-            list(APPEND _themis_cuda_nvcc_candidates "$ENV{CUDA_PATH}/bin/nvcc.exe")
-        endif()
-        if(DEFINED ENV{CUDA_HOME} AND EXISTS "$ENV{CUDA_HOME}/bin/nvcc.exe")
-            list(APPEND _themis_cuda_nvcc_candidates "$ENV{CUDA_HOME}/bin/nvcc.exe")
-        endif()
-
-        file(GLOB _themis_cuda_toolkits "C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v*")
-        list(SORT _themis_cuda_toolkits ORDER DESCENDING)
-        foreach(_cuda_root IN LISTS _themis_cuda_toolkits)
-            if(EXISTS "${_cuda_root}/bin/nvcc.exe")
-                list(APPEND _themis_cuda_nvcc_candidates "${_cuda_root}/bin/nvcc.exe")
-            endif()
-        endforeach()
-
-        list(LENGTH _themis_cuda_nvcc_candidates _themis_cuda_nvcc_count)
-        if(_themis_cuda_nvcc_count GREATER 0)
-            list(GET _themis_cuda_nvcc_candidates 0 _themis_cuda_nvcc)
-            set(CMAKE_CUDA_COMPILER "${_themis_cuda_nvcc}" CACHE FILEPATH "CUDA compiler" FORCE)
-            get_filename_component(_themis_cuda_bin "${_themis_cuda_nvcc}" DIRECTORY)
-            get_filename_component(_themis_cuda_root "${_themis_cuda_bin}" DIRECTORY)
-            set(CUDAToolkit_ROOT "${_themis_cuda_root}" CACHE PATH "CUDA toolkit root" FORCE)
-        endif()
-    endif()
-
-    include(CheckLanguage)
-    check_language(CUDA)
-    if(CMAKE_CUDA_COMPILER)
-        enable_language(CUDA)
-        set(CMAKE_CUDA_STANDARD 17)
-        set(CMAKE_CUDA_STANDARD_REQUIRED ON)
-    else()
-        message(WARNING "THEMIS_ENABLE_CUDA=ON requested, but no CUDA compiler (nvcc) was found. Disabling CUDA backend.")
-        set(THEMIS_ENABLE_CUDA OFF CACHE BOOL "CUDA disabled: nvcc not found" FORCE)
-    endif()
-endif()
+# CUDA detection deduplication: (removed - identical code already above in GPU auto-detect section)
 
 # Export compile commands for IDE support
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
@@ -1610,11 +1671,40 @@ if(THEMIS_ENABLE_LLM)
     # When LLAMA_SRC_DIR is outside the current source dir (cmake/), CMake requires an explicit binary dir.
     # Guard against double-add since Dependencies.cmake may have already added it
     if(NOT TARGET llama)
+        # Use flat directory structure to avoid deep nesting (Windows MAX_PATH issue)
+        # Instead of: ${CMAKE_BINARY_DIR}/llama_cpp_build/ggml/src/ggml-vulkan/vulkan-shaders-gen-prefix/src/...
+        # Use: _exts/llama_cpp/
         if(THEMIS_FORCE_LLAMA_SUBDIR)
-            set(LLAMA_BIN_DIR "${CMAKE_BINARY_DIR}/llama_cpp_forced_build")
+            set(LLAMA_BIN_DIR "${CMAKE_EXTERNALS_BASE_DIR}/llama_cpp_forced")
         else()
-            set(LLAMA_BIN_DIR "${CMAKE_BINARY_DIR}/llama_cpp_build")
+            set(LLAMA_BIN_DIR "${CMAKE_EXTERNALS_BASE_DIR}/llama_cpp")
         endif()
+        
+        message(STATUS "llama.cpp build dir: ${LLAMA_BIN_DIR}")
+        file(MAKE_DIRECTORY "${LLAMA_BIN_DIR}")
+        
+        # WINDOWS FIX: Pass Windows SDK paths to sub-CMake processes (e.g., Vulkan Shader Generator)
+        # Sub-processes lose Windows SDK library paths, causing LNK1104 (kernel32.lib not found)
+        # Solution: Pass CMAKE_LIBRARY_PATH with Windows SDK directories
+        if(WIN32 AND MSVC)
+            # Query Windows SDK and MSVC library paths from environment
+            file(GLOB WIN_SDK_PATHS "C:/Program Files*/Windows Kits/10/Lib/*")
+            file(GLOB MSVC_LIB_PATHS "C:/Program Files*/Microsoft Visual Studio/*/Professional/VC/Tools/MSVC/*/lib/x64")
+            
+            if(WIN_SDK_PATHS OR MSVC_LIB_PATHS)
+                # Build library search path for sub-CMake
+                set(_SUBPROJECT_LIB_PATH "")
+                foreach(_path ${WIN_SDK_PATHS} ${MSVC_LIB_PATHS})
+                    if(_SUBPROJECT_LIB_PATH)
+                        string(APPEND _SUBPROJECT_LIB_PATH ";${_path}")
+                    else()
+                        set(_SUBPROJECT_LIB_PATH "${_path}")
+                    endif()
+                endforeach()
+                message(STATUS "Sub-CMake CMAKE_LIBRARY_PATH set: ${_SUBPROJECT_LIB_PATH}")
+            endif()
+        endif()
+        
         add_subdirectory(${LLAMA_SRC_DIR} ${LLAMA_BIN_DIR} EXCLUDE_FROM_ALL)
     endif()
     

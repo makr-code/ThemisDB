@@ -144,7 +144,7 @@ private:
 TEST(HybridSearchVectorMetric, CanRouteVectorSearchThroughAnnFrontdoor) {
     HybridSearch::Config cfg;
     cfg.use_rrf = false;
-    cfg.top_k = 5;
+    cfg.k = 5;
 
     HybridSearch hs(nullptr, nullptr, cfg);
 

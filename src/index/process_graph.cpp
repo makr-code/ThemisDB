@@ -39,8 +39,6 @@
 #include <sstream>
 #include <unordered_set>
 
-namespace themis {
-
 // ============================================================================
 // Helper Functions
 // ============================================================================
@@ -3347,6 +3345,4 @@ void registerProcessEdgeTypes() {
 
     THEMIS_INFO("Registered BPMN/EPK process edge types");
 }
-
-} // namespace themis
 
