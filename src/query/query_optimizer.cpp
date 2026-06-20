@@ -42,6 +42,7 @@
 #include <functional>
 
 namespace themis {
+namespace query {
 
 // Lazy-initialized NLP analyzer (thread-safe in C++11+)
 static themis::analytics::NlpTextAnalyzer& getOptimizerNlp() {
@@ -936,5 +937,4 @@ QueryOptimizer::GraphWorkloadPlan QueryOptimizer::optimizeGraphWorkload(
 	return plan;
 }
 
-} // namespace themis
-
+} // namespace query

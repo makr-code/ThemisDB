@@ -2349,7 +2349,6 @@ function(themis_build_modular)
             themis_storage
             themis_transaction
             themis_index
-            themis_query
         )
         if(THEMIS_MODULE_GEO)
             list(APPEND _themis_graph_deps themis_geo)
