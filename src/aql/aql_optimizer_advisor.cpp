@@ -32,6 +32,9 @@
 namespace themis {
 namespace aql {
 
+// Bring QueryOptimizer into scope (from query namespace)
+using query::QueryOptimizer;
+
 namespace {
 
 // ============================================================================
