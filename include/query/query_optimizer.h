@@ -39,6 +39,7 @@ namespace themis { class StatisticsCollector; }
 namespace themis { namespace observability { class MetricsCollector; } }
 
 namespace themis {
+namespace query {
 
 class SecondaryIndexManager;
 
@@ -301,8 +302,7 @@ private:
 
     // Adaptive query optimization components
     // Use the full implementations from adaptive_optimizer.h
-    using AdaptiveQueryStats = ::themis::AdaptiveQueryStats;
-    using AdaptivePlanSelector = ::themis::AdaptivePlanSelector;
+    // (No using needed - both AdaptiveQueryStats and AdaptivePlanSelector are in themis::query namespace)
     
     class DistributedQueryCostModel {
     public:
@@ -368,5 +368,7 @@ private:
     mutable std::shared_ptr<MultiIndexOptimizer> multi_index_optimizer_;
 };
 
+} // namespace query
 } // namespace themis
+
 

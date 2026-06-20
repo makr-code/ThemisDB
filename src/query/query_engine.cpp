@@ -71,6 +71,7 @@
 namespace geo = themis::geo;
 
 namespace themis {
+namespace query {
 
 using errors::ErrorCode;  // Make ErrorCode directly accessible
 
@@ -5028,6 +5029,7 @@ query::QueryPlanNode QueryEngine::buildExplainPlan(const ConjunctiveQuery& q) co
     return query::QueryPlanVisualizer::buildPlan(q, plan);
 }
 
+} // namespace query
 } // namespace themis
 
 

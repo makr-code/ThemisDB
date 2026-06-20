@@ -175,7 +175,8 @@ public:
 
         // ── 2. Complexity guard (cost model enforcement) ──────────────────
         const uint32_t complexity =
-            graphql::GraphQLComplexityEstimator::estimate(parse_result.document);
+            graphql::GraphQLComplexityEstimator::estimate(
+                std::make_shared<graphql::Document>(parse_result.document));
         if (complexity > graphql::kGraphQLMaxComplexity) {
             throw std::runtime_error(
                 graphql::makeComplexityErrorMessage(

@@ -938,3 +938,4 @@ QueryOptimizer::GraphWorkloadPlan QueryOptimizer::optimizeGraphWorkload(
 }
 
 } // namespace query
+} // namespace themis

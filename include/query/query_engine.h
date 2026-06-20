@@ -35,6 +35,7 @@
 #include "utils/expected.h"  // For Result<T> pattern
 
 namespace themis {
+namespace query {
 
 // Smart pointer type aliases for dependency injection
 using IStorageEnginePtr = std::shared_ptr<IStorageEngine>;
@@ -49,7 +50,7 @@ using ISecondaryIndexPtr = std::shared_ptr<ISecondaryIndex>;
 using IGraphIndexPtr = std::shared_ptr<IGraphIndex>;
 
 // Minimal forward declarations for early usage
-namespace query { struct Expression; struct Query; class CTECache; struct QueryPlanNode; }
+struct Expression; struct Query; class CTECache; struct QueryPlanNode;
 namespace utils { class AuditLogger; }
 
 /**
@@ -204,24 +205,19 @@ class RocksDBWrapper;
 class SecondaryIndexManager;
 class BaseEntity;
 class VectorIndexManager;
+class SpatialIndexManager;  // Forward declaration (defined in index namespace)
 
-namespace index {
-class SpatialIndexManager;
-}
-using SpatialIndexManager = index::SpatialIndexManager;
 class AQLTranslator; // avoid including translator in header
 
 // Forward declarations für AQL-Typen
-namespace query {
-    struct ForNode;
-    struct FilterNode;
-    struct LetNode;
-    struct ReturnNode;
-    struct SortNode;
-    struct LimitNode;
-    struct CollectNode;
-    struct Expression;
-}
+struct ForNode;
+struct FilterNode;
+struct LetNode;
+struct ReturnNode;
+struct SortNode;
+struct LimitNode;
+struct CollectNode;
+struct Expression;
 
 struct PredicateEq {
     std::string column;
@@ -877,5 +873,9 @@ struct QueryEngine::EvaluationContext {
         return child;
     }
 };
+
+} // namespace query
+} // namespace themis
+
 
 

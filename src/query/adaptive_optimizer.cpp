@@ -36,6 +36,7 @@
 #endif
 
 namespace themis {
+namespace query {
 
 // ============================================================================
 // AdaptiveQueryStats Implementation
@@ -525,5 +526,7 @@ bool NumaAwareOptimizer::pinThreadToCpu(int cpu_id) {
 #endif
 }
 
+} // namespace query
 } // namespace themis
+
 

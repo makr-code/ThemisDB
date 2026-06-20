@@ -29,6 +29,7 @@
 #include <unordered_map>
 
 namespace themis {
+namespace query {
 
 /**
  * @brief Adaptive Query Execution Statistics
@@ -307,5 +308,7 @@ public:
     static bool pinThreadToCpu(int cpu_id);
 };
 
+} // namespace query
 } // namespace themis
+
 
