@@ -29,6 +29,9 @@
 #include <stdexcept>
 #include <utility>
 
+namespace themis {
+namespace graph {
+
 // ── Minimal JSON parsing (no external dependency) ───────────────────────────
 // We implement a lightweight recursive-descent JSON parser sufficient for the
 // OWL-lite schema (arrays of objects with string fields).  Using nlohmann/json
@@ -45,6 +48,8 @@
 //     "axioms":   [ { "source_class": "...", "edge_type": "...",
 //                     "target_class": "..." } ] }
 // --------------------------------------------------------------------------
+
+namespace {
 
 static void skipWs(const std::string &s, std::size_t &pos) {
     while (pos < s.size() && (s[pos] == ' ' || s[pos] == '\t' || s[pos] == '\r' || s[pos] == '\n')) {
@@ -693,4 +698,7 @@ bool OntologyManager::parseYaml(const std::string &text) {
     }
     return true;
 }
+
+} // namespace graph
+} // namespace themis
 

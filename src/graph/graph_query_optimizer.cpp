@@ -40,12 +40,18 @@
 #include <limits>
 #include <map>
 
+namespace themis {
+namespace graph {
+
 // ─────────────────────────────────────────────────────────────────────────────
 // Schema-aware helper: check whether a node's comma-separated "_labels" field
 // contains at least one of the required labels (OR semantics).
 // Returns true when required_labels is empty (no filtering) or when the node's
 // label string includes any of the entries in required_labels.
 // ─────────────────────────────────────────────────────────────────────────────
+
+namespace {
+
 static bool nodeMatchesLabels(GraphIndexManager& mgr,
                                const std::string& node_id,
                                const std::vector<std::string>& required_labels) {
@@ -94,6 +100,7 @@ static void applySchemaHints(GraphQueryOptimizer::OptimizationPlan& plan,
     }
 }
 
+} // namespace (helpers)
 
 GraphQueryOptimizer::GraphQueryOptimizer(GraphIndexManager& graph_manager)
     : graph_manager_(graph_manager) {
@@ -2925,4 +2932,5 @@ Result<std::vector<GraphAnalytics::PathInfo>> GraphQueryOptimizer::executeKShort
     return Ok(std::move(paths));
 }
 
-
+} // namespace graph
+} // namespace themis

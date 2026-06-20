@@ -33,6 +33,11 @@
 #include <stdexcept>
 #include <unordered_set>
 
+namespace themis {
+namespace graph {
+
+namespace {
+
 /// Build canonical triple key (shared between InferenceStore and KnowledgeGraphReasoner).
 static std::string makeTripleKey(const themis::graph::Triple &t) {
     std::string k;
@@ -44,6 +49,8 @@ static std::string makeTripleKey(const themis::graph::Triple &t) {
     k += t.object;
     return k;
 }
+
+} // namespace (helpers)
 
 // ─────────────────────────────────────────────────────────────────────────────
 // InferenceStore — helpers
@@ -576,3 +583,6 @@ void KnowledgeGraphReasoner::applyLoRAScore(InferenceChain &chain, std::string_v
 void KnowledgeGraphReasoner::setMaxHops(int hops) noexcept {
     max_hops_ = std::max(1, std::min(hops, kHardMaxHops));
 }
+
+} // namespace graph
+} // namespace themis
