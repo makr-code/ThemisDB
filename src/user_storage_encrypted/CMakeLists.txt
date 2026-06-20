@@ -9,14 +9,29 @@ endif()
 message(STATUS "Configuring User Storage Encrypted Plugin (src/user_storage_encrypted)")
 
 find_package(nlohmann_json REQUIRED)
-find_package(PkgConfig REQUIRED)
-pkg_check_modules(ARGON2 REQUIRED libargon2)
 
-# libargon2 is required for the Argon2id key derivation service (Feature 2).
-find_library(ARGON2_LIB NAMES argon2)
-find_path(ARGON2_INCLUDE_DIR NAMES argon2.h)
-if(NOT ARGON2_LIB OR NOT ARGON2_INCLUDE_DIR)
-    message(FATAL_ERROR "libargon2 not found. Install: apt-get install libargon2-dev")
+# Try PkgConfig first (Linux/Unix), fall back to vcpkg on Windows
+find_package(PkgConfig QUIET)
+if(PkgConfig_FOUND)
+    pkg_check_modules(ARGON2 QUIET libargon2)
+endif()
+
+# Fallback: try vcpkg or direct system paths
+if(NOT ARGON2_FOUND)
+    find_package(argon2 CONFIG QUIET)
+    if(argon2_FOUND)
+        set(ARGON2_FOUND TRUE)
+    else()
+        # Final fallback: manual search
+        find_library(ARGON2_LIB NAMES argon2)
+        find_path(ARGON2_INCLUDE_DIR NAMES argon2.h)
+        if(ARGON2_LIB AND ARGON2_INCLUDE_DIR)
+            set(ARGON2_FOUND TRUE)
+        else()
+            message(WARNING "libargon2 not found — User Storage Encrypted Plugin will be skipped")
+            return()
+        endif()
+    endif()
 endif()
 
 add_library(themis_user_storage_encrypted SHARED

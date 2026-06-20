@@ -2069,12 +2069,10 @@ function(themis_build_modular)
     elseif(TARGET arrow_flight_static)
         list(APPEND _themis_query_deps arrow_flight_static)
     endif()
-    if(THEMIS_MODULE_LLM)
-        list(APPEND _themis_query_deps themis_llm)
-        if(THEMIS_MODULE_LLM_SPLIT)
-            list(APPEND _themis_query_deps themis_llm_ext)
-        endif()
-    endif()
+    # NOTE: themis_llm only includes query/adaptive_optimizer.h (header-only)
+    # for runtime registration. No compile-time link dependency needed.
+    # Excluding themis_llm from themis_query deps avoids circular dependency:
+    # themis_query → themis_llm → themis_graph would cycle back to themis_query.
     if(THEMIS_MODULE_GEO)
         list(APPEND _themis_query_deps themis_geo)
     endif()
@@ -2350,6 +2348,8 @@ function(themis_build_modular)
             themis_base
             themis_storage
             themis_transaction
+            themis_index
+            themis_query
         )
         if(THEMIS_MODULE_GEO)
             list(APPEND _themis_graph_deps themis_geo)

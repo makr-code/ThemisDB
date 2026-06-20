@@ -21,7 +21,6 @@
 #pragma once
 
 #include "index/graph_index.h"
-#include "query/result_stream.h"
 #include "index/graph_analytics.h"
 #include "utils/expected.h"
 #include <string>
@@ -36,6 +35,14 @@
 #include <chrono>
 #include <future>
 #include <mutex>
+
+// Forward declaration to break circular dependency with query module
+namespace themis {
+namespace query {
+template<typename T> class ResultStream;
+struct StreamConfig;  // Forward declare StreamConfig for streamBFS/streamDFS parameters
+} // namespace query
+} // namespace themis
 
 namespace themis {
 namespace graph {
@@ -582,7 +589,24 @@ public:
     );
 
     /**
-     * @brief Stream BFS traversal results for large path sets.
+     * @brief Stream BFS traversal results for large path sets (uses default config).
+     *
+     * Executes BFS from `start_vertex` up to `max_depth` hops and returns
+     * the discovered vertices as a lazy `ResultStream`.  Consumers can page
+     * through the result set in configurable batches without loading all
+     * vertices into memory at once.
+     *
+     * @param start_vertex  Starting vertex for the traversal
+     * @param max_depth     Maximum BFS depth (inclusive)
+     * @return Streaming iterator over discovered vertex IDs, or an error
+     */
+    Result<std::shared_ptr<query::ResultStream<std::string>>> streamBFS(
+        std::string_view start_vertex,
+        int max_depth
+    );
+
+    /**
+     * @brief Stream BFS traversal results for large path sets with custom config.
      *
      * Executes BFS from `start_vertex` up to `max_depth` hops and returns
      * the discovered vertices as a lazy `ResultStream`.  Consumers can page
@@ -597,11 +621,30 @@ public:
     Result<std::shared_ptr<query::ResultStream<std::string>>> streamBFS(
         std::string_view start_vertex,
         int max_depth,
-        query::StreamConfig stream_config = {}
+        const query::StreamConfig& stream_config
     );
 
     /**
-     * @brief Stream BFS traversal results with constraints for large path sets.
+     * @brief Stream BFS traversal results with constraints (uses default config).
+     *
+     * Executes BFS from `start_vertex` up to `max_depth` hops and returns
+     * the discovered vertices as a lazy `ResultStream`.  Consumers can page
+     * through the result set in configurable batches without loading all
+     * vertices into memory at once.
+     *
+     * @param start_vertex  Starting vertex for the traversal
+     * @param max_depth     Maximum BFS depth (inclusive)
+     * @param constraints   Query constraints (timeout, forbidden vertices, …)
+     * @return Streaming iterator over discovered vertex IDs, or an error
+     */
+    Result<std::shared_ptr<query::ResultStream<std::string>>> streamBFS(
+        std::string_view start_vertex,
+        int max_depth,
+        const QueryConstraints& constraints
+    );
+
+    /**
+     * @brief Stream BFS traversal results with constraints and custom config.
      *
      * Executes BFS from `start_vertex` up to `max_depth` hops and returns
      * the discovered vertices as a lazy `ResultStream`.  Consumers can page
@@ -618,11 +661,28 @@ public:
         std::string_view start_vertex,
         int max_depth,
         const QueryConstraints& constraints,
-        query::StreamConfig stream_config = {}
+        const query::StreamConfig& stream_config
     );
 
     /**
-     * @brief Stream DFS traversal results for large path sets.
+     * @brief Stream DFS traversal results for large path sets (uses default config).
+     *
+     * Executes DFS from `start_vertex` up to `max_depth` hops and returns
+     * the discovered vertices as a lazy `ResultStream`.  Consumers can page
+     * through the result set in configurable batches without loading all
+     * vertices into memory at once.
+     *
+     * @param start_vertex  Starting vertex for the traversal
+     * @param max_depth     Maximum DFS depth (inclusive)
+     * @return Streaming iterator over discovered vertex IDs, or an error
+     */
+    Result<std::shared_ptr<query::ResultStream<std::string>>> streamDFS(
+        std::string_view start_vertex,
+        int max_depth
+    );
+
+    /**
+     * @brief Stream DFS traversal results for large path sets with custom config.
      *
      * Executes DFS from `start_vertex` up to `max_depth` hops and returns
      * the discovered vertices as a lazy `ResultStream`.  Consumers can page
@@ -637,11 +697,30 @@ public:
     Result<std::shared_ptr<query::ResultStream<std::string>>> streamDFS(
         std::string_view start_vertex,
         int max_depth,
-        query::StreamConfig stream_config = {}
+        const query::StreamConfig& stream_config
     );
 
     /**
-     * @brief Stream DFS traversal results with constraints for large path sets.
+     * @brief Stream DFS traversal results with constraints (uses default config).
+     *
+     * Executes DFS from `start_vertex` up to `max_depth` hops and returns
+     * the discovered vertices as a lazy `ResultStream`.  Consumers can page
+     * through the result set in configurable batches without loading all
+     * vertices into memory at once.
+     *
+     * @param start_vertex  Starting vertex for the traversal
+     * @param max_depth     Maximum DFS depth (inclusive)
+     * @param constraints   Query constraints (timeout, forbidden vertices, …)
+     * @return Streaming iterator over discovered vertex IDs, or an error
+     */
+    Result<std::shared_ptr<query::ResultStream<std::string>>> streamDFS(
+        std::string_view start_vertex,
+        int max_depth,
+        const QueryConstraints& constraints
+    );
+
+    /**
+     * @brief Stream DFS traversal results with constraints and custom config.
      *
      * Executes DFS from `start_vertex` up to `max_depth` hops and returns
      * the discovered vertices as a lazy `ResultStream`.  Consumers can page
@@ -658,7 +737,7 @@ public:
         std::string_view start_vertex,
         int max_depth,
         const QueryConstraints& constraints,
-        query::StreamConfig stream_config = {}
+        const query::StreamConfig& stream_config
     );
 
     /**

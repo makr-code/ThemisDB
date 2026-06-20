@@ -261,7 +261,10 @@
       "name": "windows-hyperscaler-base",
       "hidden": true,
       "inherits": "windows-base",
-      "cacheVariables": { "THEMIS_EDITION": "HYPERSCALER" }
+      "cacheVariables": {
+        "THEMIS_EDITION": "HYPERSCALER",
+        "THEMIS_LICENSE_FILE": "${sourceDir}/certs/hyperscaler/license_test.json"
+      }
     },
     {
       "name": "linux-enterprise-base",
@@ -273,7 +276,10 @@
       "name": "linux-hyperscaler-base",
       "hidden": true,
       "inherits": "linux-base",
-      "cacheVariables": { "THEMIS_EDITION": "HYPERSCALER" }
+      "cacheVariables": {
+        "THEMIS_EDITION": "HYPERSCALER",
+        "THEMIS_LICENSE_FILE": "${sourceDir}/certs/hyperscaler/license_test.json"
+      }
     },
 
     {

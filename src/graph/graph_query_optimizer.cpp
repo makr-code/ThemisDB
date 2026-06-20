@@ -1101,8 +1101,15 @@ Result<std::vector<std::string>> GraphQueryOptimizer::executeDFS(
 
 Result<std::shared_ptr<query::ResultStream<std::string>>> GraphQueryOptimizer::streamBFS(
     std::string_view start_vertex,
+    int max_depth) {
+
+    return streamBFS(start_vertex, max_depth, QueryConstraints{}, query::StreamConfig{});
+}
+
+Result<std::shared_ptr<query::ResultStream<std::string>>> GraphQueryOptimizer::streamBFS(
+    std::string_view start_vertex,
     int max_depth,
-    query::StreamConfig stream_config) {
+    const query::StreamConfig& stream_config) {
 
     return streamBFS(start_vertex, max_depth, QueryConstraints{}, stream_config);
 }
@@ -1110,8 +1117,16 @@ Result<std::shared_ptr<query::ResultStream<std::string>>> GraphQueryOptimizer::s
 Result<std::shared_ptr<query::ResultStream<std::string>>> GraphQueryOptimizer::streamBFS(
     std::string_view start_vertex,
     int max_depth,
+    const QueryConstraints& constraints) {
+
+    return streamBFS(start_vertex, max_depth, constraints, query::StreamConfig{});
+}
+
+Result<std::shared_ptr<query::ResultStream<std::string>>> GraphQueryOptimizer::streamBFS(
+    std::string_view start_vertex,
+    int max_depth,
     const QueryConstraints& constraints,
-    query::StreamConfig stream_config) {
+    const query::StreamConfig& stream_config) {
 
     auto bfs_result = executeBFS(start_vertex, max_depth, constraints);
     if (!bfs_result) {
@@ -1125,8 +1140,15 @@ Result<std::shared_ptr<query::ResultStream<std::string>>> GraphQueryOptimizer::s
 
 Result<std::shared_ptr<query::ResultStream<std::string>>> GraphQueryOptimizer::streamDFS(
     std::string_view start_vertex,
+    int max_depth) {
+
+    return streamDFS(start_vertex, max_depth, QueryConstraints{}, query::StreamConfig{});
+}
+
+Result<std::shared_ptr<query::ResultStream<std::string>>> GraphQueryOptimizer::streamDFS(
+    std::string_view start_vertex,
     int max_depth,
-    query::StreamConfig stream_config) {
+    const query::StreamConfig& stream_config) {
 
     return streamDFS(start_vertex, max_depth, QueryConstraints{}, stream_config);
 }
@@ -1134,8 +1156,16 @@ Result<std::shared_ptr<query::ResultStream<std::string>>> GraphQueryOptimizer::s
 Result<std::shared_ptr<query::ResultStream<std::string>>> GraphQueryOptimizer::streamDFS(
     std::string_view start_vertex,
     int max_depth,
+    const QueryConstraints& constraints) {
+
+    return streamDFS(start_vertex, max_depth, constraints, query::StreamConfig{});
+}
+
+Result<std::shared_ptr<query::ResultStream<std::string>>> GraphQueryOptimizer::streamDFS(
+    std::string_view start_vertex,
+    int max_depth,
     const QueryConstraints& constraints,
-    query::StreamConfig stream_config) {
+    const query::StreamConfig& stream_config) {
 
     auto dfs_result = executeDFS(start_vertex, max_depth, constraints);
     if (!dfs_result) {
