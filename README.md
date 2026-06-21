@@ -253,6 +253,68 @@ ThemisDB is released under the [MIT License](LICENSE).
 
 ---
 
+## Quality Assurance & Gap Scanning
+
+ThemisDB includes **Gap Scanner V3 (GS3)**, a comprehensive multi-phase gap detection system with 46 specialized scanners organized across 4 phases.
+
+### Quick Start with GS3
+
+```bash
+# List all 46 scanners
+python tools/gs3.py list-scanners
+
+# Run fast scan on source code
+python tools/gs3.py scan src include tests --scan-mode fast --output results.json
+
+# Generate Markdown report
+python tools/gs3.py report results.json --format md --output report.md
+
+# Generate JSON report
+python tools/gs3.py report results.json --format json
+```
+
+### Scanner Organization
+
+| Phase | Category | Count | Focus |
+|-------|----------|-------|-------|
+| **Phase 1** | AI, Core C++, Checks | 18 | Baseline detection (AI-Vibe, memory, concurrency) |
+| **Phase 2** | Safety | 5 | Exception safety, input validation, type safety |
+| **Phase 3** | Security | 7 | Cryptography, data leaks, hardening |
+| **Phase 4** | Design & Quality | 16 | Architecture rules, documentation standards |
+
+### Documentation
+
+- **[tools/GS3_CLI_GUIDE.md](tools/GS3_CLI_GUIDE.md)** — Complete CLI reference and usage guide
+- **[tools/GS3_COMPLETE_GUIDE.md](tools/GS3_COMPLETE_GUIDE.md)** — System architecture and scanner design
+- **[tools/GS3_PROJECT_COMPLETION_REPORT.md](tools/GS3_PROJECT_COMPLETION_REPORT.md)** — Project deliverables and metrics
+- **[tools/legacy/LEGACY_SCANNER_MAPPING.md](tools/legacy/LEGACY_SCANNER_MAPPING.md)** — Legacy code archival and migration info
+
+### Key Features
+
+- **46 specialized scanners** for AI-Vibe, C++, security, and design gaps
+- **Dual-axis classification**: Severity (CRITICAL/HIGH/MEDIUM/LOW) × Impact (CRITICAL/HIGH/MEDIUM/LOW/THIRD_PARTY)
+- **Auto-discovery**: Scanners automatically discovered from `tools/scanners/`
+- **Multiple output formats**: JSON (machine-readable) and Markdown (human-readable)
+- **Scan modes**: Fast (quick pass) and Thorough (detailed analysis)
+- **Phase-based execution**: Sequential scanning through phases 1-4
+
+### CI/CD Integration
+
+```bash
+# Fast scan for PR validation (< 3 minutes)
+python tools/gs3.py scan src --scan-mode fast --output pr_scan.json
+
+# Fail on critical blockers
+if grep -q '"severity":"CRITICAL".*"impact_level":"CRITICAL"' pr_scan.json; then
+  echo "FAILED: Critical blockers detected"
+  exit 1
+fi
+```
+
+See [tools/GS3_CLI_GUIDE.md](tools/GS3_CLI_GUIDE.md#cicd-integration) for more CI/CD examples.
+
+---
+
 ## Module Documentation
 
 > Per-module documentation lives in `src/<module>/README.md` and `include/<module>/`. This section is a navigation index.

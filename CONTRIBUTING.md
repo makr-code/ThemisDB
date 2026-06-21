@@ -1503,7 +1503,251 @@ Use provided scripts to prepare new releases:
 
 ---
 
-## 📄 License
+## � Contributing to GS3 (Gap Scanner V3)
+
+ThemisDB includes **Gap Scanner V3**, a comprehensive gap detection system. Contributors are welcome to add new scanners!
+
+### Overview
+
+- **46 scanners** organized into 4 phases
+- Each scanner inherits from `BaseGapScanner`
+- Automatic impact classification (Severity × Impact)
+- Auto-discovery via filesystem pattern matching
+
+### Adding a New Scanner
+
+#### 1. Identify Scanner Category
+
+Choose the appropriate phase and category:
+
+| Phase | Category | Use For |
+|-------|----------|---------|
+| **Phase 1** | `ai` | AI-Vibe specific patterns |
+| **Phase 1** | `core` | C++ baseline issues |
+| **Phase 1** | `check` | Syntactic validation |
+| **Phase 2** | `safety` | Exception/input safety |
+| **Phase 3** | `security` | Cryptography, hardening |
+| **Phase 4** | `design` | Architecture rules |
+| **Phase 4** | `quality` | Documentation standards |
+
+#### 2. Create Scanner File
+
+Create file in `tools/scanners/` following the naming convention:
+
+```
+gs3_step<N>_<category>_<name>.py
+```
+
+Example: `gs3_step01_core_memory_bounds.py`
+
+#### 3. Implement Scanner Class
+
+```python
+"""
+Memory bounds checking scanner.
+
+Detects: Buffer overflows, out-of-bounds access, pointer arithmetic errors
+"""
+
+from tools.gs3_base_scanner import BaseGapScanner, GapSeverity
+
+
+class MemoryBoundsScanner(BaseGapScanner):
+    """Detects memory bounds violations."""
+    
+    def __init__(self):
+        super().__init__(
+            name="MemoryBounds",
+            description="Detects buffer overflows and out-of-bounds access",
+            phase=1,  # Phase number
+        )
+    
+    def scan(self, codebase_dir):
+        """Scan codebase for memory bounds issues."""
+        
+        # Your scanning logic here
+        for file in self.collect_files(codebase_dir, pattern='*.cpp'):
+            gaps = self.detect_memory_issues(file)
+            
+            for gap in gaps:
+                # Add gap with automatic impact classification
+                self._add_gap(
+                    file=gap['file'],
+                    line=gap['line'],
+                    category=gap['category'],  # e.g., 'out_of_bounds'
+                    message=gap['message'],
+                    severity=gap['severity'],  # GapSeverity.HIGH
+                    tool_tip=gap.get('details', '')
+                )
+        
+        return self.gaps
+    
+    def detect_memory_issues(self, filepath):
+        """Implementation of your scanning logic."""
+        # TODO: Your detection logic
+        return []
+```
+
+#### 4. Update Orchestrator (if needed)
+
+If not using auto-discovery, update `tools/scanners/gs3_step00_uniform_full.py`:
+
+```python
+from scanners.gs3_step01_core_memory_bounds import MemoryBoundsScanner
+
+# In UniformFullScanner.scan():
+scanner = MemoryBoundsScanner()
+self.gaps.extend(scanner.scan(codebase_dir))
+```
+
+*Note: Modern system uses auto-discovery, so manual import usually not needed.*
+
+#### 5. Test Your Scanner
+
+```bash
+# Run just your scanner
+python -c "
+from tools.scanners.gs3_step01_core_memory_bounds import MemoryBoundsScanner
+scanner = MemoryBoundsScanner()
+gaps = scanner.scan('src')
+print(f'Found {len(gaps)} gaps')
+for gap in gaps[:3]:
+    print(f'  {gap.file}:{gap.line} - {gap.message}')
+"
+
+# Run full GS3 test suite
+python tools/test_gs3_integration.py
+
+# List your scanner in GS3 CLI
+python tools/gs3.py list-scanners --step 1
+```
+
+#### 6. Document Your Scanner
+
+Add a docstring with:
+
+```python
+"""
+Brief description of what this scanner detects.
+
+Detects:
+- Specific pattern 1
+- Specific pattern 2
+- Specific pattern 3
+
+Supported:
+- C++ detection patterns
+- Regex patterns
+- AST analysis
+
+Not supported:
+- Dynamic analysis
+- Runtime detection
+
+False positive rate: ~5-10% (estimated)
+Performance: ~0.5s per 1MB of code
+"""
+```
+
+#### 7. Add Tests
+
+Create `tools/tests/test_gs3_step01_core_memory_bounds.py`:
+
+```python
+import unittest
+from pathlib import Path
+from tools.scanners.gs3_step01_core_memory_bounds import MemoryBoundsScanner
+
+
+class TestMemoryBoundsScanner(unittest.TestCase):
+    
+    def setUp(self):
+        self.scanner = MemoryBoundsScanner()
+    
+    def test_detects_buffer_overflow(self):
+        # Test case for buffer overflow detection
+        test_file = "test_data/buffer_overflow.cpp"
+        gaps = self.scanner.scan(".")
+        
+        # Assert detection
+        self.assertTrue(len(gaps) > 0)
+    
+    def test_no_false_positives(self):
+        # Test safe code doesn't trigger
+        test_file = "test_data/safe_code.cpp"
+        gaps = self.scanner.scan(".")
+        
+        # Assert no false positives
+        self.assertEqual(len(gaps), 0)
+
+
+if __name__ == '__main__':
+    unittest.main()
+```
+
+#### 8. Submit PR
+
+1. Create feature branch: `feature/scanner-memory-bounds`
+2. Implement and test scanner
+3. Update `CHANGELOG.md` with scanner addition
+4. Submit PR with:
+   - Clear description of what the scanner detects
+   - Test results (pass/fail counts)
+   - Performance metrics (time per 1MB code)
+   - Example gaps from real codebase
+
+### Scanner Development Checklist
+
+- ✅ File named `gs3_step<N>_<category>_<name>.py`
+- ✅ Class inherits from `BaseGapScanner`
+- ✅ All `_add_gap()` calls use proper severity/impact
+- ✅ Comprehensive docstring with examples
+- ✅ Unit tests with real code samples
+- ✅ No external dependencies (use only std lib + ThemisDB imports)
+- ✅ Performance acceptable (< 1s per 1000 files)
+- ✅ Registered in orchestrator (if auto-discovery doesn't work)
+- ✅ Listed in `tools/GS3_CLI_GUIDE.md`
+- ✅ PR includes test results and metrics
+
+### Key BaseGapScanner Methods
+
+```python
+# Available in your scanner class:
+
+self._add_gap(
+    file: str,           # File path
+    line: int,           # Line number
+    category: str,       # Gap category
+    message: str,        # Human-readable message
+    severity: GapSeverity,  # CRITICAL/HIGH/MEDIUM/LOW
+    tool_tip: str = None # Additional details
+)
+
+self.collect_files(
+    directory: str,      # Root directory
+    pattern: str = "*.cpp"  # File pattern
+) -> List[str]
+
+self.read_file(filepath: str) -> str
+```
+
+### Example Scanners to Reference
+
+- [gs3_step01_core_memory.py](tools/scanners/gs3_step01_core_memory.py)
+- [gs3_step02_safety_exception.py](tools/scanners/gs3_step02_safety_exception.py)
+- [gs3_step03_security_encryption_leak.py](tools/scanners/gs3_step03_security_encryption_leak.py)
+- [gs3_step04_design_architecture.py](tools/scanners/gs3_step04_design_architecture.py)
+
+### Resources
+
+- [BaseGapScanner API](tools/gs3_base_scanner.py)
+- [Impact Classifier](tools/scanners/gs3_impact_classifier.py)
+- [GS3 CLI Guide](tools/GS3_CLI_GUIDE.md)
+- [GS3 Integration Test Suite](tools/test_gs3_integration.py)
+
+---
+
+## �📄 License
 
 > By contributing to ThemisDB, you agree that your contributions will be licensed under the **MIT License**.
 
