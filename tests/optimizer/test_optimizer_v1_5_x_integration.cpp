@@ -23,6 +23,7 @@
 #include <random>
 
 using namespace themis;
+using namespace themis::query;
 
 // ============================================================================
 // Distributed Query Cost Model Tests (v1.5.x)

@@ -52,7 +52,8 @@ class TransactionManager;
 class ProcessGraphManager;
 class TSStore;
 class ContinuousAggregateManager;
-class QueryEngine;
+namespace query { class QueryEngine; }
+using QueryEngine = query::QueryEngine;
 namespace index { class SpatialIndexManager; }
 
 namespace network {

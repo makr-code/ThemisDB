@@ -26,6 +26,9 @@
 
 namespace themis {
 
+using AdaptiveQueryStats = ::themis::query::AdaptiveQueryStats;
+using AdaptivePlanSelector = ::themis::query::AdaptivePlanSelector;
+
 /**
  * @brief Runtime Query Re-optimizer
  *

@@ -94,7 +94,7 @@ public:
     friend class LegalAutoLabeler;
 
     explicit Impl(const AutoLabelConfig& config, const std::string& db_connection,
-                  QueryEngine* engine)
+                  ::themis::query::QueryEngine* engine)
         : config_(config)
         , db_connection_(db_connection)
         , query_engine_(engine)
@@ -418,7 +418,7 @@ public:
 private:
     AutoLabelConfig config_;
     std::string db_connection_;
-    QueryEngine* query_engine_;   ///< AQL engine (non-owning); nullptr in offline/test mode
+    ::themis::query::QueryEngine* query_engine_;   ///< AQL engine (non-owning); nullptr in offline/test mode
     std::unique_ptr<analytics::NlpTextAnalyzer> nlp_analyzer_;
     std::unique_ptr<ModalityDetector> modality_detector_; ///< Multi-modal document parser (Phase 3)
     std::atomic<size_t> total_processed_;
@@ -795,7 +795,7 @@ private:
 // Public API implementation
 LegalAutoLabeler::LegalAutoLabeler(const AutoLabelConfig& config,
                                    const std::string& db_connection,
-                                   QueryEngine* engine)
+                                   ::themis::query::QueryEngine* engine)
     : impl_(std::make_unique<Impl>(config, db_connection, engine)) {
 }
 

@@ -18,7 +18,6 @@
  * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
-// Edge Type Registry Implementation
 
 #include "index/edge_types.h"
 #include "storage/base_entity.h"
@@ -28,6 +27,8 @@
 namespace {
     std::once_flag init_flag;
 }
+
+namespace themis {
 
 EdgeTypeRegistry& EdgeTypeRegistry::instance() {
     static EdgeTypeRegistry registry;
@@ -452,3 +453,6 @@ std::optional<EdgeCategory> EdgeTypeRegistry::categoryFromString(std::string_vie
     if (str == "ACCESS")     return EdgeCategory::ACCESS;
     if (str == "CUSTOM")     return EdgeCategory::CUSTOM;
     return std::nullopt;
+}
+
+} // namespace themis

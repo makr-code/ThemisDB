@@ -19,6 +19,7 @@
 #include "query/query_engine.h"
 
 using namespace themis;
+using namespace themis::query;
 
 static std::string tmpPath2(const std::string& name) {
     namespace fs = std::filesystem;

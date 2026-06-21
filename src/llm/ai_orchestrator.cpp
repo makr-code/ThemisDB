@@ -163,16 +163,16 @@ public:
     estimate(const RagCostModelInput& input) const override {
         const json extra = input.extra.is_object() ? input.extra : json::object();
 
-        ::themis::DistributedQueryCostModel model;
+        ::themis::query::DistributedQueryCostModel model;
 
-        std::vector<::themis::DistributedQueryCostModel::ShardInfo> shards;
+        std::vector<::themis::query::DistributedQueryCostModel::ShardInfo> shards;
         if (extra.contains("retrieval_shards") && extra["retrieval_shards"].is_array()) {
             for (const auto& s : extra["retrieval_shards"]) {
                 if (!s.is_object()) {
                     continue;
                 }
 
-                ::themis::DistributedQueryCostModel::ShardInfo info;
+                ::themis::query::DistributedQueryCostModel::ShardInfo info;
                 info.shard_id = s.value("shard_id", std::string("shard"));
                 info.estimated_rows = static_cast<size_t>(std::max<int64_t>(
                     0, s.value("estimated_rows", static_cast<int64_t>(0))));
@@ -188,7 +188,7 @@ public:
             const size_t rows_per_shard = std::max<std::size_t>(docs / static_cast<std::size_t>(shard_count), 1);
             shards.reserve(static_cast<size_t>(shard_count));
             for (int i = 0; i < shard_count; ++i) {
-                ::themis::DistributedQueryCostModel::ShardInfo info;
+                ::themis::query::DistributedQueryCostModel::ShardInfo info;
                 info.shard_id = "shard_" + std::to_string(i);
                 info.estimated_rows = rows_per_shard;
                 info.network_latency_ms = 1.0;

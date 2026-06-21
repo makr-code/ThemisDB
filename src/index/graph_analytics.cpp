@@ -25,6 +25,8 @@
 #include <queue>
 #include <set>
 
+namespace themis {
+
 GraphAnalytics::GraphAnalytics(GraphIndexManager& graphMgr)
     : graphMgr_(graphMgr) {}
 
@@ -812,4 +814,6 @@ GraphAnalytics::kShortestPaths(
     
     return {Status::OK(), std::move(A)};
 }
+
+} // namespace themis
 

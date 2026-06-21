@@ -336,8 +336,8 @@ int main(int argc, char* argv[]) {
         {
             THEMIS_INFO("--- Test 10: Parallel Query AND(users.age=30 AND users.active=true) ---");
             SecondaryIndexManager idxm(db);
-            QueryEngine qe(db, idxm);
-            ConjunctiveQuery q{ "users", { {"age", "30"}, {"active", "true"} } };
+            themis::query::QueryEngine qe(db, idxm);
+            themis::query::ConjunctiveQuery q{ "users", { {"age", "30"}, {"active", "true"} } };
             auto result = qe.executeAndEntities(q);
             if (!result) {
                 THEMIS_ERROR("Parallel query failed: {}", result.error().message());
@@ -348,7 +348,7 @@ int main(int argc, char* argv[]) {
             }
 
             // Optimierter Plan: Reihenfolge nach geschätzter Selektivität
-            QueryOptimizer opt(idxm);
+            themis::query::QueryOptimizer opt(idxm);
             auto plan = opt.chooseOrderForAndQuery(q, 1000);
             std::string orderStr;
             for (size_t i = 0; i < plan.orderedPredicates.size(); ++i) {

@@ -35,13 +35,28 @@
 #include "utils/expected.h"  // For Result<T> pattern
 
 namespace themis {
+
+class RocksDBWrapper;
+class SecondaryIndexManager;
+class BaseEntity;
+class VectorIndexManager;
+class GraphIndexManager;
+class StatisticsCollector;
+class AQLTranslator;
+namespace utils {
+class AuditLogger;
+}
+namespace index {
+class SpatialIndexManager;
+}
+
 namespace query {
 
 // Smart pointer type aliases for dependency injection
 using IStorageEnginePtr = std::shared_ptr<IStorageEngine>;
 
 // Forward declaration for StatisticsCollector (avoid including the header)
-class StatisticsCollector;
+using StatisticsCollector = ::themis::StatisticsCollector;
 using IIndexManagerPtr = std::shared_ptr<IIndexManager>;
 // using IQueryEnginePtr = std::shared_ptr<IQueryEngine>;  // IQueryEngine not defined
 using IExpressionEvaluatorPtr = std::shared_ptr<IExpressionEvaluator>;
@@ -51,7 +66,6 @@ using IGraphIndexPtr = std::shared_ptr<IGraphIndex>;
 
 // Minimal forward declarations for early usage
 struct Expression; struct Query; class CTECache; struct QueryPlanNode;
-namespace utils { class AuditLogger; }
 
 /**
  * @brief Input model for recursive graph path expansion queries.
@@ -201,13 +215,13 @@ struct ContentGeoQuery {
     std::optional<std::vector<float>> center_point; // for distance boosting: [lon, lat]
 };
 
-class RocksDBWrapper;
-class SecondaryIndexManager;
-class BaseEntity;
-class VectorIndexManager;
-class SpatialIndexManager;  // Forward declaration (defined in index namespace)
+using RocksDBWrapper = ::themis::RocksDBWrapper;
+using SecondaryIndexManager = ::themis::SecondaryIndexManager;
+using BaseEntity = ::themis::BaseEntity;
+using VectorIndexManager = ::themis::VectorIndexManager;
+using SpatialIndexManager = ::themis::index::SpatialIndexManager;
 
-class AQLTranslator; // avoid including translator in header
+using AQLTranslator = ::themis::AQLTranslator; // avoid including translator in header
 
 // Forward declarations für AQL-Typen
 struct ForNode;
@@ -313,7 +327,7 @@ struct DisjunctiveQuery {
     std::optional<OrderBy> orderBy;
 };
 
-class GraphIndexManager;
+using GraphIndexManager = ::themis::GraphIndexManager;
 
 class QueryEngine {
 public:
@@ -771,7 +785,7 @@ private:
     VectorIndexManager* vectorIdx_ = nullptr;  // Optional for Vector+Geo optimization
     SpatialIndexManager* spatialIdx_ = nullptr;  // Optional for Spatial pre-filtering
     StatisticsCollector* stats_collector_ = nullptr;  ///< Optional; for cardinality-based optimisation
-    utils::AuditLogger* audit_logger_ = nullptr;  ///< Optional non-owning audit sink for query phase telemetry
+    ::themis::utils::AuditLogger* audit_logger_ = nullptr;  ///< Optional non-owning audit sink for query phase telemetry
     std::function<bool(const std::string&, const std::string&)> collection_access_checker_;
     std::string collection_access_caller_id_;  ///< Caller identity forwarded to access checker
     

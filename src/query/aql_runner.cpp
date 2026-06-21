@@ -44,7 +44,7 @@ static query::QueryCompiler& getJitCompiler() {
 // Thread-local pointer to the QueryEngine currently executing on this thread.
 // Updated at the start of each executeAql() call so that the stored ExecuteFn
 // in the static QueryCompiler always operates on the correct engine instance.
-static thread_local QueryEngine* tl_jit_engine = nullptr;
+static thread_local query::QueryEngine* tl_jit_engine = nullptr;
 
 // Lazy-initialized NLP analyzer (thread-safe in C++11+)
 static themis::analytics::NlpTextAnalyzer& getNlpAnalyzer() {
@@ -63,7 +63,7 @@ static RuntimeReoptimizer& getReoptimizer() {
 /// geometry are skipped; a debug message is emitted for each skipped document
 /// to aid diagnosis when a spatial join returns fewer results than expected.
 static std::vector<std::pair<std::string, geo::GeometryInfo>>
-collectGeometries(QueryEngine& engine,
+collectGeometries(query::QueryEngine& engine,
                   const std::string& collection,
                   const std::string& field)
 {
@@ -114,7 +114,7 @@ static nlohmann::json entityToResultRow(const BaseEntity& entity) {
 }
 
 // GAP-002: Migrated from std::pair<Status, json> to Result<json>
-Result<nlohmann::json> executeAql(const std::string& aql, QueryEngine& engine) {
+Result<nlohmann::json> executeAql(const std::string& aql, query::QueryEngine& engine) {
     // NLP Pre-processing (PR #317 Integration Phase 1)
     // This provides query analysis for optimization and caching
     auto& nlp = getNlpAnalyzer();
@@ -334,7 +334,7 @@ Result<nlohmann::json> executeAql(const std::string& aql, QueryEngine& engine) {
     auto& jit = getJitCompiler();
 
     query::QueryCompiler::ExecuteFn exec_fn =
-        [conj_query = tr.query](
+        [conj_query = tr.conjunctive_query](
             const std::string& /*q*/,
             const query::QueryParams& /*params*/)
         -> Result<query::QueryResult> {
@@ -435,7 +435,7 @@ query::QueryPlanNode buildGraphTraversalPlanNode(
 ///
 /// Returns Err on parse or translation failure.
 Result<query::QueryPlanNode> buildExplainPlanNode(
-    const std::string& aql, QueryEngine& engine)
+    const std::string& aql, query::QueryEngine& engine)
 {
     query::AQLParser parser;
     auto parseResult = parser.parse(aql);
@@ -461,12 +461,12 @@ Result<query::QueryPlanNode> buildExplainPlanNode(
     // Non-conjunctive forms: synthetic ConjunctiveQuery → SeqScan with type label.
     if (tr.vector_geo.has_value()) {
         ConjunctiveQuery q;
-        q.table = "[vector+geo] " + tr.query.table;
+        q.table = "[vector+geo] " + tr.conjunctive_query.table;
         return Ok(engine.buildExplainPlan(q));
     }
     if (tr.content_geo.has_value()) {
         ConjunctiveQuery q;
-        q.table = "[content+geo] " + tr.query.table;
+        q.table = "[content+geo] " + tr.conjunctive_query.table;
         return Ok(engine.buildExplainPlan(q));
     }
     if (tr.disjunctive.has_value()) {
@@ -487,12 +487,12 @@ Result<query::QueryPlanNode> buildExplainPlanNode(
     }
 
     // Conjunctive (default) form.
-    return Ok(engine.buildExplainPlan(tr.query));
+    return Ok(engine.buildExplainPlan(tr.conjunctive_query));
 }
 
 } // anonymous namespace
 
-Result<nlohmann::json> explainAql(const std::string& aql, QueryEngine& engine, bool analyze) {
+Result<nlohmann::json> explainAql(const std::string& aql, query::QueryEngine& engine, bool analyze) {
     auto pn = buildExplainPlanNode(aql, engine);
     if (!pn) {
         return Err<nlohmann::json>(pn.error().code(), pn.error().message());
@@ -500,7 +500,7 @@ Result<nlohmann::json> explainAql(const std::string& aql, QueryEngine& engine, b
     return Ok(query::QueryPlanVisualizer::toJSON(*pn, analyze));
 }
 
-Result<std::string> explainAqlText(const std::string& aql, QueryEngine& engine, bool analyze) {
+Result<std::string> explainAqlText(const std::string& aql, query::QueryEngine& engine, bool analyze) {
     auto pn = buildExplainPlanNode(aql, engine);
     if (!pn) {
         return Err<std::string>(pn.error().code(), pn.error().message());
@@ -508,7 +508,7 @@ Result<std::string> explainAqlText(const std::string& aql, QueryEngine& engine, 
     return Ok(query::QueryPlanVisualizer::toText(*pn, analyze));
 }
 
-Result<std::string> explainAqlDot(const std::string& aql, QueryEngine& engine) {
+Result<std::string> explainAqlDot(const std::string& aql, query::QueryEngine& engine) {
     auto pn = buildExplainPlanNode(aql, engine);
     if (!pn) {
         return Err<std::string>(pn.error().code(), pn.error().message());
@@ -516,7 +516,7 @@ Result<std::string> explainAqlDot(const std::string& aql, QueryEngine& engine) {
     return Ok(query::QueryPlanVisualizer::toDOT(*pn));
 }
 
-Result<nlohmann::json> executeMultiStatementAql(const std::string& aql, QueryEngine& engine) {
+Result<nlohmann::json> executeMultiStatementAql(const std::string& aql, query::QueryEngine& engine) {
     // Parse the multi-statement transaction block
     query::AQLParser parser;
     auto blockResult = parser.parseTransactionBlock(aql);
@@ -660,7 +660,7 @@ Result<nlohmann::json> executeMultiStatementAql(const std::string& aql, QueryEng
             }
             stmtResult = {{"type", "spatial_join"}, {"results", arr}};
         } else {
-            auto res = engine.executeAndEntitiesWithFallback(tr.query, true);
+            auto res = engine.executeAndEntitiesWithFallback(tr.conjunctive_query, true);
             if (!res) {
                 return Err<nlohmann::json>(res.error().code(),
                     fmt::format("Execution error for statement {} in transaction block: {}",
@@ -681,7 +681,7 @@ Result<nlohmann::json> executeMultiStatementAql(const std::string& aql, QueryEng
 
 Result<nlohmann::json> executeAqlWithRLS(
     const std::string& aql,
-    QueryEngine& engine,
+    query::QueryEngine& engine,
     security::RLSManager& rls,
     const security::SecurityContext& ctx
 ) {
@@ -720,7 +720,7 @@ Result<nlohmann::json> executeAqlWithRLS(
                 } else if (tr.disjunctive.has_value()) {
                     collection = tr.disjunctive->table;
                 } else {
-                    collection = tr.query.table;
+                    collection = tr.conjunctive_query.table;
                 }
             }
         }
@@ -738,7 +738,7 @@ Result<nlohmann::json> executeAqlWithRLS(
 
 Result<query::AnnotatedQueryResult> executeAqlAnnotated(
     const std::string& aql,
-    QueryEngine&       engine)
+    query::QueryEngine& engine)
 {
     auto result = executeAql(aql, engine);
     if (!result) {
@@ -776,7 +776,7 @@ Result<query::AnnotatedQueryResult> executeAqlAnnotated(
 
 Result<nlohmann::json> executeAqlWithLimits(
     const std::string& aql,
-    QueryEngine& engine,
+    query::QueryEngine& engine,
     const query::QueryResourceLimits& limits)
 {
     // Record start time for timeout enforcement.
@@ -839,7 +839,7 @@ Result<nlohmann::json> executeAqlWithLimits(
 
 // ── SQL dialect compatibility layer ──────────────────────────────────────────
 
-Result<nlohmann::json> executeSQL(const std::string& sql, QueryEngine& engine) {
+Result<nlohmann::json> executeSQL(const std::string& sql, query::QueryEngine& engine) {
     // Parse the SQL statement into an AST.
     query::SQLParser parser;
     auto parse_result = parser.parse(sql);
@@ -868,7 +868,7 @@ Result<nlohmann::json> executeSQL(const std::string& sql, QueryEngine& engine) {
 
 Result<nlohmann::json> executeAqlCancellable(
     const std::string& aql,
-    QueryEngine& engine,
+    query::QueryEngine& engine,
     const std::string& request_id,
     query::QueryCanceller& canceller)
 {

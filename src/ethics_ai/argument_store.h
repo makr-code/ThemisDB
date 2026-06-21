@@ -30,8 +30,10 @@
 // Forward declarations for ThemisDB components
 namespace themis {
 class RocksDBWrapper;
-class QueryEngine;
 class IVectorWriter;
+namespace query {
+class QueryEngine;
+}
 }
 
 namespace themis {
@@ -93,7 +95,7 @@ public:
      */
     Status initialize(
         std::shared_ptr<RocksDBWrapper> storage,
-        std::shared_ptr<QueryEngine> query_engine = nullptr
+        std::shared_ptr<query::QueryEngine> query_engine = nullptr
     );
     
     /**
@@ -216,7 +218,7 @@ private:
     
     // Direct ThemisDB storage - no wrappers
     std::shared_ptr<RocksDBWrapper> storage_;
-    std::shared_ptr<QueryEngine> query_engine_;
+    std::shared_ptr<query::QueryEngine> query_engine_;
     
     // Optional injected vector embedding function
     std::optional<VectorStoreFn> vector_store_fn_;

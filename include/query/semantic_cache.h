@@ -41,7 +41,7 @@
 namespace themis {
     class RocksDBWrapper;
     class VectorIndexManager;
-    struct BaseEntity;
+    class BaseEntity;
 }
 #include <mutex>
 #include <list>

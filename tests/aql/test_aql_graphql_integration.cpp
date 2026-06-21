@@ -32,6 +32,7 @@
 #include <gtest/gtest.h>
 #include "api/graphql.h"
 #include "api/graphql_aql_resolver.h"
+#include "query/query_resource_limits.h"
 #include "query/functions/graphql_functions.h"
 #include "query/functions/function_registry.h"
 
@@ -57,26 +58,26 @@ static Document mustParse(const std::string& query) {
 TEST(GraphQLAqlCostModelTests, SingleFieldScore) {
     // Single field at depth 1 → score = 1
     auto doc = mustParse("{ apiVersion }");
-    EXPECT_EQ(GraphQLComplexityEstimator::estimate(doc), 1u);
+    EXPECT_EQ(GraphQLComplexityEstimator::estimate(std::make_shared<Document>(doc)), 1u);
 }
 
 TEST(GraphQLAqlCostModelTests, TwoFieldsAtRootScore) {
     // Two fields at depth 1 → score = 2
     auto doc = mustParse("{ apiVersion schemaVersion }");
-    EXPECT_EQ(GraphQLComplexityEstimator::estimate(doc), 2u);
+    EXPECT_EQ(GraphQLComplexityEstimator::estimate(std::make_shared<Document>(doc)), 2u);
 }
 
 TEST(GraphQLAqlCostModelTests, AqlFieldCarriesHeavyCost) {
     // aql field: 1 (base) + 50 (AQL surcharge) + 1 (query arg → ⌈1/2⌉) = 52
     auto doc = mustParse(R"({ aql(query: "FOR d IN c RETURN d") })");
-    const uint32_t score = GraphQLComplexityEstimator::estimate(doc);
+    const uint32_t score = GraphQLComplexityEstimator::estimate(std::make_shared<Document>(doc));
     EXPECT_GE(score, 50u) << "aql field must carry at least 50 cost units";
 }
 
 TEST(GraphQLAqlCostModelTests, NestedFieldsMultipliedByDepth) {
     // depth-1 field (1) + depth-2 field (2) = 3
     auto doc = mustParse("{ document { id } }");
-    const uint32_t score = GraphQLComplexityEstimator::estimate(doc);
+    const uint32_t score = GraphQLComplexityEstimator::estimate(std::make_shared<Document>(doc));
     EXPECT_GE(score, 3u);
 }
 

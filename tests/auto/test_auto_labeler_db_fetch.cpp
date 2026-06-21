@@ -47,6 +47,7 @@
 #include <chrono>
 
 using namespace themis;
+using namespace themis::query;
 using namespace themis::training;
 
 // ============================================================================

@@ -25,11 +25,13 @@
 #include <unordered_map>
 #include <nlohmann/json.hpp>
 #include "query/aql_parser.h"
+#include "query/query_engine.h"
 #include "utils/expected.h"
 
 namespace themis {
-class QueryEngine; // forward declaration in outer namespace
 namespace query {
+
+class QueryEngine;
 
 /**
  * @brief Common Table Expression (CTE) Support für AQL
@@ -91,7 +93,7 @@ public:
      */
     Result<void> evaluateCTE(
         const CTEDefinition& cte,
-        ::themis::QueryEngine& queryEngine,
+        QueryEngine& queryEngine,
         bool is_recursive = false
     );
     
@@ -103,7 +105,7 @@ public:
      */
     Result<void> evaluateRecursiveCTE(
         const CTEDefinition& cte,
-        ::themis::QueryEngine& queryEngine
+        QueryEngine& queryEngine
     );
     
     /**
@@ -201,7 +203,7 @@ public:
      */
     Result<nlohmann::json> evaluateSubquery(
         const query::SubqueryExpr& subquery,
-        ::themis::QueryEngine& queryEngine,
+        QueryEngine& queryEngine,
         const nlohmann::json& outerRow = nlohmann::json()
     );
     
@@ -214,7 +216,7 @@ public:
      */
     Result<nlohmann::json> evaluateScalarSubquery(
         const std::shared_ptr<query::Query>& query,
-        ::themis::QueryEngine& queryEngine,
+        QueryEngine& queryEngine,
         const nlohmann::json& outerRow
     );
     
@@ -229,7 +231,7 @@ public:
     Result<bool> evaluateInSubquery(
         const nlohmann::json& value,
         const std::shared_ptr<query::Query>& query,
-        ::themis::QueryEngine& queryEngine,
+        QueryEngine& queryEngine,
         const nlohmann::json& outerRow
     );
     
@@ -242,7 +244,7 @@ public:
      */
     Result<bool> evaluateExistsSubquery(
         const std::shared_ptr<query::Query>& query,
-        ::themis::QueryEngine& queryEngine,
+        QueryEngine& queryEngine,
         const nlohmann::json& outerRow
     );
     
@@ -260,7 +262,7 @@ private:
      */
     Result<nlohmann::json> evaluateArraySubquery(
         const std::shared_ptr<query::Query>& query,
-        ::themis::QueryEngine& queryEngine,
+        QueryEngine& queryEngine,
         const nlohmann::json& outerRow
     );
 

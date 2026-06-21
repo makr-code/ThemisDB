@@ -35,6 +35,10 @@
  */
 
 #include <gtest/gtest.h>
+#ifdef _WIN32
+#include <winsock2.h>
+#include <ws2tcpip.h>
+#endif
 #include "utils/tracing.h"
 #include "api/otlp_exporter.h"
 #include "api/tracing_middleware.h"

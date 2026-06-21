@@ -138,7 +138,8 @@ http::response<http::string_body> GraphQLApiHandler::handlePost(
         // score tightens the AQL resource limits injected into each resolver;
         // a score above kGraphQLMaxComplexity is rejected immediately (HTTP 400).
         const uint32_t complexity =
-            graphql::GraphQLComplexityEstimator::estimate(parse_result.document);
+            graphql::GraphQLComplexityEstimator::estimate(
+                std::make_shared<graphql::Document>(parse_result.document));
         span.setAttribute("graphql.complexity", static_cast<int64_t>(complexity));
 
         if (complexity > graphql::kGraphQLMaxComplexity) {

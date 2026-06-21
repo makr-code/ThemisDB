@@ -33,6 +33,7 @@
 #include <fmt/format.h>
 
 namespace themis {
+using QueryEngine = ::themis::query::QueryEngine;
 namespace query {
 
 using errors::ErrorCode;
@@ -486,7 +487,7 @@ Result<nlohmann::json> SubqueryEvaluator::evaluateScalarSubquery(
             
         } else if (translation.success) {
             // Conjunctive query
-            auto result = queryEngine.executeAndEntitiesWithFallback(translation.query);
+            auto result = queryEngine.executeAndEntitiesWithFallback(translation.conjunctive_query);
             if (!result) {
                 return Err<nlohmann::json>(
                     result.error().code(),
@@ -579,7 +580,7 @@ Result<nlohmann::json> SubqueryEvaluator::evaluateArraySubquery(
             results = std::move(*result);
 
         } else if (translation.success) {
-            auto result = queryEngine.executeAndEntitiesWithFallback(translation.query);
+            auto result = queryEngine.executeAndEntitiesWithFallback(translation.conjunctive_query);
             if (!result) {
                 return Err<nlohmann::json>(
                     result.error().code(),
@@ -667,7 +668,7 @@ Result<bool> SubqueryEvaluator::evaluateInSubquery(
             results = std::move(*result);
             
         } else if (translation.success) {
-            auto result = queryEngine.executeAndEntitiesWithFallback(translation.query);
+            auto result = queryEngine.executeAndEntitiesWithFallback(translation.conjunctive_query);
             if (!result) {
                 THEMIS_ERROR("IN subquery execution failed: {}", result.error().message());
                 return Err<bool>(
@@ -773,7 +774,7 @@ Result<bool> SubqueryEvaluator::evaluateExistsSubquery(
             return Ok(!result->empty());
             
         } else if (translation.success) {
-            auto result = queryEngine.executeAndEntitiesWithFallback(translation.query);
+            auto result = queryEngine.executeAndEntitiesWithFallback(translation.conjunctive_query);
             if (!result) {
                 THEMIS_ERROR("EXISTS subquery execution failed: {}", result.error().message());
                 return Err<bool>(

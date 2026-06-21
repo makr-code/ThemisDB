@@ -46,6 +46,10 @@
 #include <sys/stat.h>
 #endif
 
+#ifdef ERROR
+#undef ERROR
+#endif
+
 // ⚠️ SECURITY WARNING: This implementation executes arbitrary AQL queries and functions.
 // Production deployments MUST implement proper security controls:
 // - Authentication and authorization for all task operations

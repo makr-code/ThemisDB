@@ -34,6 +34,18 @@ namespace query {
 // Tokenizer (Lexer)
 // ============================================================================
 
+// Windows headers may define IN as a parameter annotation macro, which
+// collides with the AQL token enum member name.
+#ifdef IN
+#undef IN
+#endif
+#ifdef TRUE
+#undef TRUE
+#endif
+#ifdef FALSE
+#undef FALSE
+#endif
+
 enum class TokenType {
     // Keywords
     FOR, IN, FILTER, SORT, LIMIT, RETURN, LET,

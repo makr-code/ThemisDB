@@ -18,6 +18,7 @@
 #include <limits>
 
 using namespace themis;
+using namespace themis::query;
 
 class RecursivePathQueryTest : public ::testing::Test {
 protected:

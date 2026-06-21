@@ -17,6 +17,7 @@
 
 #include <gtest/gtest.h>
 #include "aql/llm_validation_pipeline.h"
+#include "llm/llm_client.h"
 #include "query/aql_parser_service.h"
 
 #include <memory>
@@ -71,14 +72,37 @@ private:
 };
 
 /// Mock LLM client for testing
-class MockLLMClient {
+class MockLLMClient : public llm::LLMClient {
 public:
     MockLLMClient(const std::string& response = R"(FOR doc IN users RETURN doc)")
         : response_(response), call_count_(0) {}
     
-    std::string invoke(const std::string& prompt) {
-        call_count_++;
-        return response_;
+    llm::GenerationResult generate(
+        const std::string& prompt,
+        const llm::GenerationOptions& options = {}
+    ) override {
+        return generateImpl(prompt, options);
+    }
+
+    llm::GenerationResult generateAQL(
+        const std::string& nl_query,
+        const std::string& schema_context = "",
+        const llm::GenerationOptions& options = {}
+    ) override {
+        (void)schema_context;
+        return generateImpl(nl_query, options);
+    }
+
+    size_t estimateTokens(const std::string& text) const override {
+        return text.size() / 4;
+    }
+
+    std::string getProviderName() const override {
+        return "mock";
+    }
+
+    bool isReady() const override {
+        return true;
     }
     
     int call_count() const { return call_count_; }
@@ -86,6 +110,20 @@ public:
     void setResponse(const std::string& response) { response_ = response; }
     
 private:
+    llm::GenerationResult generateImpl(
+        const std::string& prompt,
+        const llm::GenerationOptions& options
+    ) {
+        (void)prompt;
+        (void)options;
+        call_count_++;
+        llm::GenerationResult result;
+        result.success = true;
+        result.text = response_;
+        result.finish_reason = "stop_sequence";
+        return result;
+    }
+
     std::string response_;
     std::atomic<int> call_count_;
 };
@@ -368,7 +406,8 @@ TEST_F(LLMValidationPipelineTest, DiagnosticsPropagated) {
     
     auto result = pipeline->execute("List all users", "");
     
-    EXPECT_FALSE(result.success || result.parser_diagnostics.error_message.empty());
+    EXPECT_FALSE(result.status == LLMValidationStatus::SUCCESS ||
+                 result.parser_diagnostics.error_message.empty());
 }
 
 /// Test 14: Error message contains meaningful info

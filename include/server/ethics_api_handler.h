@@ -32,7 +32,8 @@ namespace themis {
 
 // Forward declarations
 class RocksDBWrapper;
-class QueryEngine;
+namespace query { class QueryEngine; }
+using QueryEngine = query::QueryEngine;
 
 namespace server {
 

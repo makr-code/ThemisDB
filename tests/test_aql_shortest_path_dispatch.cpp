@@ -26,13 +26,13 @@ protected:
         sec = std::make_unique<SecondaryIndexManager>(*db);
         graph = std::make_unique<GraphIndexManager>(*db);
         // Minimal graph setup (edges not strictly required for dispatcher call, execution may return empty path)
-        engine = std::make_unique<QueryEngine>(*db, *sec, *graph);
+        engine = std::make_unique<query::QueryEngine>(*db, *sec, *graph);
     }
     void TearDown() override {
         engine.reset(); graph.reset(); sec.reset(); db.reset();
         std::filesystem::remove_all("data/themis_aql_shortest_path_test");
     }
-    std::unique_ptr<RocksDBWrapper> db; std::unique_ptr<SecondaryIndexManager> sec; std::unique_ptr<GraphIndexManager> graph; std::unique_ptr<QueryEngine> engine;
+    std::unique_ptr<RocksDBWrapper> db; std::unique_ptr<SecondaryIndexManager> sec; std::unique_ptr<GraphIndexManager> graph; std::unique_ptr<query::QueryEngine> engine;
 };
 
 TEST_F(AQLShortestPathDispatchTest, ExecuteShortestPathSugar) {

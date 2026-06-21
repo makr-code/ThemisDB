@@ -19,6 +19,7 @@
 #include <chrono>
 
 using namespace themis;
+using namespace themis::query;
 
 class AQLGeneralTraversalTest : public ::testing::Test {
 protected:

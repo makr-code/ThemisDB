@@ -10,6 +10,7 @@
 #include "query/query_optimizer.h"
 
 using namespace themis;
+using namespace themis::query;
 
 TEST(QueryOptimizerVectorGeo, VectorFirstPreferredWithSmallBBoxAndPrefilter) {
     QueryOptimizer::VectorGeoCostInput ci; ci.hasVectorIndex=true; ci.hasSpatialIndex=true; ci.bboxRatio=0.05; ci.prefilterSize=100; ci.spatialIndexEntries=10000; ci.k=10; ci.vectorDim=128; ci.overfetch=3;

@@ -84,13 +84,13 @@ public:
     ///
     /// @throws std::runtime_error if required dependencies are not set
     /// @return Shared pointer to constructed QueryEngine
-    std::shared_ptr<QueryEngine> build() {
+    std::shared_ptr<query::QueryEngine> build() {
         if (!index_manager_) {
             throw std::runtime_error("QueryEngineBuilder: IndexManager is required");
         }
         
         // Note: storage_ can be nullptr for late binding via setStorage()
-        return std::make_shared<QueryEngine>(storage_, index_manager_);
+        return std::make_shared<query::QueryEngine>(storage_, index_manager_);
     }
     
     /// @brief Create a standard builder instance.

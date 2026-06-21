@@ -152,7 +152,7 @@ void LLMApiHandler::setPolicyEngine(governance::PolicyEngine* policy_engine) {
     policy_engine_ = policy_engine;
 }
 
-void LLMApiHandler::setQueryEngine(std::shared_ptr<QueryEngine> query_engine) {
+void LLMApiHandler::setQueryEngine(std::shared_ptr<query::QueryEngine> query_engine) {
     query_engine_ = std::move(query_engine);
 }
 
@@ -542,7 +542,7 @@ http::response<http::string_body> LLMApiHandler::handleRAG(
                     );
                 }
 
-                VectorGeoQuery vector_query;
+                query::VectorGeoQuery vector_query;
                 vector_query.table = collection;
                 vector_query.vector_field = body->value("vector_field", std::string{"embedding"});
                 vector_query.query_vector = query_vec;

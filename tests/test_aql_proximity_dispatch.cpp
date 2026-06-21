@@ -25,7 +25,7 @@ protected:
         RocksDBWrapper::Config cfg; cfg.db_path = "data/themis_aql_proximity_dispatch_test"; cfg.memtable_size_mb = 32; cfg.block_cache_size_mb = 32;
         db = std::make_unique<RocksDBWrapper>(cfg); ASSERT_TRUE(db->open());
         sec = std::make_unique<SecondaryIndexManager>(*db);
-        engine = std::make_unique<QueryEngine>(*db, *sec);
+        engine = std::make_unique<query::QueryEngine>(*db, *sec);
         // Create fulltext index
         SecondaryIndexManager::FulltextConfig config; config.language="en"; config.stemming_enabled=true; config.stopwords_enabled=true;
         auto st = sec->createFulltextIndex("places", "description", config); ASSERT_TRUE(st.ok) << st.message;
@@ -44,7 +44,7 @@ protected:
         sec->put("places", b);
     }
     void TearDown() override { engine.reset(); sec.reset(); db.reset(); std::filesystem::remove_all("data/themis_aql_proximity_dispatch_test"); }
-    std::unique_ptr<RocksDBWrapper> db; std::unique_ptr<SecondaryIndexManager> sec; std::unique_ptr<QueryEngine> engine;
+    std::unique_ptr<RocksDBWrapper> db; std::unique_ptr<SecondaryIndexManager> sec; std::unique_ptr<query::QueryEngine> engine;
 };
 
 TEST_F(AQLProximityDispatchTest, ExecuteProximityHybrid) {

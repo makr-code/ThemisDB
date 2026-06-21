@@ -14,8 +14,8 @@
  */
 
 #include <gtest/gtest.h>
-#include "include/query/aql_parser_service.h"
-#include "include/query/aql_parser.h"
+#include "query/aql_parser_service.h"
+#include "query/aql_parser.h"
 #include <memory>
 #include <string>
 
@@ -307,11 +307,9 @@ TEST_F(LLMAQLValidationTest, ErrorCategoryPopulated) {
  */
 TEST_F(LLMAQLValidationTest, ParserVersion) {
     auto version = parser_->version();
-    
-    EXPECT_GT(version.major, 0)
-        << "Parser version major should be > 0";
-    EXPECT_GE(version.minor, 0)
-        << "Parser version minor should be >= 0";
+
+    EXPECT_FALSE(version.empty())
+        << "Parser version should not be empty";
 }
 
 /**
@@ -325,11 +323,11 @@ TEST_F(LLMAQLValidationTest, ValidateFeatureSupport) {
     // - ddl: disabled
     // - geospatial: enabled
     
-    EXPECT_TRUE(parser_->validateFeature("mutations"))
+    EXPECT_TRUE(parser_->supportsFeature("mutations"))
         << "Mutations should be enabled";
-    EXPECT_FALSE(parser_->validateFeature("ddl"))
+    EXPECT_FALSE(parser_->supportsFeature("ddl"))
         << "DDL should be disabled";
-    EXPECT_TRUE(parser_->validateFeature("geospatial"))
+    EXPECT_TRUE(parser_->supportsFeature("geospatial"))
         << "Geospatial should be enabled";
 }
 

@@ -156,7 +156,8 @@ class ContinuousAggregateManager;
 class AdaptiveIndexManager;
 class PITRManager;
 class TaskScheduler;
-class QueryEngine;
+namespace query { class QueryEngine; }
+using QueryEngine = query::QueryEngine;
 class MVCCStore;
 
 namespace query {

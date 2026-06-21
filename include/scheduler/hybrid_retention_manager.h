@@ -24,7 +24,8 @@
 namespace themis {
 
 // Forward declarations
-class QueryEngine;
+namespace query { class QueryEngine; }
+using QueryEngine = query::QueryEngine;
 
 /**
  * @brief Configuration for hybrid retention strategy

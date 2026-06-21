@@ -30,6 +30,10 @@
 #include <chrono>
 #include "utils/tracing.h"
 
+#ifdef ERROR
+#undef ERROR
+#endif
+
 namespace themis {
 namespace server {
 

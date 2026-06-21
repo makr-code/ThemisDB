@@ -13,6 +13,7 @@ add_library(themis_distributed_knowledge
     lora_federation_coordinator.cpp
     federated_rag_merger.cpp
     cross_shard_feedback_sync.cpp
+    ../llm/decision_record_yaml_processor.cpp
 )
 
 target_include_directories(themis_distributed_knowledge PUBLIC
@@ -25,6 +26,14 @@ target_link_libraries(themis_distributed_knowledge
         nlohmann_json::nlohmann_json
         Threads::Threads
 )
+
+# Resolve symbols used by distributed federation flows:
+# - governance::CrossBorderTransferPolicy (themis_security)
+# DecisionRecordYamlProcessor is compiled in directly above to avoid pulling
+# full themis_llm (which introduces duplicate distributed_knowledge symbols).
+if(TARGET themis_security)
+    target_link_libraries(themis_distributed_knowledge PRIVATE themis_security)
+endif()
 
 target_compile_features(themis_distributed_knowledge PUBLIC cxx_std_17)
 

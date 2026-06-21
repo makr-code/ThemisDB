@@ -17,6 +17,7 @@
 #include <filesystem>
 
 using namespace themis;
+using namespace themis::query;
 
 class GeneralTraversalTest : public ::testing::Test {
 protected:

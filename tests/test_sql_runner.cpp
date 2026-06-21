@@ -23,8 +23,7 @@
 #include "utils/error_registry.h"
 
 using namespace themis;
-
-// ─── helpers ────────────────────────────────────────────────────────────────
+using namespace themis::query;
 
 static std::string tmpSQLRunnerPath(const std::string& suffix) {
     namespace fs = std::filesystem;

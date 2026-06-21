@@ -23,6 +23,7 @@
 #include "utils/expected.h"
 
 using namespace themis;
+using namespace themis::query;
 using namespace themis::errors;
 
 // ============================================================================

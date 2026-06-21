@@ -26,6 +26,9 @@
 #include <type_traits>
 #include <nlohmann/json.hpp>
 
+namespace themis {
+namespace query {
+
 // ============================================================================
 // ResultStream<T> Implementation
 // ============================================================================
@@ -321,4 +324,7 @@ std::shared_ptr<ResultStream<std::string>> createKeyStream(
 ) {
     return std::make_shared<ResultStream<std::string>>(std::move(keys), config);
 }
+
+} // namespace query
+} // namespace themis
 

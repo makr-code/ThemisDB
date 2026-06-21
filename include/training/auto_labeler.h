@@ -31,8 +31,10 @@ namespace analytics {
     struct LegalModality;
 }
 
-// Forward declare QueryEngine to keep the training header free of heavy dependencies
-class QueryEngine;
+// Forward declare the canonical query engine type without pulling in the full query stack.
+namespace query {
+    class QueryEngine;
+}
 
 namespace training {
 
@@ -160,7 +162,7 @@ public:
      */
     explicit LegalAutoLabeler(const AutoLabelConfig& config,
                               const std::string& db_connection,
-                              QueryEngine* engine = nullptr);
+                              query::QueryEngine* engine = nullptr);
     
     ~LegalAutoLabeler();
     

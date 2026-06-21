@@ -25,7 +25,7 @@ protected:
         RocksDBWrapper::Config cfg; cfg.db_path = "data/themis_aql_similarity_dispatch_test"; cfg.memtable_size_mb = 32; cfg.block_cache_size_mb = 32;
         db = std::make_unique<RocksDBWrapper>(cfg); ASSERT_TRUE(db->open());
         sec = std::make_unique<SecondaryIndexManager>(*db);
-        engine = std::make_unique<QueryEngine>(*db, *sec); // no vector/spatial index managers attached (fallback paths)
+        engine = std::make_unique<query::QueryEngine>(*db, *sec); // no vector/spatial index managers attached (fallback paths)
 
         // Insert a minimal entity with embedding + location fields
         BaseEntity e("h1");
@@ -37,7 +37,7 @@ protected:
         engine.reset(); sec.reset(); db.reset();
         std::filesystem::remove_all("data/themis_aql_similarity_dispatch_test");
     }
-    std::unique_ptr<RocksDBWrapper> db; std::unique_ptr<SecondaryIndexManager> sec; std::unique_ptr<QueryEngine> engine;
+    std::unique_ptr<RocksDBWrapper> db; std::unique_ptr<SecondaryIndexManager> sec; std::unique_ptr<query::QueryEngine> engine;
 };
 
 // Previously disabled on MSVC; now stable after RocksDB env isolation

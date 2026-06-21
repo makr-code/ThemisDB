@@ -16,6 +16,7 @@
 #include <filesystem>
 
 using namespace themis;
+using namespace themis::query;
 
 class GraphTypeFilteringTest : public ::testing::Test {
 protected:

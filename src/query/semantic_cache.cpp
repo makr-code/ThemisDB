@@ -21,6 +21,7 @@
 // Semantic Query Cache Implementation
 
 #include "query/semantic_cache.h"
+#include "storage/base_entity.h"
 #include <sstream>
 #include <algorithm>
 #include <cctype>

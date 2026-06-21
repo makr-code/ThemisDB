@@ -32,7 +32,9 @@
 namespace themis {
 
 // Forward declaration – keeps the training header free of heavy query dependencies.
+namespace query {
 class QueryEngine;
+}
 
 namespace training {
 
@@ -131,7 +133,7 @@ public:
      */
     explicit ProvenanceTracker(const ProvenanceTrackerConfig& config,
                                const std::string& db_connection,
-                               QueryEngine* engine = nullptr);
+                               query::QueryEngine* engine = nullptr);
 
     ~ProvenanceTracker();
 
@@ -203,7 +205,7 @@ public:
      *
      * @param engine Non-owning pointer to the AQL query engine; may be null.
      */
-    void setQueryEngine(QueryEngine* engine);
+    void setQueryEngine(query::QueryEngine* engine);
 
 private:
     class Impl;

@@ -41,7 +41,7 @@ namespace themis { namespace observability { class MetricsCollector; } }
 namespace themis {
 namespace query {
 
-class SecondaryIndexManager;
+using SecondaryIndexManager = ::themis::SecondaryIndexManager;
 
 class QueryOptimizer {
 public:

@@ -22,6 +22,7 @@
 
 using namespace themis;
 using namespace themis::analytics;
+using namespace themis::query;
 
 class NLPIntegrationTest : public ::testing::Test {
 protected:

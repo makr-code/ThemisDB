@@ -27,6 +27,7 @@
 #include "query/parallel_scan.h"
 
 using namespace themis;
+using namespace themis::query;
 
 namespace {
 

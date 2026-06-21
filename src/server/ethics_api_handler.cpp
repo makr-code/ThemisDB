@@ -564,7 +564,7 @@ nlohmann::json EthicsApiHandler::executeAQL(
             }
         }
     } else {
-        auto result = query_engine.executeAndEntities(translation.query);
+        auto result = query_engine.executeAndEntities(translation.conjunctive_query);
         if (result.has_value()) {
             for (const auto& entity : result.value()) {
                 rows.push_back(nlohmann::json::parse(entity.toJson()));

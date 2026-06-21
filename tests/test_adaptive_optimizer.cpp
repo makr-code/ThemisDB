@@ -14,6 +14,7 @@
 #include <chrono>
 
 using namespace themis;
+using namespace themis::query;
 
 // ============================================================================
 // AdaptiveQueryStats Tests

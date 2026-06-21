@@ -413,6 +413,8 @@ set(THEMIS_STORAGE_SOURCES
     ../src/index/rotary_embeddings_gpu_cpu.cpp
     ../src/index/learnable_rope.cpp
     ../src/index/lora_rope.cpp
+    ../src/index/property_graph.cpp
+    ../src/index/process_graph.cpp
     ../src/index/hnsw_layer_optimizer.cpp
     ../src/index/hnsw_parameter_tuner.cpp
     ../src/index/hnsw_production_defaults.cpp
@@ -612,6 +614,7 @@ set(THEMIS_QUERY_SOURCES
     ../src/query/semantic_cache.cpp
     ../src/query/functions/function_registry.cpp
     $<$<BOOL:${THEMIS_ENABLE_GRAPHQL}>:../src/api/graphql.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_GRAPHQL}>:../src/api/graphql_aql_resolver.cpp>
     ../src/query/functions/ethics_functions.cpp
     ../src/query/functions/fulltext_functions.cpp
     ../src/query/functions/lora_functions.cpp
@@ -1696,8 +1699,6 @@ set(THEMIS_NETWORK_SOURCES
     
     # Network protocol server (themis::network – backward-compatible implementation)
     ../src/network/wire_protocol_server.cpp
-    # Themis core module wire protocol (themis::wire – Phase-3 modular implementation)
-    ../src/themis/wire_protocol_server.cpp
     ../src/network/qos_manager.cpp
     ../src/network/raft_load_balancer.cpp
     ../src/network/wire_protocol_helpers.cpp
@@ -1838,6 +1839,8 @@ endif()
 set(THEMIS_GRAPH_SOURCES
     ../src/graph/graph_query_optimizer.cpp
     ../src/graph/explain_plan.cpp
+    ../src/index/graph_analytics.cpp
+    ../src/query/result_stream.cpp
     ../src/graph/ontology_manager.cpp
     ../src/graph/knowledge_graph_reasoner.cpp
     ../src/graph/rotate_completion.cpp
@@ -2094,10 +2097,14 @@ function(themis_build_modular)
             ${CMAKE_SOURCE_DIR}/src/process/cmmn_serializer.cpp
             ${CMAKE_SOURCE_DIR}/src/process/fim_importer.cpp
             ${CMAKE_SOURCE_DIR}/src/cache/distributed_cache_coordinator.cpp
+            # Keep AQL translator-related TUs outside Unity batches to avoid
+            # namespace bleed-through from concatenated query units.
+            ${CMAKE_SOURCE_DIR}/src/query/aql_translator.cpp
+            ${CMAKE_SOURCE_DIR}/src/aql/aql_optimizer_advisor.cpp
             PROPERTIES SKIP_UNITY_BUILD_INCLUSION ON
         )
     endif()
-    
+
     set(_themis_network_deps
         themis_base
         themis_storage
@@ -2143,8 +2150,7 @@ function(themis_build_modular)
     )
     if(MSVC)
         set_target_properties(themis_network PROPERTIES
-            UNITY_BUILD ON
-            UNITY_BUILD_BATCH_SIZE 20
+            UNITY_BUILD OFF
         )
         # Files that must NOT enter a unity batch:
         # - monitoring_api_handler / index_api_handler: need per-file /bigobj;/Od
@@ -2173,6 +2179,15 @@ function(themis_build_modular)
         # themis::TenantConfig from server/tenant_manager.h in the same Unity TU.
         set_source_files_properties(
             ${CMAKE_SOURCE_DIR}/src/cdc/cdc_admin.cpp
+            PROPERTIES SKIP_UNITY_BUILD_INCLUSION ON
+        )
+        # WinSock include-order and namespace-heavy handlers are sensitive to
+        # unity TU concatenation; compile them standalone to avoid conflicts.
+        set_source_files_properties(
+            ${CMAKE_SOURCE_DIR}/src/utils/tracing.cpp
+            ${CMAKE_SOURCE_DIR}/src/server/graphql_api_handler.cpp
+            ${CMAKE_SOURCE_DIR}/src/server/ethics_api_handler.cpp
+            ${CMAKE_SOURCE_DIR}/src/network/wire_protocol_server.cpp
             PROPERTIES SKIP_UNITY_BUILD_INCLUSION ON
         )
             # api_gateway.cpp defines an anonymous-namespace 'class Error' that
@@ -2348,7 +2363,7 @@ function(themis_build_modular)
             themis_base
             themis_storage
             themis_transaction
-            themis_index
+            themis_security
         )
         if(THEMIS_MODULE_GEO)
             list(APPEND _themis_graph_deps themis_geo)

@@ -44,7 +44,9 @@ class JWTValidator;
 namespace governance {
 class PolicyEngine;
 }
+namespace query {
 class QueryEngine;
+}
 namespace server {
 class LoRAApiHandler;
 }
@@ -146,7 +148,7 @@ public:
      * executes a filtered vector search on the named collection before
      * forwarding the retrieved documents to LLMPluginManager::generateRAG().
      */
-    void setQueryEngine(std::shared_ptr<QueryEngine> query_engine);
+    void setQueryEngine(std::shared_ptr<query::QueryEngine> query_engine);
     
     /**
      * @brief Handle LLM API request
@@ -271,7 +273,7 @@ private:
     /// Raw non-owning pointer; nullptr when not configured.
     governance::PolicyEngine* policy_engine_ = nullptr;
     /// Optional query engine for RAG vector retrieval.
-    std::shared_ptr<QueryEngine> query_engine_;
+    std::shared_ptr<query::QueryEngine> query_engine_;
 };
 
 } // namespace themis::server

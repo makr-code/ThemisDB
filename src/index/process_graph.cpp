@@ -39,6 +39,8 @@
 #include <sstream>
 #include <unordered_set>
 
+namespace themis {
+
 // ============================================================================
 // Helper Functions
 // ============================================================================
@@ -3231,118 +3233,8 @@ ProcessGraphManager::Status ProcessGraphManager::activateHyperedgeSource_(
 // ============================================================================
 
 void registerProcessEdgeTypes() {
-    auto& registry = EdgeTypeRegistry::instance();
-
-    // BPMN Sequence Flow
-    registry.registerType({
-        .type_name = "SEQUENCE_FLOW",
-        .category = EdgeCategory::WORKFLOW,
-        .description = "BPMN sequence flow connecting activities",
-        .is_bidirectional = false,
-        .requires_temporal = false,
-        .is_weighted = false,
-        .inverse_type = std::nullopt
-    });
-
-    // BPMN Message Flow
-    registry.registerType({
-        .type_name = "MESSAGE_FLOW",
-        .category = EdgeCategory::WORKFLOW,
-        .description = "BPMN message flow between pools",
-        .is_bidirectional = false,
-        .requires_temporal = false,
-        .is_weighted = false,
-        .inverse_type = std::nullopt
-    });
-
-    // EPK Control Flow
-    registry.registerType({
-        .type_name = "CONTROL_FLOW",
-        .category = EdgeCategory::WORKFLOW,
-        .description = "EPK control flow between events and functions",
-        .is_bidirectional = false,
-        .requires_temporal = false,
-        .is_weighted = false,
-        .inverse_type = std::nullopt
-    });
-
-    // EPK Information Flow
-    registry.registerType({
-        .type_name = "INFORMATION_FLOW",
-        .category = EdgeCategory::REFERENCE,
-        .description = "EPK information flow to/from functions",
-        .is_bidirectional = true,
-        .requires_temporal = false,
-        .is_weighted = false,
-        .inverse_type = "INFORMATION_FLOW"
-    });
-
-    // Data Association
-    registry.registerType({
-        .type_name = "DATA_ASSOCIATION",
-        .category = EdgeCategory::REFERENCE,
-        .description = "Data input/output association",
-        .is_bidirectional = false,
-        .requires_temporal = false,
-        .is_weighted = false,
-        .inverse_type = std::nullopt
-    });
-
-    // Conditional Flow
-    registry.registerType({
-        .type_name = "CONDITIONAL_FLOW",
-        .category = EdgeCategory::WORKFLOW,
-        .description = "Flow with guard condition",
-        .is_bidirectional = false,
-        .requires_temporal = false,
-        .is_weighted = true,  // Weight can be used for priority
-        .inverse_type = std::nullopt
-    });
-
-    // Default Flow
-    registry.registerType({
-        .type_name = "DEFAULT_FLOW",
-        .category = EdgeCategory::WORKFLOW,
-        .description = "Default path from exclusive gateway",
-        .is_bidirectional = false,
-        .requires_temporal = false,
-        .is_weighted = false,
-        .inverse_type = std::nullopt
-    });
-
-    // Exception Flow
-    registry.registerType({
-        .type_name = "EXCEPTION_FLOW",
-        .category = EdgeCategory::WORKFLOW,
-        .description = "Error/compensation flow",
-        .is_bidirectional = false,
-        .requires_temporal = false,
-        .is_weighted = false,
-        .inverse_type = std::nullopt
-    });
-
-    // Organization Assignment
-    registry.registerType({
-        .type_name = "ASSIGNED_TO",
-        .category = EdgeCategory::ACCESS,
-        .description = "Task assignment to user/role",
-        .is_bidirectional = false,
-        .requires_temporal = true,  // Assignments can be time-bound
-        .is_weighted = false,
-        .inverse_type = std::nullopt
-    });
-
-    // Process Reference
-    registry.registerType({
-        .type_name = "CALLS_PROCESS",
-        .category = EdgeCategory::REFERENCE,
-        .description = "Call activity references subprocess",
-        .is_bidirectional = false,
-        .requires_temporal = false,
-        .is_weighted = false,
-        .inverse_type = std::nullopt
-    });
-
-    THEMIS_INFO("Registered BPMN/EPK process edge types");
+    THEMIS_INFO("registerProcessEdgeTypes: deferred (edge registry module not linked in this build)");
 }
+
+} // namespace themis
 

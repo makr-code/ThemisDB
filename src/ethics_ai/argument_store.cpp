@@ -32,16 +32,16 @@ namespace themis {
 namespace plugins {
 namespace ethics {
 
-// Bring ConjunctiveQuery and PredicateEq into scope (defined in themis::)
-using themis::ConjunctiveQuery;
-using themis::PredicateEq;
+// Bring the canonical query types into scope.
+using themis::query::ConjunctiveQuery;
+using themis::query::PredicateEq;
 
 void ArgumentStore::setVectorStoreFunction(VectorStoreFn fn) {
     std::lock_guard<std::mutex> lock(mutex_);
     vector_store_fn_ = std::move(fn);
 }
 
-Status ArgumentStore::initialize(std::shared_ptr<RocksDBWrapper> storage, std::shared_ptr<QueryEngine> query_engine) {
+Status ArgumentStore::initialize(std::shared_ptr<RocksDBWrapper> storage, std::shared_ptr<query::QueryEngine> query_engine) {
     std::lock_guard<std::mutex> lock(mutex_);
 
     if (initialized_) {

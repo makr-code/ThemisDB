@@ -75,6 +75,15 @@ namespace server {
 
 using json = nlohmann::json;
 
+struct QueryExecStatus {
+    bool ok;
+    std::string message;
+
+    static QueryExecStatus OK() {
+        return QueryExecStatus{true, ""};
+    }
+};
+
 // Portable time conversion helpers (static)
 static inline time_t portable_mkgmtime_impl(std::tm const* tmin) {
 #ifdef _WIN32
@@ -296,7 +305,19 @@ http::response<http::string_body> QueryApiHandler::handleQuery(
     q.orderBy = orderBy;
     q.fulltextPredicate = {};
     q.spatialPredicate = {};
-        themis::QueryEngine engine(*storage_, *secondary_index_);
+    struct QueryExecStatus {
+        bool ok;
+        std::string message;
+    };
+
+    auto make_ok_status = []() -> QueryExecStatus {
+        return QueryExecStatus{true, ""};
+    };
+    auto make_error_status = [](const std::string& message) -> QueryExecStatus {
+        return QueryExecStatus{false, message};
+    };
+
+        themis::query::QueryEngine engine(*storage_, *secondary_index_);
         auto* stats_collector = stats_collector_.load(std::memory_order_acquire);
         if (stats_collector) engine.setStatisticsCollector(stats_collector);
 
@@ -305,24 +326,24 @@ http::response<http::string_body> QueryApiHandler::handleQuery(
         nlohmann::json plan_json;
 
         if (ret == "count") {
-            std::pair<themis::QueryEngine::Status, size_t> res;
+            std::pair<QueryExecStatus, size_t> res;
             if (allow_full_scan) {
                 exec_mode = "full_scan_fallback";
                 auto result = engine.executeAndKeysWithFallback(q, optimize);
                 if (!result) {
-                    res = {themis::QueryEngine::Status{false, result.error().message()}, 0};
+                    res = {make_error_status(result.error().message()), 0};
                 } else {
-                    res = {themis::QueryEngine::Status::OK(), result->size()};
+                    res = {make_ok_status(), result->size()};
                 }
             } else {
                 if (optimize) {
-                    themis::QueryOptimizer opt(*secondary_index_);
+                    themis::query::QueryOptimizer opt(*secondary_index_);
                     auto plan = opt.chooseOrderForAndQuery(q);
                     auto result = opt.executeOptimizedCount(engine, q, plan);
                     if (!result) {
-                        res = {themis::QueryEngine::Status{false, result.error().message()}, 0};
+                        res = {make_error_status(result.error().message()), 0};
                     } else {
-                        res = {themis::QueryEngine::Status::OK(), *result};
+                        res = {make_ok_status(), *result};
                     }
                     exec_mode = "index_optimized";
                     if (explain) {
@@ -343,9 +364,9 @@ http::response<http::string_body> QueryApiHandler::handleQuery(
                     exec_mode = "index_parallel";
                     auto result = engine.executeAndCount(q);
                     if (!result) {
-                        res = {themis::QueryEngine::Status{false, result.error().message()}, 0};
+                        res = {make_error_status(result.error().message()), 0};
                     } else {
-                        res = {themis::QueryEngine::Status::OK(), *result};
+                        res = {make_ok_status(), *result};
                     }
                     if (explain) {
                         plan_json = {
@@ -371,24 +392,24 @@ http::response<http::string_body> QueryApiHandler::handleQuery(
             if (explain && !plan_json.is_null()) j["plan"] = plan_json;
             return makeResponse(http::status::ok, j.dump(), req);
         } else if (ret == "keys") {
-            std::pair<themis::QueryEngine::Status, std::vector<std::string>> res;
+            std::pair<QueryExecStatus, std::vector<std::string>> res;
             if (allow_full_scan) {
                 exec_mode = "full_scan_fallback";
                 auto result = engine.executeAndKeysWithFallback(q, optimize);
                 if (!result) {
-                    res = {themis::QueryEngine::Status{false, result.error().message()}, {}};
+                    res = {make_error_status(result.error().message()), std::vector<std::string>{}};
                 } else {
-                    res = {themis::QueryEngine::Status::OK(), std::move(*result)};
+                    res = {make_ok_status(), std::move(*result)};
                 }
             } else {
                 if (optimize) {
-                    themis::QueryOptimizer opt(*secondary_index_);
+                    themis::query::QueryOptimizer opt(*secondary_index_);
                     auto plan = opt.chooseOrderForAndQuery(q);
                     auto result = opt.executeOptimizedKeys(engine, q, plan);
                     if (!result) {
-                        res = {themis::QueryEngine::Status{false, result.error().message()}, {}};
+                        res = {make_error_status(result.error().message()), std::vector<std::string>{}};
                     } else {
-                        res = {themis::QueryEngine::Status::OK(), std::move(*result)};
+                        res = {make_ok_status(), std::move(*result)};
                     }
                     exec_mode = "index_optimized";
                     if (explain) {
@@ -409,9 +430,9 @@ http::response<http::string_body> QueryApiHandler::handleQuery(
                     exec_mode = "index_parallel";
                     auto result = engine.executeAndKeys(q);
                     if (!result) {
-                        res = {themis::QueryEngine::Status{false, result.error().message()}, {}};
+                        res = {make_error_status(result.error().message()), std::vector<std::string>{}};
                     } else {
-                        res = {themis::QueryEngine::Status::OK(), std::move(*result)};
+                        res = {make_ok_status(), std::move(*result)};
                     }
                     if (explain) {
                         plan_json = {
@@ -449,24 +470,24 @@ http::response<http::string_body> QueryApiHandler::handleQuery(
             }
             return makeResponse(http::status::ok, j.dump(), req);
         } else {
-            std::pair<themis::QueryEngine::Status, std::vector<themis::BaseEntity>> res;
+            std::pair<QueryExecStatus, std::vector<themis::BaseEntity>> res;
             if (allow_full_scan) {
                 exec_mode = "full_scan_fallback";
                 auto result = engine.executeAndEntitiesWithFallback(q, optimize);
                 if (!result) {
-                    res = {themis::QueryEngine::Status{false, result.error().message()}, {}};
+                    res = {make_error_status(result.error().message()), std::vector<themis::BaseEntity>{}};
                 } else {
-                    res = {themis::QueryEngine::Status::OK(), std::move(*result)};
+                    res = {make_ok_status(), std::move(*result)};
                 }
             } else {
                 if (optimize) {
-                    themis::QueryOptimizer opt(*secondary_index_);
+                    themis::query::QueryOptimizer opt(*secondary_index_);
                     auto plan = opt.chooseOrderForAndQuery(q);
                     auto result = opt.executeOptimizedEntities(engine, q, plan);
                     if (!result) {
-                        res = {themis::QueryEngine::Status{false, result.error().message()}, {}};
+                        res = {make_error_status(result.error().message()), std::vector<themis::BaseEntity>{}};
                     } else {
-                        res = {themis::QueryEngine::Status::OK(), std::move(*result)};
+                        res = {make_ok_status(), std::move(*result)};
                     }
                     exec_mode = "index_optimized";
                     if (explain) {
@@ -487,9 +508,9 @@ http::response<http::string_body> QueryApiHandler::handleQuery(
                     exec_mode = "index_parallel";
                     auto result = engine.executeAndEntities(q);
                     if (!result) {
-                        res = {themis::QueryEngine::Status{false, result.error().message()}, {}};
+                        res = {make_error_status(result.error().message()), std::vector<themis::BaseEntity>{}};
                     } else {
-                        res = {themis::QueryEngine::Status::OK(), std::move(*result)};
+                        res = {make_ok_status(), std::move(*result)};
                     }
                     if (explain) {
                         plan_json = {
@@ -805,25 +826,25 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
             }
             themis::ConjunctiveQuery q1; q1.table = table1; q1.predicates = eq1; q1.rangePredicates = r1;
             themis::ConjunctiveQuery q2; q2.table = table2; q2.predicates = eq2; q2.rangePredicates = r2;
-            themis::QueryEngine engine(*storage_, *secondary_index_);
+            themis::query::QueryEngine engine(*storage_, *secondary_index_);
             auto* stats_collector = stats_collector_.load(std::memory_order_acquire);
             if (stats_collector) engine.setStatisticsCollector(stats_collector);
             
             auto result1 = allow_full_scan ? engine.executeAndEntitiesWithFallback(q1, optimize) : engine.executeAndEntities(q1);
-            std::pair<themis::QueryEngine::Status, std::vector<themis::BaseEntity>> res1;
+            std::pair<QueryExecStatus, std::vector<themis::BaseEntity>> res1;
             if (!result1) {
-                res1 = {themis::QueryEngine::Status{false, result1.error().message()}, {}};
+                res1 = {QueryExecStatus{false, result1.error().message()}, std::vector<themis::BaseEntity>{}};
             } else {
-                res1 = {themis::QueryEngine::Status::OK(), std::move(*result1)};
+                res1 = {QueryExecStatus::OK(), std::move(*result1)};
             }
             if (!res1.first.ok) { joinSpan.setStatus(false, res1.first.message); span.setStatus(false, "Left side execution failed"); return makeErrorResponse(http::status::bad_request, res1.first.message, req); }
             
             auto result2 = allow_full_scan ? engine.executeAndEntitiesWithFallback(q2, optimize) : engine.executeAndEntities(q2);
-            std::pair<themis::QueryEngine::Status, std::vector<themis::BaseEntity>> res2;
+            std::pair<QueryExecStatus, std::vector<themis::BaseEntity>> res2;
             if (!result2) {
-                res2 = {themis::QueryEngine::Status{false, result2.error().message()}, {}};
+                res2 = {QueryExecStatus{false, result2.error().message()}, std::vector<themis::BaseEntity>{}};
             } else {
-                res2 = {themis::QueryEngine::Status::OK(), std::move(*result2)};
+                res2 = {QueryExecStatus::OK(), std::move(*result2)};
             }
             if (!res2.first.ok) { joinSpan.setStatus(false, res2.first.message); span.setStatus(false, "Right side execution failed"); return makeErrorResponse(http::status::bad_request, res2.first.message, req); }
             const auto& leftVec = res1.second; const auto& rightVec = res2.second; bool buildLeft = leftVec.size() <= rightVec.size();
@@ -979,7 +1000,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                 recordFromConjunct(disjunct);
             }
         } else {
-            recordFromConjunct(translate_result.query);
+            recordFromConjunct(translate_result.conjunctive_query);
         }
         index_recommender->recordQuery();
     }
@@ -1715,16 +1736,16 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                         // Führe Seitenabfragen aus
                         themis::ConjunctiveQuery q1; q1.table = table1; q1.predicates = eq1; q1.rangePredicates = r1;
                         themis::ConjunctiveQuery q2; q2.table = table2; q2.predicates = eq2; q2.rangePredicates = r2;
-                        themis::QueryEngine engine(*storage_, *secondary_index_);
+                        themis::query::QueryEngine engine(*storage_, *secondary_index_);
                         auto* stats_collector = stats_collector_.load(std::memory_order_acquire);
                         if (stats_collector) engine.setStatisticsCollector(stats_collector);
                         
                         auto result1 = allow_full_scan ? engine.executeAndEntitiesWithFallback(q1, optimize) : engine.executeAndEntities(q1);
-                        std::pair<themis::QueryEngine::Status, std::vector<themis::BaseEntity>> res1;
+                        std::pair<QueryExecStatus, std::vector<themis::BaseEntity>> res1;
                         if (!result1) {
-                            res1 = {themis::QueryEngine::Status{false, result1.error().message()}, {}};
+                            res1 = {QueryExecStatus{false, result1.error().message()}, std::vector<themis::BaseEntity>{}};
                         } else {
-                            res1 = {themis::QueryEngine::Status::OK(), std::move(*result1)};
+                            res1 = {QueryExecStatus::OK(), std::move(*result1)};
                         }
                         if (!res1.first.ok) {
                             joinSpan.setStatus(false, res1.first.message);
@@ -1733,11 +1754,11 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                         }
                         
                         auto result2 = allow_full_scan ? engine.executeAndEntitiesWithFallback(q2, optimize) : engine.executeAndEntities(q2);
-                        std::pair<themis::QueryEngine::Status, std::vector<themis::BaseEntity>> res2;
+                        std::pair<QueryExecStatus, std::vector<themis::BaseEntity>> res2;
                         if (!result2) {
-                            res2 = {themis::QueryEngine::Status{false, result2.error().message()}, {}};
+                            res2 = {QueryExecStatus{false, result2.error().message()}, std::vector<themis::BaseEntity>{}};
                         } else {
-                            res2 = {themis::QueryEngine::Status::OK(), std::move(*result2)};
+                            res2 = {QueryExecStatus::OK(), std::move(*result2)};
                         }
                         if (!res2.first.ok) {
                             joinSpan.setStatus(false, res2.first.message);
@@ -2204,16 +2225,16 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
             orSpan.setAttribute("or.table", dq.table);
             orSpan.setAttribute("or.disjunct_count", static_cast<int64_t>(dq.disjuncts.size()));
             
-            themis::QueryEngine engine(*storage_, *secondary_index_);
+            themis::query::QueryEngine engine(*storage_, *secondary_index_);
             auto* stats_collector = stats_collector_.load(std::memory_order_acquire);
             if (stats_collector) engine.setStatisticsCollector(stats_collector);
             // Nutze Fallback-Variante, damit OR-Queries auch ohne passende Indizes funktionieren
             auto result = engine.executeOrKeysWithFallback(dq, optimize);
-            std::pair<themis::QueryEngine::Status, std::vector<std::string>> statusKeys;
+            std::pair<QueryExecStatus, std::vector<std::string>> statusKeys;
             if (!result) {
-                statusKeys = {themis::QueryEngine::Status{false, result.error().message()}, {}};
+                statusKeys = {QueryExecStatus{false, result.error().message()}, std::vector<std::string>{}};
             } else {
-                statusKeys = {themis::QueryEngine::Status::OK(), std::move(*result)};
+                statusKeys = {QueryExecStatus::OK(), std::move(*result)};
             }
             auto [status, keys] = statusKeys;
             
@@ -2324,8 +2345,8 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                     }
                 }
                 
-                // Store in translate_result.query for standard processing
-                translate_result.query = std::move(cq);
+                // Store in translate_result.conjunctive_query for standard processing
+                translate_result.conjunctive_query = std::move(cq);
                 // Clear join to fall through to standard path
                 translate_result.join = std::nullopt;
             } else if (!jq.collect) {
@@ -2335,7 +2356,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                 joinSpan.setAttribute("join.let_count", static_cast<int64_t>(jq.let_nodes.size()));
                 joinSpan.setAttribute("join.filter_count", static_cast<int64_t>(jq.filters.size()));
                 
-                themis::QueryEngine engine(*storage_, *secondary_index_);
+                themis::query::QueryEngine engine(*storage_, *secondary_index_);
                 auto* stats_collector = stats_collector_.load(std::memory_order_acquire);
                 if (stats_collector) engine.setStatisticsCollector(stats_collector);
                 auto res = engine.executeJoin(
@@ -2466,7 +2487,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
 
         // Relationale Query (mutable Kopie f�r Cursor-Anker/Limit-Anpassungen)
     auto forSpan = Tracer::startSpan("aql.for");
-    auto q = translate_result.query;
+    auto q = translate_result.conjunctive_query;
 
         // Detect function-based SORT (BM25(doc) or FULLTEXT_SCORE()) to avoid range-index ORDER BY
         bool sortByScoreFunction = false;
@@ -2600,26 +2621,26 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
         }
         
         // Execute query
-        themis::QueryEngine engine(*storage_, *secondary_index_);
+        themis::query::QueryEngine engine(*storage_, *secondary_index_);
         auto* stats_collector = stats_collector_.load(std::memory_order_acquire);
         if (stats_collector) engine.setStatisticsCollector(stats_collector);
         
         std::string exec_mode;
         nlohmann::json plan_json;
         
-        std::pair<themis::QueryEngine::Status, std::vector<themis::BaseEntity>> res;
+        std::pair<QueryExecStatus, std::vector<themis::BaseEntity>> res;
         if (early_empty_due_to_cursor && use_cursor) {
             // Liefere leere Seite sofort zur�ck
-            res = { themis::QueryEngine::Status::OK(), {} };
+            res = std::make_pair(QueryExecStatus::OK(), std::vector<themis::BaseEntity>{});
         } else {
         
         if (allow_full_scan) {
             exec_mode = "full_scan_fallback";
             auto result = engine.executeAndEntitiesWithFallback(q, optimize);
             if (!result) {
-                res = {themis::QueryEngine::Status{false, result.error().message()}, {}};
+                res = std::make_pair(QueryExecStatus{false, result.error().message()}, std::vector<themis::BaseEntity>{});
             } else {
-                res = {themis::QueryEngine::Status::OK(), std::move(*result)};
+                res = std::make_pair(QueryExecStatus::OK(), std::move(*result));
             }
         } else {
             // Wenn FULLTEXT vorhanden ist, delegiere direkt an Engine (Optimizer kennt FULLTEXT nicht)
@@ -2627,9 +2648,9 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                 exec_mode = "fulltext";
                 auto result = engine.executeAndEntities(q);
                 if (!result) {
-                    res = {themis::QueryEngine::Status{false, result.error().message()}, {}};
+                    res = std::make_pair(QueryExecStatus{false, result.error().message()}, std::vector<themis::BaseEntity>{});
                 } else {
-                    res = {themis::QueryEngine::Status::OK(), std::move(*result)};
+                    res = std::make_pair(QueryExecStatus::OK(), std::move(*result));
                 }
             }
             // Range-aware: Wenn Range-Prädikate oder ORDER BY vorhanden sind,
@@ -2638,18 +2659,18 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                 exec_mode = "index_rangeaware";
                 auto result = engine.executeAndEntities(q);
                 if (!result) {
-                    res = {themis::QueryEngine::Status{false, result.error().message()}, {}};
+                    res = std::make_pair(QueryExecStatus{false, result.error().message()}, std::vector<themis::BaseEntity>{});
                 } else {
-                    res = {themis::QueryEngine::Status::OK(), std::move(*result)};
+                    res = std::make_pair(QueryExecStatus::OK(), std::move(*result));
                 }
             } else if (optimize) {
-                themis::QueryOptimizer opt(*secondary_index_);
+                themis::query::QueryOptimizer opt(*secondary_index_);
                 auto plan = opt.chooseOrderForAndQuery(q);
                 auto result = opt.executeOptimizedEntities(engine, q, plan);
                 if (!result) {
-                    res = {themis::QueryEngine::Status{false, result.error().message()}, {}};
+                    res = std::make_pair(QueryExecStatus{false, result.error().message()}, std::vector<themis::BaseEntity>{});
                 } else {
-                    res = {themis::QueryEngine::Status::OK(), std::move(*result)};
+                    res = std::make_pair(QueryExecStatus::OK(), std::move(*result));
                 }
                 exec_mode = "index_optimized";
                 
@@ -2671,9 +2692,9 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                 exec_mode = "index_parallel";
                 auto result = engine.executeAndEntities(q);
                 if (!result) {
-                    res = {themis::QueryEngine::Status{false, result.error().message()}, {}};
+                    res = std::make_pair(QueryExecStatus{false, result.error().message()}, std::vector<themis::BaseEntity>{});
                 } else {
-                    res = {themis::QueryEngine::Status::OK(), std::move(*result)};
+                    res = std::make_pair(QueryExecStatus::OK(), std::move(*result));
                 }
                 
                 if (explain) {

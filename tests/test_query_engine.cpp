@@ -21,6 +21,7 @@
 #include "query/query_optimizer.h"
 
 using namespace themis;
+using namespace themis::query;
 
 static std::string tmpPath(const std::string& name) {
     namespace fs = std::filesystem;

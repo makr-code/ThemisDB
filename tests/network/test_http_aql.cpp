@@ -29,6 +29,7 @@ namespace beast = boost::beast;
 namespace http = beast::http;
 namespace net = boost::asio;
 using tcp = net::ip::tcp;
+using namespace themis::query;
 
 class HttpAqlApiTest : public ::testing::Test {
 protected:
@@ -187,7 +188,7 @@ TEST_F(HttpAqlApiTest, DEBUG_QueryEngineDirectAccess) {
     themis::QueryEngine engine(*storage_, *secondary_index_);
     
     // Try a simple conjunctive query like the HTTP handler would
-    themis::ConjunctiveQuery q;
+    themis::query::ConjunctiveQuery q;
     q.table = "users";
     q.predicates = {{"city", "Berlin"}};
     

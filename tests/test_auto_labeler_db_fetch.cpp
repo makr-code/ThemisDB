@@ -103,7 +103,7 @@ protected:
             ASSERT_TRUE(idx_->put(kCollection, e).ok);
         }
 
-        engine_ = std::make_unique<QueryEngine>(*db_, *idx_);
+        engine_ = std::make_unique<query::QueryEngine>(*db_, *idx_);
     }
 
     void TearDown() override {
@@ -117,7 +117,7 @@ protected:
     std::string                        dbPath_;
     std::unique_ptr<RocksDBWrapper>    db_;
     std::unique_ptr<SecondaryIndexManager> idx_;
-    std::unique_ptr<QueryEngine>       engine_;
+    std::unique_ptr<query::QueryEngine> engine_;
 };
 
 // ============================================================================

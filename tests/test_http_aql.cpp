@@ -29,6 +29,7 @@ namespace beast = boost::beast;
 namespace http = beast::http;
 namespace net = boost::asio;
 using tcp = net::ip::tcp;
+using namespace themis::query;
 
 class HttpAqlApiTest : public ::testing::Test {
 protected:
@@ -184,10 +185,10 @@ TEST_F(HttpAqlApiTest, ZZ_SimpleDirectRocksDBScan) {
 TEST_F(HttpAqlApiTest, DEBUG_QueryEngineDirectAccess) {
     // This test mimics exactly what the HTTP server should do
     // Create QueryEngine with the same database/index
-    themis::QueryEngine engine(*storage_, *secondary_index_);
+    QueryEngine engine(*storage_, *secondary_index_);
     
     // Try a simple conjunctive query like the HTTP handler would
-    themis::ConjunctiveQuery q;
+    ConjunctiveQuery q;
     q.table = "users";
     q.predicates = {{"city", "Berlin"}};
     

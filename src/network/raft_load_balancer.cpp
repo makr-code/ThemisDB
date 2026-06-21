@@ -34,6 +34,8 @@
 #include <stdexcept>
 #include <string>
 
+#include "utils/logger.h"
+
 namespace themis {
 namespace network {
 

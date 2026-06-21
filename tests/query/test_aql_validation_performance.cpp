@@ -12,8 +12,8 @@
  */
 
 #include <gtest/gtest.h>
-#include "include/query/aql_parser_service.h"
-#include "include/query/aql_parser.h"
+#include "query/aql_parser_service.h"
+#include "query/aql_parser.h"
 #include <memory>
 #include <string>
 #include <chrono>

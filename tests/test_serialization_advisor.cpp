@@ -44,6 +44,7 @@
 #endif
 
 using namespace themis;
+using namespace themis::query;
 using namespace themis::performance::phase3;
 
 using Format        = OptimizerCostModel::SerializationAdvice::Format;

@@ -24,7 +24,7 @@ protected:
     std::unique_ptr<RocksDBWrapper> db;
     std::unique_ptr<SecondaryIndexManager> secIdx;
     std::unique_ptr<GraphIndexManager> graphIdx;
-    std::unique_ptr<QueryEngine> engine;
+    std::unique_ptr<query::QueryEngine> engine;
     std::string dbPath = "data/themis_aql_general_traversal_test";
 
     void SetUp() override {
@@ -42,7 +42,7 @@ protected:
 
         secIdx = std::make_unique<SecondaryIndexManager>(*db);
         graphIdx = std::make_unique<GraphIndexManager>(*db);
-        engine = std::make_unique<QueryEngine>(*db, *secIdx, *graphIdx);
+        engine = std::make_unique<query::QueryEngine>(*db, *secIdx, *graphIdx);
         
         // Create a sample graph for testing
         createSampleGraph();

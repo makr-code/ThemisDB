@@ -27,27 +27,42 @@
 namespace themis {
 
 // Bring query types into scope
-using query::Query;
-using query::Expression;
-using query::SortNode;
-using query::LimitNode;
-using query::FilterNode;
-using query::BinaryOpExpr;
-using query::FieldAccessExpr;
-using query::LiteralExpr;
-using query::LiteralValue;
-using query::ASTNodeType;
-using query::FunctionCallExpr;
-using query::BinaryOperator;
-using query::UnaryOperator;
-using query::UnaryOpExpr;
-using query::VariableExpr;
-using query::SimilarityCallExpr;
-using query::ProximityCallExpr;
-using query::ArrayLiteralExpr;
-using query::SubqueryExpr;
-using query::AnyExpr;
-using query::AllExpr;
+using Query = ::themis::query::Query;
+using Expression = ::themis::query::Expression;
+using SortNode = ::themis::query::SortNode;
+using LimitNode = ::themis::query::LimitNode;
+using FilterNode = ::themis::query::FilterNode;
+using BinaryOpExpr = ::themis::query::BinaryOpExpr;
+using FieldAccessExpr = ::themis::query::FieldAccessExpr;
+using LiteralExpr = ::themis::query::LiteralExpr;
+using LiteralValue = ::themis::query::LiteralValue;
+using ASTNodeType = ::themis::query::ASTNodeType;
+using FunctionCallExpr = ::themis::query::FunctionCallExpr;
+using BinaryOperator = ::themis::query::BinaryOperator;
+using UnaryOperator = ::themis::query::UnaryOperator;
+using UnaryOpExpr = ::themis::query::UnaryOpExpr;
+using VariableExpr = ::themis::query::VariableExpr;
+using SimilarityCallExpr = ::themis::query::SimilarityCallExpr;
+using ProximityCallExpr = ::themis::query::ProximityCallExpr;
+using ArrayLiteralExpr = ::themis::query::ArrayLiteralExpr;
+using SubqueryExpr = ::themis::query::SubqueryExpr;
+using AnyExpr = ::themis::query::AnyExpr;
+using AllExpr = ::themis::query::AllExpr;
+using ConjunctiveQuery = ::themis::query::ConjunctiveQuery;
+using DisjunctiveQuery = ::themis::query::DisjunctiveQuery;
+using VectorGeoQuery = ::themis::query::VectorGeoQuery;
+using ContentGeoQuery = ::themis::query::ContentGeoQuery;
+using ForNode = ::themis::query::ForNode;
+using LetNode = ::themis::query::LetNode;
+using ReturnNode = ::themis::query::ReturnNode;
+using CollectNode = ::themis::query::CollectNode;
+using PredicateEq = ::themis::query::PredicateEq;
+using PredicateRange = ::themis::query::PredicateRange;
+using PredicateFulltext = ::themis::query::PredicateFulltext;
+using PredicatePhrase = ::themis::query::PredicatePhrase;
+using PredicateFuzzy = ::themis::query::PredicateFuzzy;
+using PredicateSpatial = ::themis::query::PredicateSpatial;
+using OrderBy = ::themis::query::OrderBy;
 
 /**
  * Translates AQL AST to QueryEngine ConjunctiveQuery
@@ -72,7 +87,7 @@ public:
     struct TranslationResult {
         bool success = false;
         std::string error_message;
-        ConjunctiveQuery query; // für relationale AQL (single-FOR)
+        ConjunctiveQuery conjunctive_query; // fuer relationale AQL (single-FOR)
         
         // Graph-Traversal Query (optional)
         struct TraversalQuery {
@@ -132,7 +147,7 @@ public:
         static TranslationResult Success(ConjunctiveQuery q) {
             TranslationResult r;
             r.success = true;
-            r.query = std::move(q);
+            r.conjunctive_query = std::move(q);
             return r;
         }
         

@@ -18,6 +18,7 @@
 #include "index/graph_index.h"
 
 using namespace themis;
+using namespace themis::query;
 
 class AQLShortestPathDispatchTest : public ::testing::Test {
 protected:

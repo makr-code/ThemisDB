@@ -32,6 +32,7 @@
 #include "index/secondary_index.h"
 
 using namespace themis;
+using namespace themis::query;
 using namespace themis::observability;
 
 // ---------------------------------------------------------------------------

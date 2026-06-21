@@ -19,6 +19,7 @@
 #include "storage/base_entity.h"
 
 using namespace themis;
+using namespace themis::query;
 
 class AQLSimilarityDispatchTest : public ::testing::Test {
 protected:

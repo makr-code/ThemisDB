@@ -62,12 +62,15 @@
 #include <functional>
 
 // Forward declarations to prevent namespace pollution
-namespace themis { namespace query {
-struct QueryResourceLimits;
+namespace themis {
+namespace query {
 class QueryEngine;
+struct QueryResourceLimits;
 template <typename T, typename E> class expected;
 struct QueryError;
-} }
+}
+using QueryEngine = query::QueryEngine;
+}
 
 namespace themis {
 namespace graphql {
@@ -130,7 +133,7 @@ nlohmann::json gqlValueToJson(const std::shared_ptr<Value>& v);
  */
 class GraphQLAqlResolverFactory {
 public:
-    explicit GraphQLAqlResolverFactory(::themis::query::QueryEngine* engine = nullptr)
+    explicit GraphQLAqlResolverFactory(::themis::QueryEngine* engine = nullptr)
         : engine_(engine) {}
 
     /// Resolver for `query { aql(query: String!, variables: JSON): JSON }`.
@@ -148,10 +151,10 @@ public:
     /// Convenience: inject all resolvers at once.
     static void injectResolvers(ExecutionContext& ctx,
                                 const Document& doc,
-                                ::themis::query::QueryEngine* eng);
+                                ::themis::QueryEngine* eng);
 
 private:
-    ::themis::query::QueryEngine* engine_;
+    ::themis::QueryEngine* engine_;
 
     std::string extractStringArg(const Field& field,
                                 const std::string& argName) const;
@@ -159,7 +162,7 @@ private:
     ::tl::expected<nlohmann::json, ::themis::query::QueryError> 
     executeAqlWithLimits(
         const std::string& aql,
-        ::themis::query::QueryEngine& eng,
+        ::themis::QueryEngine& eng,
         const ::themis::query::QueryResourceLimits& limits) const;
 };
 

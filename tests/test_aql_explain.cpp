@@ -87,7 +87,7 @@ protected:
 
     std::shared_ptr<ExplainMockStorage>      storage_;
     std::shared_ptr<ExplainMockIndexManager> index_mgr_;
-    std::shared_ptr<QueryEngine>             engine_;
+    std::shared_ptr<query::QueryEngine>      engine_;
 };
 
 // ============================================================================

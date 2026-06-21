@@ -34,7 +34,8 @@
 namespace themis {
 
 // Forward declarations
-class QueryEngine;
+namespace query { class QueryEngine; }
+using QueryEngine = query::QueryEngine;
 class EventTriggerManager;
 class CronExpression;
 class RocksDBWrapper;

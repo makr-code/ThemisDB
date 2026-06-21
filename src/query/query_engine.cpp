@@ -1433,10 +1433,12 @@ QueryEngine::executeAndCount(const ConjunctiveQuery& q) const {
 	return Ok(count);
 }
 
+} // namespace query
 } // namespace themis
 
 // Out-of-line EvaluationContext CTE helpers
 namespace themis {
+namespace query {
 void QueryEngine::EvaluationContext::storeCTE(const std::string& name, std::vector<nlohmann::json> results) {
 	// Prefer cache if available; fall back to in-memory map
 	if (cte_cache) {
@@ -1501,11 +1503,11 @@ static nlohmann::json qe_getNested(const nlohmann::json& base, const std::vector
 
 // Forward decl
 static Result<nlohmann::json> qe_evalExpr(const std::shared_ptr<themis::query::Expression>& expr,
-								  const themis::QueryEngine::EvaluationContext& ctx);
+								  const themis::query::QueryEngine::EvaluationContext& ctx);
 
 static Result<nlohmann::json> qe_evalFunction(const std::string& funcName,
 									  const std::vector<std::shared_ptr<themis::query::Expression>>& args,
-									  const themis::QueryEngine::EvaluationContext& ctx) {
+									  const themis::query::QueryEngine::EvaluationContext& ctx) {
 	using namespace themis::query;
 	using namespace themis::errors;
 	auto evalArg = [&](size_t i) -> Result<nlohmann::json> { return qe_evalExpr(args[i], ctx); };
@@ -2266,7 +2268,7 @@ static Result<nlohmann::json> qe_evalFunction(const std::string& funcName,
 }
 
 static Result<nlohmann::json> qe_evalExpr(const std::shared_ptr<themis::query::Expression>& expr,
-								  const themis::QueryEngine::EvaluationContext& ctx) {
+								  const themis::query::QueryEngine::EvaluationContext& ctx) {
 	using namespace themis::query;
 	using namespace themis::errors;
 	if (!expr) return Ok(nlohmann::json(nullptr));
@@ -2398,9 +2400,11 @@ bool QueryEngine::evaluateCondition(
 	return qe_toBool(*result);
 }
 
+} // namespace query
 } // namespace themis
 
 namespace themis {
+namespace query {
 
 std::vector<std::string> QueryEngine::fullScanAndFilter_(const ConjunctiveQuery& q) const {
 	auto span = Tracer::startSpan("QueryEngine.fullScan");
@@ -4912,8 +4916,8 @@ Result<void> QueryEngine::executeCTEs(
             cte_results = std::move(*result);
             
         } else if (translation.success && !translation.join.has_value() && !translation.disjunctive.has_value() && !translation.traversal.has_value()) {
-            // Conjunctive query (default query field)
-            auto result = executeAndEntitiesWithFallback(translation.query);
+			// Conjunctive query (default query field)
+			auto result = executeAndEntitiesWithFallback(translation.conjunctive_query);
             if (!result) {
                 cteSpan.setStatus(false);
                 span.setStatus(false);

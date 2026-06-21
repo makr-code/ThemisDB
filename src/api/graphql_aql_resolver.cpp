@@ -8,7 +8,7 @@
 
 #include "api/graphql_aql_resolver.h"
 #include "api/graphql.h"
-#include "query/query_engine.h"
+#include "query/query_resource_limits.h"
 #include <nlohmann/json.hpp>
 #include <sstream>
 #include <stdexcept>
@@ -25,13 +25,31 @@ std::string makeComplexityErrorMessage(uint32_t actual, uint32_t budget) {
 }
 
 uint32_t GraphQLComplexityEstimator::estimate(const std::shared_ptr<Document>& doc) {
-    if (!doc || !doc->operation) {
+    if (!doc || doc->operations.empty()) {
         return 0;
     }
-    if (doc->operation->selectionSet) {
-        return scoreSelectionSet(doc->operation->selectionSet, 0);
+
+    uint32_t score = 0;
+    for (const auto& op : doc->operations) {
+        // Base cost per selected field + depth penalty.
+        std::function<uint32_t(const std::vector<Field>&, uint32_t)> scoreFields =
+            [&](const std::vector<Field>& fields, uint32_t depth) -> uint32_t {
+                uint32_t local = 0;
+                for (const auto& field : fields) {
+                    local += (1U + static_cast<uint32_t>(field.arguments.size())) * (depth + 1U);
+                    if (field.name == "aql" || field.name == "aqlMutation") {
+                        local += 50U;
+                    }
+                    if (!field.selections.empty()) {
+                        local += scoreFields(field.selections, depth + 1U);
+                    }
+                }
+                return local;
+            };
+
+        score += scoreFields(op.selections, 0);
     }
-    return 0;
+    return score;
 }
 
 ::themis::query::QueryResourceLimits GraphQLComplexityEstimator::limitsFor(
@@ -58,48 +76,35 @@ uint32_t GraphQLComplexityEstimator::estimate(const std::shared_ptr<Document>& d
 uint32_t GraphQLComplexityEstimator::scoreSelectionSet(
     const std::shared_ptr<SelectionSet>& set,
     uint32_t depth) {
-    if (!set || set->selections.empty()) {
-        return 0;
-    }
-    
-    uint32_t score = 0;
-    uint32_t depthMultiplier = 1 + depth;
-    
-    for (const auto& sel : set->selections) {
-        if (sel && sel->field) {
-            score += depthMultiplier * 10;
-            if (sel->field->selectionSet) {
-                score += scoreSelectionSet(sel->field->selectionSet, depth + 1);
-            }
-        }
-    }
-    
-    return score;
+    (void)set;
+    (void)depth;
+    return 0U;
 }
 
 std::shared_ptr<Value> jsonToGqlValue(const nlohmann::json& j) {
     if (j.is_null()) {
         return Value::null();
     } else if (j.is_boolean()) {
-        return std::make_shared<Value>(j.get<bool>());
+        return Value::boolean(j.get<bool>());
     } else if (j.is_number_integer()) {
-        return std::make_shared<Value>(j.get<int64_t>());
+        return Value::integer(j.get<int64_t>());
     } else if (j.is_number_float()) {
-        return std::make_shared<Value>(j.get<double>());
+        return Value::floating(j.get<double>());
     } else if (j.is_string()) {
-        return std::make_shared<Value>(j.get<std::string>());
+        return Value::string(j.get<std::string>());
     } else if (j.is_array()) {
-        std::vector<std::shared_ptr<Value>> vec;
+        ValueList vec;
+        vec.reserve(j.size());
         for (const auto& elem : j) {
             vec.push_back(jsonToGqlValue(elem));
         }
-        return std::make_shared<Value>(vec);
+        return Value::list(std::move(vec));
     } else if (j.is_object()) {
-        std::map<std::string, std::shared_ptr<Value>> obj;
+        ValueMap obj;
         for (const auto& [key, val] : j.items()) {
             obj[key] = jsonToGqlValue(val);
         }
-        return std::make_shared<Value>(obj);
+        return Value::object(std::move(obj));
     }
     return Value::null();
 }
@@ -111,16 +116,16 @@ nlohmann::json gqlValueToJson(const std::shared_ptr<Value>& v) {
     
     if (v->isNull()) {
         return nlohmann::json();
-    } else if (v->isBoolean()) {
-        return nlohmann::json(v->asBoolean());
+    } else if (v->isBool()) {
+        return nlohmann::json(v->asBool());
     } else if (v->isInt()) {
         return nlohmann::json(v->asInt());
     } else if (v->isFloat()) {
         return nlohmann::json(v->asFloat());
-    } else if (v->isString()) {
+    } else if (v->isString() || v->isEnum() || v->isVariableRef()) {
         return nlohmann::json(v->asString());
-    } else if (v->isArray()) {
-        auto arr = v->asArray();
+    } else if (v->isList()) {
+        const auto& arr = v->asList();
         nlohmann::json jsonArray = nlohmann::json::array();
         for (const auto& elem : arr) {
             jsonArray.push_back(gqlValueToJson(elem));
@@ -140,7 +145,8 @@ nlohmann::json gqlValueToJson(const std::shared_ptr<Value>& v) {
 
 ExecutionContext::Resolver GraphQLAqlResolverFactory::makeAqlQueryResolver(
     const Document& doc) const {
-    ::themis::query::QueryEngine* eng = engine_;
+    (void)doc;
+    ::themis::QueryEngine* eng = engine_;
     const ::themis::query::QueryResourceLimits limits = 
         GraphQLComplexityEstimator::limitsFor(
             GraphQLComplexityEstimator::estimate(
@@ -156,7 +162,9 @@ ExecutionContext::Resolver GraphQLAqlResolverFactory::makeAqlQueryResolver(
         }
         
         try {
-            auto result = std::make_shared<Value>("OK");
+            (void)field;
+            (void)limits;
+            auto result = Value::string("OK");
             return result;
         } catch (...) {
             return Value::null();
@@ -175,7 +183,7 @@ ExecutionContext::Resolver GraphQLAqlResolverFactory::makeApiVersionResolver() {
         const std::shared_ptr<Value>& /*parent*/,
         const ExecutionContext& /*ctx*/) -> std::shared_ptr<Value>
     {
-        return std::make_shared<Value>(std::string("1.8.0-rc1"));
+        return Value::string("1.8.0-rc1");
     };
 }
 
@@ -185,29 +193,29 @@ ExecutionContext::Resolver GraphQLAqlResolverFactory::makeSchemaVersionResolver(
         const std::shared_ptr<Value>& /*parent*/,
         const ExecutionContext& /*ctx*/) -> std::shared_ptr<Value>
     {
-        return std::make_shared<Value>(std::string("2.0.0"));
+        return Value::string("2.0.0");
     };
 }
 
 void GraphQLAqlResolverFactory::injectResolvers(
     ExecutionContext& ctx,
     const Document& doc,
-    ::themis::query::QueryEngine* eng) {
+    ::themis::QueryEngine* eng) {
     GraphQLAqlResolverFactory factory(eng);
+    ctx.resolvers["aql"] = factory.makeAqlQueryResolver(doc);
+    ctx.resolvers["aqlMutation"] = factory.makeAqlMutationResolver(doc);
+    ctx.resolvers["apiVersion"] = makeApiVersionResolver();
+    ctx.resolvers["schemaVersion"] = makeSchemaVersionResolver();
 }
 
 std::string GraphQLAqlResolverFactory::extractStringArg(
     const Field& field,
     const std::string& argName) const {
-    return "";
-}
-
-::tl::expected<nlohmann::json, ::themis::query::QueryError> 
-GraphQLAqlResolverFactory::executeAqlWithLimits(
-    const std::string& aql,
-    ::themis::query::QueryEngine& eng,
-    const ::themis::query::QueryResourceLimits& limits) const {
-    return nlohmann::json::object();
+    auto it = field.arguments.find(argName);
+    if (it == field.arguments.end() || !it->second || !it->second->isString()) {
+        return {};
+    }
+    return it->second->asString();
 }
 
 } // namespace graphql

@@ -85,13 +85,13 @@ public:
                                 .finish_reason = "stop"};
     }
 
-    size_t estimateTokens(const std::string& text) {
+    size_t estimateTokens(const std::string& text) const override {
         return text.size() / 4;
     }
 
-    std::string getProviderName() { return provider_name_; }
+    std::string getProviderName() const override { return provider_name_; }
 
-    bool isReady() { return true; }
+    bool isReady() const override { return true; }
 
     // Test utilities
     void setFailure(bool should_fail, const std::string& reason = "mock failure") {
@@ -108,6 +108,22 @@ private:
     int call_count_;
     bool should_fail_;
     std::string failure_reason_;
+};
+
+class MockParserService : public AQLParserService {
+public:
+    ParseResult parse(const std::string& aql_query) override {
+        (void)aql_query;
+        ParseResult result;
+        result.success = true;
+        return result;
+    }
+
+    std::string version() const override { return "mock-parser-1.0"; }
+
+    bool supportsFeature(const std::string& feature) const override {
+        return feature != "mutations";
+    }
 };
 
 // ============================================================================
@@ -213,7 +229,7 @@ TEST_F(LLMValidationPipelinePhase04Test, LLMClientDisablingWithNullptr) {
 // ============================================================================
 
 TEST_F(LLMValidationPipelinePhase04Test, LLMClientGenerateAQLInvocation) {
-    // Phase 0.4 Task: LLMValidationPipeline::generateAQL() invokes LLM client
+    // Phase 0.4 Task: execute() invokes LLM client internally
     auto mock_client = std::make_shared<MockLLMClient>();
     mock_client->resetCallCount();
 
@@ -221,19 +237,9 @@ TEST_F(LLMValidationPipelinePhase04Test, LLMClientGenerateAQLInvocation) {
     auto pipeline = handler_->getValidationPipeline();
     ASSERT_NE(pipeline, nullptr);
 
-    // Call generateAQL through pipeline
-    GenerationOptions opts;
-    opts.max_tokens = 512;
-    opts.temperature = 0.5f;
-
-    try {
-        auto result = pipeline->generateAQL("Find all users", "schema context");
-        // Verify mock client was called
-        EXPECT_GT(mock_client->getCallCount(), 0);
-    } catch (const std::exception& e) {
-        // If pipeline throws, that's okay for this phase
-        SPDLOG_INFO("Pipeline threw (expected during phase): {}", e.what());
-    }
+    auto result = pipeline->execute("Find all users", "schema context");
+    (void)result;
+    EXPECT_GT(mock_client->getCallCount(), 0);
 }
 
 TEST_F(LLMValidationPipelinePhase04Test, LLMClientErrorHandling) {
@@ -248,7 +254,7 @@ TEST_F(LLMValidationPipelinePhase04Test, LLMClientErrorHandling) {
     // Call execute() instead of private generateAQL()
     auto result = pipeline->execute("Find users", "schema");
     // Expect error result due to LLM failure
-    EXPECT_FALSE(result.success);
+    EXPECT_NE(result.status, LLMValidationStatus::SUCCESS);
     EXPECT_NE(result.error_message.find("LLM"), std::string::npos);
 }
 
@@ -317,7 +323,7 @@ TEST_F(LLMValidationPipelinePhase04Test, ValidationConfigPersistsWithClientInjec
 
 TEST_F(LLMValidationPipelinePhase04Test, ParserAndLLMClientCoexistence) {
     // Phase 0.4 Task: Both parser service and LLM client can coexist
-    auto parser_service = std::make_shared<AQLParserService>();
+    auto parser_service = std::make_shared<MockParserService>();
     auto llm_client = std::make_shared<MockLLMClient>();
 
     handler_->setParserService(parser_service);
@@ -351,4 +357,3 @@ TEST_F(LLMValidationPipelinePhase04Test, MultipleClientReplacements) {
     EXPECT_EQ(handler_->getLLMClient()->getProviderName(), "client-4");
 }
 
-}  // namespace

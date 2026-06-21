@@ -26,8 +26,8 @@
 #include <nlohmann/json.hpp>
 
 namespace themis {
-// Forward declaration – avoids pulling in the full QueryEngine header here.
-class QueryEngine;
+namespace query { class QueryEngine; }
+using QueryEngine = query::QueryEngine;
 namespace server {
 
 namespace beast = boost::beast;

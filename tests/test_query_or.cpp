@@ -14,6 +14,7 @@
 #include <filesystem>
 
 using namespace themis;
+using namespace themis::query;
 
 class QueryOrTest : public ::testing::Test {
 protected:

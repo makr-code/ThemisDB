@@ -78,7 +78,7 @@ class ProvenanceTracker::Impl {
 public:
     explicit Impl(const ProvenanceTrackerConfig& config,
                   const std::string& db_connection,
-                  QueryEngine* engine)
+                  query::QueryEngine* engine)
         : config_(config)
         , db_connection_(db_connection)
         , query_engine_(engine) {
@@ -337,7 +337,7 @@ public:
     }
 
     // -------------------------------------------------------------------------
-    void setQueryEngine(QueryEngine* engine) {
+    void setQueryEngine(query::QueryEngine* engine) {
         query_engine_ = engine;
     }
 
@@ -349,7 +349,7 @@ public:
 private:
     ProvenanceTrackerConfig                           config_;
     std::string                                       db_connection_;
-    QueryEngine*                                      query_engine_;   ///< non-owning; nullptr = offline/test
+    query::QueryEngine*                               query_engine_;   ///< non-owning; nullptr = offline/test
     std::unordered_map<std::string, ProvenanceRecord> store_;
     std::vector<std::string>                          audit_log_;
 
@@ -394,7 +394,7 @@ private:
 // ============================================================================
 ProvenanceTracker::ProvenanceTracker(const ProvenanceTrackerConfig& config,
                                      const std::string& db_connection,
-                                     QueryEngine* engine)
+                                     query::QueryEngine* engine)
     : impl_(std::make_unique<Impl>(config, db_connection, engine)) {}
 
 ProvenanceTracker::~ProvenanceTracker() = default;
@@ -419,7 +419,7 @@ ProvenanceRecord ProvenanceTracker::getRecord(const std::string& sample_id) cons
     return impl_->getRecord(sample_id);
 }
 
-void ProvenanceTracker::setQueryEngine(QueryEngine* engine) {
+void ProvenanceTracker::setQueryEngine(query::QueryEngine* engine) {
     impl_->setQueryEngine(engine);
 }
 
