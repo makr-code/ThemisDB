@@ -15,7 +15,6 @@ set(ETHICS_AI_SOURCES
     argument_store.cpp
     rag_context_engine.cpp
     discourse_engine.cpp
-    ethics_evaluator.cpp
     chain_visualizer.cpp
     ethics_profile_registry.cpp
     ethics_selection_router.cpp

@@ -27,7 +27,7 @@
 
 #include <gtest/gtest.h>
 
-#include "ethics_profile_registry.h"
+#include "../../src/ethics_ai/ethics_profile_registry.h"
 #include "ethics_ai/ethics_ai_types.h"
 
 #include <chrono>
@@ -42,6 +42,10 @@ namespace fs = std::filesystem;
 // ─────────────────────────────────────────────────────────────────────────────
 // Test fixture: writes minimal YAML files to a temp directory
 // ─────────────────────────────────────────────────────────────────────────────
+
+#ifndef THEMIS_PHILOSOPHIES_DIR
+#define THEMIS_PHILOSOPHIES_DIR ""
+#endif
 
 static const char* kPhiloDir =
     THEMIS_PHILOSOPHIES_DIR;  // defined by CMake

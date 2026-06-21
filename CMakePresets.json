@@ -14,7 +14,7 @@
         "CMAKE_EXPORT_COMPILE_COMMANDS": "ON",
         "CMAKE_SUPPRESS_DEVELOPER_WARNINGS": "ON",
         "THEMIS_ENABLE_COMPILER_CACHE": "ON",
-        "THEMIS_COMPILER_CACHE_PROGRAM": "",
+        "THEMIS_COMPILER_CACHE_PROGRAM": "sccache",
         "THEMIS_BUILD_TESTS": "ON",
         "THEMIS_BUILD_BENCHMARKS": "OFF",
         "THEMIS_BUILD_CHIMERA": "OFF",
@@ -37,6 +37,7 @@
       "hidden": true,
       "inherits": "vcpkg-base",
       "environment": {
+        "CMAKE_BUILD_PARALLEL_LEVEL": "16",
         "VCPKG_POWERSHELL_PATH": "$env{LOCALAPPDATA}/Microsoft/WindowsApps/pwsh.exe",
         "Z_VCPKG_POWERSHELL_PATH": "$env{LOCALAPPDATA}/Microsoft/WindowsApps/pwsh.exe",
         "Z_VCPKG_PWSH_PATH": "$env{LOCALAPPDATA}/Microsoft/WindowsApps/pwsh.exe",

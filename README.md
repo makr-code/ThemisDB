@@ -136,15 +136,20 @@ ThemisDB is available in five editions, selected at CMake build time:
 
 | Edition | Use case | Branch | Build flag |
 |---|---|---|---|
-| **MINIMAL** | Embedded / resource-constrained | `main` | `-DTHEMIS_EDITION=MINIMAL` |
-| **COMMUNITY** | Open-source, self-hosted | `main` | `-DTHEMIS_EDITION=COMMUNITY` |
+| **MINIMAL** | Embedded / resource-constrained | `minimal` | `-DTHEMIS_EDITION=MINIMAL` |
+| **COMMUNITY** | Open-source, self-hosted | `community` | `-DTHEMIS_EDITION=COMMUNITY` |
 | **ENTERPRISE** | Commercial, SLA-backed | `enterprise` | `-DTHEMIS_EDITION=ENTERPRISE` |
-| **MILITARY** | Hardened / air-gapped | `enterprise` | `-DTHEMIS_EDITION=MILITARY` |
+| **MILITARY** | Hardened / air-gapped | `military` | `-DTHEMIS_EDITION=MILITARY` |
 | **HYPERSCALER** | Cloud/OEM, Kubernetes operator | `hyperscaler` | `-DTHEMIS_EDITION=HYPERSCALER` |
 
 Feature sets are nested: MINIMAL ⊂ COMMUNITY ⊂ ENTERPRISE ⊂ HYPERSCALER.
 
 See [RELEASE_STRATEGY.md](RELEASE_STRATEGY.md) for the full feature comparison and edition matrix.
+
+GitHub workflow and branch governance references:
+- [BRANCHING_STRATEGY.md](BRANCHING_STRATEGY.md) - canonical branch model (`develop`, `minimal`, `community`, `enterprise`, `hyperscaler`, `military`)
+- [.github/GOVERNANCE.md](.github/GOVERNANCE.md) - labels, milestones, and issue/PR metadata standards
+- [.github/pull_request_template.md](.github/pull_request_template.md) - required PR evidence sections
 
 ---
 
@@ -253,5 +258,5 @@ ThemisDB is released under the [MIT License](LICENSE).
 > Per-module documentation lives in `src/<module>/README.md` and `include/<module>/`. This section is a navigation index.
 
 ---
-Zuletzt geprueft (Root-Sync): 2026-05-26
+Zuletzt geprueft (Root-Sync): 2026-06-21
 

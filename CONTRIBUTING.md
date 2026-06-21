@@ -289,15 +289,15 @@ choco install llvm cppcheck gitleaks
 
 > [!IMPORTANT]
 > **ThemisDB uses a Git Flow branching strategy:**
-> - `main` = Production-ready release branch (protected)
 > - `develop` = Active development branch (integration)
 > - All features branch from `develop` and merge back to `develop`
+> - Release lanes are edition-specific: `minimal`, `community`, `enterprise`, `hyperscaler`, `military`
 > - See [docs/ci-cd/branching-release-history/BRANCHING_STRATEGY.md](docs/ci-cd/branching-release-history/BRANCHING_STRATEGY.md) for complete details
 
 ### 1. Create a Feature Branch
 
 ```bash
-# IMPORTANT: Always branch from develop (not main)
+# IMPORTANT: Always branch from develop
 git checkout develop
 git pull origin develop
 git checkout -b feature/your-feature-name
@@ -372,7 +372,7 @@ git push origin feature/your-feature-name
 ```
 
 **Create Pull Request:**
-- **Base Branch**: `develop` (not `main`!)
+- **Base Branch**: `develop`
 - **Compare Branch**: `feature/your-feature-name`
 - Add clear description of changes
 - Link related issues
@@ -385,15 +385,15 @@ git push origin feature/your-feature-name
 
 > [!IMPORTANT]
 > **ThemisDB uses a Git Flow branching strategy:**
-> - 🎯 `main` = Production-ready release branch (protected)
 > - 🚧 `develop` = Active development branch (integration)  
 > - 🌿 All features branch from `develop` and merge back to `develop`
+> - 🚢 Edition release lanes: `minimal`, `community`, `enterprise`, `hyperscaler`, `military`
 > - 📖 See [docs/ci-cd/branching-release-history/BRANCHING_STRATEGY.md](docs/ci-cd/branching-release-history/BRANCHING_STRATEGY.md) for complete details
 
 ### 1️⃣ Create a Feature Branch
 
 ```bash
-# IMPORTANT: Always branch from develop (not main)
+# IMPORTANT: Always branch from develop
 git checkout develop
 git pull origin develop
 git checkout -b feature/your-feature-name
@@ -519,7 +519,7 @@ git push origin feature/your-feature-name
 ```
 
 > [!NOTE]
-> **Target Branch**: Pull requests should target the `develop` branch (not `main`!) unless you are working on a hotfix for production.
+> **Target Branch**: Pull requests should target `develop` unless you are working on an edition-specific release/hotfix.
 
 **When creating your PR:**
 1. Set **Base** to `develop`
@@ -930,8 +930,8 @@ Reviewers must treat this as a hard blocker policy:
 |------------|--------------|---------|
 | **feature/** → develop | **Squash and merge** ✅ | Keeps develop history clean, one commit per feature |
 | **bugfix/** → develop | **Squash and merge** ✅ | Keeps develop history clean, one commit per fix |
-| **release/** → main | **Merge commit** | Preserves full release history and commit metadata |
-| **hotfix/** → main | **Merge commit** | Preserves full hotfix history for audit purposes |
+| **release/** → edition lane | **Merge commit** | Preserves full release history and commit metadata |
+| **hotfix/** → edition lane | **Merge commit** | Preserves full hotfix history for audit purposes |
 
 **Why squash merge for features/bugfixes?**
 - ✅ Cleaner, more readable git history
@@ -1210,23 +1210,21 @@ ThemisDB uses a **tag-based release strategy** with semantic versioning. Release
 ### Branching Strategy Overview
 
 > [!IMPORTANT]
-> **ThemisDB Git Flow:**
-> - `develop` = Default branch for active development (integration)
-> - `main` = Protected production branch (releases only)
-> - `feature/*` = Feature branches (from/to develop)
-> - `bugfix/*` = Bug fix branches (from/to develop)
-> - `release/*` = Release preparation branches (from develop to main)
-> - `hotfix/*` = Emergency fixes (from/to main, then back to develop)
+> **Canonical branch model:**
+> - `develop` = default integration branch for feature and bugfix work
+> - `minimal`, `community`, `enterprise`, `hyperscaler`, `military` = protected edition release lanes
+> - Legacy names `main` and `millitary` are historical only and must not be used for new PR targets
+> - See [BRANCHING_STRATEGY.md](BRANCHING_STRATEGY.md) and [RELEASE_STRATEGY.md](RELEASE_STRATEGY.md) for normative release governance
 
 ### Release Flow
 
 ```
-feature branches → develop → release branch → main → tag → GitHub Release
-                      ↑                         ↓
-                      └─────── merge back ──────┘
+feature/bugfix branches -> develop -> release/<edition>/vX.Y.Z -> <edition lane> -> tag -> GitHub Release
+                              ^                                              |
+                              +-------------- back-merge/cherry-pick --------+
 ```
 
-### Creating a Release
+### Creating an Edition Release
 
 <details>
 <summary><b>1️⃣ Prepare Release Branch</b></summary>
@@ -1234,75 +1232,57 @@ feature branches → develop → release branch → main → tag → GitHub Rele
 ```bash
 # Branch from develop for release preparation
 git checkout develop
-git pull origin develop
-git checkout -b release/v1.4.0
+git pull --ff-only origin develop
+git checkout -b release/community/v1.4.0
 
-# Update VERSION file
-echo "1.4.0" > VERSION
+# Update version and release notes
+# VERSION -> 1.4.0
+# CHANGELOG.md -> add notes under [1.4.0] - YYYY-MM-DD
 
-# Update CHANGELOG.md
-# Add release notes under ## [1.4.0] - YYYY-MM-DD
-
-# Commit version updates
 git add VERSION CHANGELOG.md
-git commit -m "chore(release): Prepare version 1.4.0"
-git push origin release/v1.4.0
+git commit -m "chore(release): prepare community v1.4.0"
+git push origin release/community/v1.4.0
 ```
 
 </details>
 
 <details>
-<summary><b>2️⃣ Create PR to Main</b></summary>
+<summary><b>2️⃣ Create PR to Edition Lane</b></summary>
 
-1. Create a Pull Request from `release/v1.4.0` to `main`
-2. PR title: "Release v1.4.0"
-3. **Required checks must pass:**
-   - ✅ Build & Test (Ubuntu, Windows, macOS)
-   - ✅ Security scan
-   - ✅ Code quality checks
-4. Get approval from maintainer
-5. Merge using **merge commit** (not squash)
+1. Create a Pull Request from `release/community/v1.4.0` to `community`
+2. Ensure required checks pass
+3. Get maintainer approval
+4. Merge using a merge commit for release provenance
 
 </details>
 
 <details>
-<summary><b>3️⃣ Create and Push Tag</b></summary>
+<summary><b>3️⃣ Tag from Edition Lane</b></summary>
 
 ```bash
-# After PR is merged to main
-git checkout main
-git pull origin main
+git checkout community
+git pull --ff-only origin community
 
-# Create annotated tag with release notes
-git tag -a v1.4.0 -m "Release v1.4.0
-
-- Feature 1: Description
-- Feature 2: Description
-- Bug fix: Description
-
-See CHANGELOG.md for full details."
-
-# Push tag to trigger release workflow
+# Community tag example
+git tag -a v1.4.0 -m "ThemisDB Community v1.4.0"
 git push origin v1.4.0
 ```
 
-> [!NOTE]
-> The tag push **automatically triggers** the release workflow which:
-> - Builds release binaries for Ubuntu, Windows, and macOS
-> - Creates a GitHub Release
-> - Uploads artifacts (.tar.gz, .deb, .zip)
-> - Generates release notes from commits and CHANGELOG.md
+Edition tag examples:
+- `minimal-v1.4.0`
+- `enterprise-v1.4.0`
+- `hyperscaler-v1.4.0`
+- `military-v1.4.0`
 
 </details>
 
 <details>
-<summary><b>4️⃣ Merge Back to Develop</b></summary>
+<summary><b>4️⃣ Back-Merge to Develop</b></summary>
 
 ```bash
-# Keep develop in sync with main
 git checkout develop
-git pull origin develop
-git merge main -m "chore: Merge release v1.4.0 back to develop"
+git pull --ff-only origin develop
+git merge community -m "chore: merge community v1.4.0 back to develop"
 git push origin develop
 ```
 
@@ -1339,9 +1319,9 @@ For critical production issues that need immediate release:
 <summary><b>Hotfix Workflow</b></summary>
 
 ```bash
-# 1. Create hotfix branch from main
-git checkout main
-git pull origin main
+# 1. Create hotfix branch from affected edition lane (example: community)
+git checkout community
+git pull origin community
 git checkout -b hotfix/v1.4.1
 
 # 2. Fix the issue
@@ -1356,19 +1336,19 @@ git add .
 git commit -m "fix: Critical security issue in authentication"
 git push origin hotfix/v1.4.1
 
-# 5. Create PR to main (fast-track approval)
+# 5. Create PR to affected edition lane (fast-track approval)
 # Merge after required checks pass
 
 # 6. Tag the hotfix release
-git checkout main
-git pull origin main
+git checkout community
+git pull origin community
 git tag -a v1.4.1 -m "Hotfix v1.4.1: Security patch"
 git push origin v1.4.1
 
 # 7. Merge back to develop
 git checkout develop
 git pull origin develop
-git merge main -m "chore: Merge hotfix v1.4.1 to develop"
+git merge community -m "chore: Merge hotfix v1.4.1 to develop"
 git push origin develop
 ```
 
@@ -1403,7 +1383,7 @@ Use this checklist when preparing a release:
 - [ ] Security scan passed
 - [ ] Release notes drafted
 - [ ] Release branch created from develop
-- [ ] PR to main created and approved
+- [ ] PR to target edition lane created and approved
 - [ ] Tag created and pushed
 - [ ] GitHub Release published (automatic)
 - [ ] Changes merged back to develop
@@ -1414,7 +1394,7 @@ Use this checklist when preparing a release:
 | Branch | Required Checks | Optional Checks |
 |--------|----------------|-----------------|
 | **develop** | Ubuntu build & test | Windows, macOS |
-| **main** | All platforms (Ubuntu, Windows, macOS) | Security scan |
+| **edition lanes** (`minimal`/`community`/`enterprise`/`hyperscaler`/`military`) | All platforms (Ubuntu, Windows, macOS) | Security scan |
 
 ### Automated Release Workflow
 
@@ -1538,5 +1518,5 @@ Use provided scripts to prepare new releases:
 </div>
 
 ---
-Zuletzt geprueft (Root-Sync): 2026-05-26
+Zuletzt geprueft (Root-Sync): 2026-06-21
 

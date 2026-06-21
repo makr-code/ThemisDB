@@ -32,6 +32,11 @@
 #include <atomic>
 #include <cstdint>
 
+#ifdef _WIN32
+#include <winsock2.h>
+#include <ws2tcpip.h>
+#endif
+
 #include <curl/curl.h>
 
 #ifdef THEMIS_HAS_PROMETHEUS

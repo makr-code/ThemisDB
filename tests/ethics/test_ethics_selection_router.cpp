@@ -30,7 +30,7 @@
 #include <gtest/gtest.h>
 
 #include "ethics_ai/ethics_selection_router.h"
-#include "ethics_profile_registry.h"
+#include "../../src/ethics_ai/ethics_profile_registry.h"
 #include "ethics_ai/ethics_ai_types.h"
 
 #include <chrono>
@@ -47,6 +47,13 @@ namespace fs = std::filesystem;
 // ─────────────────────────────────────────────────────────────────────────────
 // Taxonomy YAML path injected via CMake
 // ─────────────────────────────────────────────────────────────────────────────
+#ifndef THEMIS_ETHICS_TAXONOMY_PATH
+#define THEMIS_ETHICS_TAXONOMY_PATH ""
+#endif
+#ifndef THEMIS_PHILOSOPHIES_DIR
+#define THEMIS_PHILOSOPHIES_DIR ""
+#endif
+
 static const char* kTaxonomyPath = THEMIS_ETHICS_TAXONOMY_PATH;
 static const char* kPhiloDir     = THEMIS_PHILOSOPHIES_DIR;
 

@@ -17,6 +17,12 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from gs3_base_scanner import BaseGapScanner, Gap, ScannerPriority
 from scanners.gs3_step01_braces_check import BracesCheckScanner
+from scanners.gs3_step01_namespace_unity_check import NamespaceUnityCheckScanner
+from scanners.gs3_step01_ai_simulation_stub_leak import SimulationStubLeakScanner
+from scanners.gs3_step01_ai_todo_productionlogic import TodoProductionlogicScanner
+from scanners.gs3_step01_ai_error_handling_consistency import ErrorHandlingConsistencyScanner
+from scanners.gs3_step01_ai_llm_prompt_injection import LlmPromptInjectionScanner
+from scanners.gs3_step01_ai_header_drift import HeaderDriftScanner
 from scanners.gs3_step01_error_handling import ErrorHandlingScanner
 from scanners.gs3_step01_memory_safety_improved import MemorySafetyScannerImproved as MemorySafetyScanner
 from scanners.gs3_step01_raii import RAIIScanner as ModernRAIIScanner
@@ -101,6 +107,12 @@ class UniformFullScanner(BaseGapScanner):
         # Modern phase 1 scanners (uniform local implementation)
         modern_phase1 = [
             ("phase1_braces_check", BracesCheckScanner()),
+            ("phase1_namespace_unity_check", NamespaceUnityCheckScanner()),
+            ("phase1_ai_simulation_stub_leak", SimulationStubLeakScanner()),
+            ("phase1_ai_todo_productionlogic", TodoProductionlogicScanner()),
+            ("phase1_ai_error_handling_consistency", ErrorHandlingConsistencyScanner()),
+            ("phase1_ai_llm_prompt_injection", LlmPromptInjectionScanner()),
+            ("phase1_ai_header_drift", HeaderDriftScanner()),
             ("phase1_memory_safety", MemorySafetyScanner()),
             ("phase1_error_handling", ErrorHandlingScanner()),
             ("phase1_thread_safety", ThreadSafetyScanner()),
@@ -324,10 +336,12 @@ class UniformFullScanner(BaseGapScanner):
             severity=severity,
             confidence=self._confidence_for(severity),
             description=self._pick(item_dict, ["description", "reason", "issue", "pattern"], default=f"{phase_key} finding"),
-            remediation="Review finding and apply recommended module-specific fix.",
+            remediation=self._pick(item_dict, ["remediation"], default="Review finding and apply recommended module-specific fix."),
             context=self._pick(item_dict, ["context", "line_content", "snippet"], default=""),
             scanner=f"Uniform::{phase_key}",
             step=phase,
+            impact_level=self._pick(item_dict, ["impact_level"], default=None),
+            subsystem=self._pick(item_dict, ["subsystem"], default=None),
         )
 
     def _normalize_file_path(self, file_path: str) -> str:

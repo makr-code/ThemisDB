@@ -182,13 +182,31 @@ TEST_F(EthicsAwareConfidenceDetectorTest, DetectConfidenceWithTokenData) {
     std::string text = "This might be the answer.";
     
     // Mock token confidence data
-    std::vector<TokenConfidence> tokens = {
-        {"this", 0.9f, 0.1f, 0},
-        {"might", 0.8f, 0.2f, 1},
-        {"be", 0.95f, 0.05f, 2},
-        {"the", 0.92f, 0.08f, 3},
-        {"answer", 0.85f, 0.15f, 4}
-    };
+    std::vector<TokenConfidence> tokens(5);
+    tokens[0].token = "this";
+    tokens[0].probability = 0.9f;
+    tokens[0].entropy = 0.1f;
+    tokens[0].position = 0;
+
+    tokens[1].token = "might";
+    tokens[1].probability = 0.8f;
+    tokens[1].entropy = 0.2f;
+    tokens[1].position = 1;
+
+    tokens[2].token = "be";
+    tokens[2].probability = 0.95f;
+    tokens[2].entropy = 0.05f;
+    tokens[2].position = 2;
+
+    tokens[3].token = "the";
+    tokens[3].probability = 0.92f;
+    tokens[3].entropy = 0.08f;
+    tokens[3].position = 3;
+
+    tokens[4].token = "answer";
+    tokens[4].probability = 0.85f;
+    tokens[4].entropy = 0.15f;
+    tokens[4].position = 4;
     
     auto result = detector_->detectConfidence(text, tokens);
     

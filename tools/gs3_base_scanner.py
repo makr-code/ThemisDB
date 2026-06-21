@@ -46,6 +46,8 @@ class Gap:
     context: Optional[str] = None       # Code context (optional)
     scanner: Optional[str] = None       # Scanner that detected (populated by orchestrator)
     step: Optional[int] = None          # Step number that detected (0-4)
+    impact_level: Optional[str] = None  # ThemisDB impact: CRITICAL/HIGH/MEDIUM/LOW/THIRD_PARTY
+    subsystem: Optional[str] = None     # Module affected: core, llm, graph, utils, etc.
     
     def __hash__(self):
         """Enable deduplication by (file, line, type)"""
@@ -194,6 +196,61 @@ class BaseGapScanner(ABC):
                     return True
         
         return False
+    
+    def _classify_impact(self, filepath: str) -> Tuple[str, str]:
+        """
+        Classify file by ThemisDB module impact level.
+        
+        Args:
+            filepath: File path to classify
+            
+        Returns:
+            (impact_level, subsystem) where impact_level is one of:
+            - CRITICAL: Core, auth, security, distributed consensus
+            - HIGH: LLM, networking, graph, model serving
+            - MEDIUM: Monitoring, multi-GPU, MQTT, module system
+            - LOW: Utilities, helpers, formatting, logging
+            - THIRD_PARTY: External dependencies
+        """
+        from scanners.gs3_impact_classifier import ImpactClassifier
+        return ImpactClassifier.classify(filepath)
+    
+    def _add_gap(self, gaps: List[Gap], filepath: str, line: int, gap_type: str, 
+                 severity: str, confidence: float, description: str, 
+                 remediation: str, context: Optional[str] = None) -> Gap:
+        """
+        Create and add a gap with automatic impact classification.
+        
+        Args:
+            gaps: List to add gap to
+            filepath: File path
+            line: Line number
+            gap_type: Gap type identifier
+            severity: CRITICAL/HIGH/MEDIUM/LOW/INFO
+            confidence: Detection confidence (0.0-1.0)
+            description: Human-readable description
+            remediation: Suggested fix
+            context: Optional code context
+            
+        Returns:
+            Created Gap object (now with impact_level and subsystem populated)
+        """
+        impact_level, subsystem = self._classify_impact(filepath)
+        
+        gap = Gap(
+            file=filepath,
+            line=line,
+            type=gap_type,
+            severity=severity,
+            confidence=confidence,
+            description=description,
+            remediation=remediation,
+            context=context,
+            impact_level=impact_level,
+            subsystem=subsystem
+        )
+        gaps.append(gap)
+        return gap
     
     def deduplicate(self, gaps: List[Gap]) -> List[Gap]:
         """Remove duplicate gaps by (file, line, type)"""
