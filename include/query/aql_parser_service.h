@@ -141,7 +141,7 @@ public:
         bool enable_geospatial = true
     );
     
-    ~AQLParserServiceImpl() override = default;
+    ~AQLParserServiceImpl() override;
     
     ParseResult parse(const std::string& aql_query) override;
     

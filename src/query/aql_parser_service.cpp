@@ -44,6 +44,8 @@ AQLParserServiceImpl::AQLParserServiceImpl(
     bool enable_geospatial)
     : impl_(std::make_unique<Impl>(enable_mutations, enable_ddl, enable_geospatial)) {}
 
+AQLParserServiceImpl::~AQLParserServiceImpl() = default;
+
 ParseResult AQLParserServiceImpl::parse(const std::string& aql_query) {
     ParseResult result;
     

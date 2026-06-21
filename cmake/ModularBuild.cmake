@@ -545,6 +545,9 @@ if(THEMIS_ENABLE_IO_URING)
     list(APPEND THEMIS_STORAGE_SOURCES ../src/performance/phase4/io_uring_zero_copy.cpp)
 endif()
 
+# Vector and graph indexing (storage module - basic utilities only)
+list(APPEND THEMIS_STORAGE_SOURCES)
+
 set(THEMIS_QUERY_SOURCES
     # Query engine
     ../src/query/query_engine.cpp
@@ -850,17 +853,18 @@ set(THEMIS_SECURITY_SOURCES
     # Security initialization
     ../src/core/security_initialization.cpp
     
-    # Encryption and vector/graph index helpers (use storage + security features)
+    # Encryption and field helpers (use storage + security features)
     ../src/security/field_encryption.cpp
     ../src/security/encrypted_field.cpp
     ../src/storage/index_maintenance.cpp
     ../src/storage/index_analyzer.cpp
     ../src/index/vector_index.cpp
     ../src/index/graph_index.cpp
-    ../src/index/approximate_radius_search.cpp
-    ../src/index/multi_vector_search.cpp
     ../src/index/index_manager.cpp
     ../src/index/vector_auto_buffer.cpp
+    ../src/index/gnn_embeddings.cpp
+    ../src/index/approximate_radius_search.cpp
+    ../src/index/multi_vector_search.cpp
     # Storage-backed PII and vector index helpers
     ../src/utils/pii_pseudonymizer.cpp
     # ../src/cache/embedding_cache.cpp  # Temporarily disabled - requires mimalloc
@@ -1699,6 +1703,8 @@ set(THEMIS_NETWORK_SOURCES
     
     # Network protocol server (themis::network – backward-compatible implementation)
     ../src/network/wire_protocol_server.cpp
+        # New wire protocol implementation (themis::wire namespace, protobuf-aware)
+        ../src/themis/wire_protocol_server.cpp
     ../src/network/qos_manager.cpp
     ../src/network/raft_load_balancer.cpp
     ../src/network/wire_protocol_helpers.cpp

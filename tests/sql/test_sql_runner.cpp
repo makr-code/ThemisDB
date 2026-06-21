@@ -23,6 +23,7 @@
 #include "utils/error_registry.h"
 
 using namespace themis;
+using namespace themis::query;
 
 // ─── helpers ────────────────────────────────────────────────────────────────
 

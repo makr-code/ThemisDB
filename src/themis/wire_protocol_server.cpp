@@ -48,6 +48,7 @@
 #include <stdexcept>
 
 #include <boost/asio.hpp>
+#include <nlohmann/json.hpp>
 
 #ifdef _WIN32
 #  include <winsock2.h>
@@ -59,6 +60,7 @@ namespace themis {
 namespace wire {
 
 namespace net = boost::asio;
+using json       = nlohmann::json;
 using tcp        = net::ip::tcp;
 using error_code = boost::system::error_code;
 
@@ -248,6 +250,7 @@ static std::string makeSessionId(const tcp::socket& socket) {
     return ss.str();
 }
 
+#if THEMIS_WIRE_V1_PB_HEADER_FOUND
 json protoValueToJson(const v1::Value& value) {
     switch (value.kind_case()) {
         case v1::Value::kStringValue:
@@ -288,6 +291,7 @@ json protoMapToJson(const MapLike& values) {
     }
     return result;
 }
+#endif
 
 /// Sanitize a user-supplied string for safe inclusion in error messages.
 /// Replaces control characters (< 0x20) and DEL (0x7F) with '?' to prevent

@@ -1975,6 +1975,7 @@ endif()
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_themis_wire_protocol_server.cpp")
     add_executable(test_themis_wire_protocol_server_focused
         test_themis_wire_protocol_server.cpp
+        ../src/themis/wire_protocol_server.cpp
     )
 
     target_include_directories(test_themis_wire_protocol_server_focused PRIVATE
@@ -1986,6 +1987,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_themis_wire_protocol_server.cpp")
     target_link_libraries(test_themis_wire_protocol_server_focused PRIVATE
         ${TEST_LIBS}
         themis_core
+        themis_network
         Threads::Threads
     )
 
@@ -2700,9 +2702,11 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/graph/test_graph_distributed.cpp")
 
     set_target_properties(test_graph_distributed PROPERTIES
         RUNTIME_OUTPUT_DIRECTORY "${_GRAPH_DISTRIBUTED_RUNTIME_DIR}"
+        RUNTIME_OUTPUT_DIRECTORY_RELEASE "${_GRAPH_DISTRIBUTED_RUNTIME_DIR}"
         PDB_OUTPUT_DIRECTORY "${_GRAPH_DISTRIBUTED_RUNTIME_DIR}"
+        PDB_OUTPUT_DIRECTORY_RELEASE "${_GRAPH_DISTRIBUTED_RUNTIME_DIR}"
         ARCHIVE_OUTPUT_DIRECTORY "${_GRAPH_DISTRIBUTED_RUNTIME_DIR}"
-        OUTPUT_NAME "test_graph_distributed_run"
+        ARCHIVE_OUTPUT_DIRECTORY_RELEASE "${_GRAPH_DISTRIBUTED_RUNTIME_DIR}"
     )
 
     set(_GRAPH_DISTRIBUTED_SHARED_RUNTIME_DIR "${CMAKE_CURRENT_BINARY_DIR}/../tests_gd_shared_out")
@@ -2748,9 +2752,11 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/graph/test_graph_distributed.cpp")
 
     set_target_properties(test_graph_distributed_shared_mutex_focused PROPERTIES
         RUNTIME_OUTPUT_DIRECTORY "${_GRAPH_DISTRIBUTED_SHARED_RUNTIME_DIR}"
+        RUNTIME_OUTPUT_DIRECTORY_RELEASE "${_GRAPH_DISTRIBUTED_SHARED_RUNTIME_DIR}"
         PDB_OUTPUT_DIRECTORY "${_GRAPH_DISTRIBUTED_SHARED_RUNTIME_DIR}"
+        PDB_OUTPUT_DIRECTORY_RELEASE "${_GRAPH_DISTRIBUTED_SHARED_RUNTIME_DIR}"
         ARCHIVE_OUTPUT_DIRECTORY "${_GRAPH_DISTRIBUTED_SHARED_RUNTIME_DIR}"
-        OUTPUT_NAME "test_graph_distributed_shared_mutex_run"
+        ARCHIVE_OUTPUT_DIRECTORY_RELEASE "${_GRAPH_DISTRIBUTED_SHARED_RUNTIME_DIR}"
     )
 
     add_test(NAME DistributedGraphSharedMutexFocusedTests
