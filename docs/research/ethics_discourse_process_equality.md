@@ -1,9 +1,9 @@
 # Skalierbare Prozeßgleichheit im Ethik-Diskurs-System von ThemisDB
 
-**Status:** Working Paper  
-**Datum:** 2026-06-22  
-**Modulbezug:** `src/ethics_ai/`, `assets/ethics_ai/`, `include/ethics_ai/`  
-**Autoren:** ThemisDB Research  
+**Status:** Working Paper
+**Datum:** 2026-06-22
+**Modulbezug:** `src/ethics_ai/`, `assets/ethics_ai/`, `include/ethics_ai/`
+**Autoren:** ThemisDB Research
 **Bezugsdokumente:**
 - `include/ethics_ai/ethics_selection_router.h`
 - `include/ethics_ai/ethics_ai_types.h`
@@ -40,7 +40,7 @@ ausgeschlossen werden. Der `EthicsSelectionRouter` mit `top_n = 5` verletzt dies
 strukturell, da der semantische Score (`weight_semantic = 0.40`) auf LLM-Embeddings basiert,
 die westlich-englischsprachig dominiert sind.
 
-**Konkrete Beobachtung im Code:**  
+**Konkrete Beobachtung im Code:**
 Islamische Ethik (`school_id: islamische_ethik`, `taxonomy_class: cultural_religious`) hat
 **keinen** `ai_governance`-Domain-Override in `weight_boost`, während Kant (`+0.3`),
 Rawls (`+0.4`) und Behörden-Ethik (`+0.35`) in diesem Domain explizit bevorzugt werden.
@@ -94,8 +94,8 @@ Das LDM löst das Trilemma durch drei getrennte Ebenen mit unterschiedlicher Kom
 
 ### 2.1 Ebene 1 — Parallele Erstbewertung (Process Equality Gate)
 
-**Ziel:** Jede der 22 Schulen gibt ein erstes Positionsvotum ab. Keine Vorselektion.  
-**Komplexität:** O(N) — vollständig parallelisierbar.  
+**Ziel:** Jede der 22 Schulen gibt ein erstes Positionsvotum ab. Keine Vorselektion.
+**Komplexität:** O(N) — vollständig parallelisierbar.
 **Gewichtung:** Alle Schulen starten mit **equal initial weight** `w₀ = 1/N`.
 
 Jede Schule erzeugt:
@@ -116,8 +116,8 @@ Umsetzung der Habermas-Bedingung.
 
 ### 2.2 Ebene 2 — Clusterdiskurs (Tension-Graph-Reduktion)
 
-**Ziel:** Strukturierte Auseinandersetzung entlang vordefinierten Spannungsachsen,  
-nicht als vollständiges N×N-Kreuzprodukt.  
+**Ziel:** Strukturierte Auseinandersetzung entlang vordefinierten Spannungsachsen,
+nicht als vollständiges N×N-Kreuzprodukt.
 **Komplexität:** O(K²·R) wobei K = Anzahl Cluster ≤ 7, R = Runden ≤ 3.
 
 #### 2.2.1 Cluster-Taxonomie (aus `taxonomy_class`)
@@ -186,7 +186,7 @@ Schule teilnimmt.
 
 ### 2.3 Ebene 3 — Normative Synthese mit positivrechtlichem Grounding
 
-**Ziel:** Ein finales `MetaVerdict` aus Konvergenz-Counting und Legal-Verifikation.  
+**Ziel:** Ein finales `MetaVerdict` aus Konvergenz-Counting und Legal-Verifikation.
 **Komplexität:** O(1) + Legal-DB-Lookup (ms-Bereich).
 
 #### 2.3.1 Konvergenz-Counting statt Gewichts-Aggregation
@@ -271,7 +271,6 @@ Kodex hat.
 Nicht-westliche Schulen operieren in Ebene 2 optional im **Mirror-School-Modus**:
 
 ```yaml
-# Aktivierungsbedingung in Discourse-Orchestrator:
 mirror_school_mode:
   trigger: cross_cultural_sensitivity == HIGH
   behavior:
@@ -401,41 +400,41 @@ MetaVerdict:
 
 ## 6. Literatur
 
-1. Habermas, J. (1981). *Theorie des kommunikativen Handelns*. Suhrkamp, Frankfurt.  
+1. Habermas, J. (1981). *Theorie des kommunikativen Handelns*. Suhrkamp, Frankfurt.
    Grundlage für ideale Diskursbedingungen (Partizipationsgleichheit).
 
-2. Habermas, J. (1983). *Moralbewusstsein und kommunikatives Handeln*. Suhrkamp, Frankfurt.  
+2. Habermas, J. (1983). *Moralbewusstsein und kommunikatives Handeln*. Suhrkamp, Frankfurt.
    Diskursethik: Universalisierungsprinzip als Zulässigkeitsbedingung für moralische Normen.
 
-3. Kant, I. (1785). *Grundlegung zur Metaphysik der Sitten*. Riga.  
+3. Kant, I. (1785). *Grundlegung zur Metaphysik der Sitten*. Riga.
    Kategorischer Imperativ: Universalisierbarkeit von Maximen als Moralkriterium.
 
-4. Rawls, J. (1971). *A Theory of Justice*. Harvard University Press, Cambridge, MA.  
+4. Rawls, J. (1971). *A Theory of Justice*. Harvard University Press, Cambridge, MA.
    Schleier des Nichtwissens als Verfahrensgerechtigkeit — direkte Analogie zum equal initial weight.
 
-5. al-Ghazali, A. H. (ca. 1095). *Ihya' Ulum al-Din* (Wiederbelebung der Religionswissenschaften).  
+5. al-Ghazali, A. H. (ca. 1095). *Ihya' Ulum al-Din* (Wiederbelebung der Religionswissenschaften).
    Grundlage für Maslaha (Gemeinwohl) und Maqasid al-Shariah im islamischen Ethik-Asset.
 
-6. Confucius / Kongzi (ca. 479 v. Chr.). *Lúnyǔ (Gespräche)*. Überl. Legge, J. (1861).  
+6. Confucius / Kongzi (ca. 479 v. Chr.). *Lúnyǔ (Gespräche)*. Überl. Legge, J. (1861).
    Grundlage für Rén (仁), Yì (義), Lǐ (禮) im Konfuzianismus-Asset.
 
-7. Nagarjuna (ca. 150–250 n. Chr.). *Mūlamadhyamakakārikā*.  
+7. Nagarjuna (ca. 150–250 n. Chr.). *Mūlamadhyamakakārikā*.
    Philosophische Grundlage für Ahimsa und Karuna in der buddhistischen Ethik.
 
-8. Bai, Y., et al. (2022). *Constitutional AI: Harmlessness from AI Feedback*. arXiv:2212.08073.  
+8. Bai, Y., et al. (2022). *Constitutional AI: Harmlessness from AI Feedback*. arXiv:2212.08073.
    CAI-Grundlage für das ThemisDB CAI Ethics Integration Modul (`src/ai/cai_ethics_integration.cpp`).
 
-9. European Parliament / Council of the EU (2024). *EU Artificial Intelligence Act* (Regulation (EU) 2024/1689).  
+9. European Parliament / Council of the EU (2024). *EU Artificial Intelligence Act* (Regulation (EU) 2024/1689).
    Art. 13 (Transparenz), Art. 22 (Menschliche Aufsicht), Art. 9 (Risikomanagementsystem).
 
-10. Rawls, J. (1993). *Political Liberalism*. Columbia University Press, New York.  
+10. Rawls, J. (1993). *Political Liberalism*. Columbia University Press, New York.
     Overlapping Consensus als Grundlage für kulturübergreifende Konvergenz (§3.3 dieses Papers).
 
-11. Walzer, M. (1983). *Spheres of Justice*. Basic Books, New York.  
+11. Walzer, M. (1983). *Spheres of Justice*. Basic Books, New York.
     Komplexe Gleichheit: Gerechtigkeitsprinzipien sind kontextabhängig, nicht universell.
     Relevant für die Frage, wie stark domain_overrides legitim sind.
 
-12. An-Na'im, A. A. (1990). *Toward an Islamic Reformation: Civil Liberties, Human Rights, and International Law*.  
+12. An-Na'im, A. A. (1990). *Toward an Islamic Reformation: Civil Liberties, Human Rights, and International Law*.
     Islamic ethics in the context of universal human rights — relevant für Cross-Cultural Convergence.
 
 ---
