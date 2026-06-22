@@ -576,6 +576,29 @@ tenants:
     burst_size: 100                 # Token bucket burst size per tenant
 
 # =============================================================================
+# AI / ETHICS CONFIGURATION
+# =============================================================================
+ai:
+  # Global deployment context for ethical AI inferencing.
+  # This value is the system-wide default used by EthicsSelectionRouter and
+  # other ethics-aware components when no per-request context is provided.
+  #
+  # Allowed values:
+  #   "themisdb"   — standard ThemisDB deployment (default)
+  #   "standalone" — ethics-ai service running independently
+  #   "embedded"   — ethics module embedded in a host application
+  #   "enterprise" — enterprise deployment with elevated compliance requirements
+  #
+  # Override per-request by setting RouterConfig::deployment_context.
+  deployment_context: "themisdb"
+
+  # Path to the ethics_ai router configuration file.
+  # Contains per-school bias weights (school_bias) and other router-level
+  # settings that are separate from the global ThemisDB configuration.
+  # Relative paths are resolved against the ThemisDB working directory.
+  ethics_ai_config_path: "./config/ethics_ai/router_config.yaml"
+
+# =============================================================================
 # LLM CONFIGURATION (Optional - requires llama.cpp integration)
 # =============================================================================
 # See config/llm_config.example.yaml for detailed LLM configuration

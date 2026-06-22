@@ -49,6 +49,38 @@ struct RouterConfig {
     double weight_semantic{0.40};
     double weight_precedent{0.40};
     double weight_taxonomy{0.20};
+
+    /// Deployment context identifier for this router instance.
+    ///
+    /// Identifies the operational environment and is propagated to
+    /// context-aware components (e.g. audit logs, monitoring).  When empty,
+    /// callers should default to the global ThemisDB deployment context value
+    /// from the core configuration (`ai.deployment_context`, typically
+    /// @c "themisdb").
+    ///
+    /// Well-known values: `"themisdb"`, `"standalone"`, `"embedded"`,
+    /// `"enterprise"`.  Custom values are allowed and passed through as-is.
+    std::string deployment_context;
+
+    /// Per-school bias multipliers applied to the aggregated @c final_score.
+    ///
+    /// The multiplier for a given @c school_id is applied **after** the
+    /// three-stage weighted aggregation:
+    /// @code
+    ///   final_score = bias[school_id] * (ws * semantic + wp * precedent + wt * taxonomy)
+    /// @endcode
+    ///
+    /// Semantic:
+    /// - @c value > 1.0 — favour this school (selected more often in Top-N)
+    /// - @c value = 1.0 — neutral; purely merit-based (default for unlisted schools)
+    /// - @c value < 1.0 — penalise this school (selected less often)
+    /// - @c value = 0.0 — effectively exclude the school from all results
+    ///
+    /// Values are clamped to [0, ∞) at runtime; negative values are treated as 0.
+    ///
+    /// Load from `config/ethics_ai/router_config.yaml` (`school_bias` section)
+    /// or supply programmatically.  Schools not listed default to 1.0.
+    std::map<std::string, double> school_bias;
 };
 
 /**
@@ -59,7 +91,10 @@ struct RouterCandidate {
     double taxonomy_score{0.0};  ///< 1.0 = direct class match, 0.5 = domain mapping
     double semantic_score{0.0};  ///< Term-overlap similarity in [0, 1]
     double precedent_dc{0.0};    ///< Historical DC score from precedent store
-    double final_score{0.0};     ///< Weighted aggregate
+    /// Weighted aggregate after applying per-school bias from RouterConfig::school_bias.
+    /// Always clamped to [0, 1]. Formula:
+    ///   final_score = clamp(bias * (ws*semantic + wp*precedent + wt*taxonomy), 0, 1)
+    double final_score{0.0};
 };
 
 /**
