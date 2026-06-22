@@ -477,10 +477,23 @@ RouterResult EthicsSelectionRouter::route(
     const double wp = impl_->config.weight_precedent;
     const double wt = impl_->config.weight_taxonomy;
 
+    const auto& bias_map = impl_->config.school_bias;
     for (auto& c : candidates) {
-        c.final_score = ws * c.semantic_score +
-                        wp * c.precedent_dc   +
-                        wt * c.taxonomy_score;
+        // Look up per-school bias multiplier (default 1.0 = neutral).
+        // Bias is applied after weighted aggregation so it shifts relative
+        // ranking without distorting the semantic/precedent/taxonomy balance.
+        // final_score is clamped to [0, 1] to preserve the documented invariant.
+        double bias = 1.0;
+        if (!bias_map.empty()) {
+            const auto it = bias_map.find(c.school_id);
+            if (it != bias_map.end()) {
+                bias = std::max(0.0, it->second);
+            }
+        }
+        const double raw = bias * (ws * c.semantic_score +
+                                   wp * c.precedent_dc   +
+                                   wt * c.taxonomy_score);
+        c.final_score = std::min(1.0, raw);
     }
 
     std::sort(candidates.begin(), candidates.end(),
