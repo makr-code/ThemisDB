@@ -80,14 +80,14 @@ constexpr std::array<std::string_view, 8> k_system_collections = {
 bool isSystemCollection(const std::string& col) {
     const std::string lower = [&] {
         std::string s = col;
-        std::ranges::transform(s, s.begin(),
-                               [](unsigned char c) {
-                                   return static_cast<char>(std::tolower(c));
-                               });
+        std::transform(s.begin(), s.end(), s.begin(),
+                       [](unsigned char c) {
+                           return static_cast<char>(std::tolower(c));
+                       });
         return s;
     }();
-    return std::ranges::any_of(k_system_collections,
-                               [&](std::string_view sc) { return lower == sc; });
+    return std::any_of(k_system_collections.begin(), k_system_collections.end(),
+                       [&](std::string_view sc) { return lower == sc; });
 }
 
 } // anonymous namespace
@@ -412,8 +412,9 @@ bool AiOperationGuard::isCollectionDenied(
     }
     if (!config_.allowed_collections.empty()) {
         const bool found =
-            std::ranges::find(config_.allowed_collections, collection) !=
-            config_.allowed_collections.end();
+            std::find(config_.allowed_collections.begin(),
+                      config_.allowed_collections.end(),
+                      collection) != config_.allowed_collections.end();
         if (!found) { return true; }
     }
     return false;

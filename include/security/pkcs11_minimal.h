@@ -257,7 +257,11 @@ struct CK_FUNCTION_LIST {
     
     // Warning: Using minimal PKCS#11 header in production build
     #ifndef THEMIS_USE_VENDOR_PKCS11
-        #warning "Using pkcs11_minimal.h with real HSM support. Consider using vendor PKCS#11 headers for production."
+        #ifdef _MSC_VER
+            #pragma message("Warning: Using pkcs11_minimal.h with real HSM support. Consider using vendor PKCS#11 headers for production.")
+        #else
+            #warning "Using pkcs11_minimal.h with real HSM support. Consider using vendor PKCS#11 headers for production."
+        #endif
     #endif
 #endif
 // =============================================================================

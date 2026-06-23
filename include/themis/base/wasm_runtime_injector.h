@@ -9,6 +9,8 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
+#pragma once
+
 #include "themis/base/wasm_plugin_sandbox.h"
 
 #include <cstdint>

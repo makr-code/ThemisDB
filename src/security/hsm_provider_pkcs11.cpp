@@ -37,6 +37,7 @@
 #include <openssl/bio.h>
 #include <openssl/pem.h>
 #include <openssl/bn.h>
+#include <openssl/crypto.h>
 
 #if defined(_WIN32)
     #include <windows.h>
@@ -1026,9 +1027,16 @@ bool HSMProvider::importCertificate(const std::string& key_label, const std::str
     }
     
     // Convert to DER
+    struct OpenSslUnsignedCharDeleter {
+        void operator()(unsigned char* p) const {
+            if (p) {
+                OPENSSL_free(p);
+            }
+        }
+    };
     unsigned char* der_raw = nullptr;
     int der_len = i2d_X509(x509.get(), &der_raw);
-    auto der = std::unique_ptr<unsigned char, decltype(&OPENSSL_free)>(der_raw, OPENSSL_free);
+    std::unique_ptr<unsigned char, OpenSslUnsignedCharDeleter> der(der_raw);
     if(der_len <= 0 || !der){
         THEMIS_ERROR("importCertificate: Failed to convert certificate to DER");
         releaseSession(sess);

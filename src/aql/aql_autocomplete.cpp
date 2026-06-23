@@ -178,7 +178,7 @@ static std::string toUpper(const std::string &s) {
     return out;
 }
 
-static std::string toLower(const std::string &s) {
+static std::string aqlAutoCompleteToLower(const std::string &s) {
     std::string out = s;
     std::transform(out.begin(), out.end(), out.begin(),
                    [](unsigned char c) { return static_cast<char>(std::tolower(c)); });
@@ -192,7 +192,7 @@ static bool ciStartsWith(const std::string &s, const std::string &prefix) {
     if (s.size() < prefix.size()) {
         return false;
     }
-    return toLower(s).substr(0, prefix.size()) == toLower(prefix);
+    return aqlAutoCompleteToLower(s).substr(0, prefix.size()) == aqlAutoCompleteToLower(prefix);
 }
 
 // Returns true when c is a valid AQL identifier character
@@ -340,7 +340,7 @@ std::vector<AQLAutoComplete::SchemaInfo> AQLAutoComplete::parseSchema(const std:
     std::string text = schema_context;
     {
         // Remove leading "collection:" if present
-        std::string lower_text = toLower(text);
+        std::string lower_text = aqlAutoCompleteToLower(text);
         auto pos               = lower_text.find("collection:");
         if (pos != std::string::npos) {
             text = text.substr(pos + 11); // skip "collection:"
@@ -355,7 +355,7 @@ std::vector<AQLAutoComplete::SchemaInfo> AQLAutoComplete::parseSchema(const std:
     for (; it != end; ++it) {
         SchemaInfo info;
         info.collection_name = (*it)[1].str();
-        if (!seen.insert(toLower(info.collection_name)).second) {
+        if (!seen.insert(aqlAutoCompleteToLower(info.collection_name)).second) {
             continue;
         }
 
@@ -377,7 +377,7 @@ std::vector<AQLAutoComplete::SchemaInfo> AQLAutoComplete::parseSchema(const std:
         std::unordered_set<std::string> plain_seen;
         for (; pit != pend; ++pit) {
             std::string name = (*pit)[0].str();
-            if (plain_seen.insert(toLower(name)).second) {
+            if (plain_seen.insert(aqlAutoCompleteToLower(name)).second) {
                 SchemaInfo info;
                 info.collection_name = name;
                 result.push_back(std::move(info));
@@ -490,7 +490,7 @@ std::vector<CompletionItem> AQLAutoComplete::attributeCandidates(const std::stri
             std::regex for_re("FOR\\s+" + variable + "\\s+IN\\s+([A-Za-z_][A-Za-z0-9_]*)", std::regex::icase);
             std::smatch m;
             if (std::regex_search(prefix_text, m, for_re)) {
-                collection_name = toLower(m[1].str());
+                collection_name = aqlAutoCompleteToLower(m[1].str());
             }
         } catch (const std::regex_error &) {
             // If regex construction fails (malformed variable), fall through
@@ -501,7 +501,7 @@ std::vector<CompletionItem> AQLAutoComplete::attributeCandidates(const std::stri
     // If we identified the collection, offer its fields
     if (!collection_name.empty()) {
         for (const auto &info : schema) {
-            if (toLower(info.collection_name) == collection_name) {
+            if (aqlAutoCompleteToLower(info.collection_name) == collection_name) {
                 int order = 0;
                 for (const auto &field : info.fields) {
                     CompletionItem item;
@@ -521,7 +521,7 @@ std::vector<CompletionItem> AQLAutoComplete::attributeCandidates(const std::stri
         std::unordered_set<std::string> seen;
         for (const auto &info : schema) {
             for (const auto &field : info.fields) {
-                if (seen.insert(toLower(field)).second) {
+                if (seen.insert(aqlAutoCompleteToLower(field)).second) {
                     CompletionItem item;
                     item.label       = field;
                     item.kind        = CompletionItemKind::Field;
@@ -559,7 +559,7 @@ std::vector<CompletionItem> AQLAutoComplete::filterAndSort(std::vector<Completio
         if (a.sort_order != b.sort_order) {
             return a.sort_order < b.sort_order;
         }
-        return toLower(a.label) < toLower(b.label);
+        return aqlAutoCompleteToLower(a.label) < aqlAutoCompleteToLower(b.label);
     });
 
     return filtered;

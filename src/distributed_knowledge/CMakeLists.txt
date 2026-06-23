@@ -13,6 +13,7 @@ add_library(themis_distributed_knowledge
     lora_federation_coordinator.cpp
     federated_rag_merger.cpp
     cross_shard_feedback_sync.cpp
+    ../governance/cross_border_transfer.cpp
     ../llm/decision_record_yaml_processor.cpp
 )
 
@@ -26,6 +27,20 @@ target_link_libraries(themis_distributed_knowledge
         nlohmann_json::nlohmann_json
         Threads::Threads
 )
+
+if(TARGET fmt::fmt)
+    target_link_libraries(themis_distributed_knowledge PRIVATE fmt::fmt)
+endif()
+
+if(TARGET yaml-cpp::yaml-cpp)
+    target_link_libraries(themis_distributed_knowledge PRIVATE yaml-cpp::yaml-cpp)
+elseif(TARGET yaml-cpp)
+    target_link_libraries(themis_distributed_knowledge PRIVATE yaml-cpp)
+endif()
+
+if(TARGET themis_base)
+    target_link_libraries(themis_distributed_knowledge PRIVATE themis_base)
+endif()
 
 # Resolve symbols used by distributed federation flows:
 # - governance::CrossBorderTransferPolicy (themis_security)

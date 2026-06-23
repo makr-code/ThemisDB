@@ -325,7 +325,7 @@ public:
         const std::string& model_id,
         std::shared_ptr<LLMModelStorage> storage,
         std::shared_ptr<storage::BlobStorageManager> blob_manager,
-        std::shared_ptr<security::FieldEncryption> encryption = nullptr,
+        std::shared_ptr<::themis::security::FieldEncryption> encryption = nullptr,
         const json& config = {}
     );
     
