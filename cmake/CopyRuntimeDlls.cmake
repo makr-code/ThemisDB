@@ -61,13 +61,27 @@ function(_copy_dlls_if_present SRC_DIR)
             endif()
         endif()
 
-        execute_process(
-            COMMAND "${CMAKE_COMMAND}" -E copy_if_different "${_dll}" "${DST_DIR}"
-            RESULT_VARIABLE _copy_result
-        )
-        if(NOT _copy_result EQUAL 0)
-            message(FATAL_ERROR "[CopyRuntimeDlls] Failed to copy DLL: ${_dll}")
-        endif()
+        # Retry copy up to 5 times with exponential backoff to mitigate
+        # transient file-locks on Windows (antivirus, parallel linker, etc.).
+        set(_copy_result 1)
+        set(_attempt_max 5)
+        set(_sleep_secs 1)
+        foreach(_attempt RANGE 1 ${_attempt_max})
+            execute_process(
+                COMMAND "${CMAKE_COMMAND}" -E copy_if_different "${_dll}" "${DST_DIR}"
+                RESULT_VARIABLE _copy_result
+            )
+            if(_copy_result EQUAL 0)
+                break()
+            endif()
+            if(_attempt LESS ${_attempt_max})
+                message(STATUS "[CopyRuntimeDlls] Copy failed (attempt ${_attempt}), retrying in ${_sleep_secs}s: ${_dll}")
+                execute_process(COMMAND "${CMAKE_COMMAND}" -E sleep ${_sleep_secs})
+                math(EXPR _sleep_secs "${_sleep_secs} * 2")
+            else()
+                message(FATAL_ERROR "[CopyRuntimeDlls] Failed to copy DLL after ${_attempt_max} attempts: ${_dll}")
+            endif()
+        endforeach()
     endforeach()
 endfunction()
 

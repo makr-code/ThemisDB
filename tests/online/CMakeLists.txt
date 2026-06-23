@@ -21,6 +21,7 @@ foreach(_src IN LISTS ONLINE_PREFIX_TEST_SOURCES)
     target_link_libraries(${_target} PRIVATE
         ${TEST_LIBS}
         themis_core
+        themis_storage
         spdlog::spdlog
         Threads::Threads
     )

@@ -1,3 +1,33 @@
+# Packaging README
+
+Dieser Ordner enthält Vorlagen und Hinweise für das Packaging/Deployment von ThemisDB.
+
+Konzept
+- Basis: Verwende `cmake/CPackConfig.cmake` für konsistente Archive/Installer (ZIP, TGZ, DEB, RPM, WIX).
+- Editions-Logik: setze `-DTHEMIS_EDITION_STRING=<minimal|community|enterprise|hyperscaler>` beim `cmake`-Configure.
+- CI: Erzeuge Builds pro Edition mit CMake-Presets und nutze `cpack --config <build-dir>/CPackConfig.cmake`.
+
+Beispiel: Community ZIP (Windows)
+```powershell
+cmake -S . -B build-community-release --preset windows-release
+cmake --build build-community-release --preset windows-release --config Release
+cpack -G ZIP --config build-community-release/CPackConfig.cmake
+```
+
+Beispiel: Enterprise ZIP
+```powershell
+cmake -S . -B build-enterprise-release --preset windows-release -DTHEMIS_EDITION_STRING=enterprise
+cmake --build build-enterprise-release --preset windows-release --config Release
+cpack -G ZIP --config build-enterprise-release/CPackConfig.cmake
+```
+
+Wichtige Hinweise
+- `install()`-Rules in `CMakeLists.txt` müssen die Dateien/Verzeichnisse korrekt abdecken, damit CPack sie einsammelt.
+- Systemd/Service-Files: lege `debian/themisdb.service` und preinst/postinst-Skripte im `debian/`-Ordner ab.
+- Signierung: Signiere generierte Artefakte außerhalb von CPack oder erweitere CI mit Signatur-Schritt.
+
+Weiteres
+- Siehe `docs/CPACK_ANALYSIS.md` für die vollständige Analyse und Roadmap zur CPack-Integration.
 # packaging
 
 Pfad: `packaging`

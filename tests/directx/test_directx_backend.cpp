@@ -22,9 +22,6 @@ using namespace themis::lora::directx;
 class DirectXBackendTest : public ::testing::Test {
 protected:
     void SetUp() override {
-#ifdef _WIN32
-        GTEST_SKIP() << "DirectX focused backend tests are unstable on this Windows runner.";
-#endif
         // Skip tests if DirectX is not available
         if (!is_directx_available()) {
             GTEST_SKIP() << "DirectX 12 not available on this system";

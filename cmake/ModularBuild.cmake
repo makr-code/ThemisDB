@@ -266,8 +266,16 @@ set(THEMIS_BASE_SOURCES
     $<$<BOOL:${THEMIS_ENABLE_CUDA}>:../src/acceleration/cuda/geo_kernels.cu>
     $<$<BOOL:${THEMIS_ENABLE_CUDA}>:../src/acceleration/cuda/graph_kernels.cu>
     $<$<OR:$<BOOL:${THEMIS_ENABLE_CUDA}>,$<BOOL:${THEMIS_ENABLE_HIP}>>:../src/acceleration/faiss_gpu_backend.cpp>
-    $<$<BOOL:${THEMIS_ENABLE_ONEAPI}>:../src/acceleration/oneapi_backend.cpp>
-    $<$<BOOL:${THEMIS_ENABLE_OPENCL}>:../src/acceleration/opencl_backend.cpp>
+    # Always compile oneapi_backend.cpp to provide the stub path when OneAPI
+    # is not enabled. The file itself switches between real and stub
+    # implementations with #ifdef THEMIS_ENABLE_ONEAPI, so it is safe to
+    # compile unconditionally and avoids unresolved symbols in tests.
+    ../src/acceleration/oneapi_backend.cpp
+    # Always compile opencl_backend.cpp to provide the stub path when OpenCL
+    # is not enabled. The file itself switches between real and stub
+    # implementations with #ifdef THEMIS_ENABLE_OPENCL, so it is safe to
+    # compile unconditionally and avoids unresolved symbols in tests.
+    ../src/acceleration/opencl_backend.cpp
     $<$<BOOL:${THEMIS_ENABLE_VULKAN}>:../src/acceleration/vulkan_backend_full.cpp>
     $<$<BOOL:${THEMIS_ENABLE_ZLUDA}>:../src/acceleration/zluda_backend.cpp>
     # NCCL/RCCL vector backends (always compile for stub availability)

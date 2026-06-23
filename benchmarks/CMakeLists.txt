@@ -136,6 +136,14 @@ function(themis_add_standard_benchmark target_name source_file)
         Threads::Threads
     )
 
+    # Propagate module-specific deps for benchmarks that rely on plugin headers
+    # (e.g. user_storage_encrypted uses include/user_storage_encrypted/*.hpp).
+    # If the matching module target exists, link it privately so its include
+    # directories and compile definitions are available to the benchmark.
+    if(TARGET themis_user_storage_encrypted)
+        target_link_libraries(${target_name} PRIVATE themis_user_storage_encrypted)
+    endif()
+
     target_compile_definitions(${target_name} PRIVATE
         THEMIS_BENCHMARK_BUILD=1
     )

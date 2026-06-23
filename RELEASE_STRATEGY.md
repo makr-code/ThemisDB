@@ -326,6 +326,28 @@ Rules:
 - Artefact names may differ by platform or edition.
 - Artefact checksums should be published together with the release.
 
+## 13. Packaging Decisions (Open Questions)
+
+This project centralizes packaging decisions here to make release behavior deterministic. The following questions are open and should be decided by the release maintainer. Suggested defaults are provided.
+
+1) Primary package formats to produce and test in CI
+	- Options: `ZIP`/`TGZ`, `DEB`/`RPM`, `WIX`/`MSI`, `Docker` images
+	- Suggested default: Produce `ZIP` and `TGZ` for all release lanes in CI as primary artifacts. Add `DEB`/`RPM` for server-targeted lanes (community/enterprise/hyperscaler) and `WIX`/`MSI` for Windows-focused releases when required.
+
+2) PR automation policy for packaging-related changes
+	- Options: `SuggestOnly` (agent produces patches and PR text) or `AutoPR` (agent creates branch + PR automatically)
+	- Suggested default: `SuggestOnly` (manual branch/PR creation by maintainer). Enable `AutoPR` only after an explicit opt-in and with codeowner verification.
+
+3) Artifact signing and repository
+	- Questions: Where should artifacts be signed (CI post-processing vs integrated)? Which artifact repository will be used (GitHub Releases, Artifactory, Nexus)? Are there per-edition signing/licensing requirements?
+	- Suggested default: Keep signing as a post-CPack CI step that publishes signed artifacts to GitHub Releases for community lanes and to the enterprise artifact store for private lanes. Keep license files in `LICENSE.*` at repo root and reference them from `CPackConfig.cmake` per edition.
+
+4) Release gating rules for packaging
+	- Questions: Should packaging generation be gated by additional manual checks (e.g., security/signature verification) before tag creation?
+	- Suggested default: Require manual verification of signatures and checksums before creating the release tag. CI may produce artifacts and checksums but tagging remains a human-confirmed action (matches repository policy).
+
+Action: Maintain these decisions in this file once agreed; CI and `.agent.md` should be updated to reflect chosen defaults.
+
 ## 10. Manual Checklist
 
 Before tagging, verify manually:

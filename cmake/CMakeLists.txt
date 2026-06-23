@@ -245,9 +245,9 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
 # Keep all runtime artifacts (EXE/DLL) in a single bin/ directory to avoid PATH/env mismatches.
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin")
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG "${CMAKE_BINARY_DIR}/bin")
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE "${CMAKE_BINARY_DIR}/bin")
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin_out")
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG "${CMAKE_BINARY_DIR}/bin_out")
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE "${CMAKE_BINARY_DIR}/bin_out")
 
 # Runtime library for static linking on Windows
 if(MSVC AND VCPKG_TARGET_TRIPLET MATCHES "static")
@@ -1087,21 +1087,21 @@ if(THEMIS_LICENSE_FILE AND EXISTS "${THEMIS_LICENSE_FILE}")
     # Parse JSON using CMake's built-in JSON support (CMake 3.19+)
     # Note: We need to extract values using string operations since CMake's JSON support is limited
     
-    # Helper macro to extract JSON string value
-    macro(extract_json_string VAR_NAME JSON_KEY)
+    # Helper function to extract JSON string value
+    function(extract_json_string VAR_NAME JSON_KEY)
         string(REGEX MATCH "\"${JSON_KEY}\"[ \t\n]*:[ \t\n]*\"([^\"]*)\"" _match "${LICENSE_JSON_CONTENT}")
         if(_match)
-            set(${VAR_NAME} "${CMAKE_MATCH_1}")
+            set(${VAR_NAME} "${CMAKE_MATCH_1}" PARENT_SCOPE)
         endif()
-    endmacro()
+    endfunction()
     
-    # Helper macro to extract JSON integer value
-    macro(extract_json_int VAR_NAME JSON_KEY)
+    # Helper function to extract JSON integer value
+    function(extract_json_int VAR_NAME JSON_KEY)
         string(REGEX MATCH "\"${JSON_KEY}\"[ \t\n]*:[ \t\n]*(-?[0-9]+)" _match "${LICENSE_JSON_CONTENT}")
         if(_match)
-            set(${VAR_NAME} "${CMAKE_MATCH_1}")
+            set(${VAR_NAME} "${CMAKE_MATCH_1}" PARENT_SCOPE)
         endif()
-    endmacro()
+    endfunction()
     
     # Extract all license fields
     extract_json_string(THEMIS_LICENSE_ORG_NAME "organization_name")
@@ -3312,6 +3312,7 @@ if(THEMIS_BUILD_MODULAR)
 
     if(THEMIS_API_PROTO_AVAILABLE AND TARGET themis_network)
         target_sources(themis_network PRIVATE ${THEMISDB_API_PROTO_SRCS})
+        # gRPC::grpc_reflection may not be exported in vcpkg; use gRPC::grpc++ only
         target_link_libraries(themis_network PRIVATE gRPC::grpc++ protobuf::libprotobuf)
         target_include_directories(themis_network PRIVATE ${CMAKE_BINARY_DIR}/proto_generated)
         # Proto-generated files must not be in a Unity batch (C2356/C2374/C2086).
@@ -4727,10 +4728,10 @@ target_link_libraries(themis_server
 )
 
 # Set output directory to bin/ folder (consistent with test binaries)
-set_target_properties(themis_server PROPERTIES
-    RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin"
-    RUNTIME_OUTPUT_DIRECTORY_DEBUG "${CMAKE_BINARY_DIR}/bin"
-    RUNTIME_OUTPUT_DIRECTORY_RELEASE "${CMAKE_BINARY_DIR}/bin"
+    set_target_properties(themis_server PROPERTIES
+    RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin_out"
+    RUNTIME_OUTPUT_DIRECTORY_DEBUG "${CMAKE_BINARY_DIR}/bin_out"
+    RUNTIME_OUTPUT_DIRECTORY_RELEASE "${CMAKE_BINARY_DIR}/bin_out"
 )
 
 # Ensure themis_server does not directly link mimalloc; rely on themis_core
@@ -4838,11 +4839,11 @@ if(THEMIS_BUILD_THEMISCTL AND EXISTS "${THEMIS_ROOT_DIR}/tools/themisctl.cpp")
     )
 
     set_target_properties(themisctl PROPERTIES
-        RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin"
-        RUNTIME_OUTPUT_DIRECTORY_DEBUG "${CMAKE_BINARY_DIR}/bin"
-        RUNTIME_OUTPUT_DIRECTORY_RELEASE "${CMAKE_BINARY_DIR}/bin"
-        RUNTIME_OUTPUT_DIRECTORY_RELWITHDEBINFO "${CMAKE_BINARY_DIR}/bin"
-        RUNTIME_OUTPUT_DIRECTORY_MINSIZEREL "${CMAKE_BINARY_DIR}/bin"
+        RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin_out"
+        RUNTIME_OUTPUT_DIRECTORY_DEBUG "${CMAKE_BINARY_DIR}/bin_out"
+        RUNTIME_OUTPUT_DIRECTORY_RELEASE "${CMAKE_BINARY_DIR}/bin_out"
+        RUNTIME_OUTPUT_DIRECTORY_RELWITHDEBINFO "${CMAKE_BINARY_DIR}/bin_out"
+        RUNTIME_OUTPUT_DIRECTORY_MINSIZEREL "${CMAKE_BINARY_DIR}/bin_out"
     )
 
     target_compile_features(themisctl PRIVATE cxx_std_17)
@@ -4932,11 +4933,11 @@ if(EXISTS "${THEMIS_ROOT_DIR}/tools/export_cli.cpp")
         ${THEMIS_ROOT_DIR}/tools/export_cli.cpp
     )
     set_target_properties(themis-export PROPERTIES
-        RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin"
-        RUNTIME_OUTPUT_DIRECTORY_DEBUG "${CMAKE_BINARY_DIR}/bin"
-        RUNTIME_OUTPUT_DIRECTORY_RELEASE "${CMAKE_BINARY_DIR}/bin"
-        RUNTIME_OUTPUT_DIRECTORY_RELWITHDEBINFO "${CMAKE_BINARY_DIR}/bin"
-        RUNTIME_OUTPUT_DIRECTORY_MINSIZEREL "${CMAKE_BINARY_DIR}/bin"
+        RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin_out"
+        RUNTIME_OUTPUT_DIRECTORY_DEBUG "${CMAKE_BINARY_DIR}/bin_out"
+        RUNTIME_OUTPUT_DIRECTORY_RELEASE "${CMAKE_BINARY_DIR}/bin_out"
+        RUNTIME_OUTPUT_DIRECTORY_RELWITHDEBINFO "${CMAKE_BINARY_DIR}/bin_out"
+        RUNTIME_OUTPUT_DIRECTORY_MINSIZEREL "${CMAKE_BINARY_DIR}/bin_out"
     )
     target_link_libraries(themis-export PRIVATE
         themis_core
@@ -4964,11 +4965,11 @@ if(THEMIS_ENABLE_LLM)
             ${THEMIS_ROOT_DIR}/tools/themis_model_cli.cpp
         )
         set_target_properties(themis-model PROPERTIES
-            RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin"
-            RUNTIME_OUTPUT_DIRECTORY_DEBUG "${CMAKE_BINARY_DIR}/bin"
-            RUNTIME_OUTPUT_DIRECTORY_RELEASE "${CMAKE_BINARY_DIR}/bin"
-            RUNTIME_OUTPUT_DIRECTORY_RELWITHDEBINFO "${CMAKE_BINARY_DIR}/bin"
-            RUNTIME_OUTPUT_DIRECTORY_MINSIZEREL "${CMAKE_BINARY_DIR}/bin"
+            RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin_out"
+            RUNTIME_OUTPUT_DIRECTORY_DEBUG "${CMAKE_BINARY_DIR}/bin_out"
+            RUNTIME_OUTPUT_DIRECTORY_RELEASE "${CMAKE_BINARY_DIR}/bin_out"
+            RUNTIME_OUTPUT_DIRECTORY_RELWITHDEBINFO "${CMAKE_BINARY_DIR}/bin_out"
+            RUNTIME_OUTPUT_DIRECTORY_MINSIZEREL "${CMAKE_BINARY_DIR}/bin_out"
         )
         target_link_libraries(themis-model PRIVATE 
             themis_core

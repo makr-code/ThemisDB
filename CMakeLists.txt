@@ -85,6 +85,10 @@ endif()
 # Store full semantic version
 set(THEMIS_VERSION_STRING "${_ver_raw}")
 
+# Default parallelism used by build wrappers and as a hint for developers.
+# This cache entry can be inspected by tools and users; wrappers default to this
+# value when no explicit `-j` is provided.
+
 # Optional submodule initialization during configure
 if(THEMIS_AUTO_BOOTSTRAP_DEPS AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/.git")
     find_program(THEMIS_GIT_EXECUTABLE git)
@@ -113,6 +117,9 @@ if(THEMIS_AUTO_BOOTSTRAP_DEPS AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/.git")
     endif()
 endif()
 
+# Note: wrapper-based build logging was removed; rely on CMake presets and
+# the build system's own `--parallel` / `jobs` settings instead.
+
 # ============================================================================
 # MODULAR CMAKE INCLUDES - REFACTORED BUILD SYSTEM
 # ============================================================================
@@ -136,6 +143,12 @@ include(cmake/CompilerOptions.cmake)
 
 # 2.5. Compiler cache launcher (sccache/ccache)
 include(cmake/CompilerCache.cmake)
+
+# Core helpers (sets global C++ standard, test helper)
+include(cmake/helpers.cmake OPTIONAL)
+
+# Emit deprecation/warning checks (e.g. add_definitions() usage)
+include(cmake/deprecated_checks.cmake OPTIONAL)
 
 # 3. Platform detection (OS, CPU, triplet)
 include(cmake/platforms/PlatformDetection.cmake)
@@ -165,6 +178,28 @@ include(cmake/Dependencies.cmake)
 include(cmake/validation/PlatformValidation.cmake)
 include(cmake/validation/EditionValidation.cmake)
 include(cmake/validation/FeatureValidation.cmake)
+
+# Redirect runtime/library/archive outputs to separate folders on Windows to
+# avoid parallel linker/file-lock collisions in shared `bin/` during large
+# parallel builds. Tests and runtime loaders should prefer the `bin_out` path
+# added below; PATH modifications in tests are updated accordingly.
+if(WIN32)
+    set(_themis_bin_out "${CMAKE_BINARY_DIR}/bin_out")
+    set(_themis_lib_out "${CMAKE_BINARY_DIR}/lib_out")
+    file(MAKE_DIRECTORY "${_themis_bin_out}")
+    file(MAKE_DIRECTORY "${_themis_lib_out}")
+
+    set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${_themis_bin_out})
+    set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${_themis_bin_out})
+    set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${_themis_lib_out})
+
+    foreach(_cfg IN ITEMS Debug Release RelWithDebInfo MinSizeRel)
+        string(TOUPPER "${_cfg}" _ucfg)
+        set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_${_ucfg} ${_themis_bin_out})
+        set(CMAKE_LIBRARY_OUTPUT_DIRECTORY_${_ucfg} ${_themis_bin_out})
+        set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_${_ucfg} ${_themis_lib_out})
+    endforeach()
+endif()
 
 # Testing - handled in cmake/CMakeLists.txt via add_subdirectory(tests)
 # (Moved to cmake/CMakeLists.txt to be closer to target definitions)
@@ -301,6 +336,14 @@ enable_testing()
 
 # Main build logic
 add_subdirectory(cmake)
+
+# Include CPack configuration if present (provides CPack packaging config and generators)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/cmake/CPackConfig.cmake")
+    include(cmake/CPackConfig.cmake)
+    message(STATUS "CPack configuration included from cmake/CPackConfig.cmake")
+else()
+    message(STATUS "No cmake/CPackConfig.cmake found — packaging disabled until added")
+endif()
 
 # ============================================================================
 # DOCUMENTATION DATABASE GENERATION

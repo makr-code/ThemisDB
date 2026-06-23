@@ -24,12 +24,45 @@
 
 #include <d3d12.h>
 #include <dxgi1_6.h>
-#include <wrl/client.h>
+
+// WRL (Windows Runtime Library) ComPtr support
+// Fallback if Windows SDK WRL headers not available
+#ifdef _HAS_CXX17
+  #include <wrl/client.h>
+  using Microsoft::WRL::ComPtr;
+#else
+  // Minimal ComPtr fallback for older SDK versions
+  namespace Microsoft {
+    namespace WRL {
+      template <typename T>
+      class ComPtr {
+      private:
+        T* ptr;
+      public:
+        ComPtr() : ptr(nullptr) {}
+        ~ComPtr() { if (ptr) ptr->Release(); }
+        ComPtr(T* p) : ptr(p) { if (ptr) ptr->AddRef(); }
+        
+        T* Get() const { return ptr; }
+        T** GetAddressOf() { return &ptr; }
+        T* operator->() const { return ptr; }
+        T& operator*() const { return *ptr; }
+        
+        ComPtr& operator=(T* p) {
+          if (ptr) ptr->Release();
+          ptr = p;
+          if (ptr) ptr->AddRef();
+          return *this;
+        }
+      };
+    }
+  }
+  using Microsoft::WRL::ComPtr;
+#endif
+
 #include <cstdint>
 #include <memory>
 #include <string>
-
-using Microsoft::WRL::ComPtr;
 
 namespace themis {
 namespace lora {
