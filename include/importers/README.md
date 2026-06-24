@@ -17,6 +17,7 @@ This directory contains the public C++ interfaces for importer execution, option
 | `importer_interfaces.h` | `IImporterV2`, `IImporterPlugin`, `IImporterPluginRegistry`, async and conflict helper interfaces | Extended contracts and plugin abstractions |
 | `importer_plugin.h` | `THEMIS_IMPORTER_PLUGIN_V1`, `THEMIS_IMPORTER_CREATE_SYMBOL` | Stable C ABI descriptor for third-party importer plugins |
 | `importer_plugin_api.h` | `ImporterPluginRegistry`, `V1ImporterAdapter`, `PluginSandboxConfig` | Runtime plugin loading, ABI validation, timeout/memory sandbox hooks |
+| `huggingface_ingest_plugin.h` | `HuggingFaceIngestPlugin` | Legal-domain HuggingFace ingest (snapshot/update/validate/AdaLoRA export) |
 | Source headers (`postgres_importer.h`, `mysql_importer.h`, `mongo_importer.h`, `sqlite_importer.h`, `oracle_importer.h`, `kafka_importer.h`, `s3_importer.h`, `flatfile_importer.h`) | Concrete importer classes | Source-specific connectors |
 | MDM and pipeline headers (`mdm_engine.h`, `entity_linker.h`, `canonical_resolver.h`, `conflict_resolver.h`, `adaptive_import.h`, `data_quality.h`, `schema_inference.h`, `schema_validator.h`) | Specialized processing APIs | MDM, conflict handling, validation, optimization, and quality scoring |
 
@@ -89,6 +90,20 @@ auto stats = importer->importDataStreaming(sourcePath, options,
     [](const std::string& table, const nlohmann::json& row) {
         return true; // return false to abort early
     });
+```
+
+### HuggingFace legal ingest workflow (snapshot → update → validate → export)
+
+```cpp
+#include "importers/huggingface_ingest_plugin.h"
+
+themis::importers::HuggingFaceIngestPlugin plugin;
+plugin.init();
+plugin.runFullImport({.dataset_name = "legal_hf_dataset", .split = "train", .seed_rows = rows});
+plugin.runIncrementalUpdate({.dataset_name = "legal_hf_dataset", .split = "train", .changed_rows = delta_rows});
+auto quality = plugin.validateQuality();
+auto exported = plugin.exportAdaLoraJsonl({.output_path = "adalora_legal.jsonl"});
+plugin.shutdown();
 ```
 
 ## Troubleshooting
