@@ -27,6 +27,7 @@ The importers module provides source-to-ThemisDB ingestion capabilities for rela
 | mdm_engine.cpp | MDM orchestration for imported entities |
 | entity_linker.cpp | entity matching/linking behavior |
 | canonical_resolver.cpp | canonical/golden-record resolution |
+| huggingface_ingest_plugin.cpp | HuggingFace legal-data ingestion pipeline (raw→canonical→projections→AdaLoRA export) |
 | postgres_cdc.cpp | CDC-oriented import interfaces |
 | adaptive_import.cpp | adaptive batch/import planning |
 | polyglot_mapper.cpp | polyglot mapping recommendations |
@@ -69,6 +70,14 @@ Out of scope:
 - Full import: initialize `WikipediaIngestionPlugin`, then call `runFullImport(...)` with a Wikimedia XML dump path.
 - Incremental update: call `runIncrementalUpdate(...)` on a later dump; dirty pages trigger selective graph/vector/process/timeseries refresh.
 - Verify/export: call `validateDatabase()` and `exportPortable(\"./wikipedia.db\", \"./manifest.json\")`.
+
+## HuggingFace Legal Ingestion (MVP)
+
+- `init()`/`shutdown()` lifecycle for plugin boot and teardown
+- `runFullImport(...)` for snapshot ingest with canonical tables (`hf_dataset_catalog`, `legal_document`, `legal_annotation`, `training_example`, `compliance_audit`)
+- `runIncrementalUpdate(...)` for delta refresh with dirty-record tracking, idempotent upsert, checkpoint/resume
+- `validateQuality()` for quality/compliance gates (license, minimal content quality)
+- `exportAdaLoraJsonl(...)` for deterministic AdaLoRA JSONL output (`instruction/input/target/system` or `prompt/response`)
 
 ## Sourcecode Verification (Module: importers/readme)
 
