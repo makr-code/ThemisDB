@@ -2624,6 +2624,7 @@ set(THEMIS_CORE_SOURCES
     ../src/plugins/plugin_health_monitor.cpp
     ../src/plugins/signed_plugin_repository.cpp
     ../src/importers/huggingface_ingestion_plugin.cpp
+    ../src/importers/wikipedia_plugin.cpp
     # Project collaboration and audit
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/projects/collaboration_manager.cpp>
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/projects/in_memory_project_audit_log.cpp>
@@ -2767,6 +2768,16 @@ set(THEMIS_CORE_SOURCES
     ../src/importers/mdm_audit_trail.cpp
     ../src/importers/mdm_metrics.cpp
     ../src/importers/postgres_importer_mdm.cpp
+    ../src/importers/wikipedia_pipeline.cpp
+    ../src/importers/wikipedia_dump_reader.cpp
+    ../src/importers/wikipedia_xml_parser.cpp
+    ../src/importers/wikipedia_transform.cpp
+    ../src/importers/wikipedia_project_graph.cpp
+    ../src/importers/wikipedia_project_vector.cpp
+    ../src/importers/wikipedia_project_timeseries.cpp
+    ../src/importers/wikipedia_project_process.cpp
+    ../src/importers/wikipedia_checkpoint.cpp
+    ../src/importers/wikipedia_validator.cpp
     ../src/aql/llm_metrics_collector.cpp
     ../src/aql/aql_syntax_highlighter.cpp
 
