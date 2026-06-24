@@ -9,6 +9,10 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
+#pragma once
+
+#include <cstdint>
+
 namespace themis::server {
 
 /**

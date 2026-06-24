@@ -31,6 +31,9 @@
 namespace themis {
 namespace index {
 
+#ifndef THEMIS_VULKAN_VECTOR_INDEX_BACKEND_DECLARED
+#define THEMIS_VULKAN_VECTOR_INDEX_BACKEND_DECLARED
+
 /**
  * @brief Vulkan backend for GPU vector indexing.
  *
@@ -80,6 +83,8 @@ private:
     class Impl;
     std::unique_ptr<Impl> pImpl;
 };
+
+#endif // THEMIS_VULKAN_VECTOR_INDEX_BACKEND_DECLARED
 
 } // namespace index
 } // namespace themis

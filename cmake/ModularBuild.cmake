@@ -4,8 +4,9 @@
 
 cmake_minimum_required(VERSION 3.20)
 
-# Build mode option - defaults to legacy monolithic build until v1.4.0 is released
-option(THEMIS_BUILD_MODULAR "Build as modular libraries instead of monolithic core (v1.4.0+ feature)" OFF)
+# Build mode option - default to modular build for current branch
+# Note: keep version guard below to prevent enabling on older releases
+option(THEMIS_BUILD_MODULAR "Build as modular libraries instead of monolithic core (v1.4.0+ feature)" ON)
 
 # Version check - only allow modular build after v1.4.0
 if(THEMIS_BUILD_MODULAR)
@@ -674,6 +675,7 @@ set(THEMIS_QUERY_SOURCES
 
     # Arrow Flight RPC support for remote analytics (Issue #1472)
     ../src/analytics/arrow_flight.cpp
+    
     
     # AQL handlers (non-LLM)
     $<$<NOT:$<BOOL:${THEMIS_MODULE_LLM}>>:../src/aql/aql_query_builder.cpp>
@@ -1484,6 +1486,27 @@ set(THEMIS_CONTENT_SOURCES
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/projects/project_template.cpp>
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/projects/project_versioning.cpp>
 )
+
+## Avoid Unity aggregation for a small list of very large/complex source files
+# which historically produced oversized Unity objects on MSVC (LNK1248).
+# Add heavy sources here to compile them outside of Unity batches.
+set(THEMIS_UNITY_SKIP_SOURCES
+    ../src/server/http_server.cpp
+    ../src/query/query_engine.cpp
+    ../src/query/functions/function_registry.cpp
+    ../src/index/inverted_index.cpp
+    ../src/index/graph_index.cpp
+    ../src/index/product_quantizer.cpp
+)
+
+foreach(_themis_skip_src IN LISTS THEMIS_UNITY_SKIP_SOURCES)
+    # Resolve to absolute path relative to this CMake file
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/${_themis_skip_src}")
+        get_filename_component(_themis_skip_abs "${CMAKE_CURRENT_SOURCE_DIR}/${_themis_skip_src}" ABSOLUTE)
+        set_source_files_properties(${_themis_skip_abs} PROPERTIES SKIP_UNITY_BUILD_INCLUSION ON)
+        message(STATUS "Marked to skip Unity inclusion: ${_themis_skip_abs}")
+    endif()
+endforeach()
 
 set(THEMIS_TIMESERIES_SOURCES
     # Time-series storage

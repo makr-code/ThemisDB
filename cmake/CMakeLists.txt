@@ -3379,19 +3379,11 @@ add_library(themis_core ${_THEMIS_CORE_LIBTYPE} ${THEMIS_CORE_SOURCES})
 # On non-MSVC (e.g. Linux/GCC), unity builds can trigger ODR/redefinition
 # collisions across large translation units.
 if(MSVC)
-    # Unity Build reduces object count, avoiding LNK1248 (>4GB lib) and LNK1189 (>65535 objs).
-    # Use smaller batch size in monolithic mode to limit ODR-collision window.
-    if(THEMIS_BUILD_MODULAR)
-        set_target_properties(themis_core PROPERTIES
-            UNITY_BUILD ON
-            UNITY_BUILD_BATCH_SIZE 20
-        )
-    else()
-        set_target_properties(themis_core PROPERTIES
-            UNITY_BUILD ON
-            UNITY_BUILD_BATCH_SIZE 8
-        )
-    endif()
+    # Disable Unity Build on MSVC to avoid include-order conflicts (winsock.h vs winsock2.h)
+    # caused by large unity translation units merging sources with different include order.
+    set_target_properties(themis_core PROPERTIES
+        UNITY_BUILD OFF
+    )
 else()
     set_target_properties(themis_core PROPERTIES
         UNITY_BUILD OFF

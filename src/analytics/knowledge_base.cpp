@@ -64,7 +64,7 @@ void KnowledgeBase::clearYamlParserFn() {
 // helpers
 // ──────────────────────────────────────────────────────────────────────────────
 
-static int64_t nowMs() {
+static int64_t knowledgeBaseNowMs() {
     return std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch())
         .count();
 }
@@ -117,7 +117,7 @@ std::string KnowledgeBase::assertFact(const std::string &subject, const std::str
     f.subject        = subject;
     f.predicate      = predicate;
     f.object         = object;
-    f.asserted_at_ms = nowMs();
+    f.asserted_at_ms = knowledgeBaseNowMs();
 
     facts_by_predicate_.emplace(predicate, f);
     fact_id_to_predicate_[f.id] = predicate;

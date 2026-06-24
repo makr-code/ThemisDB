@@ -15,6 +15,10 @@
 
 #include "utils/logger.h"
 
+#ifdef ERROR
+#undef ERROR
+#endif
+
 namespace themis {
 namespace cdc {
 
@@ -445,7 +449,7 @@ ConsumerGroupManager::fetchEventsAtLeastOnce(const std::string &group_id, const 
             auto cit = git->second.find(consumer_id);
             if (cit != git->second.end()) {
                 for (const auto &rec : cit->second) {
-                    highest_inflight = std::max(highest_inflight, rec.sequence);
+                    highest_inflight = (std::max)(highest_inflight, rec.sequence);
                     if (ack_timeout_ms > 0 && (now - rec.delivered_at) >= timeout) {
                         overdue_seqs.push_back(rec.sequence);
                     }
@@ -477,7 +481,7 @@ ConsumerGroupManager::fetchEventsAtLeastOnce(const std::string &group_id, const 
     if (result.size() < effective_limit) {
         // Start after the highest in-flight sequence (or committed, whichever is
         // larger) to avoid duplicating events already tracked as in-flight.
-        const uint64_t from_seq  = std::max(committed, highest_inflight);
+        const uint64_t from_seq  = (std::max)(committed, highest_inflight);
         const size_t remaining   = effective_limit - result.size();
         const size_t fetch_limit = std::min<size_t>(remaining * static_cast<size_t>(cfg.consumer_count), 10000u);
 

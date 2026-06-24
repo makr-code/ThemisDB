@@ -37,6 +37,7 @@ namespace llm {
 
 using json = nlohmann::json;
 namespace fs = std::filesystem;
+constexpr float kPi = 3.14159265358979323846f;
 
 // ═══════════════════════════════════════════════════════════════════════════
 // JSON helpers – OptimizerConfig
@@ -901,7 +902,7 @@ float InlineTrainingEngine::getLearningRate(int step) const {
 
         case SchedulerType::COSINE:
         case SchedulerType::COSINE_WITH_WARMUP:
-            return min_lr + 0.5f * (max_lr - min_lr) * (1.0f + std::cos(static_cast<float>(M_PI) * t));
+            return min_lr + 0.5f * (max_lr - min_lr) * (1.0f + std::cos(kPi * t));
 
         case SchedulerType::POLYNOMIAL:
             return (max_lr - min_lr) * std::pow(1.0f - t, sched.power) + min_lr;

@@ -33,7 +33,7 @@ namespace query {
 // WindowSpec/WindowFunctionCall JSON Serialization
 // ============================================================================
 
-nlohmann::json WindowSpec::toJSON() const {
+nlohmann::json WindowEvalSpec::toJSON() const {
     nlohmann::json j;
     j["name"] = name;
     
@@ -82,75 +82,61 @@ nlohmann::json WindowFunctionCall::toJSON() const {
 
 std::vector<nlohmann::json> WindowEvaluator::evaluate(
     const std::vector<nlohmann::json>& rows,
-    const WindowSpec& windowSpec,
+    const WindowEvalSpec& windowSpec,
     const WindowFunctionCall& windowFunc,
     [[maybe_unused]] const std::string& forVariable
 ) {
     if (rows.empty()) {
         return {};
     }
-    
-    // 1. Partitionierung
+
     auto partitions = partitionRows(rows, windowSpec.partitionBy, forVariable);
-    
-    // 2. Initialisiere Result-Vector mit null-Werten
     std::vector<nlohmann::json> results(rows.size(), nullptr);
-    
-    // 3. Evaluiere jede Partition
+
     for (const auto& partition : partitions) {
-        if (partition.empty()) continue;
-        
-        // 3.1 Sortiere Partition
+        if (partition.empty()) {
+            continue;
+        }
+
         auto sortedIndices = sortPartition(rows, partition, windowSpec.orderBy, forVariable);
-        
-        // 3.2 Evaluiere Window Function
         std::vector<nlohmann::json> partitionResults;
-        
+
         switch (windowFunc.funcType) {
             case WindowFunctionType::ROW_NUMBER:
                 partitionResults = evaluateRowNumber(sortedIndices.size());
                 break;
-            
             case WindowFunctionType::RANK:
                 partitionResults = evaluateRank(rows, sortedIndices, windowSpec.orderBy, forVariable);
                 break;
-            
             case WindowFunctionType::DENSE_RANK:
                 partitionResults = evaluateDenseRank(rows, sortedIndices, windowSpec.orderBy, forVariable);
                 break;
-            
             case WindowFunctionType::LAG:
-                partitionResults = evaluateLag(rows, sortedIndices, windowFunc.argument, 
-                                                windowFunc.offset, windowFunc.defaultValue, forVariable);
+                partitionResults = evaluateLag(rows, sortedIndices, windowFunc.argument,
+                                               windowFunc.offset, windowFunc.defaultValue, forVariable);
                 break;
-            
             case WindowFunctionType::LEAD:
                 partitionResults = evaluateLead(rows, sortedIndices, windowFunc.argument,
-                                                 windowFunc.offset, windowFunc.defaultValue, forVariable);
+                                                windowFunc.offset, windowFunc.defaultValue, forVariable);
                 break;
-            
             case WindowFunctionType::FIRST_VALUE:
                 partitionResults = evaluateFirstValue(rows, sortedIndices, windowFunc.argument, forVariable);
                 break;
-            
             case WindowFunctionType::LAST_VALUE:
                 partitionResults = evaluateLastValue(rows, sortedIndices, windowFunc.argument,
-                                                       windowSpec.frame, forVariable);
+                                                     windowSpec.frame, forVariable);
                 break;
-            
             default:
-                // Fallback: nulls
                 partitionResults.resize(sortedIndices.size(), nullptr);
                 break;
         }
-        
-        // 3.3 Mapping zurück zu Original-Indizes
+
         for (size_t i = 0; i < sortedIndices.size(); ++i) {
-            size_t originalIdx = sortedIndices[i];
+            const size_t originalIdx = sortedIndices[i];
             results[originalIdx] = partitionResults[i];
         }
     }
-    
+
     return results;
 }
 

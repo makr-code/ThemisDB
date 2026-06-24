@@ -9,6 +9,16 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
+#ifdef _WIN32
+#ifndef WIN32_LEAN_AND_MEAN
+#define WIN32_LEAN_AND_MEAN
+#endif
+#ifndef NOMINMAX
+#define NOMINMAX
+#endif
+#include <winsock2.h>
+#endif
+
 #include "server/maintenance_api_handler.h"
 #include "utils/tracing.h"
 #include "utils/input_validator.h"

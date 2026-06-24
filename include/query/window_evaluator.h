@@ -135,7 +135,7 @@ struct WindowFrame {
 /**
  * @brief Window Specification
  */
-struct WindowSpec {
+struct WindowEvalSpec {
     std::string name;  // Named window (e.g., "w" in WINDOW w AS (...))
     std::vector<std::shared_ptr<Expression>> partitionBy;  // PARTITION BY expressions
     std::vector<SortSpec> orderBy;                         // ORDER BY specifications
@@ -167,14 +167,14 @@ public:
     /**
      * @brief Evaluiert Window Functions für alle Rows
      * @param rows Die zu verarbeitenden Rows (JSON-Dokumente)
-     * @param windowSpec Die Window-Spezifikation (PARTITION BY, ORDER BY, FRAME)
+    * @param windowSpec Die Window-Spezifikation (PARTITION BY, ORDER BY, FRAME)
      * @param windowFunc Die Window Function Definition
      * @param forVariable Der FOR-Loop Variable Name (z.B. "doc")
      * @return Vector von evaluierten Werten (ein Wert pro Row)
      */
     std::vector<nlohmann::json> evaluate(
         const std::vector<nlohmann::json>& rows,
-        const WindowSpec& windowSpec,
+        const WindowEvalSpec& windowSpec,
         const WindowFunctionCall& windowFunc,
         const std::string& forVariable
     );

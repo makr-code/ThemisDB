@@ -38,8 +38,8 @@ elseif(TARGET yaml-cpp)
     target_link_libraries(themis_distributed_knowledge PRIVATE yaml-cpp)
 endif()
 
-if(TARGET themis_base)
-    target_link_libraries(themis_distributed_knowledge PRIVATE themis_base)
+if(TARGET themis_core)
+    target_link_libraries(themis_distributed_knowledge PRIVATE themis_core)
 endif()
 
 # Resolve symbols used by distributed federation flows:

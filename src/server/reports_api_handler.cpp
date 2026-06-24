@@ -18,6 +18,17 @@
  * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
+#ifdef _WIN32
+#ifndef WIN32_LEAN_AND_MEAN
+#define WIN32_LEAN_AND_MEAN
+#endif
+#ifndef NOMINMAX
+#define NOMINMAX
+#endif
+#include <winsock2.h>
+#include <ws2tcpip.h>
+#endif
+
 #include "server/reports_api_handler.h"
 #include <stdexcept>
 #include "utils/logger.h"
