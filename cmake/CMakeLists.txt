@@ -2624,6 +2624,7 @@ set(THEMIS_CORE_SOURCES
     ../src/plugins/plugin_health_monitor.cpp
     ../src/plugins/signed_plugin_repository.cpp
     ../src/importers/huggingface_ingestion_plugin.cpp
+    ../src/importers/huggingface_ingest_plugin.cpp
     # Project collaboration and audit
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/projects/collaboration_manager.cpp>
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/projects/in_memory_project_audit_log.cpp>
