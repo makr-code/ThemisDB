@@ -37,7 +37,50 @@ This directory contains research papers, draft manuscripts, architectural analys
 
 - [`research/DOCUMENTATION_AUDIT_REPORT_2026-05-13.md`](DOCUMENTATION_AUDIT_REPORT_2026-05-13.md)
 
+## Building LaTeX Papers
+
+Papers in `research/*.tex` can be compiled locally with a standard
+TeX distribution (TeX Live 2022+ or MiKTeX 22+):
+
+```bash
+# From the research/ directory:
+cd research/
+
+# Full build with bibliography (run twice for cross-references):
+pdflatex boltzmann_flare_rag_monitoring.tex
+bibtex   boltzmann_flare_rag_monitoring
+pdflatex boltzmann_flare_rag_monitoring.tex
+pdflatex boltzmann_flare_rag_monitoring.tex
+
+# Output: boltzmann_flare_rag_monitoring.pdf
+```
+
+Required LaTeX packages (all included in TeX Live full):
+`amsmath`, `amssymb`, `amsthm`, `booktabs`, `hyperref`,
+`natbib`, `algorithm`, `algpseudocode`, `geometry`, `microtype`,
+`enumitem`, `array`, `multirow`, `xcolor`.
+
+Quick check (missing packages):
+```bash
+pdflatex -interaction=nonstopmode boltzmann_flare_rag_monitoring.tex \
+  | grep "! LaTeX Error"
+```
+
 ## Contents
+
+### Boltzmann Observability for RAG (2026-06, ACTIVE_DRAFT v0.1)
+- [`boltzmann_flare_rag_monitoring.tex`](boltzmann_flare_rag_monitoring.tex)
+  — **Boltzmann-Inspired Observability for AI Inference and RAG Pipelines:
+  Energy-Entropy Monitoring, FLARE Parallels, and Correlation Analysis.**
+  Proposes a statistical-mechanical observability layer deriving entropy $H$,
+  effective candidate count $N_\text{eff}$, energy gap, and free-energy proxy
+  $\Phi$ from retrieval score distributions.
+  Structural comparison table FLARE vs. Boltzmann layer.
+  ThemisDB AQL integration examples, performance SLO hypotheses, evaluation
+  protocol.
+  Bibliography: [`bib/boltzmann_flare_rag_monitoring.bib`](bib/boltzmann_flare_rag_monitoring.bib).
+  Related architecture draft: [`docs/architecture/boltzmann_observability_draft.md`](../docs/architecture/boltzmann_observability_draft.md).
+  Performance expectations: [`docs/performance/boltzmann_observability_expectations.md`](../docs/performance/boltzmann_observability_expectations.md).
 
 ### Ethics AI Module Research (2026-04-29, v0.4)
 - [ETHICS_AI_YAML_DISCOURSE_ENGINE_PAPER_DRAFT.md](ETHICS_AI_YAML_DISCOURSE_ENGINE_PAPER_DRAFT.md) — **Declarative Multi-Philosophy Ethical Reasoning in Database-Native AI Systems: YAML-Configured Ethics Schools and Structured Discourse in ThemisDB** (v0.4). Target: arXiv cs.AI / cs.CY. **Central pattern: Inference Trifecta** — RAG (7 AQL patterns) + **Ethical Monocle** (YAML→PromptScaffold, formal construction function `M(P,T_budget)`) + **LoRA Judge** (school-aware faithfulness evaluator, RLAIF loop). All principle citations grounded in actual `plugins/ethics_ai/philosophies/` YAML files: `kant:kategorischer_imperativ`, `kant:selbstzweck`, `utilitarianism:greatest_happiness`, `contractualism:original_position` / `reasonable_rejection`, `lebensphilosophie_nietzsche:will_to_power`, `socratic:socratic_method`. Appendix B: direct YAML excerpts from 5 profiles. Schema note: `nietzsche.yaml` uses `school:` (not `school_id:`) and map-style theses — both documented. 34 references, 5 RQs, 3 hypotheses, W1–W6 workloads, Tables R1–R4, 4-stage production path.
