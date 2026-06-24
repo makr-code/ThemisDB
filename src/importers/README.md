@@ -35,6 +35,10 @@ The importers module provides source-to-ThemisDB ingestion capabilities for rela
 | blockchain_integrity.cpp | integrity verification paths |
 | federated_learning.cpp | federated ingest-related helper flows |
 | graphql_federation.cpp | GraphQL federation-related import metadata paths |
+| wikipedia_plugin.cpp + wikipedia_pipeline.cpp | Wikipedia full-import / delta-ingest orchestration and plugin lifecycle |
+| wikipedia_dump_reader.cpp + wikipedia_xml_parser.cpp | streaming-friendly Wikimedia dump page parsing |
+| wikipedia_transform.cpp + wikipedia_project_*.cpp | canonical Wikipedia core mapping and graph/vector/process/timeseries projections |
+| wikipedia_checkpoint.cpp + wikipedia_validator.cpp | checkpoint/resume, validation, manifest, and portable export for `wikipedia.db` |
 
 ## Scope
 
@@ -42,6 +46,7 @@ In scope:
 - importer execution across supported source classes
 - schema, conflict, quality, and audit behavior in import runtime
 - optional MDM/advanced helper flows that post-process imported data
+- Wikipedia dump ingestion with canonical page/revision/link/category/redirect state, dirty-page delta refresh, and portable manifest export
 
 Out of scope:
 - non-import storage/query ownership outside importer interfaces
@@ -53,6 +58,18 @@ Out of scope:
 - behavior depends on enabled connectors and build/runtime feature flags.
 - conflict strategy and validation options strongly influence import outcomes.
 - optional CDC/streaming/object-source paths degrade deterministically when unavailable.
+- Wikipedia MVP exports a portable `wikipedia.db` JSON artifact plus `manifest.json` and `wikipedia.db.verify.json` sidecars for verification.
+
+## Installation
+
+- Build ThemisDB with the standard importer/plugin targets enabled.
+- The Wikipedia importer is compiled into the existing importer/plugin runtime; no extra vendor embedding backend is required for the MVP.
+
+## Usage
+
+- Full import: initialize `WikipediaIngestionPlugin`, then call `runFullImport(...)` with a Wikimedia XML dump path.
+- Incremental update: call `runIncrementalUpdate(...)` on a later dump; dirty pages trigger selective graph/vector/process/timeseries refresh.
+- Verify/export: call `validateDatabase()` and `exportPortable(\"./wikipedia.db\", \"./manifest.json\")`.
 
 ## HuggingFace Legal Ingestion (MVP)
 
