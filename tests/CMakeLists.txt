@@ -8818,6 +8818,56 @@ else()
 endif()
 
 # ============================================================================
+# Wikipedia Ingestion Plugin Tests (standalone binary)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/importer/test_wikipedia_ingestion_plugin.cpp")
+    message(STATUS "Adding Wikipedia Ingestion Plugin tests (standalone binary)")
+
+    add_executable(test_wikipedia_ingestion_plugin
+        importer/test_wikipedia_ingestion_plugin.cpp
+        ../src/importers/wikipedia_plugin.cpp
+        ../src/importers/wikipedia_pipeline.cpp
+        ../src/importers/wikipedia_dump_reader.cpp
+        ../src/importers/wikipedia_xml_parser.cpp
+        ../src/importers/wikipedia_transform.cpp
+        ../src/importers/wikipedia_project_graph.cpp
+        ../src/importers/wikipedia_project_vector.cpp
+        ../src/importers/wikipedia_project_timeseries.cpp
+        ../src/importers/wikipedia_project_process.cpp
+        ../src/importers/wikipedia_checkpoint.cpp
+        ../src/importers/wikipedia_validator.cpp
+        ../src/plugins/plugin_registry.cpp
+    )
+
+    target_include_directories(test_wikipedia_ingestion_plugin PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+    )
+
+    target_link_libraries(test_wikipedia_ingestion_plugin PRIVATE
+        ${TEST_LIBS}
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+        ${CMAKE_DL_LIBS}
+    )
+
+    target_compile_definitions(test_wikipedia_ingestion_plugin PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME WikipediaIngestionPluginTests COMMAND test_wikipedia_ingestion_plugin)
+
+    set_tests_properties(WikipediaIngestionPluginTests PROPERTIES
+        LABELS "importers;wikipedia;plugin;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  WikipediaIngestionPlugin: full import, delta refresh, export manifest, registry wiring")
+else()
+    message(STATUS "Wikipedia Ingestion Plugin tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/importer/test_wikipedia_ingestion_plugin.cpp")
+endif()
+
+# ============================================================================
 # Importer Abstract Interfaces Tests (standalone target)
 # ============================================================================
 

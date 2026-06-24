@@ -1,0 +1,298 @@
+% Bibliography for:
+% "Boltzmann-Inspired Observability for AI Inference and RAG Pipelines:
+%  Parallels to FLARE and Correlation Analysis"
+%
+% ThemisDB Research Series — ACTIVE_DRAFT
+% Last updated: 2026-06
+
+% -------------------------------------------------------------------------
+% A) Statistical Physics Foundations
+% -------------------------------------------------------------------------
+
+@article{boltzmann1872,
+  author  = {Boltzmann, Ludwig},
+  title   = {Weitere Studien über das Wärmegleichgewicht unter Gasmolekülen},
+  journal = {Sitzungsberichte der Akademie der Wissenschaften Wien},
+  volume  = {66},
+  pages   = {275--370},
+  year    = {1872}
+}
+
+@book{jaynes2003,
+  author    = {Jaynes, Edwin T.},
+  title     = {Probability Theory: The Logic of Science},
+  publisher = {Cambridge University Press},
+  year      = {2003},
+  isbn      = {978-0521592710}
+}
+
+@article{jaynes1957,
+  author  = {Jaynes, Edwin T.},
+  title   = {Information Theory and Statistical Mechanics},
+  journal = {Physical Review},
+  volume  = {106},
+  number  = {4},
+  pages   = {620--630},
+  year    = {1957},
+  doi     = {10.1103/PhysRev.106.620}
+}
+
+% -------------------------------------------------------------------------
+% B) Information Theory
+% -------------------------------------------------------------------------
+
+@article{shannon1948,
+  author  = {Shannon, Claude E.},
+  title   = {A Mathematical Theory of Communication},
+  journal = {Bell System Technical Journal},
+  volume  = {27},
+  number  = {3},
+  pages   = {379--423},
+  year    = {1948},
+  doi     = {10.1002/j.1538-7305.1948.tb01338.x}
+}
+
+@article{kullback1951,
+  author  = {Kullback, Solomon and Leibler, Richard A.},
+  title   = {On Information and Sufficiency},
+  journal = {Annals of Mathematical Statistics},
+  volume  = {22},
+  number  = {1},
+  pages   = {79--86},
+  year    = {1951},
+  doi     = {10.1214/aoms/1177729694}
+}
+
+% -------------------------------------------------------------------------
+% C) Energy-Based Models and Softmax as Gibbs Distribution
+% -------------------------------------------------------------------------
+
+@inproceedings{lecun2006,
+  author    = {LeCun, Yann and Chopra, Sumit and Hadsell, Raia and Ranzato, Marc'Aurelio and Huang, Fu Jie},
+  title     = {A Tutorial on Energy-Based Learning},
+  booktitle = {Predicting Structured Data},
+  publisher = {MIT Press},
+  year      = {2006}
+}
+
+@inproceedings{grover2019,
+  author    = {Grover, Aditya and Ermon, Stefano},
+  title     = {Uncertainty Autoencoders: Learning Compressed Representations via Variational Information Maximization},
+  booktitle = {AISTATS},
+  year      = {2019}
+}
+
+@inproceedings{liu2020ebm,
+  author    = {Liu, Weitang and Wang, Xiaoyun and Owens, John and Li, Yixuan},
+  title     = {Energy-Based Out-of-Distribution Detection},
+  booktitle = {Advances in Neural Information Processing Systems (NeurIPS)},
+  volume    = {33},
+  pages     = {21464--21475},
+  year      = {2020},
+  url       = {https://arxiv.org/abs/2010.03759}
+}
+
+@article{goodfellow2016nips,
+  author  = {Goodfellow, Ian and Bengio, Yoshua and Courville, Aaron},
+  title   = {Deep Learning},
+  journal = {MIT Press},
+  year    = {2016}
+}
+
+% -------------------------------------------------------------------------
+% D) Uncertainty Quantification and Calibration in ML
+% -------------------------------------------------------------------------
+
+@inproceedings{guo2017calibration,
+  author    = {Guo, Chuan and Pleiss, Geoff and Sun, Yu and Weinberger, Kilian Q.},
+  title     = {On Calibration of Modern Neural Networks},
+  booktitle = {International Conference on Machine Learning (ICML)},
+  pages     = {1321--1330},
+  year      = {2017},
+  url       = {https://arxiv.org/abs/1706.04599}
+}
+
+@inproceedings{lakshminarayanan2017,
+  author    = {Lakshminarayanan, Balaji and Pritzel, Alexander and Blundell, Charles},
+  title     = {Simple and Scalable Predictive Uncertainty Estimation using Deep Ensembles},
+  booktitle = {NeurIPS},
+  year      = {2017},
+  url       = {https://arxiv.org/abs/1612.01474}
+}
+
+@inproceedings{malinin2018predictive,
+  author    = {Malinin, Andrey and Gales, Mark},
+  title     = {Predictive Uncertainty Estimation via Prior Networks},
+  booktitle = {NeurIPS},
+  year      = {2018},
+  url       = {https://arxiv.org/abs/1802.10501}
+}
+
+% -------------------------------------------------------------------------
+% E) Distribution Shift and Drift Detection
+% -------------------------------------------------------------------------
+
+@article{gama2014survey,
+  author  = {Gama, João and Žliobaitė, Indrė and Bifet, Albert and Pechenizkiy, Mykola and Bouchachia, Abdelhamid},
+  title   = {A Survey on Concept Drift Adaptation},
+  journal = {ACM Computing Surveys},
+  volume  = {46},
+  number  = {4},
+  pages   = {44:1--44:37},
+  year    = {2014},
+  doi     = {10.1145/2523813}
+}
+
+@inproceedings{dua2021,
+  author    = {Dua, Raghav and Ward, Anderson Rocha and Chaturvedi, Snigdha and others},
+  title     = {Consecutive Retrieval: A New Approach for Detecting Real-World Distribution Shifts},
+  booktitle = {EMNLP},
+  year      = {2021}
+}
+
+% -------------------------------------------------------------------------
+% F) Retrieval-Augmented Generation (RAG)
+% -------------------------------------------------------------------------
+
+@inproceedings{lewis2020rag,
+  author    = {Lewis, Patrick and Perez, Ethan and Piktus, Aleksandra and Petroni, Fabio and Karpukhin, Vladimir and Goyal, Naman and Küttler, Heinrich and Lewis, Mike and Yih, Wen-tau and Rocktäschel, Tim and Riedel, Sebastian and Kiela, Douwe},
+  title     = {Retrieval-Augmented Generation for Knowledge-Intensive {NLP} Tasks},
+  booktitle = {NeurIPS},
+  year      = {2020},
+  url       = {https://arxiv.org/abs/2005.11401}
+}
+
+@article{gao2023ragsurvey,
+  author  = {Gao, Yunfan and Xiong, Yun and Gao, Xinyu and Jia, Kangxiang and Pan, Jinliu and Bi, Yuxi and Dai, Yi and Sun, Jiawei and Wang, Haofen},
+  title   = {Retrieval-Augmented Generation for Large Language Models: A Survey},
+  journal = {arXiv preprint arXiv:2312.10997},
+  year    = {2023},
+  url     = {https://arxiv.org/abs/2312.10997}
+}
+
+@inproceedings{karpukhin2020dpr,
+  author    = {Karpukhin, Vladimir and Oğuz, Barlas and Min, Sewon and Lewis, Patrick and Wu, Ledell and Edunov, Sergey and Chen, Danqi and Yih, Wen-tau},
+  title     = {Dense Passage Retrieval for Open-Domain Question Answering},
+  booktitle = {EMNLP},
+  year      = {2020},
+  url       = {https://arxiv.org/abs/2004.04906}
+}
+
+% -------------------------------------------------------------------------
+% G) FLARE and Active / Iterative Retrieval
+% -------------------------------------------------------------------------
+
+@inproceedings{jiang2023flare,
+  author    = {Jiang, Zhengbao and Xu, Frank F. and Gao, Luyu and Sun, Zhiqing and Liu, Qian and Dwivedi-Yu, Jane and Yang, Yiming and Callan, Jamie and Neubig, Graham},
+  title     = {Active Retrieval Augmented Generation},
+  booktitle = {EMNLP},
+  year      = {2023},
+  url       = {https://arxiv.org/abs/2305.06983}
+}
+
+@inproceedings{trivedi2023ircot,
+  author    = {Trivedi, Harsh and Balasubramanian, Niranjan and Khot, Tushar and Sabharwal, Ashish},
+  title     = {Interleaving Retrieval with Chain-of-Thought Reasoning for Knowledge-Intensive Multi-Step Questions},
+  booktitle = {ACL},
+  year      = {2023},
+  url       = {https://arxiv.org/abs/2212.10509}
+}
+
+@inproceedings{asai2024selfrag,
+  author    = {Asai, Akari and Wu, Zeqiu and Wang, Yizhong and Sil, Avirup and Hajishirzi, Hannaneh},
+  title     = {{Self-RAG}: Learning to Retrieve, Generate, and Critique through Self-Reflection},
+  booktitle = {ICLR},
+  year      = {2024},
+  url       = {https://arxiv.org/abs/2310.11511}
+}
+
+% -------------------------------------------------------------------------
+% H) Hallucination Detection and RAG Reliability
+% -------------------------------------------------------------------------
+
+@article{ji2023survey,
+  author  = {Ji, Ziwei and Lee, Nayeon and Frieske, Rita and Yu, Tiezheng and Su, Dan and Xu, Yan and Ishii, Etsuko and Bang, Ye Jin and Madotto, Andrea and Fung, Pascale},
+  title   = {Survey of Hallucination in Natural Language Generation},
+  journal = {ACM Computing Surveys},
+  volume  = {55},
+  number  = {12},
+  year    = {2023},
+  doi     = {10.1145/3571730}
+}
+
+@inproceedings{min2023factscore,
+  author    = {Min, Sewon and Krishna, Kalpesh and Lyu, Xinxi and Lewis, Mike and Yih, Wen-tau and Koh, Pang Wei and Iyyer, Mohit and Zettlemoyer, Luke and Hajishirzi, Hannaneh},
+  title     = {{FActScoring}: Fine-grained Atomic Evaluation of Factual Precision in Long Form Text Generation},
+  booktitle = {EMNLP},
+  year      = {2023},
+  url       = {https://arxiv.org/abs/2305.14251}
+}
+
+@inproceedings{es2023ragas,
+  author    = {Es, Shahul and James, Jithin and Anke, Luis Espinosa and Schockaert, Steven},
+  title     = {{RAGAS}: Automated Evaluation of Retrieval Augmented Generation},
+  booktitle = {EACL},
+  year      = {2024},
+  url       = {https://arxiv.org/abs/2309.15217}
+}
+
+% -------------------------------------------------------------------------
+% I) LLM Decoding and Token-Level Uncertainty
+% -------------------------------------------------------------------------
+
+@inproceedings{holtzman2020curious,
+  author    = {Holtzman, Ari and Buys, Jan and Du, Li and Forbes, Maxwell and Choi, Yejin},
+  title     = {The Curious Case of Neural Text Degeneration},
+  booktitle = {ICLR},
+  year      = {2020},
+  url       = {https://arxiv.org/abs/1904.09751}
+}
+
+@article{kadavath2022know,
+  author  = {Kadavath, Saurav and Conerly, Tom and Askell, Amanda and Henighan, Tom and Ganguli, Deep and Hatfield-Dodds, Zac and Hernandez, Danny and Drain, Dawn and Tran-Johnson, Eli and Johnston, Scott and others},
+  title   = {Language Models (Mostly) Know What They Know},
+  journal = {arXiv preprint arXiv:2207.05221},
+  year    = {2022},
+  url     = {https://arxiv.org/abs/2207.05221}
+}
+
+% -------------------------------------------------------------------------
+% J) Observability in ML Systems and MLOps
+% -------------------------------------------------------------------------
+
+@book{sculley2015hidden,
+  author    = {Sculley, David and Holt, Gary and Golovin, Daniel and Davydov, Eugene and Phillips, Todd and Ebner, Dietmar and Chaudhary, Vinay and Young, Michael and Crespo, Jean-François and Dennison, Dan},
+  title     = {Hidden Technical Debt in Machine Learning Systems},
+  booktitle = {NeurIPS},
+  year      = {2015},
+  url       = {https://proceedings.neurips.cc/paper_files/paper/2015/hash/86df7dcfd896fcaf2674f757a2463eba-Abstract.html}
+}
+
+@article{klaise2022alibi,
+  author  = {Klaise, Janis and Van Looveren, Arnaud and Vacanti, Giovanni and Coca, Alexandru},
+  title   = {Alibi Detect: Algorithms for Outlier, Adversarial and Drift Detection},
+  journal = {Journal of Machine Learning Research},
+  volume  = {23},
+  number  = {147},
+  pages   = {1--6},
+  year    = {2022},
+  url     = {https://arxiv.org/abs/2012.04580}
+}
+
+% -------------------------------------------------------------------------
+% K) ThemisDB System Context
+% -------------------------------------------------------------------------
+
+@misc{themisdb2026,
+  author = {{ThemisDB Project}},
+  title  = {{ThemisDB}: A High-Performance Hybrid Graph-Vector-Relational Database with {AQL} Support and {MVCC}},
+  year   = {2026},
+  note   = {Internal technical report; repository: makr-code/ThemisDB}
+}
+
+@misc{themisdb_rag2026,
+  author = {{ThemisDB Project}},
+  title  = {{ThemisDB RAG Module}: Architecture and Implementation Guide},
+  year   = {2026},
+  note   = {Internal technical report; src/rag/README.md, makr-code/ThemisDB}
+}

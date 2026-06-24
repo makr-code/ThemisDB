@@ -1,0 +1,781 @@
+\documentclass[11pt,a4paper]{article}
+
+% -------------------------------------------------------------------------
+% Packages
+% -------------------------------------------------------------------------
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{microtype}
+\usepackage{enumitem}
+\usepackage{geometry}
+\usepackage{natbib}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{array}
+\usepackage{multirow}
+
+\geometry{margin=2.5cm}
+
+% -------------------------------------------------------------------------
+% Custom commands
+% -------------------------------------------------------------------------
+\newcommand{\themisdb}{\textsc{ThemisDB}}
+\newcommand{\hypothesis}[1]{\textbf{Hypothesis:} \textit{#1}}
+\newcommand{\caveat}[1]{\textcolor{gray}{\small\textit{Caveat: #1}}}
+\newcommand{\TODO}[1]{\textcolor{red}{[TODO: #1]}}
+
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[section]
+\newtheorem{proposition}{Proposition}[section]
+\newtheorem{remark}{Remark}[section]
+
+% -------------------------------------------------------------------------
+% Title block
+% -------------------------------------------------------------------------
+\title{%
+  \textbf{Boltzmann-Inspired Observability for AI Inference and RAG Pipelines:}\\
+  \textbf{Energy-Entropy Monitoring, FLARE Parallels, and Correlation Analysis}\\[0.5em]
+  \large\textit{ThemisDB Research Series --- ACTIVE DRAFT}
+}
+
+\author{%
+  ThemisDB Research Group\\
+  \texttt{research@themisdb.dev}\\[0.3em]
+  \small Repository: \texttt{makr-code/ThemisDB}
+}
+
+\date{June 2026 --- Draft v0.1}
+
+% -------------------------------------------------------------------------
+\begin{document}
+% -------------------------------------------------------------------------
+
+\maketitle
+
+\begin{abstract}
+Monitoring the reliability of AI inference and Retrieval-Augmented Generation
+(RAG) pipelines in production requires principled signal design beyond simple
+latency and error-rate counters.
+We propose a \emph{Boltzmann-inspired observability layer} that reframes
+retrieval score distributions as a statistical-mechanical system, deriving
+entropy, effective candidate count, and free-energy-like scalars as
+first-class monitoring signals.
+These signals provide interpretable, dimensionless proxies for retrieval
+uncertainty, query-distribution drift, and potential hallucination risk.
+
+We draw explicit parallels to the FLARE framework
+\citep{jiang2023flare}, which triggers re-retrieval based on
+token-level probability thresholds.
+Our approach is complementary: whereas FLARE acts \emph{within} the
+generation loop, the proposed layer acts \emph{across} the query log,
+providing longitudinal drift and anomaly signals at the system level.
+
+We describe how the approach integrates with \themisdb{}'s hybrid
+graph-vector-relational architecture through concrete AQL query examples,
+define an event-data schema for observability signals, and state
+measurable performance expectations and SLO hypotheses for the monitoring
+pipeline.
+We clearly mark all empirical claims as hypotheses pending validation,
+and include an explicit section on correlation-versus-causation caveats.
+\end{abstract}
+
+\paragraph{Keywords.}
+Boltzmann distribution; entropy monitoring; RAG observability; FLARE;
+distribution shift; ThemisDB; hybrid database; AQL; energy-based models;
+uncertainty quantification; hallucination proxy.
+
+\tableofcontents
+
+\bigskip\hrule\bigskip
+
+% =========================================================================
+\section{Introduction}
+% =========================================================================
+
+Production AI systems built on RAG pipelines are subject to a class of
+failure modes that are not well captured by traditional infrastructure
+monitoring:
+\begin{itemize}[noitemsep]
+  \item \emph{Semantic drift} --- the query distribution shifts away from
+    the domain covered by the indexed corpus.
+  \item \emph{Retrieval uncertainty} --- the top-$k$ retrieved candidates
+    concentrate on a single document (\emph{over-confident}) or are
+    uniformly spread (\emph{under-determined}).
+  \item \emph{Hallucination risk} --- the generator produces fluent text
+    with little grounding support, often correlated with poor retrieval.
+  \item \emph{Index staleness} --- the corpus diverges from the world
+    modeled by incoming queries.
+\end{itemize}
+
+Standard observability stacks (Prometheus, OpenTelemetry) expose latency
+histograms and error rates, but offer no semantic insight into \emph{why}
+a RAG answer is unreliable.
+Token-level approaches such as FLARE \citep{jiang2023flare} detect
+low-confidence spans \emph{during} generation, but operate
+single-query in real time and cannot accumulate longitudinal drift
+signals across thousands of requests.
+
+This paper proposes a complementary monitoring layer grounded in
+statistical-mechanical reasoning:
+by treating the retrieval score distribution as a Boltzmann/Gibbs
+distribution, we derive dimensionless scalars --- entropy $H$, effective
+candidate count $N_\text{eff}$, and a free-energy-like monitoring scalar
+$\Phi$ --- that are interpretable, cheap to compute, and
+amenable to rolling-window and cross-request analysis.
+
+The contribution is deliberately \emph{architectural and methodological},
+not empirical: we propose a design, state measurable hypotheses, and
+define an evaluation protocol.
+Empirical validation is deferred to future work.
+
+\paragraph{Paper organization.}
+Section~\ref{sec:background} reviews the statistical-mechanical and
+information-theoretic foundations.
+Section~\ref{sec:related} surveys related work.
+Section~\ref{sec:method} defines the method in detail.
+Section~\ref{sec:integration} describes the \themisdb{} integration.
+Section~\ref{sec:performance} states performance expectations.
+Section~\ref{sec:evaluation} defines the evaluation protocol.
+Section~\ref{sec:threats} discusses threats to validity.
+Section~\ref{sec:conclusion} concludes.
+
+% =========================================================================
+\section{Background}
+\label{sec:background}
+% =========================================================================
+
+\subsection{The Boltzmann/Gibbs View of Probability}
+
+In statistical mechanics, the \emph{Boltzmann distribution} assigns a
+probability to a microstate $i$ with energy $E_i$ as:
+\begin{equation}
+  p_i = \frac{e^{-E_i / (k_B T)}}{Z},
+  \qquad Z = \sum_j e^{-E_j / (k_B T)},
+  \label{eq:boltzmann}
+\end{equation}
+where $T$ is temperature and $k_B$ is Boltzmann's constant.
+By the \emph{maximum entropy principle} of Jaynes
+\citep{jaynes1957}, this is the unique distribution that maximises
+entropy subject to a constraint on the expected energy.
+
+In machine learning, the \emph{softmax} function is mathematically
+identical to Eq.~\eqref{eq:boltzmann} with $k_B T \equiv 1$ and
+energies defined as negative logits.
+This connection motivates treating neural network output distributions
+as Gibbs distributions at a given effective temperature, an interpretation
+exploited in energy-based models \citep{lecun2006,liu2020ebm} and
+uncertainty-calibration research \citep{guo2017calibration}.
+
+\subsection{Entropy, Uncertainty, and the Effective Candidate Count}
+
+Given a probability distribution $\mathbf{p} = (p_1,\ldots,p_k)$,
+Shannon entropy \citep{shannon1948} is:
+\begin{equation}
+  H(\mathbf{p}) = -\sum_{i=1}^{k} p_i \ln p_i.
+  \label{eq:entropy}
+\end{equation}
+$H$ is zero for a point mass and $\ln k$ for the uniform distribution.
+
+A useful derived quantity is the \emph{effective candidate count}:
+\begin{equation}
+  N_\text{eff}(\mathbf{p}) = e^{H(\mathbf{p})},
+  \label{eq:neff}
+\end{equation}
+which equals 1 for a degenerate (fully concentrated) distribution and
+$k$ for a uniform one.
+$N_\text{eff}$ has an intuitive interpretation: how many candidates
+does the system ``effectively consider''?
+A value near 1 indicates over-confidence; a value near $k$ indicates
+retrieval uncertainty.
+
+\subsection{RAG Observability: Motivating the Problem}
+
+Standard RAG pipelines (see \citet{lewis2020rag,gao2023ragsurvey})
+combine a retriever (dense or sparse) with a generator LLM.
+The retriever returns top-$k$ candidates scored by semantic similarity
+(dot-product or cosine in embedding space).
+These scores are typically consumed by the generator as context without
+further monitoring.
+
+Failure modes in production include:
+\begin{itemize}[noitemsep]
+  \item Single-document overreliance (low $N_\text{eff}$, high confidence
+    in potentially wrong source).
+  \item Retrieval failure (all scores near zero, high $H$ near $\ln k$,
+    generator hallucinating).
+  \item Distribution shift (entropy baseline drifts over time due to
+    evolving query semantics or stale index).
+\end{itemize}
+None of these are visible to standard infrastructure monitors.
+
+% =========================================================================
+\section{Related Work}
+\label{sec:related}
+% =========================================================================
+
+\subsection{Energy-Based Models and OOD Detection}
+
+Energy-based models (EBMs) \citep{lecun2006} define a scalar energy
+function $E_\theta(x)$ and derive probabilities via Eq.~\eqref{eq:boltzmann}.
+\citet{liu2020ebm} show that the energy score is a strong baseline for
+out-of-distribution (OOD) detection, outperforming softmax confidence.
+Their free-energy formulation:
+\begin{equation}
+  F(x) = -\log \sum_{c} e^{f_c(x)},
+  \label{eq:free_energy_ood}
+\end{equation}
+inspired our free-energy-like monitoring scalar (Section~\ref{sec:fscalar}).
+
+\subsection{Uncertainty Quantification and Calibration}
+
+\citet{guo2017calibration} demonstrate that modern neural networks are
+miscalibrated: confidence scores do not accurately reflect empirical accuracy.
+Temperature scaling (adjusting the effective $T$ in
+Eq.~\eqref{eq:boltzmann}) is the simplest calibration method.
+\citet{lakshminarayanan2017} and \citet{malinin2018predictive} provide
+deeper uncertainty estimates via ensembles and prior networks, respectively.
+
+\subsection{Distribution Shift and Concept Drift}
+
+The concept-drift literature \citep{gama2014survey} provides
+statistical tests (ADWIN, DDM, Page-Hinkley) for detecting
+distributional changes in streaming data.
+These methods are complementary to our energy-entropy approach:
+they test for drift in scalar-valued time series, while we propose
+what signals to put in those time series.
+
+\subsection{RAG Reliability and Hallucination}
+
+\citet{ji2023survey} survey hallucination in NLG.
+\citet{min2023factscore} and \citet{es2023ragas} provide
+factual-precision and end-to-end RAG evaluation frameworks (FActScore,
+RAGAS).
+These rely on ground-truth labels, which are expensive.
+Our approach provides cheaper, label-free monitoring proxies.
+
+\subsection{FLARE: Forward-Looking Active Retrieval}
+\label{sec:flare_review}
+
+FLARE \citep{jiang2023flare} is the closest related work.
+During generation, FLARE monitors token probabilities.
+When the predicted probability of the next token falls below a threshold
+$\tau$, FLARE triggers a re-retrieval step using a reformulated query
+derived from the current generation prefix.
+The key design choices are:
+\begin{itemize}[noitemsep]
+  \item \textbf{Trigger signal:} minimum token probability $\min_t p(t)$
+    or perplexity of the upcoming span.
+  \item \textbf{Scope:} single query, real-time, within the generation
+    loop.
+  \item \textbf{Action:} re-retrieve and regenerate the low-confidence
+    span.
+\end{itemize}
+
+Our approach shares the intuition that low confidence warrants
+attention, but differs in scope (system-level, cross-query) and
+granularity (retrieval scores rather than generation token probabilities).
+Table~\ref{tab:flare_comparison} in Section~\ref{sec:flare_parallel}
+provides a structured comparison.
+
+% =========================================================================
+\section{Method}
+\label{sec:method}
+% =========================================================================
+
+\subsection{Boltzmannized Retrieval Energy Model}
+
+Let $q$ be a query, and let $\mathcal{D}_k = \{d_1,\ldots,d_k\}$ be
+the top-$k$ retrieved documents with raw similarity scores
+$s_i = \text{sim}(q, d_i) \in \mathbb{R}$.
+We define the \emph{retrieval energy} of candidate $i$ as:
+\begin{equation}
+  E_i(q) = -\alpha \cdot s_i - \beta \cdot r_i + \gamma \cdot \rho_i,
+  \label{eq:energy}
+\end{equation}
+where:
+\begin{itemize}[noitemsep]
+  \item $\alpha > 0$: weight for semantic similarity (lower energy = more
+    relevant).
+  \item $r_i \in [0,1]$: recency score (normalized document age); higher
+    recency reduces energy.
+  \item $\rho_i \geq 0$: risk flag (e.g., low-quality source, negative
+    feedback label); increases energy.
+  \item $\beta, \gamma \geq 0$: tunable weights.
+\end{itemize}
+
+The simplest configuration with $\alpha=1$, $\beta=\gamma=0$ recovers
+$E_i = -s_i$, making Boltzmann weights a direct re-normalization of
+similarity scores.
+Complex configurations allow incorporation of provenance quality and
+temporal relevance.
+
+We apply the Boltzmann normalization with inverse temperature $\beta_T = 1/T$:
+\begin{equation}
+  p_i = \frac{e^{-\beta_T E_i}}{\sum_{j=1}^{k} e^{-\beta_T E_j}},
+  \qquad Z = \sum_{j=1}^{k} e^{-\beta_T E_j}.
+  \label{eq:gibbs}
+\end{equation}
+For $T=1$ this is a standard softmax over negated energies.
+The temperature $T$ acts as a smoothing parameter:
+$T \to 0$ concentrates mass on the minimum-energy candidate;
+$T \to \infty$ yields uniform $p_i = 1/k$.
+
+\begin{remark}
+  In production we do \emph{not} claim to solve a physical Boltzmann
+  equation.
+  The term ``Boltzmann-inspired'' denotes the use of this mathematical
+  form for its well-understood statistical properties (maximum-entropy,
+  calibrated probabilities), not a physical simulation.
+\end{remark}
+
+\subsection{Entropy, Effective Candidate Count, and Per-Query Statistics}
+
+From $\mathbf{p}$ we derive the per-query monitoring signals:
+
+\paragraph{Retrieval entropy.}
+$H_q = H(\mathbf{p})$ as in Eq.~\eqref{eq:entropy}.
+High $H_q$ near $\ln k$ indicates diffuse retrieval (many nearly
+equally relevant or equally irrelevant candidates).
+Low $H_q$ near $0$ indicates concentrated retrieval.
+
+\paragraph{Effective candidate count.}
+$N_{\text{eff},q} = e^{H_q}$ as in Eq.~\eqref{eq:neff}.
+Interpretable: ``how many documents effectively determine the answer?''
+
+\paragraph{Energy gap.}
+$\Delta E_q = E_{(2)} - E_{(1)}$, the difference between the
+second-lowest and lowest energy.
+A small gap means the top-1 and top-2 candidates are nearly
+indistinguishable; a large gap means the system has a clear winner.
+
+\paragraph{Partition function proxy.}
+$\ln Z_q = \ln \sum_j e^{-\beta_T E_j}$.
+Unusual values (very low $Z$) indicate that all candidates have high
+energy, suggesting out-of-distribution queries.
+
+\subsection{Free-Energy-Like Monitoring Scalar}
+\label{sec:fscalar}
+
+Inspired by the Helmholtz free energy $F = U - TS$ and the EBM
+formulation of \citet{liu2020ebm}, we define a scalar
+\emph{monitoring proxy}:
+\begin{equation}
+  \Phi_q = \bar{E}_q - T \cdot H_q
+         = \sum_i p_i E_i + T \sum_i p_i \ln p_i,
+  \label{eq:fscalar}
+\end{equation}
+where $\bar{E}_q = \sum_i p_i E_i$ is the expected energy under $\mathbf{p}$.
+
+$\Phi_q$ is low when retrieval is confident (low energy) and high-entropy
+(many relevant candidates), and high when retrieval is uncertain or
+concentrated on high-energy (low-quality) candidates.
+It serves as a single-number summary of retrieval health per query.
+
+\subsection{Correlation Analysis Design}
+\label{sec:correlation}
+
+We define three primary correlation hypotheses to be tested empirically:
+
+\begin{enumerate}
+  \item \textbf{Quality vs. Entropy.}
+    \hypothesis{$H_q$ is negatively correlated with user-labeled
+    relevance scores or RAGAS context-precision.}
+    Intuition: concentrated retrieval (low $H$) should correlate
+    with higher precision when the top candidate is correct.
+    \caveat{The relationship may be non-monotone: very low $H$ may
+    indicate over-confident but wrong retrieval.}
+
+  \item \textbf{Hallucination proxy vs. Energy gap.}
+    \hypothesis{Small $\Delta E_q$ is positively associated with
+    hallucination-flagged responses (LLM self-consistency or
+    FActScore $< \tau$).}
+    Intuition: when the top-2 candidates are nearly equivalent in
+    energy, the generator lacks a clear grounding anchor.
+    \caveat{Ground-truth hallucination labels are expensive; surrogate
+    labels (self-consistency, model-based NLI) introduce noise.}
+
+  \item \textbf{Latency vs. Entropy.}
+    \hypothesis{High $H_q$ is associated with increased end-to-end
+    latency due to longer context (more candidates passed to generator)
+    or re-retrieval triggered downstream.}
+    \caveat{Confounders include query complexity, generator load, and
+    index size.}
+\end{enumerate}
+
+\paragraph{Correlation vs. causation caveat (mandatory).}
+All of the above are observational hypotheses.
+Even if positive correlations are found, they do not establish causal
+mechanisms.
+For example, a positive correlation between $H_q$ and hallucination
+rate may reflect a common cause (queries about rare topics) rather
+than entropy causing hallucination.
+Causal analysis would require controlled interventions (e.g., ablating
+retrieval diversity) which are outside the scope of this proposal.
+
+\subsection{FLARE Parallels and Differences}
+\label{sec:flare_parallel}
+
+Table~\ref{tab:flare_comparison} summarises the structural comparison
+between FLARE and the proposed Boltzmann observability layer.
+
+\begin{table}[ht]
+  \centering
+  \caption{FLARE vs. Boltzmann Observability Layer: structural comparison.}
+  \label{tab:flare_comparison}
+  \begin{tabular}{@{}lll@{}}
+    \toprule
+    \textbf{Dimension} & \textbf{FLARE} & \textbf{Boltzmann Layer (proposed)} \\
+    \midrule
+    Scope & Single query, real-time & Cross-query, longitudinal \\
+    Signal source & Generator token probabilities & Retriever score distributions \\
+    Primary metric & $\min_t p(t_i)$ / perplexity & $H_q$, $N_{\text{eff},q}$, $\Phi_q$ \\
+    Action & Re-retrieve \& regenerate & Alert / drift report / AQL query \\
+    Loop integration & Inside generation loop & Outside, post-hoc or async \\
+    Latency impact & Direct (adds retrieval calls) & Negligible (async logging) \\
+    Temporal analysis & No (single request) & Yes (rolling windows, baselines) \\
+    Hallucination response & Proactive (prevents) & Reactive (detects pattern) \\
+    Ground-truth needed & No & No (proxy signals) \\
+    Corpus coverage & Implicitly via re-retrieval & Explicitly via drift metrics \\
+    Implementation locus & LLM inference service & Database observability layer \\
+    ThemisDB integration & Via RAG module hooks & Native AQL + relational store \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+The two approaches are complementary: FLARE corrects individual
+low-confidence generations; the Boltzmann layer detects systemic
+patterns (drift, systematic overconfidence, index coverage gaps) that
+a per-request approach cannot expose.
+
+% =========================================================================
+\section{ThemisDB Architecture Integration}
+\label{sec:integration}
+% =========================================================================
+
+\themisdb{} is a hybrid graph-vector-relational database with an
+AQL query interface and MVCC transaction semantics
+\citep{themisdb2026}.
+The hybrid model makes it unusually well-suited for observability
+workloads that mix structured event records (relational), embedding
+comparisons (vector), and provenance tracking (graph).
+
+\subsection{Data Model (Event Schema)}
+
+Each RAG pipeline invocation emits an observability event stored in
+\themisdb{}:
+
+\begin{verbatim}
+ObservabilityEvent {
+  event_id       : UUID          -- primary key
+  timestamp      : TIMESTAMP     -- wall-clock, UTC
+  query_hash     : BYTES(32)     -- SHA-256 of query embedding
+  session_id     : UUID          -- optional; links to user session
+  topk_scores    : FLOAT64[]     -- raw similarity scores s_1..s_k
+  topk_doc_ids   : UUID[]        -- retrieved document identifiers
+  energy_params  : JSON          -- alpha, beta, gamma, T used
+  -- Derived signals (computed on ingest):
+  entropy_H      : FLOAT64       -- H(p), see Eq. (3)
+  n_eff          : FLOAT64       -- exp(H), see Eq. (4)
+  energy_gap     : FLOAT64       -- E_(2) - E_(1)
+  ln_Z           : FLOAT64       -- log partition function
+  phi_scalar     : FLOAT64       -- free-energy proxy, see Eq. (6)
+  -- Optional downstream signals:
+  answer_confidence : FLOAT64    -- surrogate confidence (if available)
+  latency_ms     : INT64         -- end-to-end request latency
+  feedback_label : SMALLINT      -- -1/0/1 user feedback (nullable)
+}
+\end{verbatim}
+
+\subsection{Mapping to ThemisDB Storage Model}
+
+\begin{itemize}[noitemsep]
+  \item \textbf{Relational store:} \texttt{ObservabilityEvent} table,
+    rolling baselines per time bucket, SLO alert records.
+  \item \textbf{Vector store:} query embeddings indexed for similarity
+    search, enabling ``find queries most similar to this anomalous one''.
+  \item \textbf{Graph store:} provenance graph linking event nodes to
+    document nodes, document nodes to source nodes.
+    Enables attribution analysis: ``which source documents are most
+    often associated with high-$\Phi$ (risky) retrievals?''
+  \item \textbf{File / blob store:} long-term archival of raw events;
+    sampling frames for offline evaluation.
+\end{itemize}
+
+\subsection{Pipeline Stages}
+
+\begin{enumerate}[label=\textbf{Stage \arabic*.}, leftmargin=*]
+  \item \textbf{Ingest.} RAG service posts \texttt{ObservabilityEvent}
+    to \themisdb{} via gRPC / HTTP write API.
+    Derived signals ($H$, $N_\text{eff}$, $\Phi$) computed server-side
+    on ingest to avoid client-side implementation inconsistency.
+  \item \textbf{Rolling Baseline.} Materialized views maintain
+    rolling $\mu$, $\sigma$, median, MAD of $H_q$, $\Phi_q$
+    per 1h / 24h / 7d windows.
+    Baseline is recomputed incrementally using sliding-window aggregation.
+  \item \textbf{Alerting.} Rule engine evaluates:
+    \begin{itemize}[noitemsep]
+      \item $|H_q - \mu_H| > z \cdot \text{MAD}_H$ (entropy spike),
+      \item $\Phi_q > \Phi_{95\%}$ of baseline (free-energy anomaly),
+      \item $\frac{1}{W}\sum_{w} \mathbf{1}[\Phi_q > \theta]
+            > \alpha_\text{alert}$ (sustained elevated risk).
+    \end{itemize}
+    Alerts stored in \texttt{AlertEvent} table with reasoning payload.
+  \item \textbf{Analysis.} AQL queries (Section~\ref{sec:aql_examples})
+    enable operator investigation of flagged events, cluster analysis,
+    and correlation queries.
+\end{enumerate}
+
+\subsection{AQL Query Examples}
+\label{sec:aql_examples}
+
+\paragraph{Entropy drift (time-series view).}
+\begin{verbatim}
+SELECT
+  DATE_TRUNC(timestamp, 'hour') AS bucket,
+  AVG(entropy_H) AS mean_entropy,
+  PERCENTILE_CONT(0.95) WITHIN GROUP (ORDER BY entropy_H) AS p95_entropy,
+  COUNT(*) AS n
+FROM ObservabilityEvent
+WHERE timestamp >= NOW() - INTERVAL '7 days'
+GROUP BY bucket
+ORDER BY bucket;
+\end{verbatim}
+
+\paragraph{High-risk low-entropy events (over-confident failures).}
+\begin{verbatim}
+SELECT event_id, timestamp, entropy_H, phi_scalar, feedback_label
+FROM ObservabilityEvent
+WHERE entropy_H < 0.5          -- concentrated retrieval
+  AND phi_scalar > :phi_p95    -- high free-energy (risky)
+  AND feedback_label = -1      -- negative user feedback
+ORDER BY phi_scalar DESC
+LIMIT 100;
+\end{verbatim}
+
+\paragraph{Domain-shift cluster candidates.}
+\begin{verbatim}
+SELECT
+  o.event_id,
+  o.entropy_H,
+  o.phi_scalar,
+  v.cluster_id          -- from vector k-means materialized view
+FROM ObservabilityEvent o
+JOIN QueryCluster v ON v.query_hash = o.query_hash
+WHERE o.timestamp >= NOW() - INTERVAL '1 day'
+  AND v.cluster_id NOT IN (
+    SELECT DISTINCT cluster_id FROM QueryCluster
+    WHERE snapshot_date < NOW() - INTERVAL '30 days'
+  )
+ORDER BY o.phi_scalar DESC;
+\end{verbatim}
+
+% =========================================================================
+\section{Performance Expectations and SLO Hypotheses}
+\label{sec:performance}
+% =========================================================================
+
+This section states \emph{hypotheses} about acceptable performance
+targets for the observability layer.
+These are engineering targets, not yet empirically validated results.
+
+\subsection{Ingestion Throughput}
+
+\hypothesis{The observability ingest pipeline sustains
+$\geq 5{,}000$ events/second on \themisdb{}'s standard write path
+without degrading primary query throughput by more than 2\%.}
+
+Basis: derived signal computation ($H$, $N_\text{eff}$, $\Phi$) requires
+$O(k)$ floating-point operations per event with $k \leq 100$.
+At $k=20$ and 64-bit floats, this is approximately $\sim 1$~\textmu s
+CPU per event, negligible versus I/O.
+
+\subsection{Query Latency Targets}
+
+\hypothesis{The following p50/p95/p99 latency targets hold for
+key monitoring queries under a 30-day rolling event store
+($\sim 10^8$ events):}
+
+\begin{table}[ht]
+  \centering
+  \caption{Query latency SLO hypotheses.}
+  \label{tab:latency}
+  \begin{tabular}{@{}llrrr@{}}
+    \toprule
+    Query type & Index strategy & p50 & p95 & p99 \\
+    \midrule
+    Hourly entropy drift (7d) & Time-partition & $<50$~ms & $<200$~ms & $<500$~ms \\
+    High-risk events lookup & $(\Phi, H)$ composite index & $<20$~ms & $<100$~ms & $<300$~ms \\
+    Domain-shift cluster join & Vector + relational & $<100$~ms & $<400$~ms & $<1$~s \\
+    Per-session trace (1 session) & session\_id index & $<10$~ms & $<50$~ms & $<100$~ms \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\caveat{These targets assume the event table has columnar compression
+on numeric signals and appropriate partition pruning.
+Without index tuning, p99 may exceed targets by an order of magnitude.}
+
+\subsection{Storage Overhead}
+
+\hypothesis{The observability event store adds $\leq 10\%$ of total
+\themisdb{} storage for a typical RAG deployment processing
+$10^6$ queries/day with $k=20$ candidates.}
+
+Estimation:
+$\sim 400$~bytes per event (UUID + timestamps + $k$ floats + derived
+signals + metadata) $\times$ $10^6$/day $= 400$~MB/day uncompressed.
+With columnar compression ($\sim$4$\times$), $\approx 100$~MB/day.
+
+\subsection{Alert Precision/Recall Hypotheses}
+
+\hypothesis{A simple threshold alert on $\Phi_q > \Phi_{95\%}$
+achieves $\geq 0.6$ precision and $\geq 0.5$ recall for
+hallucination-flagged requests, measured against FActScore $< 0.5$
+as ground truth.}
+
+\caveat{Precision/recall are sensitive to the base rate of
+hallucinations, which varies widely by domain and model.
+This hypothesis should be tested on domain-specific evaluation sets.
+The 0.6/0.5 values are \emph{minimum acceptable} targets, not
+guaranteed results.}
+
+\subsection{Computational Complexity}
+
+\begin{itemize}[noitemsep]
+  \item Per-event signal computation: $O(k)$ time, $O(k)$ space.
+  \item Rolling window baseline update (sliding sum): $O(1)$ amortized
+    with ring-buffer implementation.
+  \item Top-$k$ anomaly detection: $O(n \log k)$ with priority queue,
+    where $n$ is events in the window.
+  \item Domain-shift cluster candidates query: $O(n \cdot d)$ for
+    vector similarity where $d$ is embedding dimension;
+    HNSW index reduces to $O(\log n)$ expected for ANN retrieval.
+\end{itemize}
+
+% =========================================================================
+\section{Evaluation Protocol}
+\label{sec:evaluation}
+% =========================================================================
+
+\subsection{Benchmark Plan}
+
+\paragraph{Synthetic workload.}
+Generate $10^5$ synthetic queries with controlled entropy levels
+($H \in \{0.1, 0.5, 1.0, \ln 20\}$) by constructing score vectors with
+known distributions.
+Measure: ingest throughput, signal computation accuracy (vs. reference
+Python implementation), alert trigger latency.
+
+\paragraph{Replay workload.}
+Replay a 30-day event log from a staging RAG deployment.
+Inject synthetic anomalies (entropy spikes, domain-shift batches) at
+known timestamps.
+Measure: detection latency, false-positive rate over anomaly-free periods.
+
+\paragraph{End-to-end RAG evaluation.}
+Use a labeled dataset (e.g., Natural Questions, TriviaQA, or internal
+\themisdb{} test sets) with known hallucination labels.
+Measure: Pearson/Spearman correlation of $H_q$, $\Phi_q$, $\Delta E_q$
+with FActScore and RAGAS context-precision.
+
+\paragraph{Correlation analysis.}
+For each hypothesis in Section~\ref{sec:correlation}:
+\begin{enumerate}[noitemsep]
+  \item Report Pearson $r$ and Spearman $\rho$ with 95\% bootstrap
+    confidence intervals.
+  \item Report partial correlations controlling for query length and
+    $k$.
+  \item Report effect size (Cohen's $d$ for binary outcomes).
+\end{enumerate}
+
+% =========================================================================
+\section{Threats to Validity}
+\label{sec:threats}
+% =========================================================================
+
+\paragraph{Internal validity.}
+Signal computation assumes that raw similarity scores are comparable
+across queries.
+In practice, scores depend on the embedding model and normalization.
+Cross-model or cross-index comparisons require re-calibration of
+energy parameters $(\alpha, \beta, \gamma, T)$.
+
+\paragraph{External validity.}
+Results from one RAG deployment may not generalise to others with
+different domain, document quality, or query types.
+The evaluation protocol uses multiple datasets to partially mitigate this.
+
+\paragraph{Construct validity.}
+The $\Phi_q$ scalar is a heuristic proxy for ``retrieval health'',
+not a rigorously derived measure.
+Its correlation with ground-truth quality metrics must be established
+per deployment before use in automated alerting.
+
+\paragraph{Correlation vs. causation.}
+As noted in Section~\ref{sec:correlation}, all observed correlations
+between entropy/energy signals and quality outcomes are observational.
+No causal claims are made in this paper.
+Confounders (query difficulty, topic rarity, model bias) are not
+controlled for without randomised experimental design.
+
+\paragraph{Temperature sensitivity.}
+The choice of $T$ in Eq.~\eqref{eq:gibbs} affects all derived signals.
+If $T$ is poorly calibrated, signals will be compressed (high $T$)
+or degenerate (low $T$).
+A calibration procedure (e.g., Platt scaling on a validation set)
+is required before deployment.
+
+% =========================================================================
+\section{Conclusion}
+\label{sec:conclusion}
+% =========================================================================
+
+We have proposed a Boltzmann-inspired observability layer for RAG pipelines
+and AI inference, grounded in the statistical-mechanical reinterpretation
+of retrieval score distributions.
+The core signals --- entropy $H$, effective candidate count $N_\text{eff}$,
+energy gap $\Delta E$, and free-energy proxy $\Phi$ --- are cheap to
+compute, interpretable, and amenable to rolling-window drift analysis.
+
+We drew explicit parallels to FLARE, showing that the two approaches
+are complementary: FLARE acts within the generation loop on individual
+requests; the Boltzmann layer acts across the query log at the system
+level.
+The proposed integration with \themisdb{}'s hybrid storage model
+enables AQL-driven correlation queries, provenance graph analysis,
+and multi-tier retention policies in a single system.
+
+Performance expectations and evaluation protocols are stated as
+testable hypotheses.
+The next step is empirical validation on representative RAG deployments,
+measurement of signal-to-quality correlations, and iterative calibration
+of the energy model parameters.
+
+\paragraph{Future work.}
+(1)~Causal analysis of entropy-quality relationships via controlled
+re-retrieval ablations.
+(2)~Online learning of energy parameters from user feedback.
+(3)~Extension to multi-modal retrieval (text + image + structured data).
+(4)~Integration with \themisdb{}'s MVCC to provide temporally
+consistent snapshots of observability baselines.
+
+\bigskip
+
+\paragraph{Acknowledgements.}
+This draft builds on the existing \themisdb{} RAG module, Shannon
+information theory survey
+(\texttt{research/PAPER\_SURVEY\_SHANNON\_LLM\_RAG\_FLARE.md}),
+and the community of contributors to the open ThemisDB repository.
+
+% =========================================================================
+% References
+% =========================================================================
+\bibliographystyle{plainnat}
+\bibliography{bib/boltzmann_flare_rag_monitoring}
+
+\end{document}

@@ -17,8 +17,10 @@ This directory contains the public C++ interfaces for importer execution, option
 | `importer_interfaces.h` | `IImporterV2`, `IImporterPlugin`, `IImporterPluginRegistry`, async and conflict helper interfaces | Extended contracts and plugin abstractions |
 | `importer_plugin.h` | `THEMIS_IMPORTER_PLUGIN_V1`, `THEMIS_IMPORTER_CREATE_SYMBOL` | Stable C ABI descriptor for third-party importer plugins |
 | `importer_plugin_api.h` | `ImporterPluginRegistry`, `V1ImporterAdapter`, `PluginSandboxConfig` | Runtime plugin loading, ABI validation, timeout/memory sandbox hooks |
+| `huggingface_ingest_plugin.h` | `HuggingFaceIngestPlugin` | Legal-domain HuggingFace ingest (snapshot/update/validate/AdaLoRA export) |
 | Source headers (`postgres_importer.h`, `mysql_importer.h`, `mongo_importer.h`, `sqlite_importer.h`, `oracle_importer.h`, `kafka_importer.h`, `s3_importer.h`, `flatfile_importer.h`) | Concrete importer classes | Source-specific connectors |
 | MDM and pipeline headers (`mdm_engine.h`, `entity_linker.h`, `canonical_resolver.h`, `conflict_resolver.h`, `adaptive_import.h`, `data_quality.h`, `schema_inference.h`, `schema_validator.h`) | Specialized processing APIs | MDM, conflict handling, validation, optimization, and quality scoring |
+| `wikipedia_plugin.hpp`, `wikipedia_pipeline.hpp`, `wikipedia_transform.hpp`, `wikipedia_checkpoint.hpp`, `wikipedia_types.hpp`, `wikipedia_config.hpp` | `WikipediaIngestionPlugin`, `WikipediaIngestionPipeline` | Wikimedia full import, delta refresh, multi-model projection rebuild, checkpoint/resume, validation, and portable `wikipedia.db` export |
 
 ## Public API Behavior
 
@@ -36,6 +38,7 @@ This directory contains the public C++ interfaces for importer execution, option
 - `ImportOptions` controls dry-run, batching, filtering, mapping, validation, conflict strategy, resume/checkpoint, observability callbacks, and MDM linking
 - `ImportStats` reports record counters, conflict counters, FK/relationship counters, warnings/errors, and machine-readable `structured_errors`
 - `ImportErrorCode` classifies failure causes (I/O, parsing, schema/type conversion, permission/policy, conflict failure)
+- `WikipediaIngestionPipeline` keeps a canonical Wikipedia relational core (`wiki_page`, `wiki_revision`, `wiki_link`, `wiki_category`, `wiki_redirect`, ingest state, dead letters) and rebuilds graph/vector/process/timeseries projections from dirty pages only
 
 ### Plugin ABI behavior
 
@@ -82,6 +85,25 @@ options.validate_schema = true;
 ImportStats stats = importer->importData(sourcePath, options);
 ```
 
+### Wikipedia full import, delta update, verify, and export
+
+```cpp
+#include "importers/wikipedia_plugin.hpp"
+
+using namespace themis::importers;
+
+WikipediaIngestionPlugin plugin;
+plugin.initialize(R"({\"checkpoint_path\":\"./wikipedia.checkpoint.json\"})");
+
+ImportOptions options;
+options.checkpoint_file = "./wikipedia.checkpoint.json";
+
+plugin.runFullImport({.source_path = "./pages-articles.xml", .source_id = "full-2026-06"});
+plugin.runIncrementalUpdate({.source_path = "./pages-articles-next.xml", .source_id = "delta-2026-07"}, options);
+auto validation = plugin.validateDatabase();
+auto manifest = plugin.exportPortable("./wikipedia.db", "./manifest.json");
+```
+
 ### Stream rows without buffering full datasets
 
 ```cpp
@@ -89,6 +111,20 @@ auto stats = importer->importDataStreaming(sourcePath, options,
     [](const std::string& table, const nlohmann::json& row) {
         return true; // return false to abort early
     });
+```
+
+### HuggingFace legal ingest workflow (snapshot → update → validate → export)
+
+```cpp
+#include "importers/huggingface_ingest_plugin.h"
+
+themis::importers::HuggingFaceIngestPlugin plugin;
+plugin.init();
+plugin.runFullImport({.dataset_name = "legal_hf_dataset", .split = "train", .seed_rows = rows});
+plugin.runIncrementalUpdate({.dataset_name = "legal_hf_dataset", .split = "train", .changed_rows = delta_rows});
+auto quality = plugin.validateQuality();
+auto exported = plugin.exportAdaLoraJsonl({.output_path = "adalora_legal.jsonl"});
+plugin.shutdown();
 ```
 
 ## Troubleshooting
