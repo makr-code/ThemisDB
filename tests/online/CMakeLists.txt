@@ -13,7 +13,15 @@ foreach(_src IN LISTS ONLINE_PREFIX_TEST_SOURCES)
         continue()
     endif()
 
-    add_executable(${_target} "${_src}")
+    set(_target_sources "${_src}")
+
+    if(_stem STREQUAL "test_online_schema_migration")
+        list(APPEND _target_sources
+            ${THEMIS_ROOT_DIR}/src/storage/online_schema_migration.cpp
+        )
+    endif()
+
+    add_executable(${_target} ${_target_sources})
     target_include_directories(${_target} PRIVATE
         ${THEMIS_ROOT_DIR}/include
         ${THEMIS_ROOT_DIR}/src

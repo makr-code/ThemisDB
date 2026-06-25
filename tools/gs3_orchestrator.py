@@ -30,6 +30,80 @@ def _normalize_path(path: str) -> str:
     return (path or '').replace('\\', '/').lower()
 
 
+# PHASE 5: External Submodule Boundary Exclusion
+EXTERNAL_SUBMODULES = {
+    'llama.cpp',
+    'whisper.cpp',
+    'vcpkg',
+    'vcpkg_installed',
+    'vcpkg_installed_linux',
+    'onnx-clip',
+}
+
+
+def is_external_submodule(file_path: str) -> bool:
+    """Check if a finding belongs to an external GitHub submodule"""
+    normalized = _normalize_path(file_path)
+    return any(sub.lower() in normalized for sub in EXTERNAL_SUBMODULES)
+
+
+def filter_external_submodules(gaps: list[Gap]) -> Tuple[list[Gap], int]:
+    """
+    Remove findings from external submodules
+    
+    Returns: (filtered_gaps, count_removed)
+    """
+    removed_count = 0
+    filtered = []
+    
+    for gap in gaps:
+        if is_external_submodule(gap.file):
+            removed_count += 1
+            logging.debug(f"  EXTERNAL_SUBMODULE_FILTERED: {gap.file}:{gap.line}")
+        else:
+            filtered.append(gap)
+    
+    return filtered, removed_count
+
+
+def _resolve_gaps_to_repo_paths(gaps: list[Gap], source_dir: str, repo_root: str = '.') -> Tuple[list[Gap], int]:
+    """
+    Resolve relative file paths from scanner to absolute repo paths
+    
+    The scanner stores paths relative to source_dir (e.g., 'explain_plan.cpp' when scanning './src/graph')
+    This function reconstructs the absolute repo path (e.g., 'src/graph/explain_plan.cpp')
+    needed for accurate scope classification.
+    
+    Returns: (gaps with reconstructed paths, count_resolved)
+    """
+    source_path = Path(source_dir).resolve()
+    repo_path = Path(repo_root).resolve()
+    count_resolved = 0
+    
+    for gap in gaps:
+        file_path = Path(gap.file)
+        
+        # Skip if already absolute or starts with src/include/etc
+        if file_path.is_absolute():
+            continue
+        if gap.file.startswith(('src/', 'include/', 'tests/', 'benchmarks/')):
+            continue  # Already in correct form
+        
+        # Reconstruct: source_dir + relative_file
+        reconstructed = source_path / file_path
+        
+        # Get path relative to repo root
+        try:
+            rel_to_repo = reconstructed.relative_to(repo_path)
+            gap.file = str(rel_to_repo).replace('\\', '/')
+            count_resolved += 1
+        except ValueError:
+            # Path is outside repo, keep as-is
+            pass
+    
+    return gaps, count_resolved
+
+
 def _classify_scope(path: str) -> str:
     normalized = _normalize_path(path)
     if normalized.startswith('tests/'):
@@ -332,6 +406,7 @@ def enrich_output_metadata_phase4(gaps: list[Gap], repo_root: str, verify_stats:
         'verification_phase1_phase2': {
             'file_existence_checked': True,
             'file_not_found_removed': verify_stats.get('file_not_found', 0),
+            'external_submodule_removed': verify_stats.get('external_submodule_filtered', 0),
             'findings_downgraded': verify_stats.get('downgraded', 0),
             'findings_kept': verify_stats.get('kept', 0),
             'classifications': {
@@ -370,6 +445,7 @@ def verify_gaps_phase1_phase2(gaps: list[Gap], repo_root: str) -> Tuple[list[Gap
     
     Phase 1: File existence check — removes FILE_NOT_FOUND false-positives
     Phase 2: Multi-factor classification — re-assesses severity based on context
+    Phase 5: External submodule filtering — removes findings from external GitHub submodules
     """
     
     logging.basicConfig(level=logging.INFO, format='%(levelname)s — %(message)s')
@@ -383,12 +459,15 @@ def verify_gaps_phase1_phase2(gaps: list[Gap], repo_root: str) -> Tuple[list[Gap
     stats = {
         'total_input': len(gaps),
         'file_not_found': 0,
+        'external_submodule_filtered': 0,
         'downgraded': 0,
         'kept': 0,
         'test_mock': 0,
         'guarded_stub': 0,
         'placeholder': 0,
         'real_gap': 0,
+        'unknown': 0,
+        'out_of_range': 0,
     }
     
     for gap in gaps:
@@ -399,6 +478,12 @@ def verify_gaps_phase1_phase2(gaps: list[Gap], repo_root: str) -> Tuple[list[Gap
             stats['file_not_found'] += 1
             logging.warning(f"  FALSE_POSITIVE (FILE_NOT_FOUND): {gap.file}:{gap.line}")
             continue  # Skip this finding
+        
+        # PHASE 5: External Submodule Check
+        if is_external_submodule(gap.file):
+            stats['external_submodule_filtered'] += 1
+            logging.info(f"  EXTERNAL_SUBMODULE_FILTERED: {gap.file}:{gap.line}")
+            continue  # Skip external submodule findings
         
         # PHASE 2: Multi-Factor Classification + Severity Re-Assessment
         classification, severity_action = _classify_gap_and_assess(file_full_path, gap, repo_path)
@@ -427,6 +512,7 @@ def verify_gaps_phase1_phase2(gaps: list[Gap], repo_root: str) -> Tuple[list[Gap
     print(f"  Input gaps: {stats['total_input']}")
     print(f"  Output gaps: {len(verified_gaps)}")
     print(f"  Removed (FILE_NOT_FOUND): {stats['file_not_found']}")
+    print(f"  Removed (EXTERNAL_SUBMODULE): {stats['external_submodule_filtered']}")
     print(f"  Downgraded (severity reduced): {stats['downgraded']}")
     print(f"  Classifications:")
     print(f"    - TEST_MOCK: {stats['test_mock']}")
@@ -533,8 +619,13 @@ def main():
     gaps = pipeline.execute(args.source_dir, verbose=args.verbose)
     elapsed = time.time() - start_time
     
-    # IMPROVEMENT: Apply Phase 1 & 2 verification before export
-    gaps, verify_stats = verify_gaps_phase1_phase2(gaps, args.source_dir or '.')
+    # IMPROVEMENT: Resolve relative paths to absolute repo paths (for accurate scope classification)
+    print("\n[PATH RESOLUTION] Resolving scanner-relative paths to repo-absolute paths...")
+    gaps, paths_resolved = _resolve_gaps_to_repo_paths(gaps, args.source_dir, '.')
+    print(f"  Paths resolved: {paths_resolved}")
+    
+    # IMPROVEMENT: Apply Phase 1 & 2 verification before export (use '.' as repo_root, not source_dir)
+    gaps, verify_stats = verify_gaps_phase1_phase2(gaps, '.')  # Use repo root, not scan dir
     
     # IMPROVEMENT: Apply Phase 3 — Cache stale detection
     cache_file = Path(args.output)
@@ -542,6 +633,14 @@ def main():
     
     # IMPROVEMENT: Apply Phase 4 — Enriched metadata
     metadata_enriched = enrich_output_metadata_phase4(gaps, args.source_dir or '.', verify_stats, cache_stats, missing_files)
+    
+    # Filter external submodules (Phase 5)
+    print("\n[PHASE 5] Filtering external GitHub submodules...")
+    gaps_before_ext_filter = len(gaps)
+    gaps, ext_filtered = filter_external_submodules(gaps)
+    print(f"  External submodules filtered: {ext_filtered}")
+    if ext_filtered > 0:
+        logging.info(f"  Removed {ext_filtered} findings from external submodules")
     
     scope_breakdown = _build_scope_breakdown(gaps)
     
@@ -589,10 +688,11 @@ def main():
         typ = gap.type
         by_type[typ] = by_type.get(typ, 0) + 1
     
-    print(f"\n[SUMMARY — After Verification (Phase 1 & 2)]")
+    print(f"\n[SUMMARY — After Verification (Phase 1, 2 & 5)]")
     print(f"Total gaps: {len(gaps)}")
     print(f"  Input (raw scanner): {verify_stats['total_input']}")
     print(f"  Removed (FILE_NOT_FOUND): {verify_stats['file_not_found']}")
+    print(f"  Removed (EXTERNAL_SUBMODULE): {verify_stats['external_submodule_filtered']}")
     print(f"  Downgraded (severity re-assessed): {verify_stats['downgraded']}")
     print(f"  Kept (unchanged): {verify_stats['kept']}")
     

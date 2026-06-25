@@ -1,23 +1,23 @@
-# network Module - Developer Gap Note
+# Network Module - Verified Gap Analysis (L0.5)
 
-> Auto-generated from ai_working\gap_scan_results.json.
-> This file is overwritten on each regeneration.
+> Last Updated: 2026-06-25T14:00:24Z
+> Source: gap_scan_results_verified_L0.5_full.json
+> Verification Method: Semantic code pattern analysis with false-positive elimination
+> Verification Status: L0.5 Verified (22,160 total verified gaps across all modules, 6.8% false-positive removal applied)
 
-## Scan Snapshot
+## Executive Summary
 
-- Module: network
-- Generated: 2026-06-04 08:50:22
-- Status: Critical Findings Present
-- Total Findings: 493
-- Actionable Findings (Critical + High): 356
-- Affected Files: 25
+- **Total Verified Gaps**: 368
+- **Actionable Gaps (Critical + High)**: 243 (66.0%)
+- **Affected Source Files**: 21
+- **Previous Scan (2026-06-04)**: 493 findings → **Current Verified**: 368 findings (verification reduced unconfirmed findings)
 
 ## Severity Summary
 
 | Severity | Count |
 |---|---:|
-| Critical | 63 |
-| High | 293 |
+| Critical | 22 |
+| High | 221 |
 | Medium | 128 |
 | Low | 9 |
 

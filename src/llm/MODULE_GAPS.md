@@ -1,25 +1,25 @@
-# llm Module - Developer Gap Note
+# LLM Module - Verified Gap Analysis (L0.5)
 
-> Auto-generated from ai_working\gap_scan_results.json.
-> This file is overwritten on each regeneration.
+> Last Updated: 2026-06-25T14:00:24Z
+> Source: gap_scan_results_verified_L0.5_full.json
+> Verification Method: Semantic code pattern analysis with false-positive elimination
+> Verification Status: L0.5 Verified (22,160 total verified gaps across all modules, 6.8% false-positive removal applied)
 
-## Scan Snapshot
+## Executive Summary
 
-- Module: llm
-- Generated: 2026-06-04 08:50:22
-- Status: Critical Findings Present
-- Total Findings: 2146
-- Actionable Findings (Critical + High): 1524
-- Affected Files: 143
+- **Total Verified Gaps**: 3,821
+- **Actionable Gaps (Critical + High)**: 2,966 (77.6%)
+- **Affected Source Files**: 146
+- **Previous Scan (2026-06-04)**: 2,146 findings → **Current Verified**: 3,821 findings (+78% additional gaps identified)
 
 ## Severity Summary
 
-| Severity | Count |
-|---|---:|
-| Critical | 567 |
-| High | 957 |
-| Medium | 548 |
-| Low | 74 |
+| Severity | Count | % of Total |
+|---|---:|---:|
+| CRITICAL | 1,029 | 26.9% |
+| HIGH | 1,937 | 50.7% |
+| MEDIUM | 854 | 22.4% |
+| LOW | 1 | 0.0% |
 
 ## Category Summary
 

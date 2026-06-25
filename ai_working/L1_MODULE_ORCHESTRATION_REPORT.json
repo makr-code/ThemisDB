@@ -1,0 +1,189 @@
+{
+  "orchestration_level": "L1",
+  "timestamp": "2026-06-25T14:00:24.438563",
+  "source": "gap_scan_results_verified_L0.5_full.json",
+  "priority_modules": [
+    "llm",
+    "server",
+    "query",
+    "network",
+    "graph",
+    "cache"
+  ],
+  "module_updates": {
+    "llm": {
+      "total_gaps": 3821,
+      "severity_breakdown": {
+        "CRITICAL": 1029,
+        "HIGH": 1937,
+        "MEDIUM": 854,
+        "LOW": 1
+      },
+      "affected_files": 146,
+      "files_list": [
+        "src/llm/active_vram_allocator.cpp",
+        "src/llm/adapter_load_balancer.cpp",
+        "src/llm/adapter_registry.cpp",
+        "src/llm/adaptive_vram_allocator.cpp",
+        "src/llm/ai_decision_auditor.cpp",
+        "src/llm/ai_orchestrator.cpp",
+        "src/llm/applications/themis_help_lora.cpp",
+        "src/llm/aql_train_parser.cpp",
+        "src/llm/async_inference_engine.cpp",
+        "src/llm/attention/flash_attention.cpp"
+      ],
+      "actions": [
+        "Update or create src/llm/README.md",
+        "Update or create src/llm/ROADMAP.md with gap context",
+        "Add CRITICAL (1029) and HIGH (1937) gap items",
+        "Map findings to relevant roadmap sections",
+        "Link to L0.5 verification evidence"
+      ]
+    },
+    "server": {
+      "total_gaps": 2172,
+      "severity_breakdown": {
+        "CRITICAL": 186,
+        "HIGH": 468,
+        "MEDIUM": 1513,
+        "LOW": 5
+      },
+      "affected_files": 111,
+      "files_list": [
+        "src/server/adaptive_rate_limiter.cpp",
+        "src/server/api_auth_config.cpp",
+        "src/server/api_gateway.cpp",
+        "src/server/api_key_mgmt_handler.cpp",
+        "src/server/api_security_audit.cpp",
+        "src/server/api_version.cpp",
+        "src/server/async_job_api_handler.cpp",
+        "src/server/audit_api_handler.cpp",
+        "src/server/auth_middleware.cpp",
+        "src/server/bpmn_api_handler.cpp"
+      ],
+      "actions": [
+        "Update or create src/server/README.md",
+        "Update or create src/server/ROADMAP.md with gap context",
+        "Add CRITICAL (186) and HIGH (468) gap items",
+        "Map findings to relevant roadmap sections",
+        "Link to L0.5 verification evidence"
+      ]
+    },
+    "query": {
+      "total_gaps": 933,
+      "severity_breakdown": {
+        "CRITICAL": 131,
+        "HIGH": 296,
+        "MEDIUM": 502,
+        "LOW": 4
+      },
+      "affected_files": 48,
+      "files_list": [
+        "src/query/adaptive_join.cpp",
+        "src/query/adaptive_optimizer.cpp",
+        "src/query/approximate_aggregator.cpp",
+        "src/query/aql_parser.cpp",
+        "src/query/aql_parser_json.cpp",
+        "src/query/aql_runner.cpp",
+        "src/query/aql_safety_validator.cpp",
+        "src/query/aql_translator.cpp",
+        "src/query/continuous_query_engine.cpp",
+        "src/query/continuous_query_planner.cpp"
+      ],
+      "actions": [
+        "Update or create src/query/README.md",
+        "Update or create src/query/ROADMAP.md with gap context",
+        "Add CRITICAL (131) and HIGH (296) gap items",
+        "Map findings to relevant roadmap sections",
+        "Link to L0.5 verification evidence"
+      ]
+    },
+    "network": {
+      "total_gaps": 368,
+      "severity_breakdown": {
+        "CRITICAL": 22,
+        "HIGH": 221,
+        "MEDIUM": 125,
+        "LOW": 0
+      },
+      "affected_files": 21,
+      "files_list": [
+        "src/network/envoy_xds.cpp",
+        "src/network/geo_topology_router.cpp",
+        "src/network/grpc_transport.cpp",
+        "src/network/io_uring_batcher.cpp",
+        "src/network/kernel_bypass.cpp",
+        "src/network/network_audit_log.cpp",
+        "src/network/qos_manager.cpp",
+        "src/network/quic_server.cpp",
+        "src/network/quic_transport.cpp",
+        "src/network/raft_load_balancer.cpp"
+      ],
+      "actions": [
+        "Update or create src/network/README.md",
+        "Update or create src/network/ROADMAP.md with gap context",
+        "Add CRITICAL (22) and HIGH (221) gap items",
+        "Map findings to relevant roadmap sections",
+        "Link to L0.5 verification evidence"
+      ]
+    },
+    "graph": {
+      "total_gaps": 248,
+      "severity_breakdown": {
+        "CRITICAL": 18,
+        "HIGH": 45,
+        "MEDIUM": 184,
+        "LOW": 1
+      },
+      "affected_files": 14,
+      "files_list": [
+        "src/graph/distributed_graph.cpp",
+        "src/graph/explain_plan.cpp",
+        "src/graph/gpu_traversal.cpp",
+        "src/graph/graph_query_optimizer.cpp",
+        "src/graph/graph_query_rewriter.cpp",
+        "src/graph/graph_watermark.cpp",
+        "src/graph/knowledge_graph_reasoner.cpp",
+        "src/graph/ontology_manager.cpp",
+        "src/graph/parallel_traversal.cpp",
+        "src/graph/path_constraints.cpp"
+      ],
+      "actions": [
+        "Update or create src/graph/README.md",
+        "Update or create src/graph/ROADMAP.md with gap context",
+        "Add CRITICAL (18) and HIGH (45) gap items",
+        "Map findings to relevant roadmap sections",
+        "Link to L0.5 verification evidence"
+      ]
+    },
+    "cache": {
+      "total_gaps": 127,
+      "severity_breakdown": {
+        "CRITICAL": 10,
+        "HIGH": 74,
+        "MEDIUM": 42,
+        "LOW": 1
+      },
+      "affected_files": 12,
+      "files_list": [
+        "src/cache/adaptive_query_cache.cpp",
+        "src/cache/bounded_lru_cache.cpp",
+        "src/cache/cache_hit_rate_slo_monitor.cpp",
+        "src/cache/cache_replication.cpp",
+        "src/cache/cache_replication_coordinator.cpp",
+        "src/cache/distributed_cache_coordinator.cpp",
+        "src/cache/embedding_cache.cpp",
+        "src/cache/grpc_remote_cache_peer.cpp",
+        "src/cache/predictive_prefetcher.cpp",
+        "src/cache/redis_cache_coordinator.cpp"
+      ],
+      "actions": [
+        "Update or create src/cache/README.md",
+        "Update or create src/cache/ROADMAP.md with gap context",
+        "Add CRITICAL (10) and HIGH (74) gap items",
+        "Map findings to relevant roadmap sections",
+        "Link to L0.5 verification evidence"
+      ]
+    }
+  }
+}
