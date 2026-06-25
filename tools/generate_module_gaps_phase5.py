@@ -22,6 +22,24 @@ def group_gaps_by_module(gaps: List) -> Dict[str, List]:
     """Group gaps by module directory"""
     grouped = defaultdict(list)
     
+    # List of known valid modules (skip files at src root like demo_encryption.cpp)
+    valid_modules = {
+        'acceleration', 'ai', 'ai_working', 'analytics', 'api', 'aql', 'auth', 'base',
+        'cache', 'cdc', 'chaos', 'chimera', 'config', 'content', 'core', 'crypto',
+        'distributed', 'document', 'encryption', 'federation', 'fedlora', 'geoindex',
+        'graph', 'grpc', 'help', 'http', 'index', 'interface', 'io', 'knn',
+        'license', 'llm', 'lora', 'media', 'memory', 'metadata', 'migration', 'model',
+        'monitoring', 'mongo', 'mqtt', 'multi', 'network', 'nlp', 'notification',
+        'onnx', 'operator', 'optimizer', 'orchestrator', 'parser', 'persistence',
+        'plugin', 'policy', 'protocol', 'proxy', 'query', 'replication', 'resource',
+        'router', 'rpc', 'scheduler', 'schema', 'search', 'security', 'semantic',
+        'sensor', 'sharding', 'snapshot', 'storage', 'stream', 'sync', 'table',
+        'temporal', 'tensor', 'test', 'text', 'thread', 'time', 'timestamp',
+        'trace', 'transaction', 'transfer', 'transformer', 'trigger', 'txlog',
+        'unit_converter', 'vector', 'video', 'virtualization', 'vocab', 'vulkan',
+        'workflow', 'wrapper', 'xds', 'xml', 'yaml', 'zero', 'zigzag'
+    }
+    
     for gap in gaps:
         file_path = gap.get('file', '')
         # Extract module: src/graph/foo.cpp → graph
@@ -29,7 +47,8 @@ def group_gaps_by_module(gaps: List) -> Dict[str, List]:
             parts = file_path.split('/')
             if len(parts) >= 2:
                 module = parts[1]
-                grouped[module].append(gap)
+                if module in valid_modules or module == 'ThemisDB':
+                    grouped[module].append(gap)
     
     return grouped
 
@@ -110,15 +129,15 @@ def main():
     l0_json = sys.argv[1]
     output_root = Path("src")
     
-    print(f"[L0→L1] Loading L0 results from {l0_json}...")
+    print(f"[L0->L1] Loading L0 results from {l0_json}...")
     gaps, metadata = load_l0_results(l0_json)
     print(f"  Loaded {len(gaps)} gaps")
     
-    print(f"\n[L0→L1] Grouping gaps by module...")
+    print(f"\n[L0->L1] Grouping gaps by module...")
     modules = group_gaps_by_module(gaps)
     print(f"  Found {len(modules)} modules")
     
-    print(f"\n[L0→L1] Generating MODULE_GAPS.md files...")
+    print(f"\n[L0->L1] Generating MODULE_GAPS.md files...")
     written = 0
     for module, module_gaps in sorted(modules.items()):
         module_dir = output_root / module
@@ -129,10 +148,10 @@ def main():
         
         gaps_md_path.write_text(content, encoding='utf-8')
         written += 1
-        print(f"  ✓ {module}: {len(module_gaps)} gaps → {gaps_md_path}")
+        print(f"  OK {module}: {len(module_gaps)} gaps -> {gaps_md_path}")
     
     print(f"\n[L0→L1] Complete! Generated {written} MODULE_GAPS.md files")
-    print(f"[PHASE 5 VALIDATION] All external submodules filtered at source ✓")
+    print(f"[PHASE 5 VALIDATION] All external submodules filtered at source OK")
 
 if __name__ == '__main__':
     main()

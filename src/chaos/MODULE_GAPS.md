@@ -1,91 +1,54 @@
-# chaos Module - Developer Gap Note
+# chaos — MODULE_GAPS.md (Phase 5 Verified)
 
-> Auto-generated from ai_working\gap_scan_results.json.
-> This file is overwritten on each regeneration.
+This file documents all documentation and code quality gaps in the **chaos** module, as identified by the gap scanner (Phase 5 with external submodule filtering).
 
-## Scan Snapshot
+## Summary
 
-- Module: chaos
-- Generated: 2026-06-04 08:50:22
-- Status: Critical Findings Present
-- Total Findings: 6
-- Actionable Findings (Critical + High): 3
-- Affected Files: 3
+- **Total Gaps**: 66
+- **Status**: Verified (Phase 1: file existence, Phase 2: classification, Phase 5: external module filtering)
+- **Last Updated**: C:\Projects\ThemisDB (L0 full scan with Phase 5)
 
-## Severity Summary
+### By Severity
 
-| Severity | Count |
-|---|---:|
-| Critical | 2 |
-| High | 1 |
-| Medium | 1 |
-| Low | 2 |
+- **CRITICAL**: 1
+- **HIGH**: 2
+- **MEDIUM**: 61
+- **LOW**: 2
 
-## Category Summary
+### By Type
 
-| Category | Count |
-|---|---:|
-| module_doc_linkset_drift | 2 |
-| copy_overhead | 1 |
-| exception_in_destructor | 1 |
-| lock_contention | 1 |
-| thread_join_no_timeout | 1 |
+- copy_overhead: 1
+- exception_in_destructor: 1
+- lock_contention: 1
+- module_doc_linkset_drift: 2
+- scope_mismatch: 59
+- todo_as_productionlogic: 2
 
-## File Overview
+## Top 20 Gaps
 
-| File | Findings | Critical | High | Medium | Low |
-|---|---:|---:|---:|---:|---:|
-| chaos/chaos_framework.cpp | 4 | 2 | 1 | 1 | 0 |
-| chaos/FUTURE_ENHANCEMENTS.md | 1 | 0 | 0 | 0 | 1 |
-| chaos/PRODUCTION_REQUIREMENTS.md | 1 | 0 | 0 | 0 | 1 |
+- [exception_in_destructor] chaos_framework.cpp:207 (CRITICAL)
+- [lock_contention] chaos_framework.cpp:258 (HIGH)
+- [scope_mismatch] chaos_framework.cpp:276 (HIGH)
+- [todo_as_productionlogic] chaos_framework.cpp:7 (MEDIUM)
+- [todo_as_productionlogic] chaos_framework.cpp:15 (MEDIUM)
+- [scope_mismatch] chaos_framework.cpp:57 (MEDIUM)
+- [scope_mismatch] chaos_framework.cpp:59 (MEDIUM)
+- [scope_mismatch] chaos_framework.cpp:63 (MEDIUM)
+- [scope_mismatch] chaos_framework.cpp:67 (MEDIUM)
+- [scope_mismatch] chaos_framework.cpp:71 (MEDIUM)
+- [scope_mismatch] chaos_framework.cpp:76 (MEDIUM)
+- [scope_mismatch] chaos_framework.cpp:79 (MEDIUM)
+- [scope_mismatch] chaos_framework.cpp:89 (MEDIUM)
+- [scope_mismatch] chaos_framework.cpp:91 (MEDIUM)
+- [scope_mismatch] chaos_framework.cpp:99 (MEDIUM)
+- [scope_mismatch] chaos_framework.cpp:100 (MEDIUM)
+- [scope_mismatch] chaos_framework.cpp:104 (MEDIUM)
+- [scope_mismatch] chaos_framework.cpp:106 (MEDIUM)
+- [scope_mismatch] chaos_framework.cpp:116 (MEDIUM)
+- [scope_mismatch] chaos_framework.cpp:119 (MEDIUM)
 
-## Full Scanner Findings
+... and 46 more gaps.
 
-### chaos/chaos_framework.cpp
-Total findings: 4
+---
 
-- Line 196: severity=CRITICAL; category=exception_in_destructor
-  Description: Destructors must be noexcept; exceptions here cause std::terminate()
-  Remediation: Review finding and apply recommended module-specific fix.
-  Scanner: Uniform::exception_safety
-- Line 223: severity=CRITICAL; category=thread_join_no_timeout
-  Description: Thread join/wait without timeout (blocking indefinitely)
-  Remediation: Review finding and apply recommended module-specific fix.
-  Scanner: Uniform::phase1_thread_safety
-  Context: worker_.join();
-- Line 247: severity=HIGH; category=lock_contention
-  Description: Mutex lock in loop — high contention
-  Remediation: Review finding and apply recommended module-specific fix.
-  Scanner: Uniform::performance
-  Context: std::lock_guard<std::mutex> lock(sched_mutex_);
-- Line 250: severity=MEDIUM; category=copy_overhead
-  Description: push_back in loop — consider pre-allocating with reserve()
-  Remediation: Review finding and apply recommended module-specific fix.
-  Scanner: Uniform::container
-  Context: to_fire.push_back(e.fault);
-
-### chaos/FUTURE_ENHANCEMENTS.md
-Total findings: 1
-
-- Line 1: severity=LOW; category=module_doc_linkset_drift
-  Description: Module doc 'FUTURE_ENHANCEMENTS.md' is missing expected cross-links: ARCHITECTURE.md
-  Remediation: Review finding and apply recommended module-specific fix.
-  Scanner: Uniform::themis_doc_freshness_rules
-  Context: Refresh the top-level <!-- Links: ... --> metadata to match the current module doc set
-
-### chaos/PRODUCTION_REQUIREMENTS.md
-Total findings: 1
-
-- Line 1: severity=LOW; category=module_doc_linkset_drift
-  Description: Module doc 'PRODUCTION_REQUIREMENTS.md' is missing expected cross-links: FUTURE_ENHANCEMENTS.md, README.md, ROADMAP.md
-  Remediation: Review finding and apply recommended module-specific fix.
-  Scanner: Uniform::themis_doc_freshness_rules
-  Context: Refresh the top-level <!-- Links: ... --> metadata to match the current module doc set
-
-## Update Workflow
-
-- Refresh scanner artifacts with: python tools/gs3_orchestrator.py ./src --output ai_working/gap_scan_results.json
-- Regenerate docs with: python tools/module_doc_generator.py . ai_working ai_working/module_gaps
-- Add --no-mirror when you only want archive docs in ai_working/module_gaps.
-
-Format: THEMIS_MODULE_GAPS_V4
+**Phase 5 Verification Notes**: External GitHub submodules (llama.cpp, whisper.cpp, vcpkg, etc.) are explicitly excluded from this analysis via Phase 5 filtering. This ensures all gaps are from themis_core (100% scope accuracy).

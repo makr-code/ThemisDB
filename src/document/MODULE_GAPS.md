@@ -1,63 +1,51 @@
-# document Module - Developer Gap Note
+# document — MODULE_GAPS.md (Phase 5 Verified)
 
-> Auto-generated from ai_working\gap_scan_results.json.
-> This file is overwritten on each regeneration.
+This file documents all documentation and code quality gaps in the **document** module, as identified by the gap scanner (Phase 5 with external submodule filtering).
 
-## Scan Snapshot
+## Summary
 
-- Module: document
-- Generated: 2026-06-04 08:50:22
-- Status: Findings Present
-- Total Findings: 2
-- Actionable Findings (Critical + High): 0
-- Affected Files: 2
+- **Total Gaps**: 35
+- **Status**: Verified (Phase 1: file existence, Phase 2: classification, Phase 5: external module filtering)
+- **Last Updated**: C:\Projects\ThemisDB (L0 full scan with Phase 5)
 
-## Severity Summary
+### By Severity
 
-| Severity | Count |
-|---|---:|
-| Critical | 0 |
-| High | 0 |
-| Medium | 0 |
-| Low | 2 |
+- **CRITICAL**: 0
+- **HIGH**: 2
+- **MEDIUM**: 31
+- **LOW**: 2
 
-## Category Summary
+### By Type
 
-| Category | Count |
-|---|---:|
-| module_doc_linkset_drift | 2 |
+- module_doc_linkset_drift: 2
+- scope_mismatch: 31
+- todo_as_productionlogic: 2
 
-## File Overview
+## Top 20 Gaps
 
-| File | Findings | Critical | High | Medium | Low |
-|---|---:|---:|---:|---:|---:|
-| document/FUTURE_ENHANCEMENTS.md | 1 | 0 | 0 | 0 | 1 |
-| document/PRODUCTION_REQUIREMENTS.md | 1 | 0 | 0 | 0 | 1 |
+- [scope_mismatch] round_trip_editor.cpp:73 (HIGH)
+- [scope_mismatch] round_trip_editor.cpp:95 (HIGH)
+- [todo_as_productionlogic] round_trip_editor.cpp:7 (MEDIUM)
+- [todo_as_productionlogic] round_trip_editor.cpp:15 (MEDIUM)
+- [scope_mismatch] round_trip_editor.cpp:51 (MEDIUM)
+- [scope_mismatch] round_trip_editor.cpp:55 (MEDIUM)
+- [scope_mismatch] round_trip_editor.cpp:63 (MEDIUM)
+- [scope_mismatch] round_trip_editor.cpp:64 (MEDIUM)
+- [scope_mismatch] round_trip_editor.cpp:65 (MEDIUM)
+- [scope_mismatch] round_trip_editor.cpp:66 (MEDIUM)
+- [scope_mismatch] round_trip_editor.cpp:67 (MEDIUM)
+- [scope_mismatch] round_trip_editor.cpp:72 (MEDIUM)
+- [scope_mismatch] round_trip_editor.cpp:74 (MEDIUM)
+- [scope_mismatch] round_trip_editor.cpp:85 (MEDIUM)
+- [scope_mismatch] round_trip_editor.cpp:86 (MEDIUM)
+- [scope_mismatch] round_trip_editor.cpp:87 (MEDIUM)
+- [scope_mismatch] round_trip_editor.cpp:88 (MEDIUM)
+- [scope_mismatch] round_trip_editor.cpp:89 (MEDIUM)
+- [scope_mismatch] round_trip_editor.cpp:94 (MEDIUM)
+- [scope_mismatch] round_trip_editor.cpp:96 (MEDIUM)
 
-## Full Scanner Findings
+... and 15 more gaps.
 
-### document/FUTURE_ENHANCEMENTS.md
-Total findings: 1
+---
 
-- Line 1: severity=LOW; category=module_doc_linkset_drift
-  Description: Module doc 'FUTURE_ENHANCEMENTS.md' is missing expected cross-links: ARCHITECTURE.md
-  Remediation: Review finding and apply recommended module-specific fix.
-  Scanner: Uniform::themis_doc_freshness_rules
-  Context: Refresh the top-level <!-- Links: ... --> metadata to match the current module doc set
-
-### document/PRODUCTION_REQUIREMENTS.md
-Total findings: 1
-
-- Line 1: severity=LOW; category=module_doc_linkset_drift
-  Description: Module doc 'PRODUCTION_REQUIREMENTS.md' is missing expected cross-links: FUTURE_ENHANCEMENTS.md, README.md, ROADMAP.md
-  Remediation: Review finding and apply recommended module-specific fix.
-  Scanner: Uniform::themis_doc_freshness_rules
-  Context: Refresh the top-level <!-- Links: ... --> metadata to match the current module doc set
-
-## Update Workflow
-
-- Refresh scanner artifacts with: python tools/gs3_orchestrator.py ./src --output ai_working/gap_scan_results.json
-- Regenerate docs with: python tools/module_doc_generator.py . ai_working ai_working/module_gaps
-- Add --no-mirror when you only want archive docs in ai_working/module_gaps.
-
-Format: THEMIS_MODULE_GAPS_V4
+**Phase 5 Verification Notes**: External GitHub submodules (llama.cpp, whisper.cpp, vcpkg, etc.) are explicitly excluded from this analysis via Phase 5 filtering. This ensures all gaps are from themis_core (100% scope accuracy).

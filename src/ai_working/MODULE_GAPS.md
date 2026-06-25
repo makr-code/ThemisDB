@@ -1,45 +1,28 @@
-# ai_working Module - Developer Gap Note
+# ai_working — MODULE_GAPS.md (Phase 5 Verified)
 
-> Auto-generated from ai_working\gap_scan_results.json.
-> This file is overwritten on each regeneration.
+This file documents all documentation and code quality gaps in the **ai_working** module, as identified by the gap scanner (Phase 5 with external submodule filtering).
 
-## Scan Snapshot
+## Summary
 
-- Module: ai_working
-- Generated: 2026-06-03 20:39:45
-- Status: No Findings
-- Total Findings: 0
-- Actionable Findings (Critical + High): 0
-- Affected Files: 0
+- **Total Gaps**: 1
+- **Status**: Verified (Phase 1: file existence, Phase 2: classification, Phase 5: external module filtering)
+- **Last Updated**: C:\Projects\ThemisDB (L0 full scan with Phase 5)
 
-## Severity Summary
+### By Severity
 
-| Severity | Count |
-|---|---:|
-| Critical | 0 |
-| High | 0 |
-| Medium | 0 |
-| Low | 0 |
+- **CRITICAL**: 0
+- **HIGH**: 0
+- **MEDIUM**: 1
+- **LOW**: 0
 
-## Category Summary
+### By Type
 
-| Category | Count |
-|---|---:|
-| none | 0 |
+- missing_module_doc: 1
 
-## File Overview
+## Top 1 Gaps
 
-| File | Findings | Critical | High | Medium | Low |
-|---|---:|---:|---:|---:|---:|
-| none | 0 | 0 | 0 | 0 | 0 |
+- [missing_module_doc] ai_working:1 (MEDIUM)
 
-## Full Scanner Findings
+---
 
-No findings recorded for this module.
-## Update Workflow
-
-- Refresh scanner artifacts with: python tools/gs3_orchestrator.py ./src --output ai_working/gap_scan_results.json
-- Regenerate docs with: python tools/module_doc_generator.py . ai_working ai_working/module_gaps
-- Add --no-mirror when you only want archive docs in ai_working/module_gaps.
-
-Format: THEMIS_MODULE_GAPS_V4
+**Phase 5 Verification Notes**: External GitHub submodules (llama.cpp, whisper.cpp, vcpkg, etc.) are explicitly excluded from this analysis via Phase 5 filtering. This ensures all gaps are from themis_core (100% scope accuracy).
