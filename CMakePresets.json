@@ -30,7 +30,7 @@
       "inherits": "vcpkg-base",
       "environment": {
         "CMAKE_BUILD_PARALLEL_LEVEL": "16",
-        "SCCACHE_DIR": "${env.HOME}/.cache/sccache/themisdb"
+        "SCCACHE_DIR": "${env.USERPROFILE}/.cache/sccache/themisdb"
       },
       "cacheVariables": {
         "VCPKG_TARGET_TRIPLET": "x64-windows",

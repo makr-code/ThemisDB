@@ -60,6 +60,19 @@ examples/**/usage_example_enabled
 
 # Build directories (CMake, Ninja, MSVC, other build outputs)
 enterprise*/
+build-*/
+build_*/
+/build/
+/out/
+/bin/
+/lib/
+CMakeFiles/
+*/CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+CTestTestfile.cmake
+Makefile
+build-msvc-windows-release/
 # Explicitly un-ignore edition-specific deployment/packaging directories
 # (these are part of the release strategy, not build outputs)
 !docker/enterprise/

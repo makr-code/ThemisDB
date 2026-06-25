@@ -22,3 +22,8 @@ __pycache__
 venv/
 llama.cpp/**
 vcpkg/
+build-msvc-windows-release/
+build-*/
+build_*/
+.pytest_cache/
+.coverage
