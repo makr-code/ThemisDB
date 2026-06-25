@@ -2,6 +2,22 @@
 
 # ThemisDB Graph Module - Header Reference
 
+## ⚠️ L0 Risk Alert (2026-06-25)
+
+**Status: CRITICAL GAPS DETECTED IN BACKING IMPLEMENTATIONS**
+
+- **Total Gaps**: 9 (8 critical, 1 high)
+- **Affected Backing Files**: 
+  - `src/graph/explain_plan.cpp` — 2 critical gaps (lines 68, 92 returning `{}`)
+  - `src/graph/ontology_manager.cpp` — 2 critical gaps (lines 73, 200 returning `{}`)
+  - `src/graph/rotate_completion.cpp` — 3 critical gaps
+- **Status**: Unimplemented function bodies; headers are API-stable, implementations pending.
+- **Reference**: `ai_working/gap_scanner_results.json` (2026-06-25T10:21:15)
+
+**Headers Listed Below Are API-Stable; Consult `src/graph/README.md` and `src/graph/ROADMAP.md` for Implementation Status.**
+
+---
+
 ## Overview
 
 This directory contains the public header files for ThemisDB's Graph module. These headers define the API for graph query optimization, constrained path finding, and advanced graph operations.

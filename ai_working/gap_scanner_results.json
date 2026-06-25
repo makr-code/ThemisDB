@@ -1,0 +1,105 @@
+{
+  "timestamp": "2026-06-25T10:21:15.814265",
+  "level": "L0",
+  "scope": "graph",
+  "execution_status": "success",
+  "discovered_locations": [
+    {
+      "path": "src/graph",
+      "exists": true,
+      "note": "implementation source"
+    },
+    {
+      "path": "include/graph",
+      "exists": true,
+      "note": "public API headers"
+    },
+    {
+      "path": "tests/graph",
+      "exists": true,
+      "note": "unit tests"
+    },
+    {
+      "path": "benchmarks/graph",
+      "exists": false,
+      "note": "performance benchmarks"
+    }
+  ],
+  "gap_scan_summary": {
+    "total_gaps": 9,
+    "categories": {
+      "unimplemented": 8,
+      "stub": 1
+    },
+    "severity_distribution": {
+      "critical": 8,
+      "high": 1
+    },
+    "affected_files": 5,
+    "top_affected_files": [
+      {
+        "file": "src\\graph\\rotate_completion.cpp",
+        "gap_count": 3
+      },
+      {
+        "file": "src\\graph\\explain_plan.cpp",
+        "gap_count": 2
+      },
+      {
+        "file": "src\\graph\\ontology_manager.cpp",
+        "gap_count": 2
+      }
+    ]
+  },
+  "critical_gaps": [
+    {
+      "file": "src\\graph\\explain_plan.cpp",
+      "line": 68,
+      "category": "unimplemented",
+      "severity": "critical",
+      "context": "return {};"
+    },
+    {
+      "file": "src\\graph\\explain_plan.cpp",
+      "line": 92,
+      "category": "unimplemented",
+      "severity": "critical",
+      "context": "return {};"
+    },
+    {
+      "file": "src\\graph\\ontology_manager.cpp",
+      "line": 73,
+      "category": "unimplemented",
+      "severity": "critical",
+      "context": "return {};"
+    },
+    {
+      "file": "src\\graph\\ontology_manager.cpp",
+      "line": 200,
+      "category": "unimplemented",
+      "severity": "critical",
+      "context": "return {};"
+    },
+    {
+      "file": "src\\graph\\rotate_completion.cpp",
+      "line": 95,
+      "category": "unimplemented",
+      "severity": "critical",
+      "context": "if (!trained_) return {};"
+    }
+  ],
+  "warnings": [
+    "CRITICAL: 8 critical gaps found in unimplemented functions",
+    "UNIMPLEMENTED: 8 stub/incomplete functions (return {} patterns)",
+    "STUBS: 1 mock/stub test functions",
+    "ACTION: explain_plan.cpp and ontology_manager.cpp have 4 critical gaps each"
+  ],
+  "next_steps": [
+    "L1: Execute full gap_scanner_v3.py with all phases (Security, Memory, Reliability, Concurrency, RAII, Container, Platform, Performance)",
+    "L1.1: Prioritize Security phase on graph/explain_plan.cpp and graph/ontology_manager.cpp",
+    "L1.2: Run Memory Safety phase to check for GPUTensor/index initialization patterns",
+    "L2: Implement missing bodies in explain_plan::getExplainText(), getExplainJson() and ontology_manager functions",
+    "L3: Convert test stubs in test_compute_graph_header.cpp from Mock to real implementations",
+    "L4: Add comprehensive gap_scan_v3_graph.json output for Phase 1-11 analysis"
+  ]
+}

@@ -43,7 +43,23 @@ winget upgrade ThemisDB.ThemisDB
 
 ### 1. Pull and run
 
-curently not avaible
+```bash
+# Latest stable Community release
+docker pull themisdb/themisdb:latest
+
+docker run -d \
+  --name themisdb \
+  -p 8765:8765 \
+  -v themisdb_data:/data \
+  themisdb/themisdb:latest
+
+# Pin to a specific version
+docker run -d \
+  --name themisdb \
+  -p 8765:8765 \
+  -v themisdb_data:/data \
+  themisdb/themisdb:1.3.4
+```
 
 | Port | Protocol |
 |---|---|
@@ -76,6 +92,28 @@ docker compose up -d
 The bundled [`docker-compose.yml`](docker-compose.yml) starts ThemisDB, Prometheus, and Grafana with pre-configured dashboards.
 
 ---
+
+## Option 1b — Linux Native Packages
+
+For server deployments without Docker:
+
+```bash
+# Debian / Ubuntu
+wget https://github.com/makr-code/ThemisDB/releases/download/v1.3.4/themisdb_1.3.4_amd64.deb
+sudo dpkg -i themisdb_1.3.4_amd64.deb
+
+# RHEL / Fedora
+wget https://github.com/makr-code/ThemisDB/releases/download/v1.3.4/themisdb-1.3.4-1.x86_64.rpm
+sudo rpm -i themisdb-1.3.4-1.x86_64.rpm
+
+# Generic (TGZ)
+wget https://github.com/makr-code/ThemisDB/releases/download/v1.3.4/themisdb-1.3.4-Linux-x86_64.tar.gz
+tar xzf themisdb-1.3.4-Linux-x86_64.tar.gz
+cd themisdb-1.3.4-Linux-x86_64
+./bin/themis_server --config ./config/config.yaml --data-dir ./data
+```
+
+> DEB/RPM packages are built in the `linux-packages` CI job and attached to each GitHub Release.
 
 ## Option 2 — Dev Container (VS Code)
 

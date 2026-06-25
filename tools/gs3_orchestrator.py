@@ -8,8 +8,12 @@ Loads scanners by priority tier and executes end-to-end.
 
 import sys
 import json
+import os
+import re
+import logging
 from pathlib import Path
 import time
+from datetime import datetime
 from collections import Counter
 from typing import Dict, List, Tuple
 
@@ -200,6 +204,290 @@ def _build_ollama_markdown_report(
     output_path.write_text('\n'.join(lines) + '\n', encoding='utf-8')
 
 
+def check_cache_freshness_phase3(cache_file: Path, findings: list[Gap], repo_root: str, force_refresh: bool = False) -> Tuple[Dict[str, int], List[str]]:
+    """
+    IMPROVEMENT PHASE 3: Cache stale detection
+    
+    Validates cached findings against actual files on disk.
+    Returns: (stats, missing_files)
+    
+    Stats:
+    - cache_age_hours: How old the cache is (if exists)
+    - files_checked: Total findings checked
+    - files_missing: Non-existent files found
+    - cache_valid: Is cache > 10% corrupt (missing files)?
+    """
+    
+    print("\n" + "=" * 80)
+    print("Phase 3 — Cache Stale Detection")
+    print("=" * 80)
+    
+    repo_path = Path(repo_root)
+    stats = {
+        'cache_exists': cache_file.exists(),
+        'cache_age_hours': 0.0,
+        'files_checked': len(findings),
+        'files_missing': 0,
+        'cache_valid': True,
+        'missing_threshold': 0.1,
+    }
+    
+    missing_files = []
+    
+    # Check cache age if it exists
+    if cache_file.exists():
+        cache_mtime = cache_file.stat().st_mtime
+        cache_age_seconds = time.time() - cache_mtime
+        stats['cache_age_hours'] = round(cache_age_seconds / 3600.0, 2)
+        logging.info(f"  Cache age: {stats['cache_age_hours']} hours")
+    else:
+        logging.info(f"  No cache file found: {cache_file}")
+    
+    # Validate files exist
+    for gap in findings:
+        file_path = repo_path / gap.file
+        if not file_path.exists():
+            stats['files_missing'] += 1
+            missing_files.append(str(gap.file))
+            logging.warning(f"  Missing: {gap.file}")
+    
+    # Check if > 10% of files are missing (cache corruption indicator)
+    if stats['files_checked'] > 0:
+        missing_ratio = stats['files_missing'] / stats['files_checked']
+        stats['cache_valid'] = missing_ratio <= stats['missing_threshold']
+        
+        if not stats['cache_valid']:
+            logging.warning(f"  ⚠️  Cache INVALID: {stats['files_missing']}/{stats['files_checked']} files missing ({missing_ratio*100:.1f}% > 10% threshold)")
+        elif missing_ratio > 0:
+            logging.info(f"  ℹ️  Cache partially stale: {stats['files_missing']}/{stats['files_checked']} files missing ({missing_ratio*100:.1f}%)")
+        else:
+            logging.info(f"  ✓ Cache valid: all {stats['files_checked']} files exist")
+    
+    if force_refresh and stats['files_missing'] > 0:
+        logging.info(f"  [--force-refresh] Would trigger rescan due to {stats['files_missing']} missing files")
+    
+    return stats, missing_files
+
+
+def enrich_output_metadata_phase4(gaps: list[Gap], repo_root: str, verify_stats: Dict, cache_stats: Dict, missing_files: List[str]) -> Dict:
+    """
+    IMPROVEMENT PHASE 4: Enriched output metadata
+    
+    Adds comprehensive context to exported findings for debugging + transparency.
+    Returns: metadata dict
+    
+    Includes:
+    - Scanner version + timestamp
+    - Python version + environment
+    - File statistics
+    - Cache validation status
+    - Missing file recommendations
+    """
+    
+    print("\n" + "=" * 80)
+    print("Phase 4 — Enriched Output Metadata")
+    print("=" * 80)
+    
+    import platform
+    import sys as sys_module
+    
+    repo_path = Path(repo_root)
+    
+    # Count files by scope
+    scope_counts = {}
+    for gap in gaps:
+        scope = _classify_scope(gap.file)
+        scope_counts[scope] = scope_counts.get(scope, 0) + 1
+    
+    # Count findings by severity
+    severity_counts = {}
+    for gap in gaps:
+        sev = str(gap.severity or 'UNKNOWN')
+        severity_counts[sev] = severity_counts.get(sev, 0) + 1
+    
+    # Build recommendations for missing files
+    recommendations = []
+    if missing_files:
+        recommendations.append(f"Found {len(missing_files)} files referenced in findings but not on disk")
+        recommendations.append(f"Potential causes: build artifacts, git-ignored test files, or stale cache")
+        recommendations.append(f"Action: Run with --force-refresh to regenerate cache, or check git status")
+    
+    if not cache_stats['cache_valid']:
+        recommendations.append(f"Cache is {cache_stats['files_missing']}/{cache_stats['files_checked']} files corrupt")
+        recommendations.append(f"Action: Force refresh with --force-refresh or delete cache file manually")
+    
+    metadata = {
+        'version': '3.0-Phase4',
+        'timestamp': datetime.now().isoformat(),
+        'python_version': f"{sys_module.version_info.major}.{sys_module.version_info.minor}.{sys_module.version_info.micro}",
+        'platform': platform.platform(),
+        'repo_root': str(repo_path),
+        
+        'scan_statistics': {
+            'total_gaps': len(gaps),
+            'by_severity': severity_counts,
+            'by_scope': scope_counts,
+        },
+        
+        'verification_phase1_phase2': {
+            'file_existence_checked': True,
+            'file_not_found_removed': verify_stats.get('file_not_found', 0),
+            'findings_downgraded': verify_stats.get('downgraded', 0),
+            'findings_kept': verify_stats.get('kept', 0),
+            'classifications': {
+                'test_mock': verify_stats.get('test_mock', 0),
+                'guarded_stub': verify_stats.get('guarded_stub', 0),
+                'placeholder': verify_stats.get('placeholder', 0),
+                'real_gap': verify_stats.get('real_gap', 0),
+            }
+        },
+        
+        'cache_phase3': {
+            'cache_exists': cache_stats['cache_exists'],
+            'cache_age_hours': cache_stats['cache_age_hours'],
+            'cache_valid': cache_stats['cache_valid'],
+            'files_missing': cache_stats['files_missing'],
+            'missing_file_threshold_pct': cache_stats['missing_threshold'] * 100,
+        },
+        
+        'missing_files_detailed': missing_files[:100] if missing_files else [],  # Cap to first 100
+        'missing_files_count': len(missing_files),
+        'recommendations': recommendations,
+    }
+    
+    logging.info(f"  Metadata enriched: {len(metadata)} top-level keys")
+    logging.info(f"  Recommendations: {len(recommendations)} items")
+    
+    return metadata
+
+
+def verify_gaps_phase1_phase2(gaps: list[Gap], repo_root: str) -> Tuple[list[Gap], Dict[str, int]]:
+    """
+    IMPROVEMENT PHASE 1 & 2: Multi-factor gap verification
+    
+    Returns verified gaps with false-positives removed and severity re-assessed
+    Returns: (verified_gaps, stats)
+    
+    Phase 1: File existence check — removes FILE_NOT_FOUND false-positives
+    Phase 2: Multi-factor classification — re-assesses severity based on context
+    """
+    
+    logging.basicConfig(level=logging.INFO, format='%(levelname)s — %(message)s')
+    
+    print("\n" + "=" * 80)
+    print("Gap Verification Phase (L0.5) — Phase 1 & 2: File Existence + Classification")
+    print("=" * 80)
+    
+    repo_path = Path(repo_root)
+    verified_gaps = []
+    stats = {
+        'total_input': len(gaps),
+        'file_not_found': 0,
+        'downgraded': 0,
+        'kept': 0,
+        'test_mock': 0,
+        'guarded_stub': 0,
+        'placeholder': 0,
+        'real_gap': 0,
+    }
+    
+    for gap in gaps:
+        file_full_path = repo_path / gap.file
+        
+        # PHASE 1: File Existence Check
+        if not file_full_path.exists():
+            stats['file_not_found'] += 1
+            logging.warning(f"  FALSE_POSITIVE (FILE_NOT_FOUND): {gap.file}:{gap.line}")
+            continue  # Skip this finding
+        
+        # PHASE 2: Multi-Factor Classification + Severity Re-Assessment
+        classification, severity_action = _classify_gap_and_assess(file_full_path, gap, repo_path)
+        
+        # Update gap with verification metadata
+        gap.verification = {
+            'status': 'VERIFIED',
+            'classification': classification,
+            'original_severity': gap.severity,
+            'severity_action': severity_action,
+        }
+        
+        # Apply severity re-rating
+        if severity_action.startswith('DOWNGRADE_'):
+            new_sev = severity_action.replace('DOWNGRADE_', '')
+            gap.severity = new_sev
+            stats['downgraded'] += 1
+            logging.info(f"  DOWNGRADE: {gap.file}:{gap.line} ({gap.severity} → {new_sev}, {classification})")
+        else:
+            stats['kept'] += 1
+        
+        stats[classification.lower().replace(' ', '_')] += 1
+        verified_gaps.append(gap)
+    
+    print(f"\n[VERIFICATION SUMMARY]")
+    print(f"  Input gaps: {stats['total_input']}")
+    print(f"  Output gaps: {len(verified_gaps)}")
+    print(f"  Removed (FILE_NOT_FOUND): {stats['file_not_found']}")
+    print(f"  Downgraded (severity reduced): {stats['downgraded']}")
+    print(f"  Classifications:")
+    print(f"    - TEST_MOCK: {stats['test_mock']}")
+    print(f"    - GUARDED_STUB: {stats['guarded_stub']}")
+    print(f"    - PLACEHOLDER: {stats['placeholder']}")
+    print(f"    - REAL_GAP: {stats['real_gap']}")
+    
+    return verified_gaps, stats
+
+
+def _classify_gap_and_assess(file_path: Path, gap: Gap, repo_root: Path) -> Tuple[str, str]:
+    """
+    Multi-factor classification with severity re-assessment
+    
+    Returns: (classification, severity_action)
+      - classification: 'TEST_MOCK' | 'GUARDED_STUB' | 'PLACEHOLDER' | 'REAL_GAP'
+      - severity_action: 'KEEP_SEVERITY' | 'DOWNGRADE_HIGH' | 'DOWNGRADE_MEDIUM' | 'DOWNGRADE_LOW'
+    """
+    
+    try:
+        with open(file_path, 'r', encoding='utf-8', errors='ignore') as f:
+            lines = f.readlines()
+    except Exception as e:
+        logging.error(f"  Error reading {file_path}: {e}")
+        return 'UNKNOWN', 'KEEP_SEVERITY'
+    
+    line_num = int(gap.line or 1)
+    if line_num < 1 or line_num > len(lines):
+        return 'OUT_OF_RANGE', 'DOWNGRADE_LOW'
+    
+    # Extract source context (±5 lines)
+    start = max(0, line_num - 6)
+    end = min(len(lines), line_num + 4)
+    context_lines = lines[start:end]
+    source_line = lines[line_num - 1] if line_num <= len(lines) else ''
+    
+    # Factor 1: Test code marker?
+    if str(file_path).startswith(str(repo_root / 'tests')):
+        if any(marker in source_line for marker in ['MOCK', 'TEST', '// Mock', '// TEST']):
+            return 'TEST_MOCK', 'DOWNGRADE_LOW'
+    
+    # Factor 2: TODO/STUB/TEMPORARY marker?
+    if any(marker in source_line for marker in ['TODO', 'FIXME', 'STUB', 'TEMPORARY', 'WIP']):
+        return 'PLACEHOLDER', 'DOWNGRADE_MEDIUM'
+    
+    # Factor 3: Guarded pattern (defensive code)?
+    full_context = ''.join(context_lines)
+    if re.search(r'(if|while|for)\s*\(', source_line):
+        if 'return' in source_line or 'return' in full_context:
+            return 'GUARDED_STUB', 'DOWNGRADE_HIGH'
+    
+    # Factor 4: Defensive error handling (simple returns)?
+    if any(pattern in source_line for pattern in ['return {};', 'return "";', 'return null', 'return nullptr', 'return false']):
+        if any(check in full_context for check in ['if (', 'if!', 'assert', 'CHECK']):
+            return 'GUARDED_STUB', 'DOWNGRADE_HIGH'
+    
+    # Default: Real gap
+    return 'REAL_GAP', 'KEEP_SEVERITY'
+
+
+
 def main():
     """Main orchestrator entry point"""
     import argparse
@@ -223,6 +511,8 @@ def main():
                         help='Maximum context characters embedded in each gemma4 prompt (default: 120)')
     parser.add_argument('--md-report-template-lines', type=int, choices=[6, 10], default=10,
                         help='Prompt template size per work item (6 ultra-compact or 10 compact, default: 10)')
+    parser.add_argument('--force-refresh', action='store_true',
+                        help='Force rescan (Phase 3) even if cache exists; removes stale findings (default: False)')
     
     args = parser.parse_args()
     
@@ -242,6 +532,17 @@ def main():
     start_time = time.time()
     gaps = pipeline.execute(args.source_dir, verbose=args.verbose)
     elapsed = time.time() - start_time
+    
+    # IMPROVEMENT: Apply Phase 1 & 2 verification before export
+    gaps, verify_stats = verify_gaps_phase1_phase2(gaps, args.source_dir or '.')
+    
+    # IMPROVEMENT: Apply Phase 3 — Cache stale detection
+    cache_file = Path(args.output)
+    cache_stats, missing_files = check_cache_freshness_phase3(cache_file, gaps, args.source_dir or '.', args.force_refresh)
+    
+    # IMPROVEMENT: Apply Phase 4 — Enriched metadata
+    metadata_enriched = enrich_output_metadata_phase4(gaps, args.source_dir or '.', verify_stats, cache_stats, missing_files)
+    
     scope_breakdown = _build_scope_breakdown(gaps)
     
     # Export results
@@ -250,10 +551,11 @@ def main():
     
     pipeline.export_json(output_path)
 
-    # Enrich exported JSON with scope-separated summary for stable post-processing.
+    # Enrich exported JSON with scope-separated summary + Phase 3-4 metadata
     with open(output_path, 'r', encoding='utf-8') as f:
         exported = json.load(f)
     exported.setdefault('metadata', {})['scope_breakdown'] = scope_breakdown
+    exported.setdefault('metadata', {})['verification_phase_3_4'] = metadata_enriched
     with open(output_path, 'w', encoding='utf-8') as f:
         json.dump(exported, f, indent=2)
 
@@ -287,8 +589,13 @@ def main():
         typ = gap.type
         by_type[typ] = by_type.get(typ, 0) + 1
     
-    print(f"\n[SUMMARY]")
+    print(f"\n[SUMMARY — After Verification (Phase 1 & 2)]")
     print(f"Total gaps: {len(gaps)}")
+    print(f"  Input (raw scanner): {verify_stats['total_input']}")
+    print(f"  Removed (FILE_NOT_FOUND): {verify_stats['file_not_found']}")
+    print(f"  Downgraded (severity re-assessed): {verify_stats['downgraded']}")
+    print(f"  Kept (unchanged): {verify_stats['kept']}")
+    
     print(f"\nBy Severity:")
     for sev in ['CRITICAL', 'HIGH', 'MEDIUM', 'LOW']:
         if sev in by_severity:

@@ -1,16 +1,10 @@
 {
   "module": "graph",
-  "summary": {
-    "total": 6,
-    "critical": 5,
-    "high": 1,
-    "medium": 0,
-    "low": 0
-  },
+  "summary": {},
   "gaps": [
     {
       "file": "src\\graph\\explain_plan.cpp",
-      "line_num": 48,
+      "line_num": 68,
       "category": "unimplemented",
       "pattern": "return\\s+\\{\\s*\\};",
       "context": "return {};",
@@ -20,7 +14,7 @@
     },
     {
       "file": "src\\graph\\explain_plan.cpp",
-      "line_num": 72,
+      "line_num": 92,
       "category": "unimplemented",
       "pattern": "return\\s+\\{\\s*\\};",
       "context": "return {};",
@@ -30,37 +24,67 @@
     },
     {
       "file": "src\\graph\\ontology_manager.cpp",
-      "line_num": 49,
+      "line_num": 73,
       "category": "unimplemented",
       "pattern": "return\\s+\\{\\s*\\};",
-      "context": "if (pos >= s.size() || s[pos] != '\"') return {};",
+      "context": "return {};",
       "severity": "critical",
       "notes": "",
       "location": "src"
     },
     {
       "file": "src\\graph\\ontology_manager.cpp",
-      "line_num": 140,
+      "line_num": 200,
       "category": "unimplemented",
       "pattern": "return\\s+\\{\\s*\\};",
-      "context": "if (a == std::string::npos) return {};",
+      "context": "return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\graph\\rotate_completion.cpp",
+      "line_num": 95,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "if (!trained_) return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\graph\\rotate_completion.cpp",
+      "line_num": 109,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "if (!trained_) return {};",
+      "severity": "critical",
+      "notes": "",
+      "location": "src"
+    },
+    {
+      "file": "src\\graph\\rotate_completion.cpp",
+      "line_num": 166,
+      "category": "unimplemented",
+      "pattern": "return\\s+\\{\\s*\\};",
+      "context": "return {};",
       "severity": "critical",
       "notes": "",
       "location": "src"
     },
     {
       "file": "src\\graph\\scheduled_edge_refresh.cpp",
-      "line_num": 651,
+      "line_num": 657,
       "category": "unimplemented",
       "pattern": "return\\s+\\{\\s*\\};",
-      "context": "if (!embedding_fn_) return {};",
+      "context": "return {};",
       "severity": "critical",
       "notes": "",
       "location": "src"
     },
     {
       "file": "tests\\test_compute_graph_header.cpp",
-      "line_num": 94,
+      "line_num": 93,
       "category": "stub",
       "pattern": "//\\s*MOCK(?:\\s|:|NOTE)?",
       "context": "// Mock factory",

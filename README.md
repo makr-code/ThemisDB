@@ -32,7 +32,16 @@ Use this code at your own risk. Contributions, feedback, and improvements are we
 - 🔴 **2 modules** are `EXPERIMENTAL` (`llama_cpp`, `stable_diffusion`)
 - ⚪ **4 modules** are `THIN/PLACEHOLDER` (`ai_working`, `distributed_tensor`, `evaluation`, `retrieval`)
 
+### 🔴 CRITICAL Alert: Graph Module Under Development
+
+**Status:** ⚠️ **CRITICAL** — Phase 2 implementation phase (6 weeks, Q3 2026)  
+**Blockers:** 9 CRITICAL gaps in query planning & constraint validation; module locked from production releases  
+**Mitigation:** See [ROADMAP.md § Graph Module Completion](ROADMAP.md#-graph-module-completion-q3-2026) and [ai_working/graph_l2_analysis.md](ai_working/graph_l2_analysis.md)  
+**Owner Assignment:** Required before Phase 2.1 kickoff (develop/graph-l2-impl-q3-2026 branch)
+
 **See [ROADMAP.md](ROADMAP.md) for the full 66-module table.**
+
+Documentation source precedence and update cadence are defined in [DOCUMENTATION_GOVERNANCE.md](DOCUMENTATION_GOVERNANCE.md).
 
 Evidence artifacts:
 - [logs/module_status_66_refined.csv](logs/module_status_66_refined.csv)

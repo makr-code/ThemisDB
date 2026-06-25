@@ -1,7 +1,7 @@
 # Copilot Instructions (Repository-wide)
 
 ## Documentation tasks (MUST)
-If the task involves documentation (any change under `docs/**`):
+If the task involves documentation (any markdown docs change; `docs/**` keeps the stricter format rules below):
 
 1) Use the standard:
    - Spec: `docs/_standards/doc_header.schema.yml`
@@ -18,11 +18,35 @@ If the task involves documentation (any change under `docs/**`):
 
 4) Prefer linking to Primary docs instead of duplicating canonical information.
 
+5) Apply repository naming reality rules:
+   - Use the dominant existing style in the target scope/directory.
+   - ThemisDB default for module-adjacent docs is UPPER_SNAKE naming unless local canon differs.
+   - Do not create semantic filename duplicates in one scope (e.g. `ARCHITECTURE.md` and `architecture.md`).
+
+6) Keep task instructions compact/non-redundant for token efficiency without removing normative constraints.
+
+## Documentation governance sync (MUST)
+
+Treat these files as one aligned documentation rule set:
+
+- `DOCUMENTATION_GOVERNANCE.md`
+- `.github/copilot-instructions.md`
+- `ai_context/COPILOT_INSTRUCTIONS.md`
+- `.github/ISSUE_TEMPLATE/docs_audit.md`
+
+Sync rules:
+
+1) Source precedence and SOT domain mapping come from `DOCUMENTATION_GOVERNANCE.md`.
+2) Conformance checks per docs change are mandatory: naming, structure, duktus, SOT consistency.
+3) If one file in this set changes policy semantics, update the other files in the same change.
+
 ## Root governance and release/versioning alignment (MUST)
 
 For root governance or release/versioning updates, treat the following files as one aligned set:
 
-- `COPILOT_INSTRUCTIONS.md` (AI-/Agent-Prozessregeln)
+- `.github/copilot-instructions.md` (AI-/Agent-Prozessregeln)
+- `ai_context/COPILOT_INSTRUCTIONS.md` (AI-/Agent-Prozessregeln, mirror)
+- `DOCUMENTATION_GOVERNANCE.md` (Doku-SOT, Konventionen, Checks)
 - `BRANCHING_STRATEGY.md` (canonical branch/edition/merge model)
 - `VERSIONING.md` (SemVer + release type model)
 - `RELEASE_STRATEGY.md` (branch/tag/milestone flow)

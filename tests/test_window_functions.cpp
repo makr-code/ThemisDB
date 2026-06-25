@@ -48,7 +48,7 @@ TEST_F(WindowEvaluatorTest, RowNumberNoPartition) {
         {{"amount", 180}, {"product", "D"}}
     };
     
-    WindowSpec spec;
+    WindowEvalSpec spec;
     spec.name = "w";
     spec.partitionBy = {};  // Keine Partitionierung
     
@@ -84,7 +84,7 @@ TEST_F(WindowEvaluatorTest, RowNumberWithPartition) {
         {{"amount", 120}, {"category", "A"}}
     };
     
-    WindowSpec spec;
+    WindowEvalSpec spec;
     spec.partitionBy = {makeFieldAccess("category")};
     
     SortSpec sortSpec;
@@ -124,7 +124,7 @@ TEST_F(WindowEvaluatorTest, RankWithTies) {
         {{"score", 80}}
     };
     
-    WindowSpec spec;
+    WindowEvalSpec spec;
     SortSpec sortSpec;
     sortSpec.expression = makeFieldAccess("score");
     sortSpec.ascending = false;  // DESC
@@ -160,7 +160,7 @@ TEST_F(WindowEvaluatorTest, DenseRankWithTies) {
         {{"score", 80}}
     };
     
-    WindowSpec spec;
+    WindowEvalSpec spec;
     SortSpec sortSpec;
     sortSpec.expression = makeFieldAccess("score");
     sortSpec.ascending = false;
@@ -195,7 +195,7 @@ TEST_F(WindowEvaluatorTest, LagBasic) {
         {{"id", 4}, {"amount", 180}}
     };
     
-    WindowSpec spec;
+    WindowEvalSpec spec;
     SortSpec sortSpec;
     sortSpec.expression = makeFieldAccess("id");
     sortSpec.ascending = true;
@@ -233,7 +233,7 @@ TEST_F(WindowEvaluatorTest, LagWithOffset) {
         {{"id", 4}, {"amount", 180}}
     };
     
-    WindowSpec spec;
+    WindowEvalSpec spec;
     SortSpec sortSpec;
     sortSpec.expression = makeFieldAccess("id");
     sortSpec.ascending = true;
@@ -269,7 +269,7 @@ TEST_F(WindowEvaluatorTest, LagWithDefault) {
         {{"id", 2}, {"amount", 200}}
     };
     
-    WindowSpec spec;
+    WindowEvalSpec spec;
     SortSpec sortSpec;
     sortSpec.expression = makeFieldAccess("id");
     sortSpec.ascending = true;
@@ -306,7 +306,7 @@ TEST_F(WindowEvaluatorTest, LeadBasic) {
         {{"id", 4}, {"amount", 180}}
     };
     
-    WindowSpec spec;
+    WindowEvalSpec spec;
     SortSpec sortSpec;
     sortSpec.expression = makeFieldAccess("id");
     sortSpec.ascending = true;
@@ -348,7 +348,7 @@ TEST_F(WindowEvaluatorTest, LeadNegativeOffsetIsOutOfBounds) {
         {{"id", 3}, {"amount", 150}}
     };
 
-    WindowSpec spec;
+    WindowEvalSpec spec;
     SortSpec sortSpec;
     sortSpec.expression = makeFieldAccess("id");
     sortSpec.ascending = true;
@@ -377,7 +377,7 @@ TEST_F(WindowEvaluatorTest, LeadNegativeOneOffset) {
         {{"id", 3}, {"amount", 150}}
     };
 
-    WindowSpec spec;
+    WindowEvalSpec spec;
     SortSpec sortSpec;
     sortSpec.expression = makeFieldAccess("id");
     sortSpec.ascending = true;
@@ -406,7 +406,7 @@ TEST_F(WindowEvaluatorTest, FollowingNegativeOffsetClampedToZero) {
         {{"id", 4}, {"amount", 180}}
     };
 
-    WindowSpec spec;
+    WindowEvalSpec spec;
     SortSpec sortSpec;
     sortSpec.expression = makeFieldAccess("id");
     sortSpec.ascending = true;
@@ -449,7 +449,7 @@ TEST_F(WindowEvaluatorTest, FirstValueNoPartition) {
         {{"amount", 150}, {"product", "C"}}
     };
     
-    WindowSpec spec;
+    WindowEvalSpec spec;
     SortSpec sortSpec;
     sortSpec.expression = makeFieldAccess("amount");
     sortSpec.ascending = false;
@@ -480,7 +480,7 @@ TEST_F(WindowEvaluatorTest, FirstValueWithPartition) {
         {{"amount", 180}, {"category", "B"}}
     };
     
-    WindowSpec spec;
+    WindowEvalSpec spec;
     spec.partitionBy = {makeFieldAccess("category")};
     
     SortSpec sortSpec;
@@ -520,7 +520,7 @@ TEST_F(WindowEvaluatorTest, LastValueDefaultFrame) {
         {{"amount", 150}, {"product", "C"}}
     };
     
-    WindowSpec spec;
+    WindowEvalSpec spec;
     SortSpec sortSpec;
     sortSpec.expression = makeFieldAccess("amount");
     sortSpec.ascending = false;
@@ -555,7 +555,7 @@ TEST_F(WindowEvaluatorTest, LastValueUnboundedFollowing) {
         {{"amount", 150}, {"product", "C"}}
     };
     
-    WindowSpec spec;
+    WindowEvalSpec spec;
     SortSpec sortSpec;
     sortSpec.expression = makeFieldAccess("amount");
     sortSpec.ascending = false;
@@ -595,7 +595,7 @@ TEST_F(WindowEvaluatorTest, MultiColumnPartition) {
         {{"category", "B"}, {"region", "EU"}, {"amount", 180}}
     };
     
-    WindowSpec spec;
+    WindowEvalSpec spec;
     spec.partitionBy = {makeFieldAccess("category"), makeFieldAccess("region")};
     
     SortSpec sortSpec;
@@ -631,7 +631,7 @@ TEST_F(WindowEvaluatorTest, MultiColumnSort) {
         {{"category", "B"}, {"amount", 180}}
     };
     
-    WindowSpec spec;
+    WindowEvalSpec spec;
     
     SortSpec sort1;
     sort1.expression = makeFieldAccess("category");
@@ -664,7 +664,7 @@ TEST_F(WindowEvaluatorTest, MultiColumnSort) {
 TEST_F(WindowEvaluatorTest, EmptyRowset) {
     std::vector<json> rows = {};
     
-    WindowSpec spec;
+    WindowEvalSpec spec;
     WindowFunctionCall func;
     func.funcType = WindowFunctionType::ROW_NUMBER;
     
@@ -678,7 +678,7 @@ TEST_F(WindowEvaluatorTest, SingleRow) {
         {{"amount", 100}}
     };
     
-    WindowSpec spec;
+    WindowEvalSpec spec;
     WindowFunctionCall func;
     func.funcType = WindowFunctionType::ROW_NUMBER;
     

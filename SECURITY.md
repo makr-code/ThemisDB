@@ -5,11 +5,11 @@
 **ThemisDB Security Team**
 
 [![Status](https://img.shields.io/badge/status-ACTIVE_DEVELOPMENT-orange)](ROADMAP.md)
-[![Known Issues](https://img.shields.io/badge/security_gaps-227_CRITICAL-red)](ai_working/MODULE_MATURITY_MATRIX.md)
+[![Baseline](https://img.shields.io/badge/scan_baseline-22.085-blue)](ROADMAP.md)
 [![Gitleaks](https://img.shields.io/badge/Gitleaks-enabled-blue)](https://github.com/gitleaks/gitleaks)
 [![Responsible Disclosure](https://img.shields.io/badge/disclosure-responsible-orange)](https://github.com/makr-code/ThemisDB/security/policy)
 
-⚠️ **IMPORTANT:** ThemisDB is in active development. See [ai_working/MODULE_MATURITY_MATRIX.md](ai_working/MODULE_MATURITY_MATRIX.md) for module-level security status.
+⚠️ **IMPORTANT:** ThemisDB is in active development. Canonical module and maturity status is tracked in [ROADMAP.md](ROADMAP.md) and governed by [DOCUMENTATION_GOVERNANCE.md](DOCUMENTATION_GOVERNANCE.md).
 
 </div>
 
@@ -18,7 +18,8 @@
 ## 📋 Supported Versions & Security Status
 
 > [!CAUTION]
-> ThemisDB **security module is not production-ready**. We have identified 669 security gaps (227 CRITICAL severity) including hardcoded secrets and missing input validation. **Do not use in production until security audit is complete.**
+> ThemisDB **security module is currently in HARDENING status** (see module table in [ROADMAP.md](ROADMAP.md)).
+> Do not use in production-critical environments without project-specific hardening review and validated release evidence.
 
 | Version | Status | Security Module | Notes |
 |---------|:------:|:---------------:|-------|
@@ -135,6 +136,23 @@ Primary reference: [ARCHITECTURE.md](ARCHITECTURE.md#security--hardening-tiering
 | **T3: Interface & Protocol Edge** | HTTP/gRPC/Wire ingress and protocol handlers | AuthN/AuthZ at ingress, parser bounds, DoS protection, tenant isolation |
 | **T4: Managed Extension Runtime** | In-tree extensions (LLM/content/model runtime) | Capability gating, bounded runtime budgets, sanitized inputs/outputs |
 | **T5: Plugin Boundary** | Dynamic plugins and adapters | Signature/provenance checks, sandboxing, capability-scoped invocation |
+
+### ⚠️ CRITICAL Security Gaps — Graph Module (Phase 2 Remediation)
+
+**Status:** 2 CRITICAL semantic validation gaps in `ontology_manager.cpp` (T2: Data Plane Engines)
+
+| Gap | Severity | Description | Mitigation | Target |
+|-----|----------|---|---|---|
+| **Type-Error Propagation** | 🔴 CRITICAL | ontology_manager type constraints allow type mismatches to propagate unchecked; potential for silent data corruption in multi-model queries | Phase 2.3 type-validation hardening; unit tests added to test_ontology_manager.cpp | 2026-08-20 |
+| **Semantic Constraint Bypass** | 🔴 CRITICAL | path_constraints allows unvalidated constraint predicates in cross-shard queries; risk of query scope bypass (T3 → T2 boundary crossing) | Phase 2.2 constraint-propagation audit; security-level test in test_constraint_propagation.cpp | 2026-08-06 |
+
+**Primary Evidence:** [ai_working/graph_l2_analysis.md](ai_working/graph_l2_analysis.md) Section 4 (Risk Assessment)  
+**Action Items:**  
+1. Lock graph module from production releases until Phase 2.4 complete
+2. Assign T2/Security architect to Phase 2.3 validation work
+3. Add to SECURITY release checklist: graph module type/constraint tests must pass before RC candidate
+
+**Reference:** [ROADMAP.md § Graph Module Completion](ROADMAP.md#-graph-module-completion-q3-2026)
 
 ### Mandatory Tier Rules
 

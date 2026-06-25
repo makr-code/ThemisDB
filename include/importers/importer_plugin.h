@@ -9,6 +9,8 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
+#pragma once
+
 #include <stddef.h>
 #include <stdint.h>
 

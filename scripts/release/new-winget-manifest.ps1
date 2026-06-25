@@ -27,7 +27,6 @@ param(
     [string]$PortableRelativeFilePath = "bin\themis_server.exe",
     [string]$PortableCommandAlias = "themis_server",
     [string]$ReleaseNotes = "",
-    [switch]$IsPreRelease,
     [switch]$IncludeGermanLocale,
     [string]$GermanShortDescription = "Multi-Modell-Datenbanksystem mit ACID-Transaktionen",
     [string]$GermanReleaseNotes = "",

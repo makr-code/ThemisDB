@@ -1,4 +1,15 @@
-# ThemisDB Module Maturity Matrix — Honest Assessment
+# ThemisDB Module Maturity Matrix — Historical Snapshot (2026-05-18)
+
+> [!IMPORTANT]
+> This document is a historical Phase-1 snapshot and is **not** the current canonical maturity source.
+>
+> Current canonical references:
+> - `ROADMAP.md` (root module status and active baseline)
+> - `README.md` (66/66 snapshot summary)
+> - `ai_working/gap_scan_report_2026-06-13.md` (current worklist baseline)
+> - `ai_working/GS3_SCAN_REPORT_2026_06_21.md` (latest full scan report)
+>
+> Update governance and tiering rules are defined in `DOCUMENTATION_GOVERNANCE.md`.
 
 **Generated from Phase 1 Gap Scanner v3**  
 **Date:** 2026-05-18  

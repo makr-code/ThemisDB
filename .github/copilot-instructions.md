@@ -31,14 +31,33 @@ Regeln:
 3. Military-Release-Arbeit zielt auf `military`, niemals auf `millitary`.
 4. Keine neuen PRs, Branches, Automationen oder Doku-Anweisungen gegen Legacy-Branch-Namen vorschlagen.
 5. Wenn eine Aufgabe Branch-Governance, Release-Fluss oder Editions-Mapping ändert, müssen diese Dateien zusammen aktualisiert werden:
-   - `BRANCHING_STRATEGY.md`
-   - `RELEASE_STRATEGY.md`
-   - `.github/copilot-instructions.md`
-   - `ai_context/COPILOT_INSTRUCTIONS.md`
-   - `VERSIONING.md`
-   - `CHANGELOG.md`
-   - `ROADMAP.md`
-   - `FUTURE_ENHANCEMENTS.md`
+  - `BRANCHING_STRATEGY.md`
+  - `RELEASE_STRATEGY.md`
+  - `DOCUMENTATION_GOVERNANCE.md`
+  - `.github/copilot-instructions.md`
+  - `ai_context/COPILOT_INSTRUCTIONS.md`
+  - `VERSIONING.md`
+  - `CHANGELOG.md`
+  - `ROADMAP.md`
+  - `FUTURE_ENHANCEMENTS.md`
+
+## 1.2) Documentation Governance Sync (MUST)
+
+For documentation-related work, treat these as one aligned rule set:
+
+- `DOCUMENTATION_GOVERNANCE.md`
+- `.github/copilot-instructions.md`
+- `ai_context/COPILOT_INSTRUCTIONS.md`
+- `.github/ISSUE_TEMPLATE/docs_audit.md`
+
+Mandatory rules:
+
+1. Source precedence and SOT domain mapping follow `DOCUMENTATION_GOVERNANCE.md`.
+2. Naming follows repository reality per scope/directory (no abstract global style).
+3. ThemisDB default for module-adjacent docs is UPPER_SNAKE naming unless local canon differs.
+4. No semantic filename duplicates in one scope (for example `ARCHITECTURE.md` + `architecture.md`).
+5. Enforce conformance checks on each docs change: naming, structure, duktus, SOT consistency.
+6. Keep instructions compact and non-redundant to control token size; do not remove normative constraints.
 
 ## 2) Pflichtstruktur für `ROADMAP.md` je Modul
 

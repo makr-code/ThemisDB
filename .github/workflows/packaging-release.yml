@@ -103,3 +103,57 @@ jobs:
           echo '```' >> $GITHUB_STEP_SUMMARY
           echo "docker pull themisdb/themisdb:${{ steps.version.outputs.value }}" >> $GITHUB_STEP_SUMMARY
           echo '```' >> $GITHUB_STEP_SUMMARY
+
+  linux-packages:
+    name: Build Linux Packages (DEB / RPM / TGZ)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup prerequisites
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            build-essential cmake ninja-build \
+            rpm dpkg-dev file
+
+      - name: Configure (community-release)
+        run: cmake --preset community-release
+
+      - name: Build
+        run: cmake --build build-community-release --config Release --parallel 4
+
+      - name: Package DEB
+        run: |
+          if [ -f build-community-release/CPackConfig.cmake ]; then
+            (cd build-community-release && cpack -G DEB --config CPackConfig.cmake -C Release)
+          else
+            echo "CPackConfig.cmake not found; skipping DEB"
+            exit 1
+          fi
+
+      - name: Package RPM
+        run: |
+          (cd build-community-release && cpack -G RPM --config CPackConfig.cmake -C Release) || \
+            echo "RPM packaging skipped (rpmbuild not available)"
+
+      - name: Package TGZ
+        run: |
+          (cd build-community-release && cpack -G TGZ --config CPackConfig.cmake -C Release)
+
+      - name: Generate SHA256 checksums
+        run: |
+          find build-community-release -maxdepth 1 \
+            \( -name '*.deb' -o -name '*.rpm' -o -name '*.tar.gz' \) \
+            -exec sh -c 'sha256sum "$1" > "$1.sha256"' _ {} \;
+
+      - name: Upload Linux package artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: themisdb-community-linux-packages
+          path: |
+            build-community-release/*.deb
+            build-community-release/*.rpm
+            build-community-release/*.tar.gz
+            build-community-release/*.sha256

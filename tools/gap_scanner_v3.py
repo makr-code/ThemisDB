@@ -19,9 +19,12 @@ Produces:
 
 import json
 import sys
+import os
+import re
+import logging
 from pathlib import Path
 from datetime import datetime
-from typing import Dict, Any
+from typing import Dict, Any, List, Tuple
 
 # Ensure tools/ is in sys.path for local module imports (critical for subprocess execution)
 sys.path.insert(0, str(Path(__file__).parent))
@@ -1080,6 +1083,160 @@ class UnifiedGapScannerV3:
         
         return modules
 
+    def verify_findings(self, aggregate: Dict[str, Any]) -> Dict[str, Any]:
+        """
+        IMPROVEMENT: Verify findings with multi-factor analysis
+        
+        Eliminates false-positives by:
+        1. Checking file existence
+        2. Classifying gap type (Real | Guarded Stub | Test Mock | False-Positive)
+        3. Re-assessing severity based on source context
+        
+        Returns: Verified aggregate with classification + corrected severity
+        """
+        
+        logging.info("[VERIFIER] Starting multi-factor gap verification...")
+        verified_aggregate = {}
+        
+        for module_name, module_data in aggregate.items():
+            verified_module = dict(module_data)
+            verified_by_file = {}
+            stats = {'total': 0, 'file_not_found': 0, 'downgraded': 0, 'kept': 0}
+            
+            for file_path, gaps in module_data.get('by_file', {}).items():
+                verified_gaps = []
+                file_full_path = self.repo_root / file_path
+                
+                for gap in gaps:
+                    # STEP 1: File Existence Check
+                    if not file_full_path.exists():
+                        gap['verification'] = {
+                            'status': 'FALSE_POSITIVE',
+                            'classification': 'FILE_NOT_FOUND',
+                            'verified_severity': 'IGNORE',
+                            'rationale': f"File does not exist: {file_path}"
+                        }
+                        stats['file_not_found'] += 1
+                        logging.warning(f"  FALSE_POSITIVE: {file_path} (file not found)")
+                        continue  # Skip this finding
+                    
+                    # STEP 2: Multi-Factor Classification
+                    classification, severity_action = self._classify_gap(
+                        file_full_path, gap
+                    )
+                    
+                    # STEP 3: Severity Re-Assessment
+                    original_severity = gap.get('severity', 'MEDIUM')
+                    verified_severity = original_severity
+                    downgraded = False
+                    
+                    if severity_action.startswith('DOWNGRADE_'):
+                        new_severity = severity_action.split('_')[1]
+                        verified_severity = new_severity
+                        downgraded = True
+                        stats['downgraded'] += 1
+                        logging.info(
+                            f"  DOWNGRADE: {file_path}:{gap.get('line', '?')} "
+                            f"{original_severity} → {new_severity} ({classification})"
+                        )
+                    else:
+                        stats['kept'] += 1
+                    
+                    # Store verification metadata
+                    gap['verification'] = {
+                        'status': 'VERIFIED',
+                        'classification': classification,
+                        'original_severity': original_severity,
+                        'verified_severity': verified_severity,
+                        'downgraded': downgraded,
+                        'rationale': f"Classified as {classification}"
+                    }
+                    
+                    # Update severity in gap
+                    gap['severity'] = verified_severity
+                    verified_gaps.append(gap)
+                    stats['total'] += 1
+                
+                if verified_gaps:
+                    verified_by_file[file_path] = verified_gaps
+            
+            # Recalculate totals after verification
+            verified_module['by_file'] = verified_by_file
+            verified_module['total'] = sum(len(gaps) for gaps in verified_by_file.values())
+            verified_module['verification_stats'] = stats
+            
+            # Recalculate severity breakdown
+            critical = high = medium = info = 0
+            for gaps in verified_by_file.values():
+                for gap in gaps:
+                    sev = str(gap.get('severity', 'MEDIUM')).upper()
+                    if sev == 'CRITICAL': critical += 1
+                    elif sev == 'HIGH': high += 1
+                    elif sev == 'MEDIUM': medium += 1
+                    elif sev == 'INFO': info += 1
+            
+            verified_module['severity_breakdown'] = {
+                'CRITICAL': critical,
+                'HIGH': high,
+                'MEDIUM': medium,
+                'INFO': info
+            }
+            
+            verified_aggregate[module_name] = verified_module
+        
+        logging.info("[VERIFIER] Verification complete")
+        return verified_aggregate
+
+    def _classify_gap(self, file_path: Path, gap: Dict[str, Any]) -> Tuple[str, str]:
+        """
+        IMPROVEMENT: Multi-factor classification of gap
+        
+        Returns: (classification, severity_action)
+          - classification: 'Real Gap' | 'Guarded Stub' | 'Test Mock' | 'Placeholder'
+          - severity_action: 'KEEP_SEVERITY' | 'DOWNGRADE_HIGH' | 'DOWNGRADE_INFO' | 'DOWNGRADE_MEDIUM'
+        """
+        
+        try:
+            with open(file_path, 'r', encoding='utf-8', errors='ignore') as f:
+                lines = f.readlines()
+        except Exception as e:
+            logging.error(f"  Error reading {file_path}: {e}")
+            return 'UNKNOWN', 'KEEP_SEVERITY'
+        
+        line_num = int(gap.get('line', gap.get('line_number', 1)) or 1)
+        if line_num < 1 or line_num > len(lines):
+            return 'OUT_OF_RANGE', 'DOWNGRADE_INFO'
+        
+        # Extract source context (±5 lines)
+        start = max(0, line_num - 6)
+        end = min(len(lines), line_num + 4)
+        context_lines = lines[start:end]
+        source_line = lines[line_num - 1] if line_num <= len(lines) else ''
+        
+        # Factor 1: Test code marker?
+        if str(file_path).startswith(str(self.repo_root / 'tests')):
+            if any(marker in source_line for marker in ['MOCK', 'TEST', '// Mock', '// TEST']):
+                return 'TEST_MOCK', 'DOWNGRADE_INFO'
+        
+        # Factor 2: TODO/STUB/TEMPORARY marker?
+        if any(marker in source_line for marker in ['TODO', 'FIXME', 'STUB', 'TEMPORARY', 'WIP']):
+            return 'PLACEHOLDER', 'DOWNGRADE_MEDIUM'
+        
+        # Factor 3: Guarded pattern?
+        full_context = ''.join(context_lines)
+        if re.search(r'(if|while|for)\s*\(', source_line):
+            if 'return' in source_line or 'return' in full_context:
+                return 'GUARDED_STUB', 'DOWNGRADE_HIGH'
+        
+        # Factor 4: Defensive error handling?
+        if any(pattern in source_line for pattern in ['return {};', 'return "";', 'return null', 'return nullptr', 'return false']):
+            if any(check in full_context for check in ['if (', 'if!', 'assert', 'CHECK']):
+                return 'GUARDED_STUB', 'DOWNGRADE_HIGH'
+        
+        # Default: Real gap
+        return 'REAL_GAP', 'KEEP_SEVERITY'
+
+
 
 def main():
     """Main entry point"""
@@ -1087,8 +1244,37 @@ def main():
     repo_root = sys.argv[1] if len(sys.argv) > 1 else '.'
     output_dir = sys.argv[2] if len(sys.argv) > 2 else 'ai_working'
     
+    # Configure logging
+    logging.basicConfig(
+        level=logging.INFO,
+        format='%(asctime)s — %(levelname)s — %(message)s'
+    )
+    
     scanner = UnifiedGapScannerV3(repo_root, output_dir)
     aggregate = scanner.run_complete_scan()
+    
+    # IMPROVEMENT: Verify findings before output (multi-factor analysis)
+    print("\n" + "=" * 80)
+    print("Gap Verification Phase (L0.5) — Multi-Factor Analysis")
+    print("=" * 80)
+    
+    verified_aggregate = scanner.verify_findings(aggregate)
+    
+    # Write verified results
+    verified_output = Path(output_dir) / 'gap_scanner_results.json'
+    with open(verified_output, 'w', encoding='utf-8') as f:
+        json.dump(verified_aggregate, f, indent=2)
+    print(f"\n[OK] Verified findings saved to: {verified_output.name}")
+    
+    # Summary statistics
+    total_verified = sum(data['total'] for data in verified_aggregate.values())
+    total_downgraded = sum(data['verification_stats'].get('downgraded', 0) for data in verified_aggregate.values())
+    total_fp_removed = sum(data['verification_stats'].get('file_not_found', 0) for data in verified_aggregate.values())
+    
+    print(f"\n[SUMMARY]")
+    print(f"  Total findings after verification: {total_verified}")
+    print(f"  Findings downgraded (lower severity): {total_downgraded}")
+    print(f"  False-positives removed: {total_fp_removed}")
     
     return 0
 

@@ -3,7 +3,7 @@
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
 
 **Version:** 2.4  
-**Last Updated:** 2026-06-18
+**Last Updated:** 2026-06-25
 **Scope:** Aggregated roadmap across tracked modules in `src/` (improved scanner pipeline Phase 1–6 complete; active baseline 22.085 deduplicated findings)
 
 > For module-specific details see each module's `src/<module>/ROADMAP.md`.
@@ -16,6 +16,63 @@ ThemisDB is a high-performance multi-model database with native AI/LLM integrati
 
 **Overall Timeline:** Q1 2026 – Q4 2027  
 **Current Release:** v1.9.0-beta
+
+---
+
+## 🔴 Graph Module Completion (Q3 2026)
+
+**Status:** ⚠️ **CRITICAL** — Phase 2 Implementation Required (6 weeks)  
+**Timeline:** Weeks 1-6 (Target: 2026-08-06 Phase 2.4 complete)  
+**Blocking Condition:** 9 CRITICAL gaps prevent production release  
+**Test Coverage:** 326 tests; 9 rotating_completion tests → Phase 2.1 gate  
+**Owner Assignment:** Required before Phase 2.1 kickoff
+
+### Blocker Files & Phase Breakdown
+
+| File | Gaps | Phase | Duration | Key Tests | Sign-Off Gate |
+|------|------|-------|----------|-----------|---------------|
+| **rotate_completion.cpp** | 3 CRITICAL | 2.1 | 1 week | 9 rotating_completion tests | Phase 2.1 PASS (week 1) |
+| **explain_plan.cpp** | 2 CRITICAL | 2.2 | 1 week | 8 explain_plan + 6 cost_model tests | Phase 2.2 PASS (week 2) |
+| **path_constraints.cpp** | 1 CRITICAL + 1 HIGH | 2.2 | 1 week | 14 path_constraints + 11 constraint_propagation tests | Phase 2.2 PASS (week 2) |
+| **ontology_manager.cpp** | 2 CRITICAL | 2.3 | 1 week | 12 ontology + 13 entity_type_constraints tests | Phase 2.3 PASS (week 3) |
+| **Full Integration & Hardening** | 107 actionable findings (19 CRITICAL, 88 HIGH) | 2.3-2.4 | 2 weeks | 326 full graph test suite + 100x stability runs | Phase 2.4 PASS + L1 audit re-run |
+
+### Risk Mitigation Actions
+
+- [x] L1 documentation audit completed (4/4 conformance PASS)
+- [x] L2 developer aggregates generated (3 snapshots, SOT verified)
+- [~] **L3 root-doc update in progress** — this entry + SECURITY.md tier table + CHANGELOG.md entry
+- [ ] L4 Doxygen sync (pending L3 completion)
+- [ ] Phase 2.1 kickoff (assign owners, create feature branch `develop/graph-l2-impl-q3-2026`)
+- [ ] Weekly phase sign-offs (CTest gates per blocker file)
+
+### Decision Tree for Release Manager
+
+```
+Is Phase 2.4 complete? ──NO──> Block release, continue Phase 2 implementation
+           │
+          YES
+           │
+Are all 326 graph tests PASS? ──NO──> Fail fast, fix regressions
+           │
+          YES
+           │
+Are all 9 CRITICAL gaps RESOLVED? ──NO──> Block release, gaps are blockers
+           │
+          YES
+           │
+Is L1 conformance audit 4/4 PASS (re-run)? ──NO──> Audit failures must be resolved
+           │
+          YES
+           │
+       ✅ RELEASE READY
+```
+
+**Primary Evidence:**
+- [ai_working/graph_l2_analysis.md](ai_working/graph_l2_analysis.md) — L2 Master Aggregation (5 snapshots)
+- [MODULE_GAPS.md](MODULE_GAPS.md) — 9 gap specifications (ordered by phase)
+- [src/graph/ARCHITECTURE.md](src/graph/ARCHITECTURE.md) — L0 risk section + gap-to-test mapping
+- [ai_working/snapshot_graph_l1_testcoverage.md](ai_working/snapshot_graph_l1_testcoverage.md) — 326 test inventory
 
 ---
 
@@ -34,6 +91,19 @@ Traceability rules:
 - `VERSIONING.md` defines the canonical release-type vocabulary (`alpha`, `beta`, `rc`, `stable`) and pre-release suffix rules.
 - `COPILOT_INSTRUCTIONS.md` defines AI/agent update rules for root-governance and release/versioning document consistency.
 - `FEATURE_ENHANCEMENT.md` is a generated maturity snapshot and is not the canonical planning backlog.
+
+### Documentation Source-Of-Truth Governance (2026-06-25)
+
+Status: [x] adopted
+
+- [x] Canonical 4-level documentation model adopted:
+  - [x] Level 1: module-near primary docs (`src/<module>`, `include/<module>`, `tests/<module>`, `benchmarks/<module>`, curated `ai_working/` evidence)
+  - [x] Level 2: secondary developer summaries in base aggregates (`src/`, `include/`)
+  - [x] Level 3: root docs (`CHANGELOG`, `README`, `CTEST`, benchmark docs, `FUTURE_ENHANCEMENTS`, `SECURITY`) generated/updated from Level 1 and Level 2
+  - [x] Level 4: `docs/` generated/updated from Doxygen + Level 1 to Level 3
+- [x] Conflicts between documents are resolved by tier precedence, never by recency alone.
+- [x] Update intervals and GitHub issue/milestone orchestration standardized (`DOC-WEEKLY-*`, `DOC-MONTHLY-*`, `DOC-RELEASE-*`).
+- [x] Root reference added: `DOCUMENTATION_GOVERNANCE.md`.
 
 ### Root Documentation Sync (2026-05-26)
 

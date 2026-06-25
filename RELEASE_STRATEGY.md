@@ -397,7 +397,86 @@ Rules:
 
 Pre-release versions (`-rc*`, `-alpha`, `-beta`) are published to winget-pkgs only after the corresponding stable release is accepted. This prevents `winget upgrade` from pushing pre-release software to users who installed a stable version.
 
-## 13. Packaging Decisions (Open Questions)
+## 9.2 Docker Distribution
+
+ThemisDB Community images are published to Docker Hub as `themisdb/themisdb`.
+
+### Image tags
+
+| Tag | Meaning |
+|---|---|
+| `themisdb/themisdb:1.3.4` | Pinned version |
+| `themisdb/themisdb:1.3` | Minor-version floating tag |
+| `themisdb/themisdb:latest` | Latest stable release only |
+
+Pre-release versions (any version with a `-` suffix) do **not** receive the `latest` tag.
+
+### CI pipeline
+
+The `docker` job in `.github/workflows/packaging-release.yml` runs after `package` succeeds and only when the repository variable `DOCKER_PUSH` is set to `true`.
+
+Required secrets: `DOCKERHUB_USERNAME`, `DOCKERHUB_TOKEN`.
+
+Platforms: `linux/amd64`, `linux/arm64` (via Docker Buildx + GitHub Actions cache).
+
+Dockerfile: `docker/Dockerfile.unified` with `--build-arg THEMIS_EDITION=COMMUNITY`.
+
+### Local build and push
+
+```bash
+# Build + push stable release
+TAG=1.3.4 PUSH=true bash scripts/build-docker.sh
+
+# Build only (no push, for local testing)
+TAG=1.3.4 bash scripts/build-docker.sh
+
+# Multi-arch (requires buildx builder)
+PLATFORMS=linux/amd64,linux/arm64 TAG=1.3.4 PUSH=true bash scripts/build-docker.sh
+```
+
+```powershell
+# Windows (PowerShell)
+.\scripts\build-docker.ps1 -Tag 1.3.4 -Push
+```
+
+### Rules
+
+- Never push a pre-release image as `latest`.
+- Image name must be `themisdb/themisdb` (not `themisdb/themis`).
+- One image build per released commit — do not rebuild the same tag from a different commit.
+
+## 9.3 Linux Native Package Distribution
+
+ThemisDB provides DEB, RPM, and TGZ packages for Linux server deployments.
+
+### Formats
+
+| Format | Targets | Generator |
+|---|---|---|
+| `.deb` | Debian 12+, Ubuntu 22.04+ | `cpack -G DEB` |
+| `.rpm` | RHEL 9+, Fedora 39+ | `cpack -G RPM` |
+| `.tar.gz` | Any Linux x86\_64 | `cpack -G TGZ` |
+
+### CI pipeline
+
+The `linux-packages` job in `.github/workflows/packaging-release.yml` runs independently of the `docker` job.
+
+All output files and their `.sha256` checksums are uploaded as the `themisdb-community-linux-packages` artifact.
+
+### Local packaging
+
+```bash
+# Build + package (TGZ + DEB + checksums)
+bash scripts/build-linux.sh --skip-tests
+```
+
+The CPack step is skipped in debug builds and can be suppressed with `SKIP_PACKAGE=1`.
+
+### Checklist before publishing
+
+- Verify checksums: `sha256sum -c *.sha256`
+- Smoke-test the DEB on a clean Debian/Ubuntu container before attaching to the GitHub Release.
+- RPM packaging fails gracefully when `rpmbuild` is unavailable; validate separately if RPM is required.
 
 This project centralizes packaging decisions here to make release behavior deterministic. The following questions are open and should be decided by the release maintainer. Suggested defaults are provided.
 
