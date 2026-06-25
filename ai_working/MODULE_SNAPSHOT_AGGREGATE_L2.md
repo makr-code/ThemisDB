@@ -1,169 +1,163 @@
-# L2 Documentation Aggregation: Module Cross-Reference and Risk Analysis
-
-**Timestamp**: 2026-06-25 14:00:24Z  
-**Source**: gap_scan_results_verified_L0.5_full.json (22,160 verified gaps)  
-**Level**: L2 (Aggregate Developer Summary)  
-**Scope**: Priority modules (LLM, Server, Query, Network, Graph, Cache)
-
----
+# MODULE_SNAPSHOT_AGGREGATE_L2 (Phase 5 Verified)
 
 ## Executive Summary
 
-| Module | Total Gaps | CRITICAL | HIGH | Actionable % | Top Risk | Status |
-|---|---:|---:|---:|---:|---|---|
-| **LLM** | 3,821 | 1,029 | 1,937 | 77.6% | AI Safety (1,910 findings) | 🔴 High-Risk |
-| **Server** | 2,172 | 186 | 468 | 30.1% | Performance (460 findings) | 🟡 Medium-Risk |
-| **Query** | 933 | 131 | 296 | 45.8% | Performance (234 findings) | 🟡 Medium-Risk |
-| **Network** | 368 | 22 | 221 | 66.0% | Retry Logic (143 findings) | 🟡 Medium-Risk |
-| **Graph** | 248 | 18 | 45 | 25.4% | Performance (104 findings) | 🟢 Low-Risk |
-| **Cache** | 127 | 10 | 74 | 66.1% | Null Safety (24 findings) | 🟡 Medium-Risk |
-| **TOTAL** | **9,669** | **1,396** | **3,041** | 45.5% | | |
+This document provides an aggregate view of all documentation and code quality gaps across the ThemisDB platform, as measured by the gap scanner Phase 1-5 pipeline.
+
+**Phase 5 Status**: External GitHub submodules are explicitly excluded (llama.cpp, whisper.cpp, vcpkg, onnx-clip).
+
+### Totals
+
+- **Total Modules Scanned**: 67
+- **Total Gaps (Verified)**: 73,112
+- **Themis Core Scope**: 100.0%
+- **External Modules Excluded**: ✅ (Phase 5)
+
+### By Severity
+
+- **CRITICAL**: 842 gaps
+- **HIGH**: 9,665 gaps  
+- **MEDIUM**: 62,540 gaps
+- **LOW**: 65 gaps
+
+**Critical Breakdown**: 1.2% CRITICAL, 13.2% HIGH
 
 ---
 
-## Cross-Module Dependency Risk Analysis
+## Module Breakdown
 
-### High-Risk Dependencies
-
-#### 1. LLM → Server (Inference Request Path)
-- **Dependency**: LLM module routes inference requests through Server API handlers
-- **Risk**: 1,029 CRITICAL LLM gaps + 186 CRITICAL Server gaps = 1,215 combined critical issues
-- **Impact Areas**:
-  - Model loading without integrity verification (1,910 LLM findings)
-  - API gateway hardcoded paths and error handling (262 Server findings)
-  - Exception safety across inference pipeline
-- **Remediation**: Coordinate LLM model integrity checks with Server validation layers
-- **Target**: Q3 2026
-
-#### 2. LLM → Query (RAG/Search Integration)
-- **Dependency**: LLM uses Query module for document retrieval in RAG pipelines
-- **Risk**: 131 CRITICAL Query gaps + LLM safety gaps in RAG context
-- **Impact Areas**:
-  - Unvalidated LLM output used in query construction (potential injection)
-  - Query performance (234 findings) affects response latency
-  - Error recovery in hybrid query paths
-- **Remediation**: Add query input sanitization for LLM-driven queries
-- **Target**: Q3/Q4 2026
-
-#### 3. Server → Network (Request Transport)
-- **Dependency**: Server API handlers use Network module for client communication
-- **Risk**: 222 CRITICAL/HIGH Network gaps in transport layer
-- **Impact Areas**:
-  - Retry logic gaps (143 findings) - transient failures propagate to clients
-  - Manual cleanup in connection handlers (35 findings)
-  - Exception safety across request lifecycle
-- **Remediation**: Implement consistent retry and timeout patterns
-- **Target**: Q3 2026
-
-### Shared Infrastructure Risks
-
-#### Performance Optimization (Cross-Module)
-- **LLM**: 391 performance findings → impacts inference latency
-- **Server**: 460 performance findings → impacts API throughput
-- **Query**: 234 performance findings → impacts query latency
-- **Combined**: 1,085 performance-related gaps across hot paths
-- **Remediation Strategy**: Profile and batch optimizations by functional area
-- **Target**: Q3/Q4 2026 incremental improvements
-
-#### Data Safety & Concurrency (Cross-Module)
-- **LLM**: 321 data race findings + 1,029 model safety issues
-- **Query**: 76 data race findings + 131 CRITICAL gaps
-- **Server**: 186 CRITICAL gaps (many related to state management)
-- **Combined Risk**: High probability of subtle concurrency bugs under load
-- **Remediation**: Comprehensive thread safety review + mutex audit
-- **Target**: Q3 2026
-
----
-
-## Priority Remediation Roadmap
-
-### Phase 1: Immediate Safety (Q3 2026 - Weeks 1-4)
-
-**Focus**: CRITICAL gaps blocking production safety
-
-1. **LLM Module (1,029 CRITICAL)**
-   - [ ] Model integrity verification framework
-   - [ ] Prompt injection prevention
-   - [ ] LLM output validation before use
-   - **Estimated Effort**: 3-4 weeks
-   - **Blockers**: None (can start immediately)
-
-2. **Server Module (186 CRITICAL)**
-   - [ ] Exception safety in request handlers
-   - [ ] Null pointer checks in API paths
-   - [ ] Resource cleanup in error cases
-   - **Estimated Effort**: 2 weeks
-   - **Blockers**: None
-
-3. **Query Module (131 CRITICAL)**
-   - [ ] Bounds checking in query execution
-   - [ ] Exception safety in distributed paths
-   - [ ] Retry logic for transient failures
-   - **Estimated Effort**: 2 weeks
-   - **Blockers**: Depends on Server fixes
-
-### Phase 2: Stability Hardening (Q3 2026 - Weeks 5-8)
-
-**Focus**: HIGH gaps affecting reliability and performance
-
-1. **Network Module (221 HIGH)**
-   - [ ] Retry logic implementation across transports
-   - [ ] Timeout handling for blocking operations
-   - [ ] Connection management improvements
-   - **Estimated Effort**: 2-3 weeks
-
-2. **Server Performance (468 HIGH)**
-   - [ ] Copy overhead reduction
-   - [ ] Hardcoded path resolution
-   - [ ] Exception handler optimization
-   - **Estimated Effort**: 2 weeks
-
-3. **Query Performance (296 HIGH)**
-   - [ ] Join optimization
-   - [ ] Aggregation efficiency
-   - [ ] Memory allocation patterns
-   - **Estimated Effort**: 2-3 weeks
-
-### Phase 3: Quality Improvements (Q4 2026)
-
-**Focus**: MEDIUM gaps and technical debt
-
-- Cache reliability improvements (42 MEDIUM)
-- Graph algorithm optimization (184 MEDIUM)
-- Observability instrumentation (93 MEDIUM across modules)
-- Performance profiling and tuning
+| Module | Total Gaps | CRITICAL | HIGH | MEDIUM | LOW | Action |
+|--------|-----------|----------|------|--------|-----|--------|
+| llm | 12,474 | 155 | 1095 | 11223 | 1 | URGENT |
+| index | 7,712 | 29 | 3057 | 4623 | 3 | URGENT |
+| sharding | 7,257 | 36 | 795 | 6424 | 2 | URGENT |
+| storage | 4,717 | 80 | 479 | 4155 | 3 | URGENT |
+| query | 4,614 | 72 | 433 | 4106 | 3 | URGENT |
+| analytics | 3,696 | 35 | 412 | 3247 | 2 | URGENT |
+| security | 3,648 | 70 | 255 | 3320 | 3 | URGENT |
+| content | 3,222 | 48 | 402 | 2770 | 2 | URGENT |
+| auth | 2,759 | 57 | 225 | 2475 | 2 | URGENT |
+| acceleration | 2,558 | 37 | 221 | 2299 | 1 | URGENT |
+| network | 2,083 | 29 | 491 | 1561 | 2 | URGENT |
+| aql | 1,993 | 13 | 151 | 1827 | 2 | URGENT |
+| transaction | 1,682 | 22 | 181 | 1476 | 3 | URGENT |
+| graph | 1,578 | 10 | 82 | 1484 | 2 | URGENT |
+| cache | 1,571 | 11 | 227 | 1331 | 2 | URGENT |
+| replication | 1,519 | 16 | 194 | 1307 | 2 | URGENT |
+| scheduler | 1,493 | 6 | 291 | 1194 | 2 | URGENT |
+| temporal | 1,257 | 11 | 75 | 1169 | 2 | URGENT |
+| cdc | 1,091 | 11 | 61 | 1017 | 2 | URGENT |
+| metadata | 999 | 8 | 42 | 947 | 2 | URGENT |
+| config | 895 | 13 | 33 | 847 | 2 | URGENT |
+| search | 854 | 2 | 71 | 779 | 2 | URGENT |
+| base | 829 | 32 | 56 | 739 | 2 | URGENT |
+| tensor | 787 | 11 | 58 | 716 | 2 | URGENT |
+| api | 601 | 6 | 45 | 548 | 2 | URGENT |
+| chimera | 491 | 9 | 181 | 298 | 3 | URGENT |
+| core | 473 | 7 | 18 | 445 | 3 | URGENT |
+| ai | 134 | 0 | 13 | 119 | 2 | HIGH |
+| chaos | 66 | 1 | 2 | 61 | 2 | URGENT |
+| document | 35 | 0 | 2 | 31 | 2 | REVIEW |
+| ThemisDB | 23 | 5 | 17 | 1 | 0 | URGENT |
+| ai_working | 1 | 0 | 0 | 1 | 0 | REVIEW |
+| distributed_knowledge | 0 | 0 | 0 | 0 | 0 | REVIEW |
+| distributed_tensor | 0 | 0 | 0 | 0 | 0 | REVIEW |
+| ethics_ai | 0 | 0 | 0 | 0 | 0 | REVIEW |
+| evaluation | 0 | 0 | 0 | 0 | 0 | REVIEW |
+| exporters | 0 | 0 | 0 | 0 | 0 | REVIEW |
+| failover | 0 | 0 | 0 | 0 | 0 | REVIEW |
+| geo | 0 | 0 | 0 | 0 | 0 | REVIEW |
+| governance | 0 | 0 | 0 | 0 | 0 | REVIEW |
+| gpu | 0 | 0 | 0 | 0 | 0 | REVIEW |
+| importers | 0 | 0 | 0 | 0 | 0 | REVIEW |
+| ingestion | 0 | 0 | 0 | 0 | 0 | REVIEW |
+| llama_cpp | 0 | 0 | 0 | 0 | 0 | REVIEW |
+| maintenance | 0 | 0 | 0 | 0 | 0 | REVIEW |
+| observability | 0 | 0 | 0 | 0 | 0 | REVIEW |
+| onnx_clip | 0 | 0 | 0 | 0 | 0 | REVIEW |
+| performance | 0 | 0 | 0 | 0 | 0 | REVIEW |
+| plugins | 0 | 0 | 0 | 0 | 0 | REVIEW |
+| process | 0 | 0 | 0 | 0 | 0 | REVIEW |
+| projects | 0 | 0 | 0 | 0 | 0 | REVIEW |
+| prompt_engineering | 0 | 0 | 0 | 0 | 0 | REVIEW |
+| rag | 0 | 0 | 0 | 0 | 0 | REVIEW |
+| retrieval | 0 | 0 | 0 | 0 | 0 | REVIEW |
+| rpc_grpc | 0 | 0 | 0 | 0 | 0 | REVIEW |
+| scraper | 0 | 0 | 0 | 0 | 0 | REVIEW |
+| server | 0 | 0 | 0 | 0 | 0 | REVIEW |
+| stable_diffusion | 0 | 0 | 0 | 0 | 0 | REVIEW |
+| themis | 0 | 0 | 0 | 0 | 0 | REVIEW |
+| timeseries | 0 | 0 | 0 | 0 | 0 | REVIEW |
+| toolbox | 0 | 0 | 0 | 0 | 0 | REVIEW |
+| training | 0 | 0 | 0 | 0 | 0 | REVIEW |
+| updates | 0 | 0 | 0 | 0 | 0 | REVIEW |
+| user_storage_encrypted | 0 | 0 | 0 | 0 | 0 | REVIEW |
+| utils | 0 | 0 | 0 | 0 | 0 | REVIEW |
+| voice | 0 | 0 | 0 | 0 | 0 | REVIEW |
+| whisper | 0 | 0 | 0 | 0 | 0 | REVIEW |
 
 ---
 
-## Testing & Validation Strategy
+## Risk Analysis
 
-### By Module
-| Module | Unit Tests | Integration | Benchmark | Concurrency | Estimated Coverage |
-|---|---|---|---|---|---|
-| LLM | HIGH | HIGH | HIGH | HIGH | 85% |
-| Server | MEDIUM | HIGH | MEDIUM | MEDIUM | 75% |
-| Query | HIGH | HIGH | MEDIUM | HIGH | 80% |
-| Network | MEDIUM | HIGH | MEDIUM | MEDIUM | 70% |
-| Graph | MEDIUM | MEDIUM | MEDIUM | LOW | 60% |
-| Cache | HIGH | MEDIUM | HIGH | MEDIUM | 75% |
+### High-Risk Modules (CRITICAL gaps > 0)
 
-### Validation Checkpoints
-- [ ] Unit tests for each CRITICAL gap fix
-- [ ] Integration tests for cross-module dependencies
-- [ ] Benchmark regression testing before/after optimization
-- [ ] Concurrency testing under load simulation
-- [ ] Static analysis pass (reduce new violations)
+- **llm**: 155 CRITICAL gaps (+ 1095 HIGH)
+- **storage**: 80 CRITICAL gaps (+ 479 HIGH)
+- **query**: 72 CRITICAL gaps (+ 433 HIGH)
+- **security**: 70 CRITICAL gaps (+ 255 HIGH)
+- **auth**: 57 CRITICAL gaps (+ 225 HIGH)
+- **content**: 48 CRITICAL gaps (+ 402 HIGH)
+- **acceleration**: 37 CRITICAL gaps (+ 221 HIGH)
+- **sharding**: 36 CRITICAL gaps (+ 795 HIGH)
+- **analytics**: 35 CRITICAL gaps (+ 412 HIGH)
+- **base**: 32 CRITICAL gaps (+ 56 HIGH)
+
+### Top 10 Modules by Gap Count
+
+1. **llm**: 12,474 gaps (17.1%)
+2. **index**: 7,712 gaps (10.5%)
+3. **sharding**: 7,257 gaps (9.9%)
+4. **storage**: 4,717 gaps (6.5%)
+5. **query**: 4,614 gaps (6.3%)
+6. **analytics**: 3,696 gaps (5.1%)
+7. **security**: 3,648 gaps (5.0%)
+8. **content**: 3,222 gaps (4.4%)
+9. **auth**: 2,759 gaps (3.8%)
+10. **acceleration**: 2,558 gaps (3.5%)
 
 ---
 
-## Related Documentation
+## Phase 5 Verification
 
-- **L1 (Module Level)**: See individual module `MODULE_GAPS.md` and `ROADMAP.md` files
-- **L0 (Scan Data)**: `ai_working/gap_scan_results_verified_L0.5_full.json` (source of truth)
-- **L3 (Root Level)**: See updated `ROADMAP.md`, `CHANGELOG.md`, `SECURITY.md`
+All gaps in this aggregate are from **themis_core** (100% scope accuracy).
+
+**External Submodules Filtered**:
+- llama.cpp ✅
+- whisper.cpp ✅
+- vcpkg / vcpkg_installed / vcpkg_installed_linux ✅
+- onnx-clip ✅
+
+Each MODULE_GAPS.md file contains: "**Phase 5 Verification Notes**: External GitHub submodules are explicitly excluded from this analysis via Phase 5 filtering."
 
 ---
 
-**Prepared By**: Documentation Orchestration System  
-**SOT Domain**: Module behavior and implementation status  
-**Status**: Ready for Q3 2026 remediation planning
+## Recommendations
+
+### Immediate Actions (CRITICAL)
+
+29 module(s) have CRITICAL gaps that require immediate attention.
+
+### Short-Term (HIGH gaps)
+
+Focus on modules with HIGH severity gaps for Q3 2026 roadmap.
+
+### Long-Term
+
+Continuous monitoring via automated gap scanner in CI/CD pipeline.
+
+---
+
+**Last Generated**: Phase 5 L0 Full Scan (131,230 total gaps verified)  
+**Scope**: 32 themisDB modules  
+**Status**: ✅ Ready for L3 root documentation update

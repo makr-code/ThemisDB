@@ -2718,7 +2718,8 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/graph/test_graph_distributed.cpp")
     set_tests_properties(DistributedGraphTests PROPERTIES
         LABELS "graph;distributed;shards;unit"
         TIMEOUT 120
-        ENVIRONMENT_MODIFICATION "PATH=path_list_prepend:${CMAKE_BINARY_DIR}/bin;${CMAKE_BINARY_DIR}/bin_out"
+        ENVIRONMENT_MODIFICATION
+            "PATH=path_list_prepend:${CMAKE_BINARY_DIR}/bin\\;${CMAKE_BINARY_DIR}/bin_out"
     )
 
     # TEMP WORKAROUND: These targets experience LNK1104 file-lock during parallel build on Windows.
@@ -2769,7 +2770,8 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/graph/test_graph_distributed.cpp")
     set_tests_properties(DistributedGraphSharedMutexFocusedTests PROPERTIES
         LABELS "graph;distributed;shared_mutex;concurrency;focused;unit"
         TIMEOUT 60
-        ENVIRONMENT_MODIFICATION "PATH=path_list_prepend:${CMAKE_BINARY_DIR}/bin;${CMAKE_BINARY_DIR}/bin_out"
+        ENVIRONMENT_MODIFICATION
+            "PATH=path_list_prepend:${CMAKE_BINARY_DIR}/bin\\;${CMAKE_BINARY_DIR}/bin_out"
     )
 
     message(STATUS "  Distributed Graph: shard-aware query execution, BFS/Dijkstra fan-out, plan generation")
