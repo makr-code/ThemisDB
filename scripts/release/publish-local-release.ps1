@@ -275,7 +275,11 @@ if ($PublishDocker) {
     }
 
     Invoke-Step "Build Docker image" {
-        $buildArgs = @("buildx", "build", ".", "--platform", "linux/amd64", "--load")
+        $buildArgs = @("buildx", "build", ".",
+            "--file", "docker/Dockerfile.unified",
+            "--platform", "linux/amd64",
+            "--build-arg", "THEMIS_EDITION=COMMUNITY",
+            "--load")
         foreach ($t in $tags) {
             $buildArgs += @("-t", $t)
         }

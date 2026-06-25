@@ -80,8 +80,8 @@ docker --version | sed "s/^/${GREEN}/" | sed "s/$/${NC}/"
 echo ""
 echo -e "${YELLOW}════════ Building Docker image ════════${NC}"
 
-IMAGE_TAG="themisdb/themis:$TAG"
-IMAGE_TAG_LATEST="themisdb/themis:latest"
+IMAGE_TAG="themisdb/themisdb:$TAG"
+IMAGE_TAG_LATEST="themisdb/themisdb:latest"
 
 # For multi-arch builds, use buildx
 if [[ "$PLATFORMS" == *","* ]]; then
@@ -160,7 +160,7 @@ echo -e "${GREEN}╚════════════════════
 echo ""
 echo -e "${CYAN}Image Tags:${NC}"
 echo "  • $IMAGE_TAG"
-echo "  • $IMAGE_TAG_LATEST"
+  echo "  • $IMAGE_TAG_LATEST"
 echo ""
 echo -e "${CYAN}Next Steps:${NC}"
 if [ "$PUSH" = "true" ]; then
