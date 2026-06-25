@@ -287,7 +287,7 @@ TEST_F(TaskSchedulerIntegrationTest, ManualTaskExecution) {
     
     std::string task_id = scheduler_->registerTask(task);
     scheduler_->start();
-    
+
     // Manual tasks should not execute automatically
     std::this_thread::sleep_for(std::chrono::milliseconds(500));
     EXPECT_EQ(execution_count.load(), 0);
@@ -296,7 +296,7 @@ TEST_F(TaskSchedulerIntegrationTest, ManualTaskExecution) {
     auto result = scheduler_->executeTaskNow(task_id);
     EXPECT_EQ(result["status"], "success");
     EXPECT_EQ(execution_count.load(), 1);
-    
+
     scheduler_->stop();
 }
 

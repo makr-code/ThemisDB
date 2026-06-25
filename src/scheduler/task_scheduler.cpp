@@ -440,7 +440,8 @@ static ScheduledTask::ErrorCategory categorizeError(const std::string& error_mes
 TaskScheduler::TaskScheduler(QueryEngine* query_engine, const Config& config, 
                              Changefeed* changefeed, std::shared_ptr<utils::AuditLogger> audit_logger,
                              RocksDBWrapper* result_storage)
-    : query_engine_(query_engine), changefeed_(changefeed), config_(config)
+        : query_engine_(query_engine), changefeed_(changefeed),
+            audit_logger_(audit_logger.get()), config_(config)
     , dynamic_limit_(config.max_concurrent_tasks) {
     if (!query_engine_) {
         throw std::invalid_argument("TaskScheduler: query_engine cannot be null");
@@ -1970,6 +1971,8 @@ void TaskScheduler::executeTask(std::shared_ptr<ScheduledTask> task) {
 
         // Fire failure alert
         fireTaskFailureAlert(*task, last_error);
+
+        span.recordError(last_error);
     }
 
     // Check SLA breach (applies regardless of success/failure)
