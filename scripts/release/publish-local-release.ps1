@@ -13,6 +13,11 @@ param(
     [switch]$IncludeDevelopmentInZip,
     [switch]$SkipTests,
 
+    [switch]$GenerateWingetManifest,
+    [ValidateSet("zip", "msi")]
+    [string]$WingetInstallerType = "zip",
+    [switch]$IncludeGermanWingetLocale,
+
     [switch]$PublishGitHub,
     [switch]$PublishDocker,
     [string]$GitHubRepo = "",
@@ -162,6 +167,8 @@ if (-not (Test-Path $zipFile)) {
 $shaFile = $null
 $sbomFile = $null
 $sigFile = $null
+$wingetManifestDir = $null
+$wingetArtifactFile = $zipFile
 
 Invoke-Step "Generate SHA256" {
     $shaFile = New-Sha256File -InputFile $zipFile
@@ -175,6 +182,52 @@ Invoke-Step "Generate GPG signature" {
     $sigFile = New-Signature -InputFile $zipFile
 }
 
+if ($GenerateWingetManifest) {
+    $wingetScript = Join-Path $PSScriptRoot "new-winget-manifest.ps1"
+    if (-not (Test-Path $wingetScript)) {
+        throw "WinGet manifest generator not found at '$wingetScript'."
+    }
+
+    if ($WingetInstallerType -eq "msi") {
+        Invoke-Step "Build deployable MSI package" {
+            & cmake --build $BinaryDir --target package-msi --parallel
+            if ($LASTEXITCODE -ne 0) {
+                throw "package-msi failed."
+            }
+        }
+
+        $msiPattern = "ThemisDB-$Edition-$versionFromTag-windows-x64.msi"
+        $wingetArtifactFile = Join-Path $releaseDir $msiPattern
+        if (-not (Test-Path $wingetArtifactFile)) {
+            throw "Expected MSI artifact not found: $wingetArtifactFile"
+        }
+    }
+
+    $releaseUrl = "https://github.com/makr-code/ThemisDB/releases/download/$Tag/$([System.IO.Path]::GetFileName($wingetArtifactFile))"
+    $installerSha256 = (Get-FileHash -Algorithm SHA256 -Path $wingetArtifactFile).Hash
+
+    Invoke-Step "Generate WinGet manifests" {
+        $wingetArgumentList = @(
+            "-Version", $versionFromTag,
+            "-InstallerUrl", $releaseUrl,
+            "-InstallerSha256", $installerSha256,
+            "-InstallerType", $WingetInstallerType,
+            "-ReleaseNotes", "Local release build for $Tag."
+        )
+        if ($IncludeGermanWingetLocale) {
+            $wingetArgumentList += "-IncludeGermanLocale"
+        }
+
+        & $wingetScript @wingetArgumentList
+        if ($LASTEXITCODE -ne 0) {
+            throw "WinGet manifest generation failed."
+        }
+    }
+
+    $wingetManifestDir = Join-Path $PSScriptRoot "..\..\packaging\winget\manifests\t\ThemisDB\ThemisDB\$versionFromTag"
+    $wingetManifestDir = [System.IO.Path]::GetFullPath($wingetManifestDir)
+}
+
 if ($PublishGitHub) {
     Require-Command "gh"
     if ([string]::IsNullOrWhiteSpace($GitHubRepo)) {
@@ -184,7 +237,7 @@ if ($PublishGitHub) {
     $notes = "Local best-practice release package (no CI/CD)."
 
     Invoke-Step "Publish GitHub release" {
-        $args = @(
+        $ghArgs = @(
             "release", "create", $Tag,
             "--repo", $GitHubRepo,
             "--title", $Tag,
@@ -196,10 +249,10 @@ if ($PublishGitHub) {
         )
 
         if ($isPreRelease) {
-            $args += "--prerelease"
+            $ghArgs += "--prerelease"
         }
 
-        & gh @args
+        & gh @ghArgs
         if ($LASTEXITCODE -ne 0) {
             throw "GitHub release publish failed."
         }
@@ -213,12 +266,12 @@ if ($PublishDocker) {
     $minorTag = ($versionFromTag -split '\.')[0..1] -join "."
 
     $tags = @(
-        "$DockerImage:$baseTag",
-        "$DockerImage:$minorTag"
+        "${DockerImage}:$baseTag",
+        "${DockerImage}:$minorTag"
     )
 
     if (-not $isPreRelease) {
-        $tags += "$DockerImage:latest"
+        $tags += "${DockerImage}:latest"
     }
 
     Invoke-Step "Build Docker image" {
@@ -249,3 +302,6 @@ Write-Host "ZIP: $zipFile"
 Write-Host "SHA256: $shaFile"
 Write-Host "SBOM: $sbomFile"
 Write-Host "Signature: $sigFile"
+if ($wingetManifestDir) {
+    Write-Host "WinGet manifests: $wingetManifestDir"
+}

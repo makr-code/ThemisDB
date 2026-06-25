@@ -1465,7 +1465,26 @@ When you push a version tag (e.g., `v1.4.0`), the release workflow automatically
 | Platform | Package Format | Repository |
 |----------|---------------|------------|
 | 🐧 **Linux** | `.deb`, `.rpm`, `PKGBUILD` | Debian/Ubuntu, Fedora/RHEL, Arch |
-| 🪟 **Windows** | Chocolatey, WinGet | [chocolatey.org](https://chocolatey.org/) |
+| 🪟 **Windows** | WinGet (`ThemisDB.ThemisDB`), Chocolatey | [winget-pkgs](https://github.com/microsoft/winget-pkgs), [chocolatey.org](https://chocolatey.org/) |
+
+#### WinGet Package Maintainer Workflow
+
+Manifests live in `packaging/winget/manifests/`. After each stable release:
+
+1. Generate manifests from the published GitHub Release asset:
+   ```powershell
+   pwsh scripts/release/new-winget-manifest.ps1 \
+       -Version <X.Y.Z> \
+       -InstallerType zip \
+       -InstallerUrl <URL_FROM_GITHUB_RELEASE> \
+       -InstallerSha256 <HASH_FROM_GITHUB_RELEASE> \
+       -IncludeGermanLocale
+   ```
+2. Validate locally: `winget validate --manifest packaging/winget/manifests/t/ThemisDB/ThemisDB/<X.Y.Z>`
+3. Submit PR: `pwsh scripts/release/submit-winget-pkgs.ps1 -Version <X.Y.Z> -ForkOwner <github-username>`
+4. Remove Draft status on the PR to trigger Microsoft's automated pipeline.
+
+Pre-release versions (`-rc*`, `-alpha`, `-beta`) are submitted only after the stable version PR is merged. See `RELEASE_STRATEGY.md` § 9.1 for the full policy.
 | 🍎 **macOS** | Homebrew Formula | [brew.sh](https://brew.sh/) |
 
 ### Automation Tools

@@ -1,0 +1,13 @@
+PackageIdentifier: ThemisDB.ThemisDB
+PackageVersion: 1.8.1-rc1
+Installers:
+- Architecture: x64
+  InstallerType: zip
+  InstallerUrl: https://github.com/makr-code/ThemisDB/releases/download/v1.8.1-rc1/themisdb-windows-x64-v1.8.1-rc1.zip
+  InstallerSha256: F1814A45D1DDA676271D238E98658D05FE75D1C51D50AE14A12D29257AF57059
+  NestedInstallerType: portable
+  NestedInstallerFiles:
+  - RelativeFilePath: bin\themis_server.exe
+    PortableCommandAlias: themis_server
+ManifestType: installer
+ManifestVersion: 1.6.0

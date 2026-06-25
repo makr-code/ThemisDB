@@ -6,6 +6,16 @@ param(
 
 $ErrorActionPreference = "Stop"
 
+$conflictingVsVars = @(
+    'VSINSTALLDIR',
+    'VCToolsVersion',
+    'VCToolsInstallDir',
+    'VisualStudioVersion',
+    'DevEnvDir',
+    'VS170COMNTOOLS',
+    'VSCMD_VER'
+)
+
 $RepoRoot = "C:\VCC\themis"
 $BuildDir = "$RepoRoot\build-ninja"
 $VcVarsAll = "C:\Program Files\Microsoft Visual Studio\2022\Professional\VC\Auxiliary\Build\vcvarsall.bat"
@@ -14,10 +24,24 @@ $VcVarsAll = "C:\Program Files\Microsoft Visual Studio\2022\Professional\VC\Auxi
 Write-Host "=== Loading Visual Studio Environment ===" -ForegroundColor Cyan
 $env:VSCMD_ARG_TGT_ARCH = "x64"
 $env:VSCMD_ARG_HOST_ARCH = "x64"
-cmd /c "`"$VcVarsAll`" x64 && set" | ForEach-Object {
-    if ($_ -match "^(.*?)=(.*)$") {
-        [Environment]::SetEnvironmentVariable($matches[1], $matches[2])
+$bootstrapScript = Join-Path ([System.IO.Path]::GetTempPath()) ("themis-vcvars-" + [System.Guid]::NewGuid().ToString('N') + ".cmd")
+$bootstrapLines = @('@echo off')
+$bootstrapLines += $conflictingVsVars | ForEach-Object { "set $_=" }
+$bootstrapLines += @(
+    "call `"$VcVarsAll`" x64",
+    'set'
+)
+Set-Content -Path $bootstrapScript -Value $bootstrapLines -Encoding Ascii
+
+try {
+    cmd /d /c $bootstrapScript | ForEach-Object {
+        if ($_ -match "^(.*?)=(.*)$") {
+            [Environment]::SetEnvironmentVariable($matches[1], $matches[2])
+        }
     }
+}
+finally {
+    Remove-Item -Path $bootstrapScript -Force -ErrorAction SilentlyContinue
 }
 
 # Clean

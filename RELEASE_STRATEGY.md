@@ -326,6 +326,77 @@ Rules:
 - Artefact names may differ by platform or edition.
 - Artefact checksums should be published together with the release.
 
+## 9.1 Windows Package Manager (WinGet) Distribution
+
+ThemisDB Community releases are published to the [Windows Package Manager Community Repository](https://github.com/microsoft/winget-pkgs) under the identifier `ThemisDB.ThemisDB`.
+
+### Installation for end users
+
+```powershell
+# Stable release
+winget install ThemisDB.ThemisDB
+
+# Specific version
+winget install ThemisDB.ThemisDB --version 1.3.4
+
+# Upgrade to latest stable
+winget upgrade ThemisDB.ThemisDB
+```
+
+### Manifest files
+
+Manifests live under `packaging/winget/manifests/t/ThemisDB/ThemisDB/<version>/` and consist of three required files:
+
+| File | Purpose |
+|---|---|
+| `ThemisDB.ThemisDB.yaml` | Version manifest |
+| `ThemisDB.ThemisDB.installer.yaml` | Installer type, URL, SHA256 |
+| `ThemisDB.ThemisDB.locale.en-US.yaml` | English metadata (required default locale) |
+| `ThemisDB.ThemisDB.locale.de-DE.yaml` | German locale (optional, generated alongside) |
+
+### Generating manifests
+
+```powershell
+# From a published GitHub Release asset (ZIP)
+pwsh scripts/release/new-winget-manifest.ps1 `
+    -Version 1.3.4 `
+    -InstallerType zip `
+    -InstallerUrl https://github.com/makr-code/ThemisDB/releases/download/v1.3.4/themisdb-1.3.4-community-binary-x64.zip `
+    -InstallerSha256 <SHA256_FROM_RELEASE> `
+    -IncludeGermanLocale
+
+# From an MSI release
+pwsh scripts/release/new-winget-manifest.ps1 `
+    -Version 1.9.0-rc1 `
+    -InstallerType msi `
+    -InstallerUrl https://github.com/makr-code/ThemisDB/releases/download/v1.9.0-rc1/ThemisDB-COMMUNITY-1.9.0-rc1-windows-x64.msi `
+    -InstallerSha256 <SHA256_FROM_RELEASE> `
+    -IncludeGermanLocale
+```
+
+Versions with a pre-release suffix (`-alpha`, `-beta`, `-rc*`) automatically receive `IsPreRelease: true` in the installer manifest.
+
+### Submitting a release
+
+```powershell
+# Erstellt Fork, Branch, Commit und Draft-PR gegen microsoft/winget-pkgs
+pwsh scripts/release/submit-winget-pkgs.ps1 `
+    -Version 1.3.4 `
+    -ForkOwner <github-username>
+```
+
+Rules:
+
+- Submit only one version per PR. Wait for approval before submitting the next version.
+- Submit stable releases first. RC/alpha may follow after the stable PR is merged.
+- Never submit a version with a placeholder SHA256.
+- Validate locally before submitting: `winget validate --manifest packaging/winget/manifests/t/ThemisDB/ThemisDB/<version>`
+- After submission remove the Draft status on the PR to trigger Microsoft's automated validation pipeline.
+
+### Pre-release policy
+
+Pre-release versions (`-rc*`, `-alpha`, `-beta`) are published to winget-pkgs only after the corresponding stable release is accepted. This prevents `winget upgrade` from pushing pre-release software to users who installed a stable version.
+
 ## 13. Packaging Decisions (Open Questions)
 
 This project centralizes packaging decisions here to make release behavior deterministic. The following questions are open and should be decided by the release maintainer. Suggested defaults are provided.
@@ -361,6 +432,7 @@ Before tagging, verify manually:
 - artefacts were built successfully
 - package contents are plausible
 - checksums were generated if required
+- WinGet manifests were regenerated and validated (`winget validate`) if a Windows ZIP or MSI artefact changed
 - no unintended local changes are included
 
 For historical reassignment work, also verify:
@@ -397,6 +469,7 @@ git push origin v1.9.1
 - keep release notes mandatory
 - keep pre-release tags explicit
 - keep package variants under one release
+- keep WinGet manifests in sync with published GitHub Release assets
 - keep the process manual, short, and auditable
 - keep branch and edition naming aligned with `BRANCHING_STRATEGY.md`
 - prefer canonical branch alignment over rewriting published tags

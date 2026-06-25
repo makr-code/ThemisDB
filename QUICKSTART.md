@@ -17,6 +17,28 @@
 
 ---
 
+## Option 0 — Windows Package Manager (WinGet)
+
+The fastest way to install ThemisDB on Windows:
+
+```powershell
+winget install ThemisDB.ThemisDB
+```
+
+This installs the latest stable Community release as a portable executable.  
+After installation `themis_server` is available on the PATH.
+
+```powershell
+# Start the server
+themis_server --config %LOCALAPPDATA%\ThemisDB\config.yaml
+
+# Upgrade to a newer release
+winget upgrade ThemisDB.ThemisDB
+```
+
+> **Note:** WinGet packaging is currently under review at [microsoft/winget-pkgs #392825](https://github.com/microsoft/winget-pkgs/pull/392825).  
+> Until merged, install via Docker (Option 1) or from source (Option 3).
+
 ## Option 1 — Docker (recommended)
 
 ### 1. Pull and run
