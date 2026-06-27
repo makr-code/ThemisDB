@@ -270,10 +270,25 @@ TEST_F(BatchNLToAQLTranslationTest, ParallelExecution_ResultsAreOrderedLikeReque
             if (idx % 2 != 0) {
                 std::this_thread::sleep_for(std::chrono::milliseconds(5));
             }
-            // The response embeds the message content so callers can verify
-            // ordering (the content comes from the user turn of the chat).
+            // Extract only the NL query payload from the user prompt to keep
+            // the generated AQL syntactically valid for parser validation.
             for (const auto& m : msgs) {
-                if (m.role == "user") return "FOR x IN " + m.content + " RETURN x";
+                if (m.role == "user") {
+                    const std::string marker = "Natural language query: ";
+                    std::string collection = "col";
+
+                    auto start = m.content.find(marker);
+                    if (start != std::string::npos) {
+                        start += marker.size();
+                        auto end = m.content.find('\n', start);
+                        if (end == std::string::npos) {
+                            end = m.content.size();
+                        }
+                        collection = m.content.substr(start, end - start);
+                    }
+
+                    return "FOR x IN " + collection + " RETURN x";
+                }
             }
             return "FOR x IN col RETURN x";
         }

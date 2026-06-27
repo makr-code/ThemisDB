@@ -9,40 +9,100 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 # CRITICAL MSVC SETUP - Must come FIRST before any other compiler setup!
 # ════════════════════════════════════════════════════════════════════════════
 if(MSVC)
+    set(_themis_program_files_x86 "$ENV{ProgramFiles\(x86\)}")
+    if(NOT _themis_program_files_x86)
+        set(_themis_program_files_x86 "$ENV{ProgramFiles}")
+    endif()
+
+    set(_themis_vs_search_roots)
+    foreach(_themis_vs_root IN ITEMS "$ENV{ProgramFiles\(x86\)}" "$ENV{ProgramFiles}" "$ENV{ProgramW6432}")
+        if(_themis_vs_root)
+            list(APPEND _themis_vs_search_roots "${_themis_vs_root}")
+        endif()
+    endforeach()
+    list(REMOVE_DUPLICATES _themis_vs_search_roots)
+
     # Setup MSVC toolset directory
     if(DEFINED ENV{VCToolsInstallDir})
         set(_VC_TOOLS_DIR "$ENV{VCToolsInstallDir}")
         string(REGEX REPLACE "\\\\$" "" _VC_TOOLS_DIR "${_VC_TOOLS_DIR}")
     else()
-        set(_VC_TOOLS_DIR "C:/Program Files/Microsoft Visual Studio/2022/Professional/VC/Tools/MSVC/14.44.35207")
+        set(_VC_TOOLS_DIR "")
+    endif()
+
+    if(NOT _VC_TOOLS_DIR)
+        set(_themis_msvc_tool_roots)
+        foreach(_themis_vs_root IN LISTS _themis_vs_search_roots)
+            file(GLOB _themis_msvc_tool_roots_glob
+                "${_themis_vs_root}/Microsoft Visual Studio/*/*/VC/Tools/MSVC/*")
+            list(APPEND _themis_msvc_tool_roots ${_themis_msvc_tool_roots_glob})
+        endforeach()
+        list(REMOVE_DUPLICATES _themis_msvc_tool_roots)
+        list(SORT _themis_msvc_tool_roots ORDER DESCENDING)
+        list(LENGTH _themis_msvc_tool_roots _themis_msvc_tool_roots_count)
+        if(_themis_msvc_tool_roots_count GREATER 0)
+            list(GET _themis_msvc_tool_roots 0 _VC_TOOLS_DIR)
+        endif()
     endif()
     
-    set(_WIN_SDK_VERSION "10.0.22621.0")
-    set(_WIN_SDK_ROOT "C:/Program Files (x86)/Windows Kits/10")
+    set(_WIN_SDK_VERSION "$ENV{WindowsSDKVersion}")
+    if(NOT _WIN_SDK_VERSION)
+        set(_WIN_SDK_VERSION "$ENV{WindowsSDKLibVersion}")
+    endif()
+    set(_WIN_SDK_ROOT "$ENV{WindowsSdkDir}")
+    if(_WIN_SDK_ROOT)
+        string(REGEX REPLACE "[\\/]$" "" _WIN_SDK_ROOT "${_WIN_SDK_ROOT}")
+    endif()
+
+    if(NOT _WIN_SDK_ROOT AND _themis_program_files_x86)
+        set(_WIN_SDK_ROOT "${_themis_program_files_x86}/Windows Kits/10")
+    endif()
+
+    if(_WIN_SDK_VERSION)
+        string(REGEX REPLACE "[\\/]$" "" _WIN_SDK_VERSION "${_WIN_SDK_VERSION}")
+    endif()
+
+    if(_WIN_SDK_ROOT AND NOT _WIN_SDK_VERSION)
+        file(GLOB _themis_windows_sdk_versions "${_WIN_SDK_ROOT}/Include/*")
+        set(_themis_windows_sdk_version_names)
+        foreach(_themis_sdk_dir IN LISTS _themis_windows_sdk_versions)
+            get_filename_component(_themis_sdk_ver "${_themis_sdk_dir}" NAME)
+            if(EXISTS "${_themis_sdk_dir}/ucrt" AND EXISTS "${_themis_sdk_dir}/shared" AND EXISTS "${_themis_sdk_dir}/um")
+                list(APPEND _themis_windows_sdk_version_names "${_themis_sdk_ver}")
+            endif()
+        endforeach()
+        list(SORT _themis_windows_sdk_version_names ORDER DESCENDING)
+        list(LENGTH _themis_windows_sdk_version_names _themis_windows_sdk_version_count)
+        if(_themis_windows_sdk_version_count GREATER 0)
+            list(GET _themis_windows_sdk_version_names 0 _WIN_SDK_VERSION)
+        endif()
+    endif()
     
-    # Use include_directories() instead of /I flags - cleaner and no escaping issues
-    # DO NOT use SYSTEM - MSVC headers need normal priority to find each other
-    include_directories(
-        "${_VC_TOOLS_DIR}/include"
-        "${_WIN_SDK_ROOT}/Include/${_WIN_SDK_VERSION}/ucrt"
-        "${_WIN_SDK_ROOT}/Include/${_WIN_SDK_VERSION}/shared"
-        "${_WIN_SDK_ROOT}/Include/${_WIN_SDK_VERSION}/um"
-    )
-    
-    message(STATUS "MSVC Include Paths Added (EARLY):")
-    message(STATUS "  - ${_VC_TOOLS_DIR}/include")
-    message(STATUS "  - ${_WIN_SDK_ROOT}/Include/${_WIN_SDK_VERSION}/{ucrt,shared,um}")
-    
-    # Add lib paths for linker
-    link_directories(
-        "${_VC_TOOLS_DIR}/lib/x64"
-        "${_WIN_SDK_ROOT}/Lib/${_WIN_SDK_VERSION}/ucrt/x64"
-        "${_WIN_SDK_ROOT}/Lib/${_WIN_SDK_VERSION}/um/x64"
-    )
-    
-    message(STATUS "MSVC Library Paths Added:")
-    message(STATUS "  - ${_VC_TOOLS_DIR}/lib/x64")
-    message(STATUS "  - ${_WIN_SDK_ROOT}/Lib/${_WIN_SDK_VERSION}/{ucrt,um}/x64")
+    if(_VC_TOOLS_DIR AND _WIN_SDK_ROOT AND _WIN_SDK_VERSION)
+        # Use include_directories() instead of /I flags - cleaner and no escaping issues
+        # DO NOT use SYSTEM - MSVC headers need normal priority to find each other
+        include_directories(
+            "${_VC_TOOLS_DIR}/include"
+            "${_WIN_SDK_ROOT}/Include/${_WIN_SDK_VERSION}/ucrt"
+            "${_WIN_SDK_ROOT}/Include/${_WIN_SDK_VERSION}/shared"
+            "${_WIN_SDK_ROOT}/Include/${_WIN_SDK_VERSION}/um"
+        )
+        
+        message(STATUS "MSVC Include Paths Added (EARLY):")
+        message(STATUS "  - ${_VC_TOOLS_DIR}/include")
+        message(STATUS "  - ${_WIN_SDK_ROOT}/Include/${_WIN_SDK_VERSION}/{ucrt,shared,um}")
+        
+        # Add lib paths for linker
+        link_directories(
+            "${_VC_TOOLS_DIR}/lib/x64"
+            "${_WIN_SDK_ROOT}/Lib/${_WIN_SDK_VERSION}/ucrt/x64"
+            "${_WIN_SDK_ROOT}/Lib/${_WIN_SDK_VERSION}/um/x64"
+        )
+        
+        message(STATUS "MSVC Library Paths Added:")
+        message(STATUS "  - ${_VC_TOOLS_DIR}/lib/x64")
+        message(STATUS "  - ${_WIN_SDK_ROOT}/Lib/${_WIN_SDK_VERSION}/{ucrt,um}/x64")
+    endif()
 endif()
 
 # ════════════════════════════════════════════════════════════════════════════
@@ -85,7 +145,14 @@ if(THEMIS_ENABLE_CUDA)
         elseif(DEFINED ENV{CUDA_HOME} AND EXISTS "$ENV{CUDA_HOME}/include/cuda.h")
             set(_CUDA_TOOLKIT_ROOT "$ENV{CUDA_HOME}")
         else()
-            file(GLOB _themis_cuda_toolkits "C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v*")
+            set(_themis_cuda_toolkits)
+            foreach(_themis_program_files_root IN ITEMS "$ENV{ProgramFiles}" "$ENV{ProgramW6432}")
+                if(_themis_program_files_root)
+                    file(GLOB _themis_cuda_toolkits_glob "${_themis_program_files_root}/NVIDIA GPU Computing Toolkit/CUDA/v*")
+                    list(APPEND _themis_cuda_toolkits ${_themis_cuda_toolkits_glob})
+                endif()
+            endforeach()
+            list(REMOVE_DUPLICATES _themis_cuda_toolkits)
             list(SORT _themis_cuda_toolkits ORDER DESCENDING)
             foreach(_cuda_root IN LISTS _themis_cuda_toolkits)
                 if(EXISTS "${_cuda_root}/include/cuda.h")
@@ -133,12 +200,16 @@ if(MSVC)
     )
     
     # Also use include_directories for good measure
-    include_directories(
-        "${_VC_TOOLS_DIR}/include"
-        "${_WIN_SDK_ROOT}/Include/${_WIN_SDK_VERSION}/ucrt"
-        "${_WIN_SDK_ROOT}/Include/${_WIN_SDK_VERSION}/shared"
-        "${_WIN_SDK_ROOT}/Include/${_WIN_SDK_VERSION}/um"
-    )
+    if(_VC_TOOLS_DIR AND _WIN_SDK_ROOT AND _WIN_SDK_VERSION)
+        include_directories(
+            "${_VC_TOOLS_DIR}/include"
+            "${_WIN_SDK_ROOT}/Include/${_WIN_SDK_VERSION}/ucrt"
+            "${_WIN_SDK_ROOT}/Include/${_WIN_SDK_VERSION}/shared"
+            "${_WIN_SDK_ROOT}/Include/${_WIN_SDK_VERSION}/um"
+        )
+    else()
+        message(WARNING "MSVC toolset/SDK headers could not be fully resolved automatically; standard library headers may be unavailable during compilation.")
+    endif()
     
     # Add Windows SDK and MSVC runtime library paths
     set(_WIN_SDK_LIB_PATH "${_WIN_SDK_ROOT}/Lib/${_WIN_SDK_VERSION}/um/x64")

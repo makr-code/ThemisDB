@@ -63,11 +63,15 @@ function(find_cuda_compiler)
     # ========== Priority 4: Standard installation paths ==========
     if(NOT _cuda_nvcc_candidates)
         if(WIN32)
-            # Windows standard paths
-            file(GLOB _cuda_roots "C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/*"
-                                  "C:/Program Files (x86)/NVIDIA GPU Computing Toolkit/CUDA/*"
-                                  "C:/opt/cuda*"
-                                  "D:/cuda*")
+            # Windows standard paths derived from environment roots
+            set(_cuda_roots)
+            foreach(_cuda_program_files_root IN ITEMS "$ENV{ProgramFiles}" "$ENV{ProgramFiles\(x86\)}" "$ENV{ProgramW6432}")
+                if(_cuda_program_files_root)
+                    file(GLOB _cuda_roots_glob "${_cuda_program_files_root}/NVIDIA GPU Computing Toolkit/CUDA/*")
+                    list(APPEND _cuda_roots ${_cuda_roots_glob})
+                endif()
+            endforeach()
+            list(REMOVE_DUPLICATES _cuda_roots)
             foreach(_root ${_cuda_roots})
                 set(_nvcc "${_root}/bin/nvcc.exe")
                 if(EXISTS "${_nvcc}")

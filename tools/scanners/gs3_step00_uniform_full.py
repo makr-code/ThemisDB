@@ -63,6 +63,7 @@ from scanners.gs3_step04_quality_doc_freshness import ThemisDocFreshnessRulesSca
 from scanners.gs3_step04_quality_docs_markdown import ThemisDocsMarkdownRulesScan
 from scanners.gs3_step04_quality_cpp_doxygen import ThemisCppDoxygenPolicyRulesScan
 from scanners.gs3_step04_design_module_governance import ThemisModuleGovernanceRulesScan
+from scanners.gs3_step04_design_wrapper_abstraction_excess import WrapperAbstractionExcessScanner
 
 
 class UniformFullScanner(BaseGapScanner):
@@ -189,6 +190,7 @@ class UniformFullScanner(BaseGapScanner):
             ("llm_ai_safety", LLMAISafetyScan(str(self.source_path))),
             ("observability", ObservabilityScan(str(self.source_path))),
             ("determinism", DeterminismScan(str(self.source_path))),
+            ("wrapper_abstraction_excess", WrapperAbstractionExcessScanner()),
             ("themis_architecture_rules", ThemisArchitectureRulesScan(str(self.repo_root))),
             ("themis_bridge_interface_rules", ThemisBridgeInterfaceRulesScan(str(self.repo_root))),
             ("themis_design_error_rules", ThemisDesignErrorRulesScan(str(self.repo_root))),

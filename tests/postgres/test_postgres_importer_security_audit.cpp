@@ -33,6 +33,8 @@
 
 using json = nlohmann::json;
 
+namespace postgres_importer_security_audit_test {
+
 // ---------------------------------------------------------------------------
 // Minimal type re-implementations (mirrors importer_interface.h)
 // ---------------------------------------------------------------------------
@@ -174,7 +176,7 @@ static ImportStats importContent(const std::string& content,
             // Binary COPY detection (first data line after COPY header)
             if (first_copy_line) {
                 first_copy_line = false;
-                if (line.size() >= 11 &&
+                if (line.size() >= 6 &&
                     line[0] == 'P' && line[1] == 'G' &&
                     line[2] == 'C' && line[3] == 'O' &&
                     line[4] == 'P' && line[5] == 'Y') {
@@ -943,3 +945,5 @@ TEST(SecurityAuditErrorCodes, RowTooLargeCodeIs205) {
 TEST(SecurityAuditErrorCodes, StatementTooLargeCodeIs204) {
     EXPECT_EQ(static_cast<uint32_t>(ImportErrorCode::STATEMENT_TOO_LARGE), 204u);
 }
+
+} // namespace postgres_importer_security_audit_test

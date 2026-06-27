@@ -184,8 +184,8 @@ include(cmake/validation/FeatureValidation.cmake)
 # parallel builds. Tests and runtime loaders should prefer the `bin_out` path
 # added below; PATH modifications in tests are updated accordingly.
 if(WIN32)
-    set(_themis_bin_out "${CMAKE_BINARY_DIR}/bin_out")
-    set(_themis_lib_out "${CMAKE_BINARY_DIR}/lib_out")
+    set(_themis_bin_out "${CMAKE_BINARY_DIR}/bin")
+    set(_themis_lib_out "${CMAKE_BINARY_DIR}/lib")
     file(MAKE_DIRECTORY "${_themis_bin_out}")
     file(MAKE_DIRECTORY "${_themis_lib_out}")
 

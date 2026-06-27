@@ -4,6 +4,11 @@ file(GLOB OFFICE_PREFIX_TEST_SOURCES
     "${CMAKE_CURRENT_SOURCE_DIR}/test_office_*.cpp"
 )
 
+set(_office_module_link_libs)
+if(TARGET themis_content)
+    list(APPEND _office_module_link_libs themis_content)
+endif()
+
 foreach(_src IN LISTS OFFICE_PREFIX_TEST_SOURCES)
     get_filename_component(_stem "${_src}" NAME_WE)
     set(_target "module_office_${_stem}_focused")
@@ -21,6 +26,7 @@ foreach(_src IN LISTS OFFICE_PREFIX_TEST_SOURCES)
     target_link_libraries(${_target} PRIVATE
         ${TEST_LIBS}
         themis_core
+        ${_office_module_link_libs}
         spdlog::spdlog
         Threads::Threads
     )

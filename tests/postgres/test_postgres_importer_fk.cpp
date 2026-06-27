@@ -29,6 +29,7 @@
 #include <fstream>
 #include <algorithm>
 #include <functional>
+#include <filesystem>
 
 #include "importers/postgres_importer.h"
 #include "importers/importer_interface.h"
@@ -39,6 +40,15 @@ namespace {
 // Fixture path helper (mirrors test_postgres_importer_complex_ddl.cpp)
 // ---------------------------------------------------------------------------
 static std::string fixturePath(const std::string& name) {
+    namespace fs = std::filesystem;
+
+    // Resolve relative to this source file first (robust against varying CTest cwd).
+    const fs::path source_based = fs::path(__FILE__).parent_path() / ".." / "fixtures" / "importers" / name;
+    {
+        std::ifstream f(source_based.string());
+        if (f) return source_based.string();
+    }
+
     static const std::vector<std::string> bases = {
         "tests/fixtures/importers/",
         "../tests/fixtures/importers/",
@@ -56,6 +66,17 @@ static std::string readFile(const std::string& path) {
     if (!f) return "";
     return std::string((std::istreambuf_iterator<char>(f)),
                         std::istreambuf_iterator<char>());
+}
+
+static nlohmann::json schemaTables(const nlohmann::json& schema_doc) {
+    if (schema_doc.is_object() && schema_doc.contains("tables") &&
+        schema_doc["tables"].is_array()) {
+        return schema_doc["tables"];
+    }
+    if (schema_doc.is_array()) {
+        return schema_doc;
+    }
+    return nlohmann::json::array();
 }
 
 // ---------------------------------------------------------------------------
@@ -177,8 +198,7 @@ TEST_F(FKImporterIntegrationTest, GetSourceSchemaIncludesForeignKeys) {
     if (readFile(fixture_path_).empty()) {
         GTEST_SKIP() << "Fixture not found; skipping live importer test";
     }
-    auto schema = importer_.getSourceSchema(fixture_path_);
-    ASSERT_TRUE(schema.is_array());
+    auto schema = schemaTables(importer_.getSourceSchema(fixture_path_));
     ASSERT_FALSE(schema.empty());
 
     bool found_orders = false;
@@ -199,7 +219,7 @@ TEST_F(FKImporterIntegrationTest, OrdersTableHasFkConstraintName) {
     if (readFile(fixture_path_).empty()) {
         GTEST_SKIP() << "Fixture not found; skipping live importer test";
     }
-    auto schema = importer_.getSourceSchema(fixture_path_);
+    auto schema = schemaTables(importer_.getSourceSchema(fixture_path_));
     for (const auto& tbl : schema) {
         if (tbl["name"] == "orders") {
             const auto& fks = tbl["foreign_keys"];
@@ -223,7 +243,7 @@ TEST_F(FKImporterIntegrationTest, OrdersTableFkHasOnDeleteCascade) {
     if (readFile(fixture_path_).empty()) {
         GTEST_SKIP() << "Fixture not found; skipping live importer test";
     }
-    auto schema = importer_.getSourceSchema(fixture_path_);
+    auto schema = schemaTables(importer_.getSourceSchema(fixture_path_));
     for (const auto& tbl : schema) {
         if (tbl["name"] == "orders") {
             for (const auto& fk : tbl["foreign_keys"]) {
@@ -240,7 +260,7 @@ TEST_F(FKImporterIntegrationTest, OrderItemsTableHasTwoForeignKeys) {
     if (readFile(fixture_path_).empty()) {
         GTEST_SKIP() << "Fixture not found; skipping live importer test";
     }
-    auto schema = importer_.getSourceSchema(fixture_path_);
+    auto schema = schemaTables(importer_.getSourceSchema(fixture_path_));
     for (const auto& tbl : schema) {
         if (tbl["name"] == "order_items") {
             ASSERT_TRUE(tbl.contains("foreign_keys"));
@@ -254,7 +274,7 @@ TEST_F(FKImporterIntegrationTest, CategoryFkHasOnDeleteSetNull) {
     if (readFile(fixture_path_).empty()) {
         GTEST_SKIP() << "Fixture not found; skipping live importer test";
     }
-    auto schema = importer_.getSourceSchema(fixture_path_);
+    auto schema = schemaTables(importer_.getSourceSchema(fixture_path_));
     for (const auto& tbl : schema) {
         if (tbl["name"] == "order_items") {
             for (const auto& fk : tbl["foreign_keys"]) {
@@ -271,7 +291,7 @@ TEST_F(FKImporterIntegrationTest, ProfilesTableHasInlineReferenceFk) {
     if (readFile(fixture_path_).empty()) {
         GTEST_SKIP() << "Fixture not found; skipping live importer test";
     }
-    auto schema = importer_.getSourceSchema(fixture_path_);
+    auto schema = schemaTables(importer_.getSourceSchema(fixture_path_));
     for (const auto& tbl : schema) {
         if (tbl["name"] == "profiles") {
             ASSERT_TRUE(tbl.contains("foreign_keys"));
@@ -371,7 +391,7 @@ TEST_F(FKImporterIntegrationTest, AllTablesSchemaHasForeignKeysField) {
     if (readFile(fixture_path_).empty()) {
         GTEST_SKIP() << "Fixture not found; skipping live importer test";
     }
-    auto schema = importer_.getSourceSchema(fixture_path_);
+    auto schema = schemaTables(importer_.getSourceSchema(fixture_path_));
     for (const auto& tbl : schema) {
         EXPECT_TRUE(tbl.contains("foreign_keys"))
             << "Every table schema must include foreign_keys field (even if empty)";
@@ -384,7 +404,7 @@ TEST_F(FKImporterIntegrationTest, TablesWithoutFksHaveEmptyFkArray) {
     if (readFile(fixture_path_).empty()) {
         GTEST_SKIP() << "Fixture not found; skipping live importer test";
     }
-    auto schema = importer_.getSourceSchema(fixture_path_);
+    auto schema = schemaTables(importer_.getSourceSchema(fixture_path_));
     for (const auto& tbl : schema) {
         if (tbl["name"] == "users" || tbl["name"] == "categories") {
             EXPECT_TRUE(tbl["foreign_keys"].empty())
@@ -424,7 +444,7 @@ protected:
         fixture_path_ = fixturePath("sample_pg_fk.sql");
         if (readFile(fixture_path_).empty()) return;
 
-        auto schema = importer_.getSourceSchema(fixture_path_);
+        auto schema = schemaTables(importer_.getSourceSchema(fixture_path_));
         for (const auto& tbl : schema) {
             if (tbl["name"] == "orders") {
                 orders_fks_ = tbl["foreign_keys"];
@@ -500,7 +520,7 @@ protected:
 
 TEST_F(FKTableSchemaFieldTest, ForeignKeysFieldPresentInAllTables) {
     if (readFile(fixture_path_).empty()) { GTEST_SKIP() << "Fixture not found"; }
-    auto schema = importer_.getSourceSchema(fixture_path_);
+    auto schema = schemaTables(importer_.getSourceSchema(fixture_path_));
     ASSERT_FALSE(schema.empty());
     for (const auto& tbl : schema) {
         EXPECT_TRUE(tbl.contains("foreign_keys"))
@@ -510,7 +530,7 @@ TEST_F(FKTableSchemaFieldTest, ForeignKeysFieldPresentInAllTables) {
 
 TEST_F(FKTableSchemaFieldTest, TablesWithoutFksHaveEmptyArray) {
     if (readFile(fixture_path_).empty()) { GTEST_SKIP() << "Fixture not found"; }
-    auto schema = importer_.getSourceSchema(fixture_path_);
+    auto schema = schemaTables(importer_.getSourceSchema(fixture_path_));
     for (const auto& tbl : schema) {
         const std::string name = tbl["name"].get<std::string>();
         if (name == "users" || name == "categories") {

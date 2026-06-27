@@ -59,6 +59,19 @@ elseif(TARGET gmock::gmock)
     set(TEST_GMOCK_LIB gmock::gmock)
 endif()
 
+set(_themis_vcpkg_include_dir "")
+set(_themis_vcpkg_lib_dir "")
+set(_themis_vcpkg_bin_dir "")
+if(DEFINED VCPKG_INSTALLED_DIR AND DEFINED VCPKG_TARGET_TRIPLET)
+    set(_themis_vcpkg_include_dir "${VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/include")
+    set(_themis_vcpkg_lib_dir "${VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/lib")
+    set(_themis_vcpkg_bin_dir "${VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/bin")
+elseif(DEFINED VCPKG_TARGET_TRIPLET AND EXISTS "${THEMIS_ROOT_DIR}/vcpkg_installed/${VCPKG_TARGET_TRIPLET}")
+    set(_themis_vcpkg_include_dir "${THEMIS_ROOT_DIR}/vcpkg_installed/${VCPKG_TARGET_TRIPLET}/include")
+    set(_themis_vcpkg_lib_dir "${THEMIS_ROOT_DIR}/vcpkg_installed/${VCPKG_TARGET_TRIPLET}/lib")
+    set(_themis_vcpkg_bin_dir "${THEMIS_ROOT_DIR}/vcpkg_installed/${VCPKG_TARGET_TRIPLET}/bin")
+endif()
+
 # Auto-discover modularized test folders under tests/<module>/CMakeLists.txt.
 # integration is added separately with an explicit binary directory below.
 file(GLOB _TEST_MODULE_CMAKES
@@ -1819,12 +1832,12 @@ endif()
 if(WIN32)
     target_link_libraries(themis_tests PRIVATE dxgi d3d11)
 
-    set(_themis_vcpkg_tbb_lib "${THEMIS_ROOT_DIR}/vcpkg_installed/x64-windows/lib/tbb12.lib")
+    set(_themis_vcpkg_tbb_lib "${_themis_vcpkg_lib_dir}/tbb12.lib")
     if(EXISTS "${_themis_vcpkg_tbb_lib}")
         target_link_libraries(themis_tests PRIVATE "${_themis_vcpkg_tbb_lib}")
     endif()
 
-    set(_themis_vcpkg_pugixml_lib "${THEMIS_ROOT_DIR}/vcpkg_installed/x64-windows/lib/pugixml.lib")
+    set(_themis_vcpkg_pugixml_lib "${_themis_vcpkg_lib_dir}/pugixml.lib")
     if(EXISTS "${_themis_vcpkg_pugixml_lib}")
         target_link_libraries(themis_tests PRIVATE "${_themis_vcpkg_pugixml_lib}")
     endif()
@@ -1885,8 +1898,11 @@ endif()
 
 target_include_directories(themis_tests PRIVATE
     ${CMAKE_BINARY_DIR}/proto_generated
-    ${THEMIS_ROOT_DIR}/vcpkg_installed/x64-windows/include
 )
+
+if(EXISTS "${_themis_vcpkg_include_dir}")
+    target_include_directories(themis_tests PRIVATE "${_themis_vcpkg_include_dir}")
+endif()
 
 if(TARGET themis_shard_proto)
     add_dependencies(themis_tests themis_shard_proto)
@@ -1904,7 +1920,7 @@ if(WIN32)
         add_custom_command(TARGET ${target_name} POST_BUILD
             COMMAND ${CMAKE_COMMAND}
                 -DBIN_DIR=${CMAKE_BINARY_DIR}/bin
-                -DVCPKG_BIN_DIR=${CMAKE_BINARY_DIR}/vcpkg_installed/x64-windows/bin
+                -DVCPKG_BIN_DIR=${_themis_vcpkg_bin_dir}
                 -DDST_DIR=$<TARGET_FILE_DIR:${target_name}>
                 -P ${THEMIS_ROOT_DIR}/cmake/CopyRuntimeDlls.cmake
             COMMENT "Syncing runtime DLLs for ${target_name}"
@@ -1914,7 +1930,7 @@ if(WIN32)
     add_custom_target(sync_test_runtime_dlls
         COMMAND ${CMAKE_COMMAND}
             -DBIN_DIR=${CMAKE_BINARY_DIR}/bin
-            -DVCPKG_BIN_DIR=${CMAKE_BINARY_DIR}/vcpkg_installed/x64-windows/bin
+            -DVCPKG_BIN_DIR=${_themis_vcpkg_bin_dir}
             -DDST_DIR=${CMAKE_BINARY_DIR}/cmake/tests
             -P ${THEMIS_ROOT_DIR}/cmake/CopyRuntimeDlls.cmake
         COMMENT "Syncing runtime DLLs to cmake/tests"
@@ -8104,8 +8120,8 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/analytics/test_arrow_flight.cpp")
     elseif(TARGET arrow)
         target_link_libraries(test_arrow_flight_focused PRIVATE arrow)
         set(_themis_arrow_core_linked TRUE)
-    elseif(EXISTS "${THEMIS_ROOT_DIR}/vcpkg_installed/x64-windows/lib/arrow.lib")
-        target_link_libraries(test_arrow_flight_focused PRIVATE "${THEMIS_ROOT_DIR}/vcpkg_installed/x64-windows/lib/arrow.lib")
+    elseif(EXISTS "${_themis_vcpkg_lib_dir}/arrow.lib")
+        target_link_libraries(test_arrow_flight_focused PRIVATE "${_themis_vcpkg_lib_dir}/arrow.lib")
         set(_themis_arrow_core_linked TRUE)
     endif()
 
@@ -8141,15 +8157,15 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/analytics/test_arrow_flight.cpp")
     elseif(TARGET arrow_flight_static)
         target_link_libraries(test_arrow_flight_focused PRIVATE arrow_flight_static)
         set(_themis_arrow_flight_linked TRUE)
-    elseif(EXISTS "${THEMIS_ROOT_DIR}/vcpkg_installed/x64-windows/lib/arrow_flight.lib")
-        target_link_libraries(test_arrow_flight_focused PRIVATE "${THEMIS_ROOT_DIR}/vcpkg_installed/x64-windows/lib/arrow_flight.lib")
+    elseif(EXISTS "${_themis_vcpkg_lib_dir}/arrow_flight.lib")
+        target_link_libraries(test_arrow_flight_focused PRIVATE "${_themis_vcpkg_lib_dir}/arrow_flight.lib")
         set(_themis_arrow_flight_linked TRUE)
     endif()
 
     if(_themis_arrow_flight_linked)
         # Arrow Flight depends on Arrow core symbols; ensure core lib is linked if only flight was found.
-        if(NOT _themis_arrow_core_linked AND EXISTS "${THEMIS_ROOT_DIR}/vcpkg_installed/x64-windows/lib/arrow.lib")
-            target_link_libraries(test_arrow_flight_focused PRIVATE "${THEMIS_ROOT_DIR}/vcpkg_installed/x64-windows/lib/arrow.lib")
+        if(NOT _themis_arrow_core_linked AND EXISTS "${_themis_vcpkg_lib_dir}/arrow.lib")
+            target_link_libraries(test_arrow_flight_focused PRIVATE "${_themis_vcpkg_lib_dir}/arrow.lib")
             set(_themis_arrow_core_linked TRUE)
             target_compile_definitions(test_arrow_flight_focused PRIVATE THEMIS_HAS_ARROW=1)
         endif()
@@ -8278,8 +8294,8 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/analytics/test_arrow_export.cpp")
     elseif(TARGET Arrow::arrow)
         target_link_libraries(test_arrow_export_focused PRIVATE Arrow::arrow)
         set(_themis_arrow_export_linked TRUE)
-    elseif(EXISTS "${THEMIS_ROOT_DIR}/vcpkg_installed/x64-windows/lib/arrow.lib")
-        target_link_libraries(test_arrow_export_focused PRIVATE "${THEMIS_ROOT_DIR}/vcpkg_installed/x64-windows/lib/arrow.lib")
+    elseif(EXISTS "${_themis_vcpkg_lib_dir}/arrow.lib")
+        target_link_libraries(test_arrow_export_focused PRIVATE "${_themis_vcpkg_lib_dir}/arrow.lib")
         set(_themis_arrow_export_linked TRUE)
     endif()
 
@@ -8300,8 +8316,8 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/analytics/test_arrow_export.cpp")
     elseif(TARGET Parquet::parquet)
         target_link_libraries(test_arrow_export_focused PRIVATE Parquet::parquet)
         set(_themis_parquet_export_linked TRUE)
-    elseif(EXISTS "${THEMIS_ROOT_DIR}/vcpkg_installed/x64-windows/lib/parquet.lib")
-        target_link_libraries(test_arrow_export_focused PRIVATE "${THEMIS_ROOT_DIR}/vcpkg_installed/x64-windows/lib/parquet.lib")
+    elseif(EXISTS "${_themis_vcpkg_lib_dir}/parquet.lib")
+        target_link_libraries(test_arrow_export_focused PRIVATE "${_themis_vcpkg_lib_dir}/parquet.lib")
         set(_themis_parquet_export_linked TRUE)
     endif()
 
@@ -13811,8 +13827,8 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/security/test_arrow_user_registration_plu
     elseif(TARGET Arrow::arrow)
         target_link_libraries(test_arrow_user_registration_plugin_focused PRIVATE Arrow::arrow)
         set(_themis_arrow_user_registration_linked TRUE)
-    elseif(EXISTS "${THEMIS_ROOT_DIR}/vcpkg_installed/x64-windows/lib/arrow.lib")
-        target_link_libraries(test_arrow_user_registration_plugin_focused PRIVATE "${THEMIS_ROOT_DIR}/vcpkg_installed/x64-windows/lib/arrow.lib")
+    elseif(EXISTS "${_themis_vcpkg_lib_dir}/arrow.lib")
+        target_link_libraries(test_arrow_user_registration_plugin_focused PRIVATE "${_themis_vcpkg_lib_dir}/arrow.lib")
         set(_themis_arrow_user_registration_linked TRUE)
     endif()
 
@@ -14039,7 +14055,7 @@ endif()
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/usb/test_usb_volume_hardening.cpp")
     message(STATUS "Adding USB Volume Hardening focused tests")
 
-    add_executable(test_usb_volume_hardening_focused EXCLUDE_FROM_ALL
+    add_executable(test_usb_volume_hardening_focused
         usb/test_usb_volume_hardening.cpp
         ../src/security/usb_volume_hardening.cpp
         ../src/security/usb_admin_authenticator.cpp

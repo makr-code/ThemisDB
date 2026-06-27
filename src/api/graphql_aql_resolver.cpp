@@ -60,14 +60,19 @@ uint32_t GraphQLComplexityEstimator::estimate(const std::shared_ptr<Document>& d
     }
     
     ::themis::query::QueryResourceLimits limits;
-    if (complexity < 100) {
-        limits.max_rows = 1000000;
-        limits.timeout_ms = 60000;
-    } else if (complexity < 500) {
+    if (complexity <= 100) {
+        // Low complexity keeps row/memory limits unlimited and only applies a
+        // bounded execution timeout.
+        limits.max_rows = 0;
+        limits.max_memory_bytes = 0;
+        limits.timeout_ms = 30000;
+    } else if (complexity <= 500) {
         limits.max_rows = 50000;
+        limits.max_memory_bytes = 64ULL * 1024ULL * 1024ULL;
         limits.timeout_ms = 20000;
     } else {
         limits.max_rows = 10000;
+        limits.max_memory_bytes = 16ULL * 1024ULL * 1024ULL;
         limits.timeout_ms = 10000;
     }
     return limits;

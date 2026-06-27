@@ -13,10 +13,22 @@ foreach(_src IN LISTS PHILOSOPHY_PREFIX_TEST_SOURCES)
         continue()
     endif()
 
-    add_executable(${_target} "${_src}")
+    set(_extra_sources)
+    if(_stem STREQUAL "test_philosophy_loader")
+        list(APPEND _extra_sources
+            ${THEMIS_ROOT_DIR}/src/ethics_ai/philosophy_loader.cpp
+            ${THEMIS_ROOT_DIR}/src/ethics_ai/ethics_ai_types.cpp
+        )
+    endif()
+
+    add_executable(${_target}
+        "${_src}"
+        ${_extra_sources}
+    )
     target_include_directories(${_target} PRIVATE
         ${THEMIS_ROOT_DIR}/include
         ${THEMIS_ROOT_DIR}/src
+        ${THEMIS_ROOT_DIR}/src/ethics_ai
     )
     target_link_libraries(${_target} PRIVATE
         ${TEST_LIBS}
@@ -24,6 +36,15 @@ foreach(_src IN LISTS PHILOSOPHY_PREFIX_TEST_SOURCES)
         spdlog::spdlog
         Threads::Threads
     )
+
+    if(_stem STREQUAL "test_philosophy_loader")
+        find_package(yaml-cpp CONFIG QUIET)
+        if(yaml-cpp_FOUND)
+            target_link_libraries(${_target} PRIVATE yaml-cpp)
+            target_compile_definitions(${_target} PRIVATE HAVE_YAML_CPP)
+        endif()
+    endif()
+
     target_compile_definitions(${_target} PRIVATE THEMIS_TEST_BUILD=1)
 
     themis_register_module_focused_test(

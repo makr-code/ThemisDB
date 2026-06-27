@@ -555,8 +555,8 @@ TEST(OracleCreateTable, DoubleQuotedIdentifiers) {
     EXPECT_EQ(schema.columns[2], "LAST_NAME");
 
     EXPECT_EQ(schema.column_types.at("EMPLOYEE_ID"), "NUMBER(6,0)");
-    EXPECT_EQ(schema.column_types.at("FIRST_NAME"),  "VARCHAR2(20");
-    EXPECT_EQ(schema.column_types.at("LAST_NAME"),   "VARCHAR2(25");
+    EXPECT_EQ(schema.column_types.at("FIRST_NAME"),  "VARCHAR2(20 BYTE)");
+    EXPECT_EQ(schema.column_types.at("LAST_NAME"),   "VARCHAR2(25 BYTE)");
 }
 
 TEST(OracleCreateTable, PlainIdentifiers) {

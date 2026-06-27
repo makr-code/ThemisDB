@@ -985,7 +985,7 @@ static std::string getFixturePath() {
     // Fallback: resolve relative to this test source file location.
     const auto source_based =
         (std::filesystem::path(__FILE__).parent_path() /
-         "fixtures/importers/sample_sqlite3.sql").lexically_normal();
+         "../fixtures/importers/sample_sqlite3.sql").lexically_normal();
     {
         std::ifstream f(source_based.string());
         if (f.is_open()) return source_based.string();

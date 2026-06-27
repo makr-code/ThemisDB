@@ -181,19 +181,25 @@ LLMValidationResult LLMValidationPipeline::execute(
         spdlog::warn("AQL parse failed (attempt {}/{}): {}",
                     attempt + 1, impl_->config.max_retries + 1,
                     parse_result.diagnostics.error_message);
+
+        // Reject mode is a hard fail-fast contract: do not enter retry logic
+        // even when retries are configured and the error is retryable.
+        if (impl_->config.reject_on_error) {
+            result.status = LLMValidationStatus::REJECTED;
+            result.error_message = parse_result.diagnostics.error_message;
+
+            spdlog::error("AQL validation rejected: {} (reject_on_error=true)",
+                         parse_result.diagnostics.error_message);
+            return result;
+        }
         
         // Decision: retry or reject?
         bool can_retry = (attempt < impl_->config.max_retries);
         bool should_retry = can_retry && shouldRetry(parse_result.diagnostics);
-        bool reject_mode = impl_->config.reject_on_error && (attempt == 0);
         
         if (!can_retry || !should_retry) {
             // No more retries or error is not retryable
-            if (reject_mode && impl_->config.reject_on_error) {
-                result.status = LLMValidationStatus::REJECTED;
-            } else {
-                result.status = LLMValidationStatus::EXHAUSTED_RETRIES;
-            }
+            result.status = LLMValidationStatus::EXHAUSTED_RETRIES;
             
             result.error_message = parse_result.diagnostics.error_message;
             

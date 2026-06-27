@@ -53,4 +53,3 @@ set(CPACK_RPM_PACKAGE_REQUIRES "openssl-libs, libcurl")
 set(CPACK_RPM_PACKAGE_LICENSE "GPL-3.0-or-later")
 set(CPACK_RPM_PACKAGE_URL "https://themisdb.io")
 
-include(CPack)

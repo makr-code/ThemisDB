@@ -76,12 +76,12 @@ static const std::regex kCopyRe(
 
 // CREATE [UNIQUE] INDEX
 static const std::regex kCreateIndexRe(
-    R"(CREATE\s+(UNIQUE\s+)?INDEX\s+(?:CONCURRENTLY\s+)?(?:IF\s+NOT\s+EXISTS\s+)?(\w+)\s+ON\s+(?:\w+\.)?(\w+)\s*(?:USING\s+(\w+))?\s*\(([^)]+)\)(?:\s+WHERE\s+(.+?))?(?:\s*;)?$)",
+    R"(CREATE\s+(UNIQUE\s+)?INDEX\s+(?:CONCURRENTLY\s+)?(?:IF\s+NOT\s+EXISTS\s+)?(\w+)\s+ON\s+(?:\w+\.)?(\w+)\s*(?:USING\s+(\w+))?\s*\(([^)]+)\)(?:\s+WHERE\s+(.+?))?(?:\s*;)?\s*$)",
     std::regex_constants::icase);
 
 // ON table( for getSourceSchema index attachment
 static const std::regex kIndexTableRe(
-    R"(ON\s+(?:\w+\.)?(\w+)\s*[\(])",
+    R"(ON\s+(?:\w+\.)?(\w+)(?:\s+USING\s+\w+)?\s*[\(])",
     std::regex_constants::icase);
 
 // FOREIGN KEY regex (used in parseForeignKeyConstraint)
@@ -517,8 +517,8 @@ json PostgreSQLImporter::getSourceSchema(const std::string& source_path) {
             } else if (current_sql.find("CREATE INDEX") != std::string::npos ||
                        current_sql.find("CREATE UNIQUE INDEX") != std::string::npos) {
                 std::smatch ti;
-                if (std::regex_search(current_sql, ti, kIndexTableRe)) {
-                    std::string tname = ti[1].str();
+                if (std::regex_search(current_sql, ti, kCreateIndexRe)) {
+                    std::string tname = ti[3].str();
                     IndexMetadata idx;
                     if (parseCreateIndex(current_sql, tname, idx) && schemas_.count(tname)) {
                         schemas_[tname].indexes.push_back(idx);
@@ -827,8 +827,8 @@ bool PostgreSQLImporter::parseDumpFile(const std::string& file_path, const Impor
                 auto t0 = std::chrono::steady_clock::now();
                 // Extract table name to attach the index
                 std::smatch ti;
-                if (std::regex_search(current_sql, ti, kIndexTableRe)) {
-                    std::string tname = ti[1].str();
+                if (std::regex_search(current_sql, ti, kCreateIndexRe)) {
+                    std::string tname = ti[3].str();
                     IndexMetadata idx;
                     if (parseCreateIndex(current_sql, tname, idx) && schemas_.count(tname)) {
                         schemas_[tname].indexes.push_back(idx);

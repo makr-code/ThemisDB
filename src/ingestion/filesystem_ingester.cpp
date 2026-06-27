@@ -484,7 +484,25 @@ public:
                     if (!content.empty()) {
                         // Validate against schema if a validator is set
                         if (document_validator_) {
-                            auto vr = document_validator_(content);
+                            std::string validation_payload = content;
+
+                            // Field-level schema rules expect JSON object keys.
+                            // For .json files validate against raw JSON bytes rather than
+                            // the extracted text-only representation.
+                            auto ext = file_path.extension().string();
+                            for (auto& ch : ext) {
+                                ch = static_cast<char>(std::tolower(static_cast<unsigned char>(ch)));
+                            }
+                            if (ext == ".json") {
+                                std::ifstream raw_file(file_path, std::ios::binary);
+                                if (raw_file) {
+                                    validation_payload.assign(
+                                        std::istreambuf_iterator<char>(raw_file),
+                                        std::istreambuf_iterator<char>());
+                                }
+                            }
+
+                            auto vr = document_validator_(validation_payload);
                             if (!vr.is_valid) {
                                 stats.documents_failed++;
                                 ++stats.metrics.schema_violations;

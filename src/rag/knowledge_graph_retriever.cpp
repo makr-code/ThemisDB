@@ -15,6 +15,7 @@
 #include <algorithm>
 #include <cctype>
 #include <chrono>
+#include <iostream>
 #include <cmath>
 #include <mutex>
 #include <queue>
@@ -336,11 +337,25 @@ std::vector<Entity> EntityLinker::extract(const std::string& text) const {
 
         const bool is_cap = !clean.empty() && std::isupper(static_cast<unsigned char>(clean[0]));
 
+        // Allow single-word lowercase entity extraction when the caller has
+        // explicitly enabled `extract_single_word_entities`. This helps tests
+        // and real-world documents where entity mentions are not capitalised
+        // (e.g., 'alice'). We still enforce min_entity_length.
+        const bool allow_lower_single = config_.extract_single_word_entities && clean.size() >= config_.min_entity_length;
+
         if (is_cap && clean.size() >= config_.min_entity_length) {
             if (span_start == std::string::npos) span_start = pos;
             if (!span_buf.empty()) span_buf += ' ';
             span_buf += clean;
             span_end = word_end;
+        } else if (!is_cap && allow_lower_single && clean.size() >= config_.min_entity_length) {
+            // Treat lowercase single-word tokens as individual entity candidates
+            // when explicitly enabled, but do NOT join consecutive lowercase
+            // tokens into a multi-word span (avoid spurious long spans).
+            flushSpan();
+            if (entities.size() < config_.max_entities_per_text) {
+                entities.push_back({clean, EntityType::OTHER, 0.7, pos, word_end});
+            }
         } else {
             flushSpan();
         }
@@ -442,6 +457,12 @@ KGRetrievalResult KnowledgeGraphRetriever::retrieve(
     EntityLinker linker(*impl_->graph, cfg.linker_config);
     result.query_entity_links = linker.link(query);
 
+    THEMIS_DEBUG("Query '{}' links={}", query, result.query_entity_links.size());
+    for (const auto& m : result.query_entity_links) {
+        THEMIS_DEBUG("  - '{}' linked={} node_id='{}' score={}",
+                     m.entity.text, m.is_linked, m.node_id, m.linking_score);
+    }
+
     size_t linked_count = 0;
     for (const auto& m : result.query_entity_links) {
         if (m.is_linked) ++linked_count;
@@ -497,6 +518,7 @@ KGRetrievalResult KnowledgeGraphRetriever::retrieve(
             }
 
             auto chain = impl_->reasoner->infer(match.node_id, cfg.max_inference_hops);
+            THEMIS_DEBUG("infer(subject='{}') -> chain_size={}", match.node_id, chain.size());
             if (!chain.empty()) {
                 result.has_reasoning = true;
                 result.inference_chains.push_back(chain);
@@ -528,6 +550,11 @@ KGRetrievalResult KnowledgeGraphRetriever::retrieve(
 
         // Link entities in this document
         aug_doc.entity_links = linker.link(doc.content);
+        THEMIS_DEBUG("Doc '{}' entity_links.size={} content='{}'", doc.id, aug_doc.entity_links.size(), doc.content);
+        for (const auto& dm : aug_doc.entity_links) {
+            THEMIS_DEBUG("  -> entity='{}' node_id='{}' linked={} score={}",
+                         dm.entity.text, dm.node_id, dm.is_linked, dm.linking_score);
+        }
 
         // Build set of node IDs from this document's linked entities
         std::unordered_set<std::string> doc_node_ids;
@@ -557,11 +584,17 @@ KGRetrievalResult KnowledgeGraphRetriever::retrieve(
         // Attach reasoning chain to document metadata when requested.
         if (cfg.attach_reasoning_chain_to_metadata && result.has_reasoning) {
             std::string chain_text;
+                THEMIS_DEBUG("Attaching reasoning chains to metadata: {} chains", result.inference_chains.size());
             for (const auto& chain : result.inference_chains) {
                 for (const auto& edge : chain.edges) {
+                        THEMIS_DEBUG("Chain edge: {} -[{}]-> {} (rule={})",
+                                     edge.fact.subject, edge.fact.predicate, edge.fact.object,
+                                     edge.rule_id);
                     // Only include edges relevant to this document.
                     bool relevant = false;
                     for (const auto& dm : aug_doc.entity_links) {
+                            THEMIS_DEBUG("Doc entity link: id='{}' node_id='{}' linked={} score={}",
+                                         dm.entity.text, dm.node_id, dm.is_linked, dm.linking_score);
                         if (dm.is_linked &&
                             (edge.fact.subject == dm.node_id ||
                              edge.fact.object  == dm.node_id)) {

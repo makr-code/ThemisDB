@@ -98,7 +98,7 @@ TEST(KGRetrieverReasoningTests, KGRRAG03_ChainsWithReasoner) {
     std::vector<RetrievedDocument> cands = {
         makeDoc("d1", "alice reports to bob", 0.9)
     };
-    auto res = r.retrieve("alice", cands);
+    auto res = r.retrieve("Alice", cands);
 
     // alice maps to the KG node "alice"; reasoner derives indirectly_reports_to carol.
     EXPECT_TRUE(res.has_reasoning);

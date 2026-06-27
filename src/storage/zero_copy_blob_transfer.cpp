@@ -424,6 +424,15 @@ Result<ZeroCopyTransferStats> ZeroCopyBlobTransfer::sendfileTransfer(
 {
     auto t0 = std::chrono::steady_clock::now();
 
+    // Guard invalid destination descriptors early. On Windows CRT calls such as
+    // _write(-1, ...) may trigger invalid-parameter fail-fast instead of
+    // returning errno, so we must reject clearly invalid fds up front.
+    if (dest_fd < 0) {
+        return Err<ZeroCopyTransferStats>(
+            errors::ErrorCode::ERR_UTIL_FILE_OPERATION_FAILED,
+            "sendfileTransfer: invalid destination file descriptor");
+    }
+
     if (!fs::exists(source_path)) {
         return Err<ZeroCopyTransferStats>(
             errors::ErrorCode::ERR_STORAGE_FILE_NOT_FOUND,
@@ -506,6 +515,12 @@ Result<ZeroCopyTransferStats> ZeroCopyBlobTransfer::fallbackTransfer(
     int64_t            length)
 {
     auto t0 = std::chrono::steady_clock::now();
+
+    if (dest_fd < 0) {
+        return Err<ZeroCopyTransferStats>(
+            errors::ErrorCode::ERR_UTIL_FILE_OPERATION_FAILED,
+            "fallbackTransfer: invalid destination file descriptor");
+    }
 
     if (!fs::exists(source_path)) {
         return Err<ZeroCopyTransferStats>(

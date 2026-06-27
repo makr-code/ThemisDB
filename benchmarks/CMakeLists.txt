@@ -806,17 +806,10 @@ if(THEMIS_ENABLE_GPU AND THEMIS_ENABLE_VULKAN AND _themis_vulkan_sdk_available A
 
     if(NOT TARGET vulkan_lora_shaders)
         set(_themis_glslc_hints
+            "${Vulkan_GLSLC_EXECUTABLE}"
             "$ENV{VULKAN_SDK}/Bin"
             "$ENV{VULKAN_SDK}/bin"
         )
-        if(WIN32)
-            file(GLOB _themis_vulkan_sdk_dirs "C:/VulkanSDK/*")
-            foreach(_themis_sdk_dir IN LISTS _themis_vulkan_sdk_dirs)
-                list(APPEND _themis_glslc_hints
-                    "${_themis_sdk_dir}/Bin"
-                    "${_themis_sdk_dir}/bin")
-            endforeach()
-        endif()
 
         find_program(_themis_glslc glslc HINTS ${_themis_glslc_hints})
         if(_themis_glslc)
@@ -2874,17 +2867,10 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_gpu_vector_index.cpp")
 
             if(NOT TARGET vulkan_vector_index_shaders)
                 set(_themis_glslc_hints
+                    "${Vulkan_GLSLC_EXECUTABLE}"
                     "$ENV{VULKAN_SDK}/Bin"
                     "$ENV{VULKAN_SDK}/bin"
                 )
-                if(WIN32)
-                    file(GLOB _themis_vulkan_sdk_dirs "C:/VulkanSDK/*")
-                    foreach(_themis_sdk_dir IN LISTS _themis_vulkan_sdk_dirs)
-                        list(APPEND _themis_glslc_hints
-                            "${_themis_sdk_dir}/Bin"
-                            "${_themis_sdk_dir}/bin")
-                    endforeach()
-                endif()
 
                 find_program(_themis_glslc glslc HINTS ${_themis_glslc_hints})
                 if(_themis_glslc)
@@ -4217,11 +4203,16 @@ list(LENGTH _eligible_benchmark_targets _eligible_benchmark_count)
 message(STATUS "Aggregate benchmark target 'themis_benchmarks_all_eligible' includes ${_eligible_benchmark_count} currently eligible benchmark executables")
 
 if(WIN32)
+    set(_themis_vcpkg_runtime_bin_dir "")
+    if(DEFINED VCPKG_INSTALLED_DIR AND DEFINED VCPKG_TARGET_TRIPLET)
+        set(_themis_vcpkg_runtime_bin_dir "${VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/bin")
+    endif()
+
     function(themis_sync_runtime_dlls_for_benchmark_target target_name)
         add_custom_command(TARGET ${target_name} POST_BUILD
             COMMAND ${CMAKE_COMMAND}
                 -DBIN_DIR=${CMAKE_BINARY_DIR}/bin
-                -DVCPKG_BIN_DIR=${CMAKE_BINARY_DIR}/vcpkg_installed/x64-windows/bin
+                -DVCPKG_BIN_DIR=${_themis_vcpkg_runtime_bin_dir}
                 -DDST_DIR=$<TARGET_FILE_DIR:${target_name}>
                 -P ${CMAKE_SOURCE_DIR}/cmake/CopyRuntimeDlls.cmake
             COMMENT "Syncing core runtime DLLs for ${target_name}"
@@ -4240,7 +4231,7 @@ if(WIN32)
     add_custom_target(sync_benchmark_runtime_dlls
         COMMAND ${CMAKE_COMMAND}
             -DBIN_DIR=${CMAKE_BINARY_DIR}/bin
-            -DVCPKG_BIN_DIR=${CMAKE_BINARY_DIR}/vcpkg_installed/x64-windows/bin
+            -DVCPKG_BIN_DIR=${_themis_vcpkg_runtime_bin_dir}
             -DDST_DIR=${CMAKE_BINARY_DIR}/cmake/benchmarks
             -P ${CMAKE_SOURCE_DIR}/cmake/CopyRuntimeDlls.cmake
         COMMAND ${CMAKE_COMMAND}

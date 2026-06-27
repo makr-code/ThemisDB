@@ -4,20 +4,12 @@
 # Find glslangValidator or glslc compiler
 set(_THEMIS_VULKAN_SDK_HINTS
     ENV VULKAN_SDK
+    ${Vulkan_GLSLC_EXECUTABLE}
     ${VULKAN_SDK}/bin
     ${VULKAN_SDK}/Bin
     $ENV{VULKAN_SDK}/bin
     $ENV{VULKAN_SDK}/Bin
 )
-
-if(WIN32)
-    file(GLOB _THEMIS_VULKAN_SDK_DIRS "C:/VulkanSDK/*")
-    foreach(_themis_sdk_dir IN LISTS _THEMIS_VULKAN_SDK_DIRS)
-        list(APPEND _THEMIS_VULKAN_SDK_HINTS
-            "${_themis_sdk_dir}/Bin"
-            "${_themis_sdk_dir}/bin")
-    endforeach()
-endif()
 
 find_program(GLSLANG_VALIDATOR glslangValidator
     HINTS

@@ -499,7 +499,7 @@ public:
                     // Advance offset; keep paging until the API returns an empty
                     // page or an explicit total has been reached.
                     offset += docs.size();
-                    if (total_hint > 0 && stats.documents_processed >= total_hint) break;
+                    if (total_hint > 0 && offset >= total_hint) break;
                 }
             }
         } catch (const std::exception& e) {

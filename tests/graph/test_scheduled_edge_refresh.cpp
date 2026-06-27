@@ -1045,7 +1045,7 @@ TEST_F(ScheduledEdgeRefreshTest, ANN_BelowThreshold_UsesBruteForce) {
 
     RefreshPolicy p;
     p.relevance_threshold     = 0.0f;
-    p.add_threshold           = 2.0f;  // impossibly high – no candidates added
+    p.add_threshold           = 1.0f;  // max valid threshold – no candidates added
     p.max_removal_fraction    = 1.0f;
     p.decay_half_life_seconds = 0.0;
     p.ann_min_vertices        = 1000;  // threshold much higher than 4 vertices
@@ -1073,7 +1073,7 @@ TEST_F(ScheduledEdgeRefreshTest, CEP_EventsEmitted_OnSuccessfulRemoval) {
 
     RefreshPolicy p;
     p.relevance_threshold     = 0.9f;  // cosine(X,Y) ≈ 0.5 < 0.9 → removed
-    p.add_threshold           = 2.0f;  // no additions
+    p.add_threshold           = 1.0f;  // no additions
     p.max_removal_fraction    = 1.0f;
     p.decay_half_life_seconds = 0.0;
     p.similarity_metric       = SimilarityMetric::COSINE;
@@ -1166,7 +1166,7 @@ TEST_F(ScheduledEdgeRefreshTest, CEP_NoEventsEmitted_WhenSafetyGateAborts) {
 
     RefreshPolicy p;
     p.relevance_threshold     = 0.9f;  // both edges below threshold
-    p.add_threshold           = 2.0f;  // no additions
+    p.add_threshold           = 1.0f;  // no additions
     p.max_removal_fraction    = 0.01f; // very tight gate → abort
     p.decay_half_life_seconds = 0.0;
     p.similarity_metric       = SimilarityMetric::COSINE;
@@ -1200,7 +1200,7 @@ TEST_F(ScheduledEdgeRefreshTest, CEP_DetachBySettingEmptyCallback) {
 
     RefreshPolicy p;
     p.relevance_threshold     = 0.9f;
-    p.add_threshold           = 2.0f;
+    p.add_threshold           = 1.0f;
     p.max_removal_fraction    = 1.0f;
     p.decay_half_life_seconds = 0.0;
     p.similarity_metric       = SimilarityMetric::COSINE;

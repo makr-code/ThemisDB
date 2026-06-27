@@ -246,6 +246,7 @@ TEST_F(LLMValidationPipelineTest, RetrySuccessOnSecondAttempt) {
     
     LLMValidationPipelineConfig config;
     config.max_retries = 1;
+    config.reject_on_error = false;
     
     auto pipeline = LLMValidationPipelineFactory::createWithConfig(
         parser, llm_client_, config

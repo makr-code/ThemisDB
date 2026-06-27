@@ -51,7 +51,9 @@ static AccessEvent makeEvent(const std::string& user,
 // ─── Normal baseline ────────────────────────────────────────────────────────
 
 TEST(BehavioralAnomalyDetectorTest, NormalBaselineIsLow) {
-    BehavioralAnomalyDetector det;
+    BehavioralAnomalyDetector::Config cfg;
+    cfg.work_hours_start_utc = cfg.work_hours_end_utc = 0; // disable off-hours heuristic
+    BehavioralAnomalyDetector det(cfg);
 
     auto res = det.scoreEvent(makeEvent("alice", "s1", "collection_a", "read"));
     EXPECT_EQ(res.level, ThreatLevel::LOW);
@@ -80,6 +82,7 @@ TEST(BehavioralAnomalyDetectorTest, BurstRateNotTriggeredBelowThreshold) {
     BehavioralAnomalyDetector::Config cfg;
     cfg.burst_rate_threshold = 100.0;  // high threshold
     cfg.burst_window = std::chrono::seconds{10};
+    cfg.work_hours_start_utc = cfg.work_hours_end_utc = 0; // isolate burst-rate behavior
     BehavioralAnomalyDetector det(cfg);
 
     auto now = Clock::now();
