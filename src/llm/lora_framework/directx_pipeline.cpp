@@ -223,7 +223,9 @@ void DirectXPipeline::set_root_constants(const void* data, uint32_t num_values) 
     if (num_values > num_root_constants_) {
         throw std::runtime_error("DirectXPipeline: Too many root constants");
     }
-    
+    // Ensure root signature is set before setting root constants
+    context_->command_list()->SetComputeRootSignature(root_signature_.Get());
+
     // Root constants are at index 0
     context_->command_list()->SetComputeRoot32BitConstants(
         0,  // Root parameter index
@@ -236,6 +238,8 @@ void DirectXPipeline::set_root_constants(const void* data, uint32_t num_values) 
 void DirectXPipeline::bind_uav_table(uint32_t table_index, D3D12_GPU_DESCRIPTOR_HANDLE base_descriptor) {
     // UAV table is after root constants (index 1)
     uint32_t root_index = (num_root_constants_ > 0) ? 1 : 0;
+    // Ensure root signature is set before binding descriptor tables
+    context_->command_list()->SetComputeRootSignature(root_signature_.Get());
     context_->command_list()->SetComputeRootDescriptorTable(root_index, base_descriptor);
 }
 
@@ -244,7 +248,8 @@ void DirectXPipeline::bind_srv_table(uint32_t table_index, D3D12_GPU_DESCRIPTOR_
     uint32_t root_index = 0;
     if (num_root_constants_ > 0) root_index++;
     if (num_uavs_ > 0) root_index++;
-    
+    // Ensure root signature is set before binding descriptor tables
+    context_->command_list()->SetComputeRootSignature(root_signature_.Get());
     context_->command_list()->SetComputeRootDescriptorTable(root_index, base_descriptor);
 }
 

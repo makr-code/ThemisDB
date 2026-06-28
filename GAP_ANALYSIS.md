@@ -3,12 +3,10 @@
 # ThemisDB Gap Analysis
 ## From Current Hybrid RAG to Target Hybrid Knowledge Retrieval Architecture
 
-**Status:** Draft  
-**Date:** 2026-06-01
+**Status:** Updated to reflect GS3 full-scan and recent fixes
+**Date:** 2026-06-27
 
-**Update 2026-06-17:** ANN-Frontdoor-Gap (Abschnitt 3.1) implementiert:
-`include/index/ann_frontdoor.h`, `src/index/ann_frontdoor.cpp`,
-`tests/index/test_ann_frontdoor.cpp`.
+**Update 2026-06-21 → 2026-06-27:** Completed GS3 full-codebase scan and follow-up actions. Key artefacts and changes are documented below. Wrapper Abstraction Excess scanner implemented and integrated; test-suite green.
 
 ---
 
@@ -186,3 +184,60 @@ The final generation layer is now formalized as the explicit ANN → Tensor → 
 	- `docs/implementation/DISTRIBUTED_RETRIEVAL_EXECUTION_DESIGN_2026-06-17.md`
 - lifecycle runbook for package promotion, rollback, and compatibility-gated release (partially implemented):
 	- `docs/implementation/LIFECYCLE_PROMOTION_ROLLBACK_RUNBOOK_2026-06-17.md`
+
+
+## 7. GS3 Full Scan — Status & Findings (NEW)
+
+Summary:
+- Full GS3 run completed across the repository (scan execution: 2026-06-21).
+- Total gaps detected: **130,897** across **2,713** files.
+- Scanners executed: **33** modules yielding **46** gap type categories.
+- Urgent issues (CRITICAL + HIGH): **16,005** — prioritized for remediation.
+
+Key scan artefacts:
+- Raw JSON scan output: `ai_working/gs3_quick_scan.json` (~67.5 MB)
+- Comprehensive analysis: `ai_working/GS3_SCAN_REPORT_2026_06_21.md`
+- German executive summary: `ai_working/GS3_FULL_SCAN_RESULTS_2026_06_21.md`
+
+Wrapper Abstraction Excess Scanner (Boring-Code detection):
+- File: `tools/scanners/gs3_step04_design_wrapper_abstraction_excess.py`
+- Purpose: detect thin wrappers, passthrough methods, and abstraction cascades (severity by wrapper depth)
+- Tests: `tools/scanners/test_gs3_wrapper_abstraction.py` — **5 tests, all passed**
+- Docs: `tools/WRAPPER_ABSTRACTION_EXCESS_GUIDE.md` (implementation guide + remediation patterns)
+- Integration: Registered in GS3 orchestrator/phase list — executes automatically in Phase 7-10 runs
+
+Top-level automated findings (examples):
+- `todo_as_productionlogic`: 1,312 CRITICAL
+- `circular_lock_ordering`: 1,105 HIGH
+- `db_connection_leak`: 626 HIGH
+
+Primary consequences and interpretation:
+- The scan reveals concentrated high-severity issues alongside many medium findings; a focused remediation plan is required to reduce risk to acceptable levels before broad production rollout.
+- The wrapper-scanner allows direct targeting of over-abstraction hotspots introduced by automated code generation or poor layering.
+
+Immediate recommended actions (next 30 days):
+1. Run the Wrapper Abstraction Excess scanner across the full repo to generate a wrapper-specific baseline (command shown below).
+2. Produce a filtered analysis of wrapper gaps and top-20 files (by severity + wrapper_depth).
+3. Create GitHub issues for CRITICAL/HIGH gaps with automated labels and suggested remediations (triage sprint backlog).
+4. Deploy `ci_gs3_validate.py` into `.github/workflows/` to enable PR-level scans; gate high-severity findings as review blockers.
+5. Build a remediation sprint plan: owners, estimates, and acceptance criteria (focus first on CRITICAL+HIGH bundles).
+
+Commands to run locally (examples):
+```powershell
+# Full GS3 scan (already executed previously):
+python tools/gs3.py scan . --scan-mode full --output ai_working/gs3_quick_scan.json
+
+# Run only wrapper scanner and output JSON (for rapid baseline):
+python -c "from scanners.gs3_step04_design_wrapper_abstraction_excess import WrapperAbstractionExcessScanner; s=WrapperAbstractionExcessScanner(); s.scan('.'); import json; print(json.dumps([g.to_dict() for g in s.gaps]))" > ai_working/gs3_wrapper_gaps.json
+```
+
+Notes on automation and governance:
+- CI integration is prepared but not yet deployed to GitHub Actions; this is intentionally staged to allow team review of false-positive thresholds and remediation playbooks.
+- The GS3 analysis tool (`ai_working/analyze_gs3_final.py`) exists and produces prioritized reports; use it to generate per-subsystem dashboards and CSV exports for issue creation.
+
+Ownership & next contact points:
+- GS3 owner for remediation coordination: `@team-retrieval` (assign owners per subsystem)
+- Suggested triage owner for wrapper remediation: `@team-architecture`
+
+Closing remark:
+- The architectural layer gaps identified earlier (ANN/Tensor/Graph/Final Layer) remain valid — the new GS3 findings add an operational quality dimension (technical debt, over-abstraction, and hotspots) that should be incorporated into the remediation roadmap and sprint planning.

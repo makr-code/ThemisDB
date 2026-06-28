@@ -220,6 +220,7 @@ inline bool RouteVersionRouter::isExemptFromRedirect(
         "/graphql",
         "/static/",
         "/admin/",
+        "/changefeed",
         "/favicon.ico",
         // Core CRUD / query endpoints registered directly without a /v1/ prefix
         "/entities",

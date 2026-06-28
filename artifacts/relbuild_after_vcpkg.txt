@@ -1,0 +1,180 @@
+**********************************************************************
+** Visual Studio 2022 Developer Command Prompt v17.14.35
+** Copyright (c) 2025 Microsoft Corporation
+**********************************************************************
+[ERROR:vcvars.bat] Version '14.50.35717' is not valid; directory does not exist
+Prepending MSVC lib path to LIB
+LIB now starts with: C:\Program Files\Microsoft Visual Studio\2022\Professional\VC\Tools\MSVC\14.44.35207\lib\x64;C:\Program Files (x86)\Windows Kits\NETFXSDK\4.8\lib\um\x64;C:\Program Files (x86)\Windows Kits\10\lib\10.0
+Running CMake configure (RelWithDebInfo)
+-- ThemisDB 1.9.0 (1.9.0-beta)
+-- MSVC Include Paths Added (EARLY):
+--   - C:\Program Files/Microsoft Visual Studio/2022/Professional/VC/Tools/MSVC/14.44.35207/include
+--   - C:\Program Files (x86)\Windows Kits\10/Include/10.0.26100.0/{ucrt,shared,um}
+-- MSVC Library Paths Added:
+--   - C:\Program Files/Microsoft Visual Studio/2022/Professional/VC/Tools/MSVC/14.44.35207/lib/x64
+--   - C:\Program Files (x86)\Windows Kits\10/Lib/10.0.26100.0/{ucrt,um}/x64
+-- MSVC Runtime: MultiThreadedDLL (MD) / MultiThreadedDebugDLL (MDd) [shared triplet]
+-- Added Windows SDK lib path: C:\Program Files (x86)\Windows Kits\10/Lib/10.0.26100.0/um/x64
+-- Added Windows SDK UCRT lib path: C:\Program Files (x86)\Windows Kits\10/Lib/10.0.26100.0/ucrt/x64
+-- Added MSVC lib path: C:\Program Files/Microsoft Visual Studio/2022/Professional/VC/Tools/MSVC/14.44.35207/lib/x64
+-- IPO/LTO skipped (only enabled in Release mode)
+-- C++ Standard: C++20
+-- Build Type: RelWithDebInfo
+-- Compiler: MSVC 19.44.35228.0
+-- Compiler cache: enabled (C:/Users/mkrueger/AppData/Local/Microsoft/WinGet/Packages/Mozilla.sccache_Microsoft.Winget.Source_8wekyb3d8bbwe/sccache-v0.10.0-x86_64-pc-windows-msvc/sccache.exe)
+CMake Warning at cmake/deprecated_checks.cmake:18 (message):
+  Deprecated CMake command 'add_definitions()' found in:
+  C:/Projects/ThemisDB/CMakeLists.txt
+
+    Recommend: replace with target_compile_definitions(<target> PUBLIC|PRIVATE) for modern scoping.
+Call Stack (most recent call first):
+  CMakeLists.txt:151 (include)
+
+
+CMake Warning at cmake/deprecated_checks.cmake:18 (message):
+  Deprecated CMake command 'add_definitions()' found in:
+  C:/Projects/ThemisDB/llama.cpp/ggml/src/ggml-vulkan/CMakeLists.txt
+
+    Recommend: replace with target_compile_definitions(<target> PUBLIC|PRIVATE) for modern scoping.
+Call Stack (most recent call first):
+  CMakeLists.txt:151 (include)
+
+
+CMake Warning at cmake/deprecated_checks.cmake:18 (message):
+  Deprecated CMake command 'add_definitions()' found in:
+  C:/Projects/ThemisDB/stable-diffusion.cpp/ggml/src/ggml-vulkan/CMakeLists.txt
+
+    Recommend: replace with target_compile_definitions(<target> PUBLIC|PRIVATE) for modern scoping.
+Call Stack (most recent call first):
+  CMakeLists.txt:151 (include)
+
+
+CMake Warning at cmake/deprecated_checks.cmake:18 (message):
+  Deprecated CMake command 'add_definitions()' found in:
+  C:/Projects/ThemisDB/stable-diffusion.cpp/ggml/tests/CMakeLists.txt
+
+    Recommend: replace with target_compile_definitions(<target> PUBLIC|PRIVATE) for modern scoping.
+Call Stack (most recent call first):
+  CMakeLists.txt:151 (include)
+
+
+CMake Warning at cmake/deprecated_checks.cmake:18 (message):
+  Deprecated CMake command 'add_definitions()' found in:
+  C:/Projects/ThemisDB/stable-diffusion.cpp/thirdparty/libwebp/CMakeLists.txt
+
+    Recommend: replace with target_compile_definitions(<target> PUBLIC|PRIVATE) for modern scoping.
+Call Stack (most recent call first):
+  CMakeLists.txt:151 (include)
+
+
+-- add_definitions() report written to: C:/Projects/ThemisDB/build-msvc-relwithdebinfo/logs/add_definitions_report.txt
+-- ==========================================
+-- Platform Detection:
+--   Target Architecture: x86_64
+--   Target Platform: windows
+--   Target Triplet: x64-windows
+--   System: Windows 10.0.26100
+--   Processor: AMD64
+-- ==========================================
+-- Architecture optimizations: Skipped (only applied in Release mode)
+-- ==========================================
+-- Edition: COMMUNITY
+-- ==========================================
+-- Configuring COMMUNITY edition...
+--   Hardware limits: Up to 8 GB GPU VRAM, 5 nodes, 1 GB cache
+--   Features: Core + optional LLM/gRPC/GPU
+-- ==========================================
+-- Feature Configuration:
+-- ==========================================
+--   LLM: Enabled
+--     Content ingestion: Enabled
+--     Flash Attention v3: Enabled
+--       Paged KV-Cache: Enabled
+--   Network Protocols:
+--     gRPC: Enabled
+--     HTTP Server: Enabled
+--     GraphQL: Enabled
+--     ONNX Runtime: headers not found — runtime probe will select CPUExecutionProvider
+--   GPU Acceleration: Enabled
+--     Vulkan: Enabled
+--     GPU Vector Search: Enabled
+--   Security & Enterprise:
+--     RFC 3161 TSA (OpenSSL): Enabled
+--   Development Tools:
+--     Unit tests: Enabled
+--     mimalloc: Enabled
+--   Performance Optimizations:
+--     AVX2: ON
+--     Phase 1 (active by default):
+--       RCU Index:  ON  (disable: -DTHEMIS_DISABLE_RCU_INDEX=ON)
+--       LIRS Cache: ON  (disable: -DTHEMIS_DISABLE_LIRS_CACHE=ON)
+--       Huge Pages: ON  (runtime-graceful fallback; disable: -DTHEMIS_DISABLE_HUGE_PAGES=ON)
+--       io_uring:   DISABLED (Linux-only or disabled explicitly)
+--   Plugin Features:
+--     Plugin System (core):              ON
+--     Ethics AI Plugin:                  OFF
+--     gRPC RPC Plugin:                   ON
+--     Image Analysis (ONNX CLIP):        ON
+--     User Storage Encrypted Plugin:     OFF
+--     Importer Plugins (postgres/mysql/sqlite/mongodb/kafka/s3): configured per flag
+--     Blob Storage Plugins (s3/azure):    configured per flag
+--     HuggingFace Ingestion Plugin:      ON
+-- ==========================================
+-- ==========================================
+-- Edition-Feature Matrix Validation
+-- ==========================================
+-- Validating features against COMMUNITY edition matrix:
+--   THEMIS_ENABLE_LLM: ALLOWED (ON)
+--   THEMIS_ENABLE_GPU: ALLOWED (ON)
+--   THEMIS_ENABLE_CUDA: ALLOWED (OFF)
+--   THEMIS_ENABLE_GRPC: ALLOWED (ON)
+--   THEMIS_ENABLE_TRACING: ALLOWED (OFF)
+--   THEMIS_ENABLE_HTTP2: ALLOWED (OFF)
+--   THEMIS_ENABLE_HTTP3: ALLOWED (OFF)
+--   THEMIS_ENABLE_WEBSOCKET: ALLOWED (OFF)
+--   THEMIS_ENABLE_MQTT: ALLOWED (OFF)
+--   THEMIS_ENABLE_POSTGRES_WIRE: ALLOWED (OFF)
+--   THEMIS_ENABLE_MCP: ALLOWED (OFF)
+--   THEMIS_ENABLE_SSE: ALLOWED (OFF)
+--   THEMIS_ENABLE_DISKANN: ALLOWED (OFF)
+--   THEMIS_ENABLE_DISTRIBUTED_TRAINING: ALLOWED (OFF)
+-- ==========================================
+-- Edition-Feature Matrix Validation: Complete
+-- ==========================================
+-- ==========================================
+-- vcpkg Configuration
+-- ==========================================
+-- Binary cache tier 1: Project-local
+--   Location: C:/Projects/ThemisDB/.vcpkg-cache
+-- Binary cache tier 2: User-level
+--   Location: C:\Users\mkrueger\AppData\Local/vcpkg/archives
+-- Binary cache: Enabled (multi-tier local cache)
+--   Mode: Read-Write (all tiers)
+--   Strategy: Project-local → User-level → Fallback
+-- vcpkg root: C:/Projects/ThemisDB/vcpkg (local)
+-- CMAKE_TOOLCHAIN_FILE: C:/Projects/ThemisDB/vcpkg/scripts/buildsystems/vcpkg.cmake (matches vcpkg root)
+-- vcpkg feature: gpu (FAISS, OpenBLAS, LAPACK)
+-- vcpkg feature: llm
+-- vcpkg feature: rpc (gRPC, protobuf)
+-- Active vcpkg features: gpu;llm;rpc
+-- Validating dependency requirements...
+-- ==========================================
+-- vcpkg configuration complete
+-- ==========================================
+CMake Warning at cmake/Dependencies.cmake:37 (message):
+  OpenSSL not found - some features may be disabled
+Call Stack (most recent call first):
+  CMakeLists.txt:175 (include)
+
+
+CMake Error at C:/Program Files/CMake/share/cmake-4.3/Modules/FindPackageHandleStandardArgs.cmake:290 (message):
+  Could NOT find ZLIB (missing: ZLIB_LIBRARY ZLIB_INCLUDE_DIR)
+Call Stack (most recent call first):
+  C:/Program Files/CMake/share/cmake-4.3/Modules/FindPackageHandleStandardArgs.cmake:654 (_FPHSA_FAILURE_MESSAGE)
+  C:/Program Files/CMake/share/cmake-4.3/Modules/FindZLIB.cmake:242 (find_package_handle_standard_args)
+  cmake/Dependencies.cmake:42 (find_package)
+  CMakeLists.txt:175 (include)
+
+
+-- Configuring incomplete, errors occurred!
+CMake configure failed with 1

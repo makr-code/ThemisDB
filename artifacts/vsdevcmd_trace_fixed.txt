@@ -1,0 +1,299 @@
+[DEBUG:VsDevCmd] Writing pre-initialization environment to C:\Users\mkrueger\AppData\Local\Temp\dd_vsdevcmd17_preinit_env.log
+[DEBUG:VsDevCmd.bat] --------------------- VS Developer Command Prompt Environment [pre-init] ---------------------
+AI_AGENT=github_copilot_vscode_agent
+ALLUSERSPROFILE=C:\ProgramData
+APPDATA=C:\Users\mkrueger\AppData\Roaming
+BUNDLED_DEBUGPY_PATH=c:\Users\mkrueger\.vscode\extensions\ms-python.debugpy-2026.6.0-win32-x64\bundled\libs\debugpy
+CHROME_CRASHPAD_PIPE_NAME=\\.\pipe\crashpad_20044_LJHUGEMEKOLZXOFG
+CLIENTNAME=DESKTOP-B17EAI0
+COLORTERM=truecolor
+CommonProgramFiles=C:\Program Files\Common Files
+CommonProgramFiles(x86)=C:\Program Files (x86)\Common Files
+CommonProgramW6432=C:\Program Files\Common Files
+COMPUTERNAME=DESKTOP-712S8LO
+ComSpec=C:\WINDOWS\system32\cmd.exe
+COPILOT_AGENT=1
+COPILOT_DEBUG_NONCE=69f755af657d4201c034444616ca3e07
+DEBIAN_FRONTEND=noninteractive
+DokanLibrary2=C:\Program Files\Dokan\Dokan Library-2.2.1\
+DokanLibrary2_LibraryPath_x64=C:\Program Files\Dokan\Dokan Library-2.2.1\lib\
+DokanLibrary2_LibraryPath_x86=C:\Program Files\Dokan\Dokan Library-2.2.1\x86\lib\
+DriverData=C:\Windows\System32\Drivers\DriverData
+EFC_6704_1262719628=1
+EFC_6704_1592913036=1
+EFC_6704_2283032206=1
+EFC_6704_2775293581=1
+EFC_6704_3789132940=1
+EFC_6704_4126798990=1
+FPS_BROWSER_APP_PROFILE_STRING=Internet Explorer
+FPS_BROWSER_USER_PROFILE_STRING=Default
+GIT_ASKPASS=c:\Users\mkrueger\AppData\Roaming\Code\User\globalStorage\vscode.git\askpass\70789581cae28aa7\askpass.sh
+GIT_EDITOR=:
+GIT_MERGE_AUTOEDIT=no
+GIT_PAGER=cat
+GOPATH=C:\Users\mkrueger\go
+HOMEDRIVE=C:
+HOMEPATH=\Users\mkrueger
+IntelliJ IDEA=C:\Program Files\JetBrains\IntelliJ IDEA 2025.1.2\bin;
+JAVA_HOME=C:\Program Files\Eclipse Adoptium\jdk-21.0.7.6-hotspot\
+LANG=de_DE.UTF-8
+LOCALAPPDATA=C:\Users\mkrueger\AppData\Local
+LOGONSERVER=\\DESKTOP-712S8LO
+NUMBER_OF_PROCESSORS=20
+OneDrive=C:\Users\mkrueger\OneDrive
+OneDriveConsumer=C:\Users\mkrueger\OneDrive
+OS=Windows_NT
+Path=C:\Program Files\PowerShell\7;c:\Users\mkrueger\AppData\Roaming\Code\User\globalStorage\github.copilot-chat\debugCommand;c:\Users\mkrueger\AppData\Roaming\Code\User\globalStorage\github.copilot-chat\copilotCli;C:\Program Files\coreutils\bin;C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v13.2\bin\x64;C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v13.2\bin;C:\VulkanSDK\1.4.350.0\Bin;C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v13.1\bin\x64;C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v13.1\bin;C:\Program Files\Python313\Scripts\;C:\Program Files\Python313\;C:\Program Files\Eclipse Adoptium\jdk-21.0.7.6-hotspot\bin;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\Microsoft SQL Server\150\Tools\Binn\;C:\Program Files\Microsoft SQL Server\Client SDK\ODBC\170\Tools\Binn\;C:\Program Files (x86)\Windows Kits\10\Windows Performance Toolkit\;C:\Program Files\Microsoft SQL Server\Client SDK\ODBC\110\Tools\Binn\;C:\Program Files (x86)\Microsoft SQL Server\120\Tools\Binn\;C:\Program Files\Microsoft SQL Server\120\Tools\Binn\;C:\Program Files\Microsoft SQL Server\120\DTS\Binn\;C:\Program Files (x86)\Windows Kits\8.1\Windows Performance Toolkit\;C:\Program Files\NVIDIA Corporation\NVIDIA app\NvDLISR;C:\Program Files\Go\bin;C:\Program Files\nodejs\;C:\Program Files\dotnet\;C:\Program Files\GitHub CLI\;C:\Program Files\PowerShell\7\;C:\Program Files\Git\cmd;C:\Program Files\Docker\Docker\resources\bin;C:\Program Files\doxygen\bin;C:\Program Files\NVIDIA Corporation\Nsight Compute 2026.1.1\;C:\Program Files\PuTTY\;C:\Program Files\CMake\bin;C:\Users\mkrueger\AppData\Local\Programs\Python\Python311\Scripts\;C:\Users\mkrueger\AppData\Local\Programs\Python\Python311\;C:\Users\mkrueger\AppData\Local\Microsoft\WindowsApps;C:\Users\mkrueger\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\mkrueger\.dotnet\tools;C:\Program Files\JetBrains\PyCharm 2025.1.2\bin;C:\Program Files\JetBrains\IntelliJ IDEA 2025.1.2\bin;C:\Users\mkrueger\AppData\Local\Programs\Ollama;C:\Users\mkrueger\go\bin;C:\Users\mkrueger\AppData\Local\GitHubDesktop\bin;C:\Users\mkrueger\AppData\Roaming\npm;C:\Users\mkrueger\AppData\Local\Microsoft\WinGet\Packages\Ninja-build.Ninja_Microsoft.Winget.Source_8wekyb3d8bbwe;C:\Users\mkrueger\AppData\Local\Microsoft\WinGet\Packages\nektos.act_Microsoft.Winget.Source_8wekyb3d8bbwe;C:\Program Files\Microsoft Visual Studio\2022\Professional\VC\Tools\MSVC\14.44.35207\bin\Hostx64\x64;C:\Program Files\Microsoft Visual Studio\2022\Professional\Common7\IDE\CommonExtensions\Microsoft\CMake\Ninja;C:\Program Files\Microsoft Visual Studio\2022\Professional\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin;C:\Program Files (x86)\Windows Kits\10\bin\10.0.26100.0\x64;C:\Program Files\Microsoft Visual Studio\2022\Professional\Common7\Tools;C:\Program Files\Microsoft Visual Studio\2022\Professional\Common7\IDE;C:\Program Files\Microsoft Visual Studio\18\Insiders\VC\Tools\MSVC\14.50.35717\bin\Hostx64\x64;C:\Program Files\Microsoft Visual Studio\18\Insiders\Common7\IDE\CommonExtensions\Microsoft\CMake\Ninja;C:\Program Files\Microsoft Visual Studio\18\Insiders\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin;C:\Program Files\Microsoft Visual Studio\18\Insiders\Common7\Tools;C:\Program Files\Microsoft Visual Studio\18\Insiders\Common7\IDE;C:\Users\mkrueger\AppData\Local\Microsoft\WinGet\Packages\Mozilla.sccache_Microsoft.Winget.Source_8wekyb3d8bbwe\sccache-v0.10.0-x86_64-pc-windows-msvc;C:\Users\mkrueger\.local\bin;C:\Users\mkrueger\AppData\Local\Microsoft\WinGet\Packages\GitHub.Copilot_Microsoft.Winget.Source_8wekyb3d8bbwe;;c:\Users\mkrueger\.vscode\extensions\ms-python.debugpy-2026.6.0-win32-x64\bundled\scripts\noConfigScripts
+PATHEXT=.COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.MSC;.PY;.PYW;.CPL
+POWERSHELL_DISTRIBUTION_CHANNEL=MSI:Windows 10 Pro
+PROCESSOR_ARCHITECTURE=AMD64
+PROCESSOR_IDENTIFIER=Intel64 Family 6 Model 165 Stepping 5, GenuineIntel
+PROCESSOR_LEVEL=6
+PROCESSOR_REVISION=a505
+ProgramData=C:\ProgramData
+ProgramFiles=C:\Program Files
+ProgramFiles(x86)=C:\Program Files (x86)
+ProgramW6432=C:\Program Files
+PROMPT=$P$G
+PSExecutionPolicyPreference=Bypass
+PSModulePath=C:\Users\mkrueger\Dokumente\WindowsPowerShell\Modules;C:\Program Files\WindowsPowerShell\Modules;C:\WINDOWS\system32\WindowsPowerShell\v1.0\Modules\;C:\Program Files (x86)\Microsoft SQL Server\120\Tools\PowerShell\Modules\
+PUBLIC=C:\Users\Public
+PyCharm=C:\Program Files\JetBrains\PyCharm 2025.1.2\bin;
+PYDEVD_DISABLE_FILE_VALIDATION=1
+PYTHONSTARTUP=c:\Users\mkrueger\AppData\Roaming\Code\User\workspaceStorage\4c25e91a8b358a76f7623d9bcc021d7a\ms-python.python\pythonrc.py
+PYTHON_BASIC_REPL=1
+SESSIONNAME=RDP-Tcp#0
+SW_SIM_HYDRA=C:\Program Files\Common Files\SolidWorks Shared\Simulation Worker Agent\
+SW_SIM_MPIT=INTELMPI
+SW_SIM_TEMP=C:\ProgramData\SOLIDWORKS\SW_net_sim_temp\
+SystemDrive=C:
+SystemRoot=C:\WINDOWS
+TEMP=C:\Users\mkrueger\AppData\Local\Temp
+TERM_PROGRAM=vscode
+TERM_PROGRAM_VERSION=1.126.0
+TMP=C:\Users\mkrueger\AppData\Local\Temp
+USERDOMAIN=DESKTOP-712S8LO
+USERDOMAIN_ROAMINGPROFILE=DESKTOP-712S8LO
+USERNAME=mkrueger
+USERPROFILE=C:\Users\mkrueger
+VCToolsVersion=14.44.35207 
+VK_SDK_PATH=C:\VulkanSDK\1.4.350.0
+VSCMD_DEBUG=3 
+VSCODE_DEBUGPY_ADAPTER_ENDPOINTS=c:\Users\mkrueger\.vscode\extensions\ms-python.debugpy-2026.6.0-win32-x64\.noConfigDebugAdapterEndpoints\endpoint-65ce738f0aa17ef9.txt
+VSCODE_GIT_ASKPASS_EXTRA_ARGS=
+VSCODE_GIT_ASKPASS_MAIN=c:\Users\mkrueger\AppData\Roaming\Code\User\globalStorage\vscode.git\askpass\70789581cae28aa7\askpass-main.js
+VSCODE_GIT_ASKPASS_NODE=C:\Users\mkrueger\AppData\Local\Programs\Microsoft VS Code\Code.exe
+VSCODE_GIT_IPC_HANDLE=\\.\pipe\vscode-git-a5e09ccfee-sock
+VSCODE_INJECTION=1
+VSCODE_PYTHON_AUTOACTIVATE_GUARD=1
+VSINSTALLDIR=C:\Program Files\Microsoft Visual Studio\18\Insiders
+VULKAN_SDK=C:\VulkanSDK\1.4.350.0
+windir=C:\WINDOWS
+_NT_ALT_SYMBOL_PATH=srv*C:\VCC\themis\symbols*https://msdl.microsoft.com/download/symbols
+_NT_SYMBOL_PATH=srv*C:\VCC\themis\symbols*https://msdl.microsoft.com/download/symbols
+[DEBUG:VsDevCmd.bat] --------------------- VS Developer Command Prompt Environment [pre-init] ---------------------
+[DEBUG:core\vsdevcmd_start] initializing with arguments ''
+[DEBUG:core\parse_cmd.bat] initializaing with arguments ''
+[DEBUG:parse_cmd] -no_ext : 
+[DEBUG:parse_cmd] -winsdk : 
+[DEBUG:parse_cmd] -app_platform : 
+[DEBUG:parse_cmd] -test   : 
+[DEBUG:parse_cmd] -help   : 
+[DEBUG:parse_cmd] -arch   : 
+[DEBUG:parse_cmd] -host_arch : 
+[DEBUG:parse_cmd] -vcvars_ver : 
+[DEBUG:parse_cmd] -startdir : 
+[DEBUG:vsdevcmd_start] Parsing results...
+[DEBUG:vsdevcmd_start] -clean_env : 
+[DEBUG:vsdevcmd_start] -test      : 
+[DEBUG:vsdevcmd_start] -help      : 
+[DEBUG:vsdevcmd_start] end of script: VS170COMNTOOLS="C:\Program Files\Microsoft Visual Studio\2022\Professional\Common7\Tools\"
+[DEBUG:vsdevcmd_start] end of script: VSINSTALLDIR="C:\Program Files\Microsoft Visual Studio\18\Insiders"
+[DEBUG:vsdevcmd_start] end of script: DevEnvDir=""
+[DEBUG:VsDevCmd.bat] Found version "17.14.35"
+[DEBUG:VsDevCmd.bat] Setting VSCMD_VER="17.0".
+**********************************************************************
+** Visual Studio 2022 Developer Command Prompt v17.14.35
+** Copyright (c) 2025 Microsoft Corporation
+**********************************************************************
+[DEBUG:VsDevCmd.bat] -clean_env : 
+[DEBUG:VsDevCmd.bat] -test : 
+[DEBUG:VsDevCmd.bat] VS170COMNTOOLS : "C:\Program Files\Microsoft Visual Studio\2022\Professional\Common7\Tools\"
+[DEBUG:VsDevCmd.bat] calling "core\dotnet.bat"
+[vsdevcmd\core\dotnet.bat] initializing...
+[DEBUG:core\dotnet.bat] Adding 32-bit .NET Framework Path
+[DEBUG:core\dotnet.bat] Framework Preference: 32bit
+[DEBUG:core\dotnet.bat] Cannot find registry key for FrameworkDir32 - using default: C:\Windows\Microsoft.NET\Framework\
+[DEBUG:core\dotnet.bat] Cannot find registry key for FrameworkVersion32 - using default: v4.0.30319
+[DEBUG:core\dotnet.bat] init:COMPLETE
+[DEBUG:VsDevCmd.bat] calling "core\msbuild.bat"
+[DEBUG:core\msbuild.bat] initializing...
+[DEBUG:core\msbuild.bat] init:COMPLETE
+[DEBUG:VsDevCmd.bat] calling "core\winsdk.bat"
+[DEBUG:winsdk.bat] initializing...
+[DEBUG:core\winsdk.bat] init:COMPLETE
+[DEBUG:VsDevCmd.bat] calling "ext\cmake.bat"
+[ERROR:ext\cmake.bat] init:FAILED code:1
+[DEBUG:VsDevCmd.bat] calling "ext\ConnectionManagerExe.bat"
+[ERROR:ext\ConnectionManagerExe.bat] init:FAILED code:1
+[DEBUG:VsDevCmd.bat] calling "ext\diaghub.bat"
+[DEBUG:ext\diaghub.bat] init:COMPLETE
+[DEBUG:VsDevCmd.bat] calling "ext\fsharp.bat"
+[DEBUG:ext\fsharp.bat] init:COMPLETE
+[DEBUG:VsDevCmd.bat] calling "ext\netfxsdk.bat"
+[DEBUG:ext\netfxsdk.bat] init:COMPLETE
+[DEBUG:VsDevCmd.bat] calling "ext\perf_tools.bat"
+[DEBUG:ext\perf_tools.bat] init:COMPLETE
+[DEBUG:VsDevCmd.bat] calling "ext\roslyn.bat"
+[DEBUG:ext\roslyn.bat] init:COMPLETE
+[DEBUG:VsDevCmd.bat] calling "ext\team_explorer.bat"
+[DEBUG:ext\team_explorer.bat] init:COMPLETE
+[DEBUG:VsDevCmd.bat] calling "ext\testwindow.bat"
+[DEBUG:ext\testwindow.bat] init:COMPLETE
+[DEBUG:VsDevCmd.bat] calling "ext\vcpkg.bat"
+[DEBUG:ext\vcpkg.bat] init:COMPLETE
+[DEBUG:VsDevCmd.bat] calling "ext\vcvars.bat"
+[DEBUG:ext\vcvars.bat] VCToolsVersion = "14.44.35207 "
+[DEBUG:ext\vcvars.bat] Checking architecture { host , tgt } : { x86 , x86 }
+[DEBUG:ext\vcvars.bat] Could not find directory "C:\Program Files\Microsoft Visual Studio\18\InsidersVC\"
+[DEBUG:ext\vcvars.bat] init:COMPLETE
+[DEBUG:VsDevCmd.bat] calling "ext\vssdk.bat"
+[DEBUG:ext\vssdk.bat] init:COMPLETE
+[DEBUG:VsDevCmd.bat] Sending telemetry
+[DEBUG:core\vsdevcmd_end] initializing with arguments ''
+[ERROR:VsDevCmd.bat] *** VsDevCmd.bat encountered errors. Environment may be incomplete and/or incorrect. ***
+[ERROR:VsDevCmd.bat] In an uninitialized command prompt, please 'set VSCMD_DEBUG=[value]' and then re-run
+[ERROR:VsDevCmd.bat] vsdevcmd.bat [args] for additional details.
+[ERROR:VsDevCmd.bat] Where [value] is:
+[ERROR:VsDevCmd.bat]    1 : basic debug logging
+[ERROR:VsDevCmd.bat]    2 : detailed debug logging
+[ERROR:VsDevCmd.bat]    3 : trace level logging. Redirection of output to a file when using this level is recommended.
+[ERROR:VsDevCmd.bat] Example: set VSCMD_DEBUG=3
+[ERROR:VsDevCmd.bat]          vsdevcmd.bat > vsdevcmd.trace.txt 2>&1
+[DEBUG:VsDevCmd] Writing post-execution environment to C:\Users\mkrueger\AppData\Local\Temp\dd_vsdevcmd17_env.log
+[DEBUG:VsDevCmd.bat] --------------------- VS Developer Command Prompt Environment [post-init] ---------------------
+AI_AGENT=github_copilot_vscode_agent
+ALLUSERSPROFILE=C:\ProgramData
+APPDATA=C:\Users\mkrueger\AppData\Roaming
+BUNDLED_DEBUGPY_PATH=c:\Users\mkrueger\.vscode\extensions\ms-python.debugpy-2026.6.0-win32-x64\bundled\libs\debugpy
+CHROME_CRASHPAD_PIPE_NAME=\\.\pipe\crashpad_20044_LJHUGEMEKOLZXOFG
+CLIENTNAME=DESKTOP-B17EAI0
+COLORTERM=truecolor
+CommonProgramFiles=C:\Program Files\Common Files
+CommonProgramFiles(x86)=C:\Program Files (x86)\Common Files
+CommonProgramW6432=C:\Program Files\Common Files
+COMPUTERNAME=DESKTOP-712S8LO
+ComSpec=C:\WINDOWS\system32\cmd.exe
+COPILOT_AGENT=1
+COPILOT_DEBUG_NONCE=69f755af657d4201c034444616ca3e07
+DEBIAN_FRONTEND=noninteractive
+DokanLibrary2=C:\Program Files\Dokan\Dokan Library-2.2.1\
+DokanLibrary2_LibraryPath_x64=C:\Program Files\Dokan\Dokan Library-2.2.1\lib\
+DokanLibrary2_LibraryPath_x86=C:\Program Files\Dokan\Dokan Library-2.2.1\x86\lib\
+DriverData=C:\Windows\System32\Drivers\DriverData
+EFC_6704_1262719628=1
+EFC_6704_1592913036=1
+EFC_6704_2283032206=1
+EFC_6704_2775293581=1
+EFC_6704_3789132940=1
+EFC_6704_4126798990=1
+EXTERNAL_INCLUDE=C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt;C:\Program Files (x86)\Windows Kits\10\\include\10.0.26100.0\\um;C:\Program Files (x86)\Windows Kits\10\\include\10.0.26100.0\\shared;C:\Program Files (x86)\Windows Kits\10\\include\10.0.26100.0\\winrt;C:\Program Files (x86)\Windows Kits\10\\include\10.0.26100.0\\cppwinrt;C:\Program Files (x86)\Windows Kits\NETFXSDK\4.8\include\um
+FPS_BROWSER_APP_PROFILE_STRING=Internet Explorer
+FPS_BROWSER_USER_PROFILE_STRING=Default
+Framework40Version=v4.0
+FrameworkDir=C:\Windows\Microsoft.NET\Framework\
+FrameworkDir32=C:\Windows\Microsoft.NET\Framework\
+FrameworkVersion=v4.0.30319
+FrameworkVersion32=v4.0.30319
+FSHARPINSTALLDIR=C:\Program Files\Microsoft Visual Studio\18\InsidersCommon7\IDE\CommonExtensions\Microsoft\FSharp\Tools
+GIT_ASKPASS=c:\Users\mkrueger\AppData\Roaming\Code\User\globalStorage\vscode.git\askpass\70789581cae28aa7\askpass.sh
+GIT_EDITOR=:
+GIT_MERGE_AUTOEDIT=no
+GIT_PAGER=cat
+GOPATH=C:\Users\mkrueger\go
+HOMEDRIVE=C:
+HOMEPATH=\Users\mkrueger
+INCLUDE=C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt;C:\Program Files (x86)\Windows Kits\10\\include\10.0.26100.0\\um;C:\Program Files (x86)\Windows Kits\10\\include\10.0.26100.0\\shared;C:\Program Files (x86)\Windows Kits\10\\include\10.0.26100.0\\winrt;C:\Program Files (x86)\Windows Kits\10\\include\10.0.26100.0\\cppwinrt;C:\Program Files (x86)\Windows Kits\NETFXSDK\4.8\include\um
+IntelliJ IDEA=C:\Program Files\JetBrains\IntelliJ IDEA 2025.1.2\bin;
+JAVA_HOME=C:\Program Files\Eclipse Adoptium\jdk-21.0.7.6-hotspot\
+LANG=de_DE.UTF-8
+LIB=C:\Program Files (x86)\Windows Kits\NETFXSDK\4.8\lib\um\x86;C:\Program Files (x86)\Windows Kits\10\lib\10.0.26100.0\ucrt\x86;C:\Program Files (x86)\Windows Kits\10\\lib\10.0.26100.0\\um\x86
+LIBPATH=C:\Program Files (x86)\Windows Kits\10\UnionMetadata\10.0.26100.0;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0;C:\Windows\Microsoft.NET\Framework\v4.0.30319
+LOCALAPPDATA=C:\Users\mkrueger\AppData\Local
+LOGONSERVER=\\DESKTOP-712S8LO
+NETFXSDKDir=C:\Program Files (x86)\Windows Kits\NETFXSDK\4.8\
+NUMBER_OF_PROCESSORS=20
+OneDrive=C:\Users\mkrueger\OneDrive
+OneDriveConsumer=C:\Users\mkrueger\OneDrive
+OS=Windows_NT
+Path=C:\Program Files\Microsoft Visual Studio\18\InsidersMSBuild\Current\bin\Roslyn;C:\Program Files (x86)\Microsoft SDKs\Windows\v10.0A\bin\NETFX 4.8 Tools\;C:\Program Files\Microsoft Visual Studio\18\InsidersCommon7\IDE\CommonExtensions\Microsoft\FSharp\Tools;C:\Program Files\Microsoft Visual Studio\18\InsidersTeam Tools\DiagnosticsHub\Collector;C:\Program Files (x86)\Windows Kits\10\bin\10.0.26100.0\\x86;C:\Program Files (x86)\Windows Kits\10\bin\\x86;C:\Program Files\Microsoft Visual Studio\18\Insiders\MSBuild\Current\Bin\amd64;C:\Windows\Microsoft.NET\Framework\v4.0.30319;C:\Program Files\Microsoft Visual Studio\2022\Professional\Common7\Tools\;C:\Program Files\PowerShell\7;c:\Users\mkrueger\AppData\Roaming\Code\User\globalStorage\github.copilot-chat\debugCommand;c:\Users\mkrueger\AppData\Roaming\Code\User\globalStorage\github.copilot-chat\copilotCli;C:\Program Files\coreutils\bin;C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v13.2\bin\x64;C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v13.2\bin;C:\VulkanSDK\1.4.350.0\Bin;C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v13.1\bin\x64;C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v13.1\bin;C:\Program Files\Python313\Scripts\;C:\Program Files\Python313\;C:\Program Files\Eclipse Adoptium\jdk-21.0.7.6-hotspot\bin;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\Microsoft SQL Server\150\Tools\Binn\;C:\Program Files\Microsoft SQL Server\Client SDK\ODBC\170\Tools\Binn\;C:\Program Files (x86)\Windows Kits\10\Windows Performance Toolkit\;C:\Program Files\Microsoft SQL Server\Client SDK\ODBC\110\Tools\Binn\;C:\Program Files (x86)\Microsoft SQL Server\120\Tools\Binn\;C:\Program Files\Microsoft SQL Server\120\Tools\Binn\;C:\Program Files\Microsoft SQL Server\120\DTS\Binn\;C:\Program Files (x86)\Windows Kits\8.1\Windows Performance Toolkit\;C:\Program Files\NVIDIA Corporation\NVIDIA app\NvDLISR;C:\Program Files\Go\bin;C:\Program Files\nodejs\;C:\Program Files\dotnet\;C:\Program Files\GitHub CLI\;C:\Program Files\PowerShell\7\;C:\Program Files\Git\cmd;C:\Program Files\Docker\Docker\resources\bin;C:\Program Files\doxygen\bin;C:\Program Files\NVIDIA Corporation\Nsight Compute 2026.1.1\;C:\Program Files\PuTTY\;C:\Program Files\CMake\bin;C:\Users\mkrueger\AppData\Local\Programs\Python\Python311\Scripts\;C:\Users\mkrueger\AppData\Local\Programs\Python\Python311\;C:\Users\mkrueger\AppData\Local\Microsoft\WindowsApps;C:\Users\mkrueger\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\mkrueger\.dotnet\tools;C:\Program Files\JetBrains\PyCharm 2025.1.2\bin;C:\Program Files\JetBrains\IntelliJ IDEA 2025.1.2\bin;C:\Users\mkrueger\AppData\Local\Programs\Ollama;C:\Users\mkrueger\go\bin;C:\Users\mkrueger\AppData\Local\GitHubDesktop\bin;C:\Users\mkrueger\AppData\Roaming\npm;C:\Users\mkrueger\AppData\Local\Microsoft\WinGet\Packages\Ninja-build.Ninja_Microsoft.Winget.Source_8wekyb3d8bbwe;C:\Users\mkrueger\AppData\Local\Microsoft\WinGet\Packages\nektos.act_Microsoft.Winget.Source_8wekyb3d8bbwe;C:\Program Files\Microsoft Visual Studio\2022\Professional\VC\Tools\MSVC\14.44.35207\bin\Hostx64\x64;C:\Program Files\Microsoft Visual Studio\2022\Professional\Common7\IDE\CommonExtensions\Microsoft\CMake\Ninja;C:\Program Files\Microsoft Visual Studio\2022\Professional\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin;C:\Program Files (x86)\Windows Kits\10\bin\10.0.26100.0\x64;C:\Program Files\Microsoft Visual Studio\2022\Professional\Common7\Tools;C:\Program Files\Microsoft Visual Studio\2022\Professional\Common7\IDE;C:\Program Files\Microsoft Visual Studio\18\Insiders\VC\Tools\MSVC\14.50.35717\bin\Hostx64\x64;C:\Program Files\Microsoft Visual Studio\18\Insiders\Common7\IDE\CommonExtensions\Microsoft\CMake\Ninja;C:\Program Files\Microsoft Visual Studio\18\Insiders\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin;C:\Program Files\Microsoft Visual Studio\18\Insiders\Common7\Tools;C:\Program Files\Microsoft Visual Studio\18\Insiders\Common7\IDE;C:\Users\mkrueger\AppData\Local\Microsoft\WinGet\Packages\Mozilla.sccache_Microsoft.Winget.Source_8wekyb3d8bbwe\sccache-v0.10.0-x86_64-pc-windows-msvc;C:\Users\mkrueger\.local\bin;C:\Users\mkrueger\AppData\Local\Microsoft\WinGet\Packages\GitHub.Copilot_Microsoft.Winget.Source_8wekyb3d8bbwe;;c:\Users\mkrueger\.vscode\extensions\ms-python.debugpy-2026.6.0-win32-x64\bundled\scripts\noConfigScripts;C:\Program Files\Microsoft Visual Studio\18\InsidersVC\vcpkg
+PATHEXT=.COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.MSC;.PY;.PYW;.CPL
+POWERSHELL_DISTRIBUTION_CHANNEL=MSI:Windows 10 Pro
+PROCESSOR_ARCHITECTURE=AMD64
+PROCESSOR_IDENTIFIER=Intel64 Family 6 Model 165 Stepping 5, GenuineIntel
+PROCESSOR_LEVEL=6
+PROCESSOR_REVISION=a505
+ProgramData=C:\ProgramData
+ProgramFiles=C:\Program Files
+ProgramFiles(x86)=C:\Program Files (x86)
+ProgramW6432=C:\Program Files
+PROMPT=$P$G
+PSExecutionPolicyPreference=Bypass
+PSModulePath=C:\Users\mkrueger\Dokumente\WindowsPowerShell\Modules;C:\Program Files\WindowsPowerShell\Modules;C:\WINDOWS\system32\WindowsPowerShell\v1.0\Modules\;C:\Program Files (x86)\Microsoft SQL Server\120\Tools\PowerShell\Modules\
+PUBLIC=C:\Users\Public
+PyCharm=C:\Program Files\JetBrains\PyCharm 2025.1.2\bin;
+PYDEVD_DISABLE_FILE_VALIDATION=1
+PYTHONSTARTUP=c:\Users\mkrueger\AppData\Roaming\Code\User\workspaceStorage\4c25e91a8b358a76f7623d9bcc021d7a\ms-python.python\pythonrc.py
+PYTHON_BASIC_REPL=1
+SESSIONNAME=RDP-Tcp#0
+SW_SIM_HYDRA=C:\Program Files\Common Files\SolidWorks Shared\Simulation Worker Agent\
+SW_SIM_MPIT=INTELMPI
+SW_SIM_TEMP=C:\ProgramData\SOLIDWORKS\SW_net_sim_temp\
+SystemDrive=C:
+SystemRoot=C:\WINDOWS
+TEMP=C:\Users\mkrueger\AppData\Local\Temp
+TERM_PROGRAM=vscode
+TERM_PROGRAM_VERSION=1.126.0
+TMP=C:\Users\mkrueger\AppData\Local\Temp
+UCRTVersion=10.0.26100.0
+UniversalCRTSdkDir=C:\Program Files (x86)\Windows Kits\10\
+USERDOMAIN=DESKTOP-712S8LO
+USERDOMAIN_ROAMINGPROFILE=DESKTOP-712S8LO
+USERNAME=mkrueger
+USERPROFILE=C:\Users\mkrueger
+VCToolsVersion=14.44.35207 
+VisualStudioVersion=17.0
+VK_SDK_PATH=C:\VulkanSDK\1.4.350.0
+VS170COMNTOOLS=C:\Program Files\Microsoft Visual Studio\2022\Professional\Common7\Tools\
+VSCMD_ARG_app_plat=Desktop
+VSCMD_ARG_HOST_ARCH=x86
+VSCMD_ARG_TGT_ARCH=x86
+VSCMD_DEBUG=3 
+VSCMD_VER=17.14.35
+VSCODE_DEBUGPY_ADAPTER_ENDPOINTS=c:\Users\mkrueger\.vscode\extensions\ms-python.debugpy-2026.6.0-win32-x64\.noConfigDebugAdapterEndpoints\endpoint-65ce738f0aa17ef9.txt
+VSCODE_GIT_ASKPASS_EXTRA_ARGS=
+VSCODE_GIT_ASKPASS_MAIN=c:\Users\mkrueger\AppData\Roaming\Code\User\globalStorage\vscode.git\askpass\70789581cae28aa7\askpass-main.js
+VSCODE_GIT_ASKPASS_NODE=C:\Users\mkrueger\AppData\Local\Programs\Microsoft VS Code\Code.exe
+VSCODE_GIT_IPC_HANDLE=\\.\pipe\vscode-git-a5e09ccfee-sock
+VSCODE_INJECTION=1
+VSCODE_PYTHON_AUTOACTIVATE_GUARD=1
+VSINSTALLDIR=C:\Program Files\Microsoft Visual Studio\18\Insiders
+VSSDK150INSTALL=C:\Program Files\Microsoft Visual Studio\18\InsidersVSSDK
+VSSDKINSTALL=C:\Program Files\Microsoft Visual Studio\18\InsidersVSSDK
+VULKAN_SDK=C:\VulkanSDK\1.4.350.0
+windir=C:\WINDOWS
+WindowsLibPath=C:\Program Files (x86)\Windows Kits\10\UnionMetadata\10.0.26100.0;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0
+WindowsSdkBinPath=C:\Program Files (x86)\Windows Kits\10\bin\
+WindowsSdkDir=C:\Program Files (x86)\Windows Kits\10\
+WindowsSDKLibVersion=10.0.26100.0\
+WindowsSdkVerBinPath=C:\Program Files (x86)\Windows Kits\10\bin\10.0.26100.0\
+WindowsSDKVersion=10.0.26100.0\
+WindowsSDK_ExecutablePath_x64=C:\Program Files (x86)\Microsoft SDKs\Windows\v10.0A\bin\NETFX 4.8 Tools\x64\
+WindowsSDK_ExecutablePath_x86=C:\Program Files (x86)\Microsoft SDKs\Windows\v10.0A\bin\NETFX 4.8 Tools\
+_NT_ALT_SYMBOL_PATH=srv*C:\VCC\themis\symbols*https://msdl.microsoft.com/download/symbols
+_NT_SYMBOL_PATH=srv*C:\VCC\themis\symbols*https://msdl.microsoft.com/download/symbols
+__DOTNET_ADD_32BIT=1
+__DOTNET_PREFERRED_BITNESS=32
+__VSCMD_PREINIT_PATH=C:\Program Files\PowerShell\7;c:\Users\mkrueger\AppData\Roaming\Code\User\globalStorage\github.copilot-chat\debugCommand;c:\Users\mkrueger\AppData\Roaming\Code\User\globalStorage\github.copilot-chat\copilotCli;C:\Program Files\coreutils\bin;C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v13.2\bin\x64;C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v13.2\bin;C:\VulkanSDK\1.4.350.0\Bin;C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v13.1\bin\x64;C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v13.1\bin;C:\Program Files\Python313\Scripts\;C:\Program Files\Python313\;C:\Program Files\Eclipse Adoptium\jdk-21.0.7.6-hotspot\bin;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\Microsoft SQL Server\150\Tools\Binn\;C:\Program Files\Microsoft SQL Server\Client SDK\ODBC\170\Tools\Binn\;C:\Program Files (x86)\Windows Kits\10\Windows Performance Toolkit\;C:\Program Files\Microsoft SQL Server\Client SDK\ODBC\110\Tools\Binn\;C:\Program Files (x86)\Microsoft SQL Server\120\Tools\Binn\;C:\Program Files\Microsoft SQL Server\120\Tools\Binn\;C:\Program Files\Microsoft SQL Server\120\DTS\Binn\;C:\Program Files (x86)\Windows Kits\8.1\Windows Performance Toolkit\;C:\Program Files\NVIDIA Corporation\NVIDIA app\NvDLISR;C:\Program Files\Go\bin;C:\Program Files\nodejs\;C:\Program Files\dotnet\;C:\Program Files\GitHub CLI\;C:\Program Files\PowerShell\7\;C:\Program Files\Git\cmd;C:\Program Files\Docker\Docker\resources\bin;C:\Program Files\doxygen\bin;C:\Program Files\NVIDIA Corporation\Nsight Compute 2026.1.1\;C:\Program Files\PuTTY\;C:\Program Files\CMake\bin;C:\Users\mkrueger\AppData\Local\Programs\Python\Python311\Scripts\;C:\Users\mkrueger\AppData\Local\Programs\Python\Python311\;C:\Users\mkrueger\AppData\Local\Microsoft\WindowsApps;C:\Users\mkrueger\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\mkrueger\.dotnet\tools;C:\Program Files\JetBrains\PyCharm 2025.1.2\bin;C:\Program Files\JetBrains\IntelliJ IDEA 2025.1.2\bin;C:\Users\mkrueger\AppData\Local\Programs\Ollama;C:\Users\mkrueger\go\bin;C:\Users\mkrueger\AppData\Local\GitHubDesktop\bin;C:\Users\mkrueger\AppData\Roaming\npm;C:\Users\mkrueger\AppData\Local\Microsoft\WinGet\Packages\Ninja-build.Ninja_Microsoft.Winget.Source_8wekyb3d8bbwe;C:\Users\mkrueger\AppData\Local\Microsoft\WinGet\Packages\nektos.act_Microsoft.Winget.Source_8wekyb3d8bbwe;C:\Program Files\Microsoft Visual Studio\2022\Professional\VC\Tools\MSVC\14.44.35207\bin\Hostx64\x64;C:\Program Files\Microsoft Visual Studio\2022\Professional\Common7\IDE\CommonExtensions\Microsoft\CMake\Ninja;C:\Program Files\Microsoft Visual Studio\2022\Professional\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin;C:\Program Files (x86)\Windows Kits\10\bin\10.0.26100.0\x64;C:\Program Files\Microsoft Visual Studio\2022\Professional\Common7\Tools;C:\Program Files\Microsoft Visual Studio\2022\Professional\Common7\IDE;C:\Program Files\Microsoft Visual Studio\18\Insiders\VC\Tools\MSVC\14.50.35717\bin\Hostx64\x64;C:\Program Files\Microsoft Visual Studio\18\Insiders\Common7\IDE\CommonExtensions\Microsoft\CMake\Ninja;C:\Program Files\Microsoft Visual Studio\18\Insiders\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin;C:\Program Files\Microsoft Visual Studio\18\Insiders\Common7\Tools;C:\Program Files\Microsoft Visual Studio\18\Insiders\Common7\IDE;C:\Users\mkrueger\AppData\Local\Microsoft\WinGet\Packages\Mozilla.sccache_Microsoft.Winget.Source_8wekyb3d8bbwe\sccache-v0.10.0-x86_64-pc-windows-msvc;C:\Users\mkrueger\.local\bin;C:\Users\mkrueger\AppData\Local\Microsoft\WinGet\Packages\GitHub.Copilot_Microsoft.Winget.Source_8wekyb3d8bbwe;;c:\Users\mkrueger\.vscode\extensions\ms-python.debugpy-2026.6.0-win32-x64\bundled\scripts\noConfigScripts
+__VSCMD_PREINIT_VCToolsVersion=14.44.35207 
+[DEBUG:VsDevCmd.bat] --------------------- VS Developer Command Prompt Environment [post-init] ---------------------

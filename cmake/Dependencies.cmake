@@ -1,19 +1,47 @@
 # ThemisDB External Dependencies Management
 
 # vcpkg Integration
-if(DEFINED ENV{VCPKG_ROOT})
-    set(CMAKE_TOOLCHAIN_FILE "$ENV{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake"
-        CACHE STRING "Vcpkg toolchain file")
-    
-    # Add all vcpkg package directories to CMAKE_PREFIX_PATH for dependency resolution
-    file(GLOB _vcpkg_packages "$ENV{VCPKG_ROOT}/packages/*_x64-linux")
+if(DEFINED VCPKG_ROOT_DIR)
+    set(_the_vcpkg_root "${VCPKG_ROOT_DIR}")
+elseif(DEFINED ENV{VCPKG_ROOT})
+    set(_the_vcpkg_root "$ENV{VCPKG_ROOT}")
+else()
+    set(_the_vcpkg_root "${CMAKE_SOURCE_DIR}/vcpkg")
+endif()
+
+if(EXISTS "${_the_vcpkg_root}")
+    set(CMAKE_TOOLCHAIN_FILE "${_the_vcpkg_root}/scripts/buildsystems/vcpkg.cmake" CACHE STRING "Vcpkg toolchain file")
+    if(WIN32)
+        file(GLOB _vcpkg_packages "${_the_vcpkg_root}/packages/*_x64-windows")
+    else()
+        file(GLOB _vcpkg_packages "${_the_vcpkg_root}/packages/*_x64-linux")
+    endif()
+    message(STATUS "vcpkg root: ${_the_vcpkg_root}")
+    message(STATUS "vcpkg package dirs: ${_vcpkg_packages}")
     foreach(_pkg_dir ${_vcpkg_packages})
         list(APPEND CMAKE_PREFIX_PATH 
             "${_pkg_dir}/lib/cmake"
             "${_pkg_dir}/share"
             "${_pkg_dir}/lib"
         )
+        list(APPEND CMAKE_LIBRARY_PATH "${_pkg_dir}/lib")
+        list(APPEND CMAKE_INCLUDE_PATH "${_pkg_dir}/include")
     endforeach()
+
+    # Pre-seed ZLIB variables from vcpkg package layout if present
+    set(_vcpkg_zlib_pkg "${_the_vcpkg_root}/packages/zlib_x64-windows")
+    if(EXISTS "${_vcpkg_zlib_pkg}")
+        set(_zlib_lib_path "${_vcpkg_zlib_pkg}/lib/zlib.lib")
+        set(_zlib_inc_path "${_vcpkg_zlib_pkg}/include")
+        if(EXISTS "${_zlib_lib_path}")
+            set(ZLIB_LIBRARY "${_zlib_lib_path}" CACHE FILEPATH "zlib library (preseeded from vcpkg)")
+        endif()
+        if(EXISTS "${_zlib_inc_path}")
+            set(ZLIB_INCLUDE_DIR "${_zlib_inc_path}" CACHE PATH "zlib include dir (preseeded from vcpkg)")
+        endif()
+    endif()
+else()
+    message(STATUS "vcpkg root not found at ${_the_vcpkg_root}; skipping vcpkg package prefix setup")
 endif()
 
 # Prefer CONFIG packages (vcpkg) over FindXXX modules
@@ -37,6 +65,7 @@ else()
     message(WARNING "OpenSSL not found - some features may be disabled")
 endif()
 
+message(STATUS "Preseed ZLIB_LIBRARY=${ZLIB_LIBRARY} ZLIB_INCLUDE_DIR=${ZLIB_INCLUDE_DIR}")
 find_package(ZLIB QUIET)
 if(NOT ZLIB_FOUND)
     find_package(ZLIB REQUIRED)

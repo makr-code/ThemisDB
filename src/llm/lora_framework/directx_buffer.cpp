@@ -341,6 +341,8 @@ void DirectXBuffer::transition_state(D3D12_RESOURCE_STATES new_state) {
     barrier.Transition.StateAfter = new_state;
     barrier.Transition.Subresource = D3D12_RESOURCE_BARRIER_ALL_SUBRESOURCES;
     
+    // Ensure command list is reset/open for recording before emitting barriers
+    context_->reset_command_list();
     context_->command_list()->ResourceBarrier(1, &barrier);
     current_state_ = new_state;
 }

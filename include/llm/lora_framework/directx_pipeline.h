@@ -26,7 +26,6 @@
 #include "directx_shader.h"
 #include "directx_descriptors.h"
 #include <d3d12.h>
-#include <wrl/client.h>
 #include <memory>
 
 using Microsoft::WRL::ComPtr;

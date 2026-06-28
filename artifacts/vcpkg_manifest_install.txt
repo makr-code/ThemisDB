@@ -1,0 +1,1108 @@
+Detecting compiler hash for triplet x64-windows...
+Compiler found: C:/Program Files/Microsoft Visual Studio/2022/Professional/VC/Tools/MSVC/14.44.35207/bin/Hostx64/x64/cl.exe
+The following packages will be rebuilt:
+  * abseil:x64-windows@20250814.1
+    arrow[core,csv,filesystem,flight,json,parquet]:x64-windows@23.0.1
+    benchmark:x64-windows@1.9.5
+  * blas:x64-windows@2023-04-14#5
+  * boost-algorithm:x64-windows@1.90.0#1
+  * boost-align:x64-windows@1.90.0#1
+  * boost-array:x64-windows@1.90.0#1
+    boost-asio[core,deadline-timer,spawn]:x64-windows@1.90.0#1
+  * boost-assert:x64-windows@1.90.0#1
+  * boost-atomic:x64-windows@1.90.0#1
+    boost-beast:x64-windows@1.90.0#1
+  * boost-bind:x64-windows@1.90.0#1
+  * boost-charconv:x64-windows@1.90.0#1
+  * boost-chrono:x64-windows@1.90.0#1
+  * boost-cmake:x64-windows@1.90.0#1
+  * boost-concept-check:x64-windows@1.90.0#1
+  * boost-config:x64-windows@1.90.0#1
+  * boost-container:x64-windows@1.90.0#1
+  * boost-container-hash:x64-windows@1.90.0#1
+  * boost-context:x64-windows@1.90.0#1
+  * boost-conversion:x64-windows@1.90.0#1
+  * boost-core:x64-windows@1.90.0#1
+  * boost-date-time:x64-windows@1.90.0#1
+  * boost-describe:x64-windows@1.90.0#1
+  * boost-detail:x64-windows@1.90.0#1
+  * boost-dynamic-bitset:x64-windows@1.90.0#1
+  * boost-endian:x64-windows@1.90.0#1
+  * boost-exception:x64-windows@1.90.0#1
+  * boost-filesystem:x64-windows@1.90.0#1
+  * boost-function:x64-windows@1.90.0#1
+  * boost-function-types:x64-windows@1.90.0#1
+  * boost-functional:x64-windows@1.90.0#1
+  * boost-fusion:x64-windows@1.90.0#1
+  * boost-headers:x64-windows@1.90.0#1
+  * boost-integer:x64-windows@1.90.0#1
+  * boost-intrusive:x64-windows@1.90.0#1
+  * boost-io:x64-windows@1.90.0#1
+  * boost-iterator:x64-windows@1.90.0#1
+  * boost-lexical-cast:x64-windows@1.90.0#1
+  * boost-locale:x64-windows@1.90.0#1
+  * boost-logic:x64-windows@1.90.0#1
+  * boost-math:x64-windows@1.90.0#1
+  * boost-move:x64-windows@1.90.0#1
+  * boost-mp11:x64-windows@1.90.0#1
+  * boost-mpl:x64-windows@1.90.0#1
+  * boost-multiprecision:x64-windows@1.90.0#1
+  * boost-numeric-conversion:x64-windows@1.90.0#1
+  * boost-optional:x64-windows@1.90.0#1
+  * boost-pool:x64-windows@1.90.0#1
+  * boost-predef:x64-windows@1.90.0#1
+  * boost-preprocessor:x64-windows@1.90.0#1
+  * boost-random:x64-windows@1.90.0#1
+  * boost-range:x64-windows@1.90.0#1
+  * boost-ratio:x64-windows@1.90.0#1
+  * boost-regex:x64-windows@1.90.0#1
+  * boost-scope:x64-windows@1.90.0#1
+  * boost-scope-exit:x64-windows@1.90.0#1
+  * boost-smart-ptr:x64-windows@1.90.0#1
+  * boost-static-assert:x64-windows@1.90.0#1
+  * boost-static-string:x64-windows@1.90.0#1
+  * boost-system:x64-windows@1.90.0#1
+  * boost-thread:x64-windows@1.90.0#1
+  * boost-throw-exception:x64-windows@1.90.0#1
+  * boost-tokenizer:x64-windows@1.90.0#1
+  * boost-tuple:x64-windows@1.90.0#1
+  * boost-type-index:x64-windows@1.90.0#1
+  * boost-type-traits:x64-windows@1.90.0#1
+  * boost-typeof:x64-windows@1.90.0#1
+  * boost-uninstall:x64-windows@1.90.0#1
+  * boost-unordered:x64-windows@1.90.0#1
+    boost-url:x64-windows@1.90.0#1
+  * boost-utility:x64-windows@1.90.0#1
+  * boost-uuid:x64-windows@1.90.0#1
+    boost-variant:x64-windows@1.90.0#1
+  * boost-variant2:x64-windows@1.90.0#1
+  * boost-winapi:x64-windows@1.90.0#1
+  * brotli:x64-windows@1.2.0
+  * bzip2[core,tool]:x64-windows@1.0.8#6
+    c-ares:x64-windows@1.34.6#1
+  * civetweb:x64-windows@1.16#2
+    cpp-httplib:x64-windows@0.36.0 -- C:\Projects\ThemisDB\ports\cpp-httplib
+  * cpuinfo:x64-windows@2025-09-06
+    crc32c:x64-windows@1.1.2#2
+    curl[core,non-http,ssl,sspi]:x64-windows@8.18.0#1
+  * cxxopts:x64-windows@3.3.1#1
+  * date:x64-windows@3.0.4
+  * dlpack:x64-windows@1.3
+  * eigen3:x64-windows@5.0.1
+    faiss:x64-windows@1.13.2 -- C:\Projects\ThemisDB\ports\faiss
+  * flatbuffers:x64-windows@25.12.19
+  * fmt:x64-windows@12.1.0
+  * gflags:x64-windows@2.3.0
+  * glslang:x64-windows@16.1.0
+    grpc[codegen,core]:x64-windows@1.76.0
+    gtest:x64-windows@1.17.0#2
+    hnswlib:x64-windows@0.8.0
+  * hwloc:x64-windows@2.11.2
+  * lapack:x64-windows@2023-06-10#3
+  * lapack-reference[blas-select,core,noblas]:x64-windows@3.12.1#2
+  * libevent[core,thread]:x64-windows@2.1.12+20230128#1
+    libzip[bzip2,core,default-aes]:x64-windows@1.11.4
+    lz4:x64-windows@1.10.0
+    mimalloc:x64-windows@3.2.8
+  * ms-gsl:x64-windows@4.2.1
+    msgpack:x64-windows@7.0.0
+    nlohmann-json:x64-windows@3.12.0#2
+  * onnx:x64-windows@1.19.0
+    onnxruntime:x64-windows@1.23.2
+  * openblas:x64-windows@0.3.29
+    opencl:x64-windows@2024.10.24#1
+    openssl:x64-windows@3.6.1#2
+    opentelemetry-cpp[core,otlp-http]:x64-windows@1.25.0
+  * optional-lite:x64-windows@3.6.0
+    prometheus-cpp[compression,core,pull]:x64-windows@1.3.0
+  * protobuf:x64-windows@6.33.4#1
+    pugixml:x64-windows@1.15#1
+  * rapidjson:x64-windows@2025-02-26
+  * re2:x64-windows@2025-11-05
+    rocksdb[core,lz4,snappy,zlib,zstd]:x64-windows@10.10.1
+  * safeint:x64-windows@3.0.28
+    shaderc:x64-windows@2026.1
+    simdjson[core,deprecated,exceptions,threads,utf8-validation]:x64-windows@4.3.0
+  * snappy[core,rtti]:x64-windows@1.2.2#1
+    spdlog[core,fmt,tz-offset]:x64-windows@1.17.0
+  * spirv-headers:x64-windows@1.4.335.0
+  * spirv-tools:x64-windows@1.4.335.0
+    tbb[core,hwloc]:x64-windows@2022.3.0
+  * thrift:x64-windows@0.22.0#1
+    tl-expected:x64-windows@1.3.1
+  * utf8-range:x64-windows@6.33.4
+  * utf8proc:x64-windows@2.11.3
+  * vcpkg-boost:x64-windows@2025-03-29
+  * vcpkg-cmake:x64-windows@2024-04-23
+  * vcpkg-cmake-config:x64-windows@2024-05-23
+  * vcpkg-cmake-get-vars:x64-windows@2025-05-29
+  * vcpkg-gfortran:x64-windows@3#3
+    vulkan:x64-windows@2023-12-17
+  * vulkan-headers:x64-windows@1.4.335.0#1
+  * vulkan-loader:x64-windows@1.4.335.0
+  * wil:x64-windows@1.0.260126.7
+  * xsimd:x64-windows@14.0.0
+    yaml-cpp:x64-windows@0.9.0
+    zlib:x64-windows@1.3.1
+    zstd:x64-windows@1.5.7
+Additional packages (*) will be modified to complete this operation.
+Restored 0 package(s) from C:\Users\mkrueger\AppData\Local\vcpkg\archives in 214 ms. Use --debug to see more details.
+Removing 1/288 yaml-cpp:x64-windows
+Elapsed time to handle yaml-cpp:x64-windows: 26.8 ms
+Removing 2/288 vulkan:x64-windows
+Elapsed time to handle vulkan:x64-windows: 8.73 ms
+Removing 3/288 vulkan-loader:x64-windows
+Elapsed time to handle vulkan-loader:x64-windows: 14.4 ms
+Removing 4/288 vulkan-headers:x64-windows
+Elapsed time to handle vulkan-headers:x64-windows: 32 ms
+Removing 5/288 tl-expected:x64-windows
+Elapsed time to handle tl-expected:x64-windows: 9.13 ms
+Removing 6/288 tbb:x64-windows
+Elapsed time to handle tbb:x64-windows: 62.2 ms
+Removing 7/288 hwloc:x64-windows
+Elapsed time to handle hwloc:x64-windows: 38.1 ms
+Removing 8/288 spdlog:x64-windows
+Elapsed time to handle spdlog:x64-windows: 58.3 ms
+Removing 9/288 fmt:x64-windows
+Elapsed time to handle fmt:x64-windows: 17.5 ms
+Removing 10/288 simdjson:x64-windows
+Elapsed time to handle simdjson:x64-windows: 34 ms
+Removing 11/288 shaderc:x64-windows
+Elapsed time to handle shaderc:x64-windows: 15.3 ms
+Removing 12/288 glslang:x64-windows
+Elapsed time to handle glslang:x64-windows: 111 ms
+Removing 13/288 spirv-tools:x64-windows
+Elapsed time to handle spirv-tools:x64-windows: 24.9 ms
+Removing 14/288 spirv-headers:x64-windows
+Elapsed time to handle spirv-headers:x64-windows: 31.4 ms
+Removing 15/288 rocksdb:x64-windows
+Elapsed time to handle rocksdb:x64-windows: 91.2 ms
+Removing 16/288 pugixml:x64-windows
+Elapsed time to handle pugixml:x64-windows: 16 ms
+Removing 17/288 prometheus-cpp:x64-windows
+Elapsed time to handle prometheus-cpp:x64-windows: 34.9 ms
+Removing 18/288 civetweb:x64-windows
+Elapsed time to handle civetweb:x64-windows: 21.8 ms
+Removing 19/288 opentelemetry-cpp:x64-windows
+Elapsed time to handle opentelemetry-cpp:x64-windows: 282 ms
+Removing 20/288 opencl:x64-windows
+Elapsed time to handle opencl:x64-windows: 40.5 ms
+Removing 21/288 onnxruntime:x64-windows
+Elapsed time to handle onnxruntime:x64-windows: 21.7 ms
+Removing 22/288 cpuinfo:x64-windows
+Elapsed time to handle cpuinfo:x64-windows: 13.5 ms
+Removing 23/288 cxxopts:x64-windows
+Elapsed time to handle cxxopts:x64-windows: 21.7 ms
+Removing 24/288 date:x64-windows
+Elapsed time to handle date:x64-windows: 14.5 ms
+Removing 25/288 dlpack:x64-windows
+Elapsed time to handle dlpack:x64-windows: 9.86 ms
+Removing 26/288 eigen3:x64-windows
+Elapsed time to handle eigen3:x64-windows: 230 ms
+Removing 27/288 flatbuffers:x64-windows
+Elapsed time to handle flatbuffers:x64-windows: 21.4 ms
+Removing 28/288 ms-gsl:x64-windows
+Elapsed time to handle ms-gsl:x64-windows: 13.2 ms
+Removing 29/288 onnx:x64-windows
+Elapsed time to handle onnx:x64-windows: 38 ms
+Removing 30/288 optional-lite:x64-windows
+Elapsed time to handle optional-lite:x64-windows: 8.95 ms
+Removing 31/288 safeint:x64-windows
+Elapsed time to handle safeint:x64-windows: 6.77 ms
+Removing 32/288 wil:x64-windows
+Elapsed time to handle wil:x64-windows: 18.6 ms
+Removing 33/288 nlohmann-json:x64-windows
+Elapsed time to handle nlohmann-json:x64-windows: 24 ms
+Removing 34/288 msgpack:x64-windows
+Elapsed time to handle msgpack:x64-windows: 231 ms
+Removing 35/288 libzip:x64-windows
+Elapsed time to handle libzip:x64-windows: 22.6 ms
+Removing 36/288 hnswlib:x64-windows
+Elapsed time to handle hnswlib:x64-windows: 8.9 ms
+Removing 37/288 gtest:x64-windows
+Elapsed time to handle gtest:x64-windows: 36.6 ms
+Removing 38/288 faiss:x64-windows
+Elapsed time to handle faiss:x64-windows: 53 ms
+Removing 39/288 lapack:x64-windows
+Elapsed time to handle lapack:x64-windows: 8.67 ms
+Removing 40/288 lapack-reference:x64-windows
+Elapsed time to handle lapack-reference:x64-windows: 22.3 ms
+Removing 41/288 vcpkg-gfortran:x64-windows
+Elapsed time to handle vcpkg-gfortran:x64-windows: 22.7 ms
+Removing 42/288 blas:x64-windows
+Elapsed time to handle blas:x64-windows: 7.98 ms
+Removing 43/288 openblas:x64-windows
+Elapsed time to handle openblas:x64-windows: 13.9 ms
+Removing 44/288 curl:x64-windows
+Elapsed time to handle curl:x64-windows: 41.1 ms
+Removing 45/288 crc32c:x64-windows
+Elapsed time to handle crc32c:x64-windows: 10.7 ms
+Removing 46/288 cpp-httplib:x64-windows
+Elapsed time to handle cpp-httplib:x64-windows: 11.8 ms
+Removing 47/288 boost-variant:x64-windows
+Elapsed time to handle boost-variant:x64-windows: 19.3 ms
+Removing 48/288 boost-url:x64-windows
+Elapsed time to handle boost-url:x64-windows: 65.1 ms
+Removing 49/288 boost-beast:x64-windows
+Elapsed time to handle boost-beast:x64-windows: 98.5 ms
+Removing 50/288 boost-endian:x64-windows
+Elapsed time to handle boost-endian:x64-windows: 15.6 ms
+Removing 51/288 boost-logic:x64-windows
+Elapsed time to handle boost-logic:x64-windows: 9.86 ms
+Removing 52/288 boost-static-string:x64-windows
+Elapsed time to handle boost-static-string:x64-windows: 11.7 ms
+Removing 53/288 boost-type-index:x64-windows
+Elapsed time to handle boost-type-index:x64-windows: 23.5 ms
+Removing 54/288 boost-asio:x64-windows
+Elapsed time to handle boost-asio:x64-windows: 218 ms
+Removing 55/288 boost-context:x64-windows
+Elapsed time to handle boost-context:x64-windows: 21.1 ms
+Removing 56/288 boost-pool:x64-windows
+Elapsed time to handle boost-pool:x64-windows: 13.8 ms
+Removing 57/288 benchmark:x64-windows
+Elapsed time to handle benchmark:x64-windows: 22.2 ms
+Removing 58/288 arrow:x64-windows
+Elapsed time to handle arrow:x64-windows: 372 ms
+Removing 59/288 boost-filesystem:x64-windows
+Elapsed time to handle boost-filesystem:x64-windows: 23.2 ms
+Removing 60/288 boost-scope:x64-windows
+Elapsed time to handle boost-scope:x64-windows: 17.3 ms
+Removing 61/288 boost-multiprecision:x64-windows
+Elapsed time to handle boost-multiprecision:x64-windows: 37.9 ms
+Removing 62/288 boost-math:x64-windows
+Elapsed time to handle boost-math:x64-windows: 161 ms
+Removing 63/288 boost-random:x64-windows
+Elapsed time to handle boost-random:x64-windows: 39.6 ms
+Removing 64/288 boost-dynamic-bitset:x64-windows
+Elapsed time to handle boost-dynamic-bitset:x64-windows: 12.6 ms
+Removing 65/288 brotli:x64-windows
+Elapsed time to handle brotli:x64-windows: 19.7 ms
+Removing 66/288 bzip2:x64-windows
+Elapsed time to handle bzip2:x64-windows: 18.2 ms
+Removing 67/288 gflags:x64-windows
+Elapsed time to handle gflags:x64-windows: 15.8 ms
+Removing 68/288 lz4:x64-windows
+Elapsed time to handle lz4:x64-windows: 15.2 ms
+Removing 69/288 mimalloc:x64-windows
+Elapsed time to handle mimalloc:x64-windows: 14.9 ms
+Removing 70/288 snappy:x64-windows
+Elapsed time to handle snappy:x64-windows: 18.3 ms
+Removing 71/288 thrift:x64-windows
+Elapsed time to handle thrift:x64-windows: 49.1 ms
+Removing 72/288 boost-locale:x64-windows
+Elapsed time to handle boost-locale:x64-windows: 30.7 ms
+Removing 73/288 boost-charconv:x64-windows
+Elapsed time to handle boost-charconv:x64-windows: 27.4 ms
+Removing 74/288 boost-thread:x64-windows
+Elapsed time to handle boost-thread:x64-windows: 62.6 ms
+Removing 75/288 boost-atomic:x64-windows
+Elapsed time to handle boost-atomic:x64-windows: 58.7 ms
+Removing 76/288 boost-align:x64-windows
+Elapsed time to handle boost-align:x64-windows: 23 ms
+Removing 77/288 boost-chrono:x64-windows
+Elapsed time to handle boost-chrono:x64-windows: 30.6 ms
+Removing 78/288 boost-integer:x64-windows
+Elapsed time to handle boost-integer:x64-windows: 13.7 ms
+Removing 79/288 boost-ratio:x64-windows
+Elapsed time to handle boost-ratio:x64-windows: 12.1 ms
+Removing 80/288 boost-date-time:x64-windows
+Elapsed time to handle boost-date-time:x64-windows: 43.6 ms
+Removing 81/288 boost-algorithm:x64-windows
+Elapsed time to handle boost-algorithm:x64-windows: 38.5 ms
+Removing 82/288 boost-unordered:x64-windows
+Elapsed time to handle boost-unordered:x64-windows: 29.3 ms
+Removing 83/288 boost-lexical-cast:x64-windows
+Elapsed time to handle boost-lexical-cast:x64-windows: 15.1 ms
+Removing 84/288 boost-container:x64-windows
+Elapsed time to handle boost-container:x64-windows: 44.1 ms
+Removing 85/288 boost-intrusive:x64-windows
+Elapsed time to handle boost-intrusive:x64-windows: 35.8 ms
+Removing 86/288 boost-numeric-conversion:x64-windows
+Elapsed time to handle boost-numeric-conversion:x64-windows: 20.3 ms
+Removing 87/288 boost-tokenizer:x64-windows
+Elapsed time to handle boost-tokenizer:x64-windows: 11.1 ms
+Removing 88/288 boost-exception:x64-windows
+Elapsed time to handle boost-exception:x64-windows: 17.1 ms
+Removing 89/288 boost-move:x64-windows
+Elapsed time to handle boost-move:x64-windows: 24.3 ms
+Removing 90/288 boost-system:x64-windows
+Elapsed time to handle boost-system:x64-windows: 21 ms
+Removing 91/288 boost-variant2:x64-windows
+Elapsed time to handle boost-variant2:x64-windows: 10.7 ms
+Removing 92/288 boost-winapi:x64-windows
+Elapsed time to handle boost-winapi:x64-windows: 45.9 ms
+Removing 93/288 boost-range:x64-windows
+Elapsed time to handle boost-range:x64-windows: 52 ms
+Removing 94/288 boost-array:x64-windows
+Elapsed time to handle boost-array:x64-windows: 8.57 ms
+Removing 95/288 boost-conversion:x64-windows
+Elapsed time to handle boost-conversion:x64-windows: 9.55 ms
+Removing 96/288 boost-iterator:x64-windows
+Elapsed time to handle boost-iterator:x64-windows: 24.4 ms
+Removing 97/288 boost-fusion:x64-windows
+Elapsed time to handle boost-fusion:x64-windows: 347 ms
+Removing 98/288 boost-container-hash:x64-windows
+Elapsed time to handle boost-container-hash:x64-windows: 19.1 ms
+Removing 99/288 boost-describe:x64-windows
+Elapsed time to handle boost-describe:x64-windows: 28.6 ms
+Removing 100/288 boost-functional:x64-windows
+Elapsed time to handle boost-functional:x64-windows: 16 ms
+Removing 101/288 boost-function-types:x64-windows
+Elapsed time to handle boost-function-types:x64-windows: 36.4 ms
+Removing 102/288 boost-detail:x64-windows
+Elapsed time to handle boost-detail:x64-windows: 15.5 ms
+Removing 103/288 boost-mp11:x64-windows
+Elapsed time to handle boost-mp11:x64-windows: 20.1 ms
+Removing 104/288 boost-mpl:x64-windows
+Elapsed time to handle boost-mpl:x64-windows: 369 ms
+Removing 105/288 boost-optional:x64-windows
+Elapsed time to handle boost-optional:x64-windows: 15.2 ms
+Removing 106/288 boost-regex:x64-windows
+Elapsed time to handle boost-regex:x64-windows: 27.3 ms
+Removing 107/288 boost-concept-check:x64-windows
+Elapsed time to handle boost-concept-check:x64-windows: 15.6 ms
+Removing 108/288 boost-predef:x64-windows
+Elapsed time to handle boost-predef:x64-windows: 62.3 ms
+Removing 109/288 boost-tuple:x64-windows
+Elapsed time to handle boost-tuple:x64-windows: 390 ms
+Removing 110/288 boost-utility:x64-windows
+Elapsed time to handle boost-utility:x64-windows: 18.1 ms
+Removing 111/288 boost-io:x64-windows
+Elapsed time to handle boost-io:x64-windows: 13.5 ms
+Removing 112/288 boost-scope-exit:x64-windows
+Elapsed time to handle boost-scope-exit:x64-windows: 10.1 ms
+Removing 113/288 boost-function:x64-windows
+Elapsed time to handle boost-function:x64-windows: 15.1 ms
+Removing 114/288 boost-bind:x64-windows
+Elapsed time to handle boost-bind:x64-windows: 15.2 ms
+Removing 115/288 boost-preprocessor:x64-windows
+Elapsed time to handle boost-preprocessor:x64-windows: 168 ms
+Removing 116/288 boost-typeof:x64-windows
+Elapsed time to handle boost-typeof:x64-windows: 18.2 ms
+Removing 117/288 boost-smart-ptr:x64-windows
+Elapsed time to handle boost-smart-ptr:x64-windows: 33 ms
+Removing 118/288 boost-core:x64-windows
+Elapsed time to handle boost-core:x64-windows: 36 ms
+Removing 119/288 boost-uuid:x64-windows
+Elapsed time to handle boost-uuid:x64-windows: 25.4 ms
+Removing 120/288 boost-throw-exception:x64-windows
+Elapsed time to handle boost-throw-exception:x64-windows: 11.1 ms
+Removing 121/288 boost-assert:x64-windows
+Elapsed time to handle boost-assert:x64-windows: 11.1 ms
+Removing 122/288 boost-type-traits:x64-windows
+Elapsed time to handle boost-type-traits:x64-windows: 70.5 ms
+Removing 123/288 boost-static-assert:x64-windows
+Elapsed time to handle boost-static-assert:x64-windows: 9.02 ms
+Removing 124/288 boost-config:x64-windows
+Elapsed time to handle boost-config:x64-windows: 89 ms
+Removing 125/288 boost-headers:x64-windows
+Elapsed time to handle boost-headers:x64-windows: 13.5 ms
+Removing 126/288 boost-cmake:x64-windows
+Elapsed time to handle boost-cmake:x64-windows: 10.6 ms
+Removing 127/288 boost-uninstall:x64-windows
+Elapsed time to handle boost-uninstall:x64-windows: 7.37 ms
+Removing 128/288 vcpkg-boost:x64-windows
+Elapsed time to handle vcpkg-boost:x64-windows: 8.01 ms
+Removing 129/288 libevent:x64-windows
+Elapsed time to handle libevent:x64-windows: 31.2 ms
+Removing 130/288 utf8proc:x64-windows
+Elapsed time to handle utf8proc:x64-windows: 13.6 ms
+Removing 131/288 xsimd:x64-windows
+Elapsed time to handle xsimd:x64-windows: 62.6 ms
+Removing 132/288 zstd:x64-windows
+Elapsed time to handle zstd:x64-windows: 14.8 ms
+Removing 133/288 grpc:x64-windows
+Elapsed time to handle grpc:x64-windows: 137 ms
+Removing 134/288 c-ares:x64-windows
+Elapsed time to handle c-ares:x64-windows: 15.3 ms
+Removing 135/288 openssl:x64-windows
+Elapsed time to handle openssl:x64-windows: 62.7 ms
+Removing 136/288 vcpkg-cmake-get-vars:x64-windows
+Elapsed time to handle vcpkg-cmake-get-vars:x64-windows: 8.95 ms
+Removing 137/288 re2:x64-windows
+Elapsed time to handle re2:x64-windows: 16.1 ms
+Removing 138/288 zlib:x64-windows
+Elapsed time to handle zlib:x64-windows: 12.5 ms
+Removing 139/288 protobuf:x64-windows
+Elapsed time to handle protobuf:x64-windows: 85.8 ms
+Removing 140/288 utf8-range:x64-windows
+Elapsed time to handle utf8-range:x64-windows: 19.3 ms
+Removing 141/288 abseil:x64-windows
+Elapsed time to handle abseil:x64-windows: 329 ms
+Removing 142/288 rapidjson:x64-windows
+Elapsed time to handle rapidjson:x64-windows: 26.8 ms
+Removing 143/288 vcpkg-cmake:x64-windows
+Elapsed time to handle vcpkg-cmake:x64-windows: 8.35 ms
+Removing 144/288 vcpkg-cmake-config:x64-windows
+Elapsed time to handle vcpkg-cmake-config:x64-windows: 13.7 ms
+Installing 145/288 vcpkg-cmake-config:x64-windows@2024-05-23...
+vcpkg-cmake-config:x64-windows@2024-05-23 package ABI: 79d9469ba87e2a6108ada7eb5dddbaf0ea3f68b530770e074c787b1c7a3c51fb
+Building vcpkg-cmake-config:x64-windows@2024-05-23...
+-- Installing: C:/Projects/ThemisDB/vcpkg/packages/vcpkg-cmake-config_x64-windows/share/vcpkg-cmake-config/vcpkg_cmake_config_fixup.cmake
+-- Installing: C:/Projects/ThemisDB/vcpkg/packages/vcpkg-cmake-config_x64-windows/share/vcpkg-cmake-config/vcpkg-port-config.cmake
+-- Installing: C:/Projects/ThemisDB/vcpkg/packages/vcpkg-cmake-config_x64-windows/share/vcpkg-cmake-config/copyright
+-- Skipping post-build validation due to VCPKG_POLICY_EMPTY_PACKAGE
+Starting submission of vcpkg-cmake-config:x64-windows@2024-05-23 to 1 binary cache(s) in the background
+Elapsed time to handle vcpkg-cmake-config:x64-windows: 155 ms
+Installing 146/288 vcpkg-cmake:x64-windows@2024-04-23...
+vcpkg-cmake:x64-windows@2024-04-23 package ABI: 7a356c64507244dfbb53c95f50da399df55426010261f77d06b847dd1b6d52de
+Building vcpkg-cmake:x64-windows@2024-04-23...
+-- Installing: C:/Projects/ThemisDB/vcpkg/packages/vcpkg-cmake_x64-windows/share/vcpkg-cmake/vcpkg_cmake_configure.cmake
+-- Installing: C:/Projects/ThemisDB/vcpkg/packages/vcpkg-cmake_x64-windows/share/vcpkg-cmake/vcpkg_cmake_build.cmake
+-- Installing: C:/Projects/ThemisDB/vcpkg/packages/vcpkg-cmake_x64-windows/share/vcpkg-cmake/vcpkg_cmake_install.cmake
+-- Installing: C:/Projects/ThemisDB/vcpkg/packages/vcpkg-cmake_x64-windows/share/vcpkg-cmake/vcpkg-port-config.cmake
+-- Installing: C:/Projects/ThemisDB/vcpkg/packages/vcpkg-cmake_x64-windows/share/vcpkg-cmake/copyright
+-- Performing post-build validation
+Starting submission of vcpkg-cmake:x64-windows@2024-04-23 to 1 binary cache(s) in the background
+Elapsed time to handle vcpkg-cmake:x64-windows: 221 ms
+Completed submission of vcpkg-cmake-config:x64-windows@2024-05-23 to 1 binary cache(s) in 62.1 ms
+Installing 147/288 rapidjson:x64-windows@2025-02-26...
+rapidjson:x64-windows@2025-02-26 package ABI: f5576a49dc293fa857d27a0aaf3b32d65e3bbd9749ee120d97733a8f974bf47e
+Building rapidjson:x64-windows@2025-02-26...
+-- Using cached Tencent-rapidjson-24b5e7a8b27f42fa16b96fc70aade9106cf7102f-2.tar.gz
+-- Cleaning sources at C:/Projects/ThemisDB/vcpkg/buildtrees/rapidjson/src/106cf7102f-b0877c68bd.clean. Use --editable to skip cleaning for the packages you specify.
+-- Extracting source C:/Projects/ThemisDB/vcpkg/downloads/Tencent-rapidjson-24b5e7a8b27f42fa16b96fc70aade9106cf7102f-2.tar.gz
+-- Using source at C:/Projects/ThemisDB/vcpkg/buildtrees/rapidjson/src/106cf7102f-b0877c68bd.clean
+-- Configuring x64-windows
+-- Building x64-windows-dbg
+-- Building x64-windows-rel
+-- Using cached msys2-mingw-w64-x86_64-pkgconf-1~2.5.1-1-any.pkg.tar.zst
+-- Using cached msys2-msys2-runtime-3.6.5-1-x86_64.pkg.tar.zst
+-- Using msys root at C:/Projects/ThemisDB/vcpkg/downloads/tools/msys2/3e71d1f8e22ab23f
+-- Installing: C:/Projects/ThemisDB/vcpkg/packages/rapidjson_x64-windows/share/rapidjson/copyright
+-- Performing post-build validation
+Starting submission of rapidjson:x64-windows@2025-02-26 to 1 binary cache(s) in the background
+Elapsed time to handle rapidjson:x64-windows: 4.6 s
+Completed submission of vcpkg-cmake:x64-windows@2024-04-23 to 1 binary cache(s) in 50.4 ms
+Installing 148/288 abseil:x64-windows@20250814.1...
+abseil:x64-windows@20250814.1 package ABI: 3cb674c3f53fafa675842164b894f514438985964f261fa95bad23c0a44700c7
+Building abseil:x64-windows@20250814.1...
+-- Using cached abseil-abseil-cpp-20250814.1.tar.gz
+-- Cleaning sources at C:/Projects/ThemisDB/vcpkg/buildtrees/abseil/src/20250814.1-a96f5d5fc6.clean. Use --editable to skip cleaning for the packages you specify.
+-- Extracting source C:/Projects/ThemisDB/vcpkg/downloads/abseil-abseil-cpp-20250814.1.tar.gz
+-- Applying patch 001-mingw-dll.patch
+-- Applying patch 002-string-view.patch
+-- Applying patch 003-force-cxx-17.patch
+-- Using source at C:/Projects/ThemisDB/vcpkg/buildtrees/abseil/src/20250814.1-a96f5d5fc6.clean
+-- Configuring x64-windows-dbg
+-- Configuring x64-windows-rel
+-- Building x64-windows-dbg
+-- Building x64-windows-rel
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/abseil_dll.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_absl_check.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_absl_log.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_absl_vlog_is_on.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_algorithm.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_algorithm_container.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_any.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_any_invocable.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_atomic_hook.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_bad_any_cast.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_bad_optional_access.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_bad_variant_access.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_base.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_base_internal.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_bind_front.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_bits.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_bounded_utf8_length_sequence.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_btree.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_charset.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_check.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_city.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_civil_time.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_cleanup.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_cleanup_internal.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_common_policy_traits.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_compare.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_compressed_tuple.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_config.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_container_common.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_container_memory.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_cord.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_cord_internal.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_cordz_functions.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_cordz_handle.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_cordz_info.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_cordz_sample_token.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_cordz_statistics.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_cordz_update_scope.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_cordz_update_tracker.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_core_headers.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_crc32c.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_crc_cord_state.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_crc_cpu_detect.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_crc_internal.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_debugging.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_debugging_internal.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_decode_rust_punycode.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_demangle_internal.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_demangle_rust.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_die_if_null.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_dynamic_annotations.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_endian.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_errno_saver.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_examine_stack.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_exponential_biased.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_failure_signal_handler.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_fast_type_id.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_fixed_array.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_flags.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_flags_commandlineflag.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_flags_commandlineflag_internal.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_flags_config.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_flags_internal.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_flags_marshalling.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_flags_parse.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_flags_path_util.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_flags_private_handle_accessor.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_flags_program_name.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_flags_reflection.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_flags_usage.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_flags_usage_internal.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_flat_hash_map.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_flat_hash_set.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_function_ref.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_graphcycles_internal.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_has_ostream_operator.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_hash.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_hash_container_defaults.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_hash_function_defaults.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_hash_policy_traits.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_hashtable_control_bytes.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_hashtable_debug.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_hashtable_debug_hooks.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_hashtable_profiler.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_hashtablez_sampler.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_inlined_vector.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_inlined_vector_internal.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_int128.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_iterator_traits_internal.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_iterator_traits_test_helper_internal.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_kernel_timeout_internal.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_layout.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_leak_check.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_log.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_log_entry.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_log_flags.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_log_globals.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_log_initialize.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_log_internal_append_truncated.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_log_internal_check_impl.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_log_internal_check_op.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_log_internal_conditions.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_log_internal_config.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_log_internal_flags.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_log_internal_fnmatch.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_log_internal_format.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_log_internal_globals.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_log_internal_log_impl.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_log_internal_log_sink_set.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_log_internal_message.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_log_internal_nullguard.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_log_internal_nullstream.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_log_internal_proto.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_log_internal_strip.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_log_internal_structured.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_log_internal_structured_proto.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_log_internal_voidify.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_log_severity.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_log_sink.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_log_sink_registry.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_log_streamer.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_log_structured.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_malloc_internal.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_memory.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_meta.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_no_destructor.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_node_hash_map.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_node_hash_set.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_node_slot_policy.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_non_temporal_arm_intrinsics.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_non_temporal_memcpy.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_nullability.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_numeric.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_numeric_representation.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_optional.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_overload.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_periodic_sampler.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_poison.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_prefetch.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_pretty_function.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_profile_builder.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_random_bit_gen_ref.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_random_distributions.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_random_internal_distribution_caller.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_random_internal_distribution_test_util.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_random_internal_entropy_pool.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_random_internal_fast_uniform_bits.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_random_internal_fastmath.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_random_internal_generate_real.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_random_internal_iostream_state_saver.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_random_internal_mock_helpers.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_random_internal_nonsecure_base.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_random_internal_pcg_engine.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_random_internal_platform.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_random_internal_randen.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_random_internal_randen_engine.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_random_internal_randen_hwaes.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_random_internal_randen_hwaes_impl.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_random_internal_randen_slow.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_random_internal_salted_seed_seq.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_random_internal_seed_material.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_random_internal_traits.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_random_internal_uniform_helper.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_random_internal_wide_multiply.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_random_random.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_random_seed_gen_exception.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_random_seed_sequences.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_raw_hash_map.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_raw_hash_set.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_raw_hash_set_resize_impl.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_raw_logging_internal.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_sample_recorder.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_scoped_set_env.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_span.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_spinlock_wait.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_stacktrace.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_status.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_statusor.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_str_format.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_str_format_internal.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_strerror.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_string_view.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_strings.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_strings_internal.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_symbolize.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_synchronization.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_throw_delegate.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_time.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_time_zone.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_tracing_internal.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_type_traits.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_utf8_for_code_point.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_utility.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_variant.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_vlog_config_internal.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_vlog_is_on.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/lib/pkgconfig/absl_weakly_mixed_integer.pc
+-- Using cached msys2-mingw-w64-x86_64-pkgconf-1~2.5.1-1-any.pkg.tar.zst
+-- Using cached msys2-msys2-runtime-3.6.5-1-x86_64.pkg.tar.zst
+-- Using msys root at C:/Projects/ThemisDB/vcpkg/downloads/tools/msys2/3e71d1f8e22ab23f
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/abseil_dll.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_absl_check.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_absl_log.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_absl_vlog_is_on.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_algorithm.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_algorithm_container.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_any.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_any_invocable.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_atomic_hook.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_bad_any_cast.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_bad_optional_access.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_bad_variant_access.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_base.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_base_internal.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_bind_front.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_bits.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_bounded_utf8_length_sequence.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_btree.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_charset.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_check.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_city.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_civil_time.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_cleanup.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_cleanup_internal.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_common_policy_traits.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_compare.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_compressed_tuple.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_config.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_container_common.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_container_memory.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_cord.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_cord_internal.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_cordz_functions.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_cordz_handle.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_cordz_info.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_cordz_sample_token.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_cordz_statistics.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_cordz_update_scope.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_cordz_update_tracker.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_core_headers.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_crc32c.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_crc_cord_state.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_crc_cpu_detect.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_crc_internal.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_debugging.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_debugging_internal.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_decode_rust_punycode.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_demangle_internal.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_demangle_rust.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_die_if_null.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_dynamic_annotations.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_endian.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_errno_saver.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_examine_stack.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_exponential_biased.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_failure_signal_handler.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_fast_type_id.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_fixed_array.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_flags.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_flags_commandlineflag.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_flags_commandlineflag_internal.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_flags_config.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_flags_internal.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_flags_marshalling.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_flags_parse.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_flags_path_util.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_flags_private_handle_accessor.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_flags_program_name.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_flags_reflection.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_flags_usage.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_flags_usage_internal.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_flat_hash_map.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_flat_hash_set.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_function_ref.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_graphcycles_internal.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_has_ostream_operator.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_hash.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_hash_container_defaults.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_hash_function_defaults.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_hash_policy_traits.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_hashtable_control_bytes.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_hashtable_debug.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_hashtable_debug_hooks.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_hashtable_profiler.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_hashtablez_sampler.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_inlined_vector.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_inlined_vector_internal.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_int128.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_iterator_traits_internal.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_iterator_traits_test_helper_internal.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_kernel_timeout_internal.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_layout.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_leak_check.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_log.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_log_entry.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_log_flags.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_log_globals.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_log_initialize.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_log_internal_append_truncated.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_log_internal_check_impl.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_log_internal_check_op.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_log_internal_conditions.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_log_internal_config.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_log_internal_flags.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_log_internal_fnmatch.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_log_internal_format.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_log_internal_globals.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_log_internal_log_impl.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_log_internal_log_sink_set.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_log_internal_message.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_log_internal_nullguard.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_log_internal_nullstream.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_log_internal_proto.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_log_internal_strip.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_log_internal_structured.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_log_internal_structured_proto.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_log_internal_voidify.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_log_severity.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_log_sink.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_log_sink_registry.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_log_streamer.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_log_structured.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_malloc_internal.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_memory.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_meta.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_no_destructor.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_node_hash_map.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_node_hash_set.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_node_slot_policy.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_non_temporal_arm_intrinsics.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_non_temporal_memcpy.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_nullability.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_numeric.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_numeric_representation.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_optional.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_overload.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_periodic_sampler.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_poison.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_prefetch.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_pretty_function.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_profile_builder.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_random_bit_gen_ref.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_random_distributions.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_random_internal_distribution_caller.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_random_internal_distribution_test_util.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_random_internal_entropy_pool.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_random_internal_fast_uniform_bits.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_random_internal_fastmath.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_random_internal_generate_real.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_random_internal_iostream_state_saver.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_random_internal_mock_helpers.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_random_internal_nonsecure_base.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_random_internal_pcg_engine.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_random_internal_platform.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_random_internal_randen.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_random_internal_randen_engine.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_random_internal_randen_hwaes.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_random_internal_randen_hwaes_impl.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_random_internal_randen_slow.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_random_internal_salted_seed_seq.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_random_internal_seed_material.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_random_internal_traits.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_random_internal_uniform_helper.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_random_internal_wide_multiply.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_random_random.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_random_seed_gen_exception.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_random_seed_sequences.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_raw_hash_map.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_raw_hash_set.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_raw_hash_set_resize_impl.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_raw_logging_internal.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_sample_recorder.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_scoped_set_env.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_span.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_spinlock_wait.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_stacktrace.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_status.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_statusor.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_str_format.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_str_format_internal.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_strerror.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_string_view.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_strings.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_strings_internal.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_symbolize.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_synchronization.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_throw_delegate.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_time.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_time_zone.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_tracing_internal.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_type_traits.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_utf8_for_code_point.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_utility.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_variant.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_vlog_config_internal.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_vlog_is_on.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/debug/lib/pkgconfig/absl_weakly_mixed_integer.pc
+-- Installing: C:/Projects/ThemisDB/vcpkg/packages/abseil_x64-windows/share/abseil/copyright
+-- Performing post-build validation
+Starting submission of abseil:x64-windows@20250814.1 to 1 binary cache(s) in the background
+Elapsed time to handle abseil:x64-windows: 59 s
+Completed submission of rapidjson:x64-windows@2025-02-26 to 1 binary cache(s) in 89.2 ms
+Installing 149/288 utf8-range:x64-windows@6.33.4...
+utf8-range:x64-windows@6.33.4 package ABI: faf1a080b31c7fcf4e2482a9538229ffd93ead77c245ba060128849b44d33f67
+Building utf8-range:x64-windows@6.33.4...
+-- Note: utf8-range only supports static library linkage. Building static library.
+-- Using cached protocolbuffers-protobuf-v33.4.tar.gz
+-- Cleaning sources at C:/Projects/ThemisDB/vcpkg/buildtrees/utf8-range/src/v33.4-7b17d08241.clean. Use --editable to skip cleaning for the packages you specify.
+-- Extracting source C:/Projects/ThemisDB/vcpkg/downloads/protocolbuffers-protobuf-v33.4.tar.gz
+-- Applying patch fix-cmake.patch
+-- Using source at C:/Projects/ThemisDB/vcpkg/buildtrees/utf8-range/src/v33.4-7b17d08241.clean
+-- Configuring x64-windows
+-- Building x64-windows-dbg
+-- Building x64-windows-rel
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/utf8-range_x64-windows/lib/pkgconfig/utf8_range.pc
+-- Using cached msys2-mingw-w64-x86_64-pkgconf-1~2.5.1-1-any.pkg.tar.zst
+-- Using cached msys2-msys2-runtime-3.6.5-1-x86_64.pkg.tar.zst
+-- Using msys root at C:/Projects/ThemisDB/vcpkg/downloads/tools/msys2/3e71d1f8e22ab23f
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/utf8-range_x64-windows/debug/lib/pkgconfig/utf8_range.pc
+-- Installing: C:/Projects/ThemisDB/vcpkg/packages/utf8-range_x64-windows/share/utf8-range/copyright
+-- Performing post-build validation
+Starting submission of utf8-range:x64-windows@6.33.4 to 1 binary cache(s) in the background
+Elapsed time to handle utf8-range:x64-windows: 18 s
+Completed submission of abseil:x64-windows@20250814.1 to 1 binary cache(s) in 1.9 s
+Installing 150/288 protobuf:x64-windows@6.33.4#1...
+protobuf:x64-windows@6.33.4#1 package ABI: 190c3fb985c348ef8569583af38edb2da9cf48e4bce67aa7c186e00b6f4995dd
+Building protobuf:x64-windows@6.33.4#1...
+-- Using cached protocolbuffers-protobuf-v33.4.tar.gz
+-- Cleaning sources at C:/Projects/ThemisDB/vcpkg/buildtrees/protobuf/src/v33.4-f8b43d71cd.clean. Use --editable to skip cleaning for the packages you specify.
+-- Extracting source C:/Projects/ThemisDB/vcpkg/downloads/protocolbuffers-protobuf-v33.4.tar.gz
+-- Applying patch fix-static-build.patch
+-- Applying patch fix-default-proto-file-path.patch
+-- Applying patch fix-utf8-range.patch
+-- Applying patch fix-install-dirs.patch
+-- Applying patch fix-constinit-with-clang-cl.patch
+-- Applying patch fix-upb.patch
+-- Using source at C:/Projects/ThemisDB/vcpkg/buildtrees/protobuf/src/v33.4-f8b43d71cd.clean
+-- Configuring x64-windows
+-- Building x64-windows-dbg
+-- Building x64-windows-rel
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/protobuf_x64-windows/lib/pkgconfig/protobuf-lite.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/protobuf_x64-windows/lib/pkgconfig/protobuf.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/protobuf_x64-windows/lib/pkgconfig/upb.pc
+-- Using cached msys2-mingw-w64-x86_64-pkgconf-1~2.5.1-1-any.pkg.tar.zst
+-- Using cached msys2-msys2-runtime-3.6.5-1-x86_64.pkg.tar.zst
+-- Using msys root at C:/Projects/ThemisDB/vcpkg/downloads/tools/msys2/3e71d1f8e22ab23f
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/protobuf_x64-windows/debug/lib/pkgconfig/protobuf-lite.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/protobuf_x64-windows/debug/lib/pkgconfig/protobuf.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/protobuf_x64-windows/debug/lib/pkgconfig/upb.pc
+-- Installing: C:/Projects/ThemisDB/vcpkg/packages/protobuf_x64-windows/share/protobuf/copyright
+-- Performing post-build validation
+Starting submission of protobuf:x64-windows@6.33.4#1 to 1 binary cache(s) in the background
+Elapsed time to handle protobuf:x64-windows: 4 min
+Completed submission of utf8-range:x64-windows@6.33.4 to 1 binary cache(s) in 63.1 ms
+Installing 151/288 zlib:x64-windows@1.3.1...
+zlib:x64-windows@1.3.1 package ABI: 9a5abe4ed73764d2e24aaeaa165fbc86480dfae7fc172d33df505231c9efb009
+Building zlib:x64-windows@1.3.1...
+-- Using cached madler-zlib-v1.3.1.tar.gz
+-- Cleaning sources at C:/Projects/ThemisDB/vcpkg/buildtrees/zlib/src/v1.3.1-2e5db616bf.clean. Use --editable to skip cleaning for the packages you specify.
+-- Extracting source C:/Projects/ThemisDB/vcpkg/downloads/madler-zlib-v1.3.1.tar.gz
+-- Applying patch 0001-Prevent-invalid-inclusions-when-HAVE_-is-set-to-0.patch
+-- Applying patch 0002-build-static-or-shared-not-both.patch
+-- Applying patch 0003-android-and-mingw-fixes.patch
+-- Using source at C:/Projects/ThemisDB/vcpkg/buildtrees/zlib/src/v1.3.1-2e5db616bf.clean
+-- Configuring x64-windows
+-- Building x64-windows-dbg
+-- Building x64-windows-rel
+-- Installing: C:/Projects/ThemisDB/vcpkg/packages/zlib_x64-windows/share/zlib/vcpkg-cmake-wrapper.cmake
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/zlib_x64-windows/lib/pkgconfig/zlib.pc
+-- Using cached msys2-mingw-w64-x86_64-pkgconf-1~2.5.1-1-any.pkg.tar.zst
+-- Using cached msys2-msys2-runtime-3.6.5-1-x86_64.pkg.tar.zst
+-- Using msys root at C:/Projects/ThemisDB/vcpkg/downloads/tools/msys2/3e71d1f8e22ab23f
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/zlib_x64-windows/debug/lib/pkgconfig/zlib.pc
+-- Installing: C:/Projects/ThemisDB/vcpkg/packages/zlib_x64-windows/share/zlib/copyright
+-- Performing post-build validation
+Starting submission of zlib:x64-windows@1.3.1 to 1 binary cache(s) in the background
+Elapsed time to handle zlib:x64-windows: 9.6 s
+Completed submission of protobuf:x64-windows@6.33.4#1 to 1 binary cache(s) in 9.4 s
+Installing 152/288 re2:x64-windows@2025-11-05...
+re2:x64-windows@2025-11-05 package ABI: a216c50332450d024cfdedf86dc773c8a32a7880d52aa9577fd5aea4ce23c426
+Building re2:x64-windows@2025-11-05...
+-- Using cached google-re2-927f5d53caf8111721e734cf24724686bb745f55.tar.gz
+-- Cleaning sources at C:/Projects/ThemisDB/vcpkg/buildtrees/re2/src/86bb745f55-648e6b982e.clean. Use --editable to skip cleaning for the packages you specify.
+-- Extracting source C:/Projects/ThemisDB/vcpkg/downloads/google-re2-927f5d53caf8111721e734cf24724686bb745f55.tar.gz
+-- Using source at C:/Projects/ThemisDB/vcpkg/buildtrees/re2/src/86bb745f55-648e6b982e.clean
+-- Configuring x64-windows
+-- Building x64-windows-dbg
+-- Building x64-windows-rel
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/re2_x64-windows/lib/pkgconfig/re2.pc
+-- Using cached msys2-mingw-w64-x86_64-pkgconf-1~2.5.1-1-any.pkg.tar.zst
+-- Using cached msys2-msys2-runtime-3.6.5-1-x86_64.pkg.tar.zst
+-- Using msys root at C:/Projects/ThemisDB/vcpkg/downloads/tools/msys2/3e71d1f8e22ab23f
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/re2_x64-windows/debug/lib/pkgconfig/re2.pc
+-- Installing: C:/Projects/ThemisDB/vcpkg/packages/re2_x64-windows/share/re2/copyright
+-- Performing post-build validation
+Starting submission of re2:x64-windows@2025-11-05 to 1 binary cache(s) in the background
+Elapsed time to handle re2:x64-windows: 13 s
+Completed submission of zlib:x64-windows@1.3.1 to 1 binary cache(s) in 142 ms
+Installing 153/288 vcpkg-cmake-get-vars:x64-windows@2025-05-29...
+vcpkg-cmake-get-vars:x64-windows@2025-05-29 package ABI: 142b39d773b9e3e2a85fc63ac1547c29d70a1c323a0f9055d6cc1ec958896d0b
+Building vcpkg-cmake-get-vars:x64-windows@2025-05-29...
+-- Installing: C:/Projects/ThemisDB/vcpkg/packages/vcpkg-cmake-get-vars_x64-windows/share/vcpkg-cmake-get-vars/vcpkg_cmake_get_vars.cmake
+-- Installing: C:/Projects/ThemisDB/vcpkg/packages/vcpkg-cmake-get-vars_x64-windows/share/vcpkg-cmake-get-vars/cmake_get_vars
+-- Installing: C:/Projects/ThemisDB/vcpkg/packages/vcpkg-cmake-get-vars_x64-windows/share/vcpkg-cmake-get-vars/cmake_get_vars/CMakeLists.txt
+-- Installing: C:/Projects/ThemisDB/vcpkg/packages/vcpkg-cmake-get-vars_x64-windows/share/vcpkg-cmake-get-vars/cmake-get-vars.cmake.in
+-- Installing: C:/Projects/ThemisDB/vcpkg/packages/vcpkg-cmake-get-vars_x64-windows/share/vcpkg-cmake-get-vars/vcpkg-port-config.cmake
+-- Installing: C:/Projects/ThemisDB/vcpkg/packages/vcpkg-cmake-get-vars_x64-windows/share/vcpkg-cmake-get-vars/copyright
+-- Performing post-build validation
+Starting submission of vcpkg-cmake-get-vars:x64-windows@2025-05-29 to 1 binary cache(s) in the background
+Elapsed time to handle vcpkg-cmake-get-vars:x64-windows: 210 ms
+Installing 154/288 openssl:x64-windows@3.6.1#2...
+openssl:x64-windows@3.6.1#2 package ABI: cfd1d07eb6545c0cf9dc49d253ad57962ad240314c7f0ed3eace3e49e0f3e75c
+Building openssl:x64-windows@3.6.1#2...
+-- Using cached openssl-openssl-openssl-3.6.1.tar.gz
+-- Cleaning sources at C:/Projects/ThemisDB/vcpkg/buildtrees/openssl/src/nssl-3.6.1-c0028aa207.clean. Use --editable to skip cleaning for the packages you specify.
+-- Extracting source C:/Projects/ThemisDB/vcpkg/downloads/openssl-openssl-openssl-3.6.1.tar.gz
+-- Applying patch cmake-config.patch
+-- Applying patch command-line-length.patch
+-- Applying patch script-prefix.patch
+-- Applying patch windows/install-layout.patch
+-- Applying patch windows/install-pdbs.patch
+-- Applying patch windows/install-programs.diff
+-- Applying patch unix/android-cc.patch
+-- Applying patch unix/move-openssldir.patch
+-- Applying patch unix/no-empty-dirs.patch
+-- Applying patch unix/no-static-libs-for-shared.patch
+-- Applying patch fix-mingw-build.patch
+-- Using source at C:/Projects/ThemisDB/vcpkg/buildtrees/openssl/src/nssl-3.6.1-c0028aa207.clean
+-- Getting CMake variables for x64-windows
+-- Loading CMake variables from C:/Projects/ThemisDB/vcpkg/buildtrees/openssl/cmake-get-vars_C_CXX-x64-windows.cmake.log
+-- Getting CMake variables for x64-windows
+-- Prerunning x64-windows-dbg
+-- Building x64-windows-dbg
+-- Prerunning x64-windows-rel
+-- Building x64-windows-rel
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/openssl_x64-windows/lib/pkgconfig/libcrypto.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/openssl_x64-windows/lib/pkgconfig/libssl.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/openssl_x64-windows/lib/pkgconfig/openssl.pc
+-- Using cached msys2-mingw-w64-x86_64-pkgconf-1~2.5.1-1-any.pkg.tar.zst
+-- Using cached msys2-msys2-runtime-3.6.5-1-x86_64.pkg.tar.zst
+-- Using msys root at C:/Projects/ThemisDB/vcpkg/downloads/tools/msys2/3e71d1f8e22ab23f
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/openssl_x64-windows/debug/lib/pkgconfig/libcrypto.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/openssl_x64-windows/debug/lib/pkgconfig/libssl.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/openssl_x64-windows/debug/lib/pkgconfig/openssl.pc
+-- Installing: C:/Projects/ThemisDB/vcpkg/packages/openssl_x64-windows/share/openssl/usage
+-- Installing: C:/Projects/ThemisDB/vcpkg/packages/openssl_x64-windows/share/openssl/copyright
+-- Performing post-build validation
+Starting submission of openssl:x64-windows@3.6.1#2 to 1 binary cache(s) in the background
+Elapsed time to handle openssl:x64-windows: 4.6 min
+Completed submission of re2:x64-windows@2025-11-05 to 1 binary cache(s) in 1 s
+Completed submission of vcpkg-cmake-get-vars:x64-windows@2025-05-29 to 1 binary cache(s) in 56 ms
+Installing 155/288 c-ares:x64-windows@1.34.6#1...
+c-ares:x64-windows@1.34.6#1 package ABI: d7428df59d150c5b3e9f15215e1a31960b1a08e8326827f6d681602b5c9e5d15
+Building c-ares:x64-windows@1.34.6#1...
+-- Using cached c-ares-c-ares-v1.34.6.tar.gz
+-- Cleaning sources at C:/Projects/ThemisDB/vcpkg/buildtrees/c-ares/src/v1.34.6-9122277e83.clean. Use --editable to skip cleaning for the packages you specify.
+-- Extracting source C:/Projects/ThemisDB/vcpkg/downloads/c-ares-c-ares-v1.34.6.tar.gz
+-- Applying patch avoid-docs.patch
+-- Using source at C:/Projects/ThemisDB/vcpkg/buildtrees/c-ares/src/v1.34.6-9122277e83.clean
+-- Configuring x64-windows
+-- Building x64-windows-dbg
+-- Building x64-windows-rel
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/c-ares_x64-windows/lib/pkgconfig/libcares.pc
+-- Using cached msys2-mingw-w64-x86_64-pkgconf-1~2.5.1-1-any.pkg.tar.zst
+-- Using cached msys2-msys2-runtime-3.6.5-1-x86_64.pkg.tar.zst
+-- Using msys root at C:/Projects/ThemisDB/vcpkg/downloads/tools/msys2/3e71d1f8e22ab23f
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/c-ares_x64-windows/debug/lib/pkgconfig/libcares.pc
+-- Installing: C:/Projects/ThemisDB/vcpkg/packages/c-ares_x64-windows/share/c-ares/usage
+-- Installing: C:/Projects/ThemisDB/vcpkg/packages/c-ares_x64-windows/share/c-ares/copyright
+-- Performing post-build validation
+Starting submission of c-ares:x64-windows@1.34.6#1 to 1 binary cache(s) in the background
+Elapsed time to handle c-ares:x64-windows: 1.5 min
+Completed submission of openssl:x64-windows@3.6.1#2 to 1 binary cache(s) in 2 s
+Installing 156/288 grpc[codegen,core]:x64-windows@1.76.0...
+grpc[codegen,core]:x64-windows@1.76.0 package ABI: 67645a3af90a0d5596a3660064f6027c749c2e4cb738150091f9113eacef065a
+Building grpc[codegen,core]:x64-windows@1.76.0...
+-- Note: grpc only supports static library linkage. Building static library.
+-- Using cached grpc-grpc-v1.76.0.tar.gz
+-- Cleaning sources at C:/Projects/ThemisDB/vcpkg/buildtrees/grpc/src/v1.76.0-06aa03e356.clean. Use --editable to skip cleaning for the packages you specify.
+-- Extracting source C:/Projects/ThemisDB/vcpkg/downloads/grpc-grpc-v1.76.0.tar.gz
+-- Applying patch 00001-fix-uwp.patch
+-- Applying patch 00002-static-linking-in-linux.patch
+-- Applying patch 00004-link-gdi32-on-windows.patch
+-- Applying patch 00005-fix-uwp-error.patch
+-- Applying patch 00006-utf8-range.patch
+-- Applying patch 00015-disable-download-archive.patch
+-- Applying patch 00016-fix-plugin-targets.patch
+CMake Error at scripts/cmake/vcpkg_extract_source_archive.cmake:153 (file):
+  file RENAME failed to rename
+
+    C:/Projects/ThemisDB/vcpkg/buildtrees/grpc/src/v1.76.0-06aa03e356.clean.tmp/grpc-1.76.0
+
+  to
+
+    C:/Projects/ThemisDB/vcpkg/buildtrees/grpc/src/v1.76.0-06aa03e356.clean
+
+  because: Zugriff verweigert
+
+
+
+Call Stack (most recent call first):
+  scripts/cmake/vcpkg_extract_source_archive_ex.cmake:8 (vcpkg_extract_source_archive)
+  scripts/cmake/vcpkg_from_github.cmake:127 (vcpkg_extract_source_archive_ex)
+  buildtrees/versioning_/versions/grpc/2d6fb875aff67210f8392461e050756b4cb8bd2f/portfile.cmake:5 (vcpkg_from_github)
+  scripts/ports.cmake:206 (include)
+
+
+error: building grpc:x64-windows failed with: BUILD_FAILED
+See https://learn.microsoft.com/vcpkg/troubleshoot/build-failures?WT.mc_id=vcpkg_inproduct_cli for more information.
+Elapsed time to handle grpc:x64-windows: 1.5 min
+Please ensure you're using the latest port files with `git pull` and `vcpkg update`.
+Then check for known issues at:
+  https://github.com/microsoft/vcpkg/issues?q=is%3Aissue+is%3Aopen+in%3Atitle+grpc
+You can submit a new issue at:
+  https://github.com/microsoft/vcpkg/issues/new?title=%5Bgrpc%5D%20build%20error%20on%20x64-windows&body=Copy%20issue%20body%20from%20C%3A%2FProjects%2FThemisDB%2Fvcpkg_installed%2Fvcpkg%2Fissue_body.md
+You can also submit an issue by running (GitHub CLI must be installed):
+  "C:\Program Files\GitHub CLI\gh.exe" issue create -R microsoft/vcpkg --title "[grpc] Build failure on x64-windows" --body-file C:/Projects/ThemisDB/vcpkg_installed/vcpkg/issue_body.md
+Completed submission of c-ares:x64-windows@1.34.6#1 to 1 binary cache(s) in 276 ms

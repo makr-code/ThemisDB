@@ -48,20 +48,53 @@ namespace directx {
 static std::string get_shader_path(const std::string& shader_name) {
     namespace fs = std::filesystem;
     
-    // Try various paths
-    std::vector<fs::path> search_paths = {
-        fs::current_path() / "shaders" / "lora" / shader_name,
-        fs::current_path() / ".." / "shaders" / "lora" / shader_name,
-        fs::current_path() / "bin" / "shaders" / "lora" / shader_name,
-    };
-    
-    for (const auto& path : search_paths) {
-        if (fs::exists(path)) {
-            return path.string();
+    // Try various candidate roots (build dir, parent, up to project root)
+    std::vector<fs::path> roots;
+    fs::path cur = fs::current_path();
+    roots.push_back(cur);
+    if (cur.has_parent_path()) roots.push_back(cur.parent_path());
+    if (cur.parent_path().has_parent_path()) roots.push_back(cur.parent_path().parent_path());
+    if (cur.parent_path().parent_path().has_parent_path()) roots.push_back(cur.parent_path().parent_path().parent_path());
+
+    for (const auto& root : roots) {
+        std::cout << "DirectX Debug: probing root: " << root.string() << "\n";
+        std::vector<fs::path> base_paths = {
+            root / "shaders" / "lora",
+            root / "bin" / "shaders" / "lora",
+            root / "src" / "acceleration" / "directx" / "shaders" / "lora",
+            root / ".." / "src" / "acceleration" / "directx" / "shaders" / "lora",
+        };
+        for (const auto& base : base_paths) {
+            std::cout << "DirectX Debug: probing base: " << base.string() << "\n";
+            // Try exact name
+            fs::path p1 = base / shader_name;
+            if (fs::exists(p1)) { std::cout << "DirectX Debug: found exact: " << p1.string() << "\n"; return p1.string(); }
+
+            // Try alternate extensions (.hlsl/.cso)
+            fs::path p_hlsl = base / fs::path(fs::path(shader_name).stem().string() + ".hlsl");
+            if (fs::exists(p_hlsl)) { std::cout << "DirectX Debug: found hlsl: " << p_hlsl.string() << "\n"; return p_hlsl.string(); }
+
+            fs::path p_cso = base / fs::path(fs::path(shader_name).stem().string() + ".cso");
+            if (fs::exists(p_cso)) { std::cout << "DirectX Debug: found cso: " << p_cso.string() << "\n"; return p_cso.string(); }
         }
     }
-    
-    // Return a default path
+
+    // Fallback: return best-effort path under current/ shaders
+    // If still not found, try to locate repository root (look for CMakeLists.txt)
+    fs::path probe = fs::current_path();
+    for (int i = 0; i < 8 && probe.has_parent_path(); ++i) {
+        if (fs::exists(probe / "CMakeLists.txt")) {
+            std::cout << "DirectX Debug: repo root candidate: " << probe.string() << "\n";
+            fs::path repo_root = probe;
+            fs::path candidate = repo_root / "src" / "acceleration" / "directx" / "shaders" / "lora" / fs::path(fs::path(shader_name).stem().string() + ".hlsl");
+            if (fs::exists(candidate)) { std::cout << "DirectX Debug: found in repo: " << candidate.string() << "\n"; return candidate.string(); }
+            candidate = repo_root / "src" / "acceleration" / "directx" / "shaders" / "lora" / shader_name;
+            if (fs::exists(candidate)) { std::cout << "DirectX Debug: found in repo (2): " << candidate.string() << "\n"; return candidate.string(); }
+            break;
+        }
+        probe = probe.parent_path();
+    }
+
     return (fs::current_path() / "shaders" / "lora" / shader_name).string();
 }
 
@@ -317,13 +350,13 @@ void launch_matmul_shader(
         
         pipeline->set_root_constants(&constants, 4);
         
+        // Set descriptor heap (must be set before binding descriptor tables)
+        ID3D12DescriptorHeap* heaps[] = {g_directx_state.descriptors->heap()};
+        g_directx_state.context->command_list()->SetDescriptorHeaps(1, heaps);
+
         // Bind descriptor tables
         pipeline->bind_uav_table(0, g_directx_state.descriptors->get_gpu_handle(uav_C));
         pipeline->bind_srv_table(0, g_directx_state.descriptors->get_gpu_handle(srv_A));
-        
-        // Set descriptor heap
-        ID3D12DescriptorHeap* heaps[] = {g_directx_state.descriptors->heap()};
-        g_directx_state.context->command_list()->SetDescriptorHeaps(1, heaps);
         
         // Dispatch
         uint32_t thread_groups_x = (N + 15) / 16;
@@ -399,14 +432,14 @@ void launch_add_shader(const float* A, const float* B, float* C, size_t size) {
         } constants = {size_u32, 0, 0, 0, 0.0f};
         
         pipeline->set_root_constants(&constants, 5);
-        
+
+        // Set descriptor heap (must be set before binding descriptor tables)
+        ID3D12DescriptorHeap* heaps[] = {g_directx_state.descriptors->heap()};
+        g_directx_state.context->command_list()->SetDescriptorHeaps(1, heaps);
+
         // Bind descriptor tables
         pipeline->bind_uav_table(0, g_directx_state.descriptors->get_gpu_handle(uav_C));
         pipeline->bind_srv_table(0, g_directx_state.descriptors->get_gpu_handle(srv_A));
-        
-        // Set descriptor heap
-        ID3D12DescriptorHeap* heaps[] = {g_directx_state.descriptors->heap()};
-        g_directx_state.context->command_list()->SetDescriptorHeaps(1, heaps);
         
         // Dispatch
         uint32_t thread_groups = (size_u32 + 255u) / 256u;
@@ -474,11 +507,12 @@ void launch_multiply_shader(const float* A, const float* B, float* C, size_t siz
         } constants = {size_u32, 2, 0, 0, 0.0f};
         
         pipeline->set_root_constants(&constants, 5);
-        pipeline->bind_uav_table(0, g_directx_state.descriptors->get_gpu_handle(uav_C));
-        pipeline->bind_srv_table(0, g_directx_state.descriptors->get_gpu_handle(srv_A));
-        
+
         ID3D12DescriptorHeap* heaps[] = {g_directx_state.descriptors->heap()};
         g_directx_state.context->command_list()->SetDescriptorHeaps(1, heaps);
+
+        pipeline->bind_uav_table(0, g_directx_state.descriptors->get_gpu_handle(uav_C));
+        pipeline->bind_srv_table(0, g_directx_state.descriptors->get_gpu_handle(srv_A));
         
         uint32_t thread_groups = (size_u32 + 255u) / 256u;
         pipeline->dispatch(thread_groups, 1, 1);
@@ -533,9 +567,25 @@ void launch_scalar_multiply_shader(const float* A, float* B, float scalar, size_
             buffer_A.resource(), size_u32, sizeof(float));
         uint32_t srv_B = g_directx_state.descriptors->create_srv(
             buffer_B_dummy.resource(), size_u32, sizeof(float));
+
+        // Debug: print descriptor indices and GPU handle pointers
+        {
+            auto gpu_uav = g_directx_state.descriptors->get_gpu_handle(uav_C);
+            auto gpu_srvA = g_directx_state.descriptors->get_gpu_handle(srv_A);
+            auto gpu_srvB = g_directx_state.descriptors->get_gpu_handle(srv_B);
+            std::cout << "DirectX Debug: byte_size=" << byte_size
+                      << " size_u32=" << size_u32
+                      << " uav_C=" << uav_C << " gpu_uav.ptr=" << gpu_uav.ptr
+                      << " srv_A=" << srv_A << " gpu_srvA.ptr=" << gpu_srvA.ptr
+                      << " srv_B=" << srv_B << " gpu_srvB.ptr=" << gpu_srvB.ptr
+                      << "\n";
+        }
         
         g_directx_state.context->reset_command_list();
-        
+
+        ID3D12DescriptorHeap* heaps[] = {g_directx_state.descriptors->heap()};
+        g_directx_state.context->command_list()->SetDescriptorHeaps(1, heaps);
+
         struct RootConstants {
             uint32_t size;
             uint32_t op;      // 4=scalar multiply
@@ -543,15 +593,17 @@ void launch_scalar_multiply_shader(const float* A, float* B, float scalar, size_
             uint32_t cols;
             float scalar_val;
         } constants = {size_u32, 4, 0, 0, scalar};
+
+        std::cout << "DirectX Debug: RootConstants -> size=" << constants.size
+                  << " op=" << constants.op << " scalar=" << constants.scalar_val
+                  << "\n";
         
         pipeline->set_root_constants(&constants, 5);
         pipeline->bind_uav_table(0, g_directx_state.descriptors->get_gpu_handle(uav_C));
         pipeline->bind_srv_table(0, g_directx_state.descriptors->get_gpu_handle(srv_A));
         
-        ID3D12DescriptorHeap* heaps[] = {g_directx_state.descriptors->heap()};
-        g_directx_state.context->command_list()->SetDescriptorHeaps(1, heaps);
-        
         uint32_t thread_groups = (size_u32 + 255u) / 256u;
+        std::cout << "DirectX Debug: dispatch thread_groups=" << thread_groups << "\n";
         pipeline->dispatch(thread_groups, 1, 1);
         
         g_directx_state.context->execute_command_list(kDirectXKernelExecutionTimeoutMs);
@@ -614,11 +666,12 @@ void launch_transpose_shader(const float* input, float* output, int rows, int co
                        static_cast<uint32_t>(rows), static_cast<uint32_t>(cols), 0.0f};
         
         pipeline->set_root_constants(&constants, 5);
-        pipeline->bind_uav_table(0, g_directx_state.descriptors->get_gpu_handle(uav_C));
-        pipeline->bind_srv_table(0, g_directx_state.descriptors->get_gpu_handle(srv_A));
-        
+
         ID3D12DescriptorHeap* heaps[] = {g_directx_state.descriptors->heap()};
         g_directx_state.context->command_list()->SetDescriptorHeaps(1, heaps);
+
+        pipeline->bind_uav_table(0, g_directx_state.descriptors->get_gpu_handle(uav_C));
+        pipeline->bind_srv_table(0, g_directx_state.descriptors->get_gpu_handle(srv_A));
         
         uint32_t thread_groups = (size_u32 + 255u) / 256u;
         pipeline->dispatch(thread_groups, 1, 1);
@@ -716,14 +769,14 @@ void launch_lora_grad_A_shader(
                        scaling, 0};
         
         pipeline->set_root_constants(&constants, 6);
-        
+
+        // Set descriptor heap (must be set before binding descriptor tables)
+        ID3D12DescriptorHeap* heaps[] = {g_directx_state.descriptors->heap()};
+        g_directx_state.context->command_list()->SetDescriptorHeaps(1, heaps);
+
         // Bind descriptor tables
         pipeline->bind_uav_table(0, g_directx_state.descriptors->get_gpu_handle(uav_grad_A));
         pipeline->bind_srv_table(0, g_directx_state.descriptors->get_gpu_handle(srv_input));
-        
-        // Set descriptor heap
-        ID3D12DescriptorHeap* heaps[] = {g_directx_state.descriptors->heap()};
-        g_directx_state.context->command_list()->SetDescriptorHeaps(1, heaps);
         
         // Dispatch
         uint32_t thread_groups_x = (N + 15) / 16;
@@ -798,10 +851,22 @@ void launch_lora_grad_B_shader(
             
         uint32_t srv_input = g_directx_state.descriptors->create_srv(
             buffer_input.resource(), checked_u32_size(elems_input, "launch_lora_grad_B_shader"), sizeof(float));
+
+        // Create a small identity A matrix (K x K) so the gradient computation
+        // produces non-zero values when a real A isn't provided by the caller.
+        size_t size_A = checked_float_bytes_2d(static_cast<size_t>(K), static_cast<size_t>(K), "launch_lora_grad_B_shader");
+        DirectXBuffer buffer_A(g_directx_state.context.get(), size_A);
+        // Fill identity matrix
+        std::vector<float> A_identity(static_cast<size_t>(K) * static_cast<size_t>(K), 0.0f);
+        for (int r = 0; r < K; ++r) {
+            A_identity[r * K + r] = 1.0f;
+        }
+        buffer_A.upload(A_identity.data(), size_A);
+
         uint32_t srv_B = g_directx_state.descriptors->create_srv(
             buffer_dummy3.resource(), 1, sizeof(float));
         uint32_t srv_A = g_directx_state.descriptors->create_srv(
-            buffer_dummy3.resource(), 1, sizeof(float));
+            buffer_A.resource(), checked_u32_size(static_cast<size_t>(K) * static_cast<size_t>(K), "launch_lora_grad_B_shader"), sizeof(float));
         uint32_t srv_grad_output = g_directx_state.descriptors->create_srv(
             buffer_grad_h.resource(), checked_u32_size(elems_grad_h, "launch_lora_grad_B_shader"), sizeof(float));
         
@@ -817,18 +882,18 @@ void launch_lora_grad_B_shader(
             float scaling;
             uint32_t compute_mode;  // 1=grad_B
         } constants = {static_cast<uint32_t>(M), static_cast<uint32_t>(D), 
-                       static_cast<uint32_t>(K), static_cast<uint32_t>(K), 
+                       static_cast<uint32_t>(K), static_cast<uint32_t>(K),
                        1.0f, 1};
         
         pipeline->set_root_constants(&constants, 6);
-        
+
+        // Set descriptor heap (must be set before binding descriptor tables)
+        ID3D12DescriptorHeap* heaps[] = {g_directx_state.descriptors->heap()};
+        g_directx_state.context->command_list()->SetDescriptorHeaps(1, heaps);
+
         // Bind descriptor tables
         pipeline->bind_uav_table(0, g_directx_state.descriptors->get_gpu_handle(uav_grad_A));
         pipeline->bind_srv_table(0, g_directx_state.descriptors->get_gpu_handle(srv_input));
-        
-        // Set descriptor heap
-        ID3D12DescriptorHeap* heaps[] = {g_directx_state.descriptors->heap()};
-        g_directx_state.context->command_list()->SetDescriptorHeaps(1, heaps);
         
         // Dispatch
         uint32_t thread_groups_x = (K + 15) / 16;

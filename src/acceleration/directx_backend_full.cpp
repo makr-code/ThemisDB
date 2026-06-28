@@ -29,7 +29,8 @@
 #include <d3d12.h>
 #include <dxgi1_6.h>
 #include <d3dcompiler.h>
-#include <wrl/client.h>
+// Include the central directx context header which provides D3D includes and a ComPtr fallback
+#include "llm/lora_framework/directx_context.h"
 #include <iostream>
 #include <vector>
 #include <algorithm>

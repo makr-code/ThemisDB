@@ -27,8 +27,10 @@ void main(uint3 globalId : SV_DispatchThreadID, uint3 localId : SV_GroupThreadID
     uint row = globalId.y;
     uint col = globalId.x;
     
-    if (row >= M || col >= N)
-        return;
+    // Avoid early return to keep control flow uniform across the threadgroup.
+    // Threads outside the valid output range become inactive but still
+    // participate in group synchronization calls.
+    bool active = (row < M && col < N);
     
     uint localRow = localId.y;
     uint localCol = localId.x;
@@ -76,6 +78,9 @@ void main(uint3 globalId : SV_DispatchThreadID, uint3 localId : SV_GroupThreadID
         GroupMemoryBarrierWithGroupSync();
     }
     
-    // Write result with scaling
-    C[row * N + col] = sum * alpha;
+    // Write result with scaling (only active threads write)
+    if (active)
+    {
+        C[row * N + col] = sum * alpha;
+    }
 }

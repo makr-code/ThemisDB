@@ -23,8 +23,10 @@
 #ifdef _WIN32
 
 #include <stdexcept>
+#include <cstdlib>
 #include <iostream>
 #include <sstream>
+#include <vector>
 #include <d3d12.h>
 #include <dxgi1_6.h>
 
@@ -93,9 +95,14 @@ bool DirectXContext::initialize() {
         return true;
     }
     
-    // Enable debug layer in debug builds
+    // Enable debug layer in debug builds or when explicitly requested via env
     #ifdef _DEBUG
     enable_debug_layer();
+    #else
+    const char* dbg_env = std::getenv("THEMIS_ENABLE_D3D_DEBUG");
+    if (dbg_env && std::string(dbg_env) == "1") {
+        enable_debug_layer();
+    }
     #endif
     
     // Create DXGI factory
@@ -172,6 +179,14 @@ bool DirectXContext::create_device() {
                 
                 std::cout << "DirectX 12: Using adapter " << adapter_id_ 
                          << ": " << gpu_description_ << "\n";
+                // If debug layer enabled, acquire the InfoQueue for message capture
+                ComPtr<ID3D12InfoQueue> iq;
+                if (SUCCEEDED(device_->QueryInterface(IID_PPV_ARGS(&iq)))) {
+                    info_queue_ = iq;
+                    // Break on errors and corruption
+                    info_queue_->SetBreakOnSeverity(D3D12_MESSAGE_SEVERITY_CORRUPTION, TRUE);
+                    info_queue_->SetBreakOnSeverity(D3D12_MESSAGE_SEVERITY_ERROR, TRUE);
+                }
                 return true;
             }
         }
@@ -225,9 +240,10 @@ bool DirectXContext::create_command_list() {
         return false;
     }
     
-    // Command lists are created in recording state, close it
+    // Command lists are created in recording state; close it to start idle.
     command_list_->Close();
-    
+    command_list_recording_ = false;
+
     return true;
 }
 
@@ -293,17 +309,23 @@ bool DirectXContext::wait_for_gpu(uint32_t timeout_ms) {
 }
 
 void DirectXContext::reset_command_list() {
+    // If a command list is already recording, execute it first to free the allocator
+    if (command_list_recording_) {
+        execute_command_list();
+    }
+
     // Reset allocator
     HRESULT hr = command_allocator_->Reset();
     if (FAILED(hr)) {
         throw std::runtime_error("Failed to reset command allocator");
     }
-    
+
     // Reset command list
     hr = command_list_->Reset(command_allocator_.Get(), nullptr);
     if (FAILED(hr)) {
         throw std::runtime_error("Failed to reset command list");
     }
+    command_list_recording_ = true;
 }
 
 void DirectXContext::execute_command_list(uint32_t timeout_ms) {
@@ -312,6 +334,7 @@ void DirectXContext::execute_command_list(uint32_t timeout_ms) {
     if (FAILED(hr)) {
         throw std::runtime_error("Failed to close command list");
     }
+    command_list_recording_ = false;
     
     // Execute command list
     ID3D12CommandList* cmd_lists[] = {command_list_.Get()};
@@ -320,6 +343,20 @@ void DirectXContext::execute_command_list(uint32_t timeout_ms) {
     // Wait for completion
     if (!wait_for_gpu(timeout_ms)) {
         throw std::runtime_error("DirectX command execution timed out or failed while waiting for GPU");
+    }
+
+    // Dump any stored debug messages
+    if (info_queue_) {
+        UINT64 num = info_queue_->GetNumStoredMessagesAllowedByRetrievalFilter();
+        for (UINT64 i = 0; i < num; ++i) {
+            SIZE_T msgLen = 0;
+            info_queue_->GetMessage(i, nullptr, &msgLen);
+            std::vector<char> buffer(msgLen);
+            D3D12_MESSAGE* msg = reinterpret_cast<D3D12_MESSAGE*>(buffer.data());
+            info_queue_->GetMessage(i, msg, &msgLen);
+            std::cerr << "D3D12 INFOQUEUE: " << msg->pDescription << "\n";
+        }
+        info_queue_->ClearStoredMessages();
     }
 }
 
