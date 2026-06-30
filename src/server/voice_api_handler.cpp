@@ -1790,7 +1790,7 @@ bool VoiceApiHandler::validateBearerToken(
     const auto token = themis::AuthMiddleware::extractBearerToken(
         std::string_view(auth_header.data(), auth_header.size()));
     if (!token || token->empty()) {
-        THEMIS_DEBUG("VoiceApiHandler: missing or empty ******");
+        THEMIS_DEBUG("VoiceApiHandler: missing or empty bearer token");
         return false;
     }
 

@@ -7,6 +7,16 @@
 ## Current Status
 Production-ready server stack with HTTP/1.1, HTTP/2, HTTP/3, WebSocket, MQTT, PostgreSQL wire protocol, gRPC, GraphQL, and MCP integration. Core API gateway, auth middleware, validation, and observability paths are available in production deployments.
 
+## Recently Completed
+- [x] Voice API Bearer-Token JWT/OIDC Validation (#302) — Completed Q2 2026
+  - JWT signature validation using JWTValidator from JWKS
+  - Token expiry (exp claim) checking
+  - Issuer (iss claim) validation
+  - Audience (aud claim) validation ("themis-voice-api")
+  - Token revocation (JTI blacklist) support
+  - Fail-closed rejection on any validation failure
+  - Comprehensive test coverage for all validation scenarios
+
 ## In Progress
 - [~] P0 security/code-quality remediation wave for server paths (Target: Q2 2026)
   - [ ] Finish remaining true-positive triage from gap scan and remove residual high-risk findings from active code paths (Target: Q2 2026)
