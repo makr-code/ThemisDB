@@ -272,6 +272,31 @@ DistributedTransactionManager::beginDistributed(
             "DistributedTransactionManager::beginDistributed: participants must not be empty");
     }
 
+    // CRITICAL FIX for stub #279 (Phase-2): Validate per-transaction Phase-2 requirements.
+    // If any participant is remote (callback == nullptr, endpoint != empty) and remote Phase-1
+    // dispatch is enabled, ensure Phase-2 bridge is available to prevent participants
+    // from remaining indefinitely in PREPARED state.
+    for (const auto& part : participants) {
+        if (!part.callback && !part.endpoint.empty()) {
+            // This is a remote participant. Validate Phase-2 bridge is configured.
+            const bool has_phase2_transport =
+                static_cast<bool>(config_.phase2_rpc_fn) ||
+                static_cast<bool>(config_.remote_phase2_dispatch) ||
+                static_cast<bool>(getRpcPhase2Fn());
+            
+            if (!has_phase2_transport) {
+                throw std::invalid_argument(
+                    "DistributedTransactionManager [" + coordinator_id_ + "]::beginDistributed: "
+                    "Transaction cannot register remote participant node=" + part.node_id + 
+                    " endpoint=" + part.endpoint + " — "
+                    "no Phase-2 transport bridge is configured (phase2_rpc_fn, "
+                    "remote_phase2_dispatch, or setRpcPhase2Fn). "
+                    "This would cause the participant to remain PREPARED indefinitely. "
+                    "Stub #279 fix: fail-fast on misconfiguration.");
+            }
+        }
+    }
+
     const TransactionId txn_id = generateTransactionId();
 
     DistributedTransaction rec;
@@ -400,12 +425,15 @@ DistributedTransactionManager::commitDistributed(const TransactionId& txn_id) {
 
     if (!phase2_ok) {
         txn->state = DistributedTxnState::COMMITTING;
-        txn->error_detail = "Phase-2 COMMIT delivery incomplete";
+        txn->error_detail = "Phase-2 COMMIT delivery incomplete; remote participant(s) "
+                           "missing Phase-2 transport bridge or delivery failed";
         THEMIS_ERROR("DistributedTransactionManager [{}] txn={} COMMIT decision logged but "
-                     "Phase-2 delivery incomplete; recovery required",
+                     "Phase-2 delivery incomplete (possible missing bridge or delivery failure); "
+                     "recovery required",
                      coordinator_id_, txn_id);
         return DistributedTxnStatus::Error(
-            "Phase-2 COMMIT delivery incomplete; transaction remains in COMMITTING state");
+            "Phase-2 COMMIT delivery incomplete; transaction remains in COMMITTING state; "
+            "check error_detail field for root cause (missing Phase-2 bridge?)");
     }
 
     txn->state = DistributedTxnState::COMMITTED;
@@ -455,10 +483,12 @@ void DistributedTransactionManager::abortDistributed(const TransactionId& txn_id
     if (!phase2_ok) {
         txn->state = DistributedTxnState::ABORTING;
         if (txn->error_detail.empty()) {
-            txn->error_detail = "Phase-2 ABORT delivery incomplete";
+            txn->error_detail = "Phase-2 ABORT delivery incomplete; remote participant(s) "
+                               "missing Phase-2 transport bridge or delivery failed";
         }
         THEMIS_ERROR("DistributedTransactionManager [{}] txn={} ABORT decision logged but "
-                     "Phase-2 delivery incomplete; recovery required",
+                     "Phase-2 delivery incomplete (possible missing bridge or delivery failure); "
+                     "recovery required",
                      coordinator_id_, txn_id);
         return;
     }
@@ -1171,17 +1201,24 @@ bool DistributedTransactionManager::runPhase2Unlocked(
             }
 
             // CRITICAL FIX for stub #279: No Phase-2 transport available.
-            // This should have been caught during initialization if remote_phase1_dispatch is set.
+            // This should have been caught during initialization if remote_phase1_dispatch is set,
+            // or during beginDistributed for per-transaction participants.
             // If we reach here, either: (a) configuration is incomplete, or (b) Phase-2 bridge
-            // was cleared after initialization (production safety violation).
-            THEMIS_CRITICAL("DistributedTransactionManager [{}] SECURITY/CONSISTENCY VIOLATION: "
+            // was cleared after initialization/beginDistributed (production safety violation).
+            // 
+            // FIX: Implement fail-closed behavior - fail the entire Phase-2 delivery
+            // instead of silently skipping this participant, which would leave them
+            // in PREPARED state indefinitely.
+            THEMIS_ERROR("DistributedTransactionManager [{}] SECURITY/CONSISTENCY VIOLATION: "
                          "cannot deliver Phase-2 {} for remote participant node={} endpoint='{}' — "
-                         "no remote dispatcher configured. Transaction {} WILL REMAIN IN PREPARED STATE. "
-                         "This indicates misconfiguration or an active security issue.",
+                         "no remote dispatcher configured. Transaction {} will be marked for "
+                         "manual recovery. This indicates misconfiguration or a security violation.",
                          coordinator_id_, do_commit ? "COMMIT" : "ABORT", part.node_id, part.endpoint,
                          txn_id);
             all_delivered = false;
-            continue;
+            // Do NOT continue processing — mark failure and stop trying to deliver to other
+            // participants in this batch. The caller will handle transaction abort/retry.
+            break;
         }
         IDistributedParticipantCallback* cb  = part.callback;
         const std::string                nid = part.node_id;

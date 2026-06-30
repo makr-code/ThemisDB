@@ -958,8 +958,8 @@ void WireProtocolSession::handle_delete(const v1::DeleteRequest& req) {
 
 void WireProtocolSession::handle_query_aql(const v1::QueryRequest& req) {
     // QUERY_AQL: execute an AQL query string.
-    // Uses the injectable AqlQueryFn when available; falls back to 501
-    // when no callback has been installed via setQueryAqlFn().
+    // MANDATORY: AqlQueryFn must be injected via setQueryAqlFn() before calling.
+    // Fail-closed design: throws std::runtime_error if AQL engine is not wired.
     if (!authenticated_) {
         send_error(0x0401, "Authentication required");
         return;
@@ -976,11 +976,10 @@ void WireProtocolSession::handle_query_aql(const v1::QueryRequest& req) {
         fn = s_query_aql_fn;
     }
     if (!fn) {
-        send_error(501,
-            "AQL engine not wired to protobuf wire protocol session. "
-            "Use the JSON wire protocol port (8766) or HTTP REST API "
-            "endpoint POST /api/v1/query instead.");
-        return;
+        throw std::runtime_error(
+            "CRITICAL: AQL engine not wired to wire protocol session. "
+            "AqlQueryFn injection is mandatory. Wire the AQL engine at startup "
+            "via WireProtocolSession::setQueryAqlFn().");
     }
     try {
         auto results = fn(req.aql());
@@ -1022,10 +1021,9 @@ void WireProtocolSession::handle_query_aql(const v1::QueryRequest& req) {
         send_error(0x0007, std::string("AQL query failed: ") + e.what());
     }
 #else
-    send_error(501,
-        "AQL query execution is not yet integrated in the protobuf wire protocol. "
-    "Use the JSON wire protocol port (8766) or HTTP REST API "
-    "endpoint POST /api/v1/query instead.");
+    throw std::runtime_error(
+        "CRITICAL: AQL query execution is not integrated in the protobuf wire protocol. "
+        "Rebuild with THEMIS_WIRE_V1_PB_HEADER_FOUND enabled.");
 #endif
 }
 
@@ -1141,8 +1139,8 @@ void WireProtocolSession::handle_vector_search(
 void WireProtocolSession::handle_geo_query(
     const v1::GeoQueryRequest& req) {
     // GEO_QUERY: geospatial proximity / containment query.
-    // Uses the injectable GeoQueryFn when available; falls back to 501
-    // when no callback has been installed via setGeoQueryFn().
+    // MANDATORY: GeoQueryFn must be injected via setGeoQueryFn() before calling.
+    // Fail-closed design: throws std::runtime_error if Geo engine is not wired.
     if (!authenticated_) {
         send_error(0x0401, "Authentication required");
         return;
@@ -1159,11 +1157,10 @@ void WireProtocolSession::handle_geo_query(
         fn = s_geo_query_fn;
     }
     if (!fn) {
-        send_error(501,
-            "Geospatial engine not wired to protobuf wire protocol session. "
-            "Use the JSON wire protocol port (8766) or HTTP REST API "
-            "endpoint GET /api/v1/geo/query instead.");
-        return;
+        throw std::runtime_error(
+            "CRITICAL: Geospatial engine not wired to wire protocol session. "
+            "GeoQueryFn injection is mandatory. Wire the Geo engine at startup "
+            "via WireProtocolSession::setGeoQueryFn().");
     }
     try {
         auto response = fn(req);
@@ -1172,18 +1169,17 @@ void WireProtocolSession::handle_geo_query(
         send_error(0x0007, std::string("GEO_QUERY failed: ") + e.what());
     }
 #else
-    send_error(501,
-        "Geospatial query execution is not yet integrated in the protobuf wire protocol. "
-    "Use the JSON wire protocol port (8766) or HTTP REST API "
-    "endpoint GET /api/v1/geo/query instead.");
+    throw std::runtime_error(
+        "CRITICAL: Geospatial query execution is not integrated in the protobuf wire protocol. "
+        "Rebuild with THEMIS_WIRE_V1_PB_HEADER_FOUND enabled.");
 #endif
 }
 
 void WireProtocolSession::handle_timeseries_query(
     const v1::TimeSeriesQueryRequest& req) {
     // TIMESERIES_QUERY: time-range aggregation query against TSStore.
-    // Uses the injectable TimeseriesQueryFn when available; falls back to 503
-    // when no callback has been installed via setTimeseriesQueryFn().
+    // MANDATORY: TimeseriesQueryFn must be injected via setTimeseriesQueryFn() before calling.
+    // Fail-closed design: throws std::runtime_error if Timeseries engine is not wired.
     if (!authenticated_) {
         send_error(0x0401, "Authentication required");
         return;
@@ -1206,11 +1202,10 @@ void WireProtocolSession::handle_timeseries_query(
         fn = s_timeseries_query_fn;
     }
     if (!fn) {
-        send_error(503,
-            "Time-series storage not wired to protobuf wire protocol session. "
-            "Use the JSON wire protocol port (8766) or HTTP REST API "
-            "GET /api/v1/timeseries/" + sanitizeForMessage(req.collection()));
-        return;
+        throw std::runtime_error(
+            "CRITICAL: Time-series storage not wired to wire protocol session. "
+            "TimeseriesQueryFn injection is mandatory. Wire the Timeseries engine at startup "
+            "via WireProtocolSession::setTimeseriesQueryFn().");
     }
     try {
         auto response = fn(req);
@@ -1219,10 +1214,9 @@ void WireProtocolSession::handle_timeseries_query(
         send_error(0x0007, std::string("TIMESERIES_QUERY failed: ") + e.what());
     }
 #else
-    send_error(503,
-        "Time-series storage not connected to protobuf wire session. "
-        "Use the JSON wire protocol port (8766) or HTTP REST API "
-        "GET /api/v1/timeseries/" + sanitizeForMessage(req.collection()));
+    throw std::runtime_error(
+        "CRITICAL: Time-series storage is not integrated in the protobuf wire protocol. "
+        "Rebuild with THEMIS_WIRE_V1_PB_HEADER_FOUND enabled.");
 #endif
 }
 
@@ -1352,8 +1346,8 @@ void WireProtocolSession::handle_transaction_abort(
 
 void WireProtocolSession::handle_graph_traverse(std::string_view raw_payload) {
     // GRAPH_TRAVERSE: traverse graph edges from a start vertex.
-    // Uses the injectable GraphTraverseFn when available; falls back to 501
-    // when no callback has been installed via setGraphTraverseFn().
+    // MANDATORY: GraphTraverseFn must be injected via setGraphTraverseFn() before calling.
+    // Fail-closed design: throws std::runtime_error if Graph engine is not wired.
     if (!authenticated_) {
         send_error(0x0401, "Authentication required");
         return;
@@ -1366,11 +1360,10 @@ void WireProtocolSession::handle_graph_traverse(std::string_view raw_payload) {
         fn = s_graph_traverse_fn;
     }
     if (!fn) {
-        send_error(501,
-            "Graph traversal engine not wired to protobuf wire protocol session. "
-            "Use the JSON wire protocol port (8766) or HTTP REST API "
-            "endpoint POST /api/v1/graph/traverse instead.");
-        return;
+        throw std::runtime_error(
+            "CRITICAL: Graph traversal engine not wired to wire protocol session. "
+            "GraphTraverseFn injection is mandatory. Wire the Graph engine at startup "
+            "via WireProtocolSession::setGraphTraverseFn().");
     }
     try {
         const std::string response_bytes = fn(raw_payload);
@@ -1419,10 +1412,9 @@ void WireProtocolSession::handle_graph_traverse(std::string_view raw_payload) {
         send_error(0x0007, std::string("GRAPH_TRAVERSE failed: ") + e.what());
     }
 #else
-    send_error(501,
-        "Graph traversal is not yet available on the protobuf wire port. "
-        "Use the JSON wire protocol port (8766) or HTTP REST API "
-        "endpoint POST /api/v1/graph/traverse instead.");
+    throw std::runtime_error(
+        "CRITICAL: Graph traversal is not integrated in the protobuf wire protocol. "
+        "Rebuild with THEMIS_WIRE_V1_PB_HEADER_FOUND enabled.");
     [[maybe_unused]] auto _ = raw_payload;
 #endif
 }

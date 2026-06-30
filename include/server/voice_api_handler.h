@@ -227,6 +227,25 @@ private:
         const http::request<http::string_body>& req);
     
     // Helper methods
+    /**
+     * @brief Validate bearer token from Authorization header.
+     * 
+     * Implements JWT/OIDC validation (issue #302) with the following sequence:
+     * 1. Extract ****** from Authorization header
+     * 2. Try injected token validator (JWTValidator-based, production use)
+     * 3. Fall back to AuthMiddleware for static tokens and configured JWT
+     * 4. Return false (reject) on any validation failure (fail-closed)
+     *
+     * JWT validation includes:
+     * - Signature verification using JWKS
+     * - Token expiry check (exp claim)
+     * - Issuer validation (iss claim)
+     * - Audience validation (aud claim must include "themis-voice-api")
+     * - Token revocation check (JTI blacklist if configured)
+     *
+     * @param req HTTP request containing Authorization header
+     * @return true if token is valid and authorized, false otherwise
+     */
     bool validateBearerToken(const http::request<http::string_body>& req);
     
     http::response<http::string_body> createErrorResponse(

@@ -103,6 +103,181 @@ static std::set<Changefeed::ChangeEventType> parseEventTypes(const std::string& 
 ChangefeedApiHandler::SseStreamWriterFn ChangefeedApiHandler::sse_stream_writer_fn_;
 std::mutex                              ChangefeedApiHandler::sse_writer_mutex_;
 
+// ============================================================================
+// AsyncSSEStream implementation — Event-driven async SSE stream lifecycle
+// ============================================================================
+
+AsyncSSEStream::AsyncSSEStream(
+    std::shared_ptr<Changefeed> changefeed,
+    std::ostream& output,
+    const std::string& consumer_id,
+    const Config& config
+)
+    : changefeed_(std::move(changefeed))
+    , output_(output)
+    , consumer_id_(consumer_id)
+    , config_(config)
+    , last_heartbeat_time_(std::chrono::steady_clock::now())
+    , stream_start_time_(std::chrono::steady_clock::now())
+{
+    // Initialize heartbeat timer
+    last_heartbeat_time_ = std::chrono::steady_clock::now();
+}
+
+AsyncSSEStream::~AsyncSSEStream() noexcept {
+    close();
+}
+
+void AsyncSSEStream::onChangeEvent(const Changefeed::ChangeEvent& evt) noexcept {
+    if (!active_.load(std::memory_order_acquire)) {
+        return;  // Stream is closed, ignore events
+    }
+
+    try {
+        std::lock_guard<std::mutex> lock(queue_mutex_);
+
+        // Check for backpressure
+        if (event_queue_.size() >= config_.max_buffered_events) {
+            dropped_events_.fetch_add(1, std::memory_order_relaxed);
+
+            if (config_.drop_oldest_on_overflow && !event_queue_.empty()) {
+                event_queue_.erase(event_queue_.begin());
+            } else if (!config_.drop_oldest_on_overflow) {
+                // Drop newest: don't enqueue this event
+                return;
+            }
+        }
+
+        // Enqueue the event
+        QueuedEvent queued;
+        queued.event = evt;
+        queued.enqueued_at_ms = std::chrono::system_clock::now().time_since_epoch().count() / 1'000'000;
+        event_queue_.push_back(queued);
+    } catch (const std::exception& ex) {
+        THEMIS_WARN("AsyncSSEStream::onChangeEvent caught exception: {}", ex.what());
+    }
+}
+
+void AsyncSSEStream::drainEventQueue() noexcept {
+    try {
+        std::vector<QueuedEvent> to_send;
+        {
+            std::lock_guard<std::mutex> lock(queue_mutex_);
+            std::swap(to_send, event_queue_);
+        }
+
+        for (const auto& queued : to_send) {
+            try {
+                output_ << "id: " << queued.event.sequence << "\n";
+                output_ << "data: " << queued.event.toJson().dump() << "\n\n";
+                output_.flush();
+                event_count_.fetch_add(1, std::memory_order_relaxed);
+                
+                // Track delivered event for at-least-once guarantees
+                {
+                    std::lock_guard<std::mutex> lock(delivered_mutex_);
+                    delivered_events_.push_back(queued.event);
+                }
+            } catch (const std::exception& ex) {
+                THEMIS_WARN("AsyncSSEStream::drainEventQueue write failed: {}", ex.what());
+                should_close_.store(true, std::memory_order_release);
+                break;
+            }
+        }
+    } catch (const std::exception& ex) {
+        THEMIS_WARN("AsyncSSEStream::drainEventQueue caught exception: {}", ex.what());
+    }
+}
+
+void AsyncSSEStream::sendHeartbeat() noexcept {
+    try {
+        output_ << ": heartbeat\n\n";
+        output_.flush();
+        heartbeat_count_.fetch_add(1, std::memory_order_relaxed);
+    } catch (const std::exception& ex) {
+        THEMIS_WARN("AsyncSSEStream::sendHeartbeat write failed: {}", ex.what());
+        should_close_.store(true, std::memory_order_release);
+    }
+}
+
+size_t AsyncSSEStream::run(
+    const std::string& key_prefix,
+    const std::set<Changefeed::ChangeEventType>& event_types
+) {
+    if (!changefeed_) {
+        THEMIS_WARN("AsyncSSEStream::run: changefeed is null");
+        return 0;
+    }
+
+    try {
+        // Create subscription filter
+        Changefeed::SubscriptionFilter filter;
+        filter.key_prefix = key_prefix;
+        filter.event_types = event_types;
+
+        // Subscribe to events
+        subscription_handle_ = changefeed_->subscribe(filter, [this](const Changefeed::ChangeEvent& evt) {
+            this->onChangeEvent(evt);
+        });
+
+        if (!subscription_handle_.active()) {
+            THEMIS_WARN("AsyncSSEStream::run: subscription failed");
+            return 0;
+        }
+
+        THEMIS_DEBUG("AsyncSSEStream::run: subscribed with id={}", subscription_handle_.id());
+
+        // Main event loop
+        const auto max_duration = std::chrono::seconds(config_.max_duration_seconds);
+        const auto heartbeat_interval = std::chrono::milliseconds(config_.heartbeat_interval_ms);
+
+        while (active_.load(std::memory_order_acquire) &&
+               !should_close_.load(std::memory_order_acquire) &&
+               std::chrono::steady_clock::now() - stream_start_time_ < max_duration) {
+            // Drain any queued events
+            drainEventQueue();
+
+            // Check if heartbeat is needed
+            auto now = std::chrono::steady_clock::now();
+            if (config_.heartbeat_interval_ms > 0 &&
+                now - last_heartbeat_time_ >= heartbeat_interval) {
+                sendHeartbeat();
+                last_heartbeat_time_ = now;
+            }
+
+            // Sleep briefly to prevent busy-wait
+            std::this_thread::sleep_for(std::chrono::milliseconds(50));
+        }
+
+        THEMIS_DEBUG("AsyncSSEStream::run: stream closed after {} events",
+                    event_count_.load(std::memory_order_acquire));
+
+        return event_count_.load(std::memory_order_acquire);
+    } catch (const std::exception& ex) {
+        THEMIS_ERROR("AsyncSSEStream::run caught exception: {}", ex.what());
+        active_.store(false, std::memory_order_release);
+        return event_count_.load(std::memory_order_acquire);
+    }
+}
+
+void AsyncSSEStream::close() noexcept {
+    active_.store(false, std::memory_order_release);
+    should_close_.store(true, std::memory_order_release);
+    // SubscriptionHandle destructor will auto-unsubscribe
+}
+
+std::vector<Changefeed::ChangeEvent> AsyncSSEStream::getDeliveredEvents() const noexcept {
+    try {
+        std::lock_guard<std::mutex> lock(delivered_mutex_);
+        return delivered_events_;
+    } catch (...) {
+        return {};
+    }
+}
+
+// ============================================================================
+// ChangefeedApiHandler static members
+// ============================================================================
 void ChangefeedApiHandler::setSseStreamWriterFn(SseStreamWriterFn fn) {
     std::lock_guard<std::mutex> lock(sse_writer_mutex_);
     sse_stream_writer_fn_ = std::move(fn);
@@ -491,66 +666,67 @@ http::response<http::string_body> ChangefeedApiHandler::handleStreamSse(
             }
 
             if (!writer_snap) {
-                // ── Path B: built-in sync poll loop (fallback) ───────────────
-                // Uses pollRawEvents() to obtain raw ChangeEvent objects so that
-                // the delivery_tracker_ can record at-least-once in-flight state.
-                auto start = std::chrono::steady_clock::now();
-                const auto max_duration = std::chrono::seconds(max_seconds);
-                size_t total_events = 0;
-                size_t heartbeats = 0;
+                // ── Path B: async event-driven stream (new implementation) ───────────────
+                // Uses AsyncSSEStream with event-driven subscription model for better
+                // scalability and resource efficiency compared to polling.
+                //
+                // Features:
+                // - Event-driven delivery via Changefeed subscription callbacks
+                // - Bounded queue with configurable backpressure (drop oldest/newest)
+                // - Automatic heartbeat management
+                // - Graceful client disconnect handling
+                // - At-least-once delivery tracking integration
 
-                // Re-deliver any unacknowledged events first.
-                if (!consumer_id.empty()) {
-                    auto pending = delivery_tracker_.getPendingRedelivery(consumer_id, ack_timeout_override);
-                    for (const auto& ev : pending) {
-                        body << "id: " << ev.sequence << "\n";
-                        body << "data: " << ev.toJson().dump() << "\n\n";
-                        total_events++;
-                    }
-                }
+                try {
+                    AsyncSSEStream::Config stream_config;
+                    stream_config.max_buffered_events = 1000;
+                    stream_config.heartbeat_interval_ms = heartbeat_ms_override > 0 ? 
+                        heartbeat_ms_override : 15000;
+                    stream_config.max_duration_seconds = max_seconds;
+                    stream_config.drop_oldest_on_overflow = true;
 
-                auto last_hb = start;
-                while (std::chrono::steady_clock::now() - start < max_duration) {
-                    // Drain raw events from the SSE manager buffer.
-                    auto raw_events = sse_manager_->pollRawEvents(conn_id, max_events_per_poll);
+                    AsyncSSEStream stream(
+                        changefeed_,
+                        body,
+                        consumer_id,
+                        stream_config
+                    );
 
-                    if (!raw_events.empty()) {
-                        for (const auto& ev : raw_events) {
+                    // Re-deliver any unacknowledged events first.
+                    if (!consumer_id.empty()) {
+                        auto pending = delivery_tracker_.getPendingRedelivery(consumer_id, ack_timeout_override);
+                        for (const auto& ev : pending) {
                             body << "id: " << ev.sequence << "\n";
                             body << "data: " << ev.toJson().dump() << "\n\n";
-                            total_events++;
-                        }
-                        // Track in-flight for at-least-once delivery.
-                        if (!consumer_id.empty()) {
-                            delivery_tracker_.trackDelivery(consumer_id, raw_events);
-                        }
-                    } else {
-                        bool sent_hb = false;
-                        if (heartbeat_ms_override > 0) {
-                            auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(
-                                std::chrono::steady_clock::now() - last_hb
-                            ).count();
-                            if (elapsed >= static_cast<int64_t>(heartbeat_ms_override)) {
-                                body << ": heartbeat\n\n";
-                                sse_manager_->recordHeartbeat(conn_id);
-                                heartbeats++;
-                                last_hb = std::chrono::steady_clock::now();
-                                sent_hb = true;
-                            }
-                        }
-                        if (!sent_hb && sse_manager_->needsHeartbeat(conn_id)) {
-                            body << ": heartbeat\n\n";
-                            sse_manager_->recordHeartbeat(conn_id);
-                            heartbeats++;
                         }
                     }
 
-                    // Sleep briefly to avoid busy-wait.
-                    std::this_thread::sleep_for(std::chrono::milliseconds(100));
-                }
+                    // Run the async event-driven stream
+                    size_t events_delivered = stream.run(key_prefix, event_types);
 
-                span.setAttribute("sse.total_events", static_cast<int64_t>(total_events));
-                span.setAttribute("sse.heartbeats", static_cast<int64_t>(heartbeats));
+                    // Track newly delivered events for at-least-once guarantees
+                    if (!consumer_id.empty()) {
+                        auto delivered = stream.getDeliveredEvents();
+                        if (!delivered.empty()) {
+                            delivery_tracker_.trackDelivery(consumer_id, delivered);
+                            THEMIS_DEBUG("Async SSE stream tracked {} events for consumer '{}'",
+                                        delivered.size(), consumer_id);
+                        }
+                    }
+
+                    span.setAttribute("sse.delivery_mode", "async_event_driven");
+                    span.setAttribute("sse.events_delivered", static_cast<int64_t>(events_delivered));
+                    span.setAttribute("sse.heartbeats", static_cast<int64_t>(stream.getHeartbeatCount()));
+                    span.setAttribute("sse.dropped_events", static_cast<int64_t>(stream.getDroppedEventCount()));
+                    
+                    THEMIS_INFO("Async SSE stream completed: consumer_id='{}', events={}, heartbeats={}, dropped={}",
+                               consumer_id, events_delivered, stream.getHeartbeatCount(),
+                               stream.getDroppedEventCount());
+
+                } catch (const std::exception& ex) {
+                    THEMIS_ERROR("AsyncSSEStream failed: {}; falling back to buffered data", ex.what());
+                    span.recordError(ex.what());
+                }
             }
 
             sse_manager_->unregisterConnection(conn_id);
