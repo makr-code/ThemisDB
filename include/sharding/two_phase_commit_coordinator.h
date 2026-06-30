@@ -253,7 +253,7 @@ public:
      *
      * @return Number of in-doubt transactions resolved
      */
-    size_t recoverInDoubtTransactions() override;
+    [[nodiscard]] size_t recoverInDoubtTransactions() override;
 
     /**
      * @brief Return the canonical coordinator name for global recovery reports.

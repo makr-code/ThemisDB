@@ -58,6 +58,7 @@
 #include "sharding/shard_rpc_client.h"
 #include "sharding/metrics_registry.h"
 #include "sharding/prometheus_metrics.h"
+#include "transaction/two_phase_commit_wal_recovery.h"
 #include "utils/logger.h"
 #include "utils/thread_join_utils.h"
 #include <random>
@@ -89,14 +90,14 @@ DistributedTransactionCoordinator::DistributedTransactionCoordinator(
     // Initialize WAL manager if recovery logging is enabled
     if (config_.enable_recovery_log) {
         WALManagerConfig wal_config;
-        wal_config.wal_directory = "./wal/coordinator";
+        wal_config.wal_directory = config_.wal_directory;
         wal_config.segment_size = 16 * 1024 * 1024;  // 16 MB
         wal_config.sync_on_write = true;             // Durability
         
         wal_manager_ = std::make_unique<WALManager>(wal_config);
         
         // Recover any in-doubt transactions from WAL
-        recoverTransactions();
+        [[maybe_unused]] const auto recovered_count = recoverInDoubtTransactions();
     }
 }
 
@@ -138,6 +139,10 @@ std::string DistributedTransactionCoordinator::beginTransaction(
     
     transactions_[txn_id] = std::move(txn);
     total_transactions_.fetch_add(1, std::memory_order_relaxed);
+
+    if (config_.enable_recovery_log) {
+        logBeginStateForRecovery(transactions_.at(txn_id));
+    }
     
     THEMIS_DEBUG("Began distributed transaction {} with {} shards, isolation={}",
                 txn_id, shard_ids.size(),
@@ -251,6 +256,9 @@ bool DistributedTransactionCoordinator::commit(const std::string& txn_id) {
     if (!prepared) {
         txn.state = TransactionState::ABORTING;
         txn.error_detail = "Prepare phase failed - one or more participants could not prepare";
+        if (config_.enable_recovery_log) {
+            (void)logDecisionStateForRecovery(txn, false, "decision", "prepare_phase_failed");
+        }
         lock.unlock();
         
         // Abort transaction on all participants
@@ -269,6 +277,9 @@ bool DistributedTransactionCoordinator::commit(const std::string& txn_id) {
         }
         txn.state = TransactionState::ABORTED;
         aborted_transactions_.fetch_add(1, std::memory_order_relaxed);
+        if (config_.enable_recovery_log) {
+            logTransactionForRecovery(txn);
+        }
 
         if (auto m = ShardingMetricsRegistry::instance().getMetrics()) {
             m->record2PCAbort(coordinator_id, "prepare_phase_failed");
@@ -280,8 +291,28 @@ bool DistributedTransactionCoordinator::commit(const std::string& txn_id) {
     txn.state = TransactionState::PREPARED;
     
     // Log PREPARED state for recovery (in case coordinator crashes before commit)
-    if (config_.enable_recovery_log) {
-        logPreparedStateForRecovery(txn);
+    if (config_.enable_recovery_log && !logPreparedStateForRecovery(txn)) {
+        txn.state = TransactionState::ABORTING;
+        txn.error_detail = "Failed to durably log PREPARED state before COMMIT decision";
+        lock.unlock();
+        for (auto& participant : txn.participants) {
+            sendAbort(participant, txn_id);
+        }
+        if (!lock.try_lock_for(std::chrono::milliseconds(config_.rpc_timeout_ms))) {
+            spdlog::error("Lock acquisition timeout after PREPARED WAL failure for txn {}", txn_id);
+            return false;
+        }
+        txn.state = TransactionState::ABORTED;
+        if (config_.enable_recovery_log) {
+            (void)logDecisionStateForRecovery(txn, false, "decision", "prepared_wal_logging_failed");
+            logTransactionForRecovery(txn);
+        }
+        aborted_transactions_.fetch_add(1, std::memory_order_relaxed);
+        if (auto m = ShardingMetricsRegistry::instance().getMetrics()) {
+            m->record2PCAbort(coordinator_id, "prepared_wal_logging_failed");
+            m->record2PCTransaction(coordinator_id, false);
+        }
+        return false;
     }
     
     // Assign commit timestamp using TrueTime
@@ -304,30 +335,36 @@ bool DistributedTransactionCoordinator::commit(const std::string& txn_id) {
     // DTM-4: Write and durably flush the COMMIT decision to WAL *before*
     // broadcasting Phase 2 to participants.  A coordinator crash after flush
     // but before broadcast is recoverable; a crash before flush is not.
-    if (wal_manager_ && config_.enable_recovery_log) {
-        try {
-            WALEntry commit_intent;
-            commit_intent.type = WALEntryType::COMMIT_TX;
-            commit_intent.timestamp = std::chrono::duration_cast<std::chrono::milliseconds>(
-                std::chrono::system_clock::now().time_since_epoch()).count();
-            commit_intent.transaction_id = txn.transaction_id;
-            commit_intent.data = {{"state", "COMMITTING"},
-                                  {"commit_time", txn.commit_time.count()}};
-            wal_manager_->append(commit_intent);
-            wal_manager_->flush(); // must be durable before Phase 2
-        } catch (const std::exception& e) {
-            THEMIS_ERROR("DTM: Failed to flush COMMIT WAL entry for txn '{}': {}. "
-                         "Aborting to prevent unsafe state.", txn.transaction_id, e.what());
+    if (wal_manager_ && config_.enable_recovery_log &&
+        !logDecisionStateForRecovery(txn, true, "decision")) {
+            THEMIS_ERROR("DTM: Failed to flush COMMIT WAL entry for txn '{}'. "
+                         "Aborting to prevent unsafe state.", txn.transaction_id);
             if (!lock.try_lock_for(std::chrono::milliseconds(config_.rpc_timeout_ms))) {
                 spdlog::error("Lock acquisition timeout in WAL flush error handler for txn {}",
                               txn_id);
                 return false;
             }
-            txn.state = TransactionState::ABORTED;
+            txn.state = TransactionState::ABORTING;
             txn.error_detail = "WAL flush failed before Phase 2 COMMIT";
+            if (config_.enable_recovery_log) {
+                (void)logDecisionStateForRecovery(
+                    txn, false, "decision", "commit_decision_flush_failed");
+            }
+            lock.unlock();
+            for (auto& participant : txn.participants) {
+                sendAbort(participant, txn_id);
+            }
+            if (!lock.try_lock_for(std::chrono::milliseconds(config_.rpc_timeout_ms))) {
+                spdlog::error("Lock acquisition timeout completing abort after WAL flush failure "
+                              "for txn {}", txn_id);
+                return false;
+            }
+            txn.state = TransactionState::ABORTED;
+            if (config_.enable_recovery_log) {
+                logTransactionForRecovery(txn);
+            }
             aborted_transactions_.fetch_add(1, std::memory_order_relaxed);
             return false;
-        }
     }
 
     auto commit_start = std::chrono::steady_clock::now();
@@ -353,16 +390,12 @@ bool DistributedTransactionCoordinator::commit(const std::string& txn_id) {
             logTransactionForRecovery(txn);
         }
     } else {
-        txn.state = TransactionState::ABORTED;
-        txn.error_detail = "Commit phase failed after retries";
-        aborted_transactions_.fetch_add(1, std::memory_order_relaxed);
+        txn.state = TransactionState::COMMITTING;
+        txn.error_detail =
+            "Commit phase incomplete after retries; durable COMMIT decision will be retried by recovery";
         
         THEMIS_ERROR("Transaction {} commit failed after {} retries", 
                     txn_id, txn.commit_retry_count);
-        
-        if (auto m = ShardingMetricsRegistry::instance().getMetrics()) {
-            m->record2PCAbort(coordinator_id, "commit_phase_failed_after_retries");
-        }
     }
     
     return committed;
@@ -379,6 +412,10 @@ bool DistributedTransactionCoordinator::abort(const std::string& txn_id) {
     
     auto& txn = it->second;
     txn.state = TransactionState::ABORTING;
+
+    if (config_.enable_recovery_log) {
+        (void)logDecisionStateForRecovery(txn, false, "decision", "explicit_abort");
+    }
     
     // Send abort to all participants
     for (auto& participant : txn.participants) {
@@ -387,6 +424,9 @@ bool DistributedTransactionCoordinator::abort(const std::string& txn_id) {
     
     txn.state = TransactionState::ABORTED;
     aborted_transactions_.fetch_add(1, std::memory_order_relaxed);
+    if (config_.enable_recovery_log) {
+        logTransactionForRecovery(txn);
+    }
     
     const std::string coordinator_id = coordinatorLabel(config_);
     if (auto m = ShardingMetricsRegistry::instance().getMetrics()) {
@@ -469,6 +509,63 @@ nlohmann::json DistributedTransactionCoordinator::getStatistics() const {
         {"readonly_transactions", readonly_transactions_.load()},
         {"active_transactions", transactions_.size()}
     };
+}
+
+size_t DistributedTransactionCoordinator::recoverInDoubtTransactions() {
+    return recoverTransactions();
+}
+
+std::string DistributedTransactionCoordinator::recoveryCoordinatorName() const {
+    return "DistributedTransactionCoordinator";
+}
+
+std::string DistributedTransactionCoordinator::recoveryBackendName() const {
+    return (config_.enable_recovery_log && wal_manager_) ? "WAL" : "disabled";
+}
+
+std::vector<themis::transaction::RecoverableTwoPhaseTransaction>
+DistributedTransactionCoordinator::getRecoverableTransactions() const {
+    std::vector<themis::transaction::RecoverableTwoPhaseTransaction> recoverable;
+
+    std::lock_guard<std::timed_mutex> lock(mutex_);
+    recoverable.reserve(transactions_.size());
+    for (const auto& [txn_id, txn] : transactions_) {
+        if (txn.state == TransactionState::COMMITTED ||
+            txn.state == TransactionState::ABORTED) {
+            continue;
+        }
+
+        themis::transaction::RecoverableTwoPhaseTransaction info;
+        info.transaction_id = txn_id;
+        switch (txn.state) {
+            case TransactionState::ACTIVE:
+                info.state = themis::transaction::RecoverableTwoPhaseState::ACTIVE;
+                break;
+            case TransactionState::PREPARING:
+                info.state = themis::transaction::RecoverableTwoPhaseState::PREPARING;
+                break;
+            case TransactionState::PREPARED:
+                info.state = themis::transaction::RecoverableTwoPhaseState::PREPARED;
+                break;
+            case TransactionState::COMMITTING:
+                info.state = themis::transaction::RecoverableTwoPhaseState::COMMITTING;
+                info.decision_recorded = true;
+                info.decision_commit = true;
+                break;
+            case TransactionState::ABORTING:
+                info.state = themis::transaction::RecoverableTwoPhaseState::ABORTING;
+                info.decision_recorded = true;
+                info.decision_commit = false;
+                break;
+            case TransactionState::COMMITTED:
+            case TransactionState::ABORTED:
+                info.state = themis::transaction::RecoverableTwoPhaseState::COMPLETED;
+                break;
+        }
+        recoverable.push_back(std::move(info));
+    }
+
+    return recoverable;
 }
 
 /** @brief Register/replace shard ID to endpoint mapping used for RPC routing. */
@@ -745,6 +842,95 @@ bool DistributedTransactionCoordinator::retryCommitPhase(DistributedTransaction&
 }
 
 /** @brief Persist terminal transaction state for crash recovery and audit. */
+void DistributedTransactionCoordinator::logBeginStateForRecovery(
+    const DistributedTransaction& txn
+) {
+    if (!wal_manager_) {
+        return;
+    }
+
+    nlohmann::json begin_data = {
+        {"transaction_id", txn.transaction_id},
+        {"phase", "begin"},
+        {"start_time", txn.start_time.count()},
+        {"participants", nlohmann::json::array()}
+    };
+
+    for (const auto& participant : txn.participants) {
+        begin_data["participants"].push_back({
+            {"shard_id", participant.shard_id},
+            {"endpoint", participant.endpoint}
+        });
+    }
+
+    try {
+        WALEntry entry;
+        entry.type = WALEntryType::BEGIN_TX;
+        entry.timestamp = std::chrono::duration_cast<std::chrono::milliseconds>(
+            std::chrono::system_clock::now().time_since_epoch()
+        ).count();
+        entry.transaction_id = txn.transaction_id;
+        entry.data = std::move(begin_data);
+        wal_manager_->append(entry);
+        wal_manager_->flush();
+    } catch (const std::exception& e) {
+        THEMIS_ERROR("Failed to log BEGIN state for transaction {} to WAL: {}",
+                    txn.transaction_id, e.what());
+    }
+}
+
+bool DistributedTransactionCoordinator::logDecisionStateForRecovery(
+    const DistributedTransaction& txn,
+    bool commit,
+    std::string_view phase,
+    std::string_view reason
+) {
+    if (!wal_manager_) {
+        return false;
+    }
+
+    nlohmann::json recovery_data = {
+        {"transaction_id", txn.transaction_id},
+        {"phase", std::string(phase)},
+        {"decision", commit ? "commit" : "abort"},
+        {"commit_timestamp_ns", txn.commit_time.count()},
+        {"participants", nlohmann::json::array()}
+    };
+
+    if (!reason.empty()) {
+        recovery_data["reason"] = std::string(reason);
+    }
+
+    for (const auto& participant : txn.participants) {
+        recovery_data["participants"].push_back({
+            {"shard_id", participant.shard_id},
+            {"endpoint", participant.endpoint},
+            {"prepared", participant.prepared},
+            {"committed", participant.committed}
+        });
+    }
+
+    try {
+        WALEntry entry;
+        entry.type = commit ? WALEntryType::COMMIT_TX : WALEntryType::ABORT_TX;
+        entry.timestamp = std::chrono::duration_cast<std::chrono::milliseconds>(
+            std::chrono::system_clock::now().time_since_epoch()
+        ).count();
+        entry.transaction_id = txn.transaction_id;
+        entry.data = std::move(recovery_data);
+        wal_manager_->append(entry);
+        wal_manager_->flush();
+        return true;
+    } catch (const std::exception& e) {
+        THEMIS_ERROR("Failed to log {} {} marker for transaction {} to WAL: {}",
+                    commit ? "COMMIT" : "ABORT",
+                    phase,
+                    txn.transaction_id,
+                    e.what());
+        return false;
+    }
+}
+
 void DistributedTransactionCoordinator::logTransactionForRecovery(
     const DistributedTransaction& txn
 ) {
@@ -755,6 +941,7 @@ void DistributedTransactionCoordinator::logTransactionForRecovery(
     // Create recovery log entry
     nlohmann::json recovery_data = {
         {"transaction_id", txn.transaction_id},
+        {"phase", "complete"},
         {"state", static_cast<int>(txn.state)},
         {"commit_time", txn.commit_time.count()},
         {"start_time", txn.start_time.count()},
@@ -773,7 +960,9 @@ void DistributedTransactionCoordinator::logTransactionForRecovery(
     // Write to WAL for durability
     try {
         WALEntry entry;
-        entry.type = WALEntryType::COMMIT_TX;
+        entry.type = txn.state == TransactionState::ABORTED
+            ? WALEntryType::ABORT_TX
+            : WALEntryType::COMMIT_TX;
         entry.timestamp = std::chrono::duration_cast<std::chrono::milliseconds>(
             std::chrono::system_clock::now().time_since_epoch()
         ).count();
@@ -793,17 +982,18 @@ void DistributedTransactionCoordinator::logTransactionForRecovery(
 }
 
 /** @brief Persist PREPARED marker to recover in-doubt transactions after crash. */
-void DistributedTransactionCoordinator::logPreparedStateForRecovery(
+bool DistributedTransactionCoordinator::logPreparedStateForRecovery(
     const DistributedTransaction& txn
 ) {
     if (!wal_manager_) {
-        return; // WAL not enabled
+        return false; // WAL not enabled
     }
     
     // Log PREPARED state with minimal metadata for audit trail
     // Operations are not included as they're already at participants
     nlohmann::json prepared_data = {
         {"transaction_id", txn.transaction_id},
+        {"phase", "prepared"},
         {"state", static_cast<int>(TransactionState::PREPARED)},
         {"start_time", txn.start_time.count()},
         {"participants", nlohmann::json::array()}
@@ -832,17 +1022,19 @@ void DistributedTransactionCoordinator::logPreparedStateForRecovery(
         
         THEMIS_DEBUG("Transaction {} PREPARED state logged at LSN {}", 
                     txn.transaction_id, lsn.toString());
+        return true;
         
     } catch (const std::exception& e) {
         THEMIS_ERROR("Failed to log PREPARED state for transaction {} to WAL: {}", 
                     txn.transaction_id, e.what());
+        return false;
     }
 }
 
 /** @brief Recover in-doubt transactions by replaying WAL entries. */
-void DistributedTransactionCoordinator::recoverTransactions() {
+size_t DistributedTransactionCoordinator::recoverTransactions() {
     if (!wal_manager_) {
-        return; // WAL not enabled
+        return 0; // WAL not enabled
     }
     
     THEMIS_INFO("Starting transaction recovery from WAL");
@@ -854,110 +1046,147 @@ void DistributedTransactionCoordinator::recoverTransactions() {
         
         if (oldest_lsn > current_lsn) {
             THEMIS_INFO("No transactions to recover");
-            return;
+            return 0;
         }
         
         std::vector<WALEntry> entries = wal_manager_->readRange(oldest_lsn, current_lsn);
         
         THEMIS_INFO("Found {} WAL entries to process", entries.size());
-        
-        // Two passes: first build the committed set, then find in-doubt transactions
-        std::set<std::string> committed_ids;
-        std::set<std::string> aborted_ids;
-        std::map<std::string, nlohmann::json> prepared_entries; // txn_id -> prepared data
-        
-        int recovered_count = 0;
-        for (const auto& entry : entries) {
-            try {
-                if (entry.type == WALEntryType::COMMIT_TX) {
-                    std::string txn_id = entry.data["transaction_id"];
-                    committed_ids.insert(txn_id);
-                } else if (entry.type == WALEntryType::ABORT_TX) {
-                    std::string txn_id = entry.data["transaction_id"];
-                    aborted_ids.insert(txn_id);
-                } else if (entry.type == WALEntryType::PREPARE_TX) {
-                    std::string txn_id = entry.data["transaction_id"];
-                    prepared_entries[txn_id] = entry.data;
-                }
-            } catch (const std::exception& e) {
-                THEMIS_ERROR("Failed to parse WAL entry: {}", e.what());
-            }
-        }
-        
-        // Recover in-doubt transactions: prepared but no commit/abort decision logged
-        for (const auto& [txn_id, prepared_data] : prepared_entries) {
-            if (committed_ids.count(txn_id)) {
-                THEMIS_INFO("Recovered committed transaction: {}", txn_id);
-                recovered_count++;
-            } else if (aborted_ids.count(txn_id)) {
-                THEMIS_INFO("In-doubt transaction {} was aborted before crash", txn_id);
-            } else {
-                // In-doubt transaction: prepared but no decision recorded
-                // Safe default is to abort (participants will clean up on timeout)
-                THEMIS_WARN("In-doubt transaction {} found (prepared, no commit/abort) - aborting for safety", txn_id);
-                
-                DistributedTransaction recovery_txn;
-                recovery_txn.transaction_id = txn_id;
-                recovery_txn.state = TransactionState::ABORTING;
-                
-                if (prepared_data.contains("participants")) {
-                    for (const auto& p : prepared_data["participants"]) {
-                        TransactionParticipant participant;
-                        participant.shard_id = p.value("shard_id", "");
-                        participant.endpoint = p.value("endpoint", "");
-                        recovery_txn.participants.push_back(participant);
+
+        const auto recovered =
+            themis::transaction::TwoPhaseCommitWALRecovery::reconstruct(entries);
+
+        size_t recovered_count = 0;
+        for (const auto& [txn_id, replay_txn] : recovered) {
+            DistributedTransaction recovery_txn;
+            recovery_txn.transaction_id = txn_id;
+            recovery_txn.commit_time = std::chrono::nanoseconds(replay_txn.commit_timestamp_ns);
+
+            if (replay_txn.participants.is_array()) {
+                for (const auto& p : replay_txn.participants) {
+                    TransactionParticipant participant;
+                    participant.shard_id = p.value("shard_id", "");
+                    participant.endpoint = p.value(
+                        "endpoint",
+                        participant.shard_id.empty()
+                            ? std::string{}
+                            : "shard://" + participant.shard_id
+                    );
+                    participant.prepared = p.value("prepared", false);
+                    participant.committed = p.value("committed", false);
+                    if (!participant.shard_id.empty()) {
+                        recovery_txn.participants.push_back(std::move(participant));
                     }
                 }
-                
+            }
+
+            if (replay_txn.completed) {
+                recovery_txn.state = replay_txn.decision.value_or(false)
+                    ? TransactionState::COMMITTED
+                    : TransactionState::ABORTED;
+                std::lock_guard<std::timed_mutex> lock(mutex_);
+                transactions_[txn_id] = std::move(recovery_txn);
+                continue;
+            }
+
+            bool success = true;
+            if (replay_txn.decision.value_or(false)) {
+                recovery_txn.state = TransactionState::COMMITTING;
+                THEMIS_WARN("Recovery: re-driving COMMIT for in-doubt txn {}", txn_id);
+                success = commitPhase(recovery_txn);
+                if (success) {
+                    recovery_txn.state = TransactionState::COMMITTED;
+                } else {
+                    recovery_txn.error_detail =
+                        "Recovery COMMIT replay failed; transaction remains in-doubt";
+                }
+            } else {
+                recovery_txn.state = TransactionState::ABORTING;
+                if (!replay_txn.decision.has_value()) {
+                    THEMIS_WARN("Recovery: txn {} has no durable final decision; aborting conservatively",
+                                txn_id);
+                } else {
+                    THEMIS_WARN("Recovery: re-driving ABORT for in-doubt txn {}", txn_id);
+                }
+
                 for (auto& participant : recovery_txn.participants) {
                     if (!sendAbort(participant, txn_id)) {
+                        success = false;
                         THEMIS_ERROR("Recovery: failed to send ABORT to shard {} for in-doubt txn {}",
                                     participant.shard_id, txn_id);
                     }
                 }
-                
-                // Log abort decision
-                WALEntry abort_entry;
-                abort_entry.type = WALEntryType::ABORT_TX;
-                abort_entry.timestamp = std::chrono::duration_cast<std::chrono::milliseconds>(
-                    std::chrono::system_clock::now().time_since_epoch()
-                ).count();
-                abort_entry.transaction_id = txn_id;
-                abort_entry.data = {
-                    {"transaction_id", txn_id},
-                    {"state", static_cast<int>(TransactionState::ABORTED)},
-                    {"reason", "in-doubt recovery on coordinator restart"}
-                };
-                
-                try {
-                    wal_manager_->append(abort_entry);
-                    wal_manager_->flush();
-                } catch (const std::exception& e) {
-                    THEMIS_ERROR("Failed to log abort for in-doubt transaction {}: {}", txn_id, e.what());
+                if (success) {
+                    recovery_txn.state = TransactionState::ABORTED;
+                } else {
+                    recovery_txn.error_detail =
+                        "Recovery ABORT replay failed; transaction remains in-doubt";
                 }
-                
-                recovered_count++;
             }
+
+            {
+                std::lock_guard<std::timed_mutex> lock(mutex_);
+                transactions_[txn_id] = recovery_txn;
+            }
+
+            if (!success) {
+                continue;
+            }
+
+            logTransactionForRecovery(recovery_txn);
+            ++recovered_count;
         }
         
         THEMIS_INFO("Transaction recovery complete - processed {} transactions", 
                    recovered_count);
+        return recovered_count;
         
     } catch (const std::exception& e) {
         THEMIS_ERROR("Transaction recovery failed: {}", e.what());
     }
+
+    return 0;
 }
 
 // ---------------------------------------------------------------------------
 // Percolator-style commit path (used for SNAPSHOT_ISOLATION transactions)
 // ---------------------------------------------------------------------------
-/** @brief Execute Percolator-style commit path for snapshot-isolated transaction. */
+/** @brief Execute Percolator-style commit path for snapshot-isolated transaction.
+ *
+ * The protocol performs cross-shard write-write conflict detection via a full
+ * prepare phase before assigning a commit timestamp.  Skipping the prepare
+ * phase would allow write-skew anomalies: two concurrent transactions can each
+ * read a consistent snapshot, write to disjoint shards, and both commit without
+ * detecting the mutual conflict.  Running the prepare vote here ensures every
+ * participant performs its local conflict check before the coordinator proceeds
+ * to the commit timestamp / commit-wait / send-COMMIT sequence.
+ *
+ * Protocol (with conflict detection):
+ *   0. PREPARE phase — all participants vote COMMIT or ABORT.
+ *      If any vote ABORT, send ABORT to all prepared participants and return false.
+ *   1. Assign commit timestamp from TrueTime::now_with_uncertainty().latest
+ *   2. Commit-wait: spin until TT.now().earliest > commit_ts
+ *   3. Send COMMIT to all participants with the agreed timestamp
+ */
 bool DistributedTransactionCoordinator::percolatorCommit(DistributedTransaction& txn) {
-    // Percolator protocol skips the global prepare / vote round.
-    // Instead it:
-    //   1. Assigns a commit timestamp from TrueTime::now_with_uncertainty().latest
-    //   2. Performs commit-wait: spins until TT.now().earliest > commit_ts + epsilon
-    //   3. Sends COMMIT to all participants with the agreed timestamp
+    // Step 0: Cross-shard write-write conflict detection via the prepare phase.
+    // Every participant must vote before the coordinator assigns a commit
+    // timestamp.  This prevents write-skew anomalies where two overlapping
+    // snapshot-isolation transactions both observe a consistent state and both
+    // commit conflicting writes to different shards.
+    txn.state = TransactionState::PREPARING;
+    if (!preparePhase(txn)) {
+        THEMIS_WARN("Percolator conflict detected for txn {} — aborting: {}",
+                    txn.transaction_id, txn.error_detail);
+        // Send ABORT to every participant that already voted COMMIT so they
+        // can release any locks or tentative writes they acquired.
+        for (auto& participant : txn.participants) {
+            if (participant.prepared) {
+                sendAbort(participant, txn.transaction_id);
+            }
+        }
+        return false;
+    }
 
     // Step 1: Derive commit timestamp.
     // Use the *latest* bound so every concurrent snapshot read that started
@@ -1019,4 +1248,3 @@ bool DistributedTransactionCoordinator::percolatorCommit(DistributedTransaction&
 }
 
 } // namespace themis::sharding
-

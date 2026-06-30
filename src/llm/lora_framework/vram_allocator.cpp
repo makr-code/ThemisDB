@@ -20,6 +20,7 @@
 
 #include "llm/lora_framework/vram_allocator.h"
 #include "security/vram_secure_clear.h"
+#include "themis/gpu/memory_manager.h"
 #include <algorithm>
 #include <cstring>
 #include <memory>
@@ -54,6 +55,22 @@ namespace {
     // Helper to align size up to alignment boundary
     constexpr size_t align_up(size_t size, size_t alignment) {
         return ((size + alignment - 1) / alignment) * alignment;
+    }
+
+    // Return true when `backend` maps to real GPU hardware (VRAM) so that
+    // the canonical themis::gpu::GPUMemoryManager policy should be consulted.
+    constexpr bool is_gpu_backend(acceleration::BackendType backend) noexcept {
+        switch (backend) {
+            case acceleration::BackendType::CUDA:
+            case acceleration::BackendType::HIP:
+            case acceleration::BackendType::VULKAN:
+            case acceleration::BackendType::DIRECTX:
+            case acceleration::BackendType::ROCM:
+            case acceleration::BackendType::ZLUDA:
+                return true;
+            default:
+                return false;
+        }
     }
 
 #ifdef THEMIS_ENABLE_VULKAN
@@ -518,6 +535,17 @@ void* VRAMAllocator::allocate(size_t size_bytes, size_t alignment) {
                       size_bytes, pool_size_bytes_);
         return nullptr;
     }
+
+    // Gate GPU allocations through the canonical policy (edition limits + tenant quotas).
+    const bool use_canonical = is_gpu_backend(backend_);
+    if (use_canonical) {
+        auto& policy = themis::gpu::GPUMemoryManager::GetInstance();
+        if (policy.isGPUEnabled() &&
+            !policy.TryAllocateGPU(static_cast<uint64_t>(size_bytes), "lora-vram")) {
+            spdlog::error("VRAMAllocator::allocate: canonical VRAM policy rejected {} bytes", size_bytes);
+            return nullptr;
+        }
+    }
     
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -536,6 +564,13 @@ void* VRAMAllocator::allocate(size_t size_bytes, size_t alignment) {
     // Allocate new block from backend
     void* ptr = allocate_from_backend(size_bytes, alignment);
     if (ptr == nullptr) {
+        // Undo canonical reservation on physical allocation failure.
+        if (use_canonical) {
+            auto& policy = themis::gpu::GPUMemoryManager::GetInstance();
+            if (policy.isGPUEnabled()) {
+                policy.DeallocateGPU(static_cast<uint64_t>(size_bytes));
+            }
+        }
         return nullptr;
     }
     
@@ -570,6 +605,14 @@ void VRAMAllocator::deallocate(void* ptr) {
             block.is_free = true;
             allocated_bytes_ -= block.size;
             
+            // Notify the canonical policy that this VRAM is no longer in use.
+            if (is_gpu_backend(backend_)) {
+                auto& policy = themis::gpu::GPUMemoryManager::GetInstance();
+                if (policy.isGPUEnabled()) {
+                    policy.DeallocateGPU(static_cast<uint64_t>(block.size));
+                }
+            }
+
             // Periodically coalesce free blocks
             if (memory_pool_.size() > 100) {
                 coalesce_free_blocks();

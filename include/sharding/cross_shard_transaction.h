@@ -24,10 +24,12 @@
 #pragma once
 
 #include "sharding/consensus_module.h"
+#include "sharding/cross_shard_fk_validator.h"
+#include "sharding/cross_shard_ssi_manager.h"
 #include "sharding/distributed_transaction.h"
 #include "sharding/truetime.h"
 #include "sharding/wal_manager.h"  // For LSN type
-#include "transaction/in_doubt_recovery_coordinator.h"
+#include "transaction/recoverable_two_phase_coordinator.h"
 #include <string>
 #include <vector>
 #include <map>
@@ -233,6 +235,13 @@ struct CrossShardTransactionConfig {
         const std::string& shard_id,
         const std::string& endpoint
     )> polled_wait_for_edge_collector;
+
+    // ── Distributed Serializable Snapshot Isolation (SSI) ────────────────────
+
+    /// Configuration for cross-shard SSI predicate-lock tracking and
+    /// conflict detection.  Applies only to transactions with isolation level
+    /// SERIALIZABLE.  Inactive (no-op) for all other isolation levels.
+    CrossShardSSIManager::Config ssi_config;
 };
 
 struct BackendRecoveryStats {
@@ -256,7 +265,8 @@ struct BackendRecoveryStats {
  * - Distributed deadlock detection
  * - Snapshot isolation across shards
  */
-class CrossShardTransactionCoordinator : public themis::transaction::IInDoubtRecoveryCoordinator {
+class CrossShardTransactionCoordinator
+    : public themis::transaction::IRecoverableTwoPhaseCoordinator {
 public:
     /**
      * @brief Construct cross-shard coordinator with optional TrueTime source.
@@ -347,7 +357,26 @@ public:
      *
      * @return Number of in-doubt transactions resolved by this invocation.
      */
-    size_t recoverInDoubtTransactions() override;
+    [[nodiscard]] size_t recoverInDoubtTransactions() override;
+
+    /**
+     * @brief Return the canonical coordinator name for global recovery reports.
+     * @return Stable coordinator type name.
+     */
+    [[nodiscard]] std::string recoveryCoordinatorName() const override;
+
+    /**
+     * @brief Return the durable backend used by this coordinator.
+     * @return "WAL/snapshot" when persistence is enabled, otherwise "disabled".
+     */
+    [[nodiscard]] std::string recoveryBackendName() const override;
+
+    /**
+     * @brief Snapshot current in-doubt transactions using the shared state model.
+     * @return Normalized non-final transaction list for global recovery orchestration.
+     */
+    [[nodiscard]] std::vector<themis::transaction::RecoverableTwoPhaseTransaction>
+    getRecoverableTransactions() const override;
     
     /**
      * @brief Execute a SAGA transaction
@@ -404,6 +433,84 @@ public:
      * @brief Clear all distributed wait edges for a transaction.
      */
     void clearDistributedWaits(const std::string& transaction_id);
+
+    // ── Distributed SSI API ──────────────────────────────────────────────────
+
+    /**
+     * @brief Register predicate (range) locks observed on @p shard_id for a
+     *        SERIALIZABLE transaction during its read phase.
+     *
+     * Must be called by the shard participant (or its proxy) before the
+     * transaction enters the prepare phase so that the coordinator has the
+     * full cross-shard read-set available for conflict detection.
+     *
+     * No-op when SSI is disabled or when @p transaction_id does not denote
+     * an active SERIALIZABLE transaction.
+     *
+     * Thread-safe.
+     *
+     * @param transaction_id  Global transaction identifier.
+     * @param shard_id        Shard that performed the range scan.
+     * @param predicates      Key ranges observed on @p shard_id.
+     */
+    void registerShardReadSet(
+        const std::string& transaction_id,
+        const std::string& shard_id,
+        const std::vector<CrossShardPredicateLock>& predicates);
+
+    /**
+     * @brief Register the keys written on @p shard_id by a SERIALIZABLE
+     *        transaction.
+     *
+     * Must be called by the shard participant (or its proxy) before the
+     * transaction enters the prepare phase.
+     *
+     * No-op when SSI is disabled.
+     *
+     * Thread-safe.
+     *
+     * @param transaction_id  Global transaction identifier.
+     * @param shard_id        Shard that performed the writes.
+     * @param keys            Keys written on @p shard_id.
+     */
+    void registerShardWriteSet(
+        const std::string& transaction_id,
+        const std::string& shard_id,
+        const std::vector<std::string>& keys);
+
+    /**
+     * @brief Perform cross-shard SSI conflict detection for @p transaction_id.
+     *
+     * Called internally by prepare() for SERIALIZABLE transactions.  May also
+     * be called explicitly by callers that manage prepare/commit life-cycles
+     * outside the coordinator (e.g. testing harnesses).
+     *
+     * Returns an empty vector when no conflict is found.  A non-empty result
+     * means the transaction must be aborted.
+     *
+     * Thread-safe.
+     *
+     * @param transaction_id  Transaction to validate.
+     * @return                All detected serialization conflicts.
+     */
+    [[nodiscard]] std::vector<CrossShardSSIConflict>
+    validateCrossShardSSI(const std::string& transaction_id) const;
+
+    /**
+     * @brief Update the SSI configuration applied to all future transactions.
+     *
+     * Thread-safe.  New values take effect immediately for subsequent
+     * registerShardReadSet() / validateCrossShardSSI() calls.
+     *
+     * @param config  New SSI tuning parameters.
+     */
+    void setSSIConfig(const CrossShardSSIManager::Config& config);
+
+    /**
+     * @brief Return the currently active SSI configuration.
+     * Thread-safe.
+     */
+    [[nodiscard]] CrossShardSSIManager::Config getSSIConfig() const;
     
     /**
      * @brief Get active transactions
@@ -466,6 +573,30 @@ public:
      *            shards that failed PreCommit, for async retry.
      */
     void setDeferredPreCommitCallback(DeferredPreCommitFn fn);
+
+    /**
+     * @brief Inject a cross-shard foreign-key validator (issue #5392).
+     *
+     * When a non-null validator is set, prepare() invokes
+     * CrossShardForeignKeyValidator::validate() **before** dispatching the
+     * prepare RPCs to participants.  Any non-deferrable FK violation causes
+     * prepare() to return false (transaction aborted).
+     *
+     * Passing @c nullptr removes a previously installed validator.  The
+     * coordinator takes shared ownership of the validator so it can be shared
+     * across coordinator instances in tests.
+     *
+     * ### Thread safety
+     * The method is protected by the callbacks_mutex_ and is safe to call
+     * concurrently with ongoing transactions; the validator pointer is
+     * snapshotted at the start of each prepare() call.
+     *
+     * @param validator  Fully configured CrossShardForeignKeyValidator, or
+     *                   nullptr to disable cross-shard FK checking.
+     */
+    void setForeignKeyValidator(
+        std::shared_ptr<CrossShardForeignKeyValidator> validator
+    );
 
 private:
     /**
@@ -605,6 +736,10 @@ private:
     CrossShardTransactionConfig config_; ///< Runtime coordinator configuration.
     std::shared_ptr<ConsensusModule> consensus_; ///< Consensus dependency for replicated decisions.
     std::shared_ptr<themis::sharding::TrueTime> truetime_; ///< Time source for MVCC/external consistency.
+
+    /// Distributed SSI manager for cross-shard predicate-lock tracking and
+    /// conflict detection.  Active only for SERIALIZABLE transactions.
+    CrossShardSSIManager ssi_manager_;
     
     // Transaction log file
     std::string transaction_log_path_; ///< Absolute transaction log file path.
@@ -632,6 +767,10 @@ private:
     PreCommitRpcFn precommit_callback_; ///< Optional injected PreCommit RPC callback.
 
     DeferredPreCommitFn deferred_precommit_callback_;///< Optional callback for deferred PreCommit retry.
+
+    /// Injected cross-shard FK validator (issue #5392).
+    /// Protected by callbacks_mutex_.
+    std::shared_ptr<CrossShardForeignKeyValidator> fk_validator_; ///< Optional FK constraint validator.
     
     // Deferred PreCommit tracking
     std::map<std::string, std::vector<std::string>> deferred_precommits_; ///< txn_id -> failed shards

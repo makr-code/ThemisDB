@@ -32,7 +32,8 @@ For full protocol details — 2PC/3PC flows, Raft log integration, saga rollback
 | `lock_manager.h` | `LockManager` | Row- and range-level lock management |
 | `deadlock_predictor.h` | `DeadlockPredictor` | Wait-for graph cycle detection |
 | `crash_recovery_manager.h` | `CrashRecoveryManager` | WAL replay and in-doubt tx resolution |
-| `in_doubt_recovery_coordinator.h` | `InDoubtRecoveryCoordinator` | In-doubt 2PC transaction recovery |
+| `in_doubt_recovery_coordinator.h` | `InDoubtRecoveryCoordinator` | Base in-doubt 2PC transaction recovery |
+| `recoverable_two_phase_coordinator.h` | `IRecoverableTwoPhaseCoordinator` | Unified cross-coordinator 2PC recovery and reporting |
 | `transaction_auditor.h` | `TransactionAuditor` | Per-transaction audit trail |
 | `transaction_batcher.h` | `TransactionBatcher` | Micro-batch grouping for write throughput |
 | `transaction_semantic_advisor.h` | `TransactionSemanticAdvisor` | Application-level conflict advice |
