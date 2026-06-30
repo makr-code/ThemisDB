@@ -199,6 +199,24 @@ DistributedTransactionManager::DistributedTransactionManager(
                     coordinator_id_, config_.wal_directory);
     }
 
+    // CRITICAL FIX for stub #279: Validate Phase-2 transport configuration
+    // Ensures no remote participants are left in PREPARED state without Phase-2 delivery capability.
+    // When remote_phase1_dispatch is set, we MUST have a way to deliver Phase-2 messages.
+    if (config_.remote_phase1_dispatch) {
+        const bool has_phase2_transport =
+            static_cast<bool>(config_.phase2_rpc_fn) ||
+            static_cast<bool>(config_.remote_phase2_dispatch) ||
+            static_cast<bool>(getRpcPhase2Fn());
+        if (!has_phase2_transport) {
+            throw std::invalid_argument(
+                "DistributedTransactionManager [" + coordinator_id_ + "]: "
+                "remote_phase1_dispatch is configured but no Phase-2 transport bridge is available "
+                "(set phase2_rpc_fn, remote_phase2_dispatch, or setRpcPhase2Fn). "
+                "This would cause remote participants to remain PREPARED indefinitely. "
+                "Stub #279 fix: fail-fast on misconfiguration.");
+        }
+    }
+
     // Start thread pool (PERF-D4).
     startThreadPool();
 
@@ -1152,9 +1170,16 @@ bool DistributedTransactionManager::runPhase2Unlocked(
                 continue;
             }
 
-            THEMIS_ERROR("DistributedTransactionManager [{}] cannot deliver Phase-2 {} for remote "
-                         "participant node={} endpoint='{}' — no remote dispatcher configured",
-                         coordinator_id_, do_commit ? "COMMIT" : "ABORT", part.node_id, part.endpoint);
+            // CRITICAL FIX for stub #279: No Phase-2 transport available.
+            // This should have been caught during initialization if remote_phase1_dispatch is set.
+            // If we reach here, either: (a) configuration is incomplete, or (b) Phase-2 bridge
+            // was cleared after initialization (production safety violation).
+            THEMIS_CRITICAL("DistributedTransactionManager [{}] SECURITY/CONSISTENCY VIOLATION: "
+                         "cannot deliver Phase-2 {} for remote participant node={} endpoint='{}' — "
+                         "no remote dispatcher configured. Transaction {} WILL REMAIN IN PREPARED STATE. "
+                         "This indicates misconfiguration or an active security issue.",
+                         coordinator_id_, do_commit ? "COMMIT" : "ABORT", part.node_id, part.endpoint,
+                         txn_id);
             all_delivered = false;
             continue;
         }
