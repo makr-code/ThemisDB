@@ -24,6 +24,7 @@
 #pragma once
 
 #include "sharding/consensus_module.h"
+#include "sharding/cross_shard_fk_validator.h"
 #include "sharding/cross_shard_ssi_manager.h"
 #include "sharding/distributed_transaction.h"
 #include "sharding/truetime.h"
@@ -573,6 +574,30 @@ public:
      */
     void setDeferredPreCommitCallback(DeferredPreCommitFn fn);
 
+    /**
+     * @brief Inject a cross-shard foreign-key validator (issue #5392).
+     *
+     * When a non-null validator is set, prepare() invokes
+     * CrossShardForeignKeyValidator::validate() **before** dispatching the
+     * prepare RPCs to participants.  Any non-deferrable FK violation causes
+     * prepare() to return false (transaction aborted).
+     *
+     * Passing @c nullptr removes a previously installed validator.  The
+     * coordinator takes shared ownership of the validator so it can be shared
+     * across coordinator instances in tests.
+     *
+     * ### Thread safety
+     * The method is protected by the callbacks_mutex_ and is safe to call
+     * concurrently with ongoing transactions; the validator pointer is
+     * snapshotted at the start of each prepare() call.
+     *
+     * @param validator  Fully configured CrossShardForeignKeyValidator, or
+     *                   nullptr to disable cross-shard FK checking.
+     */
+    void setForeignKeyValidator(
+        std::shared_ptr<CrossShardForeignKeyValidator> validator
+    );
+
 private:
     /**
      * @brief Execute 2PC protocol
@@ -742,6 +767,10 @@ private:
     PreCommitRpcFn precommit_callback_; ///< Optional injected PreCommit RPC callback.
 
     DeferredPreCommitFn deferred_precommit_callback_;///< Optional callback for deferred PreCommit retry.
+
+    /// Injected cross-shard FK validator (issue #5392).
+    /// Protected by callbacks_mutex_.
+    std::shared_ptr<CrossShardForeignKeyValidator> fk_validator_; ///< Optional FK constraint validator.
     
     // Deferred PreCommit tracking
     std::map<std::string, std::vector<std::string>> deferred_precommits_; ///< txn_id -> failed shards
