@@ -913,6 +913,8 @@ Focus: Deepen AI capabilities across prompt engineering, training, RAG, and anal
   (`include/rag/continuous_learning_orchestrator.h` + `src/rag/continuous_learning_orchestrator.cpp`. `getMissRate()`, `getProfileDrift()`, `newEntryCount()` accessors added. 10 tests appended to `tests/test_continuous_learning_orchestrator.cpp`.)
 - [x] IMPL-A3: `exportGradient()` + `applyGlobalDelta()` + `FEDERATED_ROUND_START` — bridge between LoRA pipeline and Layer 11B (Implemented: 2026-04-17)
   (`include/training/incremental_lora_trainer.h` + `include/rag/continuous_learning_orchestrator.h`. 5 tests ILT-EG-01..03, ILT-AG-01..02 + 3 CLO-FED tests.)
+- [x] IMPL-A4: Live signal providers + auto-retraining + A/B promotion + Prometheus export — issues #5446–#5449 (Implemented: 2026-06-30)
+  (Resolved stubs: inference latency wired via `setInferenceLatencyProvider()`; `runLoRARetraining()` calls `IncrementalLoRATrainer::train(INCREMENTAL)` with post-training `rollbackVersionEx()` on accuracy drop; `evaluateActiveABTests()` called after every successful loop trigger; `exportLoopMetrics()` exports 10+ Prometheus gauges via `MetricsCollector::setGauge()`. 8 tests A4-01..08 in `tests/continuous/test_continuous_learning_orchestrator.cpp`.)
 
 #### 2.7 LLM Optimization Layers 5–10 (Target: Q3–Q4 2026)
 *Defined in: `docs/en/research/LLM_OPTIMIZATION_LAYERS_MATRIX.md`*

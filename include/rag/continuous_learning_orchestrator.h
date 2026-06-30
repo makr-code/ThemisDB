@@ -405,6 +405,69 @@ class ContinuousLearningOrchestrator {
      */
     void setTrainerForFederation(themis::training::IncrementalLoRATrainer* trainer);
 
+    /**
+     * @brief Inject an `IncrementalLoRATrainer` used by the auto-retraining loop.
+     *
+     * When set, `runLoRARetraining()` calls `trainer->train(INCREMENTAL)` each
+     * time a retraining cycle triggers, updates `current_accuracy` from the
+     * result, and rolls back via `rollbackVersionEx()` when the new accuracy
+     * drops more than `config.min_accuracy_drop` below the previous baseline.
+     *
+     * The orchestrator does NOT take ownership; the trainer must remain valid
+     * for the lifetime of this orchestrator.  Pass `nullptr` to detach.
+     *
+     * @param trainer  Pointer to the `IncrementalLoRATrainer`, or `nullptr`.
+     */
+    void setRetrainingTrainer(themis::training::IncrementalLoRATrainer* trainer);
+
+    /**
+     * @brief Inject a live inference-latency provider for adaptive threshold use.
+     *
+     * The callback should return the current p95 inference latency in
+     * milliseconds.  The value is forwarded to `DataSelectionMetrics` before
+     * each retraining cycle so the `SelfImprovementModule` can adapt selection
+     * thresholds to observed latency conditions.
+     *
+     * Without a provider the latency metric defaults to 0.0 ms (existing
+     * behaviour — no threshold adaptation based on latency).
+     *
+     * @param provider  Callable returning current inference latency in ms.
+     */
+    void setInferenceLatencyProvider(std::function<double()> provider);
+
+    /**
+     * @brief Evaluate all active A/B tests and promote or roll back adapters.
+     *
+     * Iterates `ABTestingFramework::getActiveTests()`, calls `evaluateTest()`
+     * on each, and forwards statistically significant results (or results that
+     * have reached `config.min_ab_samples`) to `promoteOrRollback()`.
+     *
+     * This is called automatically at the end of each public `triggerLoopN()`
+     * call and can also be invoked directly by the monitoring layer.
+     */
+    void evaluateActiveABTests();
+
+    /**
+     * @brief Export current loop states and learning metrics to the global
+     *        `MetricsCollector` (Prometheus-compatible gauges).
+     *
+     * Emits the following gauge families:
+     * - `clo_current_accuracy`             – running accuracy estimate
+     * - `clo_accuracy_7d_avg`              – 7-day rolling average
+     * - `clo_accuracy_trend`               – linear-regression slope (positive = improving)
+     * - `clo_lora_retraining_total`        – lifetime retraining cycles completed
+     * - `clo_prompt_optimizations_total`   – lifetime prompt optimisation cycles
+     * - `clo_retrieval_optimizations_total`– lifetime retrieval optimisation cycles
+     * - `clo_total_interactions_logged`    – total interactions stored
+     * - `clo_loop_last_trigger_age_seconds`{loop_id} – seconds since last trigger
+     * - `clo_loop_signal_value`{loop_id}   – most recently observed signal value
+     * - `clo_loop_guardrail_passed`{loop_id} – 1.0 if last run passed guardrail
+     * - `clo_ab_tests_active`              – number of open A/B tests
+     *
+     * Thread-safe; acquires the internal mutex while reading stats.
+     */
+    void exportLoopMetrics() const;
+
     // ── Signal-source injection APIs (production-wired) ─────────────────────
 
     /**

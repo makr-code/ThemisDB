@@ -18,6 +18,7 @@
 #include "utils/logger.h"
 #include "distributed_knowledge/lora_federation_coordinator.h"
 #include "training/incremental_lora_trainer.h"
+#include "observability/metrics_collector.h"
 
 #include <algorithm>
 #include <atomic>
@@ -114,6 +115,14 @@ struct ContinuousLearningOrchestrator::Impl {
     std::shared_ptr<themis::distributed_knowledge::ILoRAFederationCoordinator>
         federation_coordinator_;
     themis::training::IncrementalLoRATrainer* trainer_for_federation_{nullptr};
+
+    // ---- IMPL-A4: Production retraining and observability ----
+    /// Non-owning pointer to the trainer used for auto-retraining cycles.
+    /// Set via setRetrainingTrainer(); nullptr means retraining is counted only.
+    themis::training::IncrementalLoRATrainer* retraining_trainer_{nullptr};
+    /// Provider for the current p95 inference latency in milliseconds.
+    /// Forwarded to DataSelectionMetrics before each retraining cycle.
+    std::function<double()> inference_latency_provider_;
 }; // struct ContinuousLearningOrchestrator::Impl
 
 
@@ -521,7 +530,9 @@ void ContinuousLearningOrchestrator::runLoRARetraining() {
                     }
                     themis::training::DataSelectionMetrics metrics;
                     metrics.training_accuracy    = impl_->stats.current_accuracy;
-                    metrics.inference_latency_ms = 0.0; // populated from monitoring in full impl
+                    metrics.inference_latency_ms = impl_->inference_latency_provider_
+                        ? impl_->inference_latency_provider_()
+                        : 0.0;
 
                     // Check rollback condition before retraining
                     if (impl_->config.enable_auto_rollback &&
@@ -547,10 +558,65 @@ void ContinuousLearningOrchestrator::runLoRARetraining() {
                 }
             }
 
-            // In full implementation, would call adapter->trainFromFeedback()
-            info.last_training  = std::chrono::system_clock::now();
-            info.feedback_count = 0;
-            impl_->stats.lora_retraining_count++;
+            // Wire IncrementalLoRATrainer for actual incremental training.
+            // When no trainer is injected, the retraining cycle is still
+            // tracked (timestamp + count) so downstream metrics stay current.
+            if (impl_->retraining_trainer_) {
+                const double accuracy_before = impl_->stats.current_accuracy;
+                try {
+                    auto result = impl_->retraining_trainer_->train(
+                        themis::training::TrainingMode::INCREMENTAL);
+                    info.last_training  = std::chrono::system_clock::now();
+                    info.feedback_count = 0;
+                    ++impl_->stats.lora_retraining_count;
+
+                    if (result.success) {
+                        impl_->stats.current_accuracy = result.accuracy;
+                        // Roll back when the new adapter degrades quality.
+                        if (impl_->config.enable_auto_rollback &&
+                                result.accuracy < accuracy_before - impl_->config.min_accuracy_drop) {
+                            auto versions = impl_->retraining_trainer_->listVersions();
+                            if (versions.size() >= 2) {
+                                const auto& stable_ver = versions[versions.size() - 2];
+                                auto rb = impl_->retraining_trainer_->rollbackVersionEx(stable_ver);
+                                if (rb.success) {
+                                    impl_->stats.current_accuracy = accuracy_before;
+                                    ImprovementEvent rb_event;
+                                    rb_event.timestamp        = std::chrono::system_clock::now();
+                                    rb_event.component        = adapter_id;
+                                    rb_event.improvement_type = "RollbackTriggered";
+                                    rb_event.metric_before    = result.accuracy;
+                                    rb_event.metric_after     = accuracy_before;
+                                    rb_event.description      = "Post-training rollback: accuracy "
+                                                                "dropped below threshold";
+                                    impl_->stats.recent_improvements.push_back(rb_event);
+                                    THEMIS_WARN("CLO: post-training rollback for '{}': "
+                                                "accuracy {:.3f} < {:.3f} (drop {:.3f}); "
+                                                "reverted to '{}'",
+                                                adapter_id, result.accuracy, accuracy_before,
+                                                impl_->config.min_accuracy_drop, stable_ver);
+                                } else {
+                                    THEMIS_WARN("CLO: post-training rollback for '{}' failed: {}",
+                                                adapter_id, rb.error);
+                                }
+                            }
+                        }
+                    } else {
+                        THEMIS_WARN("CLO: incremental training for adapter '{}' failed: {}",
+                                    adapter_id, result.error_message);
+                    }
+                } catch (const std::exception& e) {
+                    THEMIS_WARN("CLO: incremental training for adapter '{}' threw: {}",
+                                adapter_id, e.what());
+                }
+            } else {
+                info.last_training  = std::chrono::system_clock::now();
+                info.feedback_count = 0;
+                ++impl_->stats.lora_retraining_count;
+                THEMIS_DEBUG("CLO: runLoRARetraining: adapter '{}' cycle counted but no "
+                             "trainer wired; call setRetrainingTrainer() to enable real "
+                             "incremental training", adapter_id);
+            }
 
             // Deploy via A/B test if enabled
             if (impl_->config.enable_ab_testing) {
@@ -1023,6 +1089,15 @@ ContinuousLearningOrchestrator::triggerLoop(LoopPhase phase) {
         handleFederatedRoundStart();
     }
 
+    // IMPL-A4: Evaluate pending A/B tests and export Prometheus metrics after
+    // every successful loop execution.  This keeps promotion/rollback decisions
+    // current and ensures metrics reflect the latest state without requiring a
+    // separate monitoring scrape cycle.
+    if (result.success) {
+        evaluateActiveABTests();
+    }
+    exportLoopMetrics();
+
     return result;
 }
 
@@ -1219,6 +1294,80 @@ void ContinuousLearningOrchestrator::setTrainerForFederation(
     themis::training::IncrementalLoRATrainer* trainer) {
     std::lock_guard<std::mutex> lock(impl_->mutex);
     impl_->trainer_for_federation_ = trainer;
+}
+
+// ── IMPL-A4: Production retraining + observability ───────────────────────────
+
+void ContinuousLearningOrchestrator::setRetrainingTrainer(
+    themis::training::IncrementalLoRATrainer* trainer) {
+    std::lock_guard<std::mutex> lock(impl_->mutex);
+    impl_->retraining_trainer_ = trainer;
+}
+
+void ContinuousLearningOrchestrator::setInferenceLatencyProvider(
+    std::function<double()> provider) {
+    std::lock_guard<std::mutex> lock(impl_->mutex);
+    impl_->inference_latency_provider_ = std::move(provider);
+}
+
+void ContinuousLearningOrchestrator::evaluateActiveABTests() {
+    // Collect active test IDs under the lock; evaluate outside to avoid
+    // holding the lock during potentially slow statistical computation.
+    std::vector<std::string> active_ids;
+    {
+        std::lock_guard<std::mutex> lock(impl_->mutex);
+        active_ids = impl_->ab_framework->getActiveTests();
+    }
+
+    for (const auto& test_id : active_ids) {
+        ABTestResult result;
+        {
+            std::lock_guard<std::mutex> lock(impl_->mutex);
+            result = impl_->ab_framework->evaluateTest(test_id);
+        }
+        const size_t total_samples =
+            result.sample_size_control + result.sample_size_treatment;
+        if (total_samples >= impl_->config.min_ab_samples || result.is_significant) {
+            promoteOrRollback(result);
+        }
+    }
+}
+
+void ContinuousLearningOrchestrator::exportLoopMetrics() const {
+    auto& mc = observability::MetricsCollector::getInstance();
+
+    std::lock_guard<std::mutex> lock(impl_->mutex);
+
+    mc.setGauge("clo_current_accuracy",              impl_->stats.current_accuracy);
+    mc.setGauge("clo_accuracy_7d_avg",               impl_->stats.accuracy_7d_avg);
+    mc.setGauge("clo_accuracy_trend",                impl_->stats.accuracy_trend);
+    mc.setGauge("clo_lora_retraining_total",
+                static_cast<double>(impl_->stats.lora_retraining_count));
+    mc.setGauge("clo_prompt_optimizations_total",
+                static_cast<double>(impl_->stats.prompt_optimizations));
+    mc.setGauge("clo_retrieval_optimizations_total",
+                static_cast<double>(impl_->stats.retrieval_optimizations));
+    mc.setGauge("clo_total_interactions_logged",
+                static_cast<double>(impl_->stats.total_interactions_logged));
+
+    // Per-loop freshness and signal gauges
+    const auto now = std::chrono::system_clock::now();
+    for (const auto& [phase_int, last_tp] : impl_->loop_last_trigger) {
+        const auto age_s = static_cast<double>(
+            std::chrono::duration_cast<std::chrono::seconds>(now - last_tp).count());
+        mc.setGauge("clo_loop_last_trigger_age_seconds", age_s,
+                    {{"loop_id", std::to_string(phase_int)}});
+    }
+    for (const auto& [phase_int, res] : impl_->last_loop_results) {
+        const std::string lid = std::to_string(phase_int);
+        mc.setGauge("clo_loop_signal_value",     res.signal_value,
+                    {{"loop_id", lid}});
+        mc.setGauge("clo_loop_guardrail_passed",  res.guardrail_passed ? 1.0 : 0.0,
+                    {{"loop_id", lid}});
+    }
+
+    mc.setGauge("clo_ab_tests_active",
+                static_cast<double>(impl_->ab_framework->getActiveTests().size()));
 }
 
 // ── Signal-source injection APIs (resolved: wired in HttpServer bootstrap) ───

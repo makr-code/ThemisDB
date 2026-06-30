@@ -924,6 +924,14 @@ HttpServer::HttpServer(
     continuous_learning_orchestrator_->triggerLoop2WorkloadAdaptation();
     continuous_learning_orchestrator_->triggerLoop3IndexLifecycle();
     continuous_learning_orchestrator_->triggerLoop4AdapterImprovement();
+    // NOTE: setRetrainingTrainer() and setInferenceLatencyProvider() are intentionally
+    // not called here.  The IncrementalLoRATrainer is owned by the training pipeline and
+    // must be injected by the component that creates it (e.g., via TrainingPipeline or
+    // LLM plugin manager).  Inference latency should be injected by the component that
+    // tracks it (e.g., LLM API handler via an atomic or metrics read-back).
+    // These hooks are available as CLO::setRetrainingTrainer() and
+    // CLO::setInferenceLatencyProvider() and are documented in
+    // include/rag/continuous_learning_orchestrator.h.
     workload_optimizer_->enable_auto_adapt(std::chrono::seconds(60));
     {
         std::lock_guard<std::mutex> lock(api_handlers_mutex_);
