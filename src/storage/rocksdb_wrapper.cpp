@@ -1842,7 +1842,10 @@ Result<RocksDBWrapper::SafeIterator> RocksDBWrapper::prefixIterator(std::string_
     // Create a safe iterator positioned at the prefix start
     auto result = newSafeIterator(read_options_);
     if (!result) {
-        return Expected<SafeIterator>::makeError(result.error());
+        return Err<SafeIterator>(
+            errors::ErrorCode::ERR_INDEX_NOT_INITIALIZED,
+            "Failed to create prefix iterator"
+        );
     }
     
     auto iter = std::move(result.value());
@@ -1850,7 +1853,7 @@ Result<RocksDBWrapper::SafeIterator> RocksDBWrapper::prefixIterator(std::string_
     // Seek to the first key with this prefix
     iter.Seek(std::string(prefix));
     
-    return Expected<SafeIterator>::makeOk(std::move(iter));
+    return Ok(std::move(iter));
 }
 
 void RocksDBWrapper::scanRange(std::string_view start_key, std::string_view end_key, ScanCallback callback) {
