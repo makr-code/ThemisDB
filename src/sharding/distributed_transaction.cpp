@@ -97,7 +97,7 @@ DistributedTransactionCoordinator::DistributedTransactionCoordinator(
         wal_manager_ = std::make_unique<WALManager>(wal_config);
         
         // Recover any in-doubt transactions from WAL
-        recoverInDoubtTransactions();
+        [[maybe_unused]] const auto recovered_count = recoverInDoubtTransactions();
     }
 }
 
@@ -257,7 +257,7 @@ bool DistributedTransactionCoordinator::commit(const std::string& txn_id) {
         txn.state = TransactionState::ABORTING;
         txn.error_detail = "Prepare phase failed - one or more participants could not prepare";
         if (config_.enable_recovery_log) {
-            logDecisionStateForRecovery(txn, false, "decision", "prepare_phase_failed");
+            (void)logDecisionStateForRecovery(txn, false, "decision", "prepare_phase_failed");
         }
         lock.unlock();
         
@@ -304,7 +304,7 @@ bool DistributedTransactionCoordinator::commit(const std::string& txn_id) {
         }
         txn.state = TransactionState::ABORTED;
         if (config_.enable_recovery_log) {
-            logDecisionStateForRecovery(txn, false, "decision", "prepared_wal_logging_failed");
+            (void)logDecisionStateForRecovery(txn, false, "decision", "prepared_wal_logging_failed");
             logTransactionForRecovery(txn);
         }
         aborted_transactions_.fetch_add(1, std::memory_order_relaxed);
@@ -347,7 +347,8 @@ bool DistributedTransactionCoordinator::commit(const std::string& txn_id) {
             txn.state = TransactionState::ABORTING;
             txn.error_detail = "WAL flush failed before Phase 2 COMMIT";
             if (config_.enable_recovery_log) {
-                logDecisionStateForRecovery(txn, false, "decision", "commit_decision_flush_failed");
+                (void)logDecisionStateForRecovery(
+                    txn, false, "decision", "commit_decision_flush_failed");
             }
             lock.unlock();
             for (auto& participant : txn.participants) {
@@ -413,7 +414,7 @@ bool DistributedTransactionCoordinator::abort(const std::string& txn_id) {
     txn.state = TransactionState::ABORTING;
 
     if (config_.enable_recovery_log) {
-        logDecisionStateForRecovery(txn, false, "decision", "explicit_abort");
+        (void)logDecisionStateForRecovery(txn, false, "decision", "explicit_abort");
     }
     
     // Send abort to all participants
