@@ -891,14 +891,15 @@ std::optional<http::response<http::string_body>> RopeApiHandler::requireAccess(
     [[maybe_unused]] const std::string& resource,
     [[maybe_unused]] const std::string& path)
 {
-    // Basic authentication check - if auth middleware is not configured or not enabled,
-    // allow access (open mode)
+    // Enforce scope-based authorization (mirrors VectorApiHandler RBAC pattern).
+    // When auth middleware is not configured or not enabled, fail-closed by denying access.
     if (!auth_ || !auth_->isEnabled()) {
-        return std::nullopt;
+        // Fail-closed: ROPE endpoints require authentication and authorization
+        return makeErrorResponse(http::status::unauthorized,
+                                 "Authentication required for ROPE operations", req);
     }
     
-    // Enforce scope-based authorization (mirrors VectorApiHandler RBAC pattern).
-    // Extract Bearer token and verify the required permission scope via
+    // Extract ****** and verify the required permission scope via
     // auth_->authorize(); deny with HTTP 403 when the scope is not granted.
     const auto auth_header = req[http::field::authorization];
     if (auth_header.empty()) {
@@ -912,6 +913,16 @@ std::optional<http::response<http::string_body>> RopeApiHandler::requireAccess(
         return makeErrorResponse(http::status::unauthorized, "Invalid authorization header", req);
     }
 
+    // Try custom authorization function first (stub #280 bridge)
+    if (authorizeFn_) {
+        if (!authorizeFn_(*token, permission)) {
+            return makeErrorResponse(http::status::forbidden,
+                                     "Insufficient permissions for scope: " + permission, req);
+        }
+        return std::nullopt;  // custom check approved
+    }
+
+    // Fall back to auth middleware authorization check
     auto ar = auth_->authorize(*token, permission);
     if (!ar.authorized) {
         return makeErrorResponse(http::status::forbidden,
