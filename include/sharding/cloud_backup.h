@@ -157,6 +157,7 @@ struct ReplicationTarget {
  * @see setS3UploadFn, setS3DownloadFn, setS3DeleteFn, setS3ListFn, setS3ExistsFn
  * @see setAzureUploadFn, setAzureDownloadFn, setAzureDeleteFn, setAzureListFn, setAzureExistsFn
  * @see setGCSUploadFn, setGCSDownloadFn, setGCSDeleteFn, setGCSListFn, setGCSExistsFn
+ * @see cloud_sdk_integration.h for real SDK implementations (S3, Azure, GCS)
  * @see src/sharding/cloud_backup.cpp for detailed implementation documentation
  */
 class CloudBackupCoordinator {
