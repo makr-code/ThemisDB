@@ -147,6 +147,7 @@ CrossShardTransactionCoordinator::CrossShardTransactionCoordinator(
     : config_(config)
     , consensus_(consensus)
     , truetime_(truetime)
+    , ssi_manager_(config.ssi_config)
     , running_(false)
     , total_transactions_(0)
     , committed_transactions_(0)
@@ -403,6 +404,62 @@ size_t CrossShardTransactionCoordinator::recoverInDoubtTransactions() {
         recovery_result.details.in_doubt_transactions);
 
     return resolved;
+}
+
+std::string CrossShardTransactionCoordinator::recoveryCoordinatorName() const {
+    return "CrossShardTransactionCoordinator";
+}
+
+std::string CrossShardTransactionCoordinator::recoveryBackendName() const {
+    return (transaction_wal_ && snapshot_manager_) ? "WAL/snapshot" : "disabled";
+}
+
+std::vector<themis::transaction::RecoverableTwoPhaseTransaction>
+CrossShardTransactionCoordinator::getRecoverableTransactions() const {
+    std::vector<themis::transaction::RecoverableTwoPhaseTransaction> recoverable;
+
+    std::lock_guard<std::timed_mutex> lock(transactions_mutex_);
+    recoverable.reserve(transactions_.size());
+    for (const auto& [txn_id, txn] : transactions_) {
+        if (txn.state == TransactionState::COMMITTED ||
+            txn.state == TransactionState::ABORTED) {
+            continue;
+        }
+
+        themis::transaction::RecoverableTwoPhaseTransaction info;
+        info.transaction_id = txn_id;
+        switch (txn.state) {
+            case TransactionState::ACTIVE:
+                info.state = themis::transaction::RecoverableTwoPhaseState::ACTIVE;
+                break;
+            case TransactionState::PREPARING:
+                info.state = themis::transaction::RecoverableTwoPhaseState::PREPARING;
+                break;
+            case TransactionState::PREPARED:
+                info.state = themis::transaction::RecoverableTwoPhaseState::PREPARED;
+                break;
+            case TransactionState::COMMITTING:
+                info.state = themis::transaction::RecoverableTwoPhaseState::COMMITTING;
+                info.decision_recorded = true;
+                info.decision_commit = true;
+                break;
+            case TransactionState::ABORTING:
+                info.state = themis::transaction::RecoverableTwoPhaseState::ABORTING;
+                info.decision_recorded = true;
+                info.decision_commit = false;
+                break;
+            case TransactionState::UNKNOWN:
+                info.state = themis::transaction::RecoverableTwoPhaseState::UNKNOWN;
+                break;
+            case TransactionState::COMMITTED:
+            case TransactionState::ABORTED:
+                info.state = themis::transaction::RecoverableTwoPhaseState::COMPLETED;
+                break;
+        }
+        recoverable.push_back(std::move(info));
+    }
+
+    return recoverable;
 }
 
 /** @brief Execute configured recovery backend and emit telemetry summary. */
@@ -790,6 +847,11 @@ bool CrossShardTransactionCoordinator::prepare(const std::string& transaction_id
                       "transaction {}", transaction_id);
         return false;
     }
+    // Capture isolation level while the lock is held.
+    const auto isolation = transactions_.count(transaction_id) > 0
+        ? transactions_.at(transaction_id).isolation_level
+        : IsolationLevel::SNAPSHOT_ISOLATION;
+
     if (all_prepared) {
         txn.state = TransactionState::PREPARED;
         persistTransactionState(transaction_id, TransactionState::PREPARED);
@@ -798,6 +860,23 @@ bool CrossShardTransactionCoordinator::prepare(const std::string& transaction_id
         txn.state = TransactionState::ACTIVE;  // Roll back to active
     }
     lock.unlock();
+
+    // ── Distributed SSI validation (SERIALIZABLE transactions only) ──────────
+    // Perform cross-shard conflict detection after all participants have
+    // prepared but before we confirm the PREPARED state to the caller.
+    // If a serialization conflict is detected the transaction is aborted.
+    if (all_prepared && isolation == IsolationLevel::SERIALIZABLE) {
+        auto conflicts = ssi_manager_.validateAtPrepare(transaction_id);
+        if (!conflicts.empty()) {
+            spdlog::warn(
+                "Transaction {} aborted due to cross-shard SSI conflict: {}",
+                transaction_id, conflicts.front().message);
+            // Abort the transaction and clean up SSI bookkeeping.
+            abort(transaction_id);
+            ssi_manager_.clearTransaction(transaction_id);
+            return false;
+        }
+    }
     
     // Replicate prepare state via consensus
     if (consensus_ && all_prepared) {
@@ -914,7 +993,10 @@ bool CrossShardTransactionCoordinator::commit(const std::string& transaction_id)
             {"state", static_cast<int>(final_state)}
         }));
     }
-    
+
+    // Release SSI bookkeeping regardless of commit/abort outcome.
+    ssi_manager_.clearTransaction(transaction_id);
+
     return success;
 }
 
@@ -1033,6 +1115,10 @@ bool CrossShardTransactionCoordinator::abort(const std::string& transaction_id) 
     }
     
     spdlog::info("Transaction {} aborted", transaction_id);
+
+    // Release SSI bookkeeping for this transaction.
+    ssi_manager_.clearTransaction(transaction_id);
+
     return true;
 }
 
@@ -3461,6 +3547,56 @@ void CrossShardTransactionCoordinator::preCommitRetryThread() {
     spdlog::info("3PC PreCommit retry thread stopped");
 }
 
+// ============================================================================
+// Distributed SSI API
+// ============================================================================
+
+void CrossShardTransactionCoordinator::registerShardReadSet(
+    const std::string& transaction_id,
+    const std::string& shard_id,
+    const std::vector<CrossShardPredicateLock>& predicates)
+{
+    // Only track SERIALIZABLE transactions — early-exit for others to avoid
+    // overhead on the common non-serializable path.
+    {
+        std::unique_lock<std::timed_mutex> lk(transactions_mutex_, std::defer_lock);
+        if (lk.try_lock_for(config_.lock_timeout)) {
+            auto it = transactions_.find(transaction_id);
+            if (it == transactions_.end() ||
+                it->second.isolation_level != IsolationLevel::SERIALIZABLE) {
+                return;
+            }
+        }
+    }
+    ssi_manager_.registerReadSet(transaction_id, shard_id, predicates);
+}
+
+void CrossShardTransactionCoordinator::registerShardWriteSet(
+    const std::string& transaction_id,
+    const std::string& shard_id,
+    const std::vector<std::string>& keys)
+{
+    ssi_manager_.registerWriteSet(transaction_id, shard_id, keys);
+}
+
+std::vector<CrossShardSSIConflict>
+CrossShardTransactionCoordinator::validateCrossShardSSI(
+    const std::string& transaction_id) const
+{
+    return ssi_manager_.validateAtPrepare(transaction_id);
+}
+
+void CrossShardTransactionCoordinator::setSSIConfig(
+    const CrossShardSSIManager::Config& config)
+{
+    ssi_manager_.setConfig(config);
+}
+
+CrossShardSSIManager::Config
+CrossShardTransactionCoordinator::getSSIConfig() const
+{
+    return ssi_manager_.getConfig();
+}
+
 } // namespace sharding
 } // namespace themisdb
-

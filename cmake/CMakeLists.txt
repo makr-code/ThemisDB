@@ -2623,6 +2623,7 @@ set(THEMIS_CORE_SOURCES
     ../src/sharding/paxos_state_persistence.cpp
     ../src/sharding/cross_shard_transaction.cpp
     ../src/sharding/cross_shard_fk_validator.cpp
+    ../src/sharding/cross_shard_ssi_manager.cpp
     ../src/sharding/transaction_wal.cpp
     ../src/sharding/transaction_snapshot.cpp
     ../src/sharding/redundancy_strategy.cpp
