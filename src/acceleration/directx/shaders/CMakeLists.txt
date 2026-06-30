@@ -125,3 +125,58 @@ install(FILES ${_GEO_HLSL_PATHS}
 )
 
 message(STATUS "DirectX Geo shaders → ${GEO_SHADER_OUTPUT_DIR}")
+
+# ---------------------------------------------------------------------------
+# LoRA shaders
+# ---------------------------------------------------------------------------
+
+set(LORA_SHADER_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/lora")
+set(LORA_SHADER_OUTPUT_DIR "${CMAKE_BINARY_DIR}/shaders/lora")
+file(MAKE_DIRECTORY "${LORA_SHADER_OUTPUT_DIR}")
+
+set(LORA_HLSL_SHADERS
+    elementwise.hlsl
+    embedding_lookup.hlsl
+    gradient.hlsl
+    matmul.hlsl
+    sequence_mean.hlsl
+    dequantization_nf4.hlsl
+    quantization_nf4.hlsl
+)
+
+set(COMPILED_LORA_SHADERS "")
+foreach(_shader IN LISTS LORA_HLSL_SHADERS)
+    get_filename_component(_stem "${_shader}" NAME_WE)
+    set(_src  "${LORA_SHADER_SOURCE_DIR}/${_shader}")
+    set(_out  "${LORA_SHADER_OUTPUT_DIR}/${_stem}.cso")
+
+    add_custom_command(
+        OUTPUT  "${_out}"
+        COMMAND "${DXC_COMPILER}" -T cs_6_0 -E CSMain "${_src}" -Fo "${_out}"
+        DEPENDS "${_src}"
+        COMMENT "Compiling DirectX LoRA shader: ${_shader}"
+        VERBATIM
+    )
+    list(APPEND COMPILED_LORA_SHADERS "${_out}")
+endforeach()
+
+add_custom_target(directx_lora_shaders ALL
+    DEPENDS ${COMPILED_LORA_SHADERS}
+    COMMENT "Building DirectX LoRA shaders"
+)
+
+install(FILES ${COMPILED_LORA_SHADERS}
+    DESTINATION bin/shaders/lora
+    COMPONENT shaders
+)
+
+set(_LORA_HLSL_PATHS "")
+foreach(_shader IN LISTS LORA_HLSL_SHADERS)
+    list(APPEND _LORA_HLSL_PATHS "${LORA_SHADER_SOURCE_DIR}/${_shader}")
+endforeach()
+install(FILES ${_LORA_HLSL_PATHS}
+    DESTINATION share/themis/shaders/lora/source
+    COMPONENT shaders
+)
+
+message(STATUS "DirectX LoRA shaders → ${LORA_SHADER_OUTPUT_DIR}")
