@@ -260,14 +260,23 @@ bool PaxosStatePersistence::persistAccept(uint64_t slot,
     ConsensusLogEntry entry;
     entry.index = slot;
     entry.term = ballot_round;
-    entry.operation = "PAXOS_ACCEPT_COMMAND";
     entry.timestamp = std::chrono::system_clock::now();
 
     json payload = json::object();
     payload["raw_command"] = value;
+    
+    // Parse the command to extract structured metadata
     json parsed = json::parse(value, nullptr, false);
-    if (!parsed.is_discarded()) {
-        payload["parsed_command"] = std::move(parsed);
+    if (!parsed.is_discarded() && parsed.is_object()) {
+        payload["parsed_command"] = parsed;
+        // Extract operation type from command metadata for better replay/debug fidelity
+        if (parsed.contains("operation") && parsed["operation"].is_string()) {
+            entry.operation = parsed["operation"].get<std::string>();
+        } else {
+            entry.operation = "paxos.accept";
+        }
+    } else {
+        entry.operation = "paxos.accept";
     }
     entry.data = std::move(payload);
 

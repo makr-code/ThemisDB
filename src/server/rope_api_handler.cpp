@@ -848,6 +848,28 @@ http::response<http::string_body> RopeApiHandler::handleStatsGet(
                     {"rotation_ready", config_opt.has_value()}
                 };
             }
+
+            // STUB #307 REMEDIATION: Query real rotation metrics
+            auto rope_stats_opt = vector_index_->getRotaryEmbeddingStats();
+            if (rope_stats_opt) {
+                const auto& rope_stats = *rope_stats_opt;
+                double avg_latency_ms = rope_stats.avg_rotation_time_us / 1000.0;
+                response["rope_metrics"] = {
+                    {"rotation_count", rope_stats.total_rotated_entities},
+                    {"relational_rotation_count", rope_stats.total_relational_rotations},
+                    {"avg_rotation_latency_ms", avg_latency_ms},
+                    {"status", "available"}
+                };
+                span.setAttribute("rope.rotation_count", static_cast<int64_t>(rope_stats.total_rotated_entities));
+                span.setAttribute("rope.avg_latency_ms", avg_latency_ms);
+            } else {
+                response["rope_metrics"] = {
+                    {"rotation_count", 0},
+                    {"relational_rotation_count", 0},
+                    {"avg_rotation_latency_ms", 0.0},
+                    {"status", "unavailable"}
+                };
+            }
         }
         
         span.setStatus(true);

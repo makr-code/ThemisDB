@@ -813,6 +813,7 @@ if(THEMIS_ENABLE_LLM)
         ${CMAKE_CURRENT_SOURCE_DIR}/prompt/test_prompt_policy.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/rag/test_rag_prompt_injection.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/feedback/test_feedback_store.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/feedback/test_feedback_plugin_modify.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/prompt/test_prompt_engineering_api_handler.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/prompt/test_prompt_engineering_grpc_service.cpp
     )
@@ -915,6 +916,7 @@ target_sources(themis_tests PRIVATE
 if(THEMIS_ENABLE_GPU)
     target_sources(themis_tests PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/gpu/test_gpu_memory_pool.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/gpu/test_gpu_temperature_telemetry.cpp
     )
 endif()
 

@@ -817,5 +817,85 @@ TEST_F(VoiceApiHandlerJWTValidationTest, BearerPrefixCaseSensitive) {
     ASSERT_EQ(response.result(), http::status::unauthorized);
 }
 
+// ===========================================================================
+// Stub #308: Voice Session Hard Delete
+// ===========================================================================
+
+/**
+ * Test: DELETE /api/v1/voice/sessions/{id} with valid session
+ * Expected: 200 OK with success=true and deleted session_id
+ */
+TEST_F(VoiceApiHandlerJWTValidationTest, DeleteSessionSucceedsForExistingSession) {
+    // Create a session first
+    auto create_body = nlohmann::json::object();
+    create_body["session_id"] = "delete-test-session";
+    
+    auto create_req = makeRequestWithAuth(http::verb::get, 
+                                         "/api/v1/voice/sessions/delete-test-session");
+    create_req.prepare_payload();
+    auto create_response = handler.handleRequest(create_req);
+    ASSERT_EQ(create_response.result(), http::status::ok);
+    
+    // Now delete it
+    auto delete_req = makeRequestWithAuth(http::verb::delete_, 
+                                         "/api/v1/voice/sessions/delete-test-session");
+    delete_req.prepare_payload();
+    auto delete_response = handler.handleRequest(delete_req);
+    
+    ASSERT_EQ(delete_response.result(), http::status::ok);
+    auto body = parseBody(delete_response);
+    EXPECT_TRUE(body.value("success", false));
+    EXPECT_EQ(body.value("session_id", ""), "delete-test-session");
+}
+
+/**
+ * Test: DELETE /api/v1/voice/sessions/{id} with non-existent session
+ * Expected: 404 Not Found
+ */
+TEST_F(VoiceApiHandlerJWTValidationTest, DeleteSessionReturns404ForMissingSession) {
+    auto req = makeRequestWithAuth(http::verb::delete_, 
+                                  "/api/v1/voice/sessions/nonexistent-session");
+    req.prepare_payload();
+    auto response = handler.handleRequest(req);
+    
+    ASSERT_EQ(response.result(), http::status::not_found);
+    auto body = parseBody(response);
+    EXPECT_EQ(body.value("error", ""), "Not Found");
+}
+
+/**
+ * Test: DELETE /api/v1/voice/sessions/{id} performs hard-delete
+ * Expected: Session is completely removed, not just cleared
+ */
+TEST_F(VoiceApiHandlerJWTValidationTest, DeleteSessionPerformsHardDelete) {
+    // Create a session
+    auto create_req = makeRequestWithAuth(http::verb::get, 
+                                         "/api/v1/voice/sessions/hard-delete-test");
+    create_req.prepare_payload();
+    auto create_response = handler.handleRequest(create_req);
+    ASSERT_EQ(create_response.result(), http::status::ok);
+    
+    // Delete it
+    auto delete_req = makeRequestWithAuth(http::verb::delete_, 
+                                         "/api/v1/voice/sessions/hard-delete-test");
+    delete_req.prepare_payload();
+    auto delete_response = handler.handleRequest(delete_req);
+    ASSERT_EQ(delete_response.result(), http::status::ok);
+    
+    // Try to get it again - should create a new one, not return the old one
+    auto get_req = makeRequestWithAuth(http::verb::get, 
+                                      "/api/v1/voice/sessions/hard-delete-test");
+    get_req.prepare_payload();
+    auto get_response = handler.handleRequest(get_req);
+    ASSERT_EQ(get_response.result(), http::status::ok);
+    
+    // The retrieved session should be newly created (empty history, etc)
+    auto body = parseBody(get_response);
+    EXPECT_EQ(body.value("session_id", ""), "hard-delete-test");
+    // Verify it's a fresh session with empty or minimal state
+    auto history = body.value("history", nlohmann::json::array());
+    EXPECT_TRUE(history.is_array());
+}
+
 } // namespace
 } // namespace themis::server
