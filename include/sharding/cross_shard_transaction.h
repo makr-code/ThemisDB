@@ -24,6 +24,7 @@
 #pragma once
 
 #include "sharding/consensus_module.h"
+#include "sharding/cross_shard_ssi_manager.h"
 #include "sharding/distributed_transaction.h"
 #include "sharding/truetime.h"
 #include "sharding/wal_manager.h"  // For LSN type
@@ -233,6 +234,13 @@ struct CrossShardTransactionConfig {
         const std::string& shard_id,
         const std::string& endpoint
     )> polled_wait_for_edge_collector;
+
+    // ── Distributed Serializable Snapshot Isolation (SSI) ────────────────────
+
+    /// Configuration for cross-shard SSI predicate-lock tracking and
+    /// conflict detection.  Applies only to transactions with isolation level
+    /// SERIALIZABLE.  Inactive (no-op) for all other isolation levels.
+    CrossShardSSIManager::Config ssi_config;
 };
 
 struct BackendRecoveryStats {
@@ -404,6 +412,84 @@ public:
      * @brief Clear all distributed wait edges for a transaction.
      */
     void clearDistributedWaits(const std::string& transaction_id);
+
+    // ── Distributed SSI API ──────────────────────────────────────────────────
+
+    /**
+     * @brief Register predicate (range) locks observed on @p shard_id for a
+     *        SERIALIZABLE transaction during its read phase.
+     *
+     * Must be called by the shard participant (or its proxy) before the
+     * transaction enters the prepare phase so that the coordinator has the
+     * full cross-shard read-set available for conflict detection.
+     *
+     * No-op when SSI is disabled or when @p transaction_id does not denote
+     * an active SERIALIZABLE transaction.
+     *
+     * Thread-safe.
+     *
+     * @param transaction_id  Global transaction identifier.
+     * @param shard_id        Shard that performed the range scan.
+     * @param predicates      Key ranges observed on @p shard_id.
+     */
+    void registerShardReadSet(
+        const std::string& transaction_id,
+        const std::string& shard_id,
+        const std::vector<CrossShardPredicateLock>& predicates);
+
+    /**
+     * @brief Register the keys written on @p shard_id by a SERIALIZABLE
+     *        transaction.
+     *
+     * Must be called by the shard participant (or its proxy) before the
+     * transaction enters the prepare phase.
+     *
+     * No-op when SSI is disabled.
+     *
+     * Thread-safe.
+     *
+     * @param transaction_id  Global transaction identifier.
+     * @param shard_id        Shard that performed the writes.
+     * @param keys            Keys written on @p shard_id.
+     */
+    void registerShardWriteSet(
+        const std::string& transaction_id,
+        const std::string& shard_id,
+        const std::vector<std::string>& keys);
+
+    /**
+     * @brief Perform cross-shard SSI conflict detection for @p transaction_id.
+     *
+     * Called internally by prepare() for SERIALIZABLE transactions.  May also
+     * be called explicitly by callers that manage prepare/commit life-cycles
+     * outside the coordinator (e.g. testing harnesses).
+     *
+     * Returns an empty vector when no conflict is found.  A non-empty result
+     * means the transaction must be aborted.
+     *
+     * Thread-safe.
+     *
+     * @param transaction_id  Transaction to validate.
+     * @return                All detected serialization conflicts.
+     */
+    [[nodiscard]] std::vector<CrossShardSSIConflict>
+    validateCrossShardSSI(const std::string& transaction_id) const;
+
+    /**
+     * @brief Update the SSI configuration applied to all future transactions.
+     *
+     * Thread-safe.  New values take effect immediately for subsequent
+     * registerShardReadSet() / validateCrossShardSSI() calls.
+     *
+     * @param config  New SSI tuning parameters.
+     */
+    void setSSIConfig(const CrossShardSSIManager::Config& config);
+
+    /**
+     * @brief Return the currently active SSI configuration.
+     * Thread-safe.
+     */
+    [[nodiscard]] CrossShardSSIManager::Config getSSIConfig() const;
     
     /**
      * @brief Get active transactions
@@ -605,6 +691,10 @@ private:
     CrossShardTransactionConfig config_; ///< Runtime coordinator configuration.
     std::shared_ptr<ConsensusModule> consensus_; ///< Consensus dependency for replicated decisions.
     std::shared_ptr<themis::sharding::TrueTime> truetime_; ///< Time source for MVCC/external consistency.
+
+    /// Distributed SSI manager for cross-shard predicate-lock tracking and
+    /// conflict detection.  Active only for SERIALIZABLE transactions.
+    CrossShardSSIManager ssi_manager_;
     
     // Transaction log file
     std::string transaction_log_path_; ///< Absolute transaction log file path.
