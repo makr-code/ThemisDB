@@ -46,7 +46,7 @@
 
 #include "sharding/shard_rpc_server.h"
 #include "sharding/shard_rpc_client.h"
-#include "transaction/in_doubt_recovery_coordinator.h"
+#include "transaction/recoverable_two_phase_coordinator.h"
 #include "sharding/wal_manager.h"
 #ifdef ERROR
 #undef ERROR
@@ -136,7 +136,7 @@ struct CoordinatorTxnRecord {
  *   assert(outcome.committed());
  * @endcode
  */
-class TwoPhaseCommitCoordinator : public themis::transaction::IInDoubtRecoveryCoordinator {
+class TwoPhaseCommitCoordinator : public themis::transaction::IRecoverableTwoPhaseCoordinator {
 public:
     /**
      * @brief Configuration for the coordinator.
@@ -254,6 +254,25 @@ public:
      * @return Number of in-doubt transactions resolved
      */
     size_t recoverInDoubtTransactions() override;
+
+    /**
+     * @brief Return the canonical coordinator name for global recovery reports.
+     * @return Stable coordinator type name.
+     */
+    [[nodiscard]] std::string recoveryCoordinatorName() const override;
+
+    /**
+     * @brief Return the durable backend used by this coordinator.
+     * @return "WAL" when enabled, otherwise "disabled".
+     */
+    [[nodiscard]] std::string recoveryBackendName() const override;
+
+    /**
+     * @brief Snapshot current in-doubt transactions using the shared state model.
+     * @return Normalized non-final transaction list for global recovery orchestration.
+     */
+    [[nodiscard]] std::vector<themis::transaction::RecoverableTwoPhaseTransaction>
+    getRecoverableTransactions() const override;
 
     // ── Introspection ─────────────────────────────────────────────────────────
 

@@ -35,6 +35,7 @@
 #include "sharding/shard_rpc_client_adapter.h"
 #include "sharding/metrics_registry.h"
 #include "sharding/prometheus_metrics.h"
+#include "transaction/two_phase_commit_wal_recovery.h"
 #include "utils/logger.h"
 #include <chrono>
 #include <stdexcept>
@@ -406,6 +407,77 @@ size_t TwoPhaseCommitCoordinator::recoverInDoubtTransactions() {
     THEMIS_INFO("2PC coordinator [{}] recovery complete – {} in-doubt txns resolved",
                 coordinator_id_, resolved);
     return resolved;
+}
+
+/**
+ * @brief Return stable coordinator type name for global recovery reports.
+ * @return "TwoPhaseCommitCoordinator".
+ */
+std::string TwoPhaseCommitCoordinator::recoveryCoordinatorName() const {
+    return "TwoPhaseCommitCoordinator";
+}
+
+/**
+ * @brief Return name of the durable backend used by this coordinator.
+ * @return "WAL" when a WAL directory is configured, "disabled" otherwise.
+ */
+std::string TwoPhaseCommitCoordinator::recoveryBackendName() const {
+    return wal_ ? "WAL" : "disabled";
+}
+
+/**
+ * @brief Return normalized snapshot of non-final transactions for global recovery.
+ *
+ * Iterates the in-memory transaction map and maps each coordinator-local
+ * CoordinatorTxnState to the canonical RecoverableTwoPhaseState.
+ *
+ * @return List of non-final (not COMPLETED) transactions.
+ */
+std::vector<themis::transaction::RecoverableTwoPhaseTransaction>
+TwoPhaseCommitCoordinator::getRecoverableTransactions() const {
+    using themis::transaction::RecoverableTwoPhaseState;
+    using themis::transaction::RecoverableTwoPhaseTransaction;
+
+    std::lock_guard<std::timed_mutex> lock(mutex_);
+
+    std::vector<RecoverableTwoPhaseTransaction> result;
+    for (const auto& [txn_id, rec] : transactions_) {
+        if (rec.state == CoordinatorTxnState::COMPLETED) {
+            continue;
+        }
+
+        RecoverableTwoPhaseTransaction rt;
+        rt.transaction_id = txn_id;
+
+        switch (rec.state) {
+        case CoordinatorTxnState::ACTIVE:
+            rt.state = RecoverableTwoPhaseState::ACTIVE;
+            break;
+        case CoordinatorTxnState::PREPARING:
+            rt.state = RecoverableTwoPhaseState::PREPARING;
+            break;
+        case CoordinatorTxnState::COMMIT_DECIDED:
+            rt.state             = RecoverableTwoPhaseState::COMMITTING;
+            rt.decision_recorded = true;
+            rt.decision_commit   = true;
+            break;
+        case CoordinatorTxnState::ABORT_DECIDED:
+            rt.state             = RecoverableTwoPhaseState::ABORTING;
+            rt.decision_recorded = true;
+            rt.decision_commit   = false;
+            break;
+        case CoordinatorTxnState::FAILED:
+            rt.state = RecoverableTwoPhaseState::FAILED;
+            break;
+        default:
+            rt.state = RecoverableTwoPhaseState::UNKNOWN;
+            break;
+        }
+
+        result.push_back(std::move(rt));
+    }
+
+    return result;
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
