@@ -172,6 +172,12 @@ void AsyncSSEStream::drainEventQueue() noexcept {
                 output_ << "data: " << queued.event.toJson().dump() << "\n\n";
                 output_.flush();
                 event_count_.fetch_add(1, std::memory_order_relaxed);
+                
+                // Track delivered event for at-least-once guarantees
+                {
+                    std::lock_guard<std::mutex> lock(delivered_mutex_);
+                    delivered_events_.push_back(queued.event);
+                }
             } catch (const std::exception& ex) {
                 THEMIS_WARN("AsyncSSEStream::drainEventQueue write failed: {}", ex.what());
                 should_close_.store(true, std::memory_order_release);
@@ -258,6 +264,15 @@ void AsyncSSEStream::close() noexcept {
     active_.store(false, std::memory_order_release);
     should_close_.store(true, std::memory_order_release);
     // SubscriptionHandle destructor will auto-unsubscribe
+}
+
+std::vector<Changefeed::ChangeEvent> AsyncSSEStream::getDeliveredEvents() const noexcept {
+    try {
+        std::lock_guard<std::mutex> lock(delivered_mutex_);
+        return delivered_events_;
+    } catch (...) {
+        return {};
+    }
 }
 
 // ============================================================================
@@ -690,11 +705,13 @@ http::response<http::string_body> ChangefeedApiHandler::handleStreamSse(
                     size_t events_delivered = stream.run(key_prefix, event_types);
 
                     // Track newly delivered events for at-least-once guarantees
-                    if (!consumer_id.empty() && events_delivered > 0) {
-                        // Note: At-least-once tracking is now handled within the async stream
-                        // The events are tracked as they're delivered to the client
-                        THEMIS_DEBUG("Async SSE stream delivered {} events to consumer '{}'",
-                                    events_delivered, consumer_id);
+                    if (!consumer_id.empty()) {
+                        auto delivered = stream.getDeliveredEvents();
+                        if (!delivered.empty()) {
+                            delivery_tracker_.trackDelivery(consumer_id, delivered);
+                            THEMIS_DEBUG("Async SSE stream tracked {} events for consumer '{}'",
+                                        delivered.size(), consumer_id);
+                        }
                     }
 
                     span.setAttribute("sse.delivery_mode", "async_event_driven");

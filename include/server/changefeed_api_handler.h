@@ -25,6 +25,10 @@
 #include <mutex>
 #include <string>
 #include <optional>
+#include <atomic>
+#include <vector>
+#include <set>
+#include <ostream>
 #include <boost/beast/http.hpp>
 #include <nlohmann/json.hpp>
 #include "server/auth_middleware.h"
@@ -132,6 +136,14 @@ public:
      */
     size_t getHeartbeatCount() const noexcept { return heartbeat_count_; }
 
+    /**
+     * @brief Get the raw events that were delivered.
+     * 
+     * Returns a copy of the events that were successfully delivered
+     * to the output stream. Useful for at-least-once delivery tracking.
+     */
+    std::vector<Changefeed::ChangeEvent> getDeliveredEvents() const noexcept;
+
 private:
     /// Event queue entry (raw event with additional metadata)
     struct QueuedEvent {
@@ -159,6 +171,10 @@ private:
     /// Thread-safe event queue for backpressure handling
     mutable std::mutex queue_mutex_;
     std::vector<QueuedEvent> event_queue_;
+    
+    /// Delivered events for at-least-once tracking
+    mutable std::mutex delivered_mutex_;
+    std::vector<Changefeed::ChangeEvent> delivered_events_;
 
     /// Stream state
     std::atomic<bool> active_{true};

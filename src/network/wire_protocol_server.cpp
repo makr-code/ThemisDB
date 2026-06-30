@@ -3428,8 +3428,9 @@ void WireProtocolServer::Session::handleBpmnStartProcess() {
     }
 
     if (!server_->process_graph_) {
-        sendError(503, "Process engine not available");
-        return;
+        throw std::runtime_error(
+            "CRITICAL: Process engine not wired to wire protocol server. "
+            "Process engine injection is mandatory at startup.");
     }
 
     try {
@@ -3563,8 +3564,9 @@ void WireProtocolServer::Session::handleBpmnTaskComplete() {
     }
 
     if (!server_->process_graph_) {
-        sendError(503, "Process engine not available");
-        return;
+        throw std::runtime_error(
+            "CRITICAL: Process engine not wired to wire protocol server. "
+            "Process engine injection is mandatory at startup.");
     }
 
     try {
@@ -3702,8 +3704,9 @@ void WireProtocolServer::Session::handleBpmnQueryInstance() {
     }
 
     if (!server_->process_graph_) {
-        sendError(503, "Process engine not available");
-        return;
+        throw std::runtime_error(
+            "CRITICAL: Process engine not wired to wire protocol server. "
+            "Process engine injection is mandatory at startup.");
     }
 
     try {
