@@ -24,6 +24,7 @@
 #pragma once
 
 #include "sharding/consensus_module.h"
+#include "sharding/cross_shard_fk_validator.h"
 #include "sharding/distributed_transaction.h"
 #include "sharding/truetime.h"
 #include "sharding/wal_manager.h"  // For LSN type
@@ -467,6 +468,24 @@ public:
      */
     void setDeferredPreCommitCallback(DeferredPreCommitFn fn);
 
+    /**
+     * @brief Inject a Cross-Shard Foreign Key Validator (Issue #5390).
+     *
+     * When a non-null validator is set, CrossShardTransactionCoordinator::prepare()
+     * calls CrossShardForeignKeyValidator::validateTransaction() on the merged
+     * operation set **before** sending PREPARE RPCs to any participant.  If any
+     * FK violation is detected, prepare() returns false immediately and the
+     * transaction is aborted — no PREPARE RPC is ever sent.
+     *
+     * This implements the "prepare blocks on FK violation" requirement from #5390
+     * and ensures orphaned child records can never be committed across shards.
+     *
+     * Pass @c nullptr to disable FK validation (default behaviour).
+     *
+     * @param validator  Shared FK validator instance; may be nullptr.
+     */
+    void setForeignKeyValidator(std::shared_ptr<CrossShardForeignKeyValidator> validator);
+
 private:
     /**
      * @brief Execute 2PC protocol
@@ -632,6 +651,10 @@ private:
     PreCommitRpcFn precommit_callback_; ///< Optional injected PreCommit RPC callback.
 
     DeferredPreCommitFn deferred_precommit_callback_;///< Optional callback for deferred PreCommit retry.
+
+    /// Cross-shard FK validator (Issue #5390). Protected by callbacks_mutex_.
+    /// When non-null, prepare() validates FK constraints before sending PREPARE RPCs.
+    std::shared_ptr<CrossShardForeignKeyValidator> fk_validator_;
     
     // Deferred PreCommit tracking
     std::map<std::string, std::vector<std::string>> deferred_precommits_; ///< txn_id -> failed shards

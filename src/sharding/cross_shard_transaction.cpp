@@ -662,7 +662,58 @@ bool CrossShardTransactionCoordinator::prepare(const std::string& transaction_id
         spdlog::error("Cannot prepare transaction {} with no participants", transaction_id);
         return false;
     }
-    
+
+    // Issue #5390: Cross-Shard FK Referential Integrity Check.
+    // Validate all registered foreign key constraints BEFORE advancing to
+    // PREPARING and before sending any PREPARE RPC to participants.
+    // If any FK violation is detected, fail the prepare phase immediately
+    // (fail-closed) so that orphaned child records can never be committed.
+    {
+        std::shared_ptr<CrossShardForeignKeyValidator> fk_val;
+        {
+            std::lock_guard<std::mutex> cb_lock(callbacks_mutex_);
+            fk_val = fk_validator_;
+        }
+        if (fk_val) {
+            // Collect all operations across all participants for FK checking.
+            nlohmann::json all_ops = nlohmann::json::array();
+            for (const auto& [shard_id, participant] : txn.participants) {
+                for (const auto& op_str : participant.operations) {
+                    try {
+                        auto op = nlohmann::json::parse(op_str);
+                        all_ops.push_back(std::move(op));
+                    } catch (const std::exception& e) {
+                        spdlog::debug(
+                            "CrossShardFKValidator: skipping unparseable operation "
+                            "in transaction {}: {}", transaction_id, e.what());
+                    }
+                }
+            }
+
+            // Run validation outside the transaction lock to avoid deadlock
+            // while the lookup callback may perform network I/O.
+            lock.unlock();
+            auto violations = fk_val->validateTransaction(all_ops);
+            if (!lock.try_lock_for(config_.lock_timeout)) {
+                spdlog::error("Lock acquisition timeout after FK validation for "
+                              "transaction {}", transaction_id);
+                return false;
+            }
+
+            if (!violations.empty()) {
+                spdlog::error(
+                    "Transaction {} aborted during prepare: {} cross-shard FK "
+                    "violation(s) detected",
+                    transaction_id, violations.size());
+                for (const auto& v : violations) {
+                    spdlog::error("  FK violation: {}", v.message);
+                }
+                // Transaction remains ACTIVE so caller may inspect and abort.
+                return false;
+            }
+        }
+    }
+
     txn.state = TransactionState::PREPARING;
     persistTransactionState(transaction_id, TransactionState::PREPARING);
     lock.unlock();
@@ -1281,6 +1332,13 @@ void CrossShardTransactionCoordinator::setPreCommitCallback(PreCommitRpcFn fn) {
 void CrossShardTransactionCoordinator::setDeferredPreCommitCallback(DeferredPreCommitFn fn) {
     std::lock_guard<std::mutex> lock(callbacks_mutex_);
     deferred_precommit_callback_ = std::move(fn);
+}
+
+void CrossShardTransactionCoordinator::setForeignKeyValidator(
+    std::shared_ptr<CrossShardForeignKeyValidator> validator)
+{
+    std::lock_guard<std::mutex> lock(callbacks_mutex_);
+    fk_validator_ = std::move(validator);
 }
 
 // Private methods

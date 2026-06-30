@@ -22,6 +22,7 @@ ThemisDB's Distributed Transaction Coordinator implements a Two-Phase Commit (2P
 - ✅ **Fault Tolerance**: Handles participant failures gracefully
 - ✅ **Configurable Timeouts**: Customizable RPC and phase timeouts
 - ✅ **Cluster-Wide Deadlock Detection**: Distributed Wait-For Graph with cycle detection and victim abort
+- ✅ **Cross-Shard Foreign Key Validation**: Referential integrity enforced at prepare-phase boundary (Issue #5390)
 
 ## Two-Phase Commit Protocol
 
@@ -408,7 +409,126 @@ Transaction lifecycle events are logged:
 ✅ **Dedicated WALEntryType::PREPARE_TX**: Semantically correct WAL entry type for 2PC PREPARE phase  
 ✅ **TwoPhaseCommitParticipant**: Shard-side participant handler with idempotent message handling,
    WAL-backed durability, prepare-timeout auto-abort, and crash recovery (`recoverFromWAL`)  
-✅ **HTTP API**: REST endpoints for distributed transactions (`/dtxn/*`, see below)
+✅ **HTTP API**: REST endpoints for distributed transactions (`/dtxn/*`, see below)  
+✅ **Cross-Shard Foreign Key Validation** (Issue #5390): Referential integrity checks at prepare-phase
+   boundary via `CrossShardForeignKeyValidator` — see section below
+
+## Cross-Shard Foreign Key Validation
+
+### Problem
+
+Per-shard schema constraints (NOT NULL, UNIQUE, CHECK) can only be enforced within a single shard.
+Foreign key constraints that reference parent rows on *different* shards are structurally impossible
+to enforce locally, enabling orphaned child records when the parent shard does not hold a matching row.
+
+### Solution: Prepare-Phase FK Validation
+
+`CrossShardTransactionCoordinator::prepare()` now supports an injected
+`CrossShardForeignKeyValidator` that is called **before** any PREPARE RPC is
+sent to participants.  If any FK constraint is violated, `prepare()` returns
+`false` immediately and no participant ever enters the PREPARED state.
+
+**Protocol extension (Phase 1):**
+
+```
+1. Coordinator receives prepare() call.
+2. If a CrossShardForeignKeyValidator is configured:
+   a. Merge all shard operations into a unified list.
+   b. For each INSERT/UPDATE on a registered child table:
+      - Extract FK column value.
+      - Query parent shard: does the parent row exist? (via ParentKeyLookupFn)
+      - If lookup returns false or throws → FK violation detected (fail-closed).
+   c. If any violation → return false, transaction stays ACTIVE (no PREPARE sent).
+3. If no violation → proceed with normal 2PC PREPARE phase.
+```
+
+### Architecture
+
+```cpp
+// include/sharding/cross_shard_fk_validator.h
+
+struct CrossShardFKConstraint {
+    std::string constraint_name;   // e.g. "fk_orders_user_id"
+    std::string child_table;       // e.g. "orders"
+    std::string child_column;      // e.g. "user_id"
+    std::string parent_table;      // e.g. "users"
+    std::string parent_column;     // e.g. "id"
+    std::string parent_shard_id;   // shard that holds the parent table
+};
+
+class CrossShardForeignKeyValidator {
+public:
+    // Callback: (shard_id, parent_table, parent_column, fk_value) -> bool
+    using ParentKeyLookupFn = std::function<bool(...)>;
+
+    void registerConstraint(CrossShardFKConstraint constraint);
+    void removeConstraint(const std::string& constraint_name);
+    void setParentKeyLookup(ParentKeyLookupFn fn);
+
+    // Called by prepare() — returns violations; empty = OK.
+    std::vector<CrossShardFKViolation> validateTransaction(
+        const nlohmann::json& operations) const;
+};
+```
+
+### Usage
+
+```cpp
+// 1. Create and configure validator.
+auto fkv = std::make_shared<CrossShardForeignKeyValidator>();
+
+CrossShardFKConstraint fk;
+fk.constraint_name  = "fk_orders_user_id";
+fk.child_table      = "orders";
+fk.child_column     = "user_id";
+fk.parent_table     = "users";
+fk.parent_column    = "id";
+fk.parent_shard_id  = "shard_users";
+fkv->registerConstraint(std::move(fk));
+
+// 2. Inject a lookup callback (production: real gRPC lookup).
+fkv->setParentKeyLookup(
+    [&rpc_client](const std::string& shard, const std::string& table,
+                  const std::string& column, const std::string& value) {
+        return rpc_client.rowExists(shard, table, column, value);
+    });
+
+// 3. Wire into coordinator.
+coordinator.setForeignKeyValidator(fkv);
+
+// 4. Use normally — prepare() now blocks on FK violations.
+auto txn_id = coordinator.begin("my-txn");
+coordinator.addParticipant(txn_id, "shard_orders", "localhost:9001",
+                            {insert_op.dump()});
+bool ok = coordinator.prepare(txn_id);  // returns false if FK violated
+if (!ok) coordinator.abort(txn_id);
+```
+
+### Fail-Closed Guarantee
+
+- **No lookup callback**: treated as violation for every FK constraint.
+- **Lookup throws exception**: caught, treated as violation.
+- **Lookup returns false (network partition / shard unreachable)**: treated as violation.
+- **NULL FK value**: skipped (nullable FK semantics — no parent required).
+
+### Audit and Compliance
+
+Each FK violation is logged at `WARN` level with full constraint metadata
+(constraint name, child table/column, parent shard, FK value) and serialised
+to JSON via `CrossShardFKViolation::toJSON()` for audit trail integration.
+
+### Limitations and Migration Notes
+
+- The `ParentKeyLookupFn` is called **synchronously** during prepare; high-latency
+  remote lookups increase prepare-phase duration.  Keep lookup timeouts short.
+- The validator checks FK values **as presented in the operation data**.  If the
+  production storage layer encodes values differently, the lookup callback must
+  normalise accordingly.
+- Cross-shard FK constraints are advisory at the data model level; the validator
+  enforces them at the coordinator boundary but does not prevent schema changes
+  on individual shards.
+- For DSGVO/GDPR and PCI DSS audit compliance, persist `CrossShardFKViolation`
+  records to the audit log before returning from the FK check callback.
 
 ### HTTP API Reference
 
@@ -551,4 +671,5 @@ config.polled_wait_for_edge_collector =
 - [TransactionManager](../src/transaction/transaction_manager.h) - Local transaction support
 - [TrueTime](../include/sharding/truetime.h) - Distributed timestamp service
 - [ShardRPCClient](../include/sharding/shard_rpc_client.h) - RPC communication
+- [CrossShardForeignKeyValidator](../include/sharding/cross_shard_fk_validator.h) - Cross-shard FK referential integrity
 - [Sharding Documentation](SHARDING_IMPLEMENTATION_SUMMARY.md)
