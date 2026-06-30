@@ -405,6 +405,62 @@ size_t CrossShardTransactionCoordinator::recoverInDoubtTransactions() {
     return resolved;
 }
 
+std::string CrossShardTransactionCoordinator::recoveryCoordinatorName() const {
+    return "CrossShardTransactionCoordinator";
+}
+
+std::string CrossShardTransactionCoordinator::recoveryBackendName() const {
+    return (transaction_wal_ && snapshot_manager_) ? "WAL/snapshot" : "disabled";
+}
+
+std::vector<themis::transaction::RecoverableTwoPhaseTransaction>
+CrossShardTransactionCoordinator::getRecoverableTransactions() const {
+    std::vector<themis::transaction::RecoverableTwoPhaseTransaction> recoverable;
+
+    std::lock_guard<std::timed_mutex> lock(transactions_mutex_);
+    recoverable.reserve(transactions_.size());
+    for (const auto& [txn_id, txn] : transactions_) {
+        if (txn.state == TransactionState::COMMITTED ||
+            txn.state == TransactionState::ABORTED) {
+            continue;
+        }
+
+        themis::transaction::RecoverableTwoPhaseTransaction info;
+        info.transaction_id = txn_id;
+        switch (txn.state) {
+            case TransactionState::ACTIVE:
+                info.state = themis::transaction::RecoverableTwoPhaseState::ACTIVE;
+                break;
+            case TransactionState::PREPARING:
+                info.state = themis::transaction::RecoverableTwoPhaseState::PREPARING;
+                break;
+            case TransactionState::PREPARED:
+                info.state = themis::transaction::RecoverableTwoPhaseState::PREPARED;
+                break;
+            case TransactionState::COMMITTING:
+                info.state = themis::transaction::RecoverableTwoPhaseState::COMMITTING;
+                info.decision_recorded = true;
+                info.decision_commit = true;
+                break;
+            case TransactionState::ABORTING:
+                info.state = themis::transaction::RecoverableTwoPhaseState::ABORTING;
+                info.decision_recorded = true;
+                info.decision_commit = false;
+                break;
+            case TransactionState::UNKNOWN:
+                info.state = themis::transaction::RecoverableTwoPhaseState::UNKNOWN;
+                break;
+            case TransactionState::COMMITTED:
+            case TransactionState::ABORTED:
+                info.state = themis::transaction::RecoverableTwoPhaseState::COMPLETED;
+                break;
+        }
+        recoverable.push_back(std::move(info));
+    }
+
+    return recoverable;
+}
+
 /** @brief Execute configured recovery backend and emit telemetry summary. */
 CrossShardTransactionCoordinator::RecoveryRunResult
 CrossShardTransactionCoordinator::runRecoveryBackend(const char* context) {
@@ -3405,4 +3461,3 @@ void CrossShardTransactionCoordinator::preCommitRetryThread() {
 
 } // namespace sharding
 } // namespace themisdb
-
