@@ -73,6 +73,13 @@ namespace themis::transaction {
  * the two-phase commit protocol.  Concrete implementations wrap a local
  * DistributedTransactionCoordinator (for in-process tests) or a gRPC
  * stub (for real deployments).
+ *
+ * @par Exception contracts — fail-fast / fail-closed (#5376)
+ * - prepare(): exception is caught by the coordinator and counted as an
+ *   ABORT vote.  Use @c return @c false for expected abort conditions.
+ * - commit(): exception is caught and logged; delivery continues to other
+ *   participants.  Implementations must be idempotent.
+ * - abort(): same as commit().
  */
 class IGlobalRegionParticipant {
 public:
@@ -84,9 +91,15 @@ public:
      * The region must validate and durably lock all rows named in @p ops,
      * write a PREPARE log entry, and return its vote.
      *
+     * @par Exception contract — fail-fast
+     * Any exception is caught by GlobalTransactionManager and treated as an
+     * ABORT vote.  Throw only for unrecoverable failures; use @c return
+     * @c false for expected abort conditions.
+     *
      * @param txn_id     Globally unique transaction identifier
      * @param ops        JSON array of operations for this region
      * @return           true → vote COMMIT; false → vote ABORT
+     * @throws Any exception is caught and counted as an ABORT vote.
      */
     [[nodiscard]] virtual bool prepare(
         const std::string&    txn_id,
@@ -97,7 +110,11 @@ public:
      * @brief Phase 2 (commit path): Apply the prepared operations.
      *
      * Called only when the coordinator has received COMMIT votes from
-     * every participant.
+     * every participant.  Must be idempotent for crash recovery.
+     *
+     * @par Exception contract — fail-closed
+     * Exceptions are caught and logged by the coordinator.  Phase-2 delivery
+     * continues to remaining participants.
      *
      * @param txn_id           Transaction to commit
      * @param commit_timestamp TrueTime commit timestamp (nanoseconds since epoch)
@@ -109,6 +126,11 @@ public:
 
     /**
      * @brief Phase 2 (abort path): Discard the prepared operations.
+     *
+     * Must be idempotent; may be called again during crash recovery.
+     *
+     * @par Exception contract — fail-closed
+     * Same as commit().
      *
      * @param txn_id  Transaction to abort
      */

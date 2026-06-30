@@ -36,6 +36,7 @@
 #include "sharding/metrics_registry.h"
 #include "sharding/prometheus_metrics.h"
 #include "transaction/two_phase_commit_wal_recovery.h"
+#include "transaction/wal_entry_helper.h"
 #include "utils/logger.h"
 #include <chrono>
 #include <stdexcept>
@@ -584,33 +585,23 @@ std::string TwoPhaseCommitCoordinator::buildPayload(const nlohmann::json& ops) {
     return j.dump();
 }
 
-/** @brief Append coordinator event record to WAL with optional sync flush. */
+/** @brief Append coordinator event record to WAL with optional sync flush.
+ *
+ * Delegates to WALEntryHelper::appendOrLog() (non-throwing variant).
+ * WAL write failures are logged via THEMIS_ERROR but do not propagate —
+ * this coordinator maintains non-fatal WAL semantics for Phase-2 completion
+ * entries.  Decision entries (BEGIN_TX, COMMIT_TX/ABORT_TX decision) should
+ * ideally use the throwing variant; see Issue #5376 for tracking.
+ */
 void TwoPhaseCommitCoordinator::logToWAL(
     WALEntryType          type,
     const std::string&    txn_id,
     const nlohmann::json& data
 ) {
-    if (!wal_) return;
-
-    try {
-        WALEntry entry;
-        entry.type           = type;
-        entry.transaction_id = txn_id;
-        entry.timestamp      = static_cast<uint64_t>(
-            std::chrono::duration_cast<std::chrono::milliseconds>(
-                std::chrono::system_clock::now().time_since_epoch()
-            ).count()
-        );
-        entry.data = data;
-
-        wal_->append(entry);
-        if (config_.sync_wal_writes) {
-            wal_->flush();
-        }
-    } catch (const std::exception& e) {
-        THEMIS_ERROR("2PC coordinator [{}] WAL write failed for txn {}: {}",
-                     coordinator_id_, txn_id, e.what());
-    }
+    const std::string source = "2PC coordinator [" + coordinator_id_ + "]";
+    themis::transaction::WALEntryHelper::appendOrLog(
+        wal_.get(), type, txn_id, data, config_.sync_wal_writes, source
+    );
 }
 
 } // namespace themis::sharding

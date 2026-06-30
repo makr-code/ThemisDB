@@ -91,9 +91,21 @@ public:
     /**
      * @brief Phase 1 — validate operations, acquire locks, write PREPARE log.
      *
+     * The implementation must persist a durable PREPARE record before returning
+     * @c true.  The coordinator will call onCommit() or onAbort() exactly once
+     * after all participants have voted.
+     *
+     * @par Exception contract — fail-fast (#5376)
+     * Throwing an exception is treated as an ABORT vote by the coordinator.
+     * Implementations MUST NOT throw to signal transient conditions that could
+     * be retried; use @c return @c false instead.  Exceptions are reserved for
+     * unrecoverable failures (e.g. WAL I/O errors, corrupt state) where
+     * continuing with the prepare phase is unsafe.
+     *
      * @param txn_id        Globally unique transaction identifier.
      * @param affected_keys Keys this participant must lock for the transaction.
      * @return true → vote COMMIT; false → vote ABORT.
+     * @throws Any exception is caught by the coordinator and counted as an ABORT vote.
      */
     [[nodiscard]] virtual bool onPrepare(
         const std::string&              txn_id,
@@ -103,7 +115,15 @@ public:
     /**
      * @brief Phase 2 (commit path) — apply prepared operations, release locks.
      *
-     * Called only when every participant voted COMMIT.
+     * Called exactly once per transaction, only when every participant voted COMMIT.
+     * The implementation must be idempotent: the coordinator may call onCommit()
+     * again during crash recovery.
+     *
+     * @par Exception contract — fail-closed (#5376)
+     * Exceptions thrown by onCommit() are caught and logged by the coordinator.
+     * The Phase-2 loop continues to deliver the decision to remaining participants.
+     * Implementations must not rely on exceptions to signal partial commits —
+     * every failure must be retried or logged at the implementation level.
      *
      * @param txn_id  Transaction to commit.
      */
@@ -111,6 +131,13 @@ public:
 
     /**
      * @brief Phase 2 (abort path) — discard prepared operations, release locks.
+     *
+     * Called exactly once per transaction when any participant voted ABORT or an
+     * error occurred during Phase 1.  Must be idempotent for crash recovery.
+     *
+     * @par Exception contract — fail-closed (#5376)
+     * Same as onCommit(): exceptions are caught and logged; Phase-2 delivery
+     * continues for remaining participants.
      *
      * @param txn_id  Transaction to abort.
      */

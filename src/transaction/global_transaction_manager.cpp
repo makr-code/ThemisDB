@@ -24,6 +24,7 @@
 // Global Transaction Manager – multi-region ACID coordinator
 
 #include "transaction/global_transaction_manager.h"
+#include "transaction/wal_entry_helper.h"
 #include "utils/logger.h"
 #include <chrono>
 #include <sstream>
@@ -559,27 +560,8 @@ void GlobalTransactionManager::logToWAL(
     const std::string&             txn_id,
     const nlohmann::json&          data
 ) {
-    if (!wal_) return;
-
-    try {
-        themis::sharding::WALEntry entry;
-        entry.type           = type;
-        entry.transaction_id = txn_id;
-        entry.timestamp      = static_cast<uint64_t>(
-            std::chrono::duration_cast<std::chrono::milliseconds>(
-                std::chrono::system_clock::now().time_since_epoch()
-            ).count()
-        );
-        entry.data = data;
-
-        wal_->append(entry);
-        if (config_.sync_wal_writes) {
-            wal_->flush();
-        }
-    } catch (const std::exception& e) {
-        THEMIS_ERROR("GlobalTransactionManager [{}] WAL write failed for txn {}: {}",
-                     coordinator_id_, txn_id, e.what());
-    }
+    const std::string source = "GlobalTransactionManager [" + coordinator_id_ + "]";
+    WALEntryHelper::appendOrLog(wal_.get(), type, txn_id, data, config_.sync_wal_writes, source);
 }
 
 std::string GlobalTransactionManager::generateTransactionId() {

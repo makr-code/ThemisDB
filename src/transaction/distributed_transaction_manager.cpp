@@ -32,6 +32,7 @@
 //   • transactions_ is now an std::unordered_map for O(1) lookup.
 
 #include "transaction/distributed_transaction_manager.h"
+#include "transaction/wal_entry_helper.h"
 #include "utils/logger.h"
 
 #include <algorithm>
@@ -873,25 +874,19 @@ void DistributedTransactionManager::logToWAL(
 ) {
     if (!wal_) return;
 
-    themis::sharding::WALEntry entry;
-    entry.type           = type;
-    entry.transaction_id = txn_id;
-    entry.timestamp      = static_cast<uint64_t>(
-        std::chrono::duration_cast<std::chrono::milliseconds>(
-            std::chrono::system_clock::now().time_since_epoch()
-        ).count()
-    );
-    if (!data.empty()) {
-        entry.data = {{"detail", data}};
-    }
+    // Convert the legacy string-based payload to the canonical JSON schema.
+    const nlohmann::json json_data = data.empty()
+        ? nlohmann::json{}
+        : nlohmann::json{{"detail", data}};
 
     try {
-        wal_->append(entry);
+        // CC-1 / #5376: DTM WAL writes are fail-fast — any failure rethrows.
+        // Silently continuing after a WAL append failure would allow Phase-2
+        // broadcasts without a durable record of the decision, violating ACID.
+        // WALEntryHelper::append() does not flush; callers that require
+        // pre-Phase-2 durability call wal_->flush() explicitly.
+        WALEntryHelper::append(*wal_, type, txn_id, json_data, /*sync_on_write=*/false);
     } catch (const std::exception& ex) {
-        // CC-1 fix: WAL write failure is a hard error.  Silently continuing
-        // after a failed WAL append would allow Phase-2 broadcasts without a
-        // durable record of the decision, breaking crash-recovery guarantees.
-        // Re-throw so callers can abort the transaction and surface the error.
         THEMIS_ERROR("DistributedTransactionManager [{}] WAL write failed for txn={}: {}",
                      coordinator_id_, txn_id, ex.what());
         throw;
