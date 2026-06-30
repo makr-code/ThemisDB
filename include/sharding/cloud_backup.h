@@ -121,6 +121,43 @@ struct ReplicationTarget {
  * - Backup retention and lifecycle management
  * - Point-in-time recovery from cloud backups
  * - Incremental and full backup support
+ *
+ * ## Cloud SDK Integration (Callback Injection)
+ * 
+ * This coordinator uses a callback-based dependency injection pattern to support
+ * cloud SDKs without hard build-time dependencies:
+ * 
+ * **Production Usage**:
+ * @code
+ * // Initialize cloud SDKs (e.g., AWS SDK for S3)
+ * // ...
+ * 
+ * // Set callbacks before creating coordinator
+ * setS3UploadFn([](const std::string& bucket, const std::string& local_path,
+ *                   const std::string& remote_path,
+ *                   const std::map<std::string, std::string>& metadata) {
+ *     // Use AWS SDK to upload
+ *     // return success status
+ * });
+ * // Set all 5 callbacks: upload, download, delete, list, exists
+ * 
+ * // Create coordinator - will verify all callbacks are set
+ * CloudBackupCoordinator coordinator(agent, manager, config);
+ * 
+ * // Operations now use real cloud SDKs via callbacks
+ * coordinator.createBackup("backup-1", {"shard1", "shard2"});
+ * @endcode
+ *
+ * **Error Behavior**:
+ * - If any required callback is not set, createBackup() fails immediately with
+ *   THEMIS_ERROR logging and returns false (fail-closed behavior)
+ * - All operations are deterministic: either succeed with real cloud operations
+ *   or fail with clear error messages
+ * 
+ * @see setS3UploadFn, setS3DownloadFn, setS3DeleteFn, setS3ListFn, setS3ExistsFn
+ * @see setAzureUploadFn, setAzureDownloadFn, setAzureDeleteFn, setAzureListFn, setAzureExistsFn
+ * @see setGCSUploadFn, setGCSDownloadFn, setGCSDeleteFn, setGCSListFn, setGCSExistsFn
+ * @see src/sharding/cloud_backup.cpp for detailed implementation documentation
  */
 class CloudBackupCoordinator {
 public:
