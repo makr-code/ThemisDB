@@ -44,6 +44,137 @@ namespace http = beast::http;
 class SseConnectionManager;
 
 /**
+ * @brief Async SSE stream for event-driven delivery without polling.
+ *
+ * Manages the complete lifecycle of an SSE stream subscription:
+ * - Subscribes to the changefeed using the event-driven subscription model
+ * - Buffers incoming events with backpressure handling (bounded queue)
+ * - Handles client disconnections gracefully
+ * - Cleans up subscription on stream close (RAII)
+ * - Formats events as SSE and writes to the output stream
+ *
+ * Usage:
+ * ```cpp
+ * AsyncSSEStream stream(changefeed, output_stream, consumer_id, max_seconds);
+ * stream.run(key_prefix, event_types);  // Blocks until stream closes or timeout
+ * ```
+ */
+class AsyncSSEStream {
+public:
+    /**
+     * @brief Stream configuration for backpressure and event handling.
+     */
+    struct Config {
+        /// Maximum events to buffer before dropping oldest (backpressure)
+        size_t max_buffered_events = 1000;
+        /// Heartbeat interval in milliseconds (0 = disabled)
+        uint32_t heartbeat_interval_ms = 15000;
+        /// Maximum duration before stream auto-closes (in seconds)
+        uint32_t max_duration_seconds = 300;
+        /// Backpressure strategy: true = drop oldest, false = drop newest
+        bool drop_oldest_on_overflow = true;
+    };
+
+    /**
+     * @brief Construct an async SSE stream.
+     *
+     * @param changefeed Shared changefeed source for subscriptions
+     * @param output Output stream for SSE lines
+     * @param consumer_id Optional consumer ID for at-least-once tracking
+     * @param config Stream configuration
+     */
+    AsyncSSEStream(
+        std::shared_ptr<Changefeed> changefeed,
+        std::ostream& output,
+        const std::string& consumer_id = "",
+        const Config& config = Config{}
+    );
+
+    /**
+     * @brief Destructor cleans up subscription automatically (RAII).
+     */
+    ~AsyncSSEStream() noexcept;
+
+    /**
+     * @brief Start the async stream with optional filtering.
+     *
+     * Blocks until the stream times out, client disconnects, or an error occurs.
+     * Events are delivered via the subscription callback.
+     *
+     * @param key_prefix Optional key prefix filter (empty = no filter)
+     * @param event_types Optional event type filters (empty = all types)
+     * @return Number of events delivered
+     */
+    size_t run(
+        const std::string& key_prefix = "",
+        const std::set<Changefeed::ChangeEventType>& event_types = {}
+    );
+
+    /**
+     * @brief Signal the stream to close gracefully.
+     *
+     * Called by client disconnect handler or timeout.
+     */
+    void close() noexcept;
+
+    /**
+     * @brief Get the number of events that were delivered.
+     */
+    size_t getEventCount() const noexcept { return event_count_; }
+
+    /**
+     * @brief Get the number of events dropped due to backpressure.
+     */
+    size_t getDroppedEventCount() const noexcept { return dropped_events_; }
+
+    /**
+     * @brief Get the number of heartbeat comments sent.
+     */
+    size_t getHeartbeatCount() const noexcept { return heartbeat_count_; }
+
+private:
+    /// Event queue entry (raw event with additional metadata)
+    struct QueuedEvent {
+        Changefeed::ChangeEvent event;
+        int64_t enqueued_at_ms = 0;
+    };
+
+    /// Subscription callback handler (invoked on changefeed events)
+    void onChangeEvent(const Changefeed::ChangeEvent& evt) noexcept;
+
+    /// Drain queued events and write them to the output stream
+    void drainEventQueue() noexcept;
+
+    /// Send a heartbeat comment
+    void sendHeartbeat() noexcept;
+
+    std::shared_ptr<Changefeed> changefeed_;
+    std::ostream& output_;
+    std::string consumer_id_;
+    Config config_;
+
+    /// Subscription handle (auto-unsubscribes on destruction)
+    Changefeed::SubscriptionHandle subscription_handle_;
+
+    /// Thread-safe event queue for backpressure handling
+    mutable std::mutex queue_mutex_;
+    std::vector<QueuedEvent> event_queue_;
+
+    /// Stream state
+    std::atomic<bool> active_{true};
+    std::atomic<bool> should_close_{false};
+
+    /// Statistics
+    std::atomic<size_t> event_count_{0};
+    std::atomic<size_t> dropped_events_{0};
+    std::atomic<size_t> heartbeat_count_{0};
+
+    /// Heartbeat timing
+    std::chrono::steady_clock::time_point last_heartbeat_time_;
+    std::chrono::steady_clock::time_point stream_start_time_;
+};
+
+/**
  * @brief Handler for Changefeed (CDC) Operations
  * 
  * This handler manages all changefeed-related endpoints:

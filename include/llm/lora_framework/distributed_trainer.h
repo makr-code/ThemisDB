@@ -134,23 +134,31 @@ public:
     /**
      * @brief Function type for parameter broadcast.
      *
-     * Callers inject a real MPI_Bcast / Gloo broadcast via setBroadcastFn().
+     * Callers MUST inject a real MPI_Bcast / Gloo broadcast via setBroadcastFn()
+     * before calling broadcast_parameters() when world_size > 1. This enforces
+     * fail-closed: training will not proceed silently without real collective
+     * operations.
+     *
      * The function receives the rank-0 data vector in-place; non-root ranks
      * are expected to overwrite their copy with rank-0's values.
+     * 
+     * @throws std::runtime_error if called in distributed mode without callback.
      */
     using BroadcastFn = std::function<void(std::vector<float>&)>;
 
     /**
      * @brief Function type for CPU gradient all-reduce.
      *
-     * Callers inject a real MPI_Allreduce / Gloo allreduce via
-     * setAllReduceCpuFn().  The injected function receives the local gradient
-     * vector and must perform an in-place SUM-then-divide-by-world_size across
-     * all ranks.  When not injected, allreduce_cpu() falls back to local
-     * scaling, which is only correct for single-process (world_size == 1)
-     * builds.
+     * Callers MUST inject a real MPI_Allreduce / Gloo allreduce via
+     * setAllReduceCpuFn() before calling synchronize_gradients() when
+     * world_size > 1. This enforces fail-closed: training will not proceed
+     * silently without real collective operations.
+     *
+     * The injected function receives the local gradient vector and must
+     * perform an in-place SUM-then-divide-by-world_size across all ranks.
      *
      * @param data Gradient vector to reduce in-place.
+     * @throws std::runtime_error if called in distributed mode without callback.
      */
     using AllReduceCpuFn = std::function<void(std::vector<float>& data)>;
     explicit DistributedTrainer(const DistributedConfig& config);
@@ -205,7 +213,11 @@ public:
     bool broadcast_parameters(std::vector<Tensor*>& parameters);
     
     /**
-     * @brief Barrier synchronization (wait for all processes)
+     * @brief Barrier synchronization (wait for all processes).
+     * 
+     * @throws std::runtime_error if called in distributed mode (world_size > 1)
+     *         without a barrier function injected via setBarrierFn().
+     *         This enforces fail-closed: no silent synchronization skips.
      */
     void barrier();
 
