@@ -3,7 +3,7 @@
 # ThemisDB Target Architecture
 ## Hybrid Knowledge Retrieval Architecture
 
-**Status:** Draft  
+**Status:** Active (ANN Frontdoor formalized — issue #5424)  
 **Date:** 2026-06-01
 
 ---
@@ -26,14 +26,48 @@ This architecture is intended to support scalable, explainable, distributed, and
 ## 2.1 ANN Frontdoor
 
 ### Technologies
-- HNSW
-- DiskANN
+- HNSW (hot tier, datasets ≤ 1 M vectors)
+- ScaNN (medium tier, datasets 1 M – 50 M vectors)
+- DiskANN (cold/large tier, billion-scale, requires `THEMIS_ENABLE_DISKANN`)
+- Distributed fan-out (cross-shard aggregation for ShardSummary scopes)
 
 ### Responsibilities
 - fast semantic candidate retrieval
 - top-k shortlist generation
 - retrieval over documents, chunks, entities, adapters, packages, and shard summaries
 - hot/cold separation
+
+### Supported ANN Artifact Classes
+
+All six artifact classes are registered as first-class `AnnScopeKind` values:
+
+| Scope kind   | Typical scope_id prefix | Default routing              |
+|--------------|-------------------------|------------------------------|
+| Document     | `doc:`                  | HNSW (hot) / ScaNN (cold)    |
+| Chunk        | `chunk:`                | HNSW (hot) / ScaNN (cold)    |
+| Entity       | `entity:`               | HNSW (hot) / DiskANN (cold)  |
+| Adapter      | `adapter:`              | HNSW (hot) / DiskANN (cold)  |
+| Package      | `pkg:`                  | HNSW (hot) / ScaNN (cold)    |
+| ShardSummary | `shard:`                | DISTRIBUTED when shard_aware |
+
+### HNSW vs DiskANN Decision Tree
+
+```
+dataset_size ≤ hnsw_max_elements (default 1 M) AND hot_tier=true
+  → HNSW
+
+dataset_size > hnsw_max_elements AND ≤ scann_max_elements (50 M)
+  → ScaNN
+
+dataset_size > scann_max_elements OR (hot_tier=false AND diskann_available)
+  → DiskANN
+
+shard_aware=true AND shard backends registered
+  → DISTRIBUTED (fan-out + merge)
+
+no backend registered
+  → FLAT_BRUTE_FORCE (safe fallback)
+```
 
 ### Output
 - semantic candidate set for tensor refinement
