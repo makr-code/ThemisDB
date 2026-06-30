@@ -43,6 +43,51 @@ protected:
     }
 };
 
+// Mock participant for testing
+class MockParticipant : public IDistributedParticipantCallback {
+public:
+    enum class Policy { ALWAYS_COMMIT, ALWAYS_ABORT, THROW_ON_PREPARE };
+
+    explicit MockParticipant(Policy policy = Policy::ALWAYS_COMMIT)
+        : policy_(policy) {}
+
+    bool onPrepare(const std::string& txn_id,
+                   const std::set<std::string>& keys) override {
+        if (policy_ == Policy::THROW_ON_PREPARE) {
+            throw std::runtime_error("mock: prepare failure");
+        }
+        std::lock_guard<std::mutex> lk(mu_);
+        last_prepare_txn_ = txn_id;
+        prepared_keys_[txn_id] = keys;
+        ++prepare_count_;
+        return policy_ == Policy::ALWAYS_COMMIT;
+    }
+
+    void onCommit(const std::string& txn_id) override {
+        std::lock_guard<std::mutex> lk(mu_);
+        last_commit_txn_ = txn_id;
+        ++commit_count_;
+    }
+
+    void onAbort(const std::string& txn_id) override {
+        std::lock_guard<std::mutex> lk(mu_);
+        last_abort_txn_ = txn_id;
+        ++abort_count_;
+    }
+
+private:
+    Policy policy_;
+    std::mutex mu_;
+    std::string last_prepare_txn_;
+    std::string last_commit_txn_;
+    std::string last_abort_txn_;
+    std::atomic<int> prepare_count_{0};
+    std::atomic<int> commit_count_{0};
+    std::atomic<int> abort_count_{0};
+    std::map<std::string, std::set<std::string>> prepared_keys_;
+};
+
+
 /**
  * Test Case 1: Fail-fast when remote_phase1_dispatch is set but no Phase-2 transport
  * 
@@ -132,6 +177,130 @@ TEST_F(DistributedTransactionManagerStub279Test, AllowConstructionWithRemotePhas
     EXPECT_NO_THROW(
         DistributedTransactionManager("test_coordinator", cfg)
     );
+}
+
+/**
+ * Test Case 5: Fail-fast in beginDistributed when remote participant has no Phase-2 bridge
+ * 
+ * This test ensures per-transaction validation: when attempting to register a remote
+ * participant without Phase-2 transport configured, beginDistributed must throw
+ * std::invalid_argument (fail-fast) instead of silently creating a transaction that
+ * would fail during commit/abort.
+ */
+TEST_F(DistributedTransactionManagerStub279Test, BeginDistributedFailsWithRemoteParticipantNoPhase2) {
+    auto cfg = createBaseConfig();
+    // NO Phase-2 transport configured
+    cfg.phase2_rpc_fn = std::nullopt;
+    cfg.remote_phase2_dispatch = nullptr;
+    
+    // Create manager without Phase-2 bridge
+    // (constructor passes because remote_phase1_dispatch is not set)
+    DistributedTransactionManager mgr("test_coordinator", cfg);
+    
+    // Create a remote participant (callback == nullptr, endpoint != empty)
+    Participant remote_part;
+    remote_part.node_id = "remote-node";
+    remote_part.endpoint = "localhost:5432";
+    remote_part.callback = nullptr;  // Remote participant
+    
+    // beginDistributed should throw because remote participant has no Phase-2 bridge
+    EXPECT_THROW(
+        mgr.beginDistributed({remote_part}),
+        std::invalid_argument
+    ) << "beginDistributed must fail-fast when registering remote participant without Phase-2 bridge";
+}
+
+/**
+ * Test Case 6: beginDistributed succeeds with remote participant when Phase-2 bridge is configured
+ * 
+ * This test verifies the positive case: when a Phase-2 bridge is configured,
+ * registering a remote participant should succeed.
+ */
+TEST_F(DistributedTransactionManagerStub279Test, BeginDistributedSucceedsWithRemoteParticipantAndPhase2Bridge) {
+    auto cfg = createBaseConfig();
+    
+    // Configure Phase-2 bridge
+    cfg.phase2_rpc_fn = [](const std::string&, const std::string&, bool) {
+        // Phase-2 delivery function
+    };
+    
+    DistributedTransactionManager mgr("test_coordinator", cfg);
+    
+    // Create a remote participant
+    Participant remote_part;
+    remote_part.node_id = "remote-node";
+    remote_part.endpoint = "localhost:5432";
+    remote_part.callback = nullptr;  // Remote participant
+    
+    // beginDistributed should succeed
+    EXPECT_NO_THROW(
+        mgr.beginDistributed({remote_part})
+    ) << "beginDistributed must succeed when Phase-2 bridge is configured";
+}
+
+/**
+ * Test Case 7: beginDistributed succeeds with local participant even without Phase-2 bridge
+ * 
+ * This test verifies that local participants (with callback != nullptr) don't require
+ * a Phase-2 bridge, even if endpoint is non-empty.
+ */
+TEST_F(DistributedTransactionManagerStub279Test, BeginDistributedSucceedsWithLocalParticipantNoPhase2) {
+    auto cfg = createBaseConfig();
+    // NO Phase-2 transport configured
+    cfg.phase2_rpc_fn = std::nullopt;
+    cfg.remote_phase2_dispatch = nullptr;
+    
+    DistributedTransactionManager mgr("test_coordinator", cfg);
+    
+    auto local_part = std::make_shared<MockParticipant>(
+        MockParticipant::Policy::ALWAYS_COMMIT);
+    
+    // Create a local participant (callback != nullptr)
+    Participant participant;
+    participant.node_id = "local-node";
+    participant.endpoint = "localhost:5432";
+    participant.callback = local_part.get();  // Local participant (has callback)
+    
+    // beginDistributed should succeed for local participants even without Phase-2 bridge
+    EXPECT_NO_THROW(
+        mgr.beginDistributed({participant})
+    ) << "beginDistributed must succeed for local participants regardless of Phase-2 bridge";
+}
+
+/**
+ * Test Case 8: Error message is clear when Phase-2 bridge is missing
+ * 
+ * This test verifies that the error message from beginDistributed clearly explains
+ * the issue when a remote participant is registered without a Phase-2 bridge.
+ */
+TEST_F(DistributedTransactionManagerStub279Test, ErrorMessageClearWhenPhase2BridgeMissing) {
+    auto cfg = createBaseConfig();
+    // NO Phase-2 transport configured
+    cfg.phase2_rpc_fn = std::nullopt;
+    cfg.remote_phase2_dispatch = nullptr;
+    
+    DistributedTransactionManager mgr("test_coordinator", cfg);
+    
+    Participant remote_part;
+    remote_part.node_id = "remote-node-xyz";
+    remote_part.endpoint = "localhost:5432";
+    remote_part.callback = nullptr;  // Remote participant
+    
+    try {
+        mgr.beginDistributed({remote_part});
+        FAIL() << "beginDistributed should throw";
+    } catch (const std::invalid_argument& ex) {
+        std::string msg = ex.what();
+        // Verify error message contains key information
+        EXPECT_THAT(msg, testing::HasSubstr("Phase-2 transport bridge"))
+            << "Error must mention Phase-2 transport bridge";
+        EXPECT_THAT(msg, testing::HasSubstr("stub #279"))
+            << "Error must reference stub #279 for traceability";
+        EXPECT_THAT(msg, testing::HasSubstr("remote-node-xyz"))
+            << "Error must include remote node ID";
+        EXPECT_THAT(msg, testing::HasSubstr("fail-fast"))
+            << "Error must mention fail-fast behavior";
+    }
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
