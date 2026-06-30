@@ -1838,6 +1838,21 @@ void RocksDBWrapper::scanPrefix(std::string_view prefix, ScanCallback callback) 
     // OperationGuard destructor ensures db_ stays valid until here
 }
 
+Result<RocksDBWrapper::SafeIterator> RocksDBWrapper::prefixIterator(std::string_view prefix) {
+    // Create a safe iterator positioned at the prefix start
+    auto result = newSafeIterator(read_options_);
+    if (!result) {
+        return Expected<SafeIterator>::makeError(result.error());
+    }
+    
+    auto iter = std::move(result.value());
+    
+    // Seek to the first key with this prefix
+    iter.Seek(std::string(prefix));
+    
+    return Expected<SafeIterator>::makeOk(std::move(iter));
+}
+
 void RocksDBWrapper::scanRange(std::string_view start_key, std::string_view end_key, ScanCallback callback) {
     // RACE CONDITION FIX #3: Protect iterator lifetime with OperationGuard
     OperationGuard guard(this);
