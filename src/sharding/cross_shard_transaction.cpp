@@ -666,7 +666,58 @@ bool CrossShardTransactionCoordinator::prepare(const std::string& transaction_id
     txn.state = TransactionState::PREPARING;
     persistTransactionState(transaction_id, TransactionState::PREPARING);
     lock.unlock();
-    
+
+    // --- Cross-shard FK validation gate (issue #5392) ---
+    // Snapshot the validator pointer outside any transaction lock to avoid
+    // holding two mutexes simultaneously.
+    std::shared_ptr<CrossShardForeignKeyValidator> fk_validator;
+    {
+        std::lock_guard<std::mutex> cb_lock(callbacks_mutex_);
+        fk_validator = fk_validator_;
+    }
+    if (fk_validator) {
+        // Build the per-shard operation map from participant data.
+        std::map<std::string, std::vector<std::string>> shard_ops;
+        {
+            if (!lock.try_lock_for(config_.lock_timeout)) {
+                spdlog::error("FK validation: lock timeout reading operations for txn {}",
+                              transaction_id);
+                return false;
+            }
+            auto it2 = transactions_.find(transaction_id);
+            if (it2 != transactions_.end()) {
+                for (const auto& [sid, p] : it2->second.participants) {
+                    shard_ops[sid] = p.operations;
+                }
+            }
+            lock.unlock();
+        }
+
+        const auto violations = fk_validator->validate(transaction_id, shard_ops);
+
+        // Abort if any non-deferrable violation was found.
+        bool has_blocking = false;
+        for (const auto& v : violations) {
+            if (!v.deferrable) {
+                has_blocking = true;
+                spdlog::error(
+                    "CrossShardFK: non-deferrable violation blocks prepare of txn {}: {}",
+                    transaction_id, v.message);
+            }
+        }
+        if (has_blocking) {
+            if (lock.try_lock_for(config_.lock_timeout)) {
+                auto it2 = transactions_.find(transaction_id);
+                if (it2 != transactions_.end()) {
+                    it2->second.state = TransactionState::ACTIVE;
+                }
+                lock.unlock();
+            }
+            return false;
+        }
+    }
+    // --- End FK validation gate ---
+
     // Send prepare requests to all participants
     bool all_prepared = true;
     for (auto& [shard_id, participant] : txn.participants) {
@@ -1281,6 +1332,13 @@ void CrossShardTransactionCoordinator::setPreCommitCallback(PreCommitRpcFn fn) {
 void CrossShardTransactionCoordinator::setDeferredPreCommitCallback(DeferredPreCommitFn fn) {
     std::lock_guard<std::mutex> lock(callbacks_mutex_);
     deferred_precommit_callback_ = std::move(fn);
+}
+
+void CrossShardTransactionCoordinator::setForeignKeyValidator(
+    std::shared_ptr<CrossShardForeignKeyValidator> validator)
+{
+    std::lock_guard<std::mutex> lock(callbacks_mutex_);
+    fk_validator_ = std::move(validator);
 }
 
 // Private methods
