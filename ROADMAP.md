@@ -856,6 +856,7 @@ cross-backend consistency, error handling, and resource management.
 #### 1.9 Sharding — Observability & Repair
 - [x] Advanced metrics and distributed tracing (`sharding/operational_metrics.cpp`, `observability/distributed_flame_graph.cpp`, `observability/ebpf_tracer.cpp`)
 - [I] Automated shard rebalancing (Target: Q3 2026)
+- [x] Distributed Serializable Snapshot Isolation (SSI) — `CrossShardSSIManager` with predicate-lock tracking, RW/WW conflict detection, prepare-time validation integrated into `CrossShardTransactionCoordinator` (Issue: #5395, Target: v1.9.0)
 
 #### 1.10 Storage — Production Hardening
 - [x] Benchmark-driven performance optimisation (`tests/test_storage_latency_bench.cpp`)
