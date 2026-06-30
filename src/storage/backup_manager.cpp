@@ -2037,7 +2037,7 @@ bool BackupManager::restoreCollections(const std::string& src_dir,
             for (const auto& coll : collections) target_cfs.insert(coll);
         }
 
-        // Open the checkpoint read-only with only the target CFs.
+         // Build target CF descriptors for per-CF restore
         std::vector<rocksdb::ColumnFamilyDescriptor> cf_descriptors;
         for (const auto& cf_name : checkpoint_cfs) {
             if (target_cfs.count(cf_name)) {
@@ -2050,33 +2050,12 @@ bool BackupManager::restoreCollections(const std::string& src_dir,
             return true;
         }
 
-        std::vector<rocksdb::ColumnFamilyHandle*> ro_handles;
-        rocksdb::DB* ro_db = nullptr;
-        rocksdb::Status open_st = rocksdb::DB::OpenForReadOnly(
-            db_opts, checkpoint_dir.string(), cf_descriptors, &ro_handles, &ro_db);
-        if (!open_st.ok()) {
-            THEMIS_ERROR("restoreCollections: failed to open checkpoint read-only: {}",
-                         open_st.ToString());
-            ec = std::make_error_code(std::errc::io_error);
-            return false;
-        }
-
-        // RAII guard for the read-only DB and its handles.
-        auto ro_db_guard = std::unique_ptr<rocksdb::DB>(ro_db);
-        auto ro_handles_guard = [&ro_handles, ro_db]() noexcept {
-            for (auto* h : ro_handles) ro_db->DestroyColumnFamilyHandle(h);
-        };
-        struct HandleGuard {
-            std::function<void()> fn;
-            ~HandleGuard() { fn(); }
-        } handle_guard{ro_handles_guard};
-
+        // Per-CF restore via SST ingest (no need to open checkpoint as read-only DB)
         size_t total_sst_files = 0;
         bool any_cf_failed = false;
 
-        for (size_t i = 0; i < cf_descriptors.size(); ++i) {
-            const std::string& cf_name = cf_descriptors[i].name;
-            rocksdb::ColumnFamilyHandle* dst_handle = ro_handles[i];
+        for (const auto& cf_descriptor : cf_descriptors) {
+            const std::string& cf_name = cf_descriptor.name;
 
             THEMIS_INFO("restoreCollections: restoring CF '{}' via SST ingest", cf_name);
 
@@ -2103,7 +2082,7 @@ bool BackupManager::restoreCollections(const std::string& src_dir,
                 any_cf_failed = true;
                 continue;
             }
-            dst_handle = dst_handle_result.value();
+            rocksdb::ColumnFamilyHandle* dst_handle = dst_handle_result.value();
 
             // Configure SST ingest options for per-CF restore
             rocksdb::IngestExternalFileOptions ingest_opts;
