@@ -237,6 +237,22 @@ option(THEMIS_BENCHMARK_MODE
        OFF)
 
 # ============================================================================
+# CLOUD SDK INTEGRATION
+# ============================================================================
+
+option(THEMIS_WITH_S3_SDK 
+       "Enable AWS S3 cloud backup provider (requires aws-sdk-cpp)" 
+       OFF)
+
+option(THEMIS_WITH_AZURE_SDK 
+       "Enable Azure Blob Storage cloud backup provider (requires azure-storage-blobs-cpp)" 
+       OFF)
+
+option(THEMIS_WITH_GCS_SDK 
+       "Enable Google Cloud Storage cloud backup provider (requires google-cloud-cpp)" 
+       OFF)
+
+# ============================================================================
 # THREAD SANITIZER SUPPORT
 # ============================================================================
 

@@ -33,10 +33,21 @@
 ### Security and Access Control Hardening
 **Priority:** High
 **Target:** Q2-Q4 2026
+**Status:** Partially Complete
 
-- Complete route inventory for privileged endpoints and verify auth gate presence before handler dispatch.
-- Add regression tests for all special-case routes (early-routing blocks, admin paths, metrics/reporting paths).
-- Enforce a no-sensitive-data logging contract for token, scope, and auth failure diagnostics.
+#### Completed
+- [x] Voice API Bearer-Token JWT/OIDC Validation (#302)
+  - Implements JWT signature validation using JWTValidator from JWKS
+  - Validates token expiry, issuer, and audience claims
+  - Supports token revocation via JTI blacklist
+  - Fail-closed rejection semantics
+  - Full test coverage with 12+ test cases covering all validation paths
+  - Documentation with both code comments and test suite
+
+#### Remaining
+- [ ] Complete route inventory for privileged endpoints and verify auth gate presence before handler dispatch.
+- [ ] Add regression tests for all special-case routes (early-routing blocks, admin paths, metrics/reporting paths).
+- [ ] Enforce a no-sensitive-data logging contract for token, scope, and auth failure diagnostics.
 
 ### Protocol Reliability Hardening
 **Priority:** High

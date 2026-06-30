@@ -6,6 +6,14 @@ Based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+### Fixed
+- **Stub #279: Distributed Transaction Manager Phase-2 fail-closed behavior**
+  - Added per-transaction validation in `beginDistributed()` to fail-fast when remote participants are registered without a Phase-2 transport bridge (RPC/mTLS decision fanout)
+  - Modified Phase-2 delivery logic to implement fail-closed behavior instead of silently skipping participants, preventing them from remaining indefinitely in PREPARED state
+  - Enhanced error handling in `commitDistributed()` and `abortDistributed()` to provide clear error details when Phase-2 bridge is missing
+  - Added comprehensive security tests to verify fail-fast behavior and error propagation
+  - Coordinator crash recovery now properly handles transactions aborted due to missing Phase-2 bridge
+
 ### Changed
 - Documentation governance alignment pass:
 	- `ROADMAP.md` and `FUTURE_ENHANCEMENTS.md` kept future-focused.

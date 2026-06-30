@@ -411,7 +411,23 @@ http::response<http::string_body> TimeSeriesApiHandler::handleAggregatesGet(
 ) {
     auto span = Tracer::startSpan("handleTimeSeriesAggregatesGet");
     try {
-        std::set<std::string> aggregate_names = {"min", "max", "avg", "sum", "count"};
+        std::set<std::string> aggregate_names;
+
+        // STUB #301 REMEDIATION: Use real aggregates provider if available
+        if (aggregates_fn_) {
+            auto real_aggregates = aggregates_fn_();
+            aggregate_names.insert(real_aggregates.begin(), real_aggregates.end());
+            span.setAttribute("aggregates.source", "real_provider");
+        } else if (agg_manager_) {
+            // Fall back to ContinuousAggregateManager for real registered aggregates
+            auto real_aggregates = agg_manager_->listAggregates();
+            aggregate_names.insert(real_aggregates.begin(), real_aggregates.end());
+            span.setAttribute("aggregates.source", "agg_manager");
+        } else {
+            // Ultimate fallback: built-in defaults
+            aggregate_names = {"min", "max", "avg", "sum", "count"};
+            span.setAttribute("aggregates.source", "builtin");
+        }
 
         nlohmann::json materialized = nlohmann::json::array();
         if (storage_) {
@@ -456,25 +472,48 @@ http::response<http::string_body> TimeSeriesApiHandler::handleRetentionGet(
     auto span = Tracer::startSpan("handleTimeSeriesRetentionGet");
     try {
         nlohmann::json policies = nlohmann::json::array();
-        if (storage_) {
-            auto stored = storage_->get("config:timeseries");
-            if (stored) {
-                std::string serialized(stored->begin(), stored->end());
-                nlohmann::json cfg = nlohmann::json::parse(serialized, nullptr, false);
-                if (!cfg.is_discarded()) {
-                    if (cfg.contains("retention_policies") && cfg["retention_policies"].is_array()) {
-                        policies = cfg["retention_policies"];
-                    } else if (cfg.contains("retention_policy") && cfg["retention_policy"].is_object()) {
-                        policies.push_back(cfg["retention_policy"]);
+        
+        // STUB #301 REMEDIATION: Use real retention policies provider if available
+        if (retentions_fn_) {
+            auto policy_map = retentions_fn_();
+            for (const auto& [metric, retain_seconds] : policy_map) {
+                policies.push_back({
+                    {"metric", metric},
+                    {"retain_seconds", retain_seconds},
+                    {"source", "retention_provider"}
+                });
+            }
+            span.setAttribute("policies.source", "retention_provider");
+        } else if (retentionPoliciesFn_) {
+            // Also check legacy provider
+            auto legacy_policies = retentionPoliciesFn_();
+            policies = nlohmann::json::array(legacy_policies.begin(), legacy_policies.end());
+            span.setAttribute("policies.source", "legacy_provider");
+        } else {
+            // Fall back to storage-based config
+            if (storage_) {
+                auto stored = storage_->get("config:timeseries");
+                if (stored) {
+                    std::string serialized(stored->begin(), stored->end());
+                    nlohmann::json cfg = nlohmann::json::parse(serialized, nullptr, false);
+                    if (!cfg.is_discarded()) {
+                        if (cfg.contains("retention_policies") && cfg["retention_policies"].is_array()) {
+                            policies = cfg["retention_policies"];
+                        } else if (cfg.contains("retention_policy") && cfg["retention_policy"].is_object()) {
+                            policies.push_back(cfg["retention_policy"]);
+                        }
                     }
                 }
             }
+            span.setAttribute("policies.source", "storage_config");
         }
 
+        // Always add TSStore's late-arrival window if configured
         if (ts_store_) {
             const auto& config = ts_store_->getConfig();
             if (config.late_arrival_window_ms > 0) {
                 policies.push_back({
+                    {"metric", ""},
                     {"name", "late_arrival_window"},
                     {"window_ms", config.late_arrival_window_ms},
                     {"source", "tsstore_config"}

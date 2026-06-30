@@ -409,33 +409,54 @@ bool FeedbackStorageService::createGraphLink(
     const std::string& feedback_id,
     const std::string& adapter_id
 ) {
-    if (!config_.graph_index && !config_.create_graph_link_fn) {
+    if (!config_.graph_index && !create_graph_link_fn_) {
+        spdlog::warn("No graph index or callback available for creating graph link");
         return false;
     }
     
     try {
-        // Create edge: feedback --[belongs_to_adapter]--> adapter
         std::string from = makeFeedbackKey(feedback_id);
         std::string to = "lora_adapters:" + adapter_id;
         const std::string edge_type = "belongs_to_adapter";
-        const std::string edge_id = "feedback_link:" + feedback_id + ":" + adapter_id;
-
-        BaseEntity edge;
-        edge.setPrimaryKey(edge_id);
-        edge.setField("id", Value(edge_id));
-        edge.setField("_from", Value(from));
-        edge.setField("_to", Value(to));
-        edge.setField("_type", Value(edge_type));
-
-        auto status = config_.graph_index->addEdge(edge);
-        if (!status.ok) {
-            spdlog::error("Failed to create graph link {} -> {}: {}", from, to, status.message);
-            return false;
+        
+        // Try callback first if available (Stub #304 remediation)
+        {
+            std::lock_guard<std::mutex> lock(mutex_);
+            if (create_graph_link_fn_) {
+                if (create_graph_link_fn_(from, to, edge_type)) {
+                    spdlog::debug("Created graph link via callback: {} -> {}", from, to);
+                    return true;
+                } else {
+                    spdlog::error("Callback failed to create graph link {} -> {}", from, to);
+                    return false;
+                }
+            }
         }
-        return true;
+        
+        // Fall back to direct graph index if no callback (backward compatibility)
+        if (config_.graph_index) {
+            const std::string edge_id = "feedback_link:" + feedback_id + ":" + adapter_id;
+            
+            BaseEntity edge;
+            edge.setPrimaryKey(edge_id);
+            edge.setField("id", Value(edge_id));
+            edge.setField("_from", Value(from));
+            edge.setField("_to", Value(to));
+            edge.setField("_type", Value(edge_type));
+
+            auto status = config_.graph_index->addEdge(edge);
+            if (!status.ok) {
+                spdlog::error("Failed to create graph link {} -> {}: {}", from, to, status.message);
+                return false;
+            }
+            spdlog::debug("Created graph link via graph index: {} -> {}", from, to);
+            return true;
+        }
+        
+        return false;
         
     } catch (const std::exception& e) {
-        spdlog::error("Failed to create graph link: {}", e.what());
+        spdlog::error("Exception creating graph link: {}", e.what());
         return false;
     }
 }
@@ -444,21 +465,46 @@ bool FeedbackStorageService::removeGraphLink(
     const std::string& feedback_id,
     const std::string& adapter_id
 ) {
-    if (!config_.graph_index && !config_.remove_graph_link_fn) {
+    if (!config_.graph_index && !remove_graph_link_fn_) {
+        spdlog::warn("No graph index or callback available for removing graph link");
         return false;
     }
     
     try {
-        const std::string edge_id = "feedback_link:" + feedback_id + ":" + adapter_id;
-        auto status = config_.graph_index->deleteEdge(edge_id);
-        if (!status.ok) {
-            spdlog::error("Failed to remove graph link {}: {}", edge_id, status.message);
-            return false;
+        std::string from = makeFeedbackKey(feedback_id);
+        std::string to = "lora_adapters:" + adapter_id;
+        const std::string edge_type = "belongs_to_adapter";
+        
+        // Try callback first if available (Stub #304 remediation)
+        {
+            std::lock_guard<std::mutex> lock(mutex_);
+            if (remove_graph_link_fn_) {
+                if (remove_graph_link_fn_(from, to, edge_type)) {
+                    spdlog::debug("Removed graph link via callback: {} -> {}", from, to);
+                    return true;
+                } else {
+                    spdlog::error("Callback failed to remove graph link {} -> {}", from, to);
+                    return false;
+                }
+            }
         }
-        return true;
+        
+        // Fall back to direct graph index if no callback (backward compatibility)
+        if (config_.graph_index) {
+            const std::string edge_id = "feedback_link:" + feedback_id + ":" + adapter_id;
+            auto status = config_.graph_index->deleteEdge(edge_id);
+            if (!status.ok) {
+                spdlog::error("Failed to remove graph link {}: {}", edge_id, status.message);
+                return false;
+            }
+            spdlog::debug("Removed graph link via graph index: {}", edge_id);
+            return true;
+        }
+        
+        return false;
         
     } catch (const std::exception& e) {
-        spdlog::error("Failed to remove graph link: {}", e.what());
+        spdlog::error("Exception removing graph link: {}", e.what());
         return false;
     }
 }

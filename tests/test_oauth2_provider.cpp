@@ -500,6 +500,60 @@ TEST_F(OAuth2ProviderTest, LogoutPostsToRevocationEndpointWhenAvailable) {
     EXPECT_NE(captured_body.find("client_id=themisdb-test"), std::string::npos);
 }
 
+TEST_F(OAuth2ProviderTest, LogoutIncludesClientSecretWhenConfigured) {
+    // Create provider with client_secret
+    auto cfg = makeConfig();
+    cfg.oidc.client_secret = "super-secret-123";
+    OAuth2Provider provider_with_secret(cfg);
+
+    OIDCDiscoveryDocument doc;
+    doc.issuer                 = "https://idp.example.com/realms/test";
+    doc.jwks_uri               = "https://idp.example.com/certs";
+    doc.authorization_endpoint = "https://idp.example.com/auth";
+    doc.token_endpoint         = "https://idp.example.com/token";
+    doc.revocation_endpoint    = "https://idp.example.com/revoke";
+    provider_with_secret.setDiscoveryDocumentForTesting(doc);
+
+    std::string captured_body;
+    provider_with_secret.setHttpPostForTesting(
+        [&](const std::string&, const std::string& body) {
+            captured_body = body;
+            return std::string("{}");
+        });
+
+    auto result = provider_with_secret.handleLogout("refresh-token-xyz");
+    ASSERT_FALSE(result.contains("status_code")) << result.dump();
+    EXPECT_TRUE(result.value("success", false));
+    EXPECT_NE(captured_body.find("client_secret=super-secret-123"), std::string::npos);
+}
+
+TEST_F(OAuth2ProviderTest, LogoutReturnsSuccessEvenIfRevocationEndpointFails) {
+    OIDCDiscoveryDocument doc;
+    doc.issuer                 = "https://idp.example.com/realms/test";
+    doc.jwks_uri               = "https://idp.example.com/certs";
+    doc.authorization_endpoint = "https://idp.example.com/auth";
+    doc.token_endpoint         = "https://idp.example.com/token";
+    doc.revocation_endpoint    = "https://idp.example.com/revoke";
+    provider_->setDiscoveryDocumentForTesting(doc);
+
+    // Inject HTTP POST that throws an exception (simulating network failure)
+    provider_->setHttpPostForTesting(
+        [](const std::string&, const std::string&) {
+            throw std::runtime_error("Network error");
+        });
+
+    // Even with the error, logout should return success (best-effort behavior)
+    auto result = provider_->handleLogout("refresh-token-123");
+    ASSERT_FALSE(result.contains("status_code")) << result.dump();
+    EXPECT_TRUE(result.value("success", false));
+}
+
+TEST_F(OAuth2ProviderTest, LogoutWithoutRefreshTokenReturnsSuccess) {
+    auto result = provider_->handleLogout("");
+    ASSERT_FALSE(result.contains("status_code")) << result.dump();
+    EXPECT_TRUE(result.value("success", false));
+}
+
 // ===========================================================================
 // State TTL expiry
 // ===========================================================================

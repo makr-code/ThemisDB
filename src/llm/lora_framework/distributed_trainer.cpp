@@ -65,37 +65,38 @@ bool DistributedTrainer::initialize() {
     }
     
     if (!is_distributed()) {
-        spdlog::info("Single process mode (world_size=1), skipping initialization");
+        spdlog::info("Single process mode (world_size=1), skipping collective operation validation");
         initialized_ = true;
         return true;
     }
     
-    spdlog::info("Initializing distributed training:");
+    // FAIL-CLOSED VALIDATION (Batch 2 - Remove Pseudo-AllReduce)
+    // For multi-rank distributed training, all collective operations (AllReduce, Broadcast, Barrier)
+    // MUST be wired via real implementations (NCCL/MPI/Gloo).
+    // No synthetic or placeholder fallbacks are permitted.
+    spdlog::info("Initializing distributed training (fail-closed mode):");
     spdlog::info("  Backend: {}", static_cast<int>(config_.backend));
     spdlog::info("  Master: {}:{}", config_.master_addr, config_.master_port);
-    
-    // NOTE: This is a placeholder implementation for Phase 3
-    // Real implementation would initialize NCCL/Gloo/MPI here
-    // For now, we just validate the configuration
+    spdlog::info("  Validating required collective operation callbacks...");
     
     if (!allreduce_cpu_fn_) {
-        spdlog::error("DistributedTrainer initialization failed: world_size={} requires "
-                      "setAllReduceCpuFn()", config_.world_size);
+        spdlog::error("FAIL-CLOSED: AllReduceFn bridge not installed. Distributed training requires "
+                      "real collective operations. Call setAllReduceCpuFn() with NCCL/MPI/Gloo before initialize().");
         return false;
     }
     if (!broadcast_fn_) {
-        spdlog::error("DistributedTrainer initialization failed: world_size={} requires "
-                      "setBroadcastFn()", config_.world_size);
+        spdlog::error("FAIL-CLOSED: BroadcastFn bridge not installed. Distributed training requires "
+                      "real collective operations. Call setBroadcastFn() with NCCL/MPI/Gloo before initialize().");
         return false;
     }
     if (!barrier_fn_) {
-        spdlog::error("DistributedTrainer initialization failed: world_size={} requires "
-                      "setBarrierFn()", config_.world_size);
+        spdlog::error("FAIL-CLOSED: BarrierFn bridge not installed. Distributed training requires "
+                      "real collective operations. Call setBarrierFn() with NCCL/MPI/Gloo before initialize().");
         return false;
     }
     
     initialized_ = true;
-    spdlog::info("Distributed training initialized successfully");
+    spdlog::info("Distributed training initialized successfully (all collective operations verified)");
     return true;
 }
 
@@ -189,24 +190,14 @@ void DistributedTrainer::barrier() {
         return;
     }
 
-    if (barrier_fn_) {
-        (*barrier_fn_)();
-        return;
+    if (!barrier_fn_) {
+        spdlog::error("DistributedTrainer::barrier() called without BarrierFn bridge. "
+                      "Multi-rank training requires real collective operations (NCCL/MPI/Gloo). "
+                      "Call setBarrierFn() before training begins.");
+        throw std::runtime_error("BarrierFn not wired: cannot synchronize distributed training.");
     }
 
-    // STUB/SIMULATION NOTE:
-    // Purpose: No-op barrier that lets distributed training loops compile and
-    //          run on single-node / non-NCCL / non-MPI builds.
-    // Activation: Always when is_distributed() is true and no barrier function
-    //             has been injected via setBarrierFn() (default build without
-    //             NCCL/MPI).
-    // Production Delta: No actual synchronization occurs; ranks are not held
-    //                   until all peers reach the same point.  In true multi-GPU
-    //                   or multi-node training this leads to gradient staleness
-    //                   and divergent model weights.
-    // Removal Plan: Inject a real NCCL/MPI barrier via setBarrierFn() at startup.
-    //               See src/llm/FUTURE_ENHANCEMENTS.md §Distributed Trainer Barrier.
-    spdlog::debug("Barrier synchronization (rank {}) — no-op (inject via setBarrierFn)", config_.rank);
+    (*barrier_fn_)();
 }
 
 void DistributedTrainer::setBarrierFn(BarrierFn fn) {
@@ -256,37 +247,38 @@ float DistributedTrainer::scale_learning_rate(
 // before training starts when world_size > 1).  Falls back to local scale for
 // single-process builds (world_size == 1) where no peer exchange is needed.
 void DistributedTrainer::allreduce_cpu(std::vector<float>& data) {
-    if (allreduce_cpu_fn_) {
-        (*allreduce_cpu_fn_)(data);
+    if (!allreduce_cpu_fn_) {
+        if (config_.world_size > 1) {
+            spdlog::error("DistributedTrainer::allreduce_cpu() called without AllReduceCpuFn bridge. "
+                         "Multi-rank training (world_size={}) requires real collective operations (NCCL/MPI/Gloo). "
+                         "Call setAllReduceCpuFn() before training begins.", config_.world_size);
+            throw std::runtime_error("AllReduceCpuFn not wired: cannot synchronize distributed gradients.");
+        }
+        
+        // Single-process fallback is safe: no peer communication needed
+        const float scale = 1.0f / static_cast<float>(config_.world_size);
+        for (float& val : data) {
+            val *= scale;
+        }
         return;
     }
 
-    if (config_.world_size > 1) {
-        spdlog::error("DistributedTrainer::allreduce_cpu called without AllReduceCpuFn "
-                      "(world_size={}); refusing local fallback in multi-rank mode",
-                      config_.world_size);
-        return;
-    }
-
-    // Single-process fallback.
-    const float scale = 1.0f / static_cast<float>(config_.world_size);
-    for (float& val : data) {
-        val *= scale;
-    }
+    (*allreduce_cpu_fn_)(data);
 }
 
 // CPU-based Broadcast (simplified)
 void DistributedTrainer::broadcast_cpu(std::vector<float>& data) {
-    if (broadcast_fn_) {
-        (*broadcast_fn_)(data);
+    if (!broadcast_fn_) {
+        if (config_.world_size > 1) {
+            spdlog::error("DistributedTrainer::broadcast_cpu() called without BroadcastFn bridge. "
+                         "Multi-rank training (world_size={}) requires real collective operations (NCCL/MPI/Gloo). "
+                         "Call setBroadcastFn() before training begins.", config_.world_size);
+            throw std::runtime_error("BroadcastFn not wired: cannot synchronize distributed parameters.");
+        }
         return;
     }
 
-    if (config_.world_size > 1) {
-        spdlog::error("DistributedTrainer::broadcast_cpu called without BroadcastFn "
-                      "(world_size={}); refusing no-op fallback in multi-rank mode",
-                      config_.world_size);
-    }
+    (*broadcast_fn_)(data);
 }
 
 // ============================================================================

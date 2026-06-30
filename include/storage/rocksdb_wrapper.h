@@ -598,6 +598,15 @@ public:
     using ScanCallback = std::function<bool(std::string_view key, std::string_view value)>;
     void scanPrefix(std::string_view prefix, ScanCallback callback);
     
+    /// Create a prefix iterator for enumeration
+    /// Returns a SafeIterator positioned at the first key with the given prefix.
+    /// The caller can iterate through all keys with that prefix by calling Valid()
+    /// and Next() on the returned iterator.
+    /// 
+    /// @param prefix Prefix to search for
+    /// @return Result<SafeIterator> positioned at prefix start, or error if iterator creation fails
+    Result<SafeIterator> prefixIterator(std::string_view prefix);
+    
     /// Scan range [start_key, end_key)
     void scanRange(std::string_view start_key, std::string_view end_key, ScanCallback callback);
 

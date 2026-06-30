@@ -1596,8 +1596,9 @@ void WireProtocolServer::Session::handleGet() {
         return;
     }
     if (!server_->storage_) {
-        sendError(503, "Storage not configured");
-        return;
+        throw std::runtime_error(
+            "CRITICAL: Storage engine not wired to wire protocol server. "
+            "Storage injection is mandatory at startup.");
     }
 
     try {
@@ -1669,8 +1670,9 @@ void WireProtocolServer::Session::handlePut() {
         return;
     }
     if (!server_->storage_) {
-        sendError(503, "Storage not configured");
-        return;
+        throw std::runtime_error(
+            "CRITICAL: Storage engine not wired to wire protocol server. "
+            "Storage injection is mandatory at startup.");
     }
 
     try {
@@ -1739,8 +1741,9 @@ void WireProtocolServer::Session::handleDelete() {
         return;
     }
     if (!server_->storage_) {
-        sendError(503, "Storage not configured");
-        return;
+        throw std::runtime_error(
+            "CRITICAL: Storage engine not wired to wire protocol server. "
+            "Storage injection is mandatory at startup.");
     }
 
     try {
@@ -1797,8 +1800,9 @@ void WireProtocolServer::Session::handleBatchGet() {
         return;
     }
     if (!server_->storage_) {
-        sendError(503, "Storage not configured");
-        return;
+        throw std::runtime_error(
+            "CRITICAL: Storage engine not wired to wire protocol server. "
+            "Storage injection is mandatory at startup.");
     }
 
     try {
@@ -1914,8 +1918,9 @@ void WireProtocolServer::Session::handleBatchPut() {
         return;
     }
     if (!server_->storage_) {
-        sendError(503, "Storage not configured");
-        return;
+        throw std::runtime_error(
+            "CRITICAL: Storage engine not wired to wire protocol server. "
+            "Storage injection is mandatory at startup.");
     }
 
     try {
@@ -2073,8 +2078,9 @@ void WireProtocolServer::Session::handleTransactionBegin() {
         return;
     }
     if (!server_->tx_manager_) {
-        sendError(503, "Transaction manager not configured");
-        return;
+        throw std::runtime_error(
+            "CRITICAL: Transaction manager not wired to wire protocol server. "
+            "Transaction manager injection is mandatory at startup.");
     }
 
     try {
@@ -2144,8 +2150,9 @@ void WireProtocolServer::Session::handleTransactionCommit() {
         return;
     }
     if (!server_->tx_manager_) {
-        sendError(503, "Transaction manager not configured");
-        return;
+        throw std::runtime_error(
+            "CRITICAL: Transaction manager not wired to wire protocol server. "
+            "Transaction manager injection is mandatory at startup.");
     }
 
     try {
@@ -2211,8 +2218,9 @@ void WireProtocolServer::Session::handleTransactionAbort() {
         return;
     }
     if (!server_->tx_manager_) {
-        sendError(503, "Transaction manager not configured");
-        return;
+        throw std::runtime_error(
+            "CRITICAL: Transaction manager not wired to wire protocol server. "
+            "Transaction manager injection is mandatory at startup.");
     }
 
     try {
@@ -3420,8 +3428,9 @@ void WireProtocolServer::Session::handleBpmnStartProcess() {
     }
 
     if (!server_->process_graph_) {
-        sendError(503, "Process engine not available");
-        return;
+        throw std::runtime_error(
+            "CRITICAL: Process engine not wired to wire protocol server. "
+            "Process engine injection is mandatory at startup.");
     }
 
     try {
@@ -3555,8 +3564,9 @@ void WireProtocolServer::Session::handleBpmnTaskComplete() {
     }
 
     if (!server_->process_graph_) {
-        sendError(503, "Process engine not available");
-        return;
+        throw std::runtime_error(
+            "CRITICAL: Process engine not wired to wire protocol server. "
+            "Process engine injection is mandatory at startup.");
     }
 
     try {
@@ -3694,8 +3704,9 @@ void WireProtocolServer::Session::handleBpmnQueryInstance() {
     }
 
     if (!server_->process_graph_) {
-        sendError(503, "Process engine not available");
-        return;
+        throw std::runtime_error(
+            "CRITICAL: Process engine not wired to wire protocol server. "
+            "Process engine injection is mandatory at startup.");
     }
 
     try {

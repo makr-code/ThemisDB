@@ -400,10 +400,16 @@ std::string AutoRebalancer::generateOperationId() const {
 /** @brief Sign rebalance operation id using configured private key material. */
 std::string AutoRebalancer::signOperation(const std::string& operation_id) const {
     // RSA-SHA256 signing using operator certificate
-
+    // Enforce fail-closed signing (stub #310): when fail_closed_signing is enabled,
+    // throw exception instead of returning empty/unsigned token on failure.
+    
     // Load private key from operator certificate
     if (config_.operator_key_path.empty()) {
         THEMIS_ERROR("AutoRebalancer: No operator key configured for operation {}", operation_id);
+        if (config_.fail_closed_signing) {
+            throw std::runtime_error(
+                "Rebalance operation signing failed (fail_closed_signing=true, missing key path): " + operation_id);
+        }
         return {};
     }
 
@@ -411,6 +417,10 @@ std::string AutoRebalancer::signOperation(const std::string& operation_id) const
     FILE* key_file = fopen(config_.operator_key_path.c_str(), "r");
     if (!key_file) {
         THEMIS_ERROR("AutoRebalancer: Cannot open operator key file: {}", config_.operator_key_path);
+        if (config_.fail_closed_signing) {
+            throw std::runtime_error(
+                "Rebalance operation signing failed (fail_closed_signing=true, cannot open key): " + operation_id);
+        }
         return {};
     }
 
@@ -419,6 +429,10 @@ std::string AutoRebalancer::signOperation(const std::string& operation_id) const
 
     if (!pkey) {
         THEMIS_ERROR("AutoRebalancer: Failed to parse operator private key");
+        if (config_.fail_closed_signing) {
+            throw std::runtime_error(
+                "Rebalance operation signing failed (fail_closed_signing=true, cannot parse key): " + operation_id);
+        }
         return {};
     }
 

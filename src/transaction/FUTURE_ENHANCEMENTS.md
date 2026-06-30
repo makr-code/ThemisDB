@@ -9,6 +9,7 @@
 - Reliability and safety hardening of transaction lifecycle, isolation, and distributed coordination paths.
 - Operational and observability hardening for SAGA, OCC, and coordinator-driven flows.
 - Performance and resilience hardening for high-concurrency transaction workloads.
+- **Completed: Stub #279 — Distributed Transaction Manager Phase-2 fail-closed behavior** (Q3 2026) — all remote participants now receive COMMIT/ABORT decisions with fail-fast validation
 
 ## Design Constraints
 - [ ] Transaction state transitions must remain deterministic and fail-safe under partial failures (Target: ongoing)

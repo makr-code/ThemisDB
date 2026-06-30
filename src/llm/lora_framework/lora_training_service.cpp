@@ -1856,12 +1856,11 @@ std::unique_ptr<QuantizedModel> LoRATrainingService::loadQuantizedBaseModel(
                 quantized_model->add_layer(layer_name, weights);
             }
         } else {
-            // Fallback to default layers if parsing failed
-            for (int i = 0; i < 32; ++i) {  // Standard 32 layers for 7B model
-                std::string layer_name = "blk." + std::to_string(i) + ".attn.wq";
-                Tensor weights = tensor_utils::randn({768, 768});
-                quantized_model->add_layer(layer_name, weights);
-            }
+            // FAIL-CLOSED (stub #289): No synthetic model fallback
+            // If GGUF parsing failed, return nullptr instead of creating
+            // synthetic layers that would lead to meaningless training.
+            spdlog::error("Failed to parse GGUF model file - GGUF structure invalid or incomplete");
+            return nullptr;
         }
         
         spdlog::info("Successfully loaded GGUF model with {} layers", 
