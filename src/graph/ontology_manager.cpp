@@ -173,7 +173,7 @@ parseObject(const std::string &s, std::size_t &pos,
         skipWs(s, pos);
     }
     if (pos < s.size()) {
-        ++pos; // skip '}'
+        ++pos; // skip closing brace
     }
     return fields;
 }
@@ -701,4 +701,3 @@ bool OntologyManager::parseYaml(const std::string &text) {
 
 } // namespace graph
 } // namespace themis
-
