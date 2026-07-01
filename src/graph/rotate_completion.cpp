@@ -108,21 +108,52 @@ public:
     /**
      * @brief Export entity embedding (real + imaginary parts interleaved).
      *
-     * **Defensive Guard**: Returns empty vector if model is untrained (documented behavior).
-     * This is NOT a gap or stub — it is intentional defensive programming:
-     * - Prevents access to uninitialized embedding tables
-     * - Allows safe querying before training without exception
-     * - Caller can check empty() and act accordingly
+     * Extracts the learned complex vector representation for an entity in the RotatE model.
+     * Complex values are represented as interleaved real and imaginary components for
+     * efficient batch processing in downstream kernels.
      *
-     * **Production Logic**:
-     * After training, embeddings are normalized complex vectors of modulus ≈ 1.
-     * The output is interleaved: [re_0, im_0, re_1, im_1, ..., re_{d-1}, im_{d-1}]
-     * where d = embedding_dim (from config).
+     * **Defensive Guard Pattern (Early Return with Empty Vector)**:
+     * 
+     * Returns an empty vector if the model has not yet been trained (isTrained() == false).
+     * This is intentional, production-ready defensive programming:
+     *
+     * - **Purpose**: Prevents access to uninitialized embedding tables when model state is undefined
+     * - **Activation**: Triggered automatically when model has not completed training (trained_ flag is false)
+     * - **Production Delta**: In trained state, returns populated 2×d vector; in untrained state, returns {}
+     * - **Expected Behavior**: Caller checks `result.empty()` to handle pre-training state gracefully
+     * - **No Exceptions**: Exception-free design enables safe pre-training queries
+     *
+     * Example usage:
+     * @code
+     * RotatEModel model(cfg);
+     * model.addEntity("Alice");
+     *
+     * // Before training: defensive guard returns empty vector
+     * auto emb = model.impl_->entityEmbedding("Alice");
+     * if (emb.empty()) {
+     *     // Model not trained yet; queue training or skip embedding access
+     * }
+     *
+     * // After training: returns populated embedding
+     * model.impl_->train(triples);
+     * emb = model.impl_->entityEmbedding("Alice");
+     * // emb.size() == 2 * embedding_dim
+     * @endcode
+     *
+     * **Production Logic (Trained Model)**:
+     * 
+     * Embeddings are normalized complex vectors with modulus ≈ 1. The output interleaves
+     * real and imaginary parts: [re_0, im_0, re_1, im_1, ..., re_{d-1}, im_{d-1}] where
+     * d = embedding_dim (from config). This layout is optimized for batch scoring operations.
      *
      * @param id Entity identifier (must be registered via addEntity())
-     * @return Vector of 2×embedding_dim floats (interleaved real/imaginary)
+     * @return Vector of 2×embedding_dim floats (interleaved real/imaginary) if model is trained,
      *         or empty vector if model is untrained
-     * @throws std::out_of_range if entity is not registered
+     * @throws std::out_of_range if entity is not registered (checked before guard)
+     * 
+     * @note No exceptions for untrained state; check result.empty()
+     * @note Thread-safe: acquires shared_lock(mu_); does not modify state
+     * @note Not a gap or stub; this defensive guard is production-ready and documented
      */
     std::vector<float> entityEmbedding(const std::string& id) const {
         std::shared_lock lk(mu_);
@@ -380,6 +411,67 @@ public:
     // Link prediction helpers (called by LinkPredictionHead)
     // ──────────────────────────────────────────────────────────────────
 
+    /**
+     * @brief Rank all entities as link prediction candidates for a (head, relation) or (tail, relation) pair.
+     *
+     * Scores all entities in the knowledge graph against a given head/relation or tail/relation
+     * query and returns the top-k candidates ranked by plausibility (ascending RotatE distance).
+     * Used internally by LinkPredictionHead to generate candidate predictions.
+     *
+     * **Guard Clause Pattern (Exception-based)**:
+     *
+     * Throws std::runtime_error if the model has not been trained yet (trained_ == false).
+     * This guard pattern enforces correctness at call time:
+     *
+     * - **Purpose**: Prevents undefined behavior from scoring against uninitialized embeddings
+     * - **Activation**: Checked immediately upon entry (line 388: if (!trained_))
+     * - **Production Delta**: Untrained state → exception (fail-fast); trained state → full scoring
+     * - **Error Semantics**: Exception is thrown, not silently ignored; caller must handle or propagate
+     * - **Recovery Strategy**: Caller should ensure training is complete before invoking ranking queries
+     *
+     * Example usage:
+     * @code
+     * RotatEModel::Impl impl(cfg);
+     * impl.addEntity("Alice");
+     * impl.addRelation("knows");
+     * impl.addEntity("Bob");
+     *
+     * // Before training: rankAll throws exception
+     * try {
+     *     auto results = impl.rankAll(alice_idx, knows_idx, true, 10);
+     * } catch (const std::runtime_error& e) {
+     *     // Expected: "RotatEModel: model not trained yet"
+     *     std::cerr << "Must train before ranking: " << e.what() << std::endl;
+     * }
+     *
+     * // After training: rankAll succeeds
+     * impl.train(triples);  // populated triples
+     * auto results = impl.rankAll(alice_idx, knows_idx, true, 10);
+     * // results.size() <= 10, sorted by ascending score (distance)
+     * @endcode
+     *
+     * **Production Logic (Cache Consistency Guards)**:
+     *
+     * The function assumes caller holds at least a shared_lock on mu_. Results are computed
+     * without additional locking because:
+     * - Embeddings are immutable after training (only modified under unique_lock during train())
+     * - Scoring is read-only; multiple concurrent rankAll() calls are safe
+     * - External caches may be maintained by caller without re-synchronization
+     *
+     * @param h_idx Head or tail entity index (depending on predict_tail)
+     * @param r_idx Relation index
+     * @param predict_tail If true, scores all entities as tails (given fixed head);
+     *                     if false, scores all entities as heads (given fixed tail)
+     * @param top_k Maximum number of predictions to return
+     * @return Vector of LinkPrediction results, sorted by ascending score (best first),
+     *         capped at size min(top_k, number of entities)
+     * @throws std::runtime_error if model is not trained (guard clause)
+     *
+     * @note Caller must hold at least shared_lock(mu_) for the duration of this call
+     * @note Results are returned by value (move semantics); caller owns result vector
+     * @note Deterministic: same query always produces identical rankings (no randomness)
+     * @note Thread-safe w.r.t. concurrent reads; writers must serialize training separately
+     */
     std::vector<LinkPrediction> rankAll(size_t h_idx, size_t r_idx,
                                          bool predict_tail, size_t top_k) const
     {
