@@ -1261,6 +1261,11 @@ set(THEMIS_LLM_SOURCES
     ../src/training/incremental_lora_trainer.cpp
     ../src/training/lora_checkpoint_manager.cpp
     ../src/training/adapter_serving.cpp
+    # Phase 1: Training Core Hardening (Epic: LoRA/AdaLoRA Pipeline)
+    ../src/training/training_audit_log.cpp
+    ../src/training/determinism_validator.cpp
+    ../src/training/training_state_checkpoint.cpp
+    ../src/training/integrity_validator.cpp
     ../src/rag/faithfulness_evaluator.cpp
     ../src/rag/relevance_evaluator.cpp
     ../src/rag/completeness_evaluator.cpp

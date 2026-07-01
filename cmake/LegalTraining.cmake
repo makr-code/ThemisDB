@@ -67,6 +67,12 @@ if(THEMIS_ENABLE_LEGAL_TRAINING)
 
         # Training sample provenance and lineage tracker (Phase 3)
         ../src/training/provenance_tracker.cpp
+        
+        # Phase 1: Training Core Hardening (Epic: LoRA/AdaLoRA Pipeline)
+        ../src/training/training_audit_log.cpp
+        ../src/training/determinism_validator.cpp
+        ../src/training/training_state_checkpoint.cpp
+        ../src/training/integrity_validator.cpp
 
         # Multi-modality legal document parser (Phase 3)
         ../src/training/modality_parser.cpp
