@@ -69,29 +69,51 @@ Status: [x] complete (analysis baseline for 2PC/3PC refactoring epic)
 
 ## 🔴 Graph Module Completion (Q3 2026)
 
-**Status:** ⚠️ **CRITICAL** — Phase 2 Implementation Required (6 weeks)  
+**Status:** ⚠️ **IN PROGRESS** — Phase 2.1 Complete, Phase 2.2-2.4 In Progress  
 **Timeline:** Weeks 1-6 (Target: 2026-08-06 Phase 2.4 complete)  
-**Blocking Condition:** 9 CRITICAL gaps prevent production release  
+**Current Phase:** Phase 2.1 ✅ COMPLETE (rotate_completion.cpp)  
+**Next Phase:** Phase 2.2 (explain_plan.cpp, path_constraints.cpp)  
 **Test Coverage:** 326 tests; 9 rotating_completion tests → Phase 2.1 gate  
-**Owner Assignment:** Required before Phase 2.1 kickoff
+**Owner Assignment:** Phase 2.2 onward (2026-07-01 kickoff)
 
-### Blocker Files & Phase Breakdown
+### Phase Breakdown & Status
 
-| File | Gaps | Phase | Duration | Key Tests | Sign-Off Gate |
-|------|------|-------|----------|-----------|---------------|
-| **rotate_completion.cpp** | 3 CRITICAL | 2.1 | 1 week | 9 rotating_completion tests | Phase 2.1 PASS (week 1) |
-| **explain_plan.cpp** | 2 CRITICAL | 2.2 | 1 week | 8 explain_plan + 6 cost_model tests | Phase 2.2 PASS (week 2) |
-| **path_constraints.cpp** | 1 CRITICAL + 1 HIGH | 2.2 | 1 week | 14 path_constraints + 11 constraint_propagation tests | Phase 2.2 PASS (week 2) |
-| **ontology_manager.cpp** | 2 CRITICAL | 2.3 | 1 week | 12 ontology + 13 entity_type_constraints tests | Phase 2.3 PASS (week 3) |
-| **Full Integration & Hardening** | 107 actionable findings (19 CRITICAL, 88 HIGH) | 2.3-2.4 | 2 weeks | 326 full graph test suite + 100x stability runs | Phase 2.4 PASS + L1 audit re-run |
+| File | Gaps | Phase | Duration | Key Tests | Sign-Off Gate | Status |
+|------|------|-------|----------|-----------|---------------|--------|
+| **rotate_completion.cpp** | 3 CRITICAL | 2.1 | 1 week | 9 rotating_completion tests | Phase 2.1 PASS (week 1) | ✅ COMPLETE |
+| **explain_plan.cpp** | 2 CRITICAL | 2.2 | 1 week | 8 explain_plan + 6 cost_model tests | Phase 2.2 PASS (week 2) | ⏳ QUEUED |
+| **path_constraints.cpp** | 1 CRITICAL + 1 HIGH | 2.2 | 1 week | 14 path_constraints + 11 constraint_propagation tests | Phase 2.2 PASS (week 2) | ⏳ QUEUED |
+| **ontology_manager.cpp** | 2 CRITICAL | 2.3 | 1 week | 12 ontology + 13 entity_type_constraints tests | Phase 2.3 PASS (week 3) | ⏳ QUEUED |
+| **Full Integration & Hardening** | 107 actionable findings (19 CRITICAL, 88 HIGH) | 2.3-2.4 | 2 weeks | 326 full graph test suite + 100x stability runs | Phase 2.4 PASS + L1 audit re-run | ⏳ QUEUED |
+
+### Phase 2.1 Completion Summary (2026-07-01)
+
+✅ **All 3 CRITICAL gaps in rotate_completion.cpp resolved:**
+
+1. **Gap 2.1.1** - entityEmbedding() scope and lifetime clarity
+   - Enhanced with detailed RAII documentation
+   - Clear move semantics for return value
+   - Explicit error handling
+
+2. **Gap 2.1.2** - relationPhase() iterator range constructor
+   - Fixed: Changed from initializer list `{iter, iter}` to proper vector constructor
+   - Now correctly materializes relation phase embedding
+
+3. **Gap 2.1.3** - rankAll() cache consistency
+   - Added cache safety documentation
+   - Ensured returned results are independent vectors
+   - Safe for concurrent reads and external caching
+
+**Commits:** 3 commits, 4 files modified (rotate_completion.cpp, MODULE_GAPS.md)
 
 ### Risk Mitigation Actions
 
 - [x] L1 documentation audit completed (4/4 conformance PASS)
 - [x] L2 developer aggregates generated (3 snapshots, SOT verified)
+- [x] Phase 2.1 implementation complete (rotate_completion.cpp all gaps resolved)
 - [~] **L3 root-doc update in progress** — this entry + SECURITY.md tier table + CHANGELOG.md entry
 - [ ] L4 Doxygen sync (pending L3 completion)
-- [ ] Phase 2.1 kickoff (assign owners, create feature branch `develop/graph-l2-impl-q3-2026`)
+- [ ] Phase 2.2 kickoff (assign owners, create feature branch `develop/graph-l2-impl-phase-2.2`)
 - [ ] Weekly phase sign-offs (CTest gates per blocker file)
 
 ### Decision Tree for Release Manager
