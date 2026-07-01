@@ -9,6 +9,8 @@
 #include <chrono>
 #include <sstream>
 #include <algorithm>
+#include <iomanip>
+#include <atomic>
 
 namespace themis {
 namespace search {
