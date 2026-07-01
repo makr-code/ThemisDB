@@ -64,25 +64,208 @@ pwsh ./scripts/setup-third-party.ps1
 
 Available canonical build/test presets are defined in [CMakePresets.json](CMakePresets.json).
 
-### Linux x64
+### Preset Selection Guide
+
+ThemisDB provides multiple presets optimized for different scenarios:
+
+#### **Primary Presets** (use these for standard development)
+
+| Preset | Platform | Requirements | Use Case |
+|--------|----------|--------------|----------|
+| **linux-release** | Linux | Ninja + vcpkg | Production builds with full optimizations (recommended for most users) |
+| **windows-release** | Windows | MSVC 2022+ + Ninja + vcpkg | Production builds on Windows (MSVC only) |
+| **community-release** | Linux/macOS | System packages only (no vcpkg) | Fallback preset when vcpkg is unavailable; uses system-installed libraries |
+
+#### **Development Presets** (for development and debugging)
+
+| Preset | Platform | Requirements | Use Case |
+|--------|----------|--------------|----------|
+| **linux-debug** | Linux | Ninja + vcpkg | Debug builds with symbols and assertions |
+| **windows-debug** | Windows | MSVC 2022+ + Ninja + vcpkg | Debug builds on Windows |
+| **nightly-bench-sweep** | Linux | Ninja + vcpkg | Nightly benchmarking with GPU/LLM disabled |
+
+### Choosing the Right Preset
+
+1. **If vcpkg is available** (recommended):
+   - Linux: Use `linux-release`
+   - Windows: Use `windows-release`
+   - Benefits: Consistent dependencies, optimized builds, reproducible CI
+
+2. **If vcpkg is unavailable** (fallback):
+   - Use `community-release` on Linux/macOS
+   - Requires system development packages to be installed
+   - See [System Package Setup](#system-package-setup) below
+
+### Quick Start: Linux x64
+
+#### With vcpkg (recommended):
 
 ```bash
+# Prerequisites: vcpkg must be set up
+# git clone https://github.com/microsoft/vcpkg.git
+# cd vcpkg && ./bootstrap-vcpkg.sh
+
 cmake --preset linux-release
-cmake --build --preset linux-release
+cmake --build --preset linux-release --parallel 16
 ctest --preset linux-release --output-on-failure
 ```
 
-### Windows x64 (VS Developer Command Prompt)
+#### Without vcpkg (fallback):
+
+```bash
+# Install system development packages (see System Package Setup)
+cmake --preset community-release
+cmake --build --preset community-release --parallel 16
+ctest --preset community-release --output-on-failure
+```
+
+### Quick Start: Windows x64
+
+From a Visual Studio Developer Command Prompt:
 
 ```powershell
+# Prerequisites: vcpkg must be set up
+# git clone https://github.com/microsoft/vcpkg.git
+# cd vcpkg && .\bootstrap-vcpkg.bat
+
 cmake --preset windows-release
-cmake --build --preset windows-release
+cmake --build --preset windows-release --parallel 16
 ctest --preset windows-release --output-on-failure
+```
+
+### System Package Setup
+
+If using `community-release` preset, install required system development packages:
+
+#### Debian/Ubuntu:
+
+```bash
+sudo apt-get update
+sudo apt-get install -y \
+  build-essential \
+  cmake \
+  ninja-build \
+  libssl-dev \
+  zlib1g-dev \
+  librocksdb-dev \
+  libzstd-dev
+```
+
+#### Fedora/RHEL:
+
+```bash
+sudo dnf install -y \
+  gcc-c++ \
+  cmake \
+  ninja-build \
+  openssl-devel \
+  zlib-devel \
+  rocksdb-devel \
+  libzstd-devel
+```
+
+#### macOS:
+
+```bash
+brew install cmake ninja rocksdb zstd openssl
+export OPENSSL_DIR=$(brew --prefix openssl@3)
 ```
 
 ---
 
-## 4) Run Server from Local Build
+## 3b) Build with Presets
+
+## 3b) Build and Test Details
+
+Full build and test workflow with parallel jobs:
+
+### Configure
+
+```bash
+cmake --preset <PRESET_NAME> -S . -B build/<PRESET_NAME>
+```
+
+### Build with parallelization
+
+```bash
+cmake --build --preset <PRESET_NAME> --parallel 16
+```
+
+Or use the build command directly:
+
+```bash
+cmake --build build/<PRESET_NAME> --parallel 16
+```
+
+### Run tests
+
+```bash
+ctest --preset <PRESET_NAME> --output-on-failure
+```
+
+---
+
+## 4) Troubleshooting Presets
+
+### Error: "Could not find toolchain file: vcpkg/scripts/buildsystems/vcpkg.cmake"
+
+**Cause**: Using a vcpkg-based preset (linux-release, windows-release) without vcpkg installed.
+
+**Solution**:
+1. Install vcpkg:
+   ```bash
+   git clone https://github.com/microsoft/vcpkg.git
+   cd vcpkg
+   ./bootstrap-vcpkg.sh  # Linux/macOS
+   # or .\bootstrap-vcpkg.bat  # Windows
+   ```
+
+2. Or use fallback preset:
+   ```bash
+   cmake --preset community-release  # Linux/macOS only
+   ```
+
+### Error: "Could not find build program corresponding to Ninja"
+
+**Cause**: Using a Ninja-based preset without Ninja installed.
+
+**Solution**:
+- Install Ninja:
+  ```bash
+  sudo apt-get install ninja-build   # Debian/Ubuntu
+  brew install ninja                  # macOS
+  choco install ninja                 # Windows (with Chocolatey)
+  ```
+
+### Error: "RocksDB not found. Install via vcpkg or system package librocksdb-dev"
+
+**Cause**: Using `community-release` without required system packages.
+
+**Solution**: Install system development packages (see [System Package Setup](#system-package-setup) section).
+
+### Error: "Invalid preset" or "Invalid macro expansion"
+
+**Cause**: CMakePresets.json has invalid syntax or preset references.
+
+**Solution**:
+1. Verify CMakePresets.json syntax:
+   ```bash
+   python3 -m json.tool CMakePresets.json
+   ```
+
+2. Verify preset is available:
+   ```bash
+   cmake --list-presets
+   ```
+
+3. Check the Git history for recent changes:
+   ```bash
+   git log -p CMakePresets.json | head -100
+   ```
+
+---
+
+## 5) Run Server from Local Build
 
 ```bash
 ./build/linux-release/themis_server --data-dir ./data
@@ -96,7 +279,7 @@ curl http://localhost:8765/health
 
 ---
 
-## 5) Optional: Dev Container
+## 6) Optional: Dev Container
 
 1. Open repository in VS Code
 2. Run `Dev Containers: Reopen in Container`
@@ -104,11 +287,24 @@ curl http://localhost:8765/health
 
 ---
 
-## Deprecated / Non-Canonical Instructions
+## Preset Matrix Summary
 
-Legacy setup snippets using non-canonical preset names (for example `linux-gcc-release`, `linux-ninja-release`, `windows-vs2022-release`) are deprecated. Use the canonical preset names from [CMakePresets.json](CMakePresets.json).
+For quick reference, here's the complete preset matrix:
+
+| Preset | Platform | Generator | vcpkg | System Packages | Use Case |
+|--------|----------|-----------|-------|-----------------|----------|
+| linux-release | Linux | Ninja | ✅ Required | Optional | **Primary** - Production with vcpkg |
+| linux-debug | Linux | Ninja | ✅ Required | Optional | Development debug build |
+| windows-release | Windows | Ninja | ✅ Required | N/A | **Primary** - Windows production |
+| windows-debug | Windows | Ninja | ✅ Required | N/A | Windows debug build |
+| community-release | Linux/macOS | Ninja | ❌ Not used | ✅ Required | **Fallback** - System packages only |
+| nightly-bench-sweep | Linux | Ninja | ✅ Required | Optional | Benchmarking (no GPU/LLM) |
+| hyperscaler-debug-windows | Windows | Ninja | ✅ Required | N/A | Enterprise debug builds |
+| hyperscaler-debug-linux | Linux | Ninja | ✅ Required | Optional | Enterprise debug builds |
 
 ---
+
+## Deprecated / Non-Canonical Instructions
 
 ## Need Help?
 
