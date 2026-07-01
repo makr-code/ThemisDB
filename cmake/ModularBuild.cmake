@@ -971,6 +971,7 @@ set(THEMIS_SHARDING_SOURCES
     ../src/sharding/distributed_coordinator.cpp
     ../src/transaction/global_transaction_manager.cpp
     ../src/search/distributed_hybrid_search.cpp
+    ../src/search/layered_retrieval_orchestrator.cpp
     ../src/sharding/shard_resource_manager.cpp
     ../src/sharding/locality_aware_router.cpp
     ../src/sharding/adaptive_shard_router.cpp
