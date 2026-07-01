@@ -9,15 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: multi_lora_manager.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 3693
- * Gap Summary: total=5; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=2, Debt=0, C=28, H=53, M=37, L=0
- * PR History (last 5): #4678 feat: replace production st... (2026-04-15) | #723 Fix SCHEDULED fusion linear... (2026-03-11) | #701 [WIP] Add multi-GPU/Node Lo... (2026-03-11) | #700 Add multi-LoRA composition ... (2026-03-11) | #380 [TASK] Error Code Migration... (2026-03-11)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 #include "llm/multi_lora_manager.h"
 #include <stdexcept>
 #include "llm/gguf_loader.h"

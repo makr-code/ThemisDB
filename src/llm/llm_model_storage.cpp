@@ -9,15 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: llm_model_storage.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 95/100 | Lines: 955
- * Gap Summary: total=4; TODO=1, Stub=1, Unimpl=0, Mock=2, Sim=0, Debt=0, C=25, H=12, M=8, L=0
- * PR History (last 5): #5205 fix(llm): harden LoRA input... (2026-05-23) | #4308 fix(llm): merge develop, re... (2026-03-19) | #4304 [LLM-DEP-123] Implement Roc... (2026-03-17) | #543 Implement LLM Model and LoR... (2026-03-11) | #677 Implement native model load... (2026-03-11)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 #include "llm/llm_model_storage.h"
 #include <stdexcept>
 #include "storage/base_entity.h"
