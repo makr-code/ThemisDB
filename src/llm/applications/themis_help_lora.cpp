@@ -344,7 +344,7 @@ void ThemisHelpLoRA::addPositiveFeedback(
     
     impl_->feedback_buffer.push_back(item);
     
-    spdlog::debug("Positive feedback added for question: {} (user: {})", question, user_id);
+    spdlog::debug("Positive feedback added (user: {}, question_length: {})", user_id, question.length());
 }
 
 void ThemisHelpLoRA::addNegativeFeedback(
@@ -365,7 +365,7 @@ void ThemisHelpLoRA::addNegativeFeedback(
     
     impl_->feedback_buffer.push_back(item);
     
-    spdlog::info("Negative feedback with correction: {} (user: {})", question, user_id);
+    spdlog::info("Negative feedback with correction (user: {}, question_length: {}, correction_length: {})", user_id, question.length(), correction.length());
 }
 
 bool ThemisHelpLoRA::trainFromFeedback() {

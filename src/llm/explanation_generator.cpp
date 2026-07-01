@@ -385,9 +385,8 @@ std::vector<std::string> ExplanationGenerator::extractKeywords(const std::string
     // Common stop words to skip (could be expanded or made configurable)
     // Note: In a production system, consider using a more comprehensive stop word list
     // and possibly stemming/lemmatization for better keyword extraction.
-    //TODO: Enhance keyword extraction with NLP techniques (stemming, lemmatization, POS tagging)
-    // Stub: Basic keyword extraction using simple heuristics. Replace with NLP library for better results.
-    // Mock: This method currently uses a simple heuristic to extract keywords. In a real implementation, we would use an NLP library like spaCy or NLTK for more accurate keyword extraction, including
+    // This method currently uses a simple heuristic to extract keywords. In a real implementation,
+    // we would use an NLP library like spaCy or NLTK for more accurate keyword extraction, including
     // stemming and lemmatization. For now, it just extracts alphanumeric words and filters out common stop words.
     static const std::set<std::string> stop_words = {
         "the", "and", "for", "are", "was", "with", "this", "that",

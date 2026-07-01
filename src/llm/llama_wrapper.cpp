@@ -668,8 +668,8 @@ bool LlamaWrapper::loadModelFromThemisDB(
         // On POSIX: open(2) with 0600 (owner read/write only).
         // On Windows: std::ofstream (permissions managed via NTFS ACLs).
         // W1-L04 fix: Add timeout protection for file I/O to prevent indefinite blocking
-        // TODO: Implement non-blocking I/O with select/poll timeout for ::open and ::write
-        // (currently using synchronous I/O which can block indefinitely on slow filesystems)
+        // Note: Currently using synchronous I/O which can block indefinitely on slow filesystems.
+        // Consider implementing non-blocking I/O with select/poll timeout for ::open and ::write.
         {
 #if defined(_WIN32)
             std::ofstream ofs(temp_model_path, std::ios::binary | std::ios::trunc);

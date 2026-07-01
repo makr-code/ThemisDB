@@ -486,6 +486,14 @@ public:
         // Store handle so memory is not leaked; keyed by raw pointer
         std::lock_guard<std::mutex> lock(mu_);
         bridge_handles_[handle->id] = *handle;
+        
+        // For external allocations, we cannot provide a direct pointer
+        // as the memory is managed externally
+        if (handle->is_external) {
+            *ptr = nullptr;
+            return false;
+        }
+        
         *ptr = handle->is_spilled ? handle->cpu_ptr : handle->gpu_ptr;
         return *ptr != nullptr;
     }
