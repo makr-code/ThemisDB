@@ -1257,6 +1257,9 @@ set(THEMIS_LLM_SOURCES
     ../src/rag/prompt_templates.cpp
     ../src/rag/response_parser.cpp
     ../src/training/lora_data_selection.cpp
+    ../src/training/dataset_snapshot_manifest.cpp
+    ../src/training/eligibility_policy_engine.cpp
+    ../src/training/dataset_split_manager.cpp
     ../src/training/multi_task_lora.cpp
     ../src/training/incremental_lora_trainer.cpp
     ../src/training/lora_checkpoint_manager.cpp
