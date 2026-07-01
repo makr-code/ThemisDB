@@ -363,6 +363,57 @@ class ContinuousLearningOrchestrator {
      */
     std::string getCooldownMetrics() const;
 
+    // ── Edge Case Guards (Phase 5: Resilience) ───────────────────────────────
+    /**
+     * @brief Get circuit breaker status for each loop.
+     *
+     * Returns JSON with circuit breaker state (open/closed), consecutive failure counts,
+     * and whether each loop is currently blocked due to circuit breaker.
+     *
+     * Example output:
+     * {
+     *   "loop_1": {"consecutive_failures": 0, "breaker_open": false},
+     *   "loop_2": {"consecutive_failures": 0, "breaker_open": false},
+     *   "loop_3": {"consecutive_failures": 0, "breaker_open": false},
+     *   "loop_4": {"consecutive_failures": 0, "breaker_open": false}
+     * }
+     */
+    std::string getCircuitBreakerStatus() const;
+
+    /**
+     * @brief Get undertraining detection status.
+     *
+     * Returns JSON with feedback stall detection, last feedback count, and time since last check.
+     *
+     * Example output:
+     * {
+     *   "last_feedback_count": 12345,
+     *   "feedback_stalled": false,
+     *   "time_since_last_check_seconds": 5,
+     *   "stall_threshold_seconds": 300
+     * }
+     */
+    std::string getUndertrainingStatus() const;
+
+    /**
+     * @brief Set guardrail bypass for a specific loop (emergency override).
+     *
+     * When enabled, the specified loop skips guardrail checks and always executes.
+     * This should only be used for manual override scenarios or emergency recovery.
+     *
+     * @param phase  Loop phase to bypass guardrails for
+     * @param bypass True to enable bypass, false to disable
+     */
+    void setGuardrailBypass(LoopPhase phase, bool bypass);
+
+    /**
+     * @brief Check if guardrail bypass is enabled for a specific loop.
+     *
+     * @param phase  Loop phase to check
+     * @return True if guardrail bypass is enabled, false otherwise
+     */
+    bool isGuardrailBypassEnabled(LoopPhase phase) const;
+
     // ── JSON context serialiser ─────────────────────────────────────────────
 
     /**

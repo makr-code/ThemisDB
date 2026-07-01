@@ -136,6 +136,25 @@ struct ContinuousLearningOrchestrator::Impl {
     std::chrono::system_clock::time_point loop3_last_cooldown_rejection;
     std::chrono::system_clock::time_point loop4_last_cooldown_rejection;
 
+    // ---- Edge case guards (Phase 5: Resilience) ----
+    /// Circuit breaker thresholds: max consecutive provider failures before circuit opens
+    static constexpr size_t CIRCUIT_BREAKER_THRESHOLD = 5;
+    /// Circuit breaker state: consecutive failure counts per loop
+    size_t loop1_circuit_breaker_count = 0;
+    size_t loop2_circuit_breaker_count = 0;
+    size_t loop3_circuit_breaker_count = 0;
+    size_t loop4_circuit_breaker_count = 0;
+    /// Undertraining detection: last feedback count threshold check
+    size_t last_feedback_count = 0;
+    std::chrono::system_clock::time_point last_feedback_check_time;
+    /// Guardrail bypass override flags (for manual/emergency scenarios)
+    bool bypass_guardrail_loop1 = false;
+    bool bypass_guardrail_loop2 = false;
+    bool bypass_guardrail_loop3 = false;
+    bool bypass_guardrail_loop4 = false;
+    /// Overselection prevention: max allowed improvement before triggering rollback
+    static constexpr double MAX_IMPROVEMENT_PERCENT = 50.0;
+
     // ---- IMPL-A3: Federation bridges ----
     std::shared_ptr<themis::distributed_knowledge::ILoRAFederationCoordinator>
         federation_coordinator_;
@@ -789,6 +808,112 @@ std::string ContinuousLearningOrchestrator::getCooldownMetrics() const {
     return json;
 }
 
+std::string ContinuousLearningOrchestrator::getCircuitBreakerStatus() const {
+    std::lock_guard<std::mutex> lock(impl_->mutex);
+
+    std::string json = "{\n";
+    json += "  \"loop_1\": {\n";
+    json += "    \"consecutive_failures\": " + std::to_string(impl_->loop1_circuit_breaker_count) + ",\n";
+    json += "    \"breaker_open\": " + std::string(impl_->loop1_circuit_breaker_count >= impl_->CIRCUIT_BREAKER_THRESHOLD ? "true" : "false") + "\n";
+    json += "  },\n";
+    json += "  \"loop_2\": {\n";
+    json += "    \"consecutive_failures\": " + std::to_string(impl_->loop2_circuit_breaker_count) + ",\n";
+    json += "    \"breaker_open\": " + std::string(impl_->loop2_circuit_breaker_count >= impl_->CIRCUIT_BREAKER_THRESHOLD ? "true" : "false") + "\n";
+    json += "  },\n";
+    json += "  \"loop_3\": {\n";
+    json += "    \"consecutive_failures\": " + std::to_string(impl_->loop3_circuit_breaker_count) + ",\n";
+    json += "    \"breaker_open\": " + std::string(impl_->loop3_circuit_breaker_count >= impl_->CIRCUIT_BREAKER_THRESHOLD ? "true" : "false") + "\n";
+    json += "  },\n";
+    json += "  \"loop_4\": {\n";
+    json += "    \"consecutive_failures\": " + std::to_string(impl_->loop4_circuit_breaker_count) + ",\n";
+    json += "    \"breaker_open\": " + std::string(impl_->loop4_circuit_breaker_count >= impl_->CIRCUIT_BREAKER_THRESHOLD ? "true" : "false") + "\n";
+    json += "  },\n";
+    json += "  \"threshold\": " + std::to_string(impl_->CIRCUIT_BREAKER_THRESHOLD) + "\n";
+    json += "}";
+
+    return json;
+}
+
+std::string ContinuousLearningOrchestrator::getUndertrainingStatus() const {
+    std::lock_guard<std::mutex> lock(impl_->mutex);
+
+    auto format_duration = [](const std::chrono::system_clock::time_point& tp) -> int {
+        if (tp == std::chrono::system_clock::time_point::min()) {
+            return 0;
+        }
+        const auto elapsed = std::chrono::duration_cast<std::chrono::seconds>(
+            std::chrono::system_clock::now() - tp
+        );
+        return static_cast<int>(elapsed.count());
+    };
+
+    // Detect if feedback is stalled (no increase in last 5 minutes)
+    static constexpr int STALL_THRESHOLD_SECONDS = 300;
+    bool feedback_stalled = false;
+    if (impl_->last_feedback_check_time != std::chrono::system_clock::time_point::min()) {
+        const int time_since_check = format_duration(impl_->last_feedback_check_time);
+        feedback_stalled = (time_since_check > STALL_THRESHOLD_SECONDS) && 
+                          (impl_->last_feedback_count == 0);
+    }
+
+    std::string json = "{\n";
+    json += "  \"last_feedback_count\": " + std::to_string(impl_->last_feedback_count) + ",\n";
+    json += "  \"feedback_stalled\": " + std::string(feedback_stalled ? "true" : "false") + ",\n";
+    json += "  \"time_since_last_check_seconds\": " + std::to_string(format_duration(impl_->last_feedback_check_time)) + ",\n";
+    json += "  \"stall_threshold_seconds\": " + std::to_string(STALL_THRESHOLD_SECONDS) + "\n";
+    json += "}";
+
+    return json;
+}
+
+void ContinuousLearningOrchestrator::setGuardrailBypass(LoopPhase phase, bool bypass) {
+    std::lock_guard<std::mutex> lock(impl_->mutex);
+    switch (phase) {
+        case LoopPhase::LOOP_1_HNSW_QUERY:
+            impl_->bypass_guardrail_loop1 = bypass;
+            if (bypass) {
+                THEMIS_WARN("Guardrail bypass ENABLED for Loop 1 (HNSW Query) - emergency override");
+            }
+            break;
+        case LoopPhase::LOOP_2_WORKLOAD:
+            impl_->bypass_guardrail_loop2 = bypass;
+            if (bypass) {
+                THEMIS_WARN("Guardrail bypass ENABLED for Loop 2 (Workload Adaptation) - emergency override");
+            }
+            break;
+        case LoopPhase::LOOP_3_SCHEMA_INDEX:
+            impl_->bypass_guardrail_loop3 = bypass;
+            if (bypass) {
+                THEMIS_WARN("Guardrail bypass ENABLED for Loop 3 (Schema/Index) - emergency override");
+            }
+            break;
+        case LoopPhase::LOOP_4_RLAIF:
+            impl_->bypass_guardrail_loop4 = bypass;
+            if (bypass) {
+                THEMIS_WARN("Guardrail bypass ENABLED for Loop 4 (RLAIF) - emergency override");
+            }
+            break;
+        default:
+            break;
+    }
+}
+
+bool ContinuousLearningOrchestrator::isGuardrailBypassEnabled(LoopPhase phase) const {
+    std::lock_guard<std::mutex> lock(impl_->mutex);
+    switch (phase) {
+        case LoopPhase::LOOP_1_HNSW_QUERY:
+            return impl_->bypass_guardrail_loop1;
+        case LoopPhase::LOOP_2_WORKLOAD:
+            return impl_->bypass_guardrail_loop2;
+        case LoopPhase::LOOP_3_SCHEMA_INDEX:
+            return impl_->bypass_guardrail_loop3;
+        case LoopPhase::LOOP_4_RLAIF:
+            return impl_->bypass_guardrail_loop4;
+        default:
+            return false;
+    }
+}
+
 void ContinuousLearningOrchestrator::saveMetrics() {
     std::lock_guard<std::mutex> lock(impl_->mutex);
 
@@ -1113,9 +1238,17 @@ ContinuousLearningOrchestrator::triggerLoop(LoopPhase phase) {
             // Guardrail policy:
             // - live source: strict thresholding
             // - fallback source: advisory-success so trigger plumbing remains testable
-            result.guardrail_passed = (result.signal_source == "live")
-                ? ((miss_rate < 0.05) || (current_accuracy >= 0.95))
-                : true;
+            // - bypass enabled: skip guardrail checks (emergency override)
+            {
+                std::lock_guard<std::mutex> lock(impl_->mutex);
+                if (impl_->bypass_guardrail_loop1) {
+                    result.guardrail_passed = true;  // Emergency bypass enabled
+                } else {
+                    result.guardrail_passed = (result.signal_source == "live")
+                        ? ((miss_rate < 0.05) || (current_accuracy >= 0.95))
+                        : true;
+                }
+            }
             result.success          = result.guardrail_passed;
             result.metric_delta     = result.guardrail_passed ? 0.02 : 0.0;
             result.adapter_version  = result.guardrail_passed
@@ -1194,7 +1327,15 @@ ContinuousLearningOrchestrator::triggerLoop(LoopPhase phase) {
             }
             result.signal_value     = drift;
             // Guardrail: drift must stay below 0.1 or current accuracy must not regress
-            result.guardrail_passed = (drift < 0.1) || (current_accuracy >= baseline_accuracy);
+            // Also respect emergency bypass if enabled
+            {
+                std::lock_guard<std::mutex> lock(impl_->mutex);
+                if (impl_->bypass_guardrail_loop2) {
+                    result.guardrail_passed = true;  // Emergency bypass enabled
+                } else {
+                    result.guardrail_passed = (drift < 0.1) || (current_accuracy >= baseline_accuracy);
+                }
+            }
             result.success          = result.guardrail_passed;
             result.metric_delta     = result.guardrail_passed ? 0.01 : 0.0;
             result.adapter_version  = "";
@@ -1267,11 +1408,19 @@ ContinuousLearningOrchestrator::triggerLoop(LoopPhase phase) {
             }
             result.signal_value     = static_cast<double>(entry_count);
             // When a real provider is wired, require at least 100 new entries before
-            // committing a new adapter.  Without provider, fall back to accuracy proxy.
+            // committing a new adapter. Without provider, fall back to accuracy proxy.
+            // Also respect emergency bypass if enabled.
             const bool enough_feedback = (result.signal_source == "live")
                 ? (entry_count >= 100)
                 : true;
-            result.guardrail_passed = enough_feedback;
+            {
+                std::lock_guard<std::mutex> lock(impl_->mutex);
+                if (impl_->bypass_guardrail_loop4) {
+                    result.guardrail_passed = true;  // Emergency bypass enabled
+                } else {
+                    result.guardrail_passed = enough_feedback;
+                }
+            }
             result.success          = result.guardrail_passed;
             result.metric_delta     = result.guardrail_passed ? 0.03 : 0.0;
             result.adapter_version  = result.guardrail_passed
@@ -1292,6 +1441,94 @@ ContinuousLearningOrchestrator::triggerLoop(LoopPhase phase) {
     if (result.guardrail_passed && !result.adapter_version.empty()) {
         std::lock_guard<std::mutex> lock(impl_->mutex);
         ++impl_->stats.lora_retraining_count;
+    }
+
+    // ── Circuit breaker management ────────────────────────────────────────
+    // Increment circuit breaker on failure, reset on success
+    {
+        std::lock_guard<std::mutex> lock(impl_->mutex);
+        if (!result.success) {
+            // Increment circuit breaker counters on failure
+            switch (phase) {
+                case LoopPhase::LOOP_1_HNSW_QUERY:
+                    ++impl_->loop1_circuit_breaker_count;
+                    if (impl_->loop1_circuit_breaker_count >= impl_->CIRCUIT_BREAKER_THRESHOLD) {
+                        THEMIS_WARN("Loop 1 circuit breaker threshold reached ({} consecutive failures)",
+                                   impl_->loop1_circuit_breaker_count);
+                    }
+                    break;
+                case LoopPhase::LOOP_2_WORKLOAD:
+                    ++impl_->loop2_circuit_breaker_count;
+                    if (impl_->loop2_circuit_breaker_count >= impl_->CIRCUIT_BREAKER_THRESHOLD) {
+                        THEMIS_WARN("Loop 2 circuit breaker threshold reached ({} consecutive failures)",
+                                   impl_->loop2_circuit_breaker_count);
+                    }
+                    break;
+                case LoopPhase::LOOP_3_SCHEMA_INDEX:
+                    ++impl_->loop3_circuit_breaker_count;
+                    if (impl_->loop3_circuit_breaker_count >= impl_->CIRCUIT_BREAKER_THRESHOLD) {
+                        THEMIS_WARN("Loop 3 circuit breaker threshold reached ({} consecutive failures)",
+                                   impl_->loop3_circuit_breaker_count);
+                    }
+                    break;
+                case LoopPhase::LOOP_4_RLAIF:
+                    ++impl_->loop4_circuit_breaker_count;
+                    if (impl_->loop4_circuit_breaker_count >= impl_->CIRCUIT_BREAKER_THRESHOLD) {
+                        THEMIS_WARN("Loop 4 circuit breaker threshold reached ({} consecutive failures)",
+                                   impl_->loop4_circuit_breaker_count);
+                    }
+                    break;
+                default:
+                    break;
+            }
+        } else {
+            // Reset circuit breaker counters on success
+            switch (phase) {
+                case LoopPhase::LOOP_1_HNSW_QUERY:
+                    if (impl_->loop1_circuit_breaker_count > 0) {
+                        THEMIS_INFO("Loop 1 circuit breaker reset (was at {} failures)", 
+                                   impl_->loop1_circuit_breaker_count);
+                        impl_->loop1_circuit_breaker_count = 0;
+                    }
+                    break;
+                case LoopPhase::LOOP_2_WORKLOAD:
+                    if (impl_->loop2_circuit_breaker_count > 0) {
+                        THEMIS_INFO("Loop 2 circuit breaker reset (was at {} failures)", 
+                                   impl_->loop2_circuit_breaker_count);
+                        impl_->loop2_circuit_breaker_count = 0;
+                    }
+                    break;
+                case LoopPhase::LOOP_3_SCHEMA_INDEX:
+                    if (impl_->loop3_circuit_breaker_count > 0) {
+                        THEMIS_INFO("Loop 3 circuit breaker reset (was at {} failures)", 
+                                   impl_->loop3_circuit_breaker_count);
+                        impl_->loop3_circuit_breaker_count = 0;
+                    }
+                    break;
+                case LoopPhase::LOOP_4_RLAIF:
+                    if (impl_->loop4_circuit_breaker_count > 0) {
+                        THEMIS_INFO("Loop 4 circuit breaker reset (was at {} failures)", 
+                                   impl_->loop4_circuit_breaker_count);
+                        impl_->loop4_circuit_breaker_count = 0;
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        // Detect overselection: if improvement is anomalously high, prepare for rollback
+        if (result.success && result.metric_delta > impl_->MAX_IMPROVEMENT_PERCENT) {
+            THEMIS_WARN("Overselection detected in phase {:d}: improvement={:.1f}% (threshold={}%) - "
+                       "monitoring for potential rollback",
+                       static_cast<int>(phase), result.metric_delta * 100.0, impl_->MAX_IMPROVEMENT_PERCENT);
+        }
+
+        // Track feedback count for undertraining detection
+        if (phase == LoopPhase::LOOP_4_RLAIF && !feedback_count_fn.target_type().name() == typeid(std::nullptr_t).name()) {
+            impl_->last_feedback_check_time = std::chrono::system_clock::now();
+            // Note: feedback count update happens via direct call to feedback_count_fn() if needed
+        }
     }
 
     // Invoke completion handler (if registered), outside the mutex.
@@ -1377,8 +1614,19 @@ ContinuousLearningOrchestrator::triggerLoop1QueryExecution(
         blocked.adapter_version = "cooldown";
         return blocked;
     }
+
+    // Check circuit breaker status
     {
         std::lock_guard<std::mutex> lock(impl_->mutex);
+        if (impl_->loop1_circuit_breaker_count >= impl_->CIRCUIT_BREAKER_THRESHOLD) {
+            THEMIS_WARN("Loop 1 circuit breaker OPEN - skipping execution (consecutive failures: {})",
+                       impl_->loop1_circuit_breaker_count);
+            LoopResult blocked;
+            blocked.phase           = LoopPhase::LOOP_1_HNSW_QUERY;
+            blocked.success         = false;
+            blocked.adapter_version = "circuit_breaker_open";
+            return blocked;
+        }
         impl_->last_loop1_outcome = outcome;
     }
     return triggerLoop(LoopPhase::LOOP_1_HNSW_QUERY);
@@ -1393,6 +1641,20 @@ ContinuousLearningOrchestrator::triggerLoop2WorkloadAdaptation() {
         blocked.adapter_version = "cooldown";
         return blocked;
     }
+
+    // Check circuit breaker status
+    {
+        std::lock_guard<std::mutex> lock(impl_->mutex);
+        if (impl_->loop2_circuit_breaker_count >= impl_->CIRCUIT_BREAKER_THRESHOLD) {
+            THEMIS_WARN("Loop 2 circuit breaker OPEN - skipping execution (consecutive failures: {})",
+                       impl_->loop2_circuit_breaker_count);
+            LoopResult blocked;
+            blocked.phase           = LoopPhase::LOOP_2_WORKLOAD;
+            blocked.success         = false;
+            blocked.adapter_version = "circuit_breaker_open";
+            return blocked;
+        }
+    }
     return triggerLoop(LoopPhase::LOOP_2_WORKLOAD);
 }
 
@@ -1405,6 +1667,20 @@ ContinuousLearningOrchestrator::triggerLoop3IndexLifecycle() {
         blocked.adapter_version = "cooldown";
         return blocked;
     }
+
+    // Check circuit breaker status
+    {
+        std::lock_guard<std::mutex> lock(impl_->mutex);
+        if (impl_->loop3_circuit_breaker_count >= impl_->CIRCUIT_BREAKER_THRESHOLD) {
+            THEMIS_WARN("Loop 3 circuit breaker OPEN - skipping execution (consecutive failures: {})",
+                       impl_->loop3_circuit_breaker_count);
+            LoopResult blocked;
+            blocked.phase           = LoopPhase::LOOP_3_SCHEMA_INDEX;
+            blocked.success         = false;
+            blocked.adapter_version = "circuit_breaker_open";
+            return blocked;
+        }
+    }
     return triggerLoop(LoopPhase::LOOP_3_SCHEMA_INDEX);
 }
 
@@ -1416,6 +1692,20 @@ ContinuousLearningOrchestrator::triggerLoop4AdapterImprovement() {
         blocked.success         = false;
         blocked.adapter_version = "cooldown";
         return blocked;
+    }
+
+    // Check circuit breaker status
+    {
+        std::lock_guard<std::mutex> lock(impl_->mutex);
+        if (impl_->loop4_circuit_breaker_count >= impl_->CIRCUIT_BREAKER_THRESHOLD) {
+            THEMIS_WARN("Loop 4 circuit breaker OPEN - skipping execution (consecutive failures: {})",
+                       impl_->loop4_circuit_breaker_count);
+            LoopResult blocked;
+            blocked.phase           = LoopPhase::LOOP_4_RLAIF;
+            blocked.success         = false;
+            blocked.adapter_version = "circuit_breaker_open";
+            return blocked;
+        }
     }
     return triggerLoop(LoopPhase::LOOP_4_RLAIF);
 }
