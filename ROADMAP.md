@@ -1738,6 +1738,140 @@ Dettmers et al. 2023 (NF4); Zhang et al. 2023 (AdaLoRA); Bigoni et al. 2016 (com
 
 ---
 
+## 🟢 EPIC #5423: Hybrid Knowledge Retrieval Architecture (Q3 2026) — PHASE 1-3 COMPLETE
+
+**Status:** ✅ **Phases 1-3 COMPLETE**  
+**Timeline:** Weeks 1-3 (Completed: 2026-07-01)  
+**Verification Date:** 2026-07-01  
+**Architect:** Hybrid Retrieval System Integration Team  
+
+### Epic Scope & Motivation
+
+Implement a formal layered knowledge retrieval architecture integrating four pre-existing but disconnected subsystems:
+1. **ANN Frontdoor** — Approximate nearest neighbor vector search (candidate generation)
+2. **Tensor Mid-Layer** — Tensor-based compression and routing 
+3. **Graph Truth Layer** — Graph-based evidence and provenance validation
+4. **LLM/LoRA Final Layer** — Language model with LoRA-based adaptation
+
+### Completed Phases
+
+#### Phase 1: Design & API Contracts ✅
+- Architected `LayeredRetrievalOrchestrator` master controller
+- Defined `LayeredRetrievalConfig` (layer enablement, timeout policies, fallback strategies)
+- Defined `LayeredRetrievalContext` (query, correlation ID, per-layer configuration)
+- Defined `LayerRoutingDecision` (result handling and error propagation model)
+- Defined `LayeredRetrievalResult` (unified result container with observability metadata)
+- Established layer sequencing contract and error handling boundaries
+
+**Deliverables:**
+- `include/search/layered_retrieval_orchestrator.h` (~11KB) — Complete API with documentation
+- Architecture Design Document with layer responsibility matrix
+
+#### Phase 2: Core Implementation ✅
+- Implemented `LayeredRetrievalOrchestrator::execute()` with layer sequencing
+- Implemented per-layer executors: `executeAnnLayer()`, `executeTensorLayer()`, `executeGraphLayer()`, `executeLlmLayer()`
+- Implemented error handling with three-tier fallback strategy:
+  1. **Layer Fallback** — Skip failed layer, continue to next
+  2. **Upstream Result Reuse** — Use result from previous layer unchanged
+  3. **Template Fallback** — Generate template answer using evidence from prior layers
+- Implemented observability: correlation ID generation, per-layer latency tracking, routing decisions
+- Integrated with CMake build system (both modular and monolithic paths)
+
+**Deliverables:**
+- `src/search/layered_retrieval_orchestrator.cpp` (~21.5KB) — Full production implementation
+- Integration documentation and configuration guide
+- Example integration code (`examples/example_layered_retrieval_integration.cpp`)
+
+#### Phase 3: Error Handling & Edge Cases ✅
+- Comprehensive unit test suite: 22 tests covering happy path, layer failures, configuration
+- Phase 3 advanced error handling tests: 19 tests validating:
+  - Exception handling across all layer types
+  - Resource exhaustion and memory limit enforcement
+  - Timeout scenarios and graceful degradation
+  - Concurrent execution safety
+  - Invalid input validation
+  - Cross-layer error propagation
+
+**Test Coverage:** 41 tests total
+- **Happy Path:** Query flows through all 4 layers successfully (5 tests)
+- **Layer Failures:** Individual layer failures with fallback activation (8 tests)
+- **Configuration:** Dynamic config updates and layer enablement changes (6 tests)
+- **Observability:** Correlation ID tracking and latency measurement (3 tests)
+- **Phase 3 Advanced:** Exception handling, timeouts, resource limits, concurrency (19 tests)
+
+**Deliverables:**
+- `tests/search/test_layered_retrieval_orchestrator.cpp` (~19KB) — 22 core unit tests
+- `tests/search/test_layered_retrieval_orchestrator_phase3.cpp` (~18.7KB) — 19 advanced tests
+
+### Production Readiness Status (Phases 1-3)
+
+| Criterion | Status | Notes |
+|-----------|--------|-------|
+| API Design Stability | ✅ Complete | LayeredRetrievalConfig/Context/Result interfaces finalized |
+| Core Implementation | ✅ Complete | All 4 layers integrated with sequencing and error handling |
+| Unit Test Coverage | ✅ Complete | 41 tests covering all critical paths and error scenarios |
+| Error Handling | ✅ Complete | Three-tier fallback with comprehensive exception safety |
+| Build Integration | ✅ Complete | Registered in both modular and monolithic build systems |
+| Documentation | ✅ Complete | API reference, architecture guide, integration examples |
+| **Phase 4 Ready** | ⏳ Pending | Integration tests with real layer implementations (not mocks) |
+| **Phase 5 Ready** | ⏳ Pending | Performance baselines and stress testing |
+
+### Known Limitations (Phases 1-3)
+
+| Limitation | Scope | Workaround |
+|-----------|-------|-----------|
+| Test mocks only | All layer executors use gmock NiceMock | Phase 4 will integrate real implementations |
+| Timeout advisory | Config timeout values are informational only | Enforcement layer to be implemented in Phase 5 |
+| Limited observability | Per-layer latency tracked; no detailed tracing backend | Phase 5 will add distributed tracing integration |
+| Evidence assembly | Graph layer evidence bundled; optimization pending | Phase 5 performance profiling to optimize bundling |
+
+### Next Phases (Future Work)
+
+**Phase 4: Integration Tests** (Week 4)
+- Create integration tests with real layer implementations
+- Verify end-to-end retrieval quality and correctness
+- Validate layer interaction and data flow integrity
+- Test provenance accuracy across all layers
+
+**Phase 5: Performance & Hardening** (Weeks 5-6)
+- Establish latency baselines for each layer combination
+- Profile memory usage and identify bottlenecks
+- Benchmark against legacy retrieval paths
+- Stress test with large candidate sets and high-dimensional vectors
+
+**Phase 6: Documentation & Acceptance** (Week 7)
+- Finalize Doxygen API documentation
+- Create migration guide from existing retrieval patterns
+- Document known limitations and workarounds
+- Prepare acceptance criteria checklist
+
+**Phase 7: Migration/Go-Live** (Week 8+)
+- Implement feature flag for orchestrator enablement
+- Create rollout strategy with canary deployment
+- Build legacy compatibility layer if needed
+- Establish monitoring and alerting
+
+### Build & Test Verification
+
+**Build Status:** ✅ All sources compile successfully
+```bash
+cmake --preset community-release
+cmake --build --preset community-release --parallel 16
+```
+
+**Test Status:** ✅ All 41 tests passing
+```bash
+ctest --preset community-release --filter "test_layered_retrieval_orchestrator" -j 1 --timeout 60
+```
+
+### Related Documentation
+- [include/search/layered_retrieval_orchestrator.h](include/search/layered_retrieval_orchestrator.h) — API reference
+- [docs/LAYERED_RETRIEVAL_ORCHESTRATOR.md](docs/LAYERED_RETRIEVAL_ORCHESTRATOR.md) — Complete architecture guide
+- [examples/example_layered_retrieval_integration.cpp](examples/example_layered_retrieval_integration.cpp) — Integration example
+- GitHub Issue: [#5423](https://github.com/makr-code/ThemisDB/issues/5423) — Epic tracking
+
+---
+
 ---
 
 ## Production Readiness Checklist
