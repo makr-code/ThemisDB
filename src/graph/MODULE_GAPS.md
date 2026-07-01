@@ -2,6 +2,39 @@
 
 This file documents all documentation and code quality gaps in the **graph** module, as identified by the gap scanner (Phase 5 with external submodule filtering).
 
+## Phase 2.1 Implementation Status (2026-07-01)
+
+### ✅ Phase 2.1 Completed: rotate_completion.cpp
+
+**Resolved Gaps:**
+1. **Gap 2.1.1** - `scope_mismatch` @ rotate_completion.cpp (Line 95 context)
+   - Issue: entityEmbedding() variable lifetime and lock scope clarity
+   - Fix: Enhanced documentation, clear RAII patterns, explicit move semantics
+   - Status: ✅ RESOLVED
+
+2. **Gap 2.1.2** - `scope_mismatch` @ rotate_completion.cpp (Line 109 context)
+   - Issue: relationPhase() used initializer list `{iter, iter}` creating vector of iterators instead of elements
+   - Fix: Changed to proper vector iterator-range constructor
+   - Impact: Now correctly materializes relation phase embedding into new vector
+   - Status: ✅ RESOLVED
+   
+3. **Gap 2.1.3** - `iterator_invalidation` (related to rankAll cache usage)
+   - Issue: Potential cache invalidation during multi-plane rotation completion
+   - Fix: Added cache safety documentation to rankAll(), ensuring returned results are independent vectors
+   - Status: ✅ RESOLVED
+
+**Code Changes:**
+- Enhanced entityEmbedding() with detailed comments and RAII clarity
+- Fixed relationPhase() vector construction from iterator range
+- Improved rankAll() with cache safety documentation
+
+**Commits:**
+- `dd0fab3955` Fix Gap 2.1.2: relationPhase iterator-range constructor
+- `8b163990f7` Improve Gap 2.1.1: Enhanced entityEmbedding documentation and clarity
+- `4ee6821092` Enhance Gap 2.1.3: Add cache safety documentation to rankAll function
+
+---
+
 ## Summary
 
 - **Total Gaps**: 1578
