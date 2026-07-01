@@ -669,6 +669,15 @@ http::response<http::string_body> MonitoringApiHandler::handleMetrics(
         out += "vccdb_qps " + std::to_string(qps) + "\n";
 
         if (continuous_learning_orchestrator_) {
+            auto sanitize_label = [](std::string s) -> std::string {
+                for (char& c : s) {
+                    if (c == '"' || c == '\n' || c == '\\') {
+                        c = '_';
+                    }
+                }
+                return s;
+            };
+
             try {
                 const std::string loop_context = continuous_learning_orchestrator_->serializeLoopContext();
                 if (!loop_context.empty()) {
@@ -677,14 +686,6 @@ http::response<http::string_body> MonitoringApiHandler::handleMetrics(
                         loop_json.contains("loops") &&
                         loop_json["loops"].is_array() &&
                         !loop_json["loops"].empty()) {
-                        auto sanitize_label = [](std::string s) -> std::string {
-                            for (char& c : s) {
-                                if (c == '"' || c == '\n' || c == '\\') {
-                                    c = '_';
-                                }
-                            }
-                            return s;
-                        };
                         out += "# HELP themis_continuous_learning_loop_signal_value Latest loop signal value\n";
                         out += "# TYPE themis_continuous_learning_loop_signal_value gauge\n";
                         out += "# HELP themis_continuous_learning_loop_guardrail_passed Loop guardrail state (1=passed,0=failed)\n";
@@ -732,6 +733,95 @@ http::response<http::string_body> MonitoringApiHandler::handleMetrics(
                 THEMIS_WARN("Failed to collect continuous learning metrics: {}", e.what());
             } catch (...) {
                 THEMIS_WARN("Unknown error while collecting continuous learning metrics");
+            }
+
+            // Provider health metrics
+            try {
+                const std::string provider_health_json = continuous_learning_orchestrator_->getProviderHealthMetrics();
+                if (!provider_health_json.empty()) {
+                    const json provider_json = json::parse(provider_health_json, nullptr, false);
+                    if (!provider_json.is_discarded() && provider_json.is_object()) {
+                        out += "# HELP themis_continuous_learning_provider_available Provider availability (1=available,0=unavailable)\n";
+                        out += "# TYPE themis_continuous_learning_provider_available gauge\n";
+                        out += "# HELP themis_continuous_learning_provider_failures Total provider failures\n";
+                        out += "# TYPE themis_continuous_learning_provider_failures counter\n";
+
+                        for (const auto& [provider_name, provider_data] : provider_json.items()) {
+                            if (provider_name == "timestamp") continue;
+                            if (!provider_data.is_object()) continue;
+
+                            const int available = provider_data.value("available", false) ? 1 : 0;
+                            const int failure_count = provider_data.value("failure_count", 0);
+
+                            const std::string labels = "{provider=\"" + sanitize_label(provider_name) + "\"}";
+                            out += "themis_continuous_learning_provider_available" + labels + " " +
+                                   std::to_string(available) + "\n";
+                            out += "themis_continuous_learning_provider_failures" + labels + " " +
+                                   std::to_string(failure_count) + "\n";
+                        }
+                    }
+                }
+            } catch (const std::exception& e) {
+                THEMIS_WARN("Failed to collect provider health metrics: {}", e.what());
+            }
+
+            // A/B test metrics
+            try {
+                const std::string ab_metrics_json = continuous_learning_orchestrator_->getABTestMetrics();
+                if (!ab_metrics_json.empty()) {
+                    const json ab_json = json::parse(ab_metrics_json, nullptr, false);
+                    if (!ab_json.is_discarded() && ab_json.is_object()) {
+                        out += "# HELP themis_ab_test_active Active A/B tests\n";
+                        out += "# TYPE themis_ab_test_active gauge\n";
+                        out += "# HELP themis_ab_test_improvement Measured improvement in A/B test (%)\n";
+                        out += "# TYPE themis_ab_test_improvement gauge\n";
+
+                        const int active_tests = ab_json.value("active_tests", 0);
+                        out += "themis_ab_test_active " + std::to_string(active_tests) + "\n";
+
+                        if (ab_json.contains("tests") && ab_json["tests"].is_array()) {
+                            for (const auto& test : ab_json["tests"]) {
+                                if (!test.is_object()) continue;
+                                const std::string test_id = test.value("test_id", std::string{"unknown"});
+                                const double improvement = test.value("improvement_percent", 0.0);
+                                const std::string labels = "{test_id=\"" + sanitize_label(test_id) + "\"}";
+                                out += "themis_ab_test_improvement" + labels + " " + std::to_string(improvement) + "\n";
+                            }
+                        }
+                    }
+                }
+            } catch (const std::exception& e) {
+                THEMIS_WARN("Failed to collect A/B test metrics: {}", e.what());
+            }
+
+            // Cooldown metrics
+            try {
+                const std::string cooldown_json = continuous_learning_orchestrator_->getCooldownMetrics();
+                if (!cooldown_json.empty()) {
+                    const json cooldown_metric_json = json::parse(cooldown_json, nullptr, false);
+                    if (!cooldown_metric_json.is_discarded() && cooldown_metric_json.is_object()) {
+                        out += "# HELP themis_continuous_learning_cooldown_rejections Loop trigger rejections due to cooldown\n";
+                        out += "# TYPE themis_continuous_learning_cooldown_rejections counter\n";
+                        out += "# HELP themis_continuous_learning_cooldown_window_seconds Configured cooldown window\n";
+                        out += "# TYPE themis_continuous_learning_cooldown_window_seconds gauge\n";
+
+                        const int cooldown_secs = cooldown_metric_json.value("cooldown_window_seconds", 10);
+                        out += "themis_continuous_learning_cooldown_window_seconds " + std::to_string(cooldown_secs) + "\n";
+
+                        for (int loop_id = 1; loop_id <= 4; ++loop_id) {
+                            const std::string loop_key = "loop_" + std::to_string(loop_id);
+                            if (cooldown_metric_json.contains(loop_key) && cooldown_metric_json[loop_key].is_object()) {
+                                const auto& loop_data = cooldown_metric_json[loop_key];
+                                const int rejections = loop_data.value("rejections", 0);
+                                const std::string labels = "{loop_id=\"" + std::to_string(loop_id) + "\"}";
+                                out += "themis_continuous_learning_cooldown_rejections" + labels + " " +
+                                       std::to_string(rejections) + "\n";
+                            }
+                        }
+                    }
+                }
+            } catch (const std::exception& e) {
+                THEMIS_WARN("Failed to collect cooldown metrics: {}", e.what());
             }
         }
 
