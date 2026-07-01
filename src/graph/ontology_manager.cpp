@@ -192,6 +192,10 @@ parseObject(const std::string &s, std::size_t &pos,
 struct YamlEntry {
     std::unordered_map<std::string, std::string> scalar;
     std::unordered_map<std::string, std::vector<std::string>> list;
+    
+    /// Explicit destructor for semantic clarity (Rule of Five).
+    /// Cleanup handled by standard library containers (RAII).
+    ~YamlEntry() = default;
 };
 
 static std::string trimYaml(const std::string &s) {

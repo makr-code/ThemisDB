@@ -26,6 +26,8 @@
 #include "sharding/distributed_transaction.h"
 #include "sharding/truetime.h"
 #include <cstdlib>
+#include <chrono>
+#include <filesystem>
 #include <nlohmann/json.hpp>
 #include <string>
 
@@ -214,6 +216,85 @@ TEST_F(DistributedTxnApiHandlerTest, BeginEmptyShardsReturnsBadRequest) {
     auto req = makeReq(http::verb::post, "/dtxn/begin", R"({"shards":[]})");
     auto res = handler_->handleBegin(req);
     EXPECT_EQ(res.result(), http::status::bad_request);
+}
+
+TEST(DistributedTransactionCoordinatorRecoveryTest,
+     ConstructorRecoveryReplaysDurableCommitDecisionFromWAL) {
+    const auto wal_dir = (std::filesystem::temp_directory_path() /
+                          ("distributed_txn_wal_" +
+                           std::to_string(::getpid()) + "_" +
+                           std::to_string(
+                               std::chrono::steady_clock::now()
+                                   .time_since_epoch()
+                                   .count())))
+                             .string();
+
+    struct WalDirGuard {
+        const std::string& path;
+        ~WalDirGuard() { std::filesystem::remove_all(path); }
+    } guard{wal_dir};
+
+    std::filesystem::create_directories(wal_dir);
+
+    const std::string txn_id = "dtxn-wal-replay";
+
+    WALManagerConfig wal_cfg;
+    wal_cfg.wal_directory = wal_dir;
+    wal_cfg.sync_on_write = true;
+    WALManager wal(wal_cfg);
+
+    WALEntry begin_entry;
+    begin_entry.type = WALEntryType::BEGIN_TX;
+    begin_entry.transaction_id = txn_id;
+    begin_entry.data = {
+        {"transaction_id", txn_id},
+        {"phase", "begin"},
+        {"participants", nlohmann::json::array({
+            {{"shard_id", "shard-a"}, {"endpoint", "shard://shard-a"}}
+        })}
+    };
+    wal.append(begin_entry);
+
+    WALEntry prepare_entry;
+    prepare_entry.type = WALEntryType::PREPARE_TX;
+    prepare_entry.transaction_id = txn_id;
+    prepare_entry.data = {
+        {"transaction_id", txn_id},
+        {"phase", "prepared"},
+        {"participants", nlohmann::json::array({
+            {{"shard_id", "shard-a"}, {"endpoint", "shard://shard-a"}, {"prepared", true}}
+        })}
+    };
+    wal.append(prepare_entry);
+
+    WALEntry decision_entry;
+    decision_entry.type = WALEntryType::COMMIT_TX;
+    decision_entry.transaction_id = txn_id;
+    decision_entry.data = {
+        {"transaction_id", txn_id},
+        {"phase", "decision"},
+        {"decision", "commit"},
+        {"commit_timestamp_ns", int64_t{42}},
+        {"participants", nlohmann::json::array({
+            {{"shard_id", "shard-a"}, {"endpoint", "shard://shard-a"}, {"prepared", true}}
+        })}
+    };
+    wal.append(decision_entry);
+    wal.flush();
+
+    TrueTime::Config tt;
+    tt.base_uncertainty_us = 1000;
+    auto truetime = std::make_shared<TrueTime>(tt);
+
+    DistributedTransactionCoordinator::Config cfg;
+    cfg.enable_recovery_log = true;
+    cfg.use_percolator_for_snapshot = false;
+    cfg.wal_directory = wal_dir;
+
+    DistributedTransactionCoordinator coordinator(truetime, cfg);
+    EXPECT_EQ(coordinator.getTransactionState(txn_id), TransactionState::COMMITTED);
+    EXPECT_TRUE(coordinator.getRecoverableTransactions().empty());
+    EXPECT_EQ(coordinator.recoverInDoubtTransactions(), 0u);
 }
 
 TEST_F(DistributedTxnApiHandlerTest, BeginInvalidShardIdReturnsBadRequest) {

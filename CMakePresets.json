@@ -5,6 +5,7 @@
     {
       "name": "base",
       "hidden": true,
+      "description": "Base preset: Ninja generator with standard compiler cache settings",
       "generator": "Ninja",
       "cacheVariables": {
         "CMAKE_EXPORT_COMPILE_COMMANDS": "ON",
@@ -18,6 +19,7 @@
     {
       "name": "vcpkg-base",
       "hidden": true,
+      "description": "vcpkg-enabled base: Configures CMAKE_TOOLCHAIN_FILE and VCPKG_INSTALLED_DIR. Required by linux-release and windows-release. Requires: vcpkg repo cloned to ./vcpkg and bootstrapped",
       "inherits": "base",
       "cacheVariables": {
         "CMAKE_TOOLCHAIN_FILE": "${sourceDir}/vcpkg/scripts/buildsystems/vcpkg.cmake",
@@ -27,6 +29,7 @@
     {
       "name": "windows-base",
       "hidden": true,
+      "description": "Windows base: MSVC x64 with vcpkg and GPU support. Requires: Windows 10/11, MSVC 2022+, Ninja, vcpkg",
       "inherits": "vcpkg-base",
       "environment": {
         "CMAKE_BUILD_PARALLEL_LEVEL": "16",
@@ -41,6 +44,7 @@
     {
       "name": "linux-base",
       "hidden": true,
+      "description": "Linux base: GCC x64 with vcpkg and GPU support. Requires: Linux, GCC 11+, Ninja, vcpkg. Fallback: Use community-release preset with system packages",
       "inherits": "vcpkg-base",
       "cacheVariables": {
         "CMAKE_C_COMPILER": "gcc",
@@ -52,7 +56,8 @@
     },
     {
       "name": "windows-release",
-      "displayName": "Windows x64: Release",
+      "displayName": "Windows x64: Release (vcpkg required)",
+      "description": "Production release build for Windows. Requires: Windows 10/11, MSVC 2022+, Ninja, vcpkg. See SETUP.md for setup instructions.",
       "inherits": "windows-base",
       "condition": { "type": "equals", "lhs": "${hostSystemName}", "rhs": "Windows" },
       "binaryDir": "${sourceDir}/build-msvc-windows-release",
@@ -60,7 +65,8 @@
     },
     {
       "name": "windows-debug",
-      "displayName": "Windows x64: Debug",
+      "displayName": "Windows x64: Debug (vcpkg required)",
+      "description": "Development debug build for Windows. Requires: Windows 10/11, MSVC 2022+, Ninja, vcpkg. See SETUP.md for setup instructions.",
       "inherits": "windows-base",
       "condition": { "type": "equals", "lhs": "${hostSystemName}", "rhs": "Windows" },
       "binaryDir": "${sourceDir}/build-msvc-windows-debug",
@@ -68,7 +74,8 @@
     },
     {
       "name": "linux-release",
-      "displayName": "Linux x64: Release",
+      "displayName": "Linux x64: Release (vcpkg required)",
+      "description": "Production release build for Linux with vcpkg. Requires: Linux, GCC 11+, Ninja, vcpkg. Fallback: Use community-release preset for system package builds. See SETUP.md for setup instructions.",
       "inherits": "linux-base",
       "condition": { "type": "equals", "lhs": "${hostSystemName}", "rhs": "Linux" },
       "binaryDir": "${sourceDir}/build-gcc-linux-release",
@@ -76,7 +83,8 @@
     },
     {
       "name": "linux-debug",
-      "displayName": "Linux x64: Debug",
+      "displayName": "Linux x64: Debug (vcpkg required)",
+      "description": "Development debug build for Linux with vcpkg. Requires: Linux, GCC 11+, Ninja, vcpkg. Fallback: Use community-release preset for system package builds. See SETUP.md for setup instructions.",
       "inherits": "linux-base",
       "condition": { "type": "equals", "lhs": "${hostSystemName}", "rhs": "Linux" },
       "binaryDir": "${sourceDir}/build-gcc-linux-debug",
@@ -84,14 +92,16 @@
     },
     {
       "name": "community-release",
-      "displayName": "Configure: Community Release",
+      "displayName": "Configure: Community Release (system packages, no vcpkg)",
+      "description": "Fallback preset: Uses system-installed packages instead of vcpkg. Requires: Linux/macOS, GCC/Clang, Ninja, system development packages (librocksdb-dev, libssl-dev, zlib1g-dev, etc.). Use this when vcpkg is unavailable. See SETUP.md for system package installation guide.",
       "inherits": "base",
       "binaryDir": "${sourceDir}/build-community-release",
       "cacheVariables": { "CMAKE_BUILD_TYPE": "Release", "THEMIS_EDITION": "COMMUNITY" }
     },
     {
       "name": "nightly-bench-sweep",
-      "displayName": "Nightly Benchmark Sweep",
+      "displayName": "Nightly Benchmark Sweep (vcpkg required)",
+      "description": "Nightly benchmark sweep: Linux release with benchmarks enabled, GPU and LLM disabled. Requires: Linux, GCC 11+, Ninja, vcpkg. See SETUP.md for setup instructions.",
       "inherits": "linux-base",
       "condition": { "type": "equals", "lhs": "${hostSystemName}", "rhs": "Linux" },
       "binaryDir": "${sourceDir}/build-gcc-linux-nightly",
@@ -100,15 +110,17 @@
     ,
     {
       "name": "hyperscaler-debug-windows",
-      "displayName": "Hyperscaler Debug (Windows)",
-      "inherits": "windows-base",
-      "condition": { "type": "equals", "lhs": "${hostSystemName}", "rhs": "Windows" },
-      "binaryDir": "${sourceDir}/build-hyperscaler-windows-debug",
-      "cacheVariables": { "CMAKE_BUILD_TYPE": "Debug", "THEMIS_EDITION": "HYPERSCALER", "THEMIS_BUILD_BENCHMARKS": "ON", "THEMIS_BUILD_TESTS": "ON" }
+     "displayName": "Hyperscaler Debug (Windows) (vcpkg required)",
+     "description": "Hyperscaler debug build for Windows with benchmarks enabled. Requires: Windows 10/11, MSVC 2022+, Ninja, vcpkg. See SETUP.md for setup instructions.",
+     "inherits": "windows-base",
+     "condition": { "type": "equals", "lhs": "${hostSystemName}", "rhs": "Windows" },
+     "binaryDir": "${sourceDir}/build-hyperscaler-windows-debug",
+     "cacheVariables": { "CMAKE_BUILD_TYPE": "Debug", "THEMIS_EDITION": "HYPERSCALER", "THEMIS_BUILD_BENCHMARKS": "ON", "THEMIS_BUILD_TESTS": "ON" }
     },
     {
       "name": "hyperscaler-debug-linux",
-      "displayName": "Hyperscaler Debug (Linux)",
+      "displayName": "Hyperscaler Debug (Linux) (vcpkg required)",
+      "description": "Hyperscaler debug build for Linux with benchmarks enabled. Requires: Linux, GCC 11+, Ninja, vcpkg. See SETUP.md for setup instructions.",
       "inherits": "linux-base",
       "condition": { "type": "equals", "lhs": "${hostSystemName}", "rhs": "Linux" },
       "binaryDir": "${sourceDir}/build-hyperscaler-linux-debug",
@@ -121,16 +133,19 @@
     { "name": "hyperscaler-debug-windows", "configurePreset": "hyperscaler-debug-windows", "jobs": 16 },
     { "name": "linux-release", "configurePreset": "linux-release" },
     { "name": "linux-debug", "configurePreset": "linux-debug" },
+    { "name": "community-release", "configurePreset": "community-release" },
     { "name": "nightly-bench-sweep", "configurePreset": "nightly-bench-sweep" }
   ],
   "testPresets": [
     { "name": "windows-release", "configurePreset": "windows-release" },
     { "name": "hyperscaler-debug-windows", "configurePreset": "hyperscaler-debug-windows" },
-    { "name": "linux-release", "configurePreset": "linux-release" }
+    { "name": "linux-release", "configurePreset": "linux-release" },
+    { "name": "community-release", "configurePreset": "community-release" }
   ],
   "workflowPresets": [
     { "name": "windows-release", "steps": [ { "type": "configure", "name": "windows-release" }, { "type": "build", "name": "windows-release" }, { "type": "test", "name": "windows-release" } ] },
     { "name": "hyperscaler-debug-windows", "steps": [ { "type": "configure", "name": "hyperscaler-debug-windows" }, { "type": "build", "name": "hyperscaler-debug-windows" }, { "type": "test", "name": "hyperscaler-debug-windows" } ] },
-    { "name": "linux-release", "steps": [ { "type": "configure", "name": "linux-release" }, { "type": "build", "name": "linux-release" }, { "type": "test", "name": "linux-release" } ] }
+    { "name": "linux-release", "steps": [ { "type": "configure", "name": "linux-release" }, { "type": "build", "name": "linux-release" }, { "type": "test", "name": "linux-release" } ] },
+    { "name": "community-release", "steps": [ { "type": "configure", "name": "community-release" }, { "type": "build", "name": "community-release" }, { "type": "test", "name": "community-release" } ] }
   ]
 }
