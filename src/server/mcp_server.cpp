@@ -2816,7 +2816,7 @@ void StdioTransport::start() {
             fn = stdioReadFnStorage();
         }
         if (fn) {
-            try { fn(); } catch (...) {}
+            try { fn(); } catch (...) { spdlog::warn("MCP stdio transport: read callback threw unexpected exception"); }
         } else {
             spdlog::warn("MCP stdio transport: Unsupported platform, stdin reading not implemented");
         }

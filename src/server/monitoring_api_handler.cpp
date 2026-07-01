@@ -1673,7 +1673,10 @@ http::response<http::string_body> MonitoringApiHandler::handleMetricsHtml(
                     loop_context = "{}";
                 }
             } catch (const std::exception& e) {
-                loop_context = std::string("{\"error\":\"") + e.what() + "\"}";
+                // CWE-200: Do not expose internal exception details in the HTTP response.
+                // Log the real cause server-side for diagnosis.
+                THEMIS_WARN("monitoring: serializeLoopContext threw: {}", e.what());
+                loop_context = "{\"error\":\"context unavailable\"}";
             }
             html += "<h2>Continuous Learning Loops</h2>\n";
 

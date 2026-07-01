@@ -28,6 +28,7 @@
 #include <openssl/ssl.h>
 #endif
 #include <nlohmann/json.hpp>
+#include <spdlog/spdlog.h>
 
 #include <algorithm>
 #include <array>
@@ -559,7 +560,7 @@ void MqttClientService::onConnAck(uint8_t /*flags*/, uint8_t return_code) {
         h = handler_;
     }
     if (h) {
-        try { h->onConnected(cid); } catch (...) {}
+        try { h->onConnected(cid); } catch (...) { spdlog::warn("MQTT: onConnected handler threw unexpected exception"); }
     }
 
     doWrite(); // Flush any queued publishes
@@ -575,7 +576,7 @@ void MqttClientService::onPublishReceived(const std::string& topic,
         h = handler_;
     }
     if (h) {
-        try { h->onMessage(topic, payload, qos); } catch (...) {}
+        try { h->onMessage(topic, payload, qos); } catch (...) { spdlog::warn("MQTT: onMessage handler threw unexpected exception (topic='{}')", topic); }
     }
 }
 
@@ -703,7 +704,7 @@ void MqttClientService::handleDisconnect(const std::string& reason) {
             h = handler_;
         }
         if (h) {
-            try { h->onDisconnected(reason); } catch (...) {}
+            try { h->onDisconnected(reason); } catch (...) { spdlog::warn("MQTT: onDisconnected handler threw unexpected exception"); }
         }
     }
 

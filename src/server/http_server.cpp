@@ -687,7 +687,7 @@ HttpServer::HttpServer(
             // GAP-011 fixed: log only token length, never prefix/suffix bytes.
             THEMIS_INFO("Auth check after addToken: validateToken(token_len={}) -> authorized={} user_id='{}' reason='{}'",
                        cfg.token.size(), v.authorized, v.user_id, v.reason);
-        } catch (...) {}
+        } catch (...) { THEMIS_WARN("Auth: post-setup validateToken check threw exception (token_len={})", cfg.token.size()); }
     }
     // Read-only token
     if (auto t = themis_get_env("THEMIS_TOKEN_READONLY")) {
@@ -10096,7 +10096,7 @@ std::optional<http::response<http::string_body>> HttpServer::requireAccess(
                 entry["reason"]     = vres.reason;
                 try { audit_logger_->logEvent(entry); } catch (...) {}
             }
-        } catch (...) {}
+        } catch (...) { THEMIS_WARN("Auth: requireAccess validateToken diagnostic threw exception"); }
         auto ar = auth_->authorize(*token, required_scope);
         if (audit_logger_) {
             audit_logger_->logSecurityEvent(
