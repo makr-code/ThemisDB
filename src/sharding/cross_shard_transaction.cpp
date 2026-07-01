@@ -733,24 +733,17 @@ bool CrossShardTransactionCoordinator::prepare(const std::string& transaction_id
         }
         if (fk_val) {
             // Collect all operations across all participants for FK checking.
-            nlohmann::json all_ops = nlohmann::json::array();
+            std::map<std::string, std::vector<std::string>> shard_ops;
             for (const auto& [shard_id, participant] : txn.participants) {
                 for (const auto& op_str : participant.operations) {
-                    try {
-                        auto op = nlohmann::json::parse(op_str);
-                        all_ops.push_back(std::move(op));
-                    } catch (const std::exception& e) {
-                        spdlog::debug(
-                            "CrossShardFKValidator: skipping unparseable operation "
-                            "in transaction {}: {}", transaction_id, e.what());
-                    }
+                    shard_ops[shard_id].push_back(op_str);
                 }
             }
 
             // Run validation outside the transaction lock to avoid deadlock
             // while the lookup callback may perform network I/O.
             lock.unlock();
-            auto violations = fk_val->validateTransaction(all_ops);
+            auto violations = fk_val->validate(transaction_id, shard_ops);
             if (!lock.try_lock_for(config_.lock_timeout)) {
                 spdlog::error("Lock acquisition timeout after FK validation for "
                               "transaction {}", transaction_id);
