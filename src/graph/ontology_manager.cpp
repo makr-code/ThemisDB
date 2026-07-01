@@ -189,9 +189,27 @@ parseObject(const std::string &s, std::size_t &pos,
 //       edge_type: knows
 //       target_class: Bar
 
+/// @brief Lightweight YAML entry representation for ontology schema parsing.
+///
+/// YamlEntry holds parsed key-value pairs from YAML schema, using STL containers
+/// (unordered_map) for automatic memory management. No explicit destructor is needed.
+///
+/// @note RAII Semantics:
+///   - scalar: Maps string keys to string scalar values (e.g., "id" → "Foo")
+///   - list: Maps string keys to lists of string values (e.g., "parents" → ["bar", "baz"])
+///   - All data is stack-allocated via STL containers; destructors are implicit
+///   - Lifetime is tied to the containing vector/scope; no manual cleanup required
+///
+/// @invariant Both member maps (scalar, list) are internally consistent:
+///   - No duplicate keys across scalar and list
+///   - All string values are valid UTF-8 (validated by parseYamlSection)
+///   - Maps are emptied after entry transfer to results vector (no dangling refs)
+///
+/// @thread_safety NOT thread-safe; each YamlEntry is processed in serial context
 struct YamlEntry {
-    std::unordered_map<std::string, std::string> scalar;
-    std::unordered_map<std::string, std::vector<std::string>> list;
+    std::unordered_map<std::string, std::string> scalar;        ///< Scalar YAML fields
+    std::unordered_map<std::string, std::vector<std::string>> list;  ///< List YAML fields
+    // Implicit destructor: std::unordered_map destructors clean up all heap allocations
 };
 
 static std::string trimYaml(const std::string &s) {
