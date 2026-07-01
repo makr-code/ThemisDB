@@ -5139,6 +5139,13 @@ if(THEMIS_BUILD_ENTERPRISE_PLUGINS)
                          ${CMAKE_CURRENT_BINARY_DIR}/src/distributed_knowledge)
     endif()
 
+    # Tensor Mid-Layer Abstractions module (Phase 4, 2026-07-01)
+    # -------------------------------------------------------------------------
+    if(EXISTS "${THEMIS_ROOT_DIR}/src/tensor/CMakeLists.txt")
+        add_subdirectory(${THEMIS_ROOT_DIR}/src/tensor
+                         ${CMAKE_CURRENT_BINARY_DIR}/src/tensor)
+    endif()
+
     # Non-compiled plugin manifests / legacy orchestration: plugins/
     if(EXISTS "${THEMIS_ROOT_DIR}/plugins/CMakeLists.txt")
         add_subdirectory(${THEMIS_ROOT_DIR}/plugins
