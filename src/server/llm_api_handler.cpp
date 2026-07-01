@@ -20,6 +20,8 @@
 
 #include "server/llm_api_handler.h"
 #include <stdexcept>
+#include <atomic>
+#include <mutex>
 #include "server/lora_api_handler.h"
 #include "auth/jwt_validator.h"
 #include "governance/policy_engine.h"
@@ -1425,10 +1427,9 @@ bool LLMApiHandler::validateBearerToken(const http::request<http::string_body>& 
     }
     
     if (!jwt_validator_) {
-        static bool warning_logged = false;
-        if (!warning_logged) {
+        static std::atomic<bool> warning_logged{false};
+        if (!warning_logged.exchange(true, std::memory_order_relaxed)) {
             std::cerr << "WARNING: JWT validator not configured. Denying access." << std::endl;
-            warning_logged = true;
         }
         return false;
     }
@@ -1525,19 +1526,18 @@ http::response<http::string_body> LLMApiHandler::handleDocsQuery(
     }
     
     try {
-        // Create and configure documentation assistant
+        // Create and configure documentation assistant (thread-safe one-time init)
         static llm::DocsAssistant assistant;
-        static bool initialized = false;
+        static std::once_flag init_flag;
+        static bool init_ok = false;
+        std::call_once(init_flag, [&]() { init_ok = assistant.loadDatabase(); });
         
-        if (!initialized) {
-            if (!assistant.loadDatabase()) {
-                return createErrorResponse(
-                    http::status::service_unavailable,
-                    "Documentation database not available",
-                    "docs_database.json not found or failed to load"
-                );
-            }
-            initialized = true;
+        if (!init_ok) {
+            return createErrorResponse(
+                http::status::service_unavailable,
+                "Documentation database not available",
+                "docs_database.json not found or failed to load"
+            );
         }
         
         // Query documentation
@@ -1601,19 +1601,18 @@ http::response<http::string_body> LLMApiHandler::handleDocsConfig(
     }
     
     try {
-        // Create and configure documentation assistant
+        // Create and configure documentation assistant (thread-safe one-time init)
         static llm::DocsAssistant assistant;
-        static bool initialized = false;
+        static std::once_flag init_flag;
+        static bool init_ok = false;
+        std::call_once(init_flag, [&]() { init_ok = assistant.loadDatabase(); });
         
-        if (!initialized) {
-            if (!assistant.loadDatabase()) {
-                return createErrorResponse(
-                    http::status::service_unavailable,
-                    "Documentation database not available",
-                    "docs_database.json not found or failed to load"
-                );
-            }
-            initialized = true;
+        if (!init_ok) {
+            return createErrorResponse(
+                http::status::service_unavailable,
+                "Documentation database not available",
+                "docs_database.json not found or failed to load"
+            );
         }
         
         // Get configuration help
@@ -1665,19 +1664,18 @@ http::response<http::string_body> LLMApiHandler::handleDocsTroubleshoot(
     }
     
     try {
-        // Create and configure documentation assistant
+        // Create and configure documentation assistant (thread-safe one-time init)
         static llm::DocsAssistant assistant;
-        static bool initialized = false;
+        static std::once_flag init_flag;
+        static bool init_ok = false;
+        std::call_once(init_flag, [&]() { init_ok = assistant.loadDatabase(); });
         
-        if (!initialized) {
-            if (!assistant.loadDatabase()) {
-                return createErrorResponse(
-                    http::status::service_unavailable,
-                    "Documentation database not available",
-                    "docs_database.json not found or failed to load"
-                );
-            }
-            initialized = true;
+        if (!init_ok) {
+            return createErrorResponse(
+                http::status::service_unavailable,
+                "Documentation database not available",
+                "docs_database.json not found or failed to load"
+            );
         }
         
         // Get troubleshooting help

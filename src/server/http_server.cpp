@@ -213,6 +213,7 @@ static inline void portable_gmtime_r_impl(const time_t* t, std::tm* out) {
 #include <nlohmann/json.hpp>
 #include <yaml-cpp/yaml.h>
 #include <algorithm>
+#include <mutex>
 #include <sstream>
 #include <iomanip>
 #include <tuple>
@@ -4605,15 +4606,14 @@ http::response<http::string_body> HttpServer::routeRequest(
                     }
 
                     static llm::DocsAssistant assistant;
-                    static bool initialized = false;
-                    if (!initialized) {
-                        if (!assistant.loadDatabase()) {
-                            auto response = makeErrorResponse(http::status::service_unavailable,
-                                "Documentation database not available", req);
-                            applyGovernanceHeaders(req, response);
-                            return response;
-                        }
-                        initialized = true;
+                    static std::once_flag init_flag;
+                    static bool init_ok = false;
+                    std::call_once(init_flag, [&]() { init_ok = assistant.loadDatabase(); });
+                    if (!init_ok) {
+                        auto response = makeErrorResponse(http::status::service_unavailable,
+                            "Documentation database not available", req);
+                        applyGovernanceHeaders(req, response);
+                        return response;
                     }
 
                     auto result = assistant.query(query);
@@ -4666,15 +4666,14 @@ http::response<http::string_body> HttpServer::routeRequest(
                     }
 
                     static llm::DocsAssistant assistant;
-                    static bool initialized = false;
-                    if (!initialized) {
-                        if (!assistant.loadDatabase()) {
-                            auto response = makeErrorResponse(http::status::service_unavailable,
-                                "Documentation database not available", req);
-                            applyGovernanceHeaders(req, response);
-                            return response;
-                        }
-                        initialized = true;
+                    static std::once_flag init_flag;
+                    static bool init_ok = false;
+                    std::call_once(init_flag, [&]() { init_ok = assistant.loadDatabase(); });
+                    if (!init_ok) {
+                        auto response = makeErrorResponse(http::status::service_unavailable,
+                            "Documentation database not available", req);
+                        applyGovernanceHeaders(req, response);
+                        return response;
                     }
 
                     auto result = assistant.getConfigHelp(topic);
@@ -4717,15 +4716,14 @@ http::response<http::string_body> HttpServer::routeRequest(
                     }
 
                     static llm::DocsAssistant assistant;
-                    static bool initialized = false;
-                    if (!initialized) {
-                        if (!assistant.loadDatabase()) {
-                            auto response = makeErrorResponse(http::status::service_unavailable,
-                                "Documentation database not available", req);
-                            applyGovernanceHeaders(req, response);
-                            return response;
-                        }
-                        initialized = true;
+                    static std::once_flag init_flag;
+                    static bool init_ok = false;
+                    std::call_once(init_flag, [&]() { init_ok = assistant.loadDatabase(); });
+                    if (!init_ok) {
+                        auto response = makeErrorResponse(http::status::service_unavailable,
+                            "Documentation database not available", req);
+                        applyGovernanceHeaders(req, response);
+                        return response;
                     }
 
                     auto result = assistant.getTroubleshootingHelp(issue);
