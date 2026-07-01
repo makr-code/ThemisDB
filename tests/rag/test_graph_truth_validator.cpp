@@ -1,5 +1,8 @@
 #include <gtest/gtest.h>
+#include <gmock/gmock.h>
+#include "auth/authorization_policy.h"
 #include "rag/graph_truth_validator.h"
+#include "rag/knowledge_graph_retriever.h"
 #include "tensor/tensor_mid_layer.h"
 
 namespace themis::rag::test {
@@ -185,7 +188,7 @@ TEST_F(GraphTruthValidatorTest, AssembleEvidenceBundleWithFailedAcl) {
 // ============================================================================
 
 TEST_F(GraphTruthValidatorTest, ValidateAclWithNoEngineConfigured) {
-    // When no policy engine is set, should degrade to fail-open (warning)
+    // Phase 2: no policy engine → fail-closed (deny) to prevent accidental disclosure.
     auto result = validator_->validateAcl(
         "candidate-001",
         "alice@example.com",
@@ -193,10 +196,11 @@ TEST_F(GraphTruthValidatorTest, ValidateAclWithNoEngineConfigured) {
         {}
     );
 
-    // Current implementation: stub returns fail-open
-    EXPECT_TRUE(result.acl_passed);
+    EXPECT_FALSE(result.acl_passed);
     EXPECT_EQ(result.principal, "alice@example.com");
     EXPECT_EQ(result.resource_id, "candidate-001");
+    EXPECT_THAT(result.policy_decision_reason,
+                ::testing::HasSubstr("fail_closed"));
 }
 
 // ============================================================================
@@ -204,7 +208,7 @@ TEST_F(GraphTruthValidatorTest, ValidateAclWithNoEngineConfigured) {
 // ============================================================================
 
 TEST_F(GraphTruthValidatorTest, ValidateMultiHopRelationshipsWithNoRetrievers) {
-    // Without KG retriever configured, returns empty results
+    // Without KnowledgeGraph injected, all paths are not-found.
     std::vector<std::string> targets = {"node-1", "node-2"};
     auto results = validator_->validateMultiHopRelationships(
         "source-node",
@@ -212,7 +216,7 @@ TEST_F(GraphTruthValidatorTest, ValidateMultiHopRelationshipsWithNoRetrievers) {
         3
     );
 
-    // Current implementation: stub returns empty paths
+    ASSERT_EQ(results.size(), targets.size());
     for (const auto& result : results) {
         EXPECT_FALSE(result.found_valid_path);
     }
@@ -273,6 +277,210 @@ TEST_F(GraphTruthValidatorTest, ProvenanceWithMixedLayerConfidence) {
     EXPECT_EQ(provenance.layer_confidence_scores["ANN"], 0.95);
     EXPECT_EQ(provenance.layer_confidence_scores["Tensor"], 0.85);
     EXPECT_EQ(provenance.layer_confidence_scores["Graph"], 0.70);
+}
+
+// ============================================================================
+// Phase 2: ACL / Policy Engine Tests
+// ============================================================================
+
+/// Minimal in-process IAuthorizationPolicy stub for unit tests.
+class AllowAllPolicy : public auth::IAuthorizationPolicy {
+public:
+    explicit AllowAllPolicy(std::string id = "allow-all") : id_(std::move(id)) {}
+
+    [[nodiscard]] auth::PolicyEvaluationResult evaluate(
+        const auth::SubjectAttributes& /*subject*/,
+        const auth::ResourceAttributes& /*resource*/,
+        const std::string& /*action*/,
+        const auth::EnvironmentAttributes& /*env*/) const override {
+        return {auth::PolicyDecision::ALLOW, id_, "allow-all policy", {}};
+    }
+    [[nodiscard]] std::string policyId() const override { return id_; }
+    [[nodiscard]] std::string policyVersion() const override { return "1.0"; }
+    [[nodiscard]] bool reload() override { return true; }
+
+private:
+    std::string id_;
+};
+
+/// Policy that always denies access.
+class DenyAllPolicy : public auth::IAuthorizationPolicy {
+public:
+    explicit DenyAllPolicy(std::string id = "deny-all") : id_(std::move(id)) {}
+
+    [[nodiscard]] auth::PolicyEvaluationResult evaluate(
+        const auth::SubjectAttributes& /*subject*/,
+        const auth::ResourceAttributes& /*resource*/,
+        const std::string& /*action*/,
+        const auth::EnvironmentAttributes& /*env*/) const override {
+        return {auth::PolicyDecision::DENY, id_, "deny-all policy", {}};
+    }
+    [[nodiscard]] std::string policyId() const override { return id_; }
+    [[nodiscard]] std::string policyVersion() const override { return "1.0"; }
+    [[nodiscard]] bool reload() override { return true; }
+
+private:
+    std::string id_;
+};
+
+/// Policy that returns NOT_APPLICABLE — must fail-closed.
+class NotApplicablePolicy : public auth::IAuthorizationPolicy {
+public:
+    [[nodiscard]] auth::PolicyEvaluationResult evaluate(
+        const auth::SubjectAttributes& /*subject*/,
+        const auth::ResourceAttributes& /*resource*/,
+        const std::string& /*action*/,
+        const auth::EnvironmentAttributes& /*env*/) const override {
+        return {auth::PolicyDecision::NOT_APPLICABLE, "na-policy", "no opinion", {}};
+    }
+    [[nodiscard]] std::string policyId() const override { return "na-policy"; }
+    [[nodiscard]] std::string policyVersion() const override { return "1.0"; }
+    [[nodiscard]] bool reload() override { return true; }
+};
+
+TEST_F(GraphTruthValidatorTest, ValidateAclAllowsWithPermissivePolicy) {
+    validator_->setAuthorizationPolicy(std::make_shared<AllowAllPolicy>());
+
+    auto result = validator_->validateAcl("candidate-42", "bob@example.com", "read", {});
+
+    EXPECT_TRUE(result.acl_passed);
+    EXPECT_EQ(result.candidate_id, "candidate-42");
+    EXPECT_EQ(result.principal, "bob@example.com");
+    EXPECT_THAT(result.evaluated_policies, ::testing::Contains("allow-all"));
+    EXPECT_THAT(result.granted_by_policies, ::testing::Contains("allow-all"));
+    EXPECT_TRUE(result.denied_by_policies.empty());
+}
+
+TEST_F(GraphTruthValidatorTest, ValidateAclDeniesWithDenyAllPolicy) {
+    validator_->setAuthorizationPolicy(std::make_shared<DenyAllPolicy>());
+
+    auto result = validator_->validateAcl("candidate-007", "eve@example.com", "read", {});
+
+    EXPECT_FALSE(result.acl_passed);
+    EXPECT_THAT(result.denied_by_policies, ::testing::Contains("deny-all"));
+    EXPECT_TRUE(result.granted_by_policies.empty());
+    EXPECT_THAT(result.detail, ::testing::HasSubstr("denied"));
+}
+
+TEST_F(GraphTruthValidatorTest, ValidateAclFailsClosedForNotApplicablePolicy) {
+    // NOT_APPLICABLE → no engine has an opinion → deny (fail-closed).
+    validator_->setAuthorizationPolicy(std::make_shared<NotApplicablePolicy>());
+
+    auto result = validator_->validateAcl("candidate-X", "unknown@example.com", "read", {});
+
+    EXPECT_FALSE(result.acl_passed);
+    EXPECT_THAT(result.policy_decision_reason,
+                ::testing::HasSubstr("not_applicable_fail_closed"));
+}
+
+TEST_F(GraphTruthValidatorTest, ValidateAclPropagatesContextRoleAndTenant) {
+    // Verify that role/tenant_id context keys reach the policy via SubjectAttributes.
+    // We use AllowAllPolicy — the intent here is to verify no context-mapping crash.
+    validator_->setAuthorizationPolicy(std::make_shared<AllowAllPolicy>());
+
+    std::unordered_map<std::string, std::string> ctx{
+        {"role", "analyst"}, {"tenant_id", "acme-corp"}, {"classification", "confidential"}};
+
+    auto result = validator_->validateAcl("evidence-99", "carol@example.com", "use_in_generation", ctx);
+
+    EXPECT_TRUE(result.acl_passed);
+    EXPECT_EQ(result.action, "use_in_generation");
+}
+
+// ============================================================================
+// Phase 2: Multi-hop BFS Traversal Tests
+// ============================================================================
+
+/// Build a minimal KnowledgeGraph with a small fixed topology for testing.
+///
+///   A --0.9--> B --0.8--> C
+///   A --0.5--> D
+///
+static std::shared_ptr<kg::KnowledgeGraph> makeTestGraph() {
+    auto g = std::make_shared<kg::KnowledgeGraph>();
+
+    g->addNode({"A", "Node A", {}, kg::EntityType::CONCEPT, {}});
+    g->addNode({"B", "Node B", {}, kg::EntityType::CONCEPT, {}});
+    g->addNode({"C", "Node C", {}, kg::EntityType::CONCEPT, {}});
+    g->addNode({"D", "Node D", {}, kg::EntityType::CONCEPT, {}});
+
+    g->addEdge({"A", "B", kg::RelationType::RELATED_TO, 0.9});
+    g->addEdge({"B", "C", kg::RelationType::RELATED_TO, 0.8});
+    g->addEdge({"A", "D", kg::RelationType::RELATED_TO, 0.5});
+
+    return g;
+}
+
+TEST_F(GraphTruthValidatorTest, MultiHopFindsDirectNeighbor) {
+    validator_->setKnowledgeGraph(makeTestGraph());
+
+    auto results = validator_->validateMultiHopRelationships("A", {"B"}, 2);
+
+    ASSERT_EQ(results.size(), 1u);
+    EXPECT_TRUE(results[0].found_valid_path);
+    EXPECT_EQ(results[0].depth, 1u);
+    EXPECT_DOUBLE_EQ(results[0].path_confidence, 0.9);
+    ASSERT_GE(results[0].hop_path.size(), 2u);
+    EXPECT_EQ(results[0].hop_path.front(), "A");
+    EXPECT_EQ(results[0].hop_path.back(), "B");
+}
+
+TEST_F(GraphTruthValidatorTest, MultiHopFindsTwoHopPath) {
+    validator_->setKnowledgeGraph(makeTestGraph());
+
+    auto results = validator_->validateMultiHopRelationships("A", {"C"}, 3);
+
+    ASSERT_EQ(results.size(), 1u);
+    EXPECT_TRUE(results[0].found_valid_path);
+    EXPECT_EQ(results[0].depth, 2u);
+    EXPECT_DOUBLE_EQ(results[0].path_confidence, 0.9 * 0.8);
+    EXPECT_THAT(results[0].relationship_chain, ::testing::HasSubstr("A"));
+    EXPECT_THAT(results[0].relationship_chain, ::testing::HasSubstr("C"));
+}
+
+TEST_F(GraphTruthValidatorTest, MultiHopReturnsNotFoundForUnreachableTarget) {
+    validator_->setKnowledgeGraph(makeTestGraph());
+
+    auto results = validator_->validateMultiHopRelationships("A", {"Z"}, 3);
+
+    ASSERT_EQ(results.size(), 1u);
+    EXPECT_FALSE(results[0].found_valid_path);
+    EXPECT_EQ(results[0].depth, 0u);
+    EXPECT_DOUBLE_EQ(results[0].path_confidence, 0.0);
+}
+
+TEST_F(GraphTruthValidatorTest, MultiHopRespectsDepthLimit) {
+    validator_->setKnowledgeGraph(makeTestGraph());
+
+    // C is 2 hops away; depth limit of 1 should not find it.
+    auto results = validator_->validateMultiHopRelationships("A", {"C"}, 1);
+
+    ASSERT_EQ(results.size(), 1u);
+    EXPECT_FALSE(results[0].found_valid_path);
+}
+
+TEST_F(GraphTruthValidatorTest, MultiHopHandlesMultipleTargets) {
+    validator_->setKnowledgeGraph(makeTestGraph());
+
+    // B is 1 hop, C is 2 hops, Z is unreachable.
+    auto results = validator_->validateMultiHopRelationships("A", {"B", "C", "Z"}, 3);
+
+    ASSERT_EQ(results.size(), 3u);
+    EXPECT_TRUE(results[0].found_valid_path);   // B found
+    EXPECT_TRUE(results[1].found_valid_path);   // C found
+    EXPECT_FALSE(results[2].found_valid_path);  // Z not found
+}
+
+TEST_F(GraphTruthValidatorTest, MultiHopPreservesResultOrderMatchingInputTargets) {
+    validator_->setKnowledgeGraph(makeTestGraph());
+
+    // Reversed order vs. graph layout.
+    auto results = validator_->validateMultiHopRelationships("A", {"C", "B"}, 3);
+
+    ASSERT_EQ(results.size(), 2u);
+    // First result must correspond to "C" (2 hops), second to "B" (1 hop).
+    EXPECT_EQ(results[0].depth, 2u);  // C
+    EXPECT_EQ(results[1].depth, 1u);  // B
 }
 
 }  // namespace themis::rag::test

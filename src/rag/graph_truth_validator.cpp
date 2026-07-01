@@ -4,7 +4,9 @@
 #include "observability/telemetry_keys.h"
 
 #include <algorithm>
+#include <queue>
 #include <unordered_map>
+#include <unordered_set>
 #include <utility>
 
 namespace themis::rag {
@@ -16,6 +18,15 @@ void GraphTruthValidator::setOntologyRetriever(std::shared_ptr<OntologyAwareRetr
 void GraphTruthValidator::setKnowledgeGraphRetriever(
     std::shared_ptr<kg::KnowledgeGraphRetriever> retriever) {
     kg_retriever_ = std::move(retriever);
+}
+
+void GraphTruthValidator::setAuthorizationPolicy(
+    std::shared_ptr<auth::IAuthorizationPolicy> policy) {
+    authorization_policy_ = std::move(policy);
+}
+
+void GraphTruthValidator::setKnowledgeGraph(std::shared_ptr<kg::KnowledgeGraph> graph) {
+    knowledge_graph_ = std::move(graph);
 }
 
 GraphTruthValidationResult GraphTruthValidator::validate(
@@ -237,11 +248,69 @@ AclValidationResult GraphTruthValidator::validateAcl(
     result.action = action;
     result.resource_id = candidate_id;
 
-    // Default: allow if no policy engine is configured (degraded mode)
-    // This is a stub implementation; real implementation would consult policy engine
-    result.acl_passed = true;
-    result.policy_decision_reason = "no_acl_engine_configured_default_allow";
-    result.detail = "ACL validation not available; using fail-open default";
+    if (!authorization_policy_) {
+        // Fail-closed: no policy engine configured → deny access to prevent accidental
+        // information disclosure. Callers must inject an IAuthorizationPolicy via
+        // setAuthorizationPolicy() or disable ACL validation in the config.
+        result.acl_passed = false;
+        result.policy_decision_reason = "no_acl_engine_configured_fail_closed";
+        result.detail = "ACL validation required but no policy engine configured; access denied (fail-closed)";
+        return result;
+    }
+
+    // Map caller-supplied strings to the ABAC attribute bags expected by IAuthorizationPolicy.
+    auth::SubjectAttributes subject;
+    subject.subject_id = principal;
+    auto role_it = context.find("role");
+    if (role_it != context.end()) {
+        subject.role = role_it->second;
+    }
+    auto tenant_it = context.find("tenant_id");
+    if (tenant_it != context.end()) {
+        subject.tenant_id = tenant_it->second;
+    }
+    auto clearance_it = context.find("clearance_level");
+    if (clearance_it != context.end()) {
+        subject.clearance_level = clearance_it->second;
+    }
+    for (const auto& [k, v] : context) {
+        if (k != "role" && k != "tenant_id" && k != "clearance_level" &&
+            k != "classification") {
+            subject.attributes[k] = v;
+        }
+    }
+
+    auth::ResourceAttributes resource;
+    resource.resource_id = candidate_id;
+    resource.resource_type = "graph_evidence";
+    auto classification_it = context.find("classification");
+    if (classification_it != context.end()) {
+        resource.classification = classification_it->second;
+    }
+
+    const auto policy_result = authorization_policy_->evaluate(subject, resource, action);
+
+    result.evaluated_policies.push_back(authorization_policy_->policyId());
+    if (policy_result.decision == auth::PolicyDecision::ALLOW) {
+        result.acl_passed = true;
+        result.granted_by_policies.push_back(authorization_policy_->policyId());
+        result.policy_decision_reason = policy_result.reason.empty()
+            ? "policy_allow"
+            : policy_result.reason;
+        result.detail = "ACL validation passed via policy engine '" +
+                        authorization_policy_->policyId() + "'";
+    } else {
+        // DENY or NOT_APPLICABLE both fail closed.
+        result.acl_passed = false;
+        result.denied_by_policies.push_back(authorization_policy_->policyId());
+        result.policy_decision_reason = policy_result.reason.empty()
+            ? (policy_result.decision == auth::PolicyDecision::DENY
+                   ? "policy_deny"
+                   : "policy_not_applicable_fail_closed")
+            : policy_result.reason;
+        result.detail = "ACL validation denied by policy engine '" +
+                        authorization_policy_->policyId() + "': " + policy_result.reason;
+    }
 
     return result;
 }
@@ -250,16 +319,94 @@ std::vector<MultiHopValidationResult> GraphTruthValidator::validateMultiHopRelat
     const std::string& source_node,
     const std::vector<std::string>& target_nodes,
     std::size_t max_depth) const {
-    std::vector<MultiHopValidationResult> results;
 
-    // Stub implementation: would traverse KG and find paths
-    // Real implementation would use KnowledgeGraphRetriever to find indirect relationships
+    // Pre-allocate results with not-found defaults so the output vector always
+    // has an entry in the same order as target_nodes.
+    std::vector<MultiHopValidationResult> results;
+    results.reserve(target_nodes.size());
     for (const auto& target : target_nodes) {
-        MultiHopValidationResult mh_result;
-        mh_result.found_valid_path = false;  // Stub: no paths found without real KG
-        mh_result.depth = 0;
-        mh_result.path_confidence = 0.0;
-        results.push_back(mh_result);
+        MultiHopValidationResult mh;
+        mh.hop_path = {};
+        mh.found_valid_path = false;
+        mh.depth = 0;
+        mh.path_confidence = 0.0;
+        results.push_back(std::move(mh));
+    }
+
+    if (!knowledge_graph_ || target_nodes.empty() || source_node.empty() || max_depth == 0) {
+        return results;
+    }
+
+    // Build a lookup from target node ID → results index for O(1) updates.
+    std::unordered_map<std::string, std::size_t> target_index;
+    target_index.reserve(target_nodes.size());
+    for (std::size_t i = 0; i < target_nodes.size(); ++i) {
+        target_index.emplace(target_nodes[i], i);
+    }
+
+    // BFS state: (current node, path from source, cumulative edge-weight product).
+    struct BFSState {
+        std::string node_id;
+        std::vector<std::string> path; // includes source and current node
+        double confidence;             // product of traversed edge weights
+        std::size_t depth;
+    };
+
+    std::unordered_set<std::string> visited;
+    visited.insert(source_node);
+
+    std::queue<BFSState> frontier;
+    frontier.push(BFSState{source_node, {source_node}, 1.0, 0});
+
+    std::size_t found_count = 0;
+
+    while (!frontier.empty() && found_count < target_nodes.size()) {
+        auto state = std::move(frontier.front());
+        frontier.pop();
+
+        if (state.depth >= max_depth) {
+            continue;
+        }
+
+        for (const auto& edge : knowledge_graph_->outEdges(state.node_id)) {
+            const auto& next_id = edge.to_id;
+            if (visited.count(next_id)) {
+                continue;
+            }
+            visited.insert(next_id);
+
+            auto next_path = state.path;
+            next_path.push_back(next_id);
+            const double next_conf = state.confidence * edge.weight;
+
+            // Check if this node is a requested target.
+            auto it = target_index.find(next_id);
+            if (it != target_index.end()) {
+                auto& r = results[it->second];
+                if (!r.found_valid_path) {
+                    // Record the first (shortest) path found by BFS.
+                    r.found_valid_path = true;
+                    r.hop_path = next_path;
+                    r.depth = state.depth + 1;
+                    r.path_confidence = next_conf;
+
+                    // Build a human-readable relationship chain for diagnostics.
+                    std::string chain;
+                    for (std::size_t i = 0; i + 1 < next_path.size(); ++i) {
+                        if (!chain.empty()) chain += " -> ";
+                        chain += next_path[i];
+                    }
+                    chain += " -> " + next_id;
+                    r.relationship_chain = std::move(chain);
+
+                    ++found_count;
+                }
+            }
+
+            if (state.depth + 1 < max_depth) {
+                frontier.push(BFSState{next_id, next_path, next_conf, state.depth + 1});
+            }
+        }
     }
 
     return results;

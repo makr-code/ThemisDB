@@ -6,7 +6,7 @@
 
 Graph truth layer and evidence assembly contract.
 
-**Status**: Phase 1 (Design / API Contract) ✅ COMPLETE  
+**Status**: Phase 2 (Core Implementation) ✅ COMPLETE  
 **Date**: 2026-07-01  
 **Reference Documentation**: `docs/GRAPH_TRUTH_VALIDATION_LAYER.md`
 
@@ -39,12 +39,12 @@ Graph truth layer and evidence assembly contract.
 - [x] Create comprehensive API documentation
 - [x] Prepare the next phase only after the current contract is reviewed for `EPIC 1.3 Graph Validation`.
 
-### Phase 2: Core implementation
-- [ ] Implement real ACL/policy engine integration (replace stub)
-- [ ] Implement multi-hop path finding in knowledge graph (replace stub)
-- [ ] Add input contract validation logic
-- [ ] Integrate with policy engine (RBAC, ABAC)
-- [ ] Prepare the next phase only after the current contract is reviewed for `EPIC 1.3 Graph Validation`.
+### Phase 2: Core implementation ✅ COMPLETE
+- [x] Implement real ACL/policy engine integration (replace stub)
+- [x] Implement multi-hop path finding in knowledge graph (replace stub)
+- [x] Add input contract validation logic
+- [x] Integrate with policy engine (RBAC, ABAC)
+- [x] Prepare the next phase only after the current contract is reviewed for `EPIC 1.3 Graph Validation`.
 
 ### Phase 3: Error handling and edge cases
 - [ ] Document boundary between validation and ranking

@@ -1,5 +1,6 @@
 #pragma once
 
+#include "auth/authorization_policy.h"
 #include "rag/knowledge_graph_retriever.h"
 #include "rag/ontology_aware_retriever.h"
 #include "tensor/tensor_mid_layer.h"
@@ -320,6 +321,35 @@ public:
     void setKnowledgeGraphRetriever(std::shared_ptr<kg::KnowledgeGraphRetriever> retriever);
 
     /**
+     * @brief Inject an authorization policy engine for ACL validation (Phase 2).
+     *
+     * When set, `validateAcl()` delegates to this engine using the ABAC triple
+     * (subject, resource, action).  When not set and `enable_acl_validation` is
+     * true, `validateAcl()` **fails closed** (denies access) to prevent
+     * accidental information disclosure.
+     *
+     * Pass `nullptr` to detach the current policy engine.
+     *
+     * @param policy  Shared pointer to an IAuthorizationPolicy implementation
+     *                (must outlive this validator or be detached first).
+     */
+    void setAuthorizationPolicy(std::shared_ptr<auth::IAuthorizationPolicy> policy);
+
+    /**
+     * @brief Inject a KnowledgeGraph for multi-hop BFS path traversal (Phase 2).
+     *
+     * Provides direct graph access required by `validateMultiHopRelationships()`
+     * to trace indirect relationship paths.  This is separate from the
+     * KnowledgeGraphRetriever (which performs retrieval-augmented ranking) and
+     * provides raw edge traversal for path-finding.
+     *
+     * Pass `nullptr` to detach the current graph.
+     *
+     * @param graph  Shared pointer to the KnowledgeGraph.
+     */
+    void setKnowledgeGraph(std::shared_ptr<kg::KnowledgeGraph> graph);
+
+    /**
      * @brief Validate tensor-layer summary against graph truth.
      *
      * Primary entry point for graph validation. Performs:
@@ -448,6 +478,8 @@ private:
 
     std::shared_ptr<OntologyAwareRetriever> ontology_retriever_;
     std::shared_ptr<kg::KnowledgeGraphRetriever> kg_retriever_;
+    std::shared_ptr<auth::IAuthorizationPolicy> authorization_policy_;
+    std::shared_ptr<kg::KnowledgeGraph> knowledge_graph_;
 };
 
 } // namespace themis::rag
