@@ -62,3 +62,17 @@ Der Root-Abgleich folgt einer gemeinsamen Kontrollbasis:
 ---
 Zuletzt geprueft (Root-Sync): 2026-06-11
 
+## Epic Branch Flow — PR-Template-Referenz (Gap Scanner Wave 1)
+
+Fuer alle Pull Requests, die im Rahmen des Gap-Scanner-Wave-1-Epics
+(`epic/gap-wave1-5475`) erstellt werden, gilt das spezialisierte PR-Template:
+
+- **Template-Pfad:** [`.github/PULL_REQUEST_TEMPLATE/epic-branch-flow.md`](.github/PULL_REQUEST_TEMPLATE/epic-branch-flow.md)
+
+Das Template erzwingt die mandatory Merge-Reihenfolge
+(Feature-Branch → EPIC-Branch → `develop`), das Build/Test-Evidence-Format,
+den Risk/Rollback-Hinweis sowie die Gap-Scanner-Gates fuer Wave-1-PRs.
+
+Fuer Standard-Feature-PRs ausserhalb dieses Epics gilt weiterhin das
+Standard-Template: [`.github/pull_request_template.md`](.github/pull_request_template.md)
+
