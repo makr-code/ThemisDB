@@ -27,6 +27,7 @@
 #include "utils/self_awareness.h"
 #include <rocksdb/db.h>
 #include <rocksdb/options.h>
+#include <memory>
 #include <yaml-cpp/yaml.h>
 #include <fstream>
 #include <sstream>
@@ -264,17 +265,15 @@ CapabilityAutoGenerator::AnalysisResult CapabilityAutoGenerator::analyzeShardDat
     rocksdb::Options options;
     options.create_if_missing = false;
     
-    rocksdb::DB* db;
-    rocksdb::Status status = rocksdb::DB::OpenForReadOnly(options, data_path, &db);
-    
+    std::unique_ptr<rocksdb::DB> db_ptr;
+    rocksdb::Status status = rocksdb::DB::OpenForReadOnly(options, data_path, &db_ptr);
+
     if (!status.ok()) {
         throw std::runtime_error("Failed to open RocksDB: " + status.ToString());
     }
-    
-    std::unique_ptr<rocksdb::DB> db_ptr(db);
-    
+
     // Iterate through database
-    std::unique_ptr<rocksdb::Iterator> it(db->NewIterator(rocksdb::ReadOptions()));
+    std::unique_ptr<rocksdb::Iterator> it(db_ptr->NewIterator(rocksdb::ReadOptions()));
     
     uint64_t doc_count = 0;
     uint64_t total_size = 0;

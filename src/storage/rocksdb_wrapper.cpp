@@ -1840,7 +1840,7 @@ void RocksDBWrapper::scanPrefix(std::string_view prefix, ScanCallback callback) 
 
 Result<RocksDBWrapper::SafeIterator> RocksDBWrapper::prefixIterator(std::string_view prefix) {
     // Create a safe iterator positioned at the prefix start
-    auto result = newSafeIterator(read_options_);
+    auto result = newSafeIterator(read_options_.get());
     if (!result) {
         return Err<SafeIterator>(
             errors::ErrorCode::ERR_INDEX_NOT_INITIALIZED,

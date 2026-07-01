@@ -132,8 +132,7 @@ RocksDBTokenBlacklist::RocksDBTokenBlacklist(const Config &config) : config_(con
             db_->DestroyColumnFamilyHandle(h);
         }
         other_cf_handles_.clear();
-        delete db_;
-        db_ = nullptr;
+        db_.reset();
         throw std::runtime_error("RocksDBTokenBlacklist: blacklist CF '" + config_.column_family
                                  + "' not found after open");
     }
@@ -166,8 +165,7 @@ RocksDBTokenBlacklist::~RocksDBTokenBlacklist() {
     }
     other_cf_handles_.clear();
     if (db_) {
-        delete db_;
-        db_ = nullptr;
+        db_.reset();
     }
 
     THEMIS_INFO("RocksDBTokenBlacklist: closed DB at '{}'", config_.db_path);

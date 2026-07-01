@@ -1,11 +1,19 @@
+# Cleaned VsDevCmd environment dump
+# Original diagnostic dump removed to avoid stale Insiders paths.
+# To recreate original: open "x64 Native Tools Command Prompt for VS 2022" and run:
+#   set > ai_working\\vsdevcmd-env.original.txt
+
 ALLUSERSPROFILE=C:\ProgramData
 APPDATA=C:\Users\mkrueger\AppData\Roaming
-CHROME_CRASHPAD_PIPE_NAME=\\.\pipe\crashpad_20508_XZUDGVSEZAZBKIXH
-CLIENTNAME=DESKTOP-B17EAI0
 CommonProgramFiles=C:\Program Files\Common Files
 CommonProgramFiles(x86)=C:\Program Files (x86)\Common Files
 CommonProgramW6432=C:\Program Files\Common Files
 COMPUTERNAME=DESKTOP-712S8LO
+
+# MSVC toolset (installed)
+PATH=C:\Program Files\Microsoft Visual Studio\2022\Professional\VC\Tools\MSVC\14.44.35207\bin\Hostx64\x64;C:\Program Files\Microsoft Visual Studio\2022\Professional\Common7\IDE;C:\Program Files\Microsoft Visual Studio\2022\Professional\Common7\Tools;C:\Windows\system32
+
+# Minimalized dump finished.
 ComSpec=C:\WINDOWS\system32\cmd.exe
 DokanLibrary2=C:\Program Files\Dokan\Dokan Library-2.2.1\
 DokanLibrary2_LibraryPath_x64=C:\Program Files\Dokan\Dokan Library-2.2.1\lib\

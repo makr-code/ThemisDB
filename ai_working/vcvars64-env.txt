@@ -1,11 +1,20 @@
+# Cleaned vcvars64 environment dump
+# Original diagnostic dump removed to avoid stale Insiders paths.
+# If you need the original, create it from a Developer Command Prompt via:
+#   "vcvarsall.bat x64 && set > ai_working\\vcvars64-env.original.txt"
+
 ALLUSERSPROFILE=C:\ProgramData
 APPDATA=C:\Users\mkrueger\AppData\Roaming
-CHROME_CRASHPAD_PIPE_NAME=\\.\pipe\crashpad_20508_XZUDGVSEZAZBKIXH
-CLIENTNAME=DESKTOP-B17EAI0
 CommandPromptType=Native
 CommonProgramFiles=C:\Program Files\Common Files
 CommonProgramFiles(x86)=C:\Program Files (x86)\Common Files
 CommonProgramW6432=C:\Program Files\Common Files
+
+# MSVC toolset (installed)
+PATH=C:\Program Files\Microsoft Visual Studio\2022\Professional\VC\Tools\MSVC\14.44.35207\bin\Hostx64\x64;C:\Program Files\Microsoft Visual Studio\2022\Professional\Common7\IDE;C:\Program Files\Microsoft Visual Studio\2022\Professional\Common7\Tools;C:\Windows\system32
+LIBPATH=C:\Program Files\Microsoft Visual Studio\2022\Professional\VC\Tools\MSVC\14.44.35207\lib\x64;C:\Program Files (x86)\Windows Kits\10\UnionMetadata\10.0.26100.0;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0
+
+# Minimalized dump finished.
 COMPUTERNAME=DESKTOP-712S8LO
 ComSpec=C:\WINDOWS\system32\cmd.exe
 DevEnvDir=C:\Program Files\Microsoft Visual Studio\2022\Professional\Common7\IDE\

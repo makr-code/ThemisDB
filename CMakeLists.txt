@@ -171,6 +171,17 @@ include(cmake/EditionMatrix.cmake)
 # 8. vcpkg Configuration (binary cache, feature dependencies)
 include(cmake/VcpkgConfiguration.cmake)
 
+# Fallback: ensure vcpkg "installed/<triplet>/include" is on the global include path
+# This helps in environments where per-package imported targets do not propagate
+# an umbrella include directory to all targets (diagnostic / compatibility aid).
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/vcpkg/installed/${VCPKG_TARGET_TRIPLET}/include")
+    include_directories(BEFORE "${CMAKE_CURRENT_SOURCE_DIR}/vcpkg/installed/${VCPKG_TARGET_TRIPLET}/include")
+elseif(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/vcpkg/installed/x64-windows/include")
+    include_directories(BEFORE "${CMAKE_CURRENT_SOURCE_DIR}/vcpkg/installed/x64-windows/include")
+elseif(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/vcpkg_installed/x64-windows/include")
+    include_directories(BEFORE "${CMAKE_CURRENT_SOURCE_DIR}/vcpkg_installed/x64-windows/include")
+endif()
+
 # 9. Dependencies
 include(cmake/Dependencies.cmake)
 
