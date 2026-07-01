@@ -124,6 +124,18 @@ struct ContinuousLearningOrchestrator::Impl {
     size_t loop2_provider_failures = 0;
     size_t loop4_provider_failures = 0;
 
+    // ---- Cooldown rejection tracking (Phase 3: Loop Protection) ----
+    /// Counter of cooldown rejections per loop
+    size_t loop1_cooldown_rejections = 0;
+    size_t loop2_cooldown_rejections = 0;
+    size_t loop3_cooldown_rejections = 0;
+    size_t loop4_cooldown_rejections = 0;
+    /// Timestamp of last cooldown rejection per loop
+    std::chrono::system_clock::time_point loop1_last_cooldown_rejection;
+    std::chrono::system_clock::time_point loop2_last_cooldown_rejection;
+    std::chrono::system_clock::time_point loop3_last_cooldown_rejection;
+    std::chrono::system_clock::time_point loop4_last_cooldown_rejection;
+
     // ---- IMPL-A3: Federation bridges ----
     std::shared_ptr<themis::distributed_knowledge::ILoRAFederationCoordinator>
         federation_coordinator_;
@@ -601,30 +613,52 @@ void ContinuousLearningOrchestrator::deployABTest(const std::string &model_id) {
 
 void ContinuousLearningOrchestrator::promoteOrRollback(const ABTestResult &result) {
     bool should_promote = false;
+    bool should_rollback = false;
 
     if (result.is_significant && result.improvement >= impl_->config.min_improvement_threshold) {
         should_promote = true;
+        spdlog::info("CLO: A/B Test '{}' ready for promotion: improvement={:.4f}% (p={:.6f})",
+                    result.test_id, result.improvement * 100, result.p_value);
     } else if (impl_->config.enable_auto_rollback && result.improvement < -impl_->config.min_improvement_threshold) {
-        should_promote = false;
+        should_rollback = true;
+        spdlog::warn("CLO: A/B Test '{}' detected degradation: improvement={:.4f}% (p={:.6f}); auto-rollback enabled",
+                    result.test_id, result.improvement * 100, result.p_value);
     } else {
         // Not significant enough either way - let test continue
+        spdlog::debug("CLO: A/B Test '{}' still running: improvement={:.4f}% (p={:.6f}, significant={})",
+                     result.test_id, result.improvement * 100, result.p_value, result.is_significant);
         return;
     }
 
     impl_->ab_framework->completeTest(result.test_id, should_promote);
 
-    // Record improvement event
-    if (should_promote) {
-        ImprovementEvent event;
-        event.timestamp        = std::chrono::system_clock::now();
-        event.component        = result.test_id;
-        event.improvement_type = "A/B Test Promotion";
-        event.metric_before    = result.control_success_rate;
-        event.metric_after     = result.treatment_success_rate;
-        event.description      = "Promoted after successful A/B test";
-
+    // Record improvement or degradation event
+    {
         std::lock_guard<std::mutex> lock(impl_->mutex);
-        impl_->stats.recent_improvements.push_back(event);
+        
+        if (should_promote) {
+            ImprovementEvent event;
+            event.timestamp        = std::chrono::system_clock::now();
+            event.component        = result.test_id;
+            event.improvement_type = "A/B Test Promotion";
+            event.metric_before    = result.control_success_rate;
+            event.metric_after     = result.treatment_success_rate;
+            event.description      = "Promoted after successful A/B test with " + 
+                                    std::to_string(static_cast<int>(result.improvement * 100)) + 
+                                    "% improvement";
+            impl_->stats.recent_improvements.push_back(event);
+        } else if (should_rollback) {
+            ImprovementEvent event;
+            event.timestamp        = std::chrono::system_clock::now();
+            event.component        = result.test_id;
+            event.improvement_type = "A/B Test Rollback";
+            event.metric_before    = result.treatment_success_rate;
+            event.metric_after     = result.control_success_rate;
+            event.description      = "Rolled back due to " + 
+                                    std::to_string(static_cast<int>(-result.improvement * 100)) + 
+                                    "% degradation";
+            impl_->stats.recent_improvements.push_back(event);
+        }
     }
 }
 
@@ -659,6 +693,97 @@ std::string ContinuousLearningOrchestrator::getProviderHealthMetrics() const {
     json += "    \"last_failure\": \"" + format_timestamp(impl_->loop4_last_provider_failure) + "\"\n";
     json += "  },\n";
     json += "  \"production_mode_enforced\": " + std::string(impl_->config.enforce_live_providers ? "true" : "false") + "\n";
+    json += "}";
+
+    return json;
+}
+
+std::vector<std::string> ContinuousLearningOrchestrator::getActiveABTests() const {
+    std::lock_guard<std::mutex> lock(impl_->mutex);
+    return impl_->ab_framework->getActiveTests();
+}
+
+ABTestResult ContinuousLearningOrchestrator::getABTestResults(const std::string &test_id) const {
+    std::lock_guard<std::mutex> lock(impl_->mutex);
+    return impl_->ab_framework->evaluateTest(test_id);
+}
+
+std::string ContinuousLearningOrchestrator::getABTestMetrics() const {
+    std::lock_guard<std::mutex> lock(impl_->mutex);
+    
+    auto active_tests = impl_->ab_framework->getActiveTests();
+    
+    std::string json = "{\n";
+    json += "  \"active_tests\": " + std::to_string(active_tests.size()) + ",\n";
+    json += "  \"tests\": [\n";
+    
+    bool first = true;
+    for (const auto& test_id : active_tests) {
+        if (!first) json += ",\n";
+        first = false;
+        
+        auto result = impl_->ab_framework->evaluateTest(test_id);
+        auto status = impl_->ab_framework->getTestStatus(test_id);
+        
+        std::string status_str;
+        switch (status) {
+            case ABTestStatus::ACTIVE: status_str = "active"; break;
+            case ABTestStatus::COMPLETED: status_str = "completed"; break;
+            case ABTestStatus::PROMOTED: status_str = "promoted"; break;
+            case ABTestStatus::ROLLED_BACK: status_str = "rolled_back"; break;
+            case ABTestStatus::CANCELLED: status_str = "cancelled"; break;
+        }
+        
+        json += "    {\n";
+        json += "      \"test_id\": \"" + result.test_id + "\",\n";
+        json += "      \"status\": \"" + status_str + "\",\n";
+        json += "      \"control_success_rate\": " + std::to_string(result.control_success_rate) + ",\n";
+        json += "      \"treatment_success_rate\": " + std::to_string(result.treatment_success_rate) + ",\n";
+        json += "      \"improvement\": " + std::to_string(result.improvement) + ",\n";
+        json += "      \"p_value\": " + std::to_string(result.p_value) + ",\n";
+        json += "      \"is_significant\": " + std::string(result.is_significant ? "true" : "false") + ",\n";
+        json += "      \"sample_size_control\": " + std::to_string(result.sample_size_control) + ",\n";
+        json += "      \"sample_size_treatment\": " + std::to_string(result.sample_size_treatment) + "\n";
+        json += "    }";
+    }
+    
+    json += "\n  ]\n";
+    json += "}";
+    
+    return json;
+}
+
+std::string ContinuousLearningOrchestrator::getCooldownMetrics() const {
+    std::lock_guard<std::mutex> lock(impl_->mutex);
+    
+    auto format_timestamp = [](const std::chrono::system_clock::time_point& tp) -> std::string {
+        if (tp == std::chrono::system_clock::time_point::min()) {
+            return "";
+        }
+        auto time_t_val = std::chrono::system_clock::to_time_t(tp);
+        char buf[30];
+        std::strftime(buf, sizeof(buf), "%Y-%m-%dT%H:%M:%SZ", std::gmtime(&time_t_val));
+        return buf;
+    };
+
+    std::string json = "{\n";
+    json += "  \"cooldown_window_seconds\": " + std::to_string(impl_->loop_cooldown_secs.count()) + ",\n";
+    json += "  \"loop_1\": {\n";
+    json += "    \"rejections\": " + std::to_string(impl_->loop1_cooldown_rejections) + ",\n";
+    json += "    \"last_rejection\": \"" + format_timestamp(impl_->loop1_last_cooldown_rejection) + "\"\n";
+    json += "  },\n";
+    json += "  \"loop_2\": {\n";
+    json += "    \"rejections\": " + std::to_string(impl_->loop2_cooldown_rejections) + ",\n";
+    json += "    \"last_rejection\": \"" + format_timestamp(impl_->loop2_last_cooldown_rejection) + "\"\n";
+    json += "  },\n";
+    json += "  \"loop_3\": {\n";
+    json += "    \"rejections\": " + std::to_string(impl_->loop3_cooldown_rejections) + ",\n";
+    json += "    \"last_rejection\": \"" + format_timestamp(impl_->loop3_last_cooldown_rejection) + "\"\n";
+    json += "  },\n";
+    json += "  \"loop_4\": {\n";
+    json += "    \"rejections\": " + std::to_string(impl_->loop4_cooldown_rejections) + ",\n";
+    json += "    \"last_rejection\": \"" + format_timestamp(impl_->loop4_last_cooldown_rejection) + "\"\n";
+    json += "  }\n";
     json += "}";
 
     return json;
@@ -1207,6 +1332,27 @@ bool ContinuousLearningOrchestrator::checkAndUpdateCooldown(LoopPhase phase) {
     if (it != impl_->loop_last_trigger.end()) {
         const auto elapsed = std::chrono::duration_cast<std::chrono::seconds>(now - it->second);
         if (elapsed < impl_->loop_cooldown_secs) {
+            // Track cooldown rejection
+            switch (phase) {
+                case LoopPhase::LOOP_1_HNSW_QUERY:
+                    ++impl_->loop1_cooldown_rejections;
+                    impl_->loop1_last_cooldown_rejection = now;
+                    break;
+                case LoopPhase::LOOP_2_WORKLOAD:
+                    ++impl_->loop2_cooldown_rejections;
+                    impl_->loop2_last_cooldown_rejection = now;
+                    break;
+                case LoopPhase::LOOP_3_SCHEMA_INDEX:
+                    ++impl_->loop3_cooldown_rejections;
+                    impl_->loop3_last_cooldown_rejection = now;
+                    break;
+                case LoopPhase::LOOP_4_RLAIF:
+                    ++impl_->loop4_cooldown_rejections;
+                    impl_->loop4_last_cooldown_rejection = now;
+                    break;
+                default:
+                    break;
+            }
             return false; // still within cooldown window
         }
     }

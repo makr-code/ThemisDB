@@ -345,6 +345,24 @@ class ContinuousLearningOrchestrator {
      */
     void setOptimizationCooldown(std::chrono::seconds cooldown);
 
+    // ── Cooldown & Loop Protection Monitoring ────────────────────────────────
+
+    /**
+     * @brief Get cooldown rejection metrics for monitoring.
+     *
+     * Returns JSON with cooldown rejection counts and timestamps for each loop.
+     * Useful for detecting if loops are getting stuck behind cooldown guards.
+     *
+     * Example output:
+     * {
+     *   "loop_1": {"rejections": 5, "last_rejection": "2026-07-01T17:46:00Z"},
+     *   "loop_2": {"rejections": 0, "last_rejection": ""},
+     *   "loop_3": {"rejections": 0, "last_rejection": ""},
+     *   "loop_4": {"rejections": 0, "last_rejection": ""}
+     * }
+     */
+    std::string getCooldownMetrics() const;
+
     // ── JSON context serialiser ─────────────────────────────────────────────
 
     /**
@@ -482,6 +500,28 @@ class ContinuousLearningOrchestrator {
      * }
      */
     std::string getProviderHealthMetrics() const;
+
+    // ── A/B Testing Monitoring ──────────────────────────────────────────────────
+    /**
+     * @brief Get active A/B tests for monitoring.
+     *
+     * Returns a list of currently running test IDs.
+     */
+    std::vector<std::string> getActiveABTests() const;
+
+    /**
+     * @brief Evaluate and get results for a specific A/B test.
+     *
+     * Returns the test results with statistical analysis, suitable for decision-making.
+     */
+    ABTestResult getABTestResults(const std::string &test_id) const;
+
+    /**
+     * @brief Get A/B test metrics as JSON for monitoring/dashboards.
+     *
+     * Returns JSON with all active test results and their status.
+     */
+    std::string getABTestMetrics() const;
 
     // Persistence
     void saveMetrics();
