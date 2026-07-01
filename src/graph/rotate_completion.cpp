@@ -345,10 +345,13 @@ public:
                                          bool predict_tail, size_t top_k) const
     {
         // Caller must hold at least a shared lock on mu_.
+        // Note: Results are independent vectors; safe for concurrent reads and external caching.
         if (!trained_)
             throw std::runtime_error("RotatEModel: model not trained yet");
 
         const size_t n = entity_names_.size();
+        
+        // Score all entities; pre-allocate to avoid reallocation overhead
         std::vector<std::pair<double, size_t>> scored;
         scored.reserve(n);
 
@@ -359,17 +362,22 @@ public:
             scored.emplace_back(s, i);
         }
 
-        std::sort(scored.begin(), scored.end()); // ascending distance
+        // Sort by ascending score (lower distance = higher confidence)
+        std::sort(scored.begin(), scored.end());
 
+        // Extract top-k predictions with ranks
         const size_t k = std::min(top_k, n);
         std::vector<LinkPrediction> out;
         out.reserve(k);
+        
         for (size_t i = 0; i < k; ++i) {
+            // Access entity_names_ by index; safe because it's not modified during ranking
             out.push_back({entity_names_[scored[i].second],
                            scored[i].first,
                            static_cast<double>(i + 1)});
         }
-        return out;
+        
+        return out;  // Move semantics; ownership transferred to caller
     }
 
     // Expose entity name for a given index (for injection into KGReasoner).
