@@ -73,6 +73,16 @@ struct ContinuousLearningConfig {
 
     /// Path to SelfImprovementModule.yaml for live-reload (empty = use defaults).
     std::string self_improvement_config_path;
+
+    // ---- Production mode enforcement ----
+    /// When true, loops require live signal providers (fallback is not allowed).
+    /// In production mode, if a provider is unavailable, the loop is marked as failed.
+    /// Set via THEMIS_PRODUCTION_MODE environment variable or explicitly.
+    bool enforce_live_providers = false;
+
+    /// When true, automatically detect production mode from THEMIS_PRODUCTION_MODE
+    /// or THEMIS_ENVIRONMENT environment variables.
+    bool auto_detect_production_mode = true;
 };
 
 /**
@@ -456,6 +466,22 @@ class ContinuousLearningOrchestrator {
         std::shared_ptr<themis::performance::phase3::BaoOptimizer> bao_optimizer,
         std::shared_ptr<themis::performance::WorkloadAdaptiveOptimizer> workload_optimizer,
         std::shared_ptr<themis::prompt_engineering::FeedbackCollector> feedback_collector);
+
+    // ── Provider health monitoring (production mode support) ──────────────────
+    /**
+     * @brief Get provider health status for all 4 loops.
+     *
+     * Returns JSON with provider availability, failure counts, and last failure timestamps.
+     * Useful for monitoring and debugging production issues.
+     *
+     * Example output:
+     * {
+     *   "loop_1_hnsw": {"available": true, "failures": 0, "last_failure": ""},
+     *   "loop_2_workload": {"available": true, "failures": 0, "last_failure": ""},
+     *   "loop_4_rlaif": {"available": true, "failures": 0, "last_failure": ""}
+     * }
+     */
+    std::string getProviderHealthMetrics() const;
 
     // Persistence
     void saveMetrics();

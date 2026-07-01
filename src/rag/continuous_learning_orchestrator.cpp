@@ -110,6 +110,20 @@ struct ContinuousLearningOrchestrator::Impl {
     /// Loop 4: FeedbackCollector::newEntryCount() provider.
     std::function<size_t()> feedback_entry_count_provider;
 
+    // ---- Provider health tracking (production mode enforcement) ----
+    /// Track whether each provider is currently available (for monitoring)
+    bool loop1_provider_available = false;
+    bool loop2_provider_available = false;
+    bool loop4_provider_available = false;
+    /// Timestamps of provider failures for diagnostics
+    std::chrono::system_clock::time_point loop1_last_provider_failure;
+    std::chrono::system_clock::time_point loop2_last_provider_failure;
+    std::chrono::system_clock::time_point loop4_last_provider_failure;
+    /// Counter of consecutive provider failures per loop
+    size_t loop1_provider_failures = 0;
+    size_t loop2_provider_failures = 0;
+    size_t loop4_provider_failures = 0;
+
     // ---- IMPL-A3: Federation bridges ----
     std::shared_ptr<themis::distributed_knowledge::ILoRAFederationCoordinator>
         federation_coordinator_;
@@ -121,6 +135,19 @@ ContinuousLearningOrchestrator::ContinuousLearningOrchestrator(const ContinuousL
     : impl_(std::make_unique<Impl>()) {
     impl_->config       = config;
     impl_->ab_framework = std::make_unique<ABTestingFramework>();
+
+    // Auto-detect production mode from environment if enabled
+    if (impl_->config.auto_detect_production_mode) {
+        const char* prod_mode = std::getenv("THEMIS_PRODUCTION_MODE");
+        const char* environment = std::getenv("THEMIS_ENVIRONMENT");
+        if ((prod_mode && (std::string(prod_mode) == "1" || std::string(prod_mode) == "true" ||
+                          std::string(prod_mode) == "yes")) ||
+            (environment && (std::string(environment) == "production" || 
+                            std::string(environment) == "prod"))) {
+            impl_->config.enforce_live_providers = true;
+            spdlog::info("CLO: Production mode detected from environment; enforcing live signal providers");
+        }
+    }
 
     // Initialise data selection pipeline (live-reload from file if path provided)
     auto ds_cfg = config.data_selection_config;
@@ -601,6 +628,42 @@ void ContinuousLearningOrchestrator::promoteOrRollback(const ABTestResult &resul
     }
 }
 
+std::string ContinuousLearningOrchestrator::getProviderHealthMetrics() const {
+    std::lock_guard<std::mutex> lock(impl_->mutex);
+    
+    // Format last failure timestamps
+    auto format_timestamp = [](const std::chrono::system_clock::time_point& tp) -> std::string {
+        if (tp == std::chrono::system_clock::time_point::min()) {
+            return "";
+        }
+        auto time_t_val = std::chrono::system_clock::to_time_t(tp);
+        char buf[30];
+        std::strftime(buf, sizeof(buf), "%Y-%m-%dT%H:%M:%SZ", std::gmtime(&time_t_val));
+        return buf;
+    };
+
+    std::string json = "{\n";
+    json += "  \"loop_1_hnsw\": {\n";
+    json += "    \"available\": " + std::string(impl_->loop1_provider_available ? "true" : "false") + ",\n";
+    json += "    \"failures\": " + std::to_string(impl_->loop1_provider_failures) + ",\n";
+    json += "    \"last_failure\": \"" + format_timestamp(impl_->loop1_last_provider_failure) + "\"\n";
+    json += "  },\n";
+    json += "  \"loop_2_workload\": {\n";
+    json += "    \"available\": " + std::string(impl_->loop2_provider_available ? "true" : "false") + ",\n";
+    json += "    \"failures\": " + std::to_string(impl_->loop2_provider_failures) + ",\n";
+    json += "    \"last_failure\": \"" + format_timestamp(impl_->loop2_last_provider_failure) + "\"\n";
+    json += "  },\n";
+    json += "  \"loop_4_rlaif\": {\n";
+    json += "    \"available\": " + std::string(impl_->loop4_provider_available ? "true" : "false") + ",\n";
+    json += "    \"failures\": " + std::to_string(impl_->loop4_provider_failures) + ",\n";
+    json += "    \"last_failure\": \"" + format_timestamp(impl_->loop4_last_provider_failure) + "\"\n";
+    json += "  },\n";
+    json += "  \"production_mode_enforced\": " + std::string(impl_->config.enforce_live_providers ? "true" : "false") + "\n";
+    json += "}";
+
+    return json;
+}
+
 void ContinuousLearningOrchestrator::saveMetrics() {
     std::lock_guard<std::mutex> lock(impl_->mutex);
 
@@ -862,6 +925,12 @@ ContinuousLearningOrchestrator::triggerLoop(LoopPhase phase) {
             // Guardrail: ECE < 0.05 AND hot_coverage >= 0.85
             double miss_rate        = 1.0 - current_accuracy;
             result.signal_source    = "fallback_missing";
+            bool production_mode = false;
+            {
+                std::lock_guard<std::mutex> lock(impl_->mutex);
+                production_mode = impl_->config.enforce_live_providers;
+            }
+
             if (miss_rate_fn) {
                 try {
                     const double live_miss_rate = miss_rate_fn();
@@ -870,19 +939,50 @@ ContinuousLearningOrchestrator::triggerLoop(LoopPhase phase) {
                         && live_miss_rate <= 1.0) {
                         miss_rate           = live_miss_rate;
                         result.signal_source = "live";
+                        {
+                            std::lock_guard<std::mutex> lock(impl_->mutex);
+                            impl_->loop1_provider_failures = 0;  // Reset failure counter on success
+                        }
                     } else {
                         spdlog::warn("CLO Loop1: Bao miss-rate provider returned invalid value; using fallback");
                         result.signal_source = "fallback_invalid";
+                        {
+                            std::lock_guard<std::mutex> lock(impl_->mutex);
+                            ++impl_->loop1_provider_failures;
+                            impl_->loop1_last_provider_failure = std::chrono::system_clock::now();
+                        }
                     }
                 } catch (const std::exception& e) {
                     spdlog::warn("CLO Loop1: Bao miss-rate provider failed ({}); using fallback", e.what());
                     result.signal_source = "fallback_error";
+                    {
+                        std::lock_guard<std::mutex> lock(impl_->mutex);
+                        ++impl_->loop1_provider_failures;
+                        impl_->loop1_last_provider_failure = std::chrono::system_clock::now();
+                    }
                 } catch (...) {
                     spdlog::warn("CLO Loop1: Bao miss-rate provider failed (unknown); using fallback");
                     result.signal_source = "fallback_error";
+                    {
+                        std::lock_guard<std::mutex> lock(impl_->mutex);
+                        ++impl_->loop1_provider_failures;
+                        impl_->loop1_last_provider_failure = std::chrono::system_clock::now();
+                    }
                 }
             } else {
                 spdlog::warn("CLO Loop1: Bao miss-rate provider not wired; using fallback");
+                if (production_mode) {
+                    spdlog::error("CLO Loop1: Production mode enforced but provider is not wired; failing loop");
+                    result.signal_source = "production_mode_fail_closed";
+                    result.success = false;
+                    result.guardrail_passed = false;
+                    {
+                        std::lock_guard<std::mutex> lock(impl_->mutex);
+                        ++impl_->loop1_provider_failures;
+                        impl_->loop1_last_provider_failure = std::chrono::system_clock::now();
+                    }
+                    break;
+                }
             }
             result.signal_value     = miss_rate;
             // Guardrail policy:
@@ -908,6 +1008,12 @@ ContinuousLearningOrchestrator::triggerLoop(LoopPhase phase) {
             // Guardrail: no regression in avg_speedup
             double drift           = 1.0 - current_accuracy;
             result.signal_source   = "fallback_missing";
+            bool production_mode = false;
+            {
+                std::lock_guard<std::mutex> lock(impl_->mutex);
+                production_mode = impl_->config.enforce_live_providers;
+            }
+
             if (drift_fn) {
                 try {
                     const double live_drift = drift_fn();
@@ -916,19 +1022,50 @@ ContinuousLearningOrchestrator::triggerLoop(LoopPhase phase) {
                         && live_drift <= 1.0) {
                         drift               = live_drift;
                         result.signal_source = "live";
+                        {
+                            std::lock_guard<std::mutex> lock(impl_->mutex);
+                            impl_->loop2_provider_failures = 0;  // Reset failure counter on success
+                        }
                     } else {
                         spdlog::warn("CLO Loop2: workload-drift provider returned invalid value; using fallback");
                         result.signal_source = "fallback_invalid";
+                        {
+                            std::lock_guard<std::mutex> lock(impl_->mutex);
+                            ++impl_->loop2_provider_failures;
+                            impl_->loop2_last_provider_failure = std::chrono::system_clock::now();
+                        }
                     }
                 } catch (const std::exception& e) {
                     spdlog::warn("CLO Loop2: workload-drift provider failed ({}); using fallback", e.what());
                     result.signal_source = "fallback_error";
+                    {
+                        std::lock_guard<std::mutex> lock(impl_->mutex);
+                        ++impl_->loop2_provider_failures;
+                        impl_->loop2_last_provider_failure = std::chrono::system_clock::now();
+                    }
                 } catch (...) {
                     spdlog::warn("CLO Loop2: workload-drift provider failed (unknown); using fallback");
                     result.signal_source = "fallback_error";
+                    {
+                        std::lock_guard<std::mutex> lock(impl_->mutex);
+                        ++impl_->loop2_provider_failures;
+                        impl_->loop2_last_provider_failure = std::chrono::system_clock::now();
+                    }
                 }
             } else {
                 spdlog::warn("CLO Loop2: workload-drift provider not wired; using fallback");
+                if (production_mode) {
+                    spdlog::error("CLO Loop2: Production mode enforced but provider is not wired; failing loop");
+                    result.signal_source = "production_mode_fail_closed";
+                    result.success = false;
+                    result.guardrail_passed = false;
+                    {
+                        std::lock_guard<std::mutex> lock(impl_->mutex);
+                        ++impl_->loop2_provider_failures;
+                        impl_->loop2_last_provider_failure = std::chrono::system_clock::now();
+                    }
+                    break;
+                }
             }
             result.signal_value     = drift;
             // Guardrail: drift must stay below 0.1 or current accuracy must not regress
@@ -957,19 +1094,51 @@ ContinuousLearningOrchestrator::triggerLoop(LoopPhase phase) {
             // Guardrail: DBA acceptance rate >= 0.75
             size_t entry_count      = 0;
             result.signal_source    = "fallback_missing";
+            bool production_mode = false;
+            {
+                std::lock_guard<std::mutex> lock(impl_->mutex);
+                production_mode = impl_->config.enforce_live_providers;
+            }
+
             if (feedback_count_fn) {
                 try {
                     entry_count         = feedback_count_fn();
                     result.signal_source = "live";
+                    {
+                        std::lock_guard<std::mutex> lock(impl_->mutex);
+                        impl_->loop4_provider_failures = 0;  // Reset failure counter on success
+                    }
                 } catch (const std::exception& e) {
                     spdlog::warn("CLO Loop4: feedback-count provider failed ({}); using fallback", e.what());
                     result.signal_source = "fallback_error";
+                    {
+                        std::lock_guard<std::mutex> lock(impl_->mutex);
+                        ++impl_->loop4_provider_failures;
+                        impl_->loop4_last_provider_failure = std::chrono::system_clock::now();
+                    }
                 } catch (...) {
                     spdlog::warn("CLO Loop4: feedback-count provider failed (unknown); using fallback");
                     result.signal_source = "fallback_error";
+                    {
+                        std::lock_guard<std::mutex> lock(impl_->mutex);
+                        ++impl_->loop4_provider_failures;
+                        impl_->loop4_last_provider_failure = std::chrono::system_clock::now();
+                    }
                 }
             } else {
                 spdlog::warn("CLO Loop4: feedback-count provider not wired; using fallback");
+                if (production_mode) {
+                    spdlog::error("CLO Loop4: Production mode enforced but provider is not wired; failing loop");
+                    result.signal_source = "production_mode_fail_closed";
+                    result.success = false;
+                    result.guardrail_passed = false;
+                    {
+                        std::lock_guard<std::mutex> lock(impl_->mutex);
+                        ++impl_->loop4_provider_failures;
+                        impl_->loop4_last_provider_failure = std::chrono::system_clock::now();
+                    }
+                    break;
+                }
             }
             result.signal_value     = static_cast<double>(entry_count);
             // When a real provider is wired, require at least 100 new entries before
@@ -1245,6 +1414,8 @@ void ContinuousLearningOrchestrator::wireLiveSignalProviders(
     std::shared_ptr<themis::performance::phase3::BaoOptimizer> bao_optimizer,
     std::shared_ptr<themis::performance::WorkloadAdaptiveOptimizer> workload_optimizer,
     std::shared_ptr<themis::prompt_engineering::FeedbackCollector> feedback_collector) {
+    std::lock_guard<std::mutex> lock(impl_->mutex);
+
     if (bao_optimizer) {
 #if defined(THEMIS_ENABLE_BAO)
         std::weak_ptr<themis::performance::phase3::BaoOptimizer> bao_weak = bao_optimizer;
@@ -1255,14 +1426,18 @@ void ContinuousLearningOrchestrator::wireLiveSignalProviders(
             }
             return bao->getMissRate();
         });
+        impl_->loop1_provider_available = true;
+        spdlog::info("CLO wireLiveSignalProviders: BaoOptimizer (Loop 1) wired successfully");
 #else
         spdlog::warn(
             "CLO wireLiveSignalProviders: BaoOptimizer provided but THEMIS_ENABLE_BAO is OFF; Loop1 stays on fallback");
         setHnswMissRateProvider({});
+        impl_->loop1_provider_available = false;
 #endif
     } else {
         spdlog::warn("CLO wireLiveSignalProviders: BaoOptimizer is null; Loop1 stays on fallback");
         setHnswMissRateProvider({});
+        impl_->loop1_provider_available = false;
     }
 
     if (workload_optimizer) {
@@ -1275,10 +1450,13 @@ void ContinuousLearningOrchestrator::wireLiveSignalProviders(
             }
             return workload->getProfileDrift();
         });
+        impl_->loop2_provider_available = true;
+        spdlog::info("CLO wireLiveSignalProviders: WorkloadAdaptiveOptimizer (Loop 2) wired successfully");
     } else {
         spdlog::warn(
             "CLO wireLiveSignalProviders: WorkloadAdaptiveOptimizer is null; Loop2 stays on fallback");
         setWorkloadDriftProvider({});
+        impl_->loop2_provider_available = false;
     }
 
     if (feedback_collector) {
@@ -1290,9 +1468,20 @@ void ContinuousLearningOrchestrator::wireLiveSignalProviders(
             }
             return feedback->newEntryCount();
         });
+        impl_->loop4_provider_available = true;
+        spdlog::info("CLO wireLiveSignalProviders: FeedbackCollector (Loop 4) wired successfully");
     } else {
         spdlog::warn("CLO wireLiveSignalProviders: FeedbackCollector is null; Loop4 stays on fallback");
         setFeedbackEntryCountProvider({});
+        impl_->loop4_provider_available = false;
+    }
+
+    // Production mode enforcement: log if any provider is missing in production
+    if (impl_->config.enforce_live_providers && 
+        (!impl_->loop1_provider_available || !impl_->loop2_provider_available || !impl_->loop4_provider_available)) {
+        spdlog::error("CLO wireLiveSignalProviders: Production mode enabled but not all providers are available. "
+                     "Loop1: {}, Loop2: {}, Loop4: {}",
+                     impl_->loop1_provider_available, impl_->loop2_provider_available, impl_->loop4_provider_available);
     }
 }
 
