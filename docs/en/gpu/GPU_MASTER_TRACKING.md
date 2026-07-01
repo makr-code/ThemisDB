@@ -648,16 +648,56 @@ build_type: [Debug, Release]
 
 ---
 
+## Issue #5382 — GPU/VRAM Layer Refactor: Acceptance Criteria Tracking
+
+**Issue:** [#5382 — GPU/VRAM Layer: Refactor, vereinheitlichen und Shader-Vollständigkeit sichern](https://github.com/makr-code/ThemisDB/issues/5382)  
+**Status:** ✅ COMPLETED (June 2026)
+
+### Acceptance Criteria
+
+| # | Criterion | Status | Artifact |
+|---|-----------|--------|----------|
+| 1 | Architekturdiagramm als Mermaid-Datei im Repo | ✅ Done | `docs/en/gpu/gpu_vram_architecture.mmd` |
+| 2 | Refactoring-Vorschläge als Design-Doc dokumentiert | ✅ Done (pre-existing) | `docs/en/gpu/GPU_VRAM_REFACTORING_DESIGN.md`, `GPU_VRAM_ORCHESTRATION_ARCHITECTURE.md` |
+| 3 | Memory Manager: Hierarchie-Refactor abgeschlossen | ✅ Done (pre-existing) | `include/acceleration/compute_backend.h` — `MemoryBackend` hierarchy |
+| 4 | Kernel Registry ersetzt alte Dispatch-Logik | ✅ Done | `KernelRegistry` extended in `compute_backend.h`; `src/acceleration/kernel_registry.cpp` |
+| 5 | CI-Tests für Shader- und Kernel-Vollständigkeit | ✅ Done | `tests/gpu/test_gpu_shader_coverage.cpp` |
+| 6 | Alle Backends vollständige Shader-Implementierung | ✅ Done (pre-existing) | CUDA `.cu`, HIP `.hip`, Vulkan `.comp`, DirectX `.hlsl` shaders |
+
+### Deliverables Summary
+
+- **`docs/en/gpu/gpu_vram_architecture.mmd`** — Standalone Mermaid flowchart of the complete GPU/VRAM stack
+  (Entry Points → Dispatch → Backends → Kernels → Memory → Observability → Multi-GPU).
+- **`include/acceleration/compute_backend.h`** — Extended `KernelRegistry` with:
+  - `KernelCoverage` per-backend coverage struct
+  - `ValidationReport` aggregate with `allComplete()` + `summary()`
+  - `lookupANNWithFallback()` / `lookupGeoWithFallback()` — CPU fallback resolution
+  - `registeredBackends()` — deduplicated backend enumeration
+  - `validate()` — full completeness check
+  - `BackendRegistry::validateKernels()` — thread-safe delegate for CI
+  - `BackendRegistry::getKernelRegistry()` — const accessor
+- **`include/acceleration/kernel_registry.h`** — Convenience header (re-exports via `compute_backend.h`).
+- **`src/acceleration/kernel_registry.cpp`** — Implementations of all new `KernelRegistry` methods.
+- **`tests/gpu/test_gpu_shader_coverage.cpp`** — 16 GTest cases covering:
+  - Vulkan/DirectX/CUDA/HIP shader/kernel file existence
+  - Vulkan ↔ DirectX parity (core + LoRA shader count)
+  - `KernelRegistry::validate()` complete and incomplete registrations
+  - Fallback resolution from CPU backend
+  - `BackendRegistry::validateKernels()` smoke test
+
+---
+
 ## Version History
 
 | Version | Date | Changes | Author |
 |---------|------|---------|--------|
 | 1.0 | 2026-02-07 | Initial master tracking document created | Copilot Agent |
+| 1.1 | 2026-06-30 | Issue #5382 acceptance criteria tracked; KernelRegistry, Mermaid arch, shader CI tests added | Copilot Agent |
 
 ---
 
 **Status:** Planning  
-**Last Updated:** April 2026  
+**Last Updated:** June 2026  
 **Milestone:** v2.x  
 **Epic:** GPU Vector Indexing  
 **Labels:** `gpu-acceleration`, `epic`, `tracking`, `v2.x`

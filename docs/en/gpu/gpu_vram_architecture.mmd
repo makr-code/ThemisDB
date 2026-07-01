@@ -1,0 +1,107 @@
+%%{init: {'theme': 'default', 'themeVariables': {'fontSize': '14px'}}}%%
+flowchart TD
+    %% ── Entry Points ────────────────────────────────────────────────────────
+    subgraph Callers["Entry Points"]
+        VQ["Vector Query\n(GPUVectorIndex)"]
+        GQ["Graph Query\n(GPUTraversal)"]
+        GEO["Geo Query\n(GPUGeoBackend)"]
+        LLM["LLM / LoRA\n(LoRATrainingService)"]
+        IDX["Index Manager\n(IndexManager)"]
+    end
+
+    %% ── Dispatch Layer ──────────────────────────────────────────────────────
+    subgraph Dispatch["Kernel Dispatch Layer"]
+        AHD["AiHardwareDispatcher\n(NPU priority chain)"]
+        KR["KernelRegistry\n(central kernel catalog)"]
+        KFD["KernelFallbackDispatcher\n(GPU → CPU fallback)"]
+        MGR["BackendRegistry\n(capability matching)"]
+    end
+
+    %% ── Backend Implementations ─────────────────────────────────────────────
+    subgraph Backends["Compute Backends  (IComputeBackend)"]
+        CUDA["CUDABackend\nNVIDIA · CC ≥ 7.0"]
+        VK["VulkanBackend\nCross-platform"]
+        HIP["HIPBackend\nAMD ROCm"]
+        DX["DirectXBackend\nWindows only"]
+        MTL["MetalBackend\nmacOS / iOS"]
+        CL["OpenCLBackend\nLegacy"]
+        MGPU["MultiGPUBackend\nNCCL / RCCL sharding"]
+        CPU["CPUBackend\nSIMD fallback\n(always available)"]
+    end
+
+    %% ── Kernel Libraries ────────────────────────────────────────────────────
+    subgraph Kernels["GPU Kernel Libraries"]
+        VK_C["vector_kernels.cu\nL2 · Cosine · InnerProduct\nBitonic top-k"]
+        GK_C["graph_kernels.cu\nHNSW traversal\nBFS / random walk"]
+        TM_C["tensor_core_matmul.cu\nTensor Core GEMM"]
+        ANN_C["ann_kernels.cu\nANN search"]
+        GEO_C["geo_kernels.cu\nGeospatial distance & containment"]
+        LK_C["lora/cuda_kernels.cu\nBF16 · FP16\nFused · Flash kernels\nQuantization"]
+        HLSL["HLSL Shaders (DirectX)\nmatmul · gradient · embedding_lookup\nl2_distance · cosine · topk"]
+        COMP["GLSL Compute Shaders (Vulkan)\nSPIR-V compiled\nl2_distance · cosine · topk"]
+        HIP_K["HIP Kernels (AMD)\nann_kernels · geo_kernels\ngraph_kernels · hnsw_kernels"]
+    end
+
+    %% ── VRAM Memory Stack ───────────────────────────────────────────────────
+    subgraph Memory["VRAM Memory Stack (Unified Hierarchy)"]
+        IVRAM["IVRAMPolicy\n(abstract contract)"]
+        GMM["GPUMemoryManager\n(canonical singleton · edition limits\ntenant isolation · stats)"]
+        MP["MemoryPool\n(slab allocator\nfragmentation control)"]
+        VA["VRAMAllocator\n(LoRA per-layer budgets)"]
+        UM["UnifiedMemory\n(CUDA managed memory)"]
+        MO["GPUMemoryOversubscription\n(index eviction policy)"]
+        VSC["VRAMSecureClear\n(security: zeroise on free)"]
+    end
+
+    %% ── Observability ───────────────────────────────────────────────────────
+    subgraph Observe["Observability & Safety"]
+        KV["KernelValidator\n(integrity check)"]
+        SI["ShaderIntegrityVerifier\n(SHA-256 SPIR-V validation)"]
+        MP2["MemoryPressureMonitor\n(OOM threshold alerts)"]
+        SF["GPUSafeFail\n(OOM recovery · eviction)"]
+        PROF["GPUProfiler\n(event timing · utilization)"]
+        AUDIT["VRAMAuditLog\n(tenant usage accounting)"]
+    end
+
+    %% ── Multi-GPU Coordination ──────────────────────────────────────────────
+    subgraph MultiGPU["Multi-GPU Coordination"]
+        MIG["MIGManager\n(A100 MIG slices)"]
+        P2P["P2PTransfer\n(NVLink / PCIe)"]
+        SCH["TimeSliceScheduler\n(QoS priority queues)"]
+        LB["GPULoadBalancer\n(least-loaded dispatch)"]
+    end
+
+    %% ── Connections ─────────────────────────────────────────────────────────
+    Callers --> Dispatch
+
+    AHD -->|"NPU available"| CUDA
+    AHD -->|"NPU unavailable"| KFD
+    KR -->|"resolve kernel"| KFD
+    KFD -->|"GPU available"| MGR
+    KFD -->|"GPU OOM / absent"| CPU
+    MGR --> CUDA & VK & HIP & DX & MTL & CL & MGPU
+
+    CUDA --> VK_C & GK_C & TM_C & ANN_C & GEO_C & LK_C
+    VK --> COMP
+    HIP --> HIP_K
+    DX --> HLSL
+    MGPU --> CUDA & HIP
+
+    IVRAM <|.. GMM
+    CUDA & VK & HIP & MGPU --> GMM
+    GMM --> MP & VA & UM & MO & VSC
+    GMM --> AUDIT
+
+    MP2 --> SF
+    SF -->|"evict / degrade"| CPU
+    KV --> SI
+    KV -->|"fail-closed"| SF
+
+    MGPU --> MultiGPU
+    LB --> CUDA & HIP
+    SCH --> LB
+    P2P --> CUDA & HIP
+    MIG --> CUDA
+
+    GMM --> MP2
+    GMM --> PROF
