@@ -231,7 +231,13 @@ struct VCCPKIClient::Impl {
         curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, writeCallback);
         curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response);
         
-        // TLS/SSL configuration
+        // SSL/TLS verification: enabled by default (TLSConfig::verify_server = true).
+        // CURLOPT_SSL_VERIFYPEER=1L: libcurl verifies the server's certificate chain
+        //   against the CA bundle — prevents man-in-the-middle certificate substitution.
+        // CURLOPT_SSL_VERIFYHOST=2L: libcurl verifies the server hostname matches the
+        //   certificate CN/SANs — prevents certificate mismatch attacks.
+        // The else branch (verify_server=false) is forbidden in production deployments;
+        // it may only be used in isolated test environments by explicit operator configuration.
         if (verify_server) {
             curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 1L);
             curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, 2L);
@@ -240,6 +246,9 @@ struct VCCPKIClient::Impl {
                 curl_easy_setopt(curl, CURLOPT_CAINFO, ca_cert_path.c_str());
             }
         } else {
+            // NON-PRODUCTION PATH: SSL verification disabled by explicit operator configuration.
+            // Requires TLSConfig::verify_server = false (default is true). Forbidden in
+            // regulated/production deployments — mutual-TLS and certificate chains are unenforced.
             curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0L);
             curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, 0L);
         }

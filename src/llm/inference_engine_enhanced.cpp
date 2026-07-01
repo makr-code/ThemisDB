@@ -165,8 +165,16 @@ InferenceEngineEnhanced::InferenceEngineEnhanced(
                  shared_pool_->numThreads());
 }
 
-InferenceEngineEnhanced::~InferenceEngineEnhanced() {
-    shutdown();
+InferenceEngineEnhanced::~InferenceEngineEnhanced() noexcept {
+    try {
+        shutdown();
+    } catch (const std::exception& e) {
+        spdlog::error("InferenceEngineEnhanced::~InferenceEngineEnhanced: shutdown failed: {}",
+                      e.what());
+    } catch (...) {
+        spdlog::error(
+            "InferenceEngineEnhanced::~InferenceEngineEnhanced: shutdown failed with unknown exception");
+    }
 }
 
 void InferenceEngineEnhanced::setRemoteExecutor(
