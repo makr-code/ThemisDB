@@ -124,6 +124,23 @@ public:
      * penalty.
      */
     virtual bool isHealthy() const { return true; }
+
+    /**
+     * @brief Compute per-vertex betweenness centrality on this shard.
+     *
+     * Uses a distributed variant of Brandes' algorithm: BFS from each sampled
+     * source vertex to build the shortest-path DAG, then accumulates pair
+     * dependencies back along the DAG.
+     *
+     * @param sample_fraction Fraction of vertices to use as BFS sources [0.01, 1.0].
+     * @return Map from local vertex ID to raw (unnormalized) betweenness score.
+     *         The default implementation returns an empty map so that existing
+     *         shard implementors do not need to override this method.
+     */
+    [[nodiscard]] virtual Result<std::unordered_map<std::string, double>>
+    computeLocalBetweenness(double /*sample_fraction*/) const {
+        return Ok(std::unordered_map<std::string, double>{});
+    }
 };
 
 // ---------------------------------------------------------------------------
@@ -158,8 +175,22 @@ public:
         const std::string& target_vertex,
         const GraphQueryOptimizer::QueryConstraints& constraints) override;
 
+    /**
+     * @brief Compute betweenness centrality for all vertices on this local shard.
+     *
+     * Implements Brandes' BFS-based algorithm over the shard's in-process graph.
+     * Samples ceil(sample_fraction * |V|) source vertices in insertion order for
+     * deterministic, reproducible results.
+     *
+     * @param sample_fraction Fraction of vertices used as BFS sources [0.01, 1.0].
+     * @return Map from local vertex ID to raw (unnormalized) betweenness score.
+     */
+    [[nodiscard]] Result<std::unordered_map<std::string, double>>
+    computeLocalBetweenness(double sample_fraction) const override;
+
 private:
     std::string shard_id_;
+    GraphIndexManager& graph_mgr_;   ///< Direct reference for vertex/edge iteration.
     GraphQueryOptimizer optimizer_;
 
     /// Qualify a vertex ID returned by the local optimizer as "<id>@<shard_id_>".
@@ -289,6 +320,47 @@ public:
         std::string_view target_vertex,
         GraphQueryOptimizer::QueryPattern pattern,
         const GraphQueryOptimizer::QueryConstraints& constraints = {});
+
+    // -----------------------------------------------------------------------
+    // Distributed analytics
+    // -----------------------------------------------------------------------
+
+    /// @brief Result of a distributed betweenness centrality computation.
+    struct BetweennessResult {
+        /// Map from qualified vertex ID ("<id>@<shardId>") to normalized
+        /// betweenness centrality score in [0, 1].
+        std::unordered_map<std::string, double> scores;
+        /// Number of shards that successfully contributed results.
+        uint32_t shards_queried{0};
+        /// Wall-clock computation time in milliseconds.
+        uint64_t elapsed_ms{0};
+    };
+
+    /**
+     * @brief Compute approximate distributed betweenness centrality across all shards.
+     *
+     * Uses a distributed variant of Brandes' algorithm: each shard independently
+     * computes per-vertex pair dependencies via BFS, then results are aggregated
+     * and normalized across all shards.
+     *
+     * Scores for vertices appearing in multiple shard results are summed before
+     * normalization (cross-shard accumulation).  The maximum score across all
+     * vertices is used as the denominator so all output scores lie in [0, 1].
+     * When sample_fraction < 1.0 an additional 1/sample_fraction scaling is
+     * applied before the [0, 1] clamp to approximate the true betweenness value.
+     *
+     * @param sample_fraction Fraction of vertices to use as BFS sources [0.01, 1.0].
+     *        Use 1.0 for exact betweenness, <1.0 for approximate (faster on large
+     *        graphs).
+     * @param timeout_override_ms Optional per-call timeout in milliseconds
+     *        (0 = use DistributedGraphConfig::timeout_ms).
+     * @return BetweennessResult with per-vertex scores, shards_queried count,
+     *         and elapsed_ms, or an error when no healthy shards are available or
+     *         sample_fraction is out of range.
+     */
+    [[nodiscard]] Result<BetweennessResult> computeBetweennessCentrality(
+        double sample_fraction = 1.0,
+        uint32_t timeout_override_ms = 0) const;
 
     // -----------------------------------------------------------------------
     // Utilities

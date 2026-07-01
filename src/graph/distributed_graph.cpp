@@ -23,7 +23,9 @@
 #include "graph/distributed_graph.h"
 
 #include <algorithm>
+#include <cmath>
 #include <chrono>
+#include <queue>
 #include <functional>
 #include <future>
 #include <limits>
@@ -42,7 +44,7 @@ namespace graph {
 // ─────────────────────────────────────────────────────────────────────────────
 
 LocalShardGraphExecutor::LocalShardGraphExecutor(std::string shard_id, GraphIndexManager &graph_mgr)
-    : shard_id_(std::move(shard_id)), optimizer_(graph_mgr) {}
+    : shard_id_(std::move(shard_id)), graph_mgr_(graph_mgr), optimizer_(graph_mgr) {}
 
 std::string LocalShardGraphExecutor::qualify(const std::string &vertex_id) const {
     // Already qualified – avoid double-qualifying.
@@ -85,6 +87,116 @@ LocalShardGraphExecutor::executeDijkstra(const std::string &start_vertex, const 
         qualified_path.path.push_back(qualify(v));
     }
     return Ok(std::move(qualified_path));
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// LocalShardGraphExecutor::computeLocalBetweenness
+// ─────────────────────────────────────────────────────────────────────────────
+
+Result<std::unordered_map<std::string, double>>
+LocalShardGraphExecutor::computeLocalBetweenness(double sample_fraction) const {
+    // Collect all vertices known to this shard's graph.
+    const std::vector<std::string> all_vertices = graph_mgr_.getAllVertices();
+    if (all_vertices.empty()) {
+        return Ok(std::unordered_map<std::string, double>{});
+    }
+
+    // Initialise betweenness scores at 0 for every known vertex.
+    std::unordered_map<std::string, double> betweenness;
+    betweenness.reserve(all_vertices.size());
+    for (const auto &v : all_vertices) {
+        betweenness[v] = 0.0;
+    }
+
+    // Determine the number of source vertices to use as BFS origins.
+    const std::size_t n = all_vertices.size();
+    const std::size_t sample_count =
+        std::max(std::size_t{1},
+                 static_cast<std::size_t>(std::ceil(sample_fraction * static_cast<double>(n))));
+    const std::size_t effective_count = std::min(sample_count, n);
+
+    // Brandes' BFS-based betweenness centrality (directed graph).
+    for (std::size_t si = 0; si < effective_count; ++si) {
+        const std::string &s = all_vertices[si];
+
+        // S   : vertices in order of non-increasing distance from s (for back-propagation).
+        // P   : predecessor lists on shortest-path DAG.
+        // sigma : number of shortest paths from s to each vertex.
+        // d   : BFS distance from s (-1 = not yet visited).
+        // delta : dependency accumulator.
+        std::vector<std::string> S;
+        S.reserve(n);
+        std::unordered_map<std::string, std::vector<std::string>> P;
+        std::unordered_map<std::string, double> sigma;
+        std::unordered_map<std::string, int>    d;
+        std::unordered_map<std::string, double> delta;
+
+        // Pre-seed with all known vertices so the maps are dense.
+        for (const auto &v : all_vertices) {
+            P[v]     = {};
+            sigma[v] = 0.0;
+            d[v]     = -1;
+            delta[v] = 0.0;
+        }
+
+        sigma[s] = 1.0;
+        d[s]     = 0;
+
+        std::queue<std::string> Q;
+        Q.push(s);
+
+        while (!Q.empty()) {
+            const std::string v = std::move(Q.front());
+            Q.pop();
+            S.push_back(v);
+
+            auto [status, neighbors] = graph_mgr_.outNeighbors(v);
+            if (!status.ok) {
+                continue;
+            }
+
+            for (const auto &w : neighbors) {
+                // Ensure w is tracked (it may be a vertex only appearing as a target).
+                if (betweenness.find(w) == betweenness.end()) {
+                    betweenness[w] = 0.0;
+                }
+                if (P.find(w) == P.end()) {
+                    P[w]     = {};
+                    sigma[w] = 0.0;
+                    d[w]     = -1;
+                    delta[w] = 0.0;
+                }
+
+                // First discovery of w via BFS.
+                if (d[w] < 0) {
+                    Q.push(w);
+                    d[w] = d[v] + 1;
+                }
+
+                // w reachable via v on a shortest path.
+                if (d[w] == d[v] + 1) {
+                    sigma[w] += sigma[v];
+                    P[w].push_back(v);
+                }
+            }
+        }
+
+        // Back-propagate dependencies along the shortest-path DAG.
+        while (!S.empty()) {
+            const std::string w = std::move(S.back());
+            S.pop_back();
+            for (const auto &pred : P[w]) {
+                if (sigma[w] > 0.0) {
+                    delta[pred] += (sigma[pred] / sigma[w]) * (1.0 + delta[w]);
+                }
+            }
+            if (w != s) {
+                betweenness[w] += delta[w];
+            }
+        }
+    }
+
+    return Ok(std::move(betweenness));
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -380,6 +492,109 @@ DistributedGraphManager::optimizePlan([[maybe_unused]] std::string_view start_ve
                                       + "\n";
 
     return Ok(std::move(plan));
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// computeBetweennessCentrality – distributed Brandes across shards
+// ─────────────────────────────────────────────────────────────────────────────
+
+Result<DistributedGraphManager::BetweennessResult>
+DistributedGraphManager::computeBetweennessCentrality(double sample_fraction,
+                                                      uint32_t timeout_override_ms) const {
+    // Validate sample_fraction range.
+    if (sample_fraction < 0.01 || sample_fraction > 1.0) {
+        return Err<BetweennessResult>(
+            errors::ErrorCode::ERR_QUERY_EXECUTION_FAILED,
+            "sample_fraction must be in [0.01, 1.0], got: " + std::to_string(sample_fraction));
+    }
+
+    auto shards = healthyShards();
+    if (shards.empty()) {
+        return Err<BetweennessResult>(errors::ErrorCode::ERR_QUERY_EXECUTION_FAILED,
+                                      "No healthy shards available for betweenness centrality computation");
+    }
+
+    const auto t_start = std::chrono::steady_clock::now();
+
+    // Resolve effective per-call timeout.
+    const uint32_t effective_timeout_ms =
+        (timeout_override_ms > 0) ? timeout_override_ms : config_.timeout_ms;
+
+    // Fan out computeLocalBetweenness to every healthy shard in parallel.
+    std::vector<std::future<Result<std::unordered_map<std::string, double>>>> futures;
+    futures.reserve(shards.size());
+
+    for (auto &[sid, exec] : shards) {
+        futures.push_back(
+            std::async(std::launch::async,
+                       [exec_ptr = exec.get(), sample_fraction]() {
+                           return exec_ptr->computeLocalBetweenness(sample_fraction);
+                       }));
+    }
+
+    // Collect per-shard results and merge by summing scores for each qualified vertex.
+    std::unordered_map<std::string, double> merged;
+    uint32_t shards_queried = 0;
+
+    for (std::size_t i = 0; i < futures.size(); ++i) {
+        // Enforce timeout before waiting on the next future.
+        if (effective_timeout_ms > 0) {
+            const auto elapsed_now = std::chrono::duration_cast<std::chrono::milliseconds>(
+                                         std::chrono::steady_clock::now() - t_start)
+                                         .count();
+            if (static_cast<uint32_t>(elapsed_now) >= effective_timeout_ms) {
+                spdlog::warn("distributed_graph: betweenness centrality timeout after {}ms "
+                             "({}/{} shards queried)",
+                             elapsed_now, shards_queried, shards.size());
+                break;
+            }
+        }
+
+        auto res = futures[i].get();
+        if (!res) {
+            spdlog::debug("distributed_graph: shard '{}' betweenness failed, skipping",
+                          shards[i].first);
+            continue;
+        }
+
+        ++shards_queried;
+
+        // Qualify each vertex ID with its originating shard tag and accumulate.
+        for (const auto &[vid, score] : *res) {
+            const std::string qualified = vid + "@" + shards[i].first;
+            merged[qualified] += score;
+        }
+    }
+
+    // Normalize: find global maximum and scale all scores to [0, 1].
+    double max_score = 0.0;
+    for (const auto &[vid, score] : merged) {
+        max_score = std::max(max_score, score);
+    }
+
+    if (max_score > 0.0) {
+        for (auto &[vid, score] : merged) {
+            score /= max_score; // now in [0, 1]
+
+            // Apply sample fraction compensation: if sample_fraction < 1.0 the
+            // partial-BFS under-counts betweenness; scale up to approximate the
+            // true value, then re-clamp to [0, 1].
+            if (sample_fraction < 1.0) {
+                score = std::min(1.0, score / sample_fraction);
+            }
+        }
+    }
+
+    const auto t_end = std::chrono::steady_clock::now();
+    const uint64_t elapsed_ms = static_cast<uint64_t>(
+        std::chrono::duration_cast<std::chrono::milliseconds>(t_end - t_start).count());
+
+    BetweennessResult result;
+    result.scores        = std::move(merged);
+    result.shards_queried = shards_queried;
+    result.elapsed_ms    = elapsed_ms;
+
+    return Ok(std::move(result));
 }
 
 } // namespace graph

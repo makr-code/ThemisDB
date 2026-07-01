@@ -59,16 +59,18 @@ Production graph runtime exists across query planning, constraint-aware traversa
 - [ ] align semantic/reasoning and tensor utility behavior with bounded runtime contracts (Target: Q4 2026)
 
 ### Phase 3: Error Handling and Edge Cases
-- [ ] standardize fail-safe behavior for invalid constraints and degraded acceleration routes (Target: Q4 2026)
-- [ ] unify diagnostics across denial, fallback, and semantic conflict incidents (Target: Q4 2026)
+- [~] standardize fail-safe behavior for invalid constraints and degraded acceleration routes (Target: Q4 2026)
+- [~] unify diagnostics across denial, fallback, and semantic conflict incidents (Target: Q4 2026)
+- [~] distributed Betweenness Centrality implementation added (Target: Q3 2026)
 
 ### Phase 4: Tests
 - [ ] expand focused regressions for mixed constraint/distribution/acceleration edge scenarios (Target: Q4 2026)
 - [ ] extend deterministic stress fixtures for high fan-out and long-path workloads (Target: Q4 2026)
 
 ### Phase 5: Performance and Hardening
-- [ ] lock benchmark-backed release gates for graph hot paths (Target: Q4 2026)
+- [~] lock benchmark-backed release gates for graph hot paths (Target: Q4 2026)
 - [ ] validate p95/p99 and throughput behavior against release baselines (Target: Q4 2026)
+- [~] string concatenation loops replaced with ostringstream in query optimizer (Target: Q3 2026)
 
 ### Phase 6: Documentation and Acceptance
 - [x] core graph module docs aligned to source-verifiable behavior
