@@ -9,6 +9,46 @@ Detects:
 - Namespace/class/function scope mismatch
 """
 
+# ============================================================================
+# WARNING: HIGH FALSE-POSITIVE RATE — RESEARCH / MANUAL INVESTIGATION ONLY
+# ============================================================================
+#
+# This scanner does NOT parse C++ correctly.  Known deficiencies that cause
+# false positives in virtually every real-world file:
+#
+#   1. STRINGS / FORMAT LITERALS: Braces inside string literals such as
+#      fmt::format("{}", x), raw string literals R"({...})", and character
+#      literals ('{') are counted as real braces.  A single format-string
+#      call with an even number of braces can still produce a net ±1 imbalance
+#      when the surrounding template contains odd occurrences.
+#
+#   2. BLOCK-COMMENT STRIPPING BUGS: When a '/*' opener appears on the same
+#      line as real code the entire line is skipped (including braces before
+#      the '/*').  Similarly, when '*/' closes a block comment the rest of
+#      that line is skipped, losing any trailing code braces.
+#
+#   3. SCOPE CONTEXT HEURISTICS: The regex-based scope tracker in
+#      _analyze_scope_context() matches partial identifiers and produces
+#      spurious 'Unclosed …' reports for template parameters, macro bodies,
+#      and lambda captures.
+#
+#   4. OBSERVED FALSE-POSITIVE RATE: In practice >99 % of findings against
+#      the ThemisDB source tree are false positives confirmed by state-machine
+#      AST parsing (e.g., query_api_handler.cpp raw count 1007/1006 = +1,
+#      actual balance 1001/1001 = 0 after proper parsing).
+#
+# STATUS: Research Phase — needs a full rewrite using a proper C++ AST parser
+#         such as libclang (clang.cindex) or tree-sitter before results can be
+#         trusted for automated remediation.
+#
+# UNTIL REWRITTEN:
+#   • Use findings for MANUAL INVESTIGATION only.
+#   • Do NOT apply automated fixes based on this scanner's output.
+#   • Do NOT mark files as "broken" in CI based on these results.
+#   • Confirm any apparent imbalance with a state-machine parser before acting.
+#
+# ============================================================================
+
 import re
 import sys
 from pathlib import Path

@@ -183,10 +183,19 @@ HTTPAuthResponse AsyncHTTPAuth::performGet(
         curl_easy_setopt(curl.get(), CURLOPT_TIMEOUT, (long)config_.request_timeout_seconds);
         curl_easy_setopt(curl.get(), CURLOPT_CONNECTTIMEOUT, 5L);
         
-        // Set SSL options
+        // SSL/TLS verification: enabled by default (HTTPAuthConfig::verify_ssl_certs = true).
+        // CURLOPT_SSL_VERIFYPEER=1L: libcurl verifies the server's certificate chain against
+        //   the CA bundle — prevents man-in-the-middle substitution of a rogue certificate.
+        // CURLOPT_SSL_VERIFYHOST=2L: libcurl verifies the server hostname matches the
+        //   certificate CN/SANs — prevents certificate mismatch attacks.
+        // Disabling either is forbidden in production; set verify_ssl_certs=false only in
+        // isolated test environments where no sensitive data is transmitted.
         if (!config_.verify_ssl_certs) {
             curl_easy_setopt(curl.get(), CURLOPT_SSL_VERIFYPEER, 0L);
             curl_easy_setopt(curl.get(), CURLOPT_SSL_VERIFYHOST, 0L);
+        } else {
+            curl_easy_setopt(curl.get(), CURLOPT_SSL_VERIFYPEER, 1L);
+            curl_easy_setopt(curl.get(), CURLOPT_SSL_VERIFYHOST, 2L);
         }
         
         // Add custom headers if provided
@@ -267,10 +276,19 @@ HTTPAuthResponse AsyncHTTPAuth::performPost(
         curl_easy_setopt(curl.get(), CURLOPT_TIMEOUT, (long)config_.request_timeout_seconds);
         curl_easy_setopt(curl.get(), CURLOPT_CONNECTTIMEOUT, 5L);
         
-        // Set SSL options
+        // SSL/TLS verification: enabled by default (HTTPAuthConfig::verify_ssl_certs = true).
+        // CURLOPT_SSL_VERIFYPEER=1L: libcurl verifies the server's certificate chain against
+        //   the CA bundle — prevents man-in-the-middle substitution of a rogue certificate.
+        // CURLOPT_SSL_VERIFYHOST=2L: libcurl verifies the server hostname matches the
+        //   certificate CN/SANs — prevents certificate mismatch attacks.
+        // Disabling either is forbidden in production; set verify_ssl_certs=false only in
+        // isolated test environments where no sensitive data is transmitted.
         if (!config_.verify_ssl_certs) {
             curl_easy_setopt(curl.get(), CURLOPT_SSL_VERIFYPEER, 0L);
             curl_easy_setopt(curl.get(), CURLOPT_SSL_VERIFYHOST, 0L);
+        } else {
+            curl_easy_setopt(curl.get(), CURLOPT_SSL_VERIFYPEER, 1L);
+            curl_easy_setopt(curl.get(), CURLOPT_SSL_VERIFYHOST, 2L);
         }
         
         // Add headers
@@ -347,9 +365,19 @@ bool AsyncHTTPAuth::performConnectivityCheck(const std::string& url)
         curl_easy_setopt(curl.get(), CURLOPT_TIMEOUT, 5L);
         curl_easy_setopt(curl.get(), CURLOPT_CONNECTTIMEOUT, 3L);
         
+        // SSL/TLS verification: enabled by default (HTTPAuthConfig::verify_ssl_certs = true).
+        // CURLOPT_SSL_VERIFYPEER=1L: libcurl verifies the server's certificate chain against
+        //   the CA bundle — prevents man-in-the-middle substitution of a rogue certificate.
+        // CURLOPT_SSL_VERIFYHOST=2L: libcurl verifies the server hostname matches the
+        //   certificate CN/SANs — prevents certificate mismatch attacks.
+        // Disabling either is forbidden in production; set verify_ssl_certs=false only in
+        // isolated test environments where no sensitive data is transmitted.
         if (!config_.verify_ssl_certs) {
             curl_easy_setopt(curl.get(), CURLOPT_SSL_VERIFYPEER, 0L);
             curl_easy_setopt(curl.get(), CURLOPT_SSL_VERIFYHOST, 0L);
+        } else {
+            curl_easy_setopt(curl.get(), CURLOPT_SSL_VERIFYPEER, 1L);
+            curl_easy_setopt(curl.get(), CURLOPT_SSL_VERIFYHOST, 2L);
         }
         
         CURLcode res = curl_easy_perform(curl.get());

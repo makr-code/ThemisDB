@@ -78,6 +78,26 @@ Comprehensive code quality audit across 6 primary modules identified and verifie
 
 ## [Unreleased]
 
+### EPIC 1.3 Graph Truth Validation Layer — Phase 2: Core Implementation (2026-07-01)
+
+**New**:
+- `GraphTruthValidator::setAuthorizationPolicy(std::shared_ptr<auth::IAuthorizationPolicy>)` — injects an ABAC policy engine for ACL validation; fail-closed when not configured.
+- `GraphTruthValidator::setKnowledgeGraph(std::shared_ptr<kg::KnowledgeGraph>)` — injects direct graph access for multi-hop BFS path traversal.
+- `GraphTruthValidator::validateAcl()` — replaces fail-open stub with real `IAuthorizationPolicy` evaluation; NOT_APPLICABLE and missing engine both fail-closed.
+- `GraphTruthValidator::validateMultiHopRelationships()` — replaces empty-results stub with real BFS traversal over `KnowledgeGraph::outEdges()`; records shortest path and product-of-weights confidence; respects `max_depth` guard.
+
+**Tests (12 new cases)**:
+- ACL: allow via policy engine, deny via policy engine, NOT_APPLICABLE fail-closed, fail-closed when no engine, context propagation (role/tenant_id/classification).
+- Multi-hop: direct neighbour (1-hop), two-hop path, unreachable target, depth-limit enforcement, multiple mixed targets, output-order preservation.
+
+**Security**:
+- ACL validation is now fail-closed by default (was fail-open stub).
+- Multi-hop traversal bounded by `max_depth` and `KnowledgeGraph::neighbours()` `max_nodes` guard (DoS protection).
+
+**References**:
+- EPIC doc: `docs/EPIC1_GRAPH_VALIDATION.md` — Phase 2 marked complete.
+- PR #5513 (Graph Truth Validation Layer, Phase 2).
+
 ### Graph Module Phase 2.2 Verification (2026-07-01)
 
 **Verified & Documented**:

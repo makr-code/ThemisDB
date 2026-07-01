@@ -54,6 +54,21 @@ constexpr int kMaxAllowedRetries = 10;
 // Maximum bit-shift used in the backoff formula (500 ms × 2^5 = 16 000 ms).
 constexpr int kMaxBackoffShift = 5;
 
+// Timeout applied to all future::wait() calls on backoff futures (dispatcher +
+// internal scheduler). Must exceed the maximum backoff sleep (16 000 ms) by a
+// meaningful margin to distinguish scheduler hang from a legitimate long delay.
+constexpr auto kBackoffFutureTimeout = std::chrono::seconds{30};
+
+// Watchdog period for the BackoffScheduler worker thread. Bounds the time the
+// thread can be blocked inside cv_.wait() when cv_.notify_all() is delayed by
+// OS scheduling jitter or abnormal stop-token delivery.
+constexpr auto kSchedulerWatchdogInterval = std::chrono::seconds{1};
+
+// Grace margin added on top of the requested sleep duration when waiting for
+// the async sleep future in asyncBackoffSleep(). Absorbs thread-scheduling
+// overhead without masking a stuck async task.
+constexpr auto kAsyncSleepFutureMargin = std::chrono::seconds{5};
+
 struct BackoffDispatcherState {
     std::function<std::future<void>(std::chrono::milliseconds)> dispatcher;
     std::mutex mutex;
@@ -70,7 +85,13 @@ void waitOrThrow(std::future<void> &&future, const char *source) {
                                  + " returned invalid future; ensure the dispatcher returns "
                                    "a valid future object");
     }
-    future.wait();
+    if (future.wait_for(kBackoffFutureTimeout) == std::future_status::timeout) {
+        spdlog::warn("RemoteRegistryClient: {} timed out after {}s",
+                     source, kBackoffFutureTimeout.count());
+        throw std::runtime_error(std::string("RemoteRegistryClient: ") + source
+                                 + " timed out after "
+                                 + std::to_string(kBackoffFutureTimeout.count()) + "s");
+    }
 }
 
 // Optional externally provided dispatcher for delayed execution (e.g., TaskScheduler).
@@ -124,7 +145,10 @@ class BackoffScheduler {
         std::unique_lock<std::mutex> lock(mutex_);
         while (!stop_token.stop_requested()) {
             if (tasks_.empty()) {
-                cv_.wait(lock, [&] { return stop_token.stop_requested() || !tasks_.empty(); });
+                // Use wait_for with a watchdog timeout so the thread is never
+                // permanently blocked if cv_.notify_all() is missed or delayed.
+                cv_.wait_for(lock, kSchedulerWatchdogInterval,
+                    [&] { return stop_token.stop_requested() || !tasks_.empty(); });
                 if (stop_token.stop_requested()) {
                     break;
                 }
@@ -421,7 +445,13 @@ std::future<PluginDownloadResult> RemoteRegistryClient::downloadPluginAsync(cons
     // Thread-creation overhead (< 1 ms) is negligible relative to the minimum
     // back-off of 500 ms.
     auto f = std::async(std::launch::async, [ms] { std::this_thread::sleep_for(std::chrono::milliseconds(ms)); });
-    f.wait();
+    // Wait with a bounded timeout: expected sleep (ms) plus a scheduling grace
+    // period. This prevents an indefinite block if the async thread gets stuck.
+    if (f.wait_for(std::chrono::milliseconds(ms) + kAsyncSleepFutureMargin)
+            == std::future_status::timeout) {
+        spdlog::warn("RemoteRegistryClient::asyncBackoffSleep: async sleep future "
+                     "timed out for {}ms sleep", ms);
+    }
     if (ms <= 0) {
         return;
     }

@@ -83,20 +83,26 @@ static bool nodeMatchesLabels(GraphIndexManager& mgr,
 static void applySchemaHints(GraphQueryOptimizer::OptimizationPlan& plan,
                               const GraphQueryOptimizer::QueryConstraints& constraints) {
     if (!constraints.node_labels.empty()) {
-        std::string hint = "Node labels (OR): ";
-        for (size_t i = 0; i < constraints.node_labels.size(); ++i) {
-            if (i > 0) hint += ", ";
-            hint += constraints.node_labels[i];
+        std::ostringstream oss;
+        oss << "Node labels (OR): ";
+        bool first = true;
+        for (const auto& lbl : constraints.node_labels) {
+            if (!first) oss << ", ";
+            oss << lbl;
+            first = false;
         }
-        plan.active_schema_hints.push_back(std::move(hint));
+        plan.active_schema_hints.push_back(oss.str());
     }
     if (!constraints.excluded_edge_types.empty()) {
-        std::string hint = "Excluded edge types: ";
-        for (size_t i = 0; i < constraints.excluded_edge_types.size(); ++i) {
-            if (i > 0) hint += ", ";
-            hint += constraints.excluded_edge_types[i];
+        std::ostringstream oss;
+        oss << "Excluded edge types: ";
+        bool first = true;
+        for (const auto& et : constraints.excluded_edge_types) {
+            if (!first) oss << ", ";
+            oss << et;
+            first = false;
         }
-        plan.active_schema_hints.push_back(std::move(hint));
+        plan.active_schema_hints.push_back(oss.str());
     }
 }
 
@@ -2037,32 +2043,35 @@ std::string GraphQueryOptimizer::explainPlan(const OptimizationPlan& plan) const
         case QueryPattern::CONNECTED_COMPONENT: pattern_name = "Connected Component"; break;
     }
     
-    std::string explanation = "Query Pattern: " + pattern_name + "\n";
-    explanation += "Selected Algorithm: " + algo_name + "\n";
-    explanation += "Estimated Cost: " + std::to_string(plan.estimated_cost) + "\n";
-    explanation += "Estimated Time: " + std::to_string(plan.estimated_time_ms) + " ms\n";
-    explanation += "Estimated Nodes: " + std::to_string(plan.estimated_nodes_explored) + "\n";
-    explanation += "Use Index: " + std::string(plan.use_index ? "Yes" : "No") + "\n";
-    explanation += "Use Cache: " + std::string(plan.use_cache ? "Yes" : "No") + "\n";
-    explanation += "Early Termination: " + std::string(plan.enable_early_termination ? "Yes" : "No") + "\n";
-    explanation += "Parallel Execution: " + std::string(plan.enable_parallel ? "Yes" : "No") + "\n";
-    
+    std::ostringstream oss;
+    oss << "Query Pattern: " << pattern_name << '\n'
+        << "Selected Algorithm: " << algo_name << '\n'
+        << "Estimated Cost: " << plan.estimated_cost << '\n'
+        << "Estimated Time: " << plan.estimated_time_ms << " ms\n"
+        << "Estimated Nodes: " << plan.estimated_nodes_explored << '\n'
+        << "Use Index: " << (plan.use_index ? "Yes" : "No") << '\n'
+        << "Use Cache: " << (plan.use_cache ? "Yes" : "No") << '\n'
+        << "Early Termination: " << (plan.enable_early_termination ? "Yes" : "No") << '\n'
+        << "Parallel Execution: " << (plan.enable_parallel ? "Yes" : "No") << '\n';
+
     // Shard-aware plan info (v1.8.0)
     if (plan.is_distributed) {
-        explanation += "Distributed: Yes (" + std::to_string(plan.shard_ids.size()) + " shards)\n";
-        explanation += "Parallelism: " + std::to_string(plan.recommended_parallelism) + "\n";
+        oss << "Distributed: Yes (" << plan.shard_ids.size() << " shards)\n"
+            << "Parallelism: " << plan.recommended_parallelism << '\n';
         if (!plan.shard_ids.empty()) {
-            explanation += "Shards: ";
-            for (size_t i = 0; i < plan.shard_ids.size(); ++i) {
-                if (i > 0) explanation += ", ";
-                explanation += plan.shard_ids[i];
+            oss << "Shards: ";
+            bool first = true;
+            for (const auto& sid : plan.shard_ids) {
+                if (!first) oss << ", ";
+                oss << sid;
+                first = false;
             }
-            explanation += "\n";
+            oss << '\n';
         }
     }
 
     if (!plan.alternatives.empty()) {
-        explanation += "\nAlternatives Considered:\n";
+        oss << "\nAlternatives Considered:\n";
         for (const auto& [alt_algo, alt_cost] : plan.alternatives) {
             std::string alt_name;
             switch (alt_algo) {
@@ -2072,18 +2081,18 @@ std::string GraphQueryOptimizer::explainPlan(const OptimizationPlan& plan) const
                 case TraversalAlgorithm::ASTAR: alt_name = "A*"; break;
                 case TraversalAlgorithm::DIJKSTRA: alt_name = "Dijkstra"; break;
             }
-            explanation += "  " + alt_name + ": " + std::to_string(alt_cost) + "\n";
+            oss << "  " << alt_name << ": " << alt_cost << '\n';
         }
     }
 
     if (!plan.active_schema_hints.empty()) {
-        explanation += "\nSchema Hints Active:\n";
+        oss << "\nSchema Hints Active:\n";
         for (const auto& hint : plan.active_schema_hints) {
-            explanation += "  " + hint + "\n";
+            oss << "  " << hint << '\n';
         }
     }
-    
-    return explanation;
+
+    return oss.str();
 }
 
 void GraphQueryOptimizer::clearPlanCache() {
