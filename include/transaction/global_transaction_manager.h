@@ -50,6 +50,7 @@
 
 #include "sharding/truetime.h"
 #include "sharding/wal_manager.h"
+#include "transaction/recoverable_two_phase_coordinator.h"
 #include <atomic>
 #include <chrono>
 #include <map>
@@ -191,7 +192,7 @@ struct GlobalTxnRecord {
  *   assert(outcome.committed());
  * @endcode
  */
-class GlobalTransactionManager {
+class GlobalTransactionManager : public IRecoverableTwoPhaseCoordinator {
 public:
     /** @brief Configuration for the global coordinator. */
     struct Config {
@@ -321,7 +322,26 @@ public:
      *
      * @return Number of in-doubt transactions resolved
      */
-    size_t recoverInDoubtTransactions();
+    size_t recoverInDoubtTransactions() override;
+
+    /**
+     * @brief Return the canonical coordinator name for global recovery reports.
+     * @return "GlobalTransactionManager".
+     */
+    [[nodiscard]] std::string recoveryCoordinatorName() const override;
+
+    /**
+     * @brief Return the durable backend used by this coordinator.
+     * @return "WAL" when enabled, otherwise "disabled".
+     */
+    [[nodiscard]] std::string recoveryBackendName() const override;
+
+    /**
+     * @brief Snapshot current in-doubt transactions using the shared state model.
+     * @return Normalized non-final transaction list for global recovery orchestration.
+     */
+    [[nodiscard]] std::vector<RecoverableTwoPhaseTransaction>
+    getRecoverableTransactions() const override;
 
     // ── Introspection ─────────────────────────────────────────────────────────
 
