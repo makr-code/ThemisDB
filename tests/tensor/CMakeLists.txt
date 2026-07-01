@@ -26,6 +26,17 @@ foreach(_src IN LISTS TENSOR_MODULE_TEST_SOURCES)
             ${THEMIS_ROOT_DIR}/src/tensor/adapter_repository.cpp
         )
     endif()
+    if("${_stem}" STREQUAL "test_tensor_mid_layer_integration")
+        # Integration test for full tensor mid-layer pipeline (Phase 4)
+        target_sources(${_target} PRIVATE
+            ${THEMIS_ROOT_DIR}/src/tensor/adapter_repository.cpp
+            ${THEMIS_ROOT_DIR}/src/tensor/tensor_fingerprint_graph.cpp
+            ${THEMIS_ROOT_DIR}/src/tensor/tensor_error_handling.cpp
+            ${THEMIS_ROOT_DIR}/src/tensor/tensor_routing_strategy.cpp
+            ${THEMIS_ROOT_DIR}/src/tensor/tensor_redundancy_detection.cpp
+            ${THEMIS_ROOT_DIR}/src/tensor/compression_strategy.cpp
+        )
+    endif()
     target_include_directories(${_target} PRIVATE
         ${THEMIS_ROOT_DIR}/include
         ${THEMIS_ROOT_DIR}/src

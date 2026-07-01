@@ -80,6 +80,16 @@ if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/../test_cross_shard_transaction_focused.cpp
     message(STATUS "  CrossShardTransaction: Input validation & precondition hardening (W2-S04)")
 endif()
 
+if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/../test_cross_shard_fk_validator.cpp")
+    message(STATUS "Adding Sharding: CrossShardFKValidator tests (Issue #5390)")
+    add_executable(test_cross_shard_fk_validator ../test_cross_shard_fk_validator.cpp)
+    target_include_directories(test_cross_shard_fk_validator PRIVATE ${THEMIS_ROOT_DIR}/include)
+    target_link_libraries(test_cross_shard_fk_validator PRIVATE ${TEST_LIBS} themis_core spdlog::spdlog Threads::Threads nlohmann_json::nlohmann_json)
+    target_compile_definitions(test_cross_shard_fk_validator PRIVATE THEMIS_TEST_BUILD=1)
+    themis_register_module_focused_test(MODULE sharding NAME CrossShardFKValidatorTests TARGET test_cross_shard_fk_validator TIER unit TIMEOUT 60 LABELS cross-shard-fk referential-integrity 2pc fk-validator issue-5390)
+    message(STATUS "  CrossShardFKValidator: FK registration, validation, 2PC integration, fail-closed, partition (Issue #5390)")
+endif()
+
 if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/../test_gossip_config_manager_focused.cpp")
     message(STATUS "Adding Sharding: GossipConfigManager focused tests (W2-S05)")
     add_executable(test_gossip_config_manager_focused ../test_gossip_config_manager_focused.cpp)

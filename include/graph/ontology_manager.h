@@ -129,6 +129,11 @@ public:
     OntologyManager(OntologyManager&&) = default;
     OntologyManager& operator=(OntologyManager&&) = default;
 
+    /// Explicit destructor for Rule of Five compliance and semantic clarity.
+    /// Cleans up all member resources (maps, lists, mutexes); relies on standard
+    /// library destructors for cleanup (RAII principle).
+    ~OntologyManager() = default;
+
     // ── Schema loading ──────────────────────────────────────────────────────
 
     /**

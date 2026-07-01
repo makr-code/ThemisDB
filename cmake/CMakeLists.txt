@@ -2662,6 +2662,9 @@ set(THEMIS_CORE_SOURCES
     # shader_integrity.cpp uses only OpenSSL (SHA-256) — no GPU/graphics dependency.
     # Compiled unconditionally so ShaderIntegrityVerifier is always available.
     ../src/acceleration/shader_integrity.cpp
+    # kernel_registry.cpp — central kernel/shader dispatch catalog (issue #5382).
+    # No GPU runtime dependency; compiled unconditionally.
+    ../src/acceleration/kernel_registry.cpp
     # AI Hardware Dispatcher: universal AI-hardware abstraction layer
     # (Apple ANE, Intel NPU, Qualcomm QNN, ARM Ethos, NNAPI, ONNX Runtime, GPU fallback)
     ../src/acceleration/ai_hardware_dispatcher.cpp
@@ -5137,6 +5140,13 @@ if(THEMIS_BUILD_ENTERPRISE_PLUGINS)
     if(EXISTS "${THEMIS_ROOT_DIR}/src/distributed_knowledge/CMakeLists.txt")
         add_subdirectory(${THEMIS_ROOT_DIR}/src/distributed_knowledge
                          ${CMAKE_CURRENT_BINARY_DIR}/src/distributed_knowledge)
+    endif()
+
+    # Tensor Mid-Layer Abstractions module (Phase 4, 2026-07-01)
+    # -------------------------------------------------------------------------
+    if(EXISTS "${THEMIS_ROOT_DIR}/src/tensor/CMakeLists.txt")
+        add_subdirectory(${THEMIS_ROOT_DIR}/src/tensor
+                         ${CMAKE_CURRENT_BINARY_DIR}/src/tensor)
     endif()
 
     # Non-compiled plugin manifests / legacy orchestration: plugins/
