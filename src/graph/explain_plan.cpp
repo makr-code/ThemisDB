@@ -63,9 +63,17 @@ std::string escapeJson(const std::string& value) {
 
 } // namespace
 
+/// @brief Generates a DOT graph representation of the execution plan.
+/// 
+/// Converts the query execution plan tree into DOT (Graphviz) format for visualization.
+/// 
+/// @return DOT-format string if plan contains nodes; empty string otherwise.
+/// @note Defensive guard: empty plan → empty DOT output is intentional (not an error state).
+///       Consumers should interpret empty output as "plan not yet populated" and handle
+///       gracefully. This avoids exception-based error handling for expected conditions.
 std::string GraphExplainPlan::toDot() const {
     if (nodes.empty()) {
-        return {};
+        return {};  // Defensive: early return for unpopulated plan (expected in streaming)
     }
 
     std::ostringstream out;
@@ -87,9 +95,19 @@ std::string GraphExplainPlan::toDot() const {
     return out.str();
 }
 
+/// @brief Generates a JSON representation of the execution plan.
+/// 
+/// Converts the query execution plan tree into JSON format for API serialization.
+/// 
+/// @return JSON-format string if plan contains nodes; empty string otherwise.
+/// @note Defensive guard: empty plan → empty JSON output is intentional (not an error state).
+///       Consumers should interpret empty output as "plan not yet populated" and handle
+///       gracefully. This avoids exception-based error handling for expected conditions.
+///       JSON parsers receiving empty string will fail fast; consumer code can detect
+///       this and request plan regeneration if needed.
 std::string GraphExplainPlan::toJson() const {
     if (nodes.empty()) {
-        return {};
+        return {};  // Defensive: early return for unpopulated plan (expected in streaming)
     }
 
     std::ostringstream out;

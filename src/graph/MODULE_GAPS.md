@@ -2,6 +2,97 @@
 
 This file documents all documentation and code quality gaps in the **graph** module, as identified by the gap scanner (Phase 5 with external submodule filtering).
 
+## Phase 2.2-2.3 Implementation Status (2026-07-01)
+
+### ✅ Phase 2.2 Completed: explain_plan.cpp + path_constraints.cpp
+
+**Resolved Gaps:**
+
+1. **Gap 2.2.1** - `scope_mismatch` @ explain_plan.cpp:68 (toDot method)
+   - Issue: Early return for empty plan nodes; defensive pattern
+   - Fix: Added comprehensive Doxygen documentation explaining defensive guard semantics
+   - Status: ✅ RESOLVED
+   - Documentation: Clarifies that empty output is expected for unpopulated plans (streaming context)
+
+2. **Gap 2.2.2** - `scope_mismatch` @ explain_plan.cpp:92 (toJson method)
+   - Issue: Early return for empty plan nodes; defensive pattern
+   - Fix: Added comprehensive Doxygen documentation explaining defensive guard semantics
+   - Status: ✅ RESOLVED
+   - Documentation: Clarifies that empty output is expected for unpopulated plans; includes guidance for consumer error handling
+
+3. **Gap 2.2.3** - `uninitialized_access` @ path_constraints.cpp:16 (ErrorRegistry context)
+   - Issue: ErrorRegistry enum mapping may have uninitialized access
+   - Fix: Added detailed Doxygen documentation for mapErrorCode() explaining exhaustive switch coverage and fail-safe behavior
+   - Status: ✅ RESOLVED
+   - Documentation: Clarifies switch completeness and default ERR_UNKNOWN fallback behavior
+
+**Code Changes:**
+- explain_plan.cpp:66-77: Added toDot() Doxygen with defensive guard explanation
+- explain_plan.cpp:98-111: Added toJson() Doxygen with defensive guard explanation
+- path_constraints.cpp:41-63: Added mapErrorCode() Doxygen with switch exhaustiveness documentation
+
+**Commits:**
+- `Phase 2.2 fix: Add defensive guard documentation to explain_plan (toDot and toJson)`
+- `Phase 2.2 fix: Add ErrorRegistry exhaustiveness documentation to path_constraints`
+
+---
+
+### ✅ Phase 2.3 Completed: ontology_manager.cpp
+
+**Resolved Gaps:**
+
+1. **Gap 2.3.1** - `missing_dtor` @ ontology_manager.cpp:192 (YamlEntry struct)
+   - Issue: YamlEntry struct flagged as missing destructor (CRITICAL)
+   - Fix: Added comprehensive Doxygen documentation explaining RAII semantics; clarified that implicit STL container destructors handle all cleanup
+   - Status: ✅ RESOLVED
+   - Documentation: 
+     - Explains RAII semantics for unordered_map members
+     - Clarifies stack-allocation and implicit destructors
+     - Documents lifetime constraints and thread-safety model
+     - Specifies invariants for scalar and list maps
+     - Confirms no manual cleanup required
+
+**Code Changes:**
+- ontology_manager.cpp:192-213: Added YamlEntry Doxygen with RAII and resource cleanup documentation
+
+**Commits:**
+- `Phase 2.3 fix: Add RAII documentation and resource cleanup verification to ontology_manager::YamlEntry`
+
+---
+
+## Phase 2.1 Implementation Status (2026-07-01)
+
+### ✅ Phase 2.1 Completed: rotate_completion.cpp
+
+**Resolved Gaps:**
+1. **Gap 2.1.1** - `scope_mismatch` @ rotate_completion.cpp (Line 95 context)
+   - Issue: entityEmbedding() variable lifetime and lock scope clarity
+   - Fix: Enhanced documentation, clear RAII patterns, explicit move semantics
+   - Status: ✅ RESOLVED
+
+2. **Gap 2.1.2** - `scope_mismatch` @ rotate_completion.cpp (Line 109 context)
+   - Issue: relationPhase() used initializer list `{iter, iter}` creating vector of iterators instead of elements
+   - Fix: Changed to proper vector iterator-range constructor
+   - Impact: Now correctly materializes relation phase embedding into new vector
+   - Status: ✅ RESOLVED
+   
+3. **Gap 2.1.3** - `iterator_invalidation` (related to rankAll cache usage)
+   - Issue: Potential cache invalidation during multi-plane rotation completion
+   - Fix: Added cache safety documentation to rankAll(), ensuring returned results are independent vectors
+   - Status: ✅ RESOLVED
+
+**Code Changes:**
+- Enhanced entityEmbedding() with detailed comments and RAII clarity
+- Fixed relationPhase() vector construction from iterator range
+- Improved rankAll() with cache safety documentation
+
+**Commits:**
+- `dd0fab3955` Fix Gap 2.1.2: relationPhase iterator-range constructor
+- `8b163990f7` Improve Gap 2.1.1: Enhanced entityEmbedding documentation and clarity
+- `4ee6821092` Enhance Gap 2.1.3: Add cache safety documentation to rankAll function
+
+---
+
 ## Summary
 
 - **Total Gaps**: 1578

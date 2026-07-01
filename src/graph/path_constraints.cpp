@@ -38,6 +38,19 @@ struct ErrorRegistry {
     enum class ErrorCode { VALIDATION_FAILED, INVALID_STATE, NOT_FOUND };
 };
 
+/// @brief Maps internal ErrorRegistry error codes to themis::errors::ErrorCode.
+///
+/// This function serves as the bridge between local error classifications and the
+/// global ThemisDB error taxonomy. All cases in ErrorRegistry::ErrorCode must be
+/// explicitly handled below; missing cases will be caught by the default return
+/// statement and logged as ERR_UNKNOWN.
+///
+/// @param code Local ErrorRegistry error code to map
+/// @return Corresponding themis::errors::ErrorCode for logging and propagation
+///
+/// @invariant This switch is exhaustive: all ErrorRegistry::ErrorCode cases are handled.
+/// The implicit default return ensures fail-safe behavior (ERR_UNKNOWN) for any
+/// future enum extensions. Update this comment if new error codes are added.
 inline errors::ErrorCode mapErrorCode(ErrorRegistry::ErrorCode code) {
     switch (code) {
         case ErrorRegistry::ErrorCode::VALIDATION_FAILED:

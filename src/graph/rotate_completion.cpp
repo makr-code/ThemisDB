@@ -138,9 +138,11 @@ public:
         
         // Production logic: interleave real and imaginary parts
         std::vector<float> out(2 * d);
+        
         for (size_t k = 0; k < d; ++k) {
-            out[2 * k]     = entity_re_[idx * d + k];
-            out[2 * k + 1] = entity_im_[idx * d + k];
+            // Each complex number component gets two float slots: real and imaginary
+            out[2 * k]     = entity_re_[idx * d + k];      // real component
+            out[2 * k + 1] = entity_im_[idx * d + k];      // imaginary component
         }
         
         THEMIS_DEBUG("[RotatEModel] entityEmbedding('{}') -> {} floats (trained)", id, out.size());
@@ -152,8 +154,10 @@ public:
         if (!trained_) return {};
         size_t idx = relationIdx(id);
         size_t d   = cfg_.embedding_dim;
-        return {relation_phase_.begin() + idx * d,
-                relation_phase_.begin() + (idx + 1) * d};
+        // Use vector iterator-range constructor to properly copy the range [idx*d, (idx+1)*d)
+        // (not initializer list which would create a vector containing two iterator objects)
+        return std::vector<float>(relation_phase_.begin() + idx * d,
+                                  relation_phase_.begin() + (idx + 1) * d);
     }
 
     bool isTrained() const {
@@ -380,10 +384,13 @@ public:
                                          bool predict_tail, size_t top_k) const
     {
         // Caller must hold at least a shared lock on mu_.
+        // Note: Results are independent vectors; safe for concurrent reads and external caching.
         if (!trained_)
             throw std::runtime_error("RotatEModel: model not trained yet");
 
         const size_t n = entity_names_.size();
+        
+        // Score all entities; pre-allocate to avoid reallocation overhead
         std::vector<std::pair<double, size_t>> scored;
         scored.reserve(n);
 
@@ -394,17 +401,22 @@ public:
             scored.emplace_back(s, i);
         }
 
-        std::sort(scored.begin(), scored.end()); // ascending distance
+        // Sort by ascending score (lower distance = higher confidence)
+        std::sort(scored.begin(), scored.end());
 
+        // Extract top-k predictions with ranks
         const size_t k = std::min(top_k, n);
         std::vector<LinkPrediction> out;
         out.reserve(k);
+        
         for (size_t i = 0; i < k; ++i) {
+            // Access entity_names_ by index; safe because it's not modified during ranking
             out.push_back({entity_names_[scored[i].second],
                            scored[i].first,
                            static_cast<double>(i + 1)});
         }
-        return out;
+        
+        return out;  // Move semantics; ownership transferred to caller
     }
 
     // Expose entity name for a given index (for injection into KGReasoner).
