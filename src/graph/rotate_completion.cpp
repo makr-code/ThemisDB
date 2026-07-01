@@ -109,8 +109,10 @@ public:
         if (!trained_) return {};
         size_t idx = relationIdx(id);
         size_t d   = cfg_.embedding_dim;
-        return {relation_phase_.begin() + idx * d,
-                relation_phase_.begin() + (idx + 1) * d};
+        // Use vector iterator-range constructor to properly copy the range [idx*d, (idx+1)*d)
+        // (not initializer list which would create a vector containing two iterator objects)
+        return std::vector<float>(relation_phase_.begin() + idx * d,
+                                  relation_phase_.begin() + (idx + 1) * d);
     }
 
     bool isTrained() const {
