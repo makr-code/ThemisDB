@@ -93,15 +93,21 @@ public:
     std::vector<float> entityEmbedding(const std::string& id) const {
         std::shared_lock lk(mu_);
         if (!trained_) return {};
-        size_t idx = entityIdx(id);
+        
+        size_t idx = entityIdx(id);  // May throw if id not registered
         size_t d   = cfg_.embedding_dim;
+        
+        // Pre-allocate full output vector and populate it
         // real + imag interleaved: [re_0, im_0, re_1, im_1, ...]
         std::vector<float> out(2 * d);
+        
         for (size_t k = 0; k < d; ++k) {
-            out[2 * k]     = entity_re_[idx * d + k];
-            out[2 * k + 1] = entity_im_[idx * d + k];
+            // Each complex number component gets two float slots: real and imaginary
+            out[2 * k]     = entity_re_[idx * d + k];      // real component
+            out[2 * k + 1] = entity_im_[idx * d + k];      // imaginary component
         }
-        return out;
+        
+        return out;  // Move semantics: ownership transferred to caller
     }
 
     std::vector<float> relationPhase(const std::string& id) const {
