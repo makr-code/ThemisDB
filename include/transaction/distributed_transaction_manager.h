@@ -53,7 +53,7 @@
 
 #pragma once
 
-#include "transaction/in_doubt_recovery_coordinator.h"
+#include "transaction/recoverable_two_phase_coordinator.h"
 #include "sharding/wal_manager.h"
 #include <atomic>
 #include <chrono>
@@ -378,7 +378,7 @@ struct DistributedTxnManagerConfig {
  *
  * Thread-safety: All public methods are thread-safe.
  */
-class DistributedTransactionManager : public IInDoubtRecoveryCoordinator {
+class DistributedTransactionManager : public IRecoverableTwoPhaseCoordinator {
 public:
     using TransactionId = std::string;
 
@@ -525,6 +525,25 @@ public:
      * @return Number of in-doubt transactions resolved.
      */
     size_t recoverInDoubtTransactions() override;
+
+    /**
+     * @brief Return the canonical coordinator name for global recovery reports.
+     * @return "DistributedTransactionManager".
+     */
+    [[nodiscard]] std::string recoveryCoordinatorName() const override;
+
+    /**
+     * @brief Return the durable backend used by this coordinator.
+     * @return "WAL" when enabled, otherwise "disabled".
+     */
+    [[nodiscard]] std::string recoveryBackendName() const override;
+
+    /**
+     * @brief Snapshot current in-doubt transactions using the shared state model.
+     * @return Normalized non-final transaction list for global recovery orchestration.
+     */
+    [[nodiscard]] std::vector<RecoverableTwoPhaseTransaction>
+    getRecoverableTransactions() const override;
 
     // ── Timeout handling ──────────────────────────────────────────────────────
 

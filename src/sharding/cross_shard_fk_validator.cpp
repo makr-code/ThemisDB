@@ -1,220 +1,392 @@
-// SPDX-License-Identifier: Apache-2.0
-// Copyright (c) 2026 ThemisDB Contributors
-
-/*
- * ThemisDB | File: cross_shard_fk_validator.cpp
- * Cross-Shard Foreign Key Referential Integrity Validator
- * Issue #5390 — Distributed FK validation in 2PC prepare phase
- */
+// Copyright 2025 ThemisDB
+// Licensed under MIT License
 
 #include "sharding/cross_shard_fk_validator.h"
-
-#include <algorithm>
+#include <nlohmann/json.hpp>
 #include <spdlog/spdlog.h>
+#include <algorithm>
 
 namespace themisdb {
 namespace sharding {
 
-// ============================================================================
-// CrossShardFKViolation
-// ============================================================================
+namespace {
 
-nlohmann::json CrossShardFKViolation::toJSON() const {
-    return {
-        {"constraint_name", constraint_name},
-        {"child_table",     child_table},
-        {"child_column",    child_column},
-        {"parent_table",    parent_table},
-        {"parent_column",   parent_column},
-        {"fk_value",        fk_value},
-        {"parent_shard_id", parent_shard_id},
-        {"message",         message}
-    };
-}
-
-// ============================================================================
-// CrossShardForeignKeyValidator — constraint registration
-// ============================================================================
-
-void CrossShardForeignKeyValidator::registerConstraint(CrossShardFKConstraint constraint) {
-    std::lock_guard<std::mutex> lock(mutex_);
-    // Replace any existing constraint with the same name.
-    auto it = std::find_if(constraints_.begin(), constraints_.end(),
-        [&constraint](const CrossShardFKConstraint& c) {
-            return c.constraint_name == constraint.constraint_name;
-        });
-    if (it != constraints_.end()) {
-        *it = std::move(constraint);
-    } else {
-        constraints_.push_back(std::move(constraint));
+/**
+ * @brief Attempt to parse @p op_str as a JSON operation object.
+ *
+ * Returns an empty optional when the string is not valid JSON or does not
+ * contain the mandatory "op" and "table" fields.  Parsing failures are
+ * intentionally silent (trace-level only) so that non-JSON operation strings
+ * from other protocols are ignored without aborting validation.
+ */
+std::optional<nlohmann::json> tryParseOperation(const std::string& op_str) {
+    try {
+        auto j = nlohmann::json::parse(op_str);
+        if (!j.contains("op") || !j.contains("table")) {
+            return std::nullopt;
+        }
+        return j;
+    } catch (const nlohmann::json::parse_error&) {
+        // Not a JSON operation string — silently skip.
+        return std::nullopt;
     }
 }
 
-void CrossShardForeignKeyValidator::removeConstraint(const std::string& constraint_name) {
-    std::lock_guard<std::mutex> lock(mutex_);
+} // anonymous namespace
+
+// ---------------------------------------------------------------------------
+// FKViolation
+// ---------------------------------------------------------------------------
+
+std::string FKViolation::toJson() const {
+    nlohmann::json j = {
+        {"constraint_name", constraint_name},
+        {"table",           table},
+        {"column",          column},
+        {"key_value",       key_value},
+        {"message",         message},
+        {"deferrable",      deferrable}
+    };
+    return j.dump();
+}
+
+// ---------------------------------------------------------------------------
+// CrossShardForeignKeyValidator – public API
+// ---------------------------------------------------------------------------
+
+void CrossShardForeignKeyValidator::registerConstraint(
+    const CrossShardFKConstraint& constraint)
+{
+    std::lock_guard<std::mutex> lk(mutex_);
+    // Replace if a constraint with the same name already exists.
+    auto it = std::find_if(
+        constraints_.begin(), constraints_.end(),
+        [&](const CrossShardFKConstraint& c) { return c.name == constraint.name; });
+    if (it != constraints_.end()) {
+        *it = constraint;
+        spdlog::debug("CrossShardFKValidator: replaced constraint '{}'", constraint.name);
+    } else {
+        constraints_.push_back(constraint);
+        spdlog::debug("CrossShardFKValidator: registered constraint '{}'", constraint.name);
+    }
+}
+
+void CrossShardForeignKeyValidator::removeConstraint(
+    const std::string& constraint_name)
+{
+    std::lock_guard<std::mutex> lk(mutex_);
+    auto before = constraints_.size();
     constraints_.erase(
         std::remove_if(constraints_.begin(), constraints_.end(),
-            [&constraint_name](const CrossShardFKConstraint& c) {
-                return c.constraint_name == constraint_name;
-            }),
+            [&](const CrossShardFKConstraint& c) { return c.name == constraint_name; }),
         constraints_.end());
-}
-
-std::vector<CrossShardFKConstraint> CrossShardForeignKeyValidator::getConstraints() const {
-    std::lock_guard<std::mutex> lock(mutex_);
-    return constraints_;
-}
-
-// ============================================================================
-// Lookup callback injection
-// ============================================================================
-
-void CrossShardForeignKeyValidator::setParentKeyLookup(ParentKeyLookupFn fn) {
-    std::lock_guard<std::mutex> lock(mutex_);
-    lookup_ = std::move(fn);
-}
-
-// ============================================================================
-// Validation
-// ============================================================================
-
-std::optional<CrossShardFKViolation> CrossShardForeignKeyValidator::checkSingleConstraint(
-    const CrossShardFKConstraint& constraint,
-    const std::string& fk_value) const
-{
-    // Take a snapshot of the callback under the lock, then call it
-    // *outside* the lock to avoid holding the mutex during network I/O.
-    ParentKeyLookupFn cb;
-    {
-        std::lock_guard<std::mutex> lock(mutex_);
-        cb = lookup_;
+    if (constraints_.size() < before) {
+        spdlog::debug("CrossShardFKValidator: removed constraint '{}'", constraint_name);
     }
-
-    bool parent_exists = false;
-    if (!cb) {
-        // No lookup callback configured — fail-closed: treat as violation.
-        spdlog::error(
-            "CrossShardForeignKeyValidator: no ParentKeyLookupFn set; "
-            "treating FK '{}' as violated (fail-closed)",
-            constraint.constraint_name);
-    } else {
-        try {
-            parent_exists = cb(constraint.parent_shard_id,
-                               constraint.parent_table,
-                               constraint.parent_column,
-                               fk_value);
-        } catch (const std::exception& ex) {
-            spdlog::error(
-                "CrossShardForeignKeyValidator: ParentKeyLookupFn threw for "
-                "constraint '{}', shard '{}', value '{}': {} — treating as violation (fail-closed)",
-                constraint.constraint_name, constraint.parent_shard_id,
-                fk_value, ex.what());
-            parent_exists = false;
-        } catch (...) {
-            spdlog::error(
-                "CrossShardForeignKeyValidator: ParentKeyLookupFn threw unknown "
-                "exception for constraint '{}' — treating as violation (fail-closed)",
-                constraint.constraint_name);
-            parent_exists = false;
-        }
-    }
-
-    if (parent_exists) {
-        return std::nullopt;  // Satisfied.
-    }
-
-    CrossShardFKViolation violation;
-    violation.constraint_name  = constraint.constraint_name;
-    violation.child_table      = constraint.child_table;
-    violation.child_column     = constraint.child_column;
-    violation.parent_table     = constraint.parent_table;
-    violation.parent_column    = constraint.parent_column;
-    violation.fk_value         = fk_value;
-    violation.parent_shard_id  = constraint.parent_shard_id;
-    violation.message =
-        "Cross-shard FK violation: " + constraint.child_table + "." +
-        constraint.child_column + " = '" + fk_value +
-        "' has no matching row in " + constraint.parent_shard_id + "/" +
-        constraint.parent_table + "." + constraint.parent_column;
-
-    return violation;
 }
 
-std::vector<CrossShardFKViolation> CrossShardForeignKeyValidator::validateTransaction(
-    const nlohmann::json& operations) const
-{
-    // Snapshot constraints under lock; validation itself runs outside.
+void CrossShardForeignKeyValidator::setKeyExistsCallback(KeyExistsCallback cb) {
+    std::lock_guard<std::mutex> lk(mutex_);
+    key_exists_cb_ = std::move(cb);
+}
+
+void CrossShardForeignKeyValidator::setChildExistsCallback(ChildExistsCallback cb) {
+    std::lock_guard<std::mutex> lk(mutex_);
+    child_exists_cb_ = std::move(cb);
+}
+
+void CrossShardForeignKeyValidator::setAllShardIds(std::vector<std::string> shard_ids) {
+    std::lock_guard<std::mutex> lk(mutex_);
+    all_shard_ids_ = std::move(shard_ids);
+}
+
+std::size_t CrossShardForeignKeyValidator::constraintCount() const {
+    std::lock_guard<std::mutex> lk(mutex_);
+    return constraints_.size();
+}
+
+// ---------------------------------------------------------------------------
+// validate()
+// ---------------------------------------------------------------------------
+
+std::vector<FKViolation> CrossShardForeignKeyValidator::validate(
+    const std::string& transaction_id,
+    const std::map<std::string, std::vector<std::string>>& shard_operations
+) const {
+    // Snapshot callbacks and constraints under the lock so we release it
+    // before any potentially blocking shard I/O.
     std::vector<CrossShardFKConstraint> local_constraints;
+    KeyExistsCallback  key_cb;
+    ChildExistsCallback child_cb;
     {
-        std::lock_guard<std::mutex> lock(mutex_);
+        std::lock_guard<std::mutex> lk(mutex_);
         local_constraints = constraints_;
+        key_cb   = key_exists_cb_;
+        child_cb = child_exists_cb_;
     }
 
     if (local_constraints.empty()) {
-        return {};  // Nothing to check.
-    }
-
-    if (!operations.is_array()) {
-        spdlog::warn("CrossShardForeignKeyValidator::validateTransaction: "
-                     "operations is not a JSON array; skipping FK check");
         return {};
     }
 
-    std::vector<CrossShardFKViolation> violations;
+    std::vector<FKViolation> violations;
 
-    for (const auto& op : operations) {
-        // Only INSERT and UPDATE can introduce child-side FK values.
-        if (!op.is_object()) continue;
-        const std::string op_type =
-            op.value("type", std::string{});
-        if (op_type != "INSERT" && op_type != "UPDATE") continue;
+    // Build an index: child_table -> [constraints checking INSERT/UPDATE]
+    //                 parent_table -> [constraints checking DELETE]
+    // so we scan each operation only once.
 
-        const std::string table_name = op.value("table", std::string{});
-        if (table_name.empty()) continue;
-
-        const auto& data = op.contains("data") ? op.at("data") : nlohmann::json{};
-        if (!data.is_object()) continue;
-
-        // Check each registered constraint against this operation.
-        for (const auto& constraint : local_constraints) {
-            if (constraint.child_table != table_name) continue;
-            if (!data.contains(constraint.child_column)) continue;
-
-            // Extract the FK value (support string and numeric).
-            std::string fk_value;
-            const auto& raw = data.at(constraint.child_column);
-            if (raw.is_string()) {
-                fk_value = raw.get<std::string>();
-            } else if (raw.is_number_integer()) {
-                fk_value = std::to_string(raw.get<int64_t>());
-            } else if (raw.is_number()) {
-                fk_value = std::to_string(raw.get<double>());
-            } else if (raw.is_null()) {
-                // NULL FK value — no referential check needed (nullable FK semantics).
+    for (const auto& [shard_id, ops] : shard_operations) {
+        for (const auto& op_str : ops) {
+            auto maybe_j = tryParseOperation(op_str);
+            if (!maybe_j) {
                 continue;
-            } else {
-                fk_value = raw.dump();
             }
+            const auto& j = *maybe_j;
 
-            spdlog::debug(
-                "CrossShardForeignKeyValidator: checking constraint '{}': "
-                "{}.{} = '{}' against {}/{}:{}",
-                constraint.constraint_name,
-                constraint.child_table, constraint.child_column, fk_value,
-                constraint.parent_shard_id, constraint.parent_table,
-                constraint.parent_column);
+            const std::string op    = j["op"].get<std::string>();
+            const std::string table = j["table"].get<std::string>();
 
-            auto violation = checkSingleConstraint(constraint, fk_value);
-            if (violation.has_value()) {
-                spdlog::warn(
-                    "CrossShardForeignKeyValidator: FK violation detected: {}",
-                    violation->message);
-                violations.push_back(std::move(*violation));
+            if (op == "INSERT" || op == "UPDATE") {
+                // Check every FK constraint whose child_table matches.
+                if (!j.contains("data") || !j["data"].is_object()) {
+                    continue;
+                }
+                const auto& data = j["data"];
+
+                for (const auto& c : local_constraints) {
+                    if (c.child_table != table) {
+                        continue;
+                    }
+                    if (!data.contains(c.child_column)) {
+                        continue; // column not in this operation
+                    }
+
+                    // Null / JSON-null FK values are treated as no constraint
+                    // (NULL semantics: a NULL FK does not require a parent row).
+                    if (data[c.child_column].is_null()) {
+                        continue;
+                    }
+
+                    const std::string fk_value =
+                        data[c.child_column].get<std::string>();
+
+                    if (fk_value.empty()) {
+                        continue;
+                    }
+
+                    auto violation = checkParentExists(c, fk_value, transaction_id);
+                    if (violation) {
+                        violations.push_back(std::move(*violation));
+                    }
+                }
+
+            } else if (op == "DELETE") {
+                // Check every FK constraint whose parent_table matches.
+                // We need the parent key being deleted to fan out child checks.
+                if (!j.contains("key")) {
+                    continue;
+                }
+                const std::string parent_value = j["key"].get<std::string>();
+                if (parent_value.empty()) {
+                    continue;
+                }
+
+                for (const auto& c : local_constraints) {
+                    if (c.parent_table != table) {
+                        continue;
+                    }
+
+                    // Skip if the key column is specified and doesn't match
+                    // the parent_column of this constraint.
+                    if (j.contains("key_column")) {
+                        const std::string key_col = j["key_column"].get<std::string>();
+                        if (!key_col.empty() && key_col != c.parent_column) {
+                            continue;
+                        }
+                    }
+
+                    auto violation = checkNoChildExists(c, parent_value, transaction_id);
+                    if (violation) {
+                        violations.push_back(std::move(*violation));
+                    }
+                }
             }
+            // UPDATE on parent (key change) could also be handled here in a
+            // future extension; currently treated as an ordinary UPDATE.
         }
     }
 
+    if (!violations.empty()) {
+        std::size_t non_deferrable = 0;
+        for (const auto& v : violations) {
+            if (!v.deferrable) {
+                ++non_deferrable;
+            }
+        }
+        spdlog::warn(
+            "CrossShardFKValidator: txn {} has {} FK violation(s) "
+            "({} non-deferrable)",
+            transaction_id, violations.size(), non_deferrable);
+    }
+
     return violations;
+}
+
+// ---------------------------------------------------------------------------
+// Private helpers
+// ---------------------------------------------------------------------------
+
+std::optional<FKViolation> CrossShardForeignKeyValidator::checkParentExists(
+    const CrossShardFKConstraint& constraint,
+    const std::string& fk_value,
+    const std::string& txn_id
+) const {
+    // Snapshot state needed for the check (already called without mutex).
+    KeyExistsCallback  key_cb;
+    std::vector<std::string> shards;
+    {
+        std::lock_guard<std::mutex> lk(mutex_);
+        key_cb = key_exists_cb_;
+        if (!constraint.parent_shard_id.empty()) {
+            shards = {constraint.parent_shard_id};
+        } else {
+            shards = all_shard_ids_;
+        }
+    }
+
+    if (!key_cb) {
+        // No callback injected — cannot perform the lookup.
+        // Fail-closed: report a violation.
+        spdlog::error(
+            "CrossShardFKValidator: no KeyExistsCallback set; "
+            "treating '{}' FK value '{}' as missing parent (txn {})",
+            constraint.name, fk_value, txn_id);
+        FKViolation v;
+        v.constraint_name = constraint.name;
+        v.table           = constraint.child_table;
+        v.column          = constraint.child_column;
+        v.key_value       = fk_value;
+        v.deferrable      = constraint.deferrable;
+        v.message         = "No KeyExistsCallback configured; cannot verify parent key '" +
+                            fk_value + "' in " + constraint.parent_table +
+                            "." + constraint.parent_column;
+        return v;
+    }
+
+    // Fan out to all relevant shards — parent key is present if any shard
+    // returns true.
+    bool parent_found = false;
+    for (const auto& shard_id : shards) {
+        try {
+            if (key_cb(shard_id, constraint.parent_table,
+                       constraint.parent_column, fk_value)) {
+                parent_found = true;
+                break;
+            }
+        } catch (const std::exception& ex) {
+            spdlog::error(
+                "CrossShardFKValidator: KeyExistsCallback threw for shard '{}' "
+                "constraint '{}' value '{}' (txn {}): {}",
+                shard_id, constraint.name, fk_value, txn_id, ex.what());
+            // Treat callback exception as shard-unreachable → fail-closed.
+        }
+    }
+
+    if (parent_found) {
+        return std::nullopt; // constraint satisfied
+    }
+
+    FKViolation v;
+    v.constraint_name = constraint.name;
+    v.table           = constraint.child_table;
+    v.column          = constraint.child_column;
+    v.key_value       = fk_value;
+    v.deferrable      = constraint.deferrable;
+    v.message         = "FK constraint '" + constraint.name +
+                        "': parent key '" + fk_value +
+                        "' not found in " + constraint.parent_table +
+                        "." + constraint.parent_column +
+                        " on any queried shard";
+    spdlog::warn(
+        "CrossShardFKValidator: violation — {} (txn {})",
+        v.message, txn_id);
+    return v;
+}
+
+std::optional<FKViolation> CrossShardForeignKeyValidator::checkNoChildExists(
+    const CrossShardFKConstraint& constraint,
+    const std::string& parent_value,
+    const std::string& txn_id
+) const {
+    ChildExistsCallback child_cb;
+    std::vector<std::string> shards;
+    {
+        std::lock_guard<std::mutex> lk(mutex_);
+        child_cb = child_exists_cb_;
+        shards   = all_shard_ids_;
+    }
+
+    if (!child_cb) {
+        // No callback — fail-closed: assume a child might exist.
+        spdlog::error(
+            "CrossShardFKValidator: no ChildExistsCallback set; "
+            "treating delete of '{}' as having dependent children (txn {})",
+            parent_value, txn_id);
+        FKViolation v;
+        v.constraint_name = constraint.name;
+        v.table           = constraint.parent_table;
+        v.column          = constraint.parent_column;
+        v.key_value       = parent_value;
+        v.deferrable      = constraint.deferrable;
+        v.message         = "No ChildExistsCallback configured; cannot verify "
+                            "absence of children in " + constraint.child_table +
+                            "." + constraint.child_column +
+                            " for parent key '" + parent_value + "'";
+        return v;
+    }
+
+    // Fan out: if any shard has a child row the DELETE is blocked (RESTRICT).
+    for (const auto& shard_id : shards) {
+        try {
+            if (child_cb(shard_id, constraint.child_table,
+                         constraint.child_column, parent_value)) {
+                FKViolation v;
+                v.constraint_name = constraint.name;
+                v.table           = constraint.parent_table;
+                v.column          = constraint.parent_column;
+                v.key_value       = parent_value;
+                v.deferrable      = constraint.deferrable;
+                v.message         = "FK constraint '" + constraint.name +
+                                    "' (RESTRICT): child rows referencing '" +
+                                    parent_value + "' exist in " +
+                                    constraint.child_table + "." +
+                                    constraint.child_column +
+                                    " on shard '" + shard_id + "'";
+                spdlog::warn(
+                    "CrossShardFKValidator: violation — {} (txn {})",
+                    v.message, txn_id);
+                return v;
+            }
+        } catch (const std::exception& ex) {
+            spdlog::error(
+                "CrossShardFKValidator: ChildExistsCallback threw for shard '{}' "
+                "constraint '{}' parent '{}' (txn {}): {}",
+                shard_id, constraint.name, parent_value, txn_id, ex.what());
+            // Treat exception as potential child-existence — fail-closed.
+            FKViolation v;
+            v.constraint_name = constraint.name;
+            v.table           = constraint.parent_table;
+            v.column          = constraint.parent_column;
+            v.key_value       = parent_value;
+            v.deferrable      = constraint.deferrable;
+            v.message         = "FK constraint '" + constraint.name +
+                                "': child-existence check failed on shard '" +
+                                shard_id + "': " + ex.what();
+            return v;
+        }
+    }
+
+    return std::nullopt; // no children found — constraint satisfied
 }
 
 } // namespace sharding

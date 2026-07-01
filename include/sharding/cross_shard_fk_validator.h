@@ -1,154 +1,202 @@
-// SPDX-License-Identifier: Apache-2.0
-// Copyright (c) 2026 ThemisDB Contributors
+// Copyright 2025 ThemisDB
+// Licensed under MIT License
 
 #pragma once
 
 #include <functional>
-#include <memory>
-#include <mutex>
 #include <optional>
 #include <string>
 #include <vector>
-#include <nlohmann/json.hpp>
+#include <map>
+#include <mutex>
+
+/**
+ * @file cross_shard_fk_validator.h
+ * @brief Cross-shard foreign-key constraint validation for ThemisDB.
+ *
+ * This module implements the Two-Phase Check for distributed referential
+ * integrity (issue #5392).  During the 2PC prepare phase, the coordinator
+ * invokes CrossShardForeignKeyValidator::validate() which:
+ *
+ *  - For **INSERT / UPDATE** on a child table: confirms the referenced parent
+ *    key exists on the designated parent shard.
+ *  - For **DELETE / UPDATE** on a parent table: confirms no child shard holds
+ *    a referencing row (RESTRICT semantics).
+ *
+ * Operations are supplied as JSON strings (one per participant shard) using
+ * the format:
+ * @code
+ *   {"op":"INSERT","table":"orders","data":{"user_id":"u1"}}
+ *   {"op":"DELETE","table":"users","key":"u1"}
+ * @endcode
+ *
+ * Callers inject shard-lookup callbacks via setKeyExistsCallback() and
+ * setChildExistsCallback() so the validator remains transport-agnostic and
+ * fully testable without live shards.
+ *
+ * ### Trade-off notes
+ * - Synchronous validation inside prepare() increases commit latency by one
+ *   round-trip per FK constraint per shard.  For latency-sensitive workloads
+ *   use `deferrable = true` on constraints; violations will be reported
+ *   post-commit as eventual-consistency findings only.
+ * - Temporary inconsistencies are still possible after shard failover if
+ *   the callback cannot reach the parent shard (the validator aborts the
+ *   transaction in that case unless `deferrable = true`).
+ */
 
 namespace themisdb {
 namespace sharding {
 
-// ============================================================================
-// Cross-Shard Foreign Key Referential Integrity Validator
-// Issue #5390 — Closes the gap: FK constraints only enforced locally.
-// ============================================================================
+// ---------------------------------------------------------------------------
+// CrossShardFKConstraint
+// ---------------------------------------------------------------------------
 
 /**
- * @brief Describes a cross-shard foreign key constraint.
+ * @brief Defines a single cross-shard foreign-key constraint.
  *
- * A cross-shard FK links a child column on one shard to a parent column that
- * may reside on a *different* shard.  Because each shard only knows its own
- * rows, the coordinator must perform an explicit parent-key lookup on the
- * remote shard during the 2PC prepare phase to detect violations before any
- * data is durably written.
- *
- * Fields:
- *  - constraint_name   Human-readable constraint identifier.
- *  - child_table       Table that holds the referencing column.
- *  - child_column      Column that carries the foreign-key value.
- *  - parent_table      Referenced table (may be on a different shard).
- *  - parent_column     Referenced column (must be unique/PK on parent side).
- *  - parent_shard_id   Shard that owns @p parent_table; used to route the
- *                      existence check.
+ * A constraint links a *child* column (the FK) to a *parent* column (the
+ * referenced key, usually the primary key) and carries the enforcement policy.
  */
 struct CrossShardFKConstraint {
-    std::string constraint_name;  ///< Unique constraint identifier.
-    std::string child_table;      ///< Referencing table.
-    std::string child_column;     ///< Referencing column.
-    std::string parent_table;     ///< Referenced (parent) table.
-    std::string parent_column;    ///< Referenced (parent) column (PK / unique).
-    std::string parent_shard_id;  ///< Shard that hosts the parent table.
-};
+    /// Human-readable constraint name used in violation messages.
+    std::string name;
 
-/**
- * @brief Describes a single cross-shard foreign key violation.
- *
- * Returned by CrossShardForeignKeyValidator::validateTransaction() when at
- * least one child row references a non-existent parent row.
- */
-struct CrossShardFKViolation {
-    std::string constraint_name;  ///< Constraint that was violated.
-    std::string child_table;      ///< Referencing table.
-    std::string child_column;     ///< Referencing column.
-    std::string parent_table;     ///< Referenced table.
-    std::string parent_column;    ///< Referenced column.
-    std::string fk_value;         ///< The FK value that had no parent row.
-    std::string parent_shard_id;  ///< Shard that was queried for the parent.
-    std::string message;          ///< Human-readable violation description.
+    /// Table that owns the foreign-key column.
+    std::string child_table;
+
+    /// Column in @c child_table that holds the foreign-key value.
+    std::string child_column;
+
+    /// Table that is referenced (parent / owner of the key).
+    std::string parent_table;
+
+    /// Column in @c parent_table that is referenced (typically the PK).
+    std::string parent_column;
 
     /**
-     * @brief Serialise the violation to JSON for logging and audit trails.
+     * @brief Optional shard-routing hint for the parent table.
+     *
+     * When non-empty the validator queries only this shard for parent-key
+     * existence checks.  When empty, the validator queries every shard
+     * registered via CrossShardForeignKeyValidator::setAllShardIds().
      */
-    nlohmann::json toJSON() const;
+    std::string parent_shard_id;
+
+    /**
+     * @brief When true the constraint is checked only in eventual-consistency
+     *        mode (post-commit scan) and does **not** block the prepare phase.
+     *
+     * Use for cross-region or high-latency parent shards where a synchronous
+     * round-trip during prepare is unacceptable.  Violations are still
+     * reported via CrossShardForeignKeyValidator::validate() but the caller
+     * must decide whether to abort or accept eventual consistency.
+     */
+    bool deferrable = false;
 };
 
+// ---------------------------------------------------------------------------
+// FKViolation
+// ---------------------------------------------------------------------------
+
 /**
- * @brief Cross-Shard Foreign Key Validator — enforces referential integrity
- *        at 2PC prepare time across shard boundaries.
+ * @brief Describes a single foreign-key constraint violation.
  *
- * ## Motivation
+ * Returned by CrossShardForeignKeyValidator::validate() for every constraint
+ * that cannot be satisfied.
+ */
+struct FKViolation {
+    /// Name of the violated constraint (from CrossShardFKConstraint::name).
+    std::string constraint_name;
+
+    /// Table that issued the violating write or delete.
+    std::string table;
+
+    /// Column involved in the violation.
+    std::string column;
+
+    /// FK value or parent key that was dangling / still referenced.
+    std::string key_value;
+
+    /// Human-readable description of the violation.
+    std::string message;
+
+    /**
+     * @brief Whether the violated constraint is deferrable.
+     *
+     * When true the coordinator may choose to accept eventual consistency
+     * rather than aborting the transaction.
+     */
+    bool deferrable = false;
+
+    /// @brief Serialise this violation to a JSON-compatible string.
+    [[nodiscard]] std::string toJson() const;
+};
+
+// ---------------------------------------------------------------------------
+// CrossShardForeignKeyValidator
+// ---------------------------------------------------------------------------
+
+/**
+ * @brief Validates cross-shard foreign-key constraints during 2PC prepare.
  *
- * ThemisDB's per-shard schema engine (SchemaConstraints) can only verify FK
- * references within the same shard.  When parent and child rows live on
- * different shards, orphaned child records are possible unless the
- * coordinator validates the constraint before committing.
+ * ### Lifecycle
+ * 1. Register FK constraints with registerConstraint().
+ * 2. Inject lookup callbacks via setKeyExistsCallback() and
+ *    setChildExistsCallback().
+ * 3. Register all shard IDs via setAllShardIds() (used when no parent-shard
+ *    hint is given on a constraint).
+ * 4. The CrossShardTransactionCoordinator calls validate() from inside
+ *    prepare() before dispatching prepare RPCs to participants.
  *
- * ## Integration point
- *
- * CrossShardTransactionCoordinator::prepare() calls
- * CrossShardForeignKeyValidator::validateTransaction() **before** sending
- * PREPARE RPCs to participants.  If any violation is detected the prepare
- * phase fails immediately, the transaction is aborted, and no participant
- * ever reaches the PREPARED state — preserving ACID invariants.
- *
- * ## Parent-key lookup
- *
- * The validator delegates actual cross-shard row existence checks to an
- * injected ParentKeyLookupFn callback.  This keeps the validator testable
- * without a live network stack and allows callers to supply a real gRPC /
- * HTTP lookup in production.
- *
- * Signature of ParentKeyLookupFn:
- * @code
- *   bool lookup(const std::string& shard_id,
- *               const std::string& parent_table,
- *               const std::string& parent_column,
- *               const std::string& fk_value);
- * @endcode
- * Returns true when the parent row exists, false otherwise.  On network
- * error or timeout, the callback MUST return false (fail-closed).
- *
- * ## Thread-safety
- *
- * All public methods are thread-safe; an internal mutex protects constraint
- * registration and the lookup callback.
- *
- * ## Usage example
- * @code
- *   auto fkv = std::make_shared<CrossShardForeignKeyValidator>();
- *
- *   CrossShardFKConstraint fk;
- *   fk.constraint_name = "fk_orders_user_id";
- *   fk.child_table     = "orders";
- *   fk.child_column    = "user_id";
- *   fk.parent_table    = "users";
- *   fk.parent_column   = "id";
- *   fk.parent_shard_id = "shard_users";
- *   fkv->registerConstraint(std::move(fk));
- *
- *   fkv->setParentKeyLookup([](auto& sid, auto& tbl, auto& col, auto& val) {
- *       return my_rpc_client.rowExists(sid, tbl, col, val);
- *   });
- *
- *   coordinator.setForeignKeyValidator(fkv);
- * @endcode
+ * ### Thread safety
+ * All public methods are thread-safe.  The validator is safe to share across
+ * concurrent transaction threads.
  */
 class CrossShardForeignKeyValidator {
 public:
     /**
-     * @brief Callback type for parent-key existence check.
+     * @brief Callback to test whether a specific key exists in a shard table.
      *
-     * @param shard_id      Shard to query.
-     * @param parent_table  Table that should contain the parent row.
-     * @param parent_column Column that must match @p fk_value.
-     * @param fk_value      The foreign-key value to look up.
-     * @return true  if the parent row exists and the constraint is satisfied.
-     * @return false if the row is absent, the shard is unreachable, or any
-     *               error occurs (fail-closed).
+     * @param shard_id   Shard to query.
+     * @param table      Table name.
+     * @param column     Column to match.
+     * @param key_value  Value to look up.
+     * @return true  → the row exists (parent present / child not cascadable);
+     *         false → the key is absent.
+     *
+     * The callback must not throw.  If the shard is unreachable the callback
+     * should return false; the validator treats an absent parent as a
+     * constraint violation.
      */
-    using ParentKeyLookupFn = std::function<bool(const std::string& /*shard_id*/,
-                                                  const std::string& /*parent_table*/,
-                                                  const std::string& /*parent_column*/,
-                                                  const std::string& /*fk_value*/)>;
+    using KeyExistsCallback = std::function<bool(
+        const std::string& shard_id,
+        const std::string& table,
+        const std::string& column,
+        const std::string& key_value
+    )>;
+
+    /**
+     * @brief Callback to test whether any child row references a parent key.
+     *
+     * Used during parent-table DELETE checks (RESTRICT semantics).
+     *
+     * @param shard_id     Shard to query.
+     * @param child_table  Table with the FK column.
+     * @param child_column FK column.
+     * @param parent_value Parent key value being deleted.
+     * @return true  → at least one child row references @p parent_value;
+     *         false → no referencing child rows found.
+     *
+     * Must not throw.
+     */
+    using ChildExistsCallback = std::function<bool(
+        const std::string& shard_id,
+        const std::string& child_table,
+        const std::string& child_column,
+        const std::string& parent_value
+    )>;
 
     CrossShardForeignKeyValidator() = default;
-    ~CrossShardForeignKeyValidator() = default;
 
     // Non-copyable, movable.
     CrossShardForeignKeyValidator(const CrossShardForeignKeyValidator&) = delete;
@@ -156,96 +204,134 @@ public:
     CrossShardForeignKeyValidator(CrossShardForeignKeyValidator&&) = default;
     CrossShardForeignKeyValidator& operator=(CrossShardForeignKeyValidator&&) = default;
 
-    // ========================================================================
-    // Constraint registration
-    // ========================================================================
-
     /**
      * @brief Register a cross-shard FK constraint.
      *
-     * Constraints are matched against write operations by (child_table,
-     * child_column).  Registering a second constraint with the same
-     * constraint_name replaces the earlier one.
+     * Constraints are matched against every transaction operation by
+     * (table, column) during validate().  Registering the same constraint
+     * name twice replaces the earlier definition.
      *
-     * @param constraint  Fully-specified FK constraint descriptor.
+     * @param constraint  Fully populated constraint definition.
      */
-    void registerConstraint(CrossShardFKConstraint constraint);
+    void registerConstraint(const CrossShardFKConstraint& constraint);
 
     /**
      * @brief Remove a previously registered constraint by name.
      *
-     * A no-op if the constraint does not exist.
+     * No-op when the name is unknown.
      *
      * @param constraint_name  Name of the constraint to remove.
      */
     void removeConstraint(const std::string& constraint_name);
 
     /**
-     * @brief Return all currently registered constraints.
+     * @brief Inject the key-existence lookup callback.
+     *
+     * Must be set before calling validate() for INSERT/UPDATE checks.
+     * Passing nullptr disables parent-existence checks (violations are
+     * reported without performing actual lookups).
+     *
+     * @param cb  Callback implementing cross-shard key lookup.
      */
-    std::vector<CrossShardFKConstraint> getConstraints() const;
-
-    // ========================================================================
-    // Lookup callback
-    // ========================================================================
+    void setKeyExistsCallback(KeyExistsCallback cb);
 
     /**
-     * @brief Inject the parent-key existence callback.
+     * @brief Inject the child-row existence lookup callback.
      *
-     * Must be set before calling validateTransaction().  If not set (or set
-     * to nullptr), validateTransaction() returns an error for every
-     * registered constraint (fail-closed).
+     * Must be set before calling validate() for DELETE-on-parent checks.
+     * Passing nullptr disables child-existence checks.
      *
-     * @param fn  Callable with ParentKeyLookupFn signature; must not throw.
+     * @param cb  Callback implementing cross-shard child-row lookup.
      */
-    void setParentKeyLookup(ParentKeyLookupFn fn);
-
-    // ========================================================================
-    // Validation
-    // ========================================================================
+    void setChildExistsCallback(ChildExistsCallback cb);
 
     /**
-     * @brief Validate all registered FK constraints for the given operations.
+     * @brief Provide the full list of shard IDs in the cluster.
      *
-     * Scans @p operations for INSERT/UPDATE writes that touch a child column
-     * covered by a registered FK constraint, then verifies each referenced
-     * parent key exists on the designated parent shard.
+     * Used when CrossShardFKConstraint::parent_shard_id is empty so the
+     * validator can fan out the existence check to every shard.
      *
-     * This method is called by CrossShardTransactionCoordinator::prepare()
-     * *before* sending PREPARE RPCs to participants.  A non-empty return
-     * value causes prepare() to fail immediately (no PREPARE is sent).
-     *
-     * @param operations  JSON array of operation descriptors.  Each element
-     *                    must contain at least:
-     *                    - "type"  : "INSERT" | "UPDATE" | "DELETE"
-     *                    - "table" : child table name (string)
-     *                    - "data"  : object mapping column → value (strings)
-     *
-     * @return  Vector of violations; empty when all constraints are satisfied.
-     *          On lookup callback error, a synthetic violation is returned
-     *          (fail-closed).
+     * @param shard_ids  All shard IDs that can own parent rows.
      */
-    std::vector<CrossShardFKViolation> validateTransaction(
-        const nlohmann::json& operations) const;
+    void setAllShardIds(std::vector<std::string> shard_ids);
 
     /**
-     * @brief Check a single FK value against the parent shard.
+     * @brief Validate FK constraints for a pending transaction.
      *
-     * Convenience wrapper used by validateTransaction() and directly in tests.
+     * Parses the per-shard operation lists, extracts INSERT/UPDATE/DELETE
+     * ops, and evaluates every registered FK constraint.  Non-deferrable
+     * violations must be treated as prepare failures by the caller.
      *
-     * @param constraint  FK constraint to evaluate.
-     * @param fk_value    The child column value to look up.
-     * @return nullopt when the parent row exists (satisfied).
-     * @return CrossShardFKViolation describing the violation otherwise.
+     * ### Operation JSON format
+     * Each string in @p shard_operations must be a JSON object with at least:
+     * @code
+     * { "op": "INSERT"|"UPDATE"|"DELETE",
+     *   "table": "<table>",
+     *   // For INSERT/UPDATE on a child table:
+     *   "data": { "<fk_column>": "<value>", ... },
+     *   // For DELETE on a parent table:
+     *   "key": "<pk_value>"
+     * }
+     * @endcode
+     *
+     * Operations in unknown tables or with unrelated columns are silently
+     * skipped.
+     *
+     * @param transaction_id    Global transaction ID (used in log messages).
+     * @param shard_operations  Map of shard_id → list of serialised operations.
+     * @return                  List of FK violations; empty on full compliance.
+     *
+     * @note Deferrable-constraint violations are included in the returned
+     *       list but flagged with FKViolation::deferrable = true so the
+     *       coordinator can decide whether to abort or proceed.
      */
-    std::optional<CrossShardFKViolation> checkSingleConstraint(
-        const CrossShardFKConstraint& constraint,
-        const std::string& fk_value) const;
+    [[nodiscard]] std::vector<FKViolation> validate(
+        const std::string& transaction_id,
+        const std::map<std::string, std::vector<std::string>>& shard_operations
+    ) const;
+
+    /**
+     * @brief Return the number of currently registered constraints.
+     */
+    [[nodiscard]] std::size_t constraintCount() const;
 
 private:
-    mutable std::mutex mutex_;                         ///< Protects constraints_ and lookup_.
-    std::vector<CrossShardFKConstraint> constraints_;  ///< Registered constraints.
-    ParentKeyLookupFn lookup_;                         ///< Injected existence callback.
+    /**
+     * @brief Check parent-key existence for an INSERT/UPDATE FK column value.
+     *
+     * @param constraint   The FK constraint being checked.
+     * @param fk_value     The FK column value extracted from the operation.
+     * @param txn_id       Transaction ID for log context.
+     * @return             Optional violation; empty means constraint satisfied.
+     */
+    [[nodiscard]] std::optional<FKViolation> checkParentExists(
+        const CrossShardFKConstraint& constraint,
+        const std::string& fk_value,
+        const std::string& txn_id
+    ) const;
+
+    /**
+     * @brief Check that no child row references a parent key being deleted.
+     *
+     * Implements RESTRICT semantics: if any child shard has a referencing row
+     * the delete must be blocked.
+     *
+     * @param constraint    The FK constraint being checked.
+     * @param parent_value  The PK value being deleted.
+     * @param txn_id        Transaction ID for log context.
+     * @return              Optional violation; empty means no children found.
+     */
+    [[nodiscard]] std::optional<FKViolation> checkNoChildExists(
+        const CrossShardFKConstraint& constraint,
+        const std::string& parent_value,
+        const std::string& txn_id
+    ) const;
+
+    mutable std::mutex mutex_;                    ///< Protects all mutable state.
+    std::vector<CrossShardFKConstraint> constraints_; ///< Registered FK constraints.
+    KeyExistsCallback key_exists_cb_;             ///< Parent-key lookup callback.
+    ChildExistsCallback child_exists_cb_;         ///< Child-row lookup callback.
+    std::vector<std::string> all_shard_ids_;      ///< All shard IDs for fan-out.
 };
 
 } // namespace sharding

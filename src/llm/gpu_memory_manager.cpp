@@ -28,6 +28,7 @@
 #include <cstring>
 #include <unordered_set>
 #include <optional>
+#include "themis/gpu/memory_manager.h"
 #if defined(THEMIS_ENABLE_CUDA) && defined(__linux__)
 #include <dlfcn.h>
 #endif
@@ -562,6 +563,17 @@ void GPUMemoryManager::shutdownGPU() {
 }
 
 void* GPUMemoryManager::allocateGPU(const std::string& model_id, size_t bytes) {
+    // Gate through the canonical VRAM policy so that edition limits and
+    // per-tenant quotas are enforced at a single, unified control point.
+    auto& policy = themis::gpu::GPUMemoryManager::GetInstance();
+    if (policy.isGPUEnabled()) {
+        if (!policy.TryAllocateGPU(static_cast<uint64_t>(bytes), model_id)) {
+            spdlog::error("allocateGPU: canonical VRAM policy rejected {} bytes for model '{}'",
+                          bytes, model_id);
+            return nullptr;
+        }
+    }
+
     std::lock_guard<std::mutex> lock(mutex_);
     
     if (!canAllocate(bytes, 0)) {
@@ -571,6 +583,10 @@ void* GPUMemoryManager::allocateGPU(const std::string& model_id, size_t bytes) {
         spdlog::error("[{}] GPU OOM: requested {:.1f} MB, available {:.1f} MB", 
                       static_cast<int>(errors::ErrorCode::ERR_LLM_GPU_OOM), 
                       bytes_mb, available_mb);
+        // Undo canonical reservation since the local limit rejected the request.
+        if (policy.isGPUEnabled()) {
+            policy.DeallocateGPU(static_cast<uint64_t>(bytes));
+        }
         return nullptr;
     }
     
@@ -583,6 +599,10 @@ void* GPUMemoryManager::allocateGPU(const std::string& model_id, size_t bytes) {
         cudaError_t err = cudaMalloc(&ptr, bytes);
         if (err != cudaSuccess) {
             spdlog::error("cudaMalloc failed: {}", cudaGetErrorString(err));
+            // Undo canonical reservation on physical allocation failure.
+            if (policy.isGPUEnabled()) {
+                policy.DeallocateGPU(static_cast<uint64_t>(bytes));
+            }
             return nullptr;
         }
         alloc_type = detail::MemoryHolder::Type::GPU;
@@ -592,6 +612,9 @@ void* GPUMemoryManager::allocateGPU(const std::string& model_id, size_t bytes) {
         if (!ptr) {
             size_t bytes_mb = bytes / (1024 * 1024);
             errors::logError(errors::ErrorCode::ERR_LLM_GPU_OOM, bytes_mb, 0);
+            if (policy.isGPUEnabled()) {
+                policy.DeallocateGPU(static_cast<uint64_t>(bytes));
+            }
             return nullptr;
         }
         alloc_type = detail::MemoryHolder::Type::CPU;
@@ -602,6 +625,9 @@ void* GPUMemoryManager::allocateGPU(const std::string& model_id, size_t bytes) {
     if (!ptr) {
         size_t bytes_mb = bytes / (1024 * 1024);
         errors::logError(errors::ErrorCode::ERR_LLM_GPU_OOM, bytes_mb, 0);
+        if (policy.isGPUEnabled()) {
+            policy.DeallocateGPU(static_cast<uint64_t>(bytes));
+        }
         return nullptr;
     }
     alloc_type = detail::MemoryHolder::Type::CPU;
@@ -623,10 +649,16 @@ void* GPUMemoryManager::allocateGPU(const std::string& model_id, size_t bytes) {
     } catch (const std::exception& e) {
         // holder will automatically clean up ptr through RAII
         spdlog::error("allocateGPU metadata bookkeeping failed for model {}: {}", model_id, e.what());
+        if (policy.isGPUEnabled()) {
+            policy.DeallocateGPU(static_cast<uint64_t>(bytes));
+        }
         return nullptr;
     } catch (...) {
         // holder will automatically clean up ptr through RAII
         spdlog::error("allocateGPU metadata bookkeeping failed for model {}: unknown exception", model_id);
+        if (policy.isGPUEnabled()) {
+            policy.DeallocateGPU(static_cast<uint64_t>(bytes));
+        }
         return nullptr;
     }
 
@@ -729,23 +761,24 @@ bool GPUMemoryManager::freeGPU(const std::string& model_id, void* ptr) {
     // The holder's destructor will automatically handle cleanup via RAII
     for (auto alloc_it = it->second.begin(); alloc_it != it->second.end(); ++alloc_it) {
         if (alloc_it->gpu_ptr == ptr) {
+            const size_t freed_bytes = alloc_it->vram_bytes;
             const int gpu_id = alloc_it->gpu_device_id;
-            if (alloc_it->vram_bytes > total_vram_used_.load(std::memory_order_relaxed)) {
+            if (freed_bytes > total_vram_used_.load(std::memory_order_relaxed)) {
                 spdlog::error("GPUMemoryManager::freeGPU: VRAM accounting underflow for model '{}'; "
                               "clamping to 0", model_id);
                 total_vram_used_.store(0, std::memory_order_relaxed);
             } else {
-                total_vram_used_.fetch_sub(alloc_it->vram_bytes, std::memory_order_relaxed);
+                total_vram_used_.fetch_sub(freed_bytes, std::memory_order_relaxed);
             }
 
             auto per_gpu_it = per_gpu_vram_used_.find(gpu_id);
             if (per_gpu_it != per_gpu_vram_used_.end()) {
-                if (alloc_it->vram_bytes > per_gpu_it->second) {
+                if (freed_bytes > per_gpu_it->second) {
                     spdlog::error("GPUMemoryManager::freeGPU: per-GPU VRAM accounting underflow for model '{}' on GPU {}; clamping to 0",
                                   model_id, gpu_id);
                     per_gpu_it->second = 0;
                 } else {
-                    per_gpu_it->second -= alloc_it->vram_bytes;
+                    per_gpu_it->second -= freed_bytes;
                 }
             }
             
@@ -754,6 +787,12 @@ bool GPUMemoryManager::freeGPU(const std::string& model_id, void* ptr) {
             
             if (it->second.empty()) {
                 allocations_.erase(it);
+            }
+
+            // Notify the canonical policy to keep global accounting consistent.
+            auto& policy = themis::gpu::GPUMemoryManager::GetInstance();
+            if (policy.isGPUEnabled()) {
+                policy.DeallocateGPU(static_cast<uint64_t>(freed_bytes));
             }
             
             return true;
@@ -838,6 +877,12 @@ bool GPUMemoryManager::freeModel(const std::string& model_id) {
                  model_id,
                  freed_vram / (1024.0 * 1024),
                  freed_ram / (1024.0 * 1024));
+
+    // Notify the canonical policy to keep global VRAM accounting consistent.
+    auto& policy = themis::gpu::GPUMemoryManager::GetInstance();
+    if (policy.isGPUEnabled() && freed_vram > 0) {
+        policy.DeallocateGPU(static_cast<uint64_t>(freed_vram));
+    }
     
     return true;
 }
@@ -1435,11 +1480,24 @@ void GPUMemoryManager::updateMemoryStats() {
 // Multi-GPU methods (v1.4.0)
 
 void* GPUMemoryManager::allocateGPU(const std::string& model_id, size_t bytes, int gpu_device_id) {
+    // Gate through the canonical VRAM policy (edition limit + tenant quotas).
+    auto& policy = themis::gpu::GPUMemoryManager::GetInstance();
+    if (policy.isGPUEnabled()) {
+        if (!policy.TryAllocateGPU(static_cast<uint64_t>(bytes), model_id)) {
+            spdlog::error("allocateGPU(gpu={}): canonical VRAM policy rejected {} bytes for model '{}'",
+                          gpu_device_id, bytes, model_id);
+            return nullptr;
+        }
+    }
+
     std::lock_guard<std::mutex> lock(mutex_);
     
     // Verify GPU is available
     if (!isGPUAvailableNoLock(gpu_health_status_, gpu_device_id)) {
         spdlog::error("GPU {} is not available", gpu_device_id);
+        if (policy.isGPUEnabled()) {
+            policy.DeallocateGPU(static_cast<uint64_t>(bytes));
+        }
         return nullptr;
     }
     
@@ -1449,6 +1507,9 @@ void* GPUMemoryManager::allocateGPU(const std::string& model_id, size_t bytes, i
         size_t bytes_mb = bytes / (1024 * 1024);
         size_t available_mb = calculateAvailableBytes(config_.max_vram_bytes, gpu_used) / (1024 * 1024);
         errors::logError(errors::ErrorCode::ERR_LLM_GPU_OOM, bytes_mb, available_mb);
+        if (policy.isGPUEnabled()) {
+            policy.DeallocateGPU(static_cast<uint64_t>(bytes));
+        }
         return nullptr;
     }
     
@@ -1457,12 +1518,20 @@ void* GPUMemoryManager::allocateGPU(const std::string& model_id, size_t bytes, i
 #ifdef THEMIS_ENABLE_CUDA
     if (gpu_available_) {
         // Set the target GPU device
-        CUDA_CHECK_RETURN(cudaSetDevice(gpu_device_id), nullptr);
+        if (cudaSetDevice(gpu_device_id) != cudaSuccess) {
+            if (policy.isGPUEnabled()) {
+                policy.DeallocateGPU(static_cast<uint64_t>(bytes));
+            }
+            return nullptr;
+        }
         
         // Use actual CUDA allocation
         cudaError_t err = cudaMalloc(&ptr, bytes);
         if (err != cudaSuccess) {
             spdlog::error("cudaMalloc failed on GPU {}: {}", gpu_device_id, cudaGetErrorString(err));
+            if (policy.isGPUEnabled()) {
+                policy.DeallocateGPU(static_cast<uint64_t>(bytes));
+            }
             return nullptr;
         }
     } else {
@@ -1471,6 +1540,9 @@ void* GPUMemoryManager::allocateGPU(const std::string& model_id, size_t bytes, i
         if (!ptr) {
             size_t bytes_mb = bytes / (1024 * 1024);
             errors::logError(errors::ErrorCode::ERR_LLM_GPU_OOM, bytes_mb, 0);
+            if (policy.isGPUEnabled()) {
+                policy.DeallocateGPU(static_cast<uint64_t>(bytes));
+            }
             return nullptr;
         }
     }
@@ -1480,6 +1552,9 @@ void* GPUMemoryManager::allocateGPU(const std::string& model_id, size_t bytes, i
     if (!ptr) {
         size_t bytes_mb = bytes / (1024 * 1024);
         errors::logError(errors::ErrorCode::ERR_LLM_GPU_OOM, bytes_mb, 0);
+        if (policy.isGPUEnabled()) {
+            policy.DeallocateGPU(static_cast<uint64_t>(bytes));
+        }
         return nullptr;
     }
 #endif
@@ -1500,11 +1575,17 @@ void* GPUMemoryManager::allocateGPU(const std::string& model_id, size_t bytes, i
         cleanupRawAllocation(ptr, bytes, detail::MemoryHolder::Type::GPU, gpu_available_, gpu_device_id);
         spdlog::error("allocateGPU(gpu_device_id={}) metadata bookkeeping failed for model {}: {}",
                       gpu_device_id, model_id, e.what());
+        if (policy.isGPUEnabled()) {
+            policy.DeallocateGPU(static_cast<uint64_t>(bytes));
+        }
         return nullptr;
     } catch (...) {
         cleanupRawAllocation(ptr, bytes, detail::MemoryHolder::Type::GPU, gpu_available_, gpu_device_id);
         spdlog::error("allocateGPU(gpu_device_id={}) metadata bookkeeping failed for model {}: unknown exception",
                       gpu_device_id, model_id);
+        if (policy.isGPUEnabled()) {
+            policy.DeallocateGPU(static_cast<uint64_t>(bytes));
+        }
         return nullptr;
     }
 
@@ -1620,6 +1701,12 @@ bool GPUMemoryManager::freeModel(const std::string& model_id, int gpu_device_id)
                  model_id, gpu_device_id,
                  freed_vram / (1024.0 * 1024),
                  freed_ram / (1024.0 * 1024));
+
+    // Notify the canonical policy to keep global VRAM accounting consistent.
+    auto& policy = themis::gpu::GPUMemoryManager::GetInstance();
+    if (policy.isGPUEnabled() && freed_vram > 0) {
+        policy.DeallocateGPU(static_cast<uint64_t>(freed_vram));
+    }
     
     return true;
 }

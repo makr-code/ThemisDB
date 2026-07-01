@@ -21,6 +21,7 @@
 
 #include <gtest/gtest.h>
 #include "sharding/two_phase_commit_participant.h"
+#include "transaction/recoverable_two_phase_coordinator.h"
 #include <vector>
 #include <string>
 #include <set>
@@ -871,4 +872,139 @@ TEST(TwoPhaseCommitCoordinatorRecoveryTest, RecoverWithWALAfterCleanRun) {
         EXPECT_EQ(resolved, 0u);
     }
     // guard destructor removes wal_dir
+}
+
+TEST(TwoPhaseCommitCoordinatorRecoveryTest, RecoverWithWALReplaysDurableCommitDecision) {
+    const auto wal_dir = (std::filesystem::temp_directory_path() /
+                          ("2pc_coord_wal_replay_" +
+                           std::to_string(::getpid()) + "_" +
+                           std::to_string(
+                               std::chrono::steady_clock::now()
+                                   .time_since_epoch()
+                                   .count())))
+                             .string();
+
+    struct WalDirGuard {
+        const std::string& path;
+        ~WalDirGuard() { std::filesystem::remove_all(path); }
+    } guard{wal_dir};
+
+    std::filesystem::create_directories(wal_dir);
+
+    const std::string txn = "wal-txn-replay-commit";
+    nlohmann::json ops = nlohmann::json::array();
+    ops.push_back({{"key", "commit-me"}});
+
+    TwoPhaseCommitParticipant::Config p_cfg;
+    p_cfg.wal_directory = "";
+    p_cfg.sync_wal_writes = false;
+    auto participant = std::make_unique<TwoPhaseCommitParticipant>("shard-wal", p_cfg);
+    ASSERT_TRUE(participant->onPrepare(txn, "coord-wal-test", opsToPayload(ops)));
+    ASSERT_EQ(participant->getTransactionState(txn), ParticipantTxnState::PREPARED);
+
+    WALManagerConfig wal_cfg;
+    wal_cfg.wal_directory = wal_dir;
+    wal_cfg.sync_on_write = true;
+    WALManager wal(wal_cfg);
+
+    WALEntry begin_entry;
+    begin_entry.type = WALEntryType::BEGIN_TX;
+    begin_entry.transaction_id = txn;
+    begin_entry.data = {
+        {"transaction_id", txn},
+        {"coordinator_id", "coord-wal-test"},
+        {"shards", nlohmann::json::array({"shard-wal"})}
+    };
+    wal.append(begin_entry);
+
+    WALEntry decision_entry;
+    decision_entry.type = WALEntryType::COMMIT_TX;
+    decision_entry.transaction_id = txn;
+    decision_entry.data = {
+        {"transaction_id", txn},
+        {"coordinator_id", "coord-wal-test"},
+        {"phase", "decision"},
+        {"decision", "commit"}
+    };
+    wal.append(decision_entry);
+    wal.flush();
+
+    TwoPhaseCommitCoordinator::Config cfg;
+    cfg.wal_directory = wal_dir;
+    cfg.sync_wal_writes = true;
+
+    TwoPhaseCommitCoordinator coord("coord-wal-test", cfg);
+    coord.registerParticipant("shard-wal", participant.get());
+
+    const size_t resolved = coord.recoverInDoubtTransactions();
+    EXPECT_EQ(resolved, 1u);
+    EXPECT_EQ(participant->getTransactionState(txn), ParticipantTxnState::COMMITTED);
+}
+
+namespace {
+
+class FakeRecoverableCoordinator
+    : public themis::transaction::IRecoverableTwoPhaseCoordinator {
+public:
+    FakeRecoverableCoordinator(std::string name,
+                               std::string backend,
+                               size_t before,
+                               size_t resolved,
+                               size_t after)
+        : name_(std::move(name))
+        , backend_(std::move(backend))
+        , before_(before)
+        , resolved_(resolved)
+        , after_(after) {}
+
+    size_t recoverInDoubtTransactions() override {
+        recovered_ = true;
+        return resolved_;
+    }
+
+    std::string recoveryCoordinatorName() const override { return name_; }
+    std::string recoveryBackendName() const override { return backend_; }
+
+    std::vector<themis::transaction::RecoverableTwoPhaseTransaction>
+    getRecoverableTransactions() const override {
+        const auto count = recovered_ ? after_ : before_;
+        std::vector<themis::transaction::RecoverableTwoPhaseTransaction> txns;
+        txns.reserve(count);
+        for (size_t i = 0; i < count; ++i) {
+            txns.push_back({
+                "txn-" + std::to_string(i),
+                themis::transaction::RecoverableTwoPhaseState::PREPARED,
+                false,
+                false
+            });
+        }
+        return txns;
+    }
+
+private:
+    std::string name_;
+    std::string backend_;
+    size_t before_;
+    size_t resolved_;
+    size_t after_;
+    mutable bool recovered_{false};
+};
+
+} // namespace
+
+TEST(GlobalTwoPhaseCommitRecoveryManagerTest, AggregatesCrossCoordinatorRecoveryReport) {
+    FakeRecoverableCoordinator c1("coord-a", "WAL", 2, 2, 0);
+    FakeRecoverableCoordinator c2("coord-b", "WAL/snapshot", 3, 1, 2);
+
+    auto report =
+        themis::transaction::GlobalTwoPhaseCommitRecoveryManager::recoverAll(
+            {&c1, &c2});
+
+    ASSERT_EQ(report.coordinator_count, 2u);
+    EXPECT_EQ(report.in_doubt_before, 5u);
+    EXPECT_EQ(report.resolved, 3u);
+    EXPECT_EQ(report.in_doubt_after, 2u);
+    ASSERT_EQ(report.coordinators.size(), 2u);
+    EXPECT_EQ(report.coordinators[0].coordinator_name, "coord-a");
+    EXPECT_EQ(report.coordinators[1].backend_name, "WAL/snapshot");
 }

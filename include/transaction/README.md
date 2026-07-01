@@ -129,6 +129,15 @@ if (!result.success) {
 | `transaction_batcher.h` | `TransactionBatcher` | Micro-batching for throughput optimisation |
 | `transaction_semantic_advisor.h` | `TransactionSemanticAdvisor` | Semantic batch-affinity (shared-entity grouping) and conflict-probability hints for pending transactions |
 | `in_doubt_recovery_coordinator.h` | `IInDoubtRecoveryCoordinator` | Recovery interface for in-doubt distributed transactions |
+| `recoverable_two_phase_coordinator.h` | `IRecoverableTwoPhaseCoordinator`, `GlobalTwoPhaseCommitRecoveryManager` | Shared 2PC recovery contract and global recovery reports |
+
+---
+
+## 2PC Recovery Migration Notes
+
+- `TwoPhaseCommitCoordinator`, `DistributedTransactionCoordinator`, and `CrossShardTransactionCoordinator` now share `IRecoverableTwoPhaseCoordinator` for one global recovery/reporting contract.
+- The shared WAL replay helpers accept both the normalized `phase=decision|complete` schema and legacy distributed-transaction WAL payloads, so existing WAL directories remain replayable after upgrade.
+- `DistributedTransactionCoordinator` now persists `BEGIN`, `PREPARE`, durable decision, and terminal completion markers so restart recovery can re-drive COMMIT vs conservative ABORT with participant metadata intact.
 
 ---
 
