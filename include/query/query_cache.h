@@ -28,6 +28,8 @@
 #include <optional>
 #include <vector>
 #include <mutex>
+#include <shared_mutex>
+#include <atomic>
 #include <unordered_map>
 #include <list>
 
@@ -298,20 +300,23 @@ private:
     // Configuration
     Config config_;
     
-    // Cache storage
+    // Cache storage (QW-011: Use shared_mutex for read-heavy access patterns)
     std::unordered_map<std::string, InternalCacheEntry> cache_;
-    mutable std::mutex cache_mutex_;
+    mutable std::shared_mutex cache_mutex_;
     
     // LRU tracking (most recent at front)
     std::list<std::string> lru_list_;
     
     // Dependency index (dependency -> set of fingerprints)
     std::unordered_map<std::string, std::vector<std::string>> dependency_index_;
-    mutable std::mutex dependency_mutex_;
+    mutable std::shared_mutex dependency_mutex_;
     
-    // Statistics
+    // Statistics with atomic counters for QW-014 fix
     mutable CacheStats stats_;
-    mutable std::mutex stats_mutex_;
+    mutable std::shared_mutex stats_mutex_;
+    
+    // Atomic cache valid flag for QW-012 fix
+    std::atomic<bool> cache_valid_{true};
     
     // Helper methods
     void evictLRU();
