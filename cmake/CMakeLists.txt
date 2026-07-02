@@ -2447,6 +2447,7 @@ set(THEMIS_CORE_SOURCES
     ../src/search/search_highlighter.cpp
     ../src/search/negative_keyword_filter.cpp
     ../src/search/distributed_hybrid_search.cpp
+    ../src/search/layered_retrieval_orchestrator.cpp
     ../src/security/pki_key_provider.cpp
     ../src/security/cms_signing.cpp
     ../src/security/rbac.cpp
