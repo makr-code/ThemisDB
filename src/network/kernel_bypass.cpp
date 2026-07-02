@@ -10,6 +10,7 @@
  */
 
 #include "network/kernel_bypass.h"
+#include "security/safe_format.h"
 #include "utils/logger.h"
 
 #include <algorithm>
@@ -141,10 +142,9 @@ int CpuPinner::numaNodeForCore(int core_id) noexcept {
 #ifdef __linux__
     if (core_id < 0) return -1;
     // Walk /sys/devices/system/cpu/cpu<N>/node* symlinks.
-    char path[128];
-    std::snprintf(path, sizeof(path),
-                  "/sys/devices/system/cpu/cpu%d", core_id);
-    DIR* d = ::opendir(path);
+    std::string path = themis::security::SafeFormat::format_safe(
+                  "/sys/devices/system/cpu/cpu{}", core_id);
+    DIR* d = ::opendir(path.c_str());
     if (!d) return -1;
     struct dirent* e;
     while ((e = ::readdir(d)) != nullptr) {
@@ -426,10 +426,9 @@ bool DPDKServer::start() {
         eal_arg_strs.push_back("-m");
         eal_arg_strs.push_back(std::to_string(config_.huge_pages_mb));
     }
-
     // Core mask.
-    char mask_str[32];
-    std::snprintf(mask_str, sizeof(mask_str), "0x%llX",
+    // Core mask.
+    std::string mask_str = themis::security::SafeFormat::format_safe("0x{:X}",
                   static_cast<unsigned long long>(config_.cpu_core_mask));
     eal_arg_strs.push_back("-c");
     eal_arg_strs.push_back(mask_str);

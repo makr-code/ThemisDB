@@ -36,6 +36,8 @@
 #include <sstream>
 #include <thread>
 
+#include "security/safe_regex.h"
+
 #include "cache/cache_replication.h"
 #include "cache/eviction_policy.h"
 #include "observability/metrics_collector.h"

@@ -55,6 +55,7 @@
 #include <unordered_set>
 
 #include "analytics/detail/stats.h"
+#include "security/safe_format.h"
 
 namespace themisdb {
 namespace analytics {
@@ -92,16 +93,19 @@ std::string generateId() {
     static std::uniform_int_distribution<uint64_t> dist;
     uint64_t a = dist(rng);
     uint64_t b = dist(rng);
-    // Use std::array with sufficient size for UUID format (36 bytes + null terminator)
-    char buf[37];
-    int written = std::snprintf(buf, sizeof(buf), "%08x-%04x-%04x-%04x-%012" PRIx64, static_cast<unsigned>(a >> 32),
-                                static_cast<unsigned>((a >> 16) & 0xFFFF), static_cast<unsigned>(a & 0xFFFF),
-                                static_cast<unsigned>((b >> 48) & 0xFFFF), (b & 0x0000'FFFF'FFFF'FFFFUL));
-    // Ensure the snprintf call succeeded and produced expected output
-    if (written < 0 || written >= static_cast<int>(sizeof(buf))) {
-        spdlog::warn("UUID generation snprintf warning: written={} vs buffer_size={}", written, sizeof(buf));
+    // Use fmt::format for safe UUID formatting
+    std::string result = themis::security::SafeFormat::format_safe(
+        "{:08x}-{:04x}-{:04x}-{:04x}-{:012x}",
+        static_cast<unsigned>(a >> 32),
+        static_cast<unsigned>((a >> 16) & 0xFFFF),
+        static_cast<unsigned>(a & 0xFFFF),
+        static_cast<unsigned>((b >> 48) & 0xFFFF),
+        (b & 0x0000'FFFF'FFFF'FFFFUL));
+    // Validate format result
+    if (result.length() < 34) {
+        spdlog::warn("UUID generation format warning: length={} vs expected=36", result.length());
     }
-    return std::string(buf);
+    return result;
 }
 
 /** Convert CepFieldValue to double for numeric aggregations (returns 0.0 on failure) */

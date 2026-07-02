@@ -19,6 +19,7 @@
  */
 
 #include "index/spatial_index.h"
+#include "security/safe_format.h"
 #include <stdexcept>
 #include "utils/logger.h"
 #include "utils/geometric_distances.h"
@@ -228,14 +229,12 @@ std::string SpatialIndexManager::getConfigKey(std::string_view table) const {
 }
 
 std::string SpatialIndexManager::makeSpatialKey(std::string_view table, uint64_t morton_code) const {
-    char buf[32];
-    snprintf(buf, sizeof(buf), "%016llx", static_cast<unsigned long long>(morton_code));
+    std::string buf = themis::security::SafeFormat::format_safe("{:016x}", morton_code);
     return getSpatialKeyPrefix(table) + buf;
 }
 
 std::string SpatialIndexManager::makeZRangeKey(std::string_view table, int z_bucket) const {
-    char buf[16];
-    snprintf(buf, sizeof(buf), "%08d", z_bucket);
+    std::string buf = themis::security::SafeFormat::format_safe("{:08d}", z_bucket);
     return getZRangeKeyPrefix(table) + buf;
 }
 
@@ -247,8 +246,7 @@ std::string SpatialIndexManager::makeSpatialPerPKKey(
     uint64_t morton_code,
     std::string_view pk
 ) const {
-    char buf[32];
-    snprintf(buf, sizeof(buf), "%016llx", static_cast<unsigned long long>(morton_code));
+    std::string buf = themis::security::SafeFormat::format_safe("{:016x}", morton_code);
     return getSpatialKeyPrefix(table) + "pk:" + buf + ":" + std::string(pk);
 }
 
@@ -1399,12 +1397,11 @@ std::vector<SpatialResult> SpatialIndexManager::searchIntersectsWithZ(
             }
             continue;
         }
-
         // R-tree path: look up Z data from the per-PK RocksDB key.
         uint64_t morton = MortonEncoder::encode2D(
             cand.mbr.center().x, cand.mbr.center().y, bounds);
-        char buf[32];
-        snprintf(buf, sizeof(buf), "%016llx", static_cast<unsigned long long>(morton));
+            cand.mbr.center().x, cand.mbr.center().y, bounds);
+        std::string buf = themis::security::SafeFormat::format_safe("{:016x}", morton);
         std::string pk_key = pk_prefix + buf + ":" + cand.primary_key;
 
         auto blob = db_.get(pk_key);

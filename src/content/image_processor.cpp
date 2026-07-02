@@ -24,6 +24,7 @@
 // Use OcrProcessor for real OCR when Tesseract is available
 #ifdef THEMIS_ENABLE_OCR
 #include "content/ocr_processor.h"
+#include "security/safe_format.h"
 #endif
 
 namespace themis {
@@ -337,9 +338,7 @@ static void detectImageDimensions(const std::vector<uint8_t>& blob, const std::s
 }
 
 static std::string rgbToHex(uint8_t r, uint8_t g, uint8_t b) {
-    char hex[8];
-    snprintf(hex, sizeof(hex), "#%02X%02X%02X", r, g, b);
-    return std::string(hex);
+    return themis::security::SafeFormat::format_safe("#{:02X}{:02X}{:02X}", r, g, b);
 }
 
 json ImageProcessor::extractExifMetadata(const std::vector<uint8_t>& blob) {
