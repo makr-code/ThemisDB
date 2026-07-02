@@ -5,6 +5,7 @@
 set(EPIC3_DISTRIBUTED_TENSOR_TESTS
     tensor_artifact_classes_test.cc
     artifact_manifest_test.cc
+    shard_placement_test.cc
 )
 
 # Create test executables for each test file
