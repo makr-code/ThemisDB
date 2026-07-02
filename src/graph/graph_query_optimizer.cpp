@@ -25,6 +25,7 @@
 #include "graph/gpu_traversal.h"
 #include "graph/path_constraints.h"
 #include "query/result_stream.h"
+#include "utils/bloom_filter.h"
 #include <spdlog/spdlog.h>
 #include <algorithm>
 #include <cmath>
@@ -678,11 +679,22 @@ Result<std::vector<std::string>> GraphQueryOptimizer::executeTemporalBFS(
         return elapsed > static_cast<decltype(elapsed)>(constraints.timeout_ms);
     };
 
+    // PA-001: Pre-allocate result and frontier vectors to reduce reallocations
+    // Estimate upper bound: branching_factor ^ max_depth
+    size_t estimated_size = std::min(
+       static_cast<size_t>(std::pow(statistics_.avg_branching_factor > 1.0 ? 
+                                   statistics_.avg_branching_factor : 2.0, 
+                                   max_depth)),
+       statistics_.vertex_count > 0 ? statistics_.vertex_count : 10000UL
+    );
+    
     std::vector<std::string> result;
+    result.reserve(estimated_size);
     std::unordered_set<std::string> visited;
     std::vector<std::string> current_frontier;
+    current_frontier.reserve(estimated_size / std::max(1, max_depth));
 
-    current_frontier.push_back(std::string(start_vertex));
+    current_frontier.emplace_back(std::string(start_vertex));
     visited.insert(std::string(start_vertex));
 
     for (int depth = 0; depth <= max_depth; ++depth) {
@@ -702,7 +714,7 @@ Result<std::vector<std::string>> GraphQueryOptimizer::executeTemporalBFS(
 
         // Emit frontier nodes into result
         for (const auto& node : current_frontier) {
-            result.push_back(node);
+            result.emplace_back(node);
             local_stats.nodes_explored++;
             if (constraints.max_results.has_value() &&
                 result.size() >= constraints.max_results.value()) {
@@ -715,7 +727,9 @@ Result<std::vector<std::string>> GraphQueryOptimizer::executeTemporalBFS(
         if (depth == max_depth) break;
 
         // Expand frontier using time-range-filtered edges
+        // PA-001: Pre-allocate next_frontier
         std::vector<std::string> next_frontier;
+        next_frontier.reserve(estimated_size / std::max(1, max_depth));
         for (const auto& node : current_frontier) {
             auto [status, edges] = graph_manager_.getOutEdgesInTimeRange(
                 node, range_start, range_end,
@@ -737,7 +751,7 @@ Result<std::vector<std::string>> GraphQueryOptimizer::executeTemporalBFS(
                     constraints.forbidden_vertices.end()) continue;
 
                 visited.insert(nb);
-                next_frontier.push_back(nb);
+                next_frontier.emplace_back(nb);
             }
         }
         current_frontier = std::move(next_frontier);
@@ -830,11 +844,22 @@ Result<std::vector<std::string>> GraphQueryOptimizer::executeBFS(
         return elapsed > static_cast<decltype(elapsed)>(constraints.timeout_ms);
     };
 
+    // PA-001: Pre-allocate result vector to reduce reallocations
+    // Estimate upper bound: branching_factor ^ max_depth
+    size_t estimated_size = std::min(
+        static_cast<size_t>(std::pow(statistics_.avg_branching_factor > 1.0 ? 
+                                    statistics_.avg_branching_factor : 2.0, 
+                                    max_depth)),
+        statistics_.vertex_count > 0 ? statistics_.vertex_count : 10000UL
+    );
+     
     std::vector<std::string> result;
+    result.reserve(estimated_size);
     std::unordered_set<std::string> visited;
 
     // BFS frontier: current level to expand
     std::vector<std::string> current_frontier;
+    current_frontier.reserve(estimated_size / std::max(1, max_depth));
     current_frontier.push_back(std::string(start_vertex));
     visited.insert(std::string(start_vertex));
 
@@ -856,7 +881,7 @@ Result<std::vector<std::string>> GraphQueryOptimizer::executeBFS(
 
         // Add all frontier nodes to result
         for (const auto& node : current_frontier) {
-            result.push_back(node);
+            result.emplace_back(node);
             local_stats.nodes_explored++;
             if (constraints.max_results.has_value() &&
                 result.size() >= constraints.max_results.value()) {
@@ -869,7 +894,9 @@ Result<std::vector<std::string>> GraphQueryOptimizer::executeBFS(
         if (depth == max_depth) break; // No need to expand last level
 
         // Build next frontier: expand each node in current_frontier, optionally in parallel
+        // PA-001: Pre-allocate for next frontier to reduce reallocations
         std::vector<std::string> next_frontier;
+        next_frontier.reserve(estimated_size / std::max(1, max_depth));
         bool vertex_error = false;
         std::string error_vertex;
 
@@ -887,7 +914,7 @@ Result<std::vector<std::string>> GraphQueryOptimizer::executeBFS(
                     // Schema hint: skip nodes that do not carry a required label
                     if (!nodeMatchesLabels(graph_manager_, nb, constraints.node_labels)) continue;
                     visited.insert(nb);
-                    next_frontier.push_back(nb);
+                    next_frontier.emplace_back(nb);
                 }
             }
         } else {
@@ -949,7 +976,7 @@ Result<std::vector<std::string>> GraphQueryOptimizer::executeBFS(
                                   constraints.forbidden_vertices.end(), nb) !=
                         constraints.forbidden_vertices.end()) continue;
                     visited.insert(nb);
-                    next_frontier.push_back(nb);
+                    next_frontier.emplace_back(nb);
                 }
             }
         }
@@ -1028,16 +1055,27 @@ Result<std::vector<std::string>> GraphQueryOptimizer::executeDFS(
         }
     }
     
+    // PA-001: Pre-allocate result and stack vectors to reduce reallocations
+    // Estimate upper bound: branching_factor ^ max_depth
+    size_t estimated_size = std::min(
+       static_cast<size_t>(std::pow(statistics_.avg_branching_factor > 1.0 ? 
+                                   statistics_.avg_branching_factor : 2.0, 
+                                   max_depth)),
+       statistics_.vertex_count > 0 ? statistics_.vertex_count : 10000UL
+    );
+    
     std::vector<std::string> result;
+    result.reserve(estimated_size);
     std::vector<std::pair<std::string, int>> stack;
+    stack.reserve(estimated_size);  // Stack grows as we traverse
     std::unordered_set<std::string> visited;
     
-    stack.push_back({std::string(start_vertex), 0});
+    stack.emplace_back(std::string(start_vertex), 0);
     
     while (!stack.empty()) {
         auto [current, depth] = stack.back();
         stack.pop_back();
-        
+         
         // Timeout check
         if (constraints.timeout_ms > 0) {
             auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(
@@ -1058,15 +1096,15 @@ Result<std::vector<std::string>> GraphQueryOptimizer::executeDFS(
         if (visited.find(current) != visited.end()) {
             continue;
         }
-        
+         
         visited.insert(current);
-        result.push_back(current);
+        result.emplace_back(current);
         local_stats.nodes_explored++;
-        
+         
         if (depth >= max_depth) {
             continue;
         }
-        
+         
         auto [status, neighbors] = graph_manager_.outNeighbors(current);
         if (!status.ok) {
             return Err<std::vector<std::string>>(
@@ -1074,17 +1112,17 @@ Result<std::vector<std::string>> GraphQueryOptimizer::executeDFS(
                 current
             );
         }
-        
+         
         local_stats.edges_traversed += neighbors.size();
-        
+         
         for (const auto& neighbor : neighbors) {
             if (visited.find(neighbor) == visited.end()) {
                 // Schema hint: skip nodes that do not carry a required label
                 if (!nodeMatchesLabels(graph_manager_, neighbor, constraints.node_labels)) continue;
-                stack.push_back({neighbor, depth + 1});
+                stack.emplace_back(neighbor, depth + 1);
             }
         }
-        
+         
         if (constraints.max_results.has_value() && 
             result.size() >= constraints.max_results.value()) {
             local_stats.early_terminated = true;

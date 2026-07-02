@@ -560,32 +560,63 @@ public:
 
     /**
      * Execute optimized BFS traversal
+     *
+     * @param start_vertex Starting vertex ID
+     * @param max_depth    Maximum traversal depth
+     * @param constraints  Query constraints (timeouts, forbidden vertices, etc.)
+     * @param stats        Optional execution statistics output
+     * @return Visited vertices in BFS order
+     *
+     * @note **Move Semantics**: The returned std::vector<std::string> is moved
+     *       (not copied) to the caller via RVO. The caller owns the vector and
+     *       its contents. RVO optimization ensures zero-copy behavior; typical
+     *       compiler with -O2+ will elide all copying.
      */
-    Result<std::vector<std::string>> executeBFS(
-        std::string_view start_vertex,
-        int max_depth,
-        const QueryConstraints& constraints,
-        ExecutionStats* stats = nullptr
+    [[nodiscard]] Result<std::vector<std::string>> executeBFS(
+       std::string_view start_vertex,
+       int max_depth,
+       const QueryConstraints& constraints = {},
+       ExecutionStats* stats = nullptr
     );
 
     /**
      * Execute optimized DFS traversal
+     *
+     * @param start_vertex Starting vertex ID
+     * @param max_depth    Maximum traversal depth
+     * @param constraints  Query constraints (timeouts, forbidden vertices, etc.)
+     * @param stats        Optional execution statistics output
+     * @return Visited vertices in DFS order
+     *
+     * @note **Move Semantics**: The returned std::vector<std::string> is moved
+     *       (not copied) to the caller via RVO. Caller owns the vector.
+     *       Compiler with standard optimizations (-O2+) eliminates all copies.
      */
-    Result<std::vector<std::string>> executeDFS(
-        std::string_view start_vertex,
-        int max_depth,
-        const QueryConstraints& constraints,
-        ExecutionStats* stats = nullptr
+    [[nodiscard]] Result<std::vector<std::string>> executeDFS(
+       std::string_view start_vertex,
+       int max_depth,
+       const QueryConstraints& constraints = {},
+       ExecutionStats* stats = nullptr
     );
 
     /**
      * Execute optimized Dijkstra shortest path
+     *
+     * @param start_vertex Start vertex ID
+     * @param target_vertex End vertex ID
+     * @param constraints Query constraints
+     * @param stats Optional execution statistics output
+     * @return PathResult containing path and cost
+     *
+     * @note **Move Semantics**: The returned PathResult is moved to the caller
+     *       via RVO. The internal path vector is efficiently moved without copies.
+     *       Caller may forward via std::move downstream without cost.
      */
-    Result<GraphIndexManager::PathResult> executeDijkstra(
-        std::string_view start_vertex,
-        std::string_view target_vertex,
-        const QueryConstraints& constraints,
-        ExecutionStats* stats = nullptr
+    [[nodiscard]] Result<GraphIndexManager::PathResult> executeDijkstra(
+       std::string_view start_vertex,
+       std::string_view target_vertex,
+       const QueryConstraints& constraints = {},
+       ExecutionStats* stats = nullptr
     );
 
     /**
@@ -1250,7 +1281,14 @@ public:
     );
 
 private:
-    // Pointer to an optional analytics instance for algorithm reuse (not owned).
+    /**
+     * @brief Pointer to optional analytics instance for algorithm reuse.
+     * 
+     * @note **Ownership**: This is a non-owning raw pointer (not owned by this
+     *       optimizer). The GraphAnalytics instance must outlive this optimizer.
+     *       RAII compliance: caller is responsible for lifetime management of
+     *       the pointed-to object.
+     */
     GraphAnalytics* analytics_ = nullptr;
     GraphIndexManager& graph_manager_;
     GraphStatistics statistics_;

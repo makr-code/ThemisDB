@@ -194,7 +194,15 @@ public:
 
 private:
     std::string shard_id_;
-    GraphIndexManager& graph_mgr_;   ///< Direct reference for vertex/edge iteration.
+    /**
+     * @brief Reference to the graph manager for this shard.
+     * 
+     * @note **Ownership**: Non-owning reference. The GraphIndexManager must
+     *       outlive this executor. Caller is responsible for managing lifetime.
+     *       This is a reference (not smart pointer) for performance; the owner
+     *       is typically a DistributedGraphManager or test harness.
+     */
+    GraphIndexManager& graph_mgr_;
     GraphQueryOptimizer optimizer_;
 
     /// Qualify a vertex ID returned by the local optimizer as "<id>@<shard_id_>".
@@ -300,11 +308,15 @@ public:
      * @param k             Maximum hop count.
      * @param constraints   Optional per-query execution constraints.
      * @return Merged list of reachable vertex IDs, each qualified as "<id>@<shard>".
+     *
+     * @note **Move Semantics**: The returned vector is moved (not copied) to the caller
+     *       via RVO. Caller owns the vector and may efficiently transfer ownership
+     *       downstream without triggering allocations via std::move.
      */
     Result<std::vector<std::string>> kHopNeighbors(
-        std::string_view start_vertex,
-        int k,
-        const GraphQueryOptimizer::QueryConstraints& constraints = {});
+       std::string_view start_vertex,
+       int k,
+       const GraphQueryOptimizer::QueryConstraints& constraints = {});
 
     /**
      * @brief Generate a shard-aware OptimizationPlan for a distributed query.
@@ -392,11 +404,22 @@ public:
 private:
     DistributedGraphConfig config_;
 
-    // Registered shards: shard_id -> executor
+    /**
+     * @brief Registered shards: shard_id -> executor
+     * 
+     * @note **Ownership**: Uses std::shared_ptr for RAII compliance. Each executor
+     *       is reference-counted; shards are automatically cleaned up when removed
+     *       from the map and no other references exist. Thread-safe via shared_mutex.
+     */
     std::unordered_map<std::string, std::shared_ptr<ShardGraphExecutor>> shards_;
     mutable std::shared_mutex shards_mutex_;
 
-    // QW-027: Affinity cache for shard resolution results (LRU via map).
+    /**
+     * @brief QW-027: Affinity cache for shard resolution results (LRU via map).
+     * 
+     * @note **Ownership**: Cache entries are value-semantics strings; managed
+     *       by the unordered_map container. LRU eviction is manual but RAII-safe.
+     */
     mutable std::unordered_map<std::string, std::string> affinity_cache_;
     mutable std::shared_mutex affinity_cache_mutex_;
     mutable std::vector<std::string> affinity_cache_lru_;  ///< LRU eviction order

@@ -132,9 +132,14 @@ public:
      *
      * @param sources  Non-empty list of source vertex IDs.
      * @return Merged MultiSourceResult, or an error if sources is empty.
+     *
+     * @note **Move Semantics**: The returned MultiSourceResult is moved (not copied)
+     *       to the caller via RVO. The internal vectors (visited_vertices,
+     *       vertex_to_source) are moved without allocations. Caller owns all data
+     *       and may use std::move downstream without cost.
      */
-    Result<MultiSourceResult> multiSourceBFS(
-        const std::vector<std::string>& sources
+    [[nodiscard]] Result<MultiSourceResult> multiSourceBFS(
+       const std::vector<std::string>& sources
     );
 
     /**
@@ -147,10 +152,14 @@ public:
      * @param sources  Non-empty list of source vertex IDs.
      * @param config   Traversal configuration.
      * @return Merged MultiSourceResult, or an error if sources is empty.
+     *
+     * @note **Move Semantics**: The returned MultiSourceResult is moved to the caller
+     *       via RVO. Internal vectors are moved without copies. Caller receives full
+     *       ownership and may forward downstream via std::move.
      */
-    Result<MultiSourceResult> multiSourceBFS(
-        const std::vector<std::string>& sources,
-        const Config& config
+    [[nodiscard]] Result<MultiSourceResult> multiSourceBFS(
+       const std::vector<std::string>& sources,
+       const Config& config
     );
 
     /**
@@ -161,9 +170,13 @@ public:
      *
      * @param sources  Non-empty list of source vertex IDs.
      * @return Merged MultiSourceResult, or an error if sources is empty.
+     *
+     * @note **Move Semantics**: The returned MultiSourceResult is moved (not copied)
+     *       to the caller via RVO. Caller owns result and may efficiently forward
+     *       via std::move without triggering allocations.
      */
-    Result<MultiSourceResult> multiSourceDFS(
-        const std::vector<std::string>& sources
+    [[nodiscard]] Result<MultiSourceResult> multiSourceDFS(
+       const std::vector<std::string>& sources
     );
 
     /**
@@ -175,9 +188,13 @@ public:
      * @param sources  Non-empty list of source vertex IDs.
      * @param config   Traversal configuration.
      * @return Merged MultiSourceResult, or an error if sources is empty.
+     *
+     * @note **Move Semantics**: The returned MultiSourceResult is moved to caller
+     *       via RVO. All internal vectors are moved efficiently. Caller owns result
+     *       and may use std::move downstream without cost.
      */
-    Result<MultiSourceResult> multiSourceDFS(
-        const std::vector<std::string>& sources,
+    [[nodiscard]] Result<MultiSourceResult> multiSourceDFS(
+       const std::vector<std::string>& sources,
         const Config& config
     );
 
