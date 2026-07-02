@@ -1,12 +1,18 @@
 #!/usr/bin/env python3
 """
-Gap Scanner Step 01 — Braces Balance Check
+Gap Scanner Step 01 — Braces Balance Check (Fixed Version)
 
 Detects:
 - Unbalanced opening/closing braces in C++ files
 - Missing closing braces (more opens than closes)
 - Extra closing braces (more closes than opens)
 - Namespace/class/function scope mismatch
+
+FIXED: Eliminated massive false positives from scope_mismatch by:
+1. Only tracking explicit scope definitions (namespace/class/struct/function with {)
+2. Not reporting every unmatched closing brace as an issue
+3. Only reporting unclosed scopes at end of file
+4. Better handling of control flow constructs
 """
 
 import re
@@ -19,7 +25,7 @@ from gs3_base_scanner import BaseGapScanner, Gap, ScannerPriority
 
 
 class BracesCheckScanner(BaseGapScanner):
-    """Phase 1: Braces Balance Check"""
+    """Phase 1: Braces Balance Check (Fixed Version)"""
     
     PRIORITY = ScannerPriority.BASELINE
     ENABLED = True
@@ -27,7 +33,7 @@ class BracesCheckScanner(BaseGapScanner):
     
     def __init__(self):
         """Initialize Braces Check Scanner."""
-        super().__init__("Braces Check Scanner", "1.0")
+        super().__init__("Braces Check Scanner", "1.1")
         
         # Pattern to detect string and comment content that should be ignored
         self.string_pattern = re.compile(r'"(?:\\.|[^"\\])*"')
@@ -53,8 +59,6 @@ class BracesCheckScanner(BaseGapScanner):
         """
         Count opening and closing braces in file, ignoring comments and strings.
         
-        FIXED: Properly handle single-line multi-line comments (/* ... */ on same line)
-        
         Returns:
             Tuple of (open_count, close_count, issues_list)
             issues_list contains (line_no, description) for detected problems
@@ -65,31 +69,23 @@ class BracesCheckScanner(BaseGapScanner):
         in_multiline_comment = False
         
         for line_no, line in enumerate(lines, 1):
-            # FIX: Handle both single-line and multi-line comments
-            # Check for multi-line comment start on this line
+            # Handle both single-line and multi-line comments
             if not in_multiline_comment:
-                # Check if this line contains both /* and */ (single-line multi-line comment)
                 start_pos = self.multi_line_comment_start.search(line)
                 end_pos = self.multi_line_comment_end.search(line)
                 
                 if start_pos and end_pos and start_pos.end() <= end_pos.start():
                     # Single-line multi-line comment: /* ... */ on same line
-                    # Remove the comment and continue processing this line
                     line = line[:start_pos.start()] + line[end_pos.end():]
                 elif start_pos:
-                    # Multi-line comment starts here
                     in_multiline_comment = True
                     continue
-                # else: no comment, process normally
             
-            # If we're in a multi-line comment
             if in_multiline_comment:
-                # Check if this line ends the comment
                 if self.multi_line_comment_end.search(line):
                     in_multiline_comment = False
                 continue
             
-            # Strip comments and strings (single-line comments only, multi-line already handled)
             clean_line = self._strip_comments_and_strings(line)
             
             # Count braces
@@ -101,7 +97,7 @@ class BracesCheckScanner(BaseGapScanner):
             
             # Check for closing without opening (potential issue)
             if close_count > open_count:
-                issues.append((line_no, f"Extra closing brace detected (stack imbalance)"))
+                issues.append((line_no, "Extra closing brace detected (stack imbalance)"))
         
         return open_count, close_count, issues
     
@@ -110,46 +106,55 @@ class BracesCheckScanner(BaseGapScanner):
         Analyze scope context to identify likely scope mismatch lines.
         Returns list of (line_no, context_description) tuples.
         
-        FIXED: Only track scopes for definitions with opening braces, not declarations.
-        This eliminates false positives from forward declarations like 'class Foo;' or 'struct Bar;'
+        IMPROVED: Only report actual scope mismatches, eliminating massive false positives.
+        Strategy: Only track explicit scope definitions (namespace/class/struct/function with {),
+        and only report unclosed scopes at the end of file, not every unmatched closing brace.
         """
         scope_stack = []
         issues = []
         in_multiline_comment = False
         
         for line_no, line in enumerate(lines, 1):
-            # Track multi-line comments - FIX: handle single-line multi-line comments
+            # Track multi-line comments
             if not in_multiline_comment:
                 start_pos = self.multi_line_comment_start.search(line)
                 end_pos = self.multi_line_comment_end.search(line)
                 
                 if start_pos and end_pos and start_pos.end() <= end_pos.start():
-                    # Single-line multi-line comment: /* ... */ on same line
-                    # Remove the comment and continue processing this line
                     line = line[:start_pos.start()] + line[end_pos.end():]
                 elif start_pos:
-                    # Multi-line comment starts here
                     in_multiline_comment = True
                     continue
             
-            # If we're in a multi-line comment
             if in_multiline_comment:
-                # Check if this line ends the comment
                 if self.multi_line_comment_end.search(line):
                     in_multiline_comment = False
                 continue
             
             clean_line = self._strip_comments_and_strings(line)
             
-            # Track scope entries - ONLY for definitions with opening braces
-            # FIX: Require { after namespace/class/struct to avoid forward declarations
-            namespace_match = re.search(r'\bnamespace\s+(\w+)\s*\{', clean_line)
-            # FIX: Class definitions must have { (not declarations like 'class Foo;')
-            class_match = re.search(r'\bclass\s+(\w+)\s*[:\{]', clean_line)
-            # FIX: Struct definitions must have { (not declarations like 'struct Foo;')
-            struct_match = re.search(r'\bstruct\s+(\w+)\s*[:\{]', clean_line)
+            # Skip control flow constructs - they have their own brace scopes
+            control_keywords = ['if', 'else', 'for', 'while', 'do', 'switch', 'case', 'default',
+                               'try', 'catch', 'return', 'break', 'continue', 'goto']
+            if any(f'\b{kw}\b' in clean_line for kw in control_keywords):
+                # For control flow, don't track scope entries
+                if '}' in clean_line and scope_stack:
+                    # Try to match closing braces with our tracked scopes
+                    close_count = clean_line.count('}')
+                    for _ in range(close_count):
+                        if scope_stack:
+                            scope_stack.pop()
+                continue
             
-            # FIX: Improved function detection - must end with {
+            # Skip lambda expressions
+            if re.search(r'\[[^\]]*\]\s*\([^)]*\)\s*[^{]*\{', clean_line):
+                continue
+            
+            # Track scope entries - ONLY for definitions with opening braces
+            namespace_match = re.search(r'\bnamespace\s+(\w+)\s*\{', clean_line)
+            class_match = re.search(r'\bclass\s+(\w+)\s*[,:\{]', clean_line)
+            struct_match = re.search(r'\bstruct\s+(\w+)\s*[,:\{]', clean_line)
+            
             function_match = re.search(r'\b\w+\s+\w+\s*\([^)]*\)\s*(?:const)?\s*(?:noexcept)?\s*(?:override)?\s*(?:final)?\s*\{', clean_line)
             
             if namespace_match:
@@ -164,17 +169,15 @@ class BracesCheckScanner(BaseGapScanner):
                 # Function definitions always have {
                 scope_stack.append(('function', 'unknown', line_no))
             
-            # Track scope exits
+            # Track scope exits - ONLY for non-control-flow braces
             if '}' in clean_line:
                 close_count = clean_line.count('}')
                 for _ in range(close_count):
                     if scope_stack:
-                        scope_type, scope_name, scope_start = scope_stack.pop()
-                        # Ensure matching - could add type checking here
-                    else:
-                        issues.append((line_no, "Closing brace without matching opening scope"))
+                        scope_stack.pop()
+                    # DON'T report unmatched closing braces - this creates massive false positives
         
-        # Any remaining items in scope_stack are unclosed
+        # Any remaining items in scope_stack are unclosed - these are the ONLY issues we report
         for scope_type, scope_name, scope_start in scope_stack:
             issues.append((scope_start, f"Unclosed {scope_type} '{scope_name}' (missing closing brace)"))
         
@@ -233,7 +236,7 @@ class BracesCheckScanner(BaseGapScanner):
                 )
                 gaps.append(gap)
             
-            # Analyze scope context
+            # Analyze scope context - but only report real issues, not false positives
             scope_issues = self._analyze_scope_context(file_path, lines)
             for line_no, issue_desc in scope_issues:
                 gap = Gap(
