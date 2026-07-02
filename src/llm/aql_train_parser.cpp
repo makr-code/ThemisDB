@@ -51,7 +51,9 @@ std::string stripQuotes(const std::string& s) {
     return s;
 }
 
-/// Case-insensitive string comparison.
+/**
+ * @brief Case-insensitive string comparison.
+ */
 bool iequal(const std::string& a, const std::string& b) {
     if (a.size() != b.size()) return false;
     return std::equal(a.begin(), a.end(), b.begin(),

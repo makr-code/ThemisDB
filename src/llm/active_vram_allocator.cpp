@@ -38,7 +38,9 @@ int64_t nowMs() {
     ).count();
 }
 
-/// Round `n` up to the nearest multiple of `alignment` (must be power-of-two).
+/**
+ * @brief Round `n` up to the nearest multiple of `alignment` (must be power-of-two).
+ */
 size_t alignUp(size_t n, size_t alignment) {
     return (n + alignment - 1) & ~(alignment - 1);
 }
