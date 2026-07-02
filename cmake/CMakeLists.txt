@@ -5150,6 +5150,13 @@ if(THEMIS_BUILD_ENTERPRISE_PLUGINS)
                          ${CMAKE_CURRENT_BINARY_DIR}/src/tensor)
     endif()
 
+    # Distributed Tensor Artifacts module (EPIC 3, 2026-07-01)
+    # -------------------------------------------------------------------------
+    if(EXISTS "${THEMIS_ROOT_DIR}/src/distributed_tensor/CMakeLists.txt")
+        add_subdirectory(${THEMIS_ROOT_DIR}/src/distributed_tensor
+                         ${CMAKE_CURRENT_BINARY_DIR}/src/distributed_tensor)
+    endif()
+
     # Non-compiled plugin manifests / legacy orchestration: plugins/
     if(EXISTS "${THEMIS_ROOT_DIR}/plugins/CMakeLists.txt")
         add_subdirectory(${THEMIS_ROOT_DIR}/plugins

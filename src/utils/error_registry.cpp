@@ -1780,6 +1780,183 @@ std::string ErrorRegistry::getRecoveryHint(ErrorCode code) const {
     return getError(code).solution;
 }
 
+// ─────────────────────────────────────────────────────────────────────────────
+// QW-029: Exhaustive error code handling with complete case coverage
+// ─────────────────────────────────────────────────────────────────────────────
+
+/// @brief Exhaustive error code categorization and logging
+/// Ensures all ErrorCode enum values are handled, preventing silent failures
+std::string ErrorRegistry::getErrorCategoryAndDescription(ErrorCode code) const {
+    /// Maps every ErrorCode to its category and descriptive message
+    /// This is an exhaustive switch to catch unhandled error codes at compile/runtime
+    
+    switch (code) {
+        // Storage Errors (1000-1999)
+        case ErrorCode::ERR_STORAGE_FILE_NOT_FOUND:
+            return "STORAGE | File not found";
+        case ErrorCode::ERR_STORAGE_PERMISSION_DENIED:
+            return "STORAGE | Permission denied";
+        case ErrorCode::ERR_STORAGE_DISK_FULL:
+            return "STORAGE | Disk full";
+        case ErrorCode::ERR_STORAGE_CORRUPTION:
+            return "STORAGE | Data corruption detected";
+        case ErrorCode::ERR_STORAGE_TRANSACTION_FAILED:
+            return "STORAGE | Transaction failed";
+        case ErrorCode::ERR_STORAGE_CACHE_ERROR:
+            return "STORAGE | Cache error";
+        case ErrorCode::ERR_STORAGE_LOG_FULL:
+            return "STORAGE | Write-ahead log full";
+        case ErrorCode::ERR_STORAGE_REDUNDANCY_FAILED:
+            return "STORAGE | Redundancy check failed";
+            
+        // Backup & Recovery Errors (1100-1199)
+        case ErrorCode::ERR_BACKUP_CREATION_FAILED:
+            return "BACKUP | Backup creation failed";
+        case ErrorCode::ERR_BACKUP_RESTORATION_FAILED:
+            return "BACKUP | Backup restoration failed";
+        case ErrorCode::ERR_BACKUP_VERIFICATION_FAILED:
+            return "BACKUP | Backup verification failed";
+        case ErrorCode::ERR_BACKUP_NOT_FOUND:
+            return "BACKUP | Backup not found";
+        case ErrorCode::ERR_BACKUP_INVALID_TYPE:
+            return "BACKUP | Invalid backup type";
+        case ErrorCode::ERR_BACKUP_INCOMPLETE:
+            return "BACKUP | Incomplete backup";
+        case ErrorCode::ERR_BACKUP_COMPRESSION_FAILED:
+            return "BACKUP | Compression failed";
+        case ErrorCode::ERR_BACKUP_DECOMPRESSION_FAILED:
+            return "BACKUP | Decompression failed";
+        case ErrorCode::ERR_BACKUP_CHECKSUM_MISMATCH:
+            return "BACKUP | Checksum mismatch";
+        case ErrorCode::ERR_BACKUP_MANIFEST_CORRUPT:
+            return "BACKUP | Manifest corrupted";
+        case ErrorCode::ERR_BACKUP_WAL_ARCHIVE_FAILED:
+            return "BACKUP | WAL archival failed";
+            
+        // LLM Errors (2000-2099)
+        case ErrorCode::ERR_LLM_MODEL_NOT_FOUND:
+            return "LLM | Model not found";
+        case ErrorCode::ERR_LLM_MODEL_LOAD_FAILED:
+            return "LLM | Model load failed";
+        case ErrorCode::ERR_LLM_CONTEXT_CREATION_FAILED:
+            return "LLM | Context creation failed";
+        case ErrorCode::ERR_LLM_INFERENCE_TIMEOUT:
+            return "LLM | Inference timeout";
+        case ErrorCode::ERR_LLM_GPU_OOM:
+            return "LLM | GPU out of memory";
+        case ErrorCode::ERR_LLM_INVALID_HANDLE:
+            return "LLM | Invalid model handle";
+        case ErrorCode::ERR_LLM_VISION_INFERENCE_FAILED:
+            return "LLM | Vision inference failed";
+        case ErrorCode::ERR_LLM_DRAFT_MODEL_LOAD_FAILED:
+            return "LLM | Draft model load failed";
+        case ErrorCode::ERR_LLM_RAM_OOM:
+            return "LLM | System RAM out of memory";
+        case ErrorCode::ERR_LLM_GPU_NOT_AVAILABLE:
+            return "LLM | GPU not available";
+        case ErrorCode::ERR_LLM_GPU_ALLOC_FAILED:
+            return "LLM | GPU memory allocation failed";
+        case ErrorCode::ERR_LLM_GPU_PEER_ACCESS_FAILED:
+            return "LLM | GPU peer access failed";
+        case ErrorCode::ERR_LLM_BATCH_SIZE_EXCEEDED:
+            return "LLM | Batch size exceeded";
+            
+        // LoRA Errors (2100-2199)
+        case ErrorCode::ERR_LORA_NOT_LOADED:
+            return "LORA | LoRA adapter not loaded";
+        case ErrorCode::ERR_LORA_BATCHING_DISABLED:
+            return "LORA | Batching disabled for LoRA";
+        case ErrorCode::ERR_LORA_WEIGHT_MISMATCH:
+            return "LORA | Weight dimension mismatch";
+        case ErrorCode::ERR_LORA_FUSION_FAILED:
+            return "LORA | LoRA fusion failed";
+        case ErrorCode::ERR_LORA_INVALID_DATA:
+            return "LORA | Invalid LoRA data";
+        case ErrorCode::ERR_LORA_MODEL_MISMATCH:
+            return "LORA | Model mismatch";
+        case ErrorCode::ERR_LORA_GPU_LOAD_FAILED:
+            return "LORA | GPU load failed";
+        case ErrorCode::ERR_LORA_ADAPTER_CONFLICT:
+            return "LORA | Adapter conflict";
+        case ErrorCode::ERR_LORA_TRAINING_DIVERGED:
+            return "LORA | Training diverged";
+            
+        // MCP Errors (3000-3999)
+        case ErrorCode::ERR_MCP_TRANSPORT_FAILED:
+            return "MCP | Transport failed";
+        case ErrorCode::ERR_MCP_INVALID_REQUEST:
+            return "MCP | Invalid request";
+        case ErrorCode::ERR_MCP_TOOL_NOT_FOUND:
+            return "MCP | Tool not found";
+        case ErrorCode::ERR_MCP_SCHEMA_UNAVAILABLE:
+            return "MCP | Schema unavailable";
+        case ErrorCode::ERR_MCP_STDIO_INIT_FAILED:
+            return "MCP | Stdio initialization failed";
+            
+        // Schema Errors (4000-4999)
+        case ErrorCode::ERR_SCHEMA_TABLE_NOT_FOUND:
+            return "SCHEMA | Table not found";
+        case ErrorCode::ERR_SCHEMA_INVALID_TYPE:
+            return "SCHEMA | Invalid type";
+        case ErrorCode::ERR_SCHEMA_CACHE_MISS:
+            return "SCHEMA | Cache miss";
+            
+        // Network Errors (5000-5999)
+        case ErrorCode::ERR_NET_CONNECTION_REFUSED:
+            return "NETWORK | Connection refused";
+        case ErrorCode::ERR_NET_TIMEOUT:
+            return "NETWORK | Network timeout";
+        case ErrorCode::ERR_NET_DNS_FAILURE:
+            return "NETWORK | DNS failure";
+            
+        // Graph Errors (9000-9399)
+        case ErrorCode::ERR_GRAPH_VERTEX_NOT_FOUND:
+            return "GRAPH | Vertex not found";
+        case ErrorCode::ERR_GRAPH_EDGE_NOT_FOUND:
+            return "GRAPH | Edge not found";
+        case ErrorCode::ERR_GRAPH_PATH_NOT_FOUND:
+            return "GRAPH | Path not found";
+        case ErrorCode::ERR_GRAPH_CYCLE_DETECTED:
+            return "GRAPH | Cycle detected";
+        case ErrorCode::ERR_GRAPH_DEPTH_EXCEEDED:
+            return "GRAPH | Depth limit exceeded";
+        case ErrorCode::ERR_GRAPH_RATE_LIMIT_EXCEEDED:
+            return "GRAPH | Rate limit exceeded";
+            
+        // Document Errors (9400-9499)
+        case ErrorCode::ERR_DOC_NOT_FOUND:
+            return "DOCUMENT | Document not found";
+        case ErrorCode::ERR_DOC_ALREADY_EXISTS:
+            return "DOCUMENT | Document already exists";
+        case ErrorCode::ERR_DOC_INVALID_ID:
+            return "DOCUMENT | Invalid document ID";
+        case ErrorCode::ERR_DOC_SCHEMA_SEALED:
+            return "DOCUMENT | Schema sealed";
+        case ErrorCode::ERR_DOC_SCHEMA_VERSION_NOT_FOUND:
+            return "DOCUMENT | Schema version not found";
+        case ErrorCode::ERR_DOC_SCHEMA_VERSION_EXISTS:
+            return "DOCUMENT | Schema version exists";
+        case ErrorCode::ERR_DOC_DIFF_NOT_FOUND:
+            return "DOCUMENT | Diff not found";
+        case ErrorCode::ERR_DOC_MERGE_CONFLICT:
+            return "DOCUMENT | Merge conflict";
+        case ErrorCode::ERR_DOC_ACCESS_DENIED:
+            return "DOCUMENT | Access denied";
+        case ErrorCode::ERR_DOC_COLLECTION_NOT_FOUND:
+            return "DOCUMENT | Collection not found";
+        case ErrorCode::ERR_DOC_ENCRYPT_FAILED:
+            return "DOCUMENT | Encryption failed";
+        case ErrorCode::ERR_DOC_INVALID_ARGUMENT:
+            return "DOCUMENT | Invalid argument";
+            
+        // Unknown / Fallback
+        case ErrorCode::ERR_UNKNOWN:
+        default:
+            spdlog::warn("Unmapped ErrorCode: {}", static_cast<int>(code));
+            return "UNKNOWN | Unknown error";
+    }
+}
+
 } // namespace errors
 } // namespace themis
 

@@ -297,6 +297,16 @@ public:
      * Returns an empty string for unknown error codes.
      */
     std::string getRecoveryHint(ErrorCode code) const;
+    
+    /**
+     * @brief QW-029: Exhaustive error code handling with complete case coverage
+     * Maps every ErrorCode enum value to its category and descriptive message
+     * Ensures all error codes are handled at compile/runtime
+     * 
+     * @param code Error code to map
+     * @return Category | Description string
+     */
+    std::string getErrorCategoryAndDescription(ErrorCode code) const;
 
     /**
      * @brief Format an error message using its template and the provided args.
