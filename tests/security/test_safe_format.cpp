@@ -167,3 +167,133 @@ TEST_F(SafeFormatTest, Compatibility_LongString) {
     std::string result = SafeFormat::format_safe("Length: {}", long_str.length());
     EXPECT_THAT(result, testing::HasSubstr("10000"));
 }
+
+// ============================================================================
+// BATCH B: Format String Remediation Integration Tests
+// ============================================================================
+
+namespace {
+   // Helper class to capture log output
+   class LogCapture {
+   public:
+       static std::vector<std::string> messages;
+        
+       static void clear() { messages.clear(); }
+       static void add(const std::string& msg) { messages.push_back(msg); }
+       static bool contains(const std::string& msg) {
+           return std::any_of(messages.begin(), messages.end(),
+                            [&msg](const std::string& m) { return m.find(msg) != std::string::npos; });
+       }
+   };
+   std::vector<std::string> LogCapture::messages;
+}
+
+TEST_F(SafeFormatTest, BatchB_QueryPlanner_LoggingWithUserInput) {
+   // Remediation pattern: Query planner logging format strings
+   // BEFORE: printf(user_query_str) - Format string vulnerability
+   // AFTER: SafeFormat::print_string(user_query_str) - Safe
+    
+   std::string user_query = "SELECT * FROM table WHERE id=%d AND name=%s";
+   std::string safe_output = SafeFormat::format_safe("Query: {}", user_query);
+    
+   // Should print the query literally, not interpret format specifiers
+   EXPECT_THAT(safe_output, testing::HasSubstr("%d"));
+   EXPECT_THAT(safe_output, testing::HasSubstr("%s"));
+   EXPECT_EQ(safe_output, "Query: SELECT * FROM table WHERE id=%d AND name=%s");
+}
+
+TEST_F(SafeFormatTest, BatchB_AuditLogger_EventLogging) {
+   // Remediation pattern: Audit logger with user-provided event names
+   // BEFORE: sprintf(buffer, event_name, ...) - Format string vulnerability
+   // AFTER: SafeFormat::snprintf_safe(buffer, size, "Event: {}", event_name)
+    
+   std::string event_name = "User login attempt %x %x %x";
+   std::string log_entry = SafeFormat::format_safe("[AUDIT] Event: {}", event_name);
+    
+   EXPECT_THAT(log_entry, testing::HasSubstr("[AUDIT]"));
+   EXPECT_THAT(log_entry, testing::HasSubstr("User login attempt"));
+   EXPECT_THAT(log_entry, testing::HasSubstr("%x"));  // Should be literal
+}
+
+TEST_F(SafeFormatTest, BatchB_EventProcessor_StreamLogging) {
+   // Remediation pattern: Event stream processor logging
+   // High-volume logging scenario
+    
+   for (int i = 0; i < 100; ++i) {
+       std::string event = "Event" + std::to_string(i);
+       std::string log = SafeFormat::format_safe("Processing: {}", event);
+       EXPECT_THAT(log, testing::HasSubstr("Processing: Event" + std::to_string(i)));
+   }
+}
+
+TEST_F(SafeFormatTest, BatchB_RESTHandler_RequestLogging) {
+   // Remediation pattern: REST API handler request logging
+   // BEFORE: printf(method + " " + path + " " + headers) - Format strings
+   // AFTER: SafeFormat::format_safe() with controlled format
+    
+   std::string method = "POST";
+   std::string path = "/api/endpoint?param=%x";
+   std::string headers = "Authorization: ******";
+    
+   std::string log = SafeFormat::format_safe("{} {} Headers: {}", 
+                                             method, path, headers);
+    
+   EXPECT_THAT(log, testing::HasSubstr("POST"));
+   EXPECT_THAT(log, testing::HasSubstr("/api/endpoint?param=%x"));  // Literal
+   EXPECT_THAT(log, testing::HasSubstr("%n"));  // Literal
+}
+
+TEST_F(SafeFormatTest, BatchB_HTTPServer_ErrorResponse) {
+   // Remediation pattern: HTTP server error response logging
+   int http_status = 500;
+   std::string error_msg = "Internal Server Error %s %s %s";
+   std::string response_log = SafeFormat::format_safe("Status: {} Message: {}", 
+                                                       http_status, error_msg);
+    
+   EXPECT_THAT(response_log, testing::HasSubstr("500"));
+   EXPECT_THAT(response_log, testing::HasSubstr("%s"));  // Literal
+}
+
+TEST_F(SafeFormatTest, BatchB_Logger_BufferOverflowPrevention) {
+   // Remediation pattern: Prevent buffer overflow in logging
+   // BEFORE: sprintf(small_buffer, large_format_string, args)
+   // AFTER: SafeFormat::snprintf_safe(buffer, size, format, args)
+    
+   char small_buffer[32];  // Small buffer
+   std::string large_msg(100, 'X');  // Large message
+    
+   int written = SafeFormat::snprintf_safe(
+       small_buffer, sizeof(small_buffer),
+       "Message: {}", large_msg
+   );
+    
+   // Should be safe even with mismatched sizes
+   EXPECT_LT(strlen(small_buffer), sizeof(small_buffer));
+   EXPECT_EQ(small_buffer[sizeof(small_buffer) - 1], '\0');
+}
+
+TEST_F(SafeFormatTest, BatchB_SecurityModule_InputValidation) {
+   // Remediation pattern: Security module input validation logging
+   std::string suspicious_input = "DROP TABLE users; --";
+   std::string validation_log = SafeFormat::format_safe(
+       "Suspicious input detected: {}",
+       suspicious_input
+   );
+    
+   EXPECT_THAT(validation_log, testing::HasSubstr("DROP TABLE users"));
+}
+
+TEST_F(SafeFormatTest, BatchB_AnalyticsModule_MetricLogging) {
+   // Remediation pattern: Analytics metric logging with user labels
+   std::string metric_label = "query_time_%d_%x";
+   double metric_value = 123.45;
+    
+   std::string metric_log = SafeFormat::format_safe(
+       "Metric [{}] = {}",
+       metric_label, metric_value
+   );
+    
+   EXPECT_THAT(metric_log, testing::HasSubstr("%d"));  // Literal
+   EXPECT_THAT(metric_log, testing::HasSubstr("%x"));  // Literal
+   EXPECT_THAT(metric_log, testing::HasSubstr("123.45"));
+}
