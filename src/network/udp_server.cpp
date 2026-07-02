@@ -31,6 +31,7 @@
 // See include/network/udp_server.h for protocol documentation.
 
 #include "network/udp_server.h"
+#include "security/safe_format.h"
 #include "utils/logger.h"
 
 #include <chrono>
@@ -63,10 +64,9 @@ std::string anonymizeIpForLog(std::string_view ip) {
     if (ip.empty()) {
         return "peer#unknown";
     }
-    char buffer[32];
-    std::snprintf(buffer, sizeof(buffer), "peer#%016llx",
+    std::string buffer = themis::security::SafeFormat::format_safe("peer#{:016x}",
                   static_cast<unsigned long long>(fnv1a64(ip)));
-    return std::string(buffer);
+    return buffer;
 }
 
 /// Maximum ms to wait for any single thread to join during shutdown.

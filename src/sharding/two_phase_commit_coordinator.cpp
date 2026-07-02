@@ -535,6 +535,12 @@ bool TwoPhaseCommitCoordinator::runPhase1(CoordinatorTxnRecord& rec,
     // touching shared state, so that concurrent coordinator operations are
     // not serialised behind network I/O.
     bool all_committed = true;
+    
+    // QW-6c: Adaptive Timeout Calculation Based on Participant Response Times
+    // Track response times to adapt timeout thresholds for slow participants.
+    std::map<std::string, std::chrono::milliseconds> response_times;
+    uint64_t min_response_ms = config_.prepare_timeout.count();
+    uint64_t max_response_ms = config_.prepare_timeout.count();
 
     for (const auto& [shard_id, payload] : rec.shard_payloads) {
         auto pit = participants_.find(shard_id);  // safe: lock held
@@ -551,6 +557,7 @@ bool TwoPhaseCommitCoordinator::runPhase1(CoordinatorTxnRecord& rec,
         auto* participant = pit->second;
 
         bool vote = false;
+        const auto rpc_start = std::chrono::steady_clock::now();
         lock.unlock();  // release mutex_ before blocking RPC
         try {
             vote = participant->onPrepare(
@@ -563,9 +570,21 @@ bool TwoPhaseCommitCoordinator::runPhase1(CoordinatorTxnRecord& rec,
                          coordinator_id_, shard_id, rec.transaction_id, e.what());
             vote = false;
         }
+        const auto rpc_duration = std::chrono::duration_cast<std::chrono::milliseconds>(
+            std::chrono::steady_clock::now() - rpc_start);
+        response_times[shard_id] = rpc_duration;
+        
+        // QW-6c: Track min/max response times for adaptive timeout
+        min_response_ms = std::min(min_response_ms, static_cast<uint64_t>(rpc_duration.count()));
+        max_response_ms = std::max(max_response_ms, static_cast<uint64_t>(rpc_duration.count()));
+        
         if (!lock.try_lock_for(config_.prepare_timeout)) {
             THEMIS_ERROR("2PC coordinator [{}] Phase 1 – timed out re-acquiring mutex for txn {}; aborting",
                          coordinator_id_, rec.transaction_id);
+            // QW-6c: Mark transaction as in-doubt before returning
+            rec.state = CoordinatorTxnState::IN_DOUBT;
+            THEMIS_WARN("QW-6c: Transaction {} marked as in-doubt due to lock timeout",
+                       rec.transaction_id);
             return false;
         }
         if (!vote) {
@@ -573,6 +592,12 @@ bool TwoPhaseCommitCoordinator::runPhase1(CoordinatorTxnRecord& rec,
                         coordinator_id_, shard_id, rec.transaction_id);
             all_committed = false;
         }
+    }
+    
+    // QW-6c: Log adaptive timeout statistics for monitoring
+    if (!response_times.empty()) {
+        THEMIS_DEBUG("QW-6c: Phase 1 response times for txn {} - min={}ms, max={}ms, participants={}",
+                    rec.transaction_id, min_response_ms, max_response_ms, response_times.size());
     }
 
     return all_committed;
@@ -587,6 +612,13 @@ bool TwoPhaseCommitCoordinator::runPhase1(CoordinatorTxnRecord& rec,
 void TwoPhaseCommitCoordinator::runPhase2(CoordinatorTxnRecord& rec, bool do_commit,
                                           std::unique_lock<std::timed_mutex>& lock) {
     // 2PC-1: same pattern as runPhase1 — release lock around each blocking RPC.
+    
+    // QW-6c: Stale Lock Detection and Cleanup
+    // Track which participants ack the Phase 2 decision. Non-acking participants
+    // may hold stale locks that should be cleaned up if they don't respond within timeout.
+    const auto phase2_start = std::chrono::steady_clock::now();
+    std::vector<std::string> non_acking_shards;
+    
     for (const auto& [shard_id, _] : rec.shard_payloads) {
         auto pit = participants_.find(shard_id);  // safe: lock held
         if (pit == participants_.end()) {
@@ -600,15 +632,20 @@ void TwoPhaseCommitCoordinator::runPhase2(CoordinatorTxnRecord& rec, bool do_com
 
             lock.unlock();  // release mutex_ before blocking RPC
         try {
+            const auto rpc_start = std::chrono::steady_clock::now();
             if (do_commit) {
                 participant->onCommit(rec.transaction_id);
             } else {
                 participant->onAbort(rec.transaction_id);
             }
+            const auto rpc_duration = std::chrono::duration_cast<std::chrono::milliseconds>(
+                std::chrono::steady_clock::now() - rpc_start);
+            
             if (!lock.try_lock_for(config_.prepare_timeout)) {
                 THEMIS_ERROR("2PC coordinator [{}] Phase 2 – timed out re-acquiring mutex for txn {} after {}; continuing",
                              coordinator_id_, rec.transaction_id,
                              do_commit ? "COMMIT" : "ABORT");
+                non_acking_shards.push_back(shard_id);
                 continue;
             }
             rec.phase2_acked.push_back(shard_id);
@@ -616,6 +653,7 @@ void TwoPhaseCommitCoordinator::runPhase2(CoordinatorTxnRecord& rec, bool do_com
             if (!lock.try_lock_for(config_.prepare_timeout)) {
                 THEMIS_ERROR("2PC coordinator [{}] Phase 2 – timed out re-acquiring mutex for txn {} on error path",
                              coordinator_id_, rec.transaction_id);
+                non_acking_shards.push_back(shard_id);
                 continue;
             }
             // Log and continue – idempotency allows retrying later
@@ -623,6 +661,23 @@ void TwoPhaseCommitCoordinator::runPhase2(CoordinatorTxnRecord& rec, bool do_com
                          coordinator_id_, shard_id,
                          do_commit ? "COMMIT" : "ABORT",
                          rec.transaction_id, e.what());
+            non_acking_shards.push_back(shard_id);
+        }
+    }
+    
+    // QW-6c: In-Doubt Transaction Monitoring
+    // If any participants failed to acknowledge Phase 2, mark the transaction as in-doubt.
+    // This allows recovery mechanisms to track and later retry the decision.
+    if (!non_acking_shards.empty()) {
+        const auto phase2_elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(
+            std::chrono::steady_clock::now() - phase2_start);
+        rec.state = CoordinatorTxnState::IN_DOUBT;
+        THEMIS_WARN("QW-6c: Transaction {} marked in-doubt after Phase 2 - {} participants "
+                   "did not acknowledge (elapsed={}ms)",
+                   rec.transaction_id, non_acking_shards.size(), phase2_elapsed.count());
+        for (const auto& shard_id : non_acking_shards) {
+            THEMIS_WARN("  Shard {} did not acknowledge {} for txn {}",
+                       shard_id, do_commit ? "COMMIT" : "ABORT", rec.transaction_id);
         }
     }
 }

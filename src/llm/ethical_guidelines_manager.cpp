@@ -30,6 +30,8 @@
 #include <cctype>
 #include <regex>
 
+#include "security/safe_regex.h"
+
 // Map legacy logging calls to project-wide macros
 #define LogInfo  THEMIS_INFO
 #define LogWarning THEMIS_WARN
@@ -616,6 +618,13 @@ Analyze the above text and context. Respond in JSON format:
     // Strip any markdown code fences the model may have emitted.
     std::string json_text = resp.text;
     {
+        // REMEDIATION: SafeRegex with input validation before fence extraction
+        // Validate response text before regex search to prevent ReDoS
+        if (!themis::security::SafeRegex::validate_input(json_text, 512 * 1024)) {  // 512KB max
+            LogError("JSON text exceeds maximum allowed length for fence extraction");
+            return {};
+        }
+        
         static const std::regex kFence("```(?:json)?\\s*([\\s\\S]*?)```",
                                        std::regex_constants::icase);
         std::smatch m;

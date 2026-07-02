@@ -10,6 +10,7 @@
  */
 
 #include "rag/self_rag.h"
+#include "security/safe_format.h"
 
 #include <algorithm>
 #include <cctype>
@@ -91,13 +92,13 @@ static void print_backtrace_if_enabled(const char* context) {
 
     HANDLE process = GetCurrentProcess();
     if (!SymInitialize(process, NULL, TRUE)) {
-        std::fprintf(stderr, "=== Backtrace (sym init failed) (%s): %hu frames ===\n", context, captured);
-        for (USHORT i = 0; i < captured; ++i) std::fprintf(stderr, "  %02hu: %p\n", i, frames[i]);
-        std::fprintf(stderr, "=== End Backtrace ===\n");
+        themis::security::SafeFormat::fprintf_safe(stderr, "=== Backtrace (sym init failed) ({}): {} frames ===\n", context, captured);
+        for (USHORT i = 0; i < captured; ++i) themis::security::SafeFormat::fprintf_safe(stderr, "  {:02d}: {:p}\n", i, frames[i]);
+        themis::security::SafeFormat::fprintf_safe(stderr, "=== End Backtrace ===\n");
         return;
     }
 
-    std::fprintf(stderr, "=== Backtrace (%s): %hu frames ===\n", context, captured);
+    themis::security::SafeFormat::fprintf_safe(stderr, "=== Backtrace ({}): {} frames ===\n", context, captured);
     for (USHORT i = 0; i < captured; ++i) {
         DWORD64 address = reinterpret_cast<DWORD64>(frames[i]);
         // Prepare SYMBOL_INFO buffer
@@ -108,12 +109,12 @@ static void print_backtrace_if_enabled(const char* context) {
         symbol->MaxNameLen = MAX_SYM_NAME;
         DWORD64 displacement = 0;
         if (SymFromAddr(process, address, &displacement, symbol)) {
-            std::fprintf(stderr, "  %02hu: %p %s + 0x%llx\n", i, frames[i], symbol->Name, static_cast<unsigned long long>(displacement));
+            themis::security::SafeFormat::fprintf_safe(stderr, "  {:02d}: {:p} {} + 0x{:x}\n", i, frames[i], symbol->Name, displacement);
         } else {
-            std::fprintf(stderr, "  %02hu: %p (sym lookup failed)\n", i, frames[i]);
+            themis::security::SafeFormat::fprintf_safe(stderr, "  {:02d}: {:p} (sym lookup failed)\n", i, frames[i]);
         }
     }
-    std::fprintf(stderr, "=== End Backtrace ===\n");
+    themis::security::SafeFormat::fprintf_safe(stderr, "=== End Backtrace ===\n");
     SymCleanup(process);
 }
 #endif
@@ -246,7 +247,7 @@ std::vector<RatedDocument> SelfRAGController::criticDocuments(
             long long sum = 0;
             for (auto v : samples) sum += v;
             long long mean = sum / static_cast<long long>(samples.size());
-            std::fprintf(stderr, "SelfRAG critic microbench: iters=%d p50=%lld p95=%lld p99=%lld mean=%lld ns\n",
+            themis::security::SafeFormat::fprintf_safe(stderr, "SelfRAG critic microbench: iters={} p50={} p95={} p99={} mean={} ns\n",
                          iterations, static_cast<long long>(p50), static_cast<long long>(p95), static_cast<long long>(p99), static_cast<long long>(mean));
         }
     }
@@ -303,7 +304,7 @@ std::vector<RatedDocument> SelfRAGController::criticDocuments(
 
             critic_score = clamp01(0.65 * retrieval_signal + 0.35 * overlap_signal);
                 if (std::getenv("THEMIS_RAG_CRITIC_TRACE")) {
-                    std::fprintf(stderr, "  DEBUG critic: retrieval=%0.4f overlap=%0.4f score=%0.6f\n",
+                    themis::security::SafeFormat::fprintf_safe(stderr, "  DEBUG critic: retrieval={:.4f} overlap={:.4f} score={:.6f}\n",
                                  retrieval_signal, overlap_signal, critic_score);
                 }
         }
@@ -354,14 +355,14 @@ std::vector<RatedDocument> SelfRAGController::criticDocuments(
                     if (i99 >= doc_times.size()) i99 = doc_times.size()-1;
                     long long p99 = doc_times[i99];
                     long long t50 = token_times[token_times.size()/2];
-                    std::fprintf(stderr, "SelfRAG critic trace: docs=%zu p50=%lld p95=%lld p99=%lld mean=%lld ns token_p50=%lld ns slow_count=%zu\n",
+                    themis::security::SafeFormat::fprintf_safe(stderr, "SelfRAG critic trace: docs={} p50={} p95={} p99={} mean={} ns token_p50={} ns slow_count={}\n",
                                  doc_times.size(), p50, p95, p99, mean, t50, slow_docs.size());
                     if (!slow_docs.empty()) {
                         std::sort(slow_docs.begin(), slow_docs.end(), [](auto &a, auto &b){ return a.first > b.first; });
                         size_t show = std::min<size_t>(5, slow_docs.size());
-                        std::fprintf(stderr, "Top %zu slow docs:\n", show);
+                        themis::security::SafeFormat::fprintf_safe(stderr, "Top {} slow docs:\n", show);
                         for (size_t si = 0; si < show; ++si) {
-                            std::fprintf(stderr, "  %zu: %lld ns id=%s\n", si+1, slow_docs[si].first, slow_docs[si].second.c_str());
+                            themis::security::SafeFormat::fprintf_safe(stderr, "  {}: {} ns id={}\n", si+1, slow_docs[si].first, slow_docs[si].second.c_str());
                         }
                     }
                 }
@@ -450,7 +451,7 @@ SelfRAGResult SelfRAGController::runRefinementLoop(const std::string& query,
             size_t idx99 = static_cast<size_t>(samples.size() * 0.99);
             if (idx99 >= samples.size()) idx99 = samples.size() - 1;
             long long p99 = samples.empty() ? 0 : samples[idx99];
-            std::fprintf(stderr, "SelfRAG retrieval microbench: iters=%d p50=%lld p95=%lld p99=%lld mean=%lld ns\n",
+            themis::security::SafeFormat::fprintf_safe(stderr, "SelfRAG retrieval microbench: iters={} p50={} p95={} p99={} mean={} ns\n",
                          iterations,
                          static_cast<long long>(p50), static_cast<long long>(p95), static_cast<long long>(p99), static_cast<long long>(mean));
         }
@@ -511,7 +512,7 @@ SelfRAGResult SelfRAGController::runRefinementLoop(const std::string& query,
             const auto retrieval_ns = std::chrono::duration_cast<std::chrono::nanoseconds>(after_retrieval - round_start).count();
             const auto dedup_ns = std::chrono::duration_cast<std::chrono::nanoseconds>(after_dedup - after_retrieval).count();
             const auto critic_ns = std::chrono::duration_cast<std::chrono::nanoseconds>(after_critic - critic_start).count();
-            std::fprintf(stderr, "SelfRAG round %zu ns=%lld retrieval_ns=%lld dedup_ns=%lld critic_ns=%lld retrieved=%zu relevant=%zu partial=%zu irrelevant=%zu\n",
+            themis::security::SafeFormat::fprintf_safe(stderr, "SelfRAG round {} ns={} retrieval_ns={} dedup_ns={} critic_ns={} retrieved={} relevant={} partial={} irrelevant={}\n",
                          round,
                          static_cast<long long>(total_ns),
                          static_cast<long long>(retrieval_ns),

@@ -86,18 +86,55 @@ std::vector<std::string> OrphanDetector::detectOrphans(
 
     auto now = std::chrono::system_clock::now();
     const auto threshold = std::chrono::seconds(config_.timeout_seconds);
+    
+    // QW-6a: State-Specific Timeout Configuration
+    // Different transaction states may require different timeout thresholds:
+    // PREPARING: timeout indicates prepare phase failure (aggressive cleanup)
+    // PREPARED: timeout indicates waiting for commit/abort (standard timeout)
+    // COMMITTING/ABORTING: timeout indicates protocol stall (extends slightly)
+    std::map<int, uint64_t> state_timeouts;
+    state_timeouts[static_cast<int>(themisdb::sharding::TransactionState::PREPARING)] = 
+        config_.timeout_seconds / 2;  // Faster detection for prepare phase hangs
+    state_timeouts[static_cast<int>(themisdb::sharding::TransactionState::PREPARED)] = 
+        config_.timeout_seconds;      // Standard timeout for prepared state
+    state_timeouts[static_cast<int>(themisdb::sharding::TransactionState::COMMITTING)] = 
+        config_.timeout_seconds * 2;  // Extended timeout for commit phase
+    state_timeouts[static_cast<int>(themisdb::sharding::TransactionState::ABORTING)] = 
+        config_.timeout_seconds * 2;  // Extended timeout for abort phase
 
     for (const auto& txn : active_txns) {
         const auto age = now - txn.start_time;
-        if (age < threshold) {
+        
+        // QW-6a: Apply state-specific timeout thresholds
+        uint64_t effective_timeout = config_.timeout_seconds;
+        auto state_it = state_timeouts.find(static_cast<int>(txn.state));
+        if (state_it != state_timeouts.end()) {
+            effective_timeout = state_it->second;
+        }
+        
+        const auto effective_threshold = std::chrono::seconds(effective_timeout);
+        if (age < effective_threshold) {
             continue;
         }
 
         if (isOrphanableState(txn, config_)) {
-            spdlog::info("OrphanDetector: Transaction {} is orphaned (age {}s, state {})",
-                         txn.transaction_id,
-                         std::chrono::duration_cast<std::chrono::seconds>(age).count(),
-                         static_cast<int>(txn.state));
+            // QW-6a: Enhanced logging for orphan lifecycle diagnostics
+            spdlog::info("QW-6a: OrphanDetector detected orphaned transaction {} "
+                        "(age {}s, state {}, threshold {}s)",
+                        txn.transaction_id,
+                        std::chrono::duration_cast<std::chrono::seconds>(age).count(),
+                        static_cast<int>(txn.state),
+                        effective_timeout);
+            
+            // QW-6a: Log blocked state information for debugging
+            if (txn.state == themisdb::sharding::TransactionState::PREPARING) {
+                spdlog::warn("QW-6a: Transaction {} blocked in PREPARING state (stalled prepare phase)",
+                            txn.transaction_id);
+            } else if (txn.state == themisdb::sharding::TransactionState::PREPARED) {
+                spdlog::warn("QW-6a: Transaction {} blocked in PREPARED state (awaiting commit/abort decision)",
+                            txn.transaction_id);
+            }
+            
             orphaned_txns.push_back(txn.transaction_id);
         }
     }
@@ -177,25 +214,33 @@ size_t OrphanDetector::cleanPercolatorLocks(
             continue;
         }
 
-        spdlog::info("OrphanDetector: Reclaiming stale Percolator lock for txn {} "
-                     "(age {}s)",
-                     txn.transaction_id,
-                     std::chrono::duration_cast<std::chrono::seconds>(
-                         now - txn.start_time).count());
+     spdlog::info("OrphanDetector: Reclaiming stale Percolator lock for txn {} "
+                  "(age {}s)",
+                  txn.transaction_id,
+                  std::chrono::duration_cast<std::chrono::seconds>(
+                      now - txn.start_time).count());
 
-        if (coordinator->abort(txn.transaction_id)) {
-            ++cleaned;
-            spdlog::info("OrphanDetector: Stale Percolator lock reclaimed for txn {}",
-                         txn.transaction_id);
-        } else {
-            spdlog::warn("OrphanDetector: Failed to abort stale Percolator txn {}",
-                         txn.transaction_id);
-        }
-    }
+         // QW-6a: Safe rollback with explicit error handling
+         try {
+             if (coordinator->abort(txn.transaction_id)) {
+                 ++cleaned;
+                 spdlog::info("QW-6a: Orphan cleanup - stale Percolator lock reclaimed for txn {}",
+                             txn.transaction_id);
+             } else {
+                 spdlog::warn("QW-6a: Orphan cleanup - failed to abort stale Percolator txn {} "
+                             "(coordinator returned false)",
+                             txn.transaction_id);
+             }
+         } catch (const std::exception& e) {
+             // QW-6a: Catch exceptions during rollback to prevent cleanup stalls
+             spdlog::error("QW-6a: Orphan cleanup - exception during abort of txn {}: {}",
+                          txn.transaction_id, e.what());
+         }
+     }
 
-    spdlog::info("OrphanDetector::cleanPercolatorLocks: reclaimed {} stale lock(s)",
-                 cleaned);
-    return cleaned;
+     spdlog::info("QW-6a: OrphanDetector::cleanPercolatorLocks: reclaimed {} stale lock(s) from {} candidates",
+                  cleaned, active_txns.size());
+     return cleaned;
 }
 
 } // namespace sharding

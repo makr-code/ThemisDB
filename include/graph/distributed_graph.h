@@ -63,6 +63,10 @@ struct DistributedGraphConfig {
     uint32_t timeout_ms = 5000;
     /// Maximum number of shards to query in parallel (0 = all).
     uint32_t max_parallel_shards = 0;
+    /// Enable affinity caching for shard resolution results (QW-027).
+    bool enable_affinity_cache = true;
+    /// Maximum number of affinity cache entries (LRU eviction).
+    size_t affinity_cache_size = 10000;
 
     DistributedGraphConfig() = default;
 };
@@ -190,7 +194,15 @@ public:
 
 private:
     std::string shard_id_;
-    GraphIndexManager& graph_mgr_;   ///< Direct reference for vertex/edge iteration.
+    /**
+     * @brief Reference to the graph manager for this shard.
+     * 
+     * @note **Ownership**: Non-owning reference. The GraphIndexManager must
+     *       outlive this executor. Caller is responsible for managing lifetime.
+     *       This is a reference (not smart pointer) for performance; the owner
+     *       is typically a DistributedGraphManager or test harness.
+     */
+    GraphIndexManager& graph_mgr_;
     GraphQueryOptimizer optimizer_;
 
     /// Qualify a vertex ID returned by the local optimizer as "<id>@<shard_id_>".
@@ -296,11 +308,15 @@ public:
      * @param k             Maximum hop count.
      * @param constraints   Optional per-query execution constraints.
      * @return Merged list of reachable vertex IDs, each qualified as "<id>@<shard>".
+     *
+     * @note **Move Semantics**: The returned vector is moved (not copied) to the caller
+     *       via RVO. Caller owns the vector and may efficiently transfer ownership
+     *       downstream without triggering allocations via std::move.
      */
     Result<std::vector<std::string>> kHopNeighbors(
-        std::string_view start_vertex,
-        int k,
-        const GraphQueryOptimizer::QueryConstraints& constraints = {});
+       std::string_view start_vertex,
+       int k,
+       const GraphQueryOptimizer::QueryConstraints& constraints = {});
 
     /**
      * @brief Generate a shard-aware OptimizationPlan for a distributed query.
@@ -388,9 +404,25 @@ public:
 private:
     DistributedGraphConfig config_;
 
-    // Registered shards: shard_id -> executor
+    /**
+     * @brief Registered shards: shard_id -> executor
+     * 
+     * @note **Ownership**: Uses std::shared_ptr for RAII compliance. Each executor
+     *       is reference-counted; shards are automatically cleaned up when removed
+     *       from the map and no other references exist. Thread-safe via shared_mutex.
+     */
     std::unordered_map<std::string, std::shared_ptr<ShardGraphExecutor>> shards_;
     mutable std::shared_mutex shards_mutex_;
+
+    /**
+     * @brief QW-027: Affinity cache for shard resolution results (LRU via map).
+     * 
+     * @note **Ownership**: Cache entries are value-semantics strings; managed
+     *       by the unordered_map container. LRU eviction is manual but RAII-safe.
+     */
+    mutable std::unordered_map<std::string, std::string> affinity_cache_;
+    mutable std::shared_mutex affinity_cache_mutex_;
+    mutable std::vector<std::string> affinity_cache_lru_;  ///< LRU eviction order
 
     /// Collect all healthy shard executors (snapshot under lock).
     std::vector<std::pair<std::string, std::shared_ptr<ShardGraphExecutor>>>
@@ -398,6 +430,25 @@ private:
 
     /// Resolve per-query parallelism cap.
     size_t effectiveParallelism(size_t num_shards) const;
+
+    /// QW-024: Execute kHopNeighbors on primary shard first, parallelize secondary shards.
+    [[nodiscard]] Result<std::vector<std::string>> kHopNeighborsWithAffinity(
+        std::string_view start_vertex,
+        int k,
+        const GraphQueryOptimizer::QueryConstraints& constraints,
+        const std::string& primary_shard_id);
+
+    /// QW-025: Merge multiple shard results using k-way merge for sorted results.
+    void mergeShardResultsKWay(
+        std::vector<std::vector<std::string>>& shard_results,
+        std::vector<std::string>& merged_output,
+        bool preserve_rank = false);
+
+    /// QW-027: Get or update affinity cache for vertex shard resolution.
+    std::string resolveShardForVertexWithCache(const std::string& local_vertex_id);
+
+    /// QW-027: Invalidate all affinity cache entries (called when shards added/removed).
+    void invalidateAffinityCache();
 };
 
 } // namespace graph

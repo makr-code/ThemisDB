@@ -22,6 +22,7 @@
 // Token Bucket rate limiting, Priority Queues, and Backpressure control
 
 #include "network/qos_manager.h"
+#include "security/safe_format.h"
 
 #include <algorithm>
 #include <array>
@@ -664,33 +665,30 @@ bool QoSManager::configureTc(const TcConfig& tc_config) {
 
     // Remove any existing root qdisc (ignore failure)
     {
-        char cmd[256];
-        std::snprintf(cmd, sizeof(cmd),
-                      "%s qdisc del dev %s root 2>/dev/null",
+        std::string cmd = themis::security::SafeFormat::format_safe(
+                      "{} qdisc del dev {} root 2>/dev/null",
                       tc_bin, iface.c_str());
-        std::system(cmd);  // NOLINT(cert-env33-c)
+        std::system(cmd.c_str());  // NOLINT(cert-env33-c)
     }
 
     // Add HTB root qdisc
     {
-        char cmd[256];
-        std::snprintf(cmd, sizeof(cmd),
-                      "%s qdisc add dev %s root handle 1: htb default 10",
+        std::string cmd = themis::security::SafeFormat::format_safe(
+                      "{} qdisc add dev {} root handle 1: htb default 10",
                       tc_bin, iface.c_str());
-        if (std::system(cmd) != 0) {  // NOLINT(cert-env33-c)
+        if (std::system(cmd.c_str()) != 0) {  // NOLINT(cert-env33-c)
             return false;
         }
     }
 
     // Add root class with total rate limit (if configured)
     if (rate_bps > 0) {
-        char cmd[512];
         uint64_t rate_kbps = std::max(rate_bps / 1000, uint64_t{1});
-        std::snprintf(cmd, sizeof(cmd),
-                      "%s class add dev %s parent 1: classid 1:1 htb"
-                      " rate %" PRIu64 "kbit ceil %" PRIu64 "kbit",
+        std::string cmd = themis::security::SafeFormat::format_safe(
+                      "{} class add dev {} parent 1: classid 1:1 htb"
+                      " rate {}kbit ceil {}kbit",
                       tc_bin, iface.c_str(), rate_kbps, rate_kbps);
-        if (std::system(cmd) != 0) {  // NOLINT(cert-env33-c)
+        if (std::system(cmd.c_str()) != 0) {  // NOLINT(cert-env33-c)
             return false;
         }
     }

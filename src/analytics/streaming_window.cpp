@@ -98,6 +98,7 @@
 #include "analytics/streaming_window.h"
 #include <stdexcept>
 #include "analytics/detail/stats.h"
+#include "security/safe_format.h"
 
 #include <algorithm>
 #include <cassert>
@@ -129,12 +130,15 @@ std::string genId() {
     // Stable pseudo-UUID layout based on monotonic time + process-local counter.
     uint64_t a = t;
     uint64_t b = (c << 32) ^ (t >> 7);
-    char buf[37];
-    std::snprintf(buf, sizeof(buf), "%08x-%04x-%04x-%04x-%012llx", static_cast<unsigned>(a >> 32),
-                  static_cast<unsigned>((a >> 16) & 0xFFFF), static_cast<unsigned>(a & 0xFFFF),
-                  static_cast<unsigned>((b >> 48) & 0xFFFF),
-                  static_cast<unsigned long long>(b & 0x0000'FFFF'FFFF'FFFFULL));
-    return std::string(buf);
+    // Use fmt::format for safe UUID formatting
+    std::string result = themis::security::SafeFormat::format_safe(
+        "{:08x}-{:04x}-{:04x}-{:04x}-{:012x}",
+        static_cast<unsigned>(a >> 32),
+        static_cast<unsigned>((a >> 16) & 0xFFFF),
+        static_cast<unsigned>(a & 0xFFFF),
+        static_cast<unsigned>((b >> 48) & 0xFFFF),
+        static_cast<unsigned long long>(b & 0x0000'FFFF'FFFF'FFFFULL));
+    return result;
 }
 
 int64_t toMicros(const std::chrono::system_clock::time_point &tp) {

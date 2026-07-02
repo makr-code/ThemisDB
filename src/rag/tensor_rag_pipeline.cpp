@@ -14,6 +14,7 @@
 #include "observability/reason_codes.h"
 #include "observability/retrieval_provenance.h"
 #include "observability/telemetry_keys.h"
+#include "security/safe_format.h"
 #include <stdexcept>
 
 #include <cstdio>
@@ -116,9 +117,9 @@ RAGDecision TensorRAGPipeline::step(const std::string&        token_text,
                         // Fail-closed: embedding fn threw; leave embedding empty.
                         // Distinct from "no fn wired" — the backend is registered but
                         // failed at runtime. Operators should diagnose the root cause.
-                        std::fprintf(stderr,
+                        themis::security::SafeFormat::fprintf_safe(stderr,
                             "[ThemisDB][WARN] TensorRAGPipeline::step: EmbeddingQueryFn "
-                            "threw for FLARE query (len=%zu); embedding left empty "
+                            "threw for FLARE query (len={}); embedding left empty "
                             "(fail-closed).\n",
                             decision.flare_query.size());
                         decision.flare_query_embedding.clear();

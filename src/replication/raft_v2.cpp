@@ -39,6 +39,17 @@ void RaftV2ClusterConfig::beginAddMember(const std::string& node_id) {
         throw std::runtime_error(
             "RaftV2ClusterConfig: membership change already in progress");
     }
+    
+    // QW-6b: Quorum Requirement Validation for Membership Changes
+    // The new cluster size after adding a member must maintain quorum requirements.
+    // A member can only be added if the total cluster size is odd and >= 3.
+    size_t new_size = new_members_.size() + 1;
+    if (new_size % 2 == 0) {
+        throw std::runtime_error(
+            "RaftV2ClusterConfig: cannot add member - resulting cluster size (" +
+            std::to_string(new_size) + ") would be even");
+    }
+    
     old_members_ = new_members_;
     new_members_.insert(node_id);
     in_joint_consensus_ = true;
@@ -54,6 +65,16 @@ void RaftV2ClusterConfig::beginRemoveMember(const std::string& node_id) {
         throw std::runtime_error(
             "RaftV2ClusterConfig: cannot remove the last member from the cluster");
     }
+    
+    // QW-6b: Quorum Requirement Validation before Member Removal
+    // After removing a member, the cluster must maintain min quorum size of 3.
+    size_t new_size = new_members_.size() - 1;
+    if (new_size < 3 && new_size > 0) {
+        throw std::runtime_error(
+            "RaftV2ClusterConfig: cannot remove member - resulting cluster size (" +
+            std::to_string(new_size) + ") would be below minimum quorum of 3");
+    }
+    
     old_members_ = new_members_;
     new_members_.erase(node_id);
     in_joint_consensus_ = true;
@@ -65,6 +86,13 @@ void RaftV2ClusterConfig::commitTransition() {
         throw std::runtime_error(
             "RaftV2ClusterConfig: no transition in progress to commit");
     }
+    // QW-6b: Membership Change Safety - JOINT→COMMIT Transition
+    // Before clearing the old_members set and finalizing the transition,
+    // the JOINT consensus entry must be durably persisted to ensure that
+    // if the leader crashes during the transition, a new leader can safely
+    // query the WAL and recover the correct cluster configuration.
+    // NOTE: This is a documentation point - actual WAL persistence is handled
+    // by the Raft engine before calling commitTransition().
     old_members_.clear();
     in_joint_consensus_ = false;
 }
@@ -75,6 +103,11 @@ void RaftV2ClusterConfig::rollbackTransition() {
         throw std::runtime_error(
             "RaftV2ClusterConfig: no transition in progress to roll back");
     }
+    // QW-6b: Safe rollback from JOINT state - restore previous membership
+    // Rollback is triggered when:
+    // 1. Quorum consensus fails during JOINT phase
+    // 2. Leader loses leadership before COMMIT entry is persisted
+    // 3. Explicit rollback request due to validation failure
     new_members_ = old_members_;
     old_members_.clear();
     in_joint_consensus_ = false;

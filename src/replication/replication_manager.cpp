@@ -1282,13 +1282,28 @@ bool ReplicationManager::waitForReplication(uint64_t sequence, uint32_t timeout_
         return false;
     }
     
+    // QW-5c: Replica Failure Collection - Track which replicas failed and propagate errors
+    std::map<std::string, std::string> replica_errors;
+    uint32_t retry_count = 0;
+    constexpr uint32_t kMaxRetries = 3;
+    constexpr uint32_t kInitialBackoffMs = 10;
+    
     while (std::chrono::steady_clock::now() < deadline) {
         acked_count = 0;
+        replica_errors.clear();
         {
             std::shared_lock<std::shared_mutex> lock(replicas_mutex_);
             for (const auto& stream : streams_) {
                 if (stream->getLastAckedSequence() >= sequence) {
                     acked_count++;
+                } else {
+                    // QW-5c: Collect error details from replica stream
+                    const auto& replica_endpoint = stream->getEndpoint();
+                    const auto stream_status = stream->getStatus();
+                    if (stream_status != ReplicationStreamStatus::HEALTHY) {
+                        replica_errors[replica_endpoint] = 
+                            "Stream unhealthy (status=" + std::to_string(static_cast<int>(stream_status)) + ")";
+                    }
                 }
             }
         }
@@ -1297,9 +1312,32 @@ bool ReplicationManager::waitForReplication(uint64_t sequence, uint32_t timeout_
             return true;
         }
         
-        std::this_thread::sleep_for(std::chrono::milliseconds(10));
+        // QW-5c: Propagate collected errors on critical failures
+        if (!replica_errors.empty() && acked_count + replica_errors.size() >= active_streams) {
+            THEMIS_ERROR("QW-5c: Replication consensus failed - replica failures detected:");
+            for (const auto& [endpoint, error] : replica_errors) {
+                THEMIS_ERROR("  Replica {}: {}", endpoint, error);
+            }
+            stats_.replication_errors++;
+            return false;
+        }
+        
+        // QW-5c: Exponential backoff for retry with adaptive timeout
+        uint32_t backoff_ms = kInitialBackoffMs * (1U << retry_count);
+        if (retry_count < kMaxRetries) {
+            retry_count++;
+        }
+        auto sleep_time = std::chrono::milliseconds(backoff_ms);
+        if (std::chrono::steady_clock::now() + sleep_time > deadline) {
+            break;
+        }
+        std::this_thread::sleep_for(sleep_time);
     }
     
+    // QW-5c: Final error report on timeout
+    THEMIS_ERROR("QW-5c: Replication timeout after {} retries: only {}/{} replicas acknowledged "
+                "(timeout_ms={})",
+                retry_count, acked_count, required, timeout_ms);
     stats_.replication_errors++;
     return false;
 }

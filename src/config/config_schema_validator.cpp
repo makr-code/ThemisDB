@@ -28,6 +28,7 @@
 
 #include "config/config_errors.h"
 #include "config/config_path_resolver.h"
+#include "security/safe_regex.h"
 
 namespace themis {
 namespace config {
@@ -641,13 +642,27 @@ void ConfigSchemaValidator::validateString(const nlohmann::json &value, const nl
     // --- pattern ---
     if (schema.contains("pattern") && schema["pattern"].is_string()) {
         const std::string &pattern = schema["pattern"].get<std::string>();
+        
+        // REMEDIATION: SafeRegex wrapper to prevent ReDoS
+        // Validate input length before pattern matching
+        if (!themis::security::SafeRegex::validate_input(s)) {
+            result.addError("String at '" + json_path + "' exceeds maximum allowed length for pattern matching");
+            return;
+        }
+        
+        // Validate pattern safety before compilation
+        if (!themis::security::SafeRegex::is_pattern_safe(pattern)) {
+            result.addError("Pattern '" + pattern + "' in schema at '" + json_path + "' is potentially unsafe (ReDoS risk)");
+            return;
+        }
+        
+        themis::security::SafeRegex safe_re(2);  // 2 second timeout
         try {
-            std::regex re(pattern);
-            if (!std::regex_search(s, re)) {
+            if (!safe_re.search(pattern, s, std::chrono::seconds(2))) {
                 result.addError("String at '" + json_path + "' does not match pattern '" + pattern + "'");
             }
-        } catch (const std::regex_error &e) {
-            result.addWarning("Invalid pattern '" + pattern + "' in schema at '" + json_path + "': " + e.what());
+        } catch (const std::runtime_error &e) {
+            result.addWarning("Pattern matching error '" + pattern + "' in schema at '" + json_path + "': " + e.what());
         }
     }
 
@@ -655,6 +670,14 @@ void ConfigSchemaValidator::validateString(const nlohmann::json &value, const nl
     if (schema.contains("format") && schema["format"].is_string()) {
         const std::string &fmt = schema["format"].get<std::string>();
         bool format_valid      = true;
+        
+        // REMEDIATION: SafeRegex with input validation for hardcoded safe patterns
+        // Validate input before format checking to prevent ReDoS from user input
+        if (!themis::security::SafeRegex::validate_input(s)) {
+            result.addError("String at '" + json_path + "' exceeds maximum allowed length for format validation");
+            return;
+        }
+        
         try {
             if (fmt == "date") {
                 // YYYY-MM-DD

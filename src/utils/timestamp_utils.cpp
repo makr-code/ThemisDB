@@ -19,6 +19,7 @@
  */
 
 #include "utils/timestamp_utils.h"
+#include "security/safe_format.h"
 
 #include <array>
 #include <cstdio>
@@ -96,9 +97,8 @@ std::string TimestampUtils::format(std::chrono::system_clock::time_point tp, boo
     gmtime_r(&sec, &tm_utc);
 #endif
 
-    char buf[32];
-    std::snprintf(buf, sizeof(buf),
-                  "%04d-%02d-%02dT%02d:%02d:%02d",
+    std::string buf = themis::security::SafeFormat::format_safe(
+                  "{:04d}-{:02d}-{:02d}T{:02d}:{:02d}:{:02d}",
                   tm_utc.tm_year + 1900,
                   tm_utc.tm_mon  + 1,
                   tm_utc.tm_mday,
@@ -106,11 +106,9 @@ std::string TimestampUtils::format(std::chrono::system_clock::time_point tp, boo
                   tm_utc.tm_min,
                   tm_utc.tm_sec);
 
-    std::string result(buf);
+    std::string result = buf;
     if (include_ms) {
-        char ms_buf[8];
-        std::snprintf(ms_buf, sizeof(ms_buf), ".%03d", ms_part);
-        result += ms_buf;
+        result += themis::security::SafeFormat::format_safe(".{:03d}", ms_part);
     }
     result += 'Z';
     return result;
@@ -239,9 +237,7 @@ std::string TimestampUtils::formatDuration(std::chrono::nanoseconds ns) {
     // Seconds with millisecond fraction
     oss << s.count();
     if (ms_part.count() > 0) {
-        char ms_buf[8];
-        std::snprintf(ms_buf, sizeof(ms_buf), ".%03lld", static_cast<long long>(ms_part.count()));
-        oss << ms_buf;
+        oss << themis::security::SafeFormat::format_safe(".{:03d}", static_cast<long long>(ms_part.count()));
     }
     oss << 's';
     return oss.str();

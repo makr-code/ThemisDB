@@ -5,11 +5,13 @@
 set(DISTRIBUTED_TENSOR_PUBLIC_HEADERS
     include/tensor_artifact_classes.h
     include/artifact_manifest.h
+    include/shard_placement.h
 )
 
 set(DISTRIBUTED_TENSOR_SOURCES
     src/tensor_artifact_classes.cc
     src/artifact_manifest.cc
+    src/shard_placement.cc
 )
 
 # Create the distributed tensor library
