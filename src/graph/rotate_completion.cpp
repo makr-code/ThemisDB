@@ -159,7 +159,8 @@ public:
     std::vector<float> entityEmbedding(const std::string& id) const {
         std::shared_lock lk(mu_);
         
-        // Defensive guard: untrained model returns empty vector
+        // Defensive guard: untrained model returns empty vector (fail-safe, not exception)
+        // Allows graceful degradation: caller checks result.empty() rather than catching
         if (!trained_) {
             THEMIS_DEBUG("[RotatEModel] entityEmbedding('{}') -> empty vector (model untrained)", id);
             return {};
@@ -169,6 +170,10 @@ public:
         size_t d   = cfg_.embedding_dim;
         
         // Production logic: interleave real and imaginary parts
+        // Bounds check: ensure index is within embedding table
+        assert(idx < entity_names_.size() && "Entity index out of bounds");
+        assert((idx + 1) * d <= entity_re_.size() && "Embedding dimension overflow");
+        
         std::vector<float> out(2 * d);
         
         for (size_t k = 0; k < d; ++k) {
@@ -183,11 +188,22 @@ public:
 
     std::vector<float> relationPhase(const std::string& id) const {
         std::shared_lock lk(mu_);
-        if (!trained_) return {};
+        
+        // Defensive guard: untrained model returns empty vector (fail-safe)
+        if (!trained_) {
+            return {};
+        }
+        
         size_t idx = relationIdx(id);
         size_t d   = cfg_.embedding_dim;
-        // Use vector iterator-range constructor to properly copy the range [idx*d, (idx+1)*d)
-        // (not initializer list which would create a vector containing two iterator objects)
+        
+        // ITERATOR SAFETY: Vector constructed with iterator-range constructor
+        // This is safe because:
+        // 1. Both iterators point into the same concrete vector (relation_phase_)
+        // 2. The range is materialized; both iterators remain valid during construction
+        // 3. Index bounds are verified: [idx*d, (idx+1)*d)
+        // 4. No dangling references possible; RAII ensures cleanup on return
+        assert((idx + 1) * d <= relation_phase_.size() && "Relation phase dimension overflow");
         return std::vector<float>(relation_phase_.begin() + idx * d,
                                   relation_phase_.begin() + (idx + 1) * d);
     }
@@ -483,16 +499,16 @@ public:
 
         const size_t n = entity_names_.size();
         
-        // Guard: Prevent excessive memory allocation from unreasonable entity counts
-        // Most practical knowledge graphs have < 10M entities; this is a sanity check
-        // to prevent accidental OOM conditions from malformed data
-        const size_t MAX_RANKABLE_ENTITIES = 10'000'000;
-        if (n > MAX_RANKABLE_ENTITIES) {
-            THEMIS_ERROR("RotatEModel::rankAll: entity count {} exceeds safety limit {}", 
-                        n, MAX_RANKABLE_ENTITIES);
-            throw std::runtime_error(fmt::format("rankAll: {} entities > {} limit", 
-                                                 n, MAX_RANKABLE_ENTITIES));
-        }
+    // Defensive guard: prevent excessive memory allocation from unreasonable entity counts
+    // Most practical knowledge graphs have < 10M entities; this is a sanity check
+    // to prevent accidental OOM conditions from malformed data
+    const size_t MAX_RANKABLE_ENTITIES = 10'000'000;
+    if (n > MAX_RANKABLE_ENTITIES) {
+        THEMIS_ERROR("RotatEModel::rankAll: entity count {} exceeds safety limit {}", 
+                   n, MAX_RANKABLE_ENTITIES);
+        throw std::runtime_error(fmt::format("rankAll: {} entities > {} limit", 
+                                            n, MAX_RANKABLE_ENTITIES));
+    }
         
         // Score all entities; pre-allocate to avoid reallocation overhead
         std::vector<std::pair<double, size_t>> scored;

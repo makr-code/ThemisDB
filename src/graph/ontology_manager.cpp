@@ -121,6 +121,9 @@ static void skipWs(const std::string &s, std::size_t &pos) {
 /// @note Parse errors (empty guard) are not exceptional; caller should check result.empty()
 static std::string parseString(const std::string &s, std::size_t &pos) {
     skipWs(s, pos);
+    
+    // Defensive guard: missing opening quote returns empty string (fail-safe)
+    // Allows caller to check result.empty() instead of catching exceptions
     if (pos >= s.size() || s[pos] != '"') {
         return {};
     }
@@ -158,6 +161,7 @@ static std::string parseString(const std::string &s, std::size_t &pos) {
         }
         ++pos;
     }
+    // Defensive guard: bounds check ensures we don't access beyond end-of-string
     if (pos < s.size()) {
         ++pos; // skip closing '"'
     }

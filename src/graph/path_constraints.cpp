@@ -74,18 +74,22 @@ PathConstraints::PathConstraints(GraphIndexManager *graph_mgr) : graph_mgr_(grap
 // ── Security helpers ─────────────────────────────────────────────────────────
 
 bool PathConstraints::isValidIdentifier(std::string_view s) noexcept {
+    // Defensive guard: length checks prevent allocation attacks
     if (s.empty() || s.size() > MAX_ID_LENGTH) {
         return false;
     }
-    // Reject null bytes — they can cause string-comparison bypass via early
-    // termination in underlying C-string APIs.
+    // Defensive guard: Reject null bytes — they can cause string-comparison bypass via early
+    // termination in underlying C-string APIs. This is a security-focused validation.
     return s.find('\0') == std::string_view::npos;
 }
 
 bool PathConstraints::isValidFieldName(std::string_view s) noexcept {
+    // Defensive guard: length checks prevent allocation attacks
     if (s.empty() || s.size() > MAX_FIELD_NAME_LENGTH) {
         return false;
     }
+    // Defensive guard: Character-by-character validation ensures only safe characters
+    // Rejects control characters, special symbols that could cause parsing issues
     for (char ch : s) {
         unsigned char c = static_cast<unsigned char>(ch);
         if (!std::isalnum(c) && c != '_' && c != '-' && c != '.') {

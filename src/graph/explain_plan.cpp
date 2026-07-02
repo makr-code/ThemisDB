@@ -102,14 +102,18 @@ std::string escapeJson(const std::string& value) {
 /// @note No exceptions are thrown; clients should always check for empty output
 /// @note Thread-safe: reads only const member (nodes)
 std::string GraphExplainPlan::toDot() const {
+    // Defensive guard: empty plan returns empty string (fail-safe, not exception)
+    // Allows graceful degradation in streaming workflows
     if (nodes.empty()) {
-        return {};  // Defensive: early return for unpopulated plan (expected in streaming)
+        return {};  // Fail-safe: early return for unpopulated plan (expected in streaming)
     }
 
     std::ostringstream out;
     out << "digraph GraphExplainPlan {\n";
     out << "  label=\"" << escapeJson(plan_id) << "\";\n";
 
+    // ITERATOR SAFETY: nodes is a const vector; iteration is safe
+    // No modification during iteration; no invalidation possible
     for (const auto& node : nodes) {
         out << "  \"" << escapeJson(node.node_id) << "\" [label=\""
             << nodeTypeToString(node.type) << "\\n"
@@ -158,8 +162,10 @@ std::string GraphExplainPlan::toDot() const {
 /// 
 /// @see parseYamlSection() for the inverse operation (JSON to plan)
 std::string GraphExplainPlan::toJson() const {
+    // Defensive guard: empty plan returns empty string (fail-safe, not exception)
+    // Prevents invalid JSON from being processed by consumers
     if (nodes.empty()) {
-        return {};  // Defensive: early return for unpopulated plan (expected in streaming)
+        return {};  // Fail-safe: early return for unpopulated plan (expected in streaming)
     }
 
     std::ostringstream out;
@@ -172,6 +178,8 @@ std::string GraphExplainPlan::toJson() const {
     out << "\"is_analyzed\":" << (is_analyzed ? "true" : "false") << ",";
     out << "\"nodes\":[";
 
+    // ITERATOR SAFETY: nodes is a const vector; iteration is safe
+    // No modification during iteration; no invalidation possible
     for (size_t i = 0; i < nodes.size(); ++i) {
         const auto& node = nodes[i];
         out << "{";
