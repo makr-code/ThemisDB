@@ -93,6 +93,9 @@ class BracesCheckScanner(BaseGapScanner):
         """
         Analyze scope context to identify likely scope mismatch lines.
         Returns list of (line_no, context_description) tuples.
+        
+        FIXED: Only track scopes for definitions with opening braces, not declarations.
+        This eliminates false positives from forward declarations like 'class Foo;' or 'struct Bar;'
         """
         scope_stack = []
         issues = []
@@ -111,19 +114,27 @@ class BracesCheckScanner(BaseGapScanner):
             
             clean_line = self._strip_comments_and_strings(line)
             
-            # Track scope entries
+            # Track scope entries - ONLY for definitions with opening braces
+            # FIX: Require { after namespace/class/struct to avoid forward declarations
             namespace_match = re.search(r'\bnamespace\s+(\w+)\s*\{', clean_line)
-            class_match = re.search(r'\bclass\s+(\w+)', clean_line)
-            struct_match = re.search(r'\bstruct\s+(\w+)', clean_line)
-            function_match = re.search(r'\b\w+\s+\w+\s*\([^)]*\)\s*(?:const)?\s*(?:noexcept)?\s*\{', clean_line)
+            # FIX: Class definitions must have { (not declarations like 'class Foo;')
+            class_match = re.search(r'\bclass\s+(\w+)\s*[:\{]', clean_line)
+            # FIX: Struct definitions must have { (not declarations like 'struct Foo;')
+            struct_match = re.search(r'\bstruct\s+(\w+)\s*[:\{]', clean_line)
+            
+            # FIX: Improved function detection - must end with {
+            function_match = re.search(r'\b\w+\s+\w+\s*\([^)]*\)\s*(?:const)?\s*(?:noexcept)?\s*(?:override)?\s*(?:final)?\s*\{', clean_line)
             
             if namespace_match:
                 scope_stack.append(('namespace', namespace_match.group(1), line_no))
-            elif class_match:
+            elif class_match and '{' in clean_line:
+                # Only track class definitions (with {), not forward declarations
                 scope_stack.append(('class', class_match.group(1), line_no))
-            elif struct_match:
+            elif struct_match and '{' in clean_line:
+                # Only track struct definitions (with {), not forward declarations
                 scope_stack.append(('struct', struct_match.group(1), line_no))
-            elif function_match and '{' in clean_line:
+            elif function_match:
+                # Function definitions always have {
                 scope_stack.append(('function', 'unknown', line_no))
             
             # Track scope exits
@@ -132,7 +143,7 @@ class BracesCheckScanner(BaseGapScanner):
                 for _ in range(close_count):
                     if scope_stack:
                         scope_type, scope_name, scope_start = scope_stack.pop()
-                        # Ensure matching
+                        # Ensure matching - could add type checking here
                     else:
                         issues.append((line_no, "Closing brace without matching opening scope"))
         
