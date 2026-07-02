@@ -21,6 +21,7 @@
 #include "graph/explain_plan.h"
 
 #include <sstream>
+#include <fmt/format.h>
 
 namespace themis {
 namespace graph {
@@ -47,15 +48,23 @@ const char* nodeTypeToString(GraphPlanNodeType type) {
 
 std::string escapeJson(const std::string& value) {
     std::string out;
-    out.reserve(value.size());
-    for (char c : value) {
+    out.reserve(value.size() * 1.2);  // Conservative estimate with headroom
+    for (unsigned char c : value) {
         switch (c) {
             case '\\': out += "\\\\"; break;
             case '"': out += "\\\""; break;
+            case '\b': out += "\\b"; break;
+            case '\f': out += "\\f"; break;
             case '\n': out += "\\n"; break;
             case '\r': out += "\\r"; break;
             case '\t': out += "\\t"; break;
-            default: out += c; break;
+            default:
+                // Escape control characters (0x00-0x1F) to prevent JSON parsing errors
+                if (c < 0x20) {
+                    out += fmt::format("\\u{:04x}", static_cast<unsigned int>(c));
+                } else {
+                    out += static_cast<char>(c);
+                }
         }
     }
     return out;

@@ -28,6 +28,7 @@
 
 #include <algorithm>
 #include <cmath>
+#include <fmt/format.h>
 #include <mutex>
 #include <numbers>
 #include <numeric>
@@ -481,6 +482,17 @@ public:
             throw std::runtime_error("RotatEModel: model not trained yet");
 
         const size_t n = entity_names_.size();
+        
+        // Guard: Prevent excessive memory allocation from unreasonable entity counts
+        // Most practical knowledge graphs have < 10M entities; this is a sanity check
+        // to prevent accidental OOM conditions from malformed data
+        const size_t MAX_RANKABLE_ENTITIES = 10'000'000;
+        if (n > MAX_RANKABLE_ENTITIES) {
+            THEMIS_ERROR("RotatEModel::rankAll: entity count {} exceeds safety limit {}", 
+                        n, MAX_RANKABLE_ENTITIES);
+            throw std::runtime_error(fmt::format("rankAll: {} entities > {} limit", 
+                                                 n, MAX_RANKABLE_ENTITIES));
+        }
         
         // Score all entities; pre-allocate to avoid reallocation overhead
         std::vector<std::pair<double, size_t>> scored;
