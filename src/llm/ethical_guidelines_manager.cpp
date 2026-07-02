@@ -271,7 +271,7 @@ EthicalGuidelinesManager::detectEthicalContext(
         }
         
         if (config_.enable_logging) {
-            logDetection(result, text.substr(0, 100));
+            logDetection(result, std::to_string(text.length()));
         }
     }
     
@@ -529,7 +529,7 @@ void EthicalGuidelinesManager::logDetection(const DetectionResult& result, const
     LogInfo("  Keywords: {}", result.detected_keywords.size());
     LogInfo("  Domains: {}", result.detected_domains.size());
     LogInfo("  Augmentation: {}", result.recommended_augmentation);
-    LogInfo("  Context: {}", context);
+    LogInfo("  Context length: {}", context);
 }
 
 EthicalGuidelinesManager::Statistics EthicalGuidelinesManager::getStatistics() const {

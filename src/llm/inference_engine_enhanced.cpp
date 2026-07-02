@@ -674,8 +674,8 @@ void InferenceEngineEnhanced::prewarmCache(const std::vector<std::string>& commo
         cache->put(prompt, tokens, embedding, {});
         ++warmed;
 
-        spdlog::debug("  Prewarmed: {} ({} estimated tokens, embedding dim={})",
-                      prompt.substr(0, 50), tokens.size(), embedding.size());
+        spdlog::debug("  Prewarmed prompt (length: {}, {} estimated tokens, embedding dim={})",
+                      prompt.length(), tokens.size(), embedding.size());
     }
 
     spdlog::info("Cache prewarming complete: {}/{} prompts stored", warmed, common_prompts.size());
