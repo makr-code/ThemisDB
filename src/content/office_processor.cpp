@@ -38,6 +38,7 @@
 #ifdef THEMIS_ENABLE_OFFICE
 #include <pugixml.hpp>
 #include <zip.h>
+#include "security/xxe_safe_xml_parser.h"
 #define OFFICE_LIBRARY_AVAILABLE 1
 #else
 #define OFFICE_LIBRARY_AVAILABLE 0
@@ -268,14 +269,14 @@ ExtractionResult OfficeProcessor::extractDOCX(const std::string &blob) {
         result.metadata["modified_date"] = metadata.modified_date;
         result.metadata["application"]   = metadata.application;
 
-        // Parse XML and extract text
-        pugi::xml_document doc;
-        pugi::xml_parse_result parse_result = doc.load_string(document_xml.c_str());
-
-        if (!parse_result) {
-            result.error_message = "Failed to parse document.xml: " + std::string(parse_result.description());
+        // Parse XML and extract text with XXE Protection (Sprint 5 QW-7b)
+        // QW-7b: Office module XXE defense
+        auto xxe_result = security::parseXmlSafe(document_xml, "Office document.xml");
+        if (!xxe_result.success) {
+            result.error_message = "Failed to parse document.xml: " + xxe_result.error_message;
             return result;
         }
+        pugi::xml_document& doc = xxe_result.document;
 
         // Extract paragraphs
         std::vector<std::string> paragraphs;
