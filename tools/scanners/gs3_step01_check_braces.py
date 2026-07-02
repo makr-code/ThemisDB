@@ -53,6 +53,8 @@ class BracesCheckScanner(BaseGapScanner):
         """
         Count opening and closing braces in file, ignoring comments and strings.
         
+        FIXED: Properly handle single-line multi-line comments (/* ... */ on same line)
+        
         Returns:
             Tuple of (open_count, close_count, issues_list)
             issues_list contains (line_no, description) for detected problems
@@ -63,17 +65,31 @@ class BracesCheckScanner(BaseGapScanner):
         in_multiline_comment = False
         
         for line_no, line in enumerate(lines, 1):
-            # Track multi-line comments
+            # FIX: Handle both single-line and multi-line comments
+            # Check for multi-line comment start on this line
+            if not in_multiline_comment:
+                # Check if this line contains both /* and */ (single-line multi-line comment)
+                start_pos = self.multi_line_comment_start.search(line)
+                end_pos = self.multi_line_comment_end.search(line)
+                
+                if start_pos and end_pos and start_pos.end() <= end_pos.start():
+                    # Single-line multi-line comment: /* ... */ on same line
+                    # Remove the comment and continue processing this line
+                    line = line[:start_pos.start()] + line[end_pos.end():]
+                elif start_pos:
+                    # Multi-line comment starts here
+                    in_multiline_comment = True
+                    continue
+                # else: no comment, process normally
+            
+            # If we're in a multi-line comment
             if in_multiline_comment:
+                # Check if this line ends the comment
                 if self.multi_line_comment_end.search(line):
                     in_multiline_comment = False
                 continue
             
-            if self.multi_line_comment_start.search(line):
-                in_multiline_comment = True
-                continue
-            
-            # Strip comments and strings
+            # Strip comments and strings (single-line comments only, multi-line already handled)
             clean_line = self._strip_comments_and_strings(line)
             
             # Count braces
@@ -102,14 +118,25 @@ class BracesCheckScanner(BaseGapScanner):
         in_multiline_comment = False
         
         for line_no, line in enumerate(lines, 1):
-            # Track multi-line comments
+            # Track multi-line comments - FIX: handle single-line multi-line comments
+            if not in_multiline_comment:
+                start_pos = self.multi_line_comment_start.search(line)
+                end_pos = self.multi_line_comment_end.search(line)
+                
+                if start_pos and end_pos and start_pos.end() <= end_pos.start():
+                    # Single-line multi-line comment: /* ... */ on same line
+                    # Remove the comment and continue processing this line
+                    line = line[:start_pos.start()] + line[end_pos.end():]
+                elif start_pos:
+                    # Multi-line comment starts here
+                    in_multiline_comment = True
+                    continue
+            
+            # If we're in a multi-line comment
             if in_multiline_comment:
+                # Check if this line ends the comment
                 if self.multi_line_comment_end.search(line):
                     in_multiline_comment = False
-                continue
-            
-            if self.multi_line_comment_start.search(line):
-                in_multiline_comment = True
                 continue
             
             clean_line = self._strip_comments_and_strings(line)
