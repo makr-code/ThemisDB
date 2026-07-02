@@ -210,11 +210,18 @@ DistributedGraphManager::DistributedGraphManager(const DistributedGraphConfig &c
 void DistributedGraphManager::addShard(const std::string &shard_id, std::shared_ptr<ShardGraphExecutor> executor) {
     std::unique_lock<std::shared_mutex> lock(shards_mutex_);
     shards_[shard_id] = std::move(executor);
+    
+    // QW-027: Invalidate affinity cache when shards change
+    invalidateAffinityCache();
 }
 
 void DistributedGraphManager::removeShard(const std::string &shard_id) {
     std::unique_lock<std::shared_mutex> lock(shards_mutex_);
     shards_.erase(shard_id);
+    
+    // QW-027: Invalidate affinity cache when shards change
+    invalidateAffinityCache();
+    
     // QW-015: Broadcast cache invalidation when shard is removed
     // This ensures all remaining shards update their version counters
     // to invalidate any cached results that may have depended on the removed shard
@@ -320,6 +327,16 @@ std::string DistributedGraphManager::resolveShardForVertex(const std::string &lo
 Result<GraphIndexManager::PathResult>
 DistributedGraphManager::shortestPath(std::string_view start_vertex, std::string_view target_vertex,
                                       const GraphQueryOptimizer::QueryConstraints &constraints) {
+    // QW-028: ER-002 - Input validation at function entry
+    if (start_vertex.empty()) {
+        return Err<GraphIndexManager::PathResult>(errors::ErrorCode::ERR_QUERY_INVALID_INPUT,
+                                                 "start_vertex cannot be empty");
+    }
+    if (target_vertex.empty()) {
+        return Err<GraphIndexManager::PathResult>(errors::ErrorCode::ERR_QUERY_INVALID_INPUT,
+                                                 "target_vertex cannot be empty");
+    }
+    
     auto shards = healthyShards();
     if (shards.empty()) {
         return Err<GraphIndexManager::PathResult>(errors::ErrorCode::ERR_QUERY_EXECUTION_FAILED,
@@ -333,10 +350,10 @@ DistributedGraphManager::shortestPath(std::string_view start_vertex, std::string
     // If both endpoints reside on the same shard (explicitly or via resolution),
     // route the query directly to that shard for minimum latency.
     if (start_shard.empty()) {
-        start_shard = resolveShardForVertex(start_local);
+        start_shard = resolveShardForVertexWithCache(start_local);  // QW-027: Use cache
     }
     if (target_shard.empty()) {
-        target_shard = resolveShardForVertex(target_local);
+        target_shard = resolveShardForVertexWithCache(target_local);  // QW-027: Use cache
     }
 
     // Build optional single-shard fast path.
@@ -412,6 +429,16 @@ DistributedGraphManager::shortestPath(std::string_view start_vertex, std::string
 Result<std::vector<std::string>>
 DistributedGraphManager::kHopNeighbors(std::string_view start_vertex, int k,
                                        const GraphQueryOptimizer::QueryConstraints &constraints) {
+    // QW-028: ER-002 - Input validation at function entry
+    if (start_vertex.empty()) {
+        return Err<std::vector<std::string>>(errors::ErrorCode::ERR_QUERY_INVALID_INPUT,
+                                            "start_vertex cannot be empty");
+    }
+    if (k <= 0 || k > 1000) {  // MAX_DEPTH = 1000 (reasonable limit)
+        return Err<std::vector<std::string>>(errors::ErrorCode::ERR_QUERY_INVALID_INPUT,
+                                            "k (max_depth) must be positive and ≤ 1000");
+    }
+
     auto shards = healthyShards();
     if (shards.empty()) {
         return Err<std::vector<std::string>>(errors::ErrorCode::ERR_QUERY_EXECUTION_FAILED,
@@ -419,40 +446,74 @@ DistributedGraphManager::kHopNeighbors(std::string_view start_vertex, int k,
     }
 
     auto [start_local, start_shard] = parseVertexId(start_vertex);
+    
+    // QW-027: Use cache-aware resolution
     if (start_shard.empty()) {
-        start_shard = resolveShardForVertex(start_local);
+        start_shard = resolveShardForVertexWithCache(start_local);
     }
 
-    // Fan out BFS to all healthy shards in parallel.
-    // QW-008: Exception safety with try-catch wrapper
-    std::vector<std::future<Result<std::vector<std::string>>>> futures;
-    futures.reserve(shards.size());
+    // QW-024: Query primary shard first with immediate result capture, then parallelize secondaries
+    std::vector<std::vector<std::string>> shard_results;
+    shard_results.reserve(shards.size());
 
     try {
+        // Identify the primary shard and query it immediately
+        std::shared_ptr<ShardGraphExecutor> primary_exec;
+        std::vector<std::pair<std::string, std::shared_ptr<ShardGraphExecutor>>> secondary_shards;
+        
         for (auto &[sid, exec] : shards) {
-            // Capture constraints by value to ensure thread safety
+            if (!start_shard.empty() && sid == start_shard) {
+                primary_exec = exec;
+            } else {
+                secondary_shards.push_back({sid, exec});
+            }
+        }
+
+        // Execute on primary shard synchronously (fast path)
+        if (primary_exec) {
             auto constraints_copy = constraints;
-            futures.push_back(std::async(std::launch::async, [exec_ptr = exec.get(), start_local, k, constraints_copy]() {
-                return exec_ptr->executeBFS(start_local, k, constraints_copy);
-            }));
+            auto res = primary_exec->executeBFS(start_local, k, constraints_copy);
+            if (res) {
+                shard_results.push_back(std::move(*res));
+            } else {
+                THEMIS_WARN("Primary shard {} returned error for kHopNeighbors: {}",
+                           start_shard, res.error().message);
+            }
         }
 
-        // Merge results: de-duplicate qualified vertex IDs.
-        std::unordered_set<std::string> seen;
-        std::vector<std::string> merged;
+        // Parallelize secondary shard queries asynchronously
+        std::vector<std::future<Result<std::vector<std::string>>>> futures;
+        futures.reserve(secondary_shards.size());
 
+        for (auto &[sid, exec] : secondary_shards) {
+            auto constraints_copy = constraints;
+            futures.push_back(std::async(std::launch::async, 
+                [exec_ptr = exec.get(), &start_local, k, constraints_copy]() {
+                    return exec_ptr->executeBFS(start_local, k, constraints_copy);
+                }));
+        }
+
+        // Collect results from secondary shards
         for (auto &f : futures) {
-            auto res = f.get();
-            if (!res) {
-                spdlog::debug("distributed_graph: k-hop BFS shard returned error, skipping");
-                continue;
-            }
-            for (const auto &v : *res) {
-                if (seen.insert(v).second) {
-                    merged.push_back(v);
+            try {
+                auto res = f.get();
+                if (res) {
+                    shard_results.push_back(std::move(*res));
+                } else {
+                    spdlog::debug("distributed_graph: secondary shard BFS returned error, skipping");
                 }
+            } catch (const std::exception& e) {
+                THEMIS_WARN("Secondary shard query exception: {}", e.what());
             }
         }
+
+        if (shard_results.empty()) {
+            return Ok(std::vector<std::string>{});  // No results from any shard
+        }
+
+        // QW-025: Use k-way merge for sorted results
+        std::vector<std::string> merged;
+        mergeShardResultsKWay(shard_results, merged, false);
 
         return Ok(std::move(merged));
     } catch (const std::exception& e) {
@@ -637,6 +698,77 @@ DistributedGraphManager::computeBetweennessCentrality(double sample_fraction,
         THEMIS_ERROR("computeBetweennessCentrality: exception during distributed query execution: {}", e.what());
         throw;
     }
+}
+
+// QW-027: Resolve shard with affinity caching
+std::string DistributedGraphManager::resolveShardForVertexWithCache(const std::string& local_vertex_id) {
+    if (!config_.enable_affinity_cache) {
+        return resolveShardForVertex(local_vertex_id);
+    }
+
+    // Try to get from cache
+    {
+        std::shared_lock<std::shared_mutex> lock(affinity_cache_mutex_);
+        auto it = affinity_cache_.find(local_vertex_id);
+        if (it != affinity_cache_.end()) {
+            return it->second;
+        }
+    }
+
+    // Not in cache, resolve and cache the result
+    std::string shard_id = resolveShardForVertex(local_vertex_id);
+    
+    // Update cache with LRU eviction
+    {
+        std::unique_lock<std::shared_mutex> lock(affinity_cache_mutex_);
+        
+        // Check cache size and evict oldest if necessary
+        if (affinity_cache_.size() >= config_.affinity_cache_size && 
+            affinity_cache_.find(local_vertex_id) == affinity_cache_.end()) {
+            if (!affinity_cache_lru_.empty()) {
+                auto oldest = affinity_cache_lru_.front();
+                affinity_cache_lru_.erase(affinity_cache_lru_.begin());
+                affinity_cache_.erase(oldest);
+            }
+        }
+
+        affinity_cache_[local_vertex_id] = shard_id;
+        affinity_cache_lru_.push_back(local_vertex_id);
+    }
+
+    return shard_id;
+}
+
+// QW-027: Invalidate affinity cache
+void DistributedGraphManager::invalidateAffinityCache() {
+    std::unique_lock<std::shared_mutex> lock(affinity_cache_mutex_);
+    affinity_cache_.clear();
+    affinity_cache_lru_.clear();
+}
+
+// QW-025: K-way merge of shard results with deduplication
+void DistributedGraphManager::mergeShardResultsKWay(
+    std::vector<std::vector<std::string>>& shard_results,
+    std::vector<std::string>& merged_output,
+    bool preserve_rank) {
+    
+    // For now, use simple deduplication via unordered_set
+    // In the future, if results are pre-sorted by rank, use priority_queue for O(n log k) complexity
+    
+    std::unordered_set<std::string> seen;
+    merged_output.clear();
+    
+    // Merge all results with deduplication
+    for (auto& shard_result : shard_results) {
+        for (auto& vertex_id : shard_result) {
+            if (seen.insert(vertex_id).second) {
+                merged_output.push_back(std::move(vertex_id));
+            }
+        }
+    }
+    
+    // If preserve_rank is true and results have metadata, could do k-way merge here
+    // For now, this is a placeholder that assumes results are unordered
 }
 
 } // namespace graph

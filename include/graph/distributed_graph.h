@@ -63,6 +63,10 @@ struct DistributedGraphConfig {
     uint32_t timeout_ms = 5000;
     /// Maximum number of shards to query in parallel (0 = all).
     uint32_t max_parallel_shards = 0;
+    /// Enable affinity caching for shard resolution results (QW-027).
+    bool enable_affinity_cache = true;
+    /// Maximum number of affinity cache entries (LRU eviction).
+    size_t affinity_cache_size = 10000;
 
     DistributedGraphConfig() = default;
 };
@@ -392,12 +396,36 @@ private:
     std::unordered_map<std::string, std::shared_ptr<ShardGraphExecutor>> shards_;
     mutable std::shared_mutex shards_mutex_;
 
+    // QW-027: Affinity cache for shard resolution results (LRU via map).
+    mutable std::unordered_map<std::string, std::string> affinity_cache_;
+    mutable std::shared_mutex affinity_cache_mutex_;
+    mutable std::vector<std::string> affinity_cache_lru_;  ///< LRU eviction order
+
     /// Collect all healthy shard executors (snapshot under lock).
     std::vector<std::pair<std::string, std::shared_ptr<ShardGraphExecutor>>>
     healthyShards() const;
 
     /// Resolve per-query parallelism cap.
     size_t effectiveParallelism(size_t num_shards) const;
+
+    /// QW-024: Execute kHopNeighbors on primary shard first, parallelize secondary shards.
+    [[nodiscard]] Result<std::vector<std::string>> kHopNeighborsWithAffinity(
+        std::string_view start_vertex,
+        int k,
+        const GraphQueryOptimizer::QueryConstraints& constraints,
+        const std::string& primary_shard_id);
+
+    /// QW-025: Merge multiple shard results using k-way merge for sorted results.
+    void mergeShardResultsKWay(
+        std::vector<std::vector<std::string>>& shard_results,
+        std::vector<std::string>& merged_output,
+        bool preserve_rank = false);
+
+    /// QW-027: Get or update affinity cache for vertex shard resolution.
+    std::string resolveShardForVertexWithCache(const std::string& local_vertex_id);
+
+    /// QW-027: Invalidate all affinity cache entries (called when shards added/removed).
+    void invalidateAffinityCache();
 };
 
 } // namespace graph

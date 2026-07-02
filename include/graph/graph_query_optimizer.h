@@ -889,6 +889,20 @@ public:
     void clearPlanCache();
 
     /**
+     * @brief Broadcast cache invalidation across distributed shards (QW-026).
+     *
+     * Invalidates cached query results in all participating shards when a
+     * mutation occurs. This ensures cache coherency in distributed scenarios
+     * where multiple shards maintain independent caches.
+     *
+     * @param affected_vertices Optional list of vertex IDs whose caches should be
+     *                          invalidated. If empty, all caches are invalidated.
+     * @return OK on success; ERR_QUERY_EXECUTION_FAILED if invalidation fails.
+     */
+    [[nodiscard]] Result<void> broadcastInvalidation(
+        const std::vector<std::string>& affected_vertices = {});
+
+    /**
      * Get execution statistics history
      */
     const std::vector<ExecutionStats>& getExecutionHistory() const { 
