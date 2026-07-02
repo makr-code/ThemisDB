@@ -26,6 +26,14 @@ foreach(_src IN LISTS GPU_MODULE_TEST_SOURCES)
     )
     target_compile_definitions(${_target} PRIVATE THEMIS_TEST_BUILD=1)
 
+    # In modular builds `themis_core` may be an INTERFACE target without
+    # implementation objects. To ensure focused GPU tests have access to the
+    # kernel registry implementation when modules are split, compile the
+    # central kernel_registry.cpp directly into the focused test target.
+    if(THEMIS_BUILD_MODULAR)
+        target_sources(${_target} PRIVATE ${THEMIS_ROOT_DIR}/src/acceleration/kernel_registry.cpp)
+    endif()
+
     themis_register_module_focused_test(
         MODULE gpu
         NAME ${_ctest}

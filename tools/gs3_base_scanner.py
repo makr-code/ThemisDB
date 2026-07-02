@@ -417,47 +417,174 @@ class GapScannerPipeline:
             Final aggregated gap list
         """
         scanners = self.registry.get_scanners_by_priority()
-        
+
         if verbose:
             print("=" * 80)
             print("GAP SCANNER V3 PIPELINE EXECUTION")
             print("=" * 80)
-        
-        for scanner in scanners:
-            if verbose:
-                print(f"\n[{scanner.PRIORITY.name}] Running {scanner.name}...")
-            
-            start_time = time.time()
-            
+
+        # File-centric PoC: if caller passes a special flag on this instance
+        # we will read each file once and invoke scanner.scan_file(file, context)
+        # when available. This demonstrates chunking/AST re-use and reduces I/O.
+        file_centric = getattr(self, 'file_centric_mode', False)
+
+        if file_centric:
+            # Discover files once
+            # Try to load include/markdown graph JSON to provide cross-file context
+            include_graph = None
+            include_graph_path = getattr(self, 'include_graph_path', None) or 'ai_working/include_graph.json'
             try:
-                gaps = scanner.scan(source_dir)
-                runtime_ms = (time.time() - start_time) * 1000
-                scanner.runtime_ms = runtime_ms
-                
-                # Log execution
-                self.execution_log.append({
-                    'scanner': scanner.name,
-                    'priority': scanner.PRIORITY.name,
-                    'gaps_found': len(gaps),
-                    'runtime_ms': runtime_ms,
-                    'status': 'success'
-                })
-                
-                if verbose:
-                    print(f"  [OK] Found {len(gaps)} gaps in {runtime_ms:.1f}ms")
-                
-                self.all_gaps.extend(gaps)
-                
+                import json as _json
+                from pathlib import Path as _Path
+                _p = _Path(include_graph_path)
+                if _p.exists():
+                    include_graph = _json.loads(_p.read_text(encoding='utf-8'))
+                    if verbose:
+                        print(f"Loaded include graph from {_p} (nodes={len(include_graph.get('nodes',[]))})")
+                else:
+                    if verbose:
+                        print(f"No include graph found at {_p}, continuing without graph context")
             except Exception as e:
-                self.execution_log.append({
-                    'scanner': scanner.name,
-                    'priority': scanner.PRIORITY.name,
-                    'status': 'error',
-                    'error': str(e)
-                })
-                
                 if verbose:
-                    print(f"  [ERROR] {e}")
+                    print(f"Failed to load include graph {include_graph_path}: {e}")
+
+            from pathlib import Path
+            source_path = Path(source_dir)
+            exts = ('.cpp', '.cc', '.cxx', '.c', '.hpp', '.hh', '.h')
+            files = []
+            for ext in exts:
+                files.extend(source_path.rglob(f'*{ext}'))
+            files = [f for f in files if 'test' not in f.parts and 'build' not in f.parts]
+
+            if verbose:
+                print(f"Discovered {len(files)} source files; running file-centric pipeline...")
+
+            for file_path in files:
+                try:
+                    with open(file_path, 'r', encoding='utf-8', errors='ignore') as fh:
+                        content = fh.read()
+                        lines = content.splitlines()
+                except Exception as e:
+                    if verbose:
+                        print(f"  [WARN] Could not read {file_path}: {e}")
+                    continue
+
+                file_context = {'content': content, 'lines': lines, 'path': str(file_path)}
+                # Inject graph context if available
+                if include_graph is not None:
+                    file_context['graph'] = include_graph
+
+                for scanner in scanners:
+                    if verbose:
+                        print(f"\n[{scanner.PRIORITY.name}] {scanner.name} on {file_path.name}...")
+                    start_time = time.time()
+
+                    # If scanner implements scan_file, prefer that (support two signatures)
+                    if hasattr(scanner, 'scan_file'):
+                        try:
+                            prev_count = len(scanner.gaps)
+                            try:
+                                # Preferred: scanner.scan_file(file_path, file_context)
+                                scanner.scan_file(str(file_path), file_context)
+                            except TypeError:
+                                # Fallback: scanner.scan_file(file_path)
+                                scanner.scan_file(str(file_path))
+
+                            runtime_ms = (time.time() - start_time) * 1000
+                            scanner.runtime_ms = runtime_ms
+
+                            new_gaps = scanner.gaps[prev_count:]
+                            if new_gaps:
+                                self.all_gaps.extend(new_gaps)
+
+                            self.execution_log.append({
+                                'scanner': scanner.name,
+                                'priority': scanner.PRIORITY.name,
+                                'gaps_found': len(new_gaps),
+                                'runtime_ms': runtime_ms,
+                                'status': 'success'
+                            })
+                            if verbose:
+                                print(f"  [OK] {len(new_gaps)} gaps (file) in {runtime_ms:.1f}ms")
+                        except Exception as e:
+                            self.execution_log.append({
+                                'scanner': scanner.name,
+                                'priority': scanner.PRIORITY.name,
+                                'status': 'error',
+                                'error': str(e)
+                            })
+                            if verbose:
+                                print(f"  [ERROR] {e}")
+                    else:
+                        # Scanner has no scan_file hook: we'll run scan() once later
+                        continue
+
+            # After per-file invocations, run scanners that only implement scan()
+            for scanner in scanners:
+                if hasattr(scanner, 'scan') and not hasattr(scanner, 'scan_file'):
+                    if verbose:
+                        print(f"\n[{scanner.PRIORITY.name}] Running full-scan {scanner.name}...")
+                    start_time = time.time()
+                    try:
+                        gaps = scanner.scan(source_dir)
+                        runtime_ms = (time.time() - start_time) * 1000
+                        scanner.runtime_ms = runtime_ms
+                        self.execution_log.append({
+                            'scanner': scanner.name,
+                            'priority': scanner.PRIORITY.name,
+                            'gaps_found': len(gaps),
+                            'runtime_ms': runtime_ms,
+                            'status': 'success'
+                        })
+                        if verbose:
+                            print(f"  [OK] Found {len(gaps)} gaps in {runtime_ms:.1f}ms")
+                        self.all_gaps.extend(gaps)
+                    except Exception as e:
+                        self.execution_log.append({
+                            'scanner': scanner.name,
+                            'priority': scanner.PRIORITY.name,
+                            'status': 'error',
+                            'error': str(e)
+                        })
+                        if verbose:
+                            print(f"  [ERROR] {e}")
+
+        else:
+            for scanner in scanners:
+                if verbose:
+                    print(f"\n[{scanner.PRIORITY.name}] Running {scanner.name}...")
+
+                start_time = time.time()
+
+                try:
+                    gaps = scanner.scan(source_dir)
+                    runtime_ms = (time.time() - start_time) * 1000
+                    scanner.runtime_ms = runtime_ms
+
+                    # Log execution
+                    self.execution_log.append({
+                        'scanner': scanner.name,
+                        'priority': scanner.PRIORITY.name,
+                        'gaps_found': len(gaps),
+                        'runtime_ms': runtime_ms,
+                        'status': 'success'
+                    })
+
+                    if verbose:
+                        print(f"  [OK] Found {len(gaps)} gaps in {runtime_ms:.1f}ms")
+
+                    self.all_gaps.extend(gaps)
+
+                except Exception as e:
+                    self.execution_log.append({
+                        'scanner': scanner.name,
+                        'priority': scanner.PRIORITY.name,
+                        'status': 'error',
+                        'error': str(e)
+                    })
+
+                    if verbose:
+                        print(f"  [ERROR] {e}")
         
         if verbose:
             print(f"\nTotal gaps found (pre-filter): {len(self.all_gaps)}")

@@ -16,6 +16,7 @@ import time
 from datetime import datetime
 from collections import Counter
 from typing import Dict, List, Tuple
+import subprocess
 
 # Add tools/ to path
 sys.path.insert(0, str(Path(__file__).parent))
@@ -599,6 +600,15 @@ def main():
                         help='Prompt template size per work item (6 ultra-compact or 10 compact, default: 10)')
     parser.add_argument('--force-refresh', action='store_true',
                         help='Force rescan (Phase 3) even if cache exists; removes stale findings (default: False)')
+    parser.add_argument('--file-centric', dest='file_centric', action='store_true',
+                        help='Run scanners in file-centric mode (read each file once and call scan_file hooks). Default: enabled')
+    parser.add_argument('--no-file-centric', dest='file_centric', action='store_false',
+                        help='Disable file-centric mode and run scanners as before')
+    parser.set_defaults(file_centric=True)
+    parser.add_argument('--include-graph', default='ai_working/include_graph.json',
+                        help='Path to include/markdown graph JSON to inject into file contexts (default: ai_working/include_graph.json)')
+    parser.add_argument('--open-visualizer', action='store_true',
+                        help='Open GUI visualizer after run using include-graph or output JSON')
     
     args = parser.parse_args()
     
@@ -609,6 +619,9 @@ def main():
     
     # Create and run pipeline
     pipeline = GapScannerPipeline(registry)
+    # Configure file-centric mode and include graph
+    pipeline.file_centric_mode = args.file_centric
+    pipeline.include_graph_path = args.include_graph
     
     print("\n" + "=" * 80)
     print("ThemisDB Gap Scanner V3 Pipeline")
@@ -676,6 +689,20 @@ def main():
     print(f"\n[OK] Results exported to {output_path}")
     print(f"[OK] Markdown report exported to {md_report_path}")
     print(f"[OK] Completed in {elapsed:.2f}s")
+
+    # Optionally open visualizer GUI (non-blocking)
+    if getattr(args, 'open_visualizer', False):
+        graph_to_open = args.include_graph if os.path.exists(args.include_graph) else str(output_path)
+        if not os.path.exists(graph_to_open):
+            print(f"Visualizer: graph file not found: {graph_to_open}")
+        else:
+            try:
+                cmd = [sys.executable, str(Path(__file__).parent / 'visualizer_tk.py'), '--graph', str(graph_to_open)]
+                # start detached
+                subprocess.Popen(cmd, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+                print(f"[OK] Launched visualizer for {graph_to_open}")
+            except Exception as e:
+                print(f"Failed to launch visualizer: {e}")
     
     # Print summary
     by_severity = {}

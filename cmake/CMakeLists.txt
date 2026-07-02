@@ -2581,6 +2581,7 @@ set(THEMIS_CORE_SOURCES
     ../src/sharding/admin_api.cpp
     ../src/sharding/cloud_agent.cpp
     ../src/sharding/cloud_backup.cpp
+    ../src/sharding/cloud_sdk_integration_stubs.cpp
     ../src/sharding/orphan_detector.cpp
     ../src/sharding/circuit_breaker.cpp
     ../src/sharding/gossip_protocol.cpp

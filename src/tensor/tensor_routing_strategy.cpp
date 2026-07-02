@@ -236,15 +236,13 @@ RoutingDecision ShardAwareRouting::route(
     decision.reason = "Shard-aware routing with health checks";
     decision.reason_code = "SHARD_SELECTED";
 
-    // Collect shard hints for healthy, low-latency shards
-    std::vector<ShardSummary> shard_summaries;
+    // Collect shard hints for healthy, low-latency shards.
+    // The summaries vector contains BaseTensorSummary objects; shard-specific
+    // fields live in `ShardSummary`. Use a heuristic: treat IDs prefixed with
+    // "shard:" as shard summaries and prefer them as hints.
     for (const auto& summary : summaries) {
-        // Try to cast to ShardSummary if available
-        if (!summary.shard_routing_reason.empty()) {
-            // This appears to be a shard summary
-            if (summary.shard_healthy && summary.retrieval_latency_ms < latency_threshold_ms) {
-                decision.shard_hints.push_back(summary.id);
-            }
+        if (!summary.id.empty() && summary.id.rfind("shard:", 0) == 0) {
+            decision.shard_hints.push_back(summary.id);
         }
     }
 

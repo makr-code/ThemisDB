@@ -9,6 +9,7 @@
 #pragma once
 
 #include "storage/tensor_train_decomposer.h"
+#include "tensor/tensor_compat.h"
 
 #include <cstddef>
 #include <cstdint>
@@ -26,6 +27,12 @@ namespace tensor {
 /**
  * @brief Configuration for tensor compression operations.
  */
+enum class CompressionAlgorithm : uint8_t {
+    NONE = 0,
+    TT_SVD = 1,
+    AUTO = 2,
+};
+
 struct CompressionConfig {
     /// Tensor-Train reconstruction error tolerance (epsilon).
     float tt_epsilon = 0.01f;
@@ -44,6 +51,10 @@ struct CompressionConfig {
 
     /// Whether to preserve exact values for critical dimensions.
     bool preserve_critical_dims = true;
+
+    // Backwards-compatible fields (legacy tests expect these names)
+    CompressionAlgorithm algorithm = CompressionAlgorithm::NONE;
+    int32_t target_rank = -1;
 };
 
 // ============================================================================

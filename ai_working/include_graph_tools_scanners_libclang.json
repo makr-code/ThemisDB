@@ -1,0 +1,262 @@
+{
+  "nodes": [
+    {
+      "type": "markdown",
+      "path": "tools/scanners/GS3_COMPLETE_GUIDE.md",
+      "chunks": [
+        {
+          "id": "cd5d020c206da2ac15b43b2f6ec60b2e8616b4a6",
+          "title": "ThemisDB Gap Scanner V3 - Complete Integration Guide",
+          "content": "ThemisDB Gap Scanner V3 - Complete Integration Guide\n\n**Status**: \u2705 Fully Integrated  \n**Latest Update**: 2026-06-21  \n**Scanner Count**: 50+ specialized scanners  \n**Architecture**: Modular, step-based pipeline  \n\n---"
+        },
+        {
+          "id": "c4e4a742f57adc032a743e7e71686cd0c13ffdb3",
+          "title": "\ud83d\udccb System Overview",
+          "content": "\ud83d\udccb System Overview\n\nGap Scanner V3 is a comprehensive gap detection system that orchestrates **50+ specialized scanners** across 5 execution tiers (0-4) to identify:\n\n- \u2705 Memory safety issues (RAII, leaks, use-after-free)\n- \u2705 Concurrency bugs (race conditions, deadlocks)\n- \u2705 Security vulnerabilities (injection, crypto, auth)\n- \u2705 Production logic gaps (TODOs, stubs, error handling)\n- \u2705 AI/LLM safety issues (prompt injection, model integrity)\n- \u2705 Documentation gaps (missing Doxygen, header drift)"
+        },
+        {
+          "id": "e6e9c94fd6ed6642f0f418e0bda9f37fd0973104",
+          "title": "Classification Dimensions",
+          "content": "Classification Dimensions\n\n**1. Severity** (How bad is it?)\n- `CRITICAL` - Blocks release, affects core engine\n- `HIGH` - Significant issues, should fix soon\n- `MEDIUM` - Code quality, style, documentation\n- `LOW` - Cosmetic, suggestions\n\n**2. Impact** (Where does it matter most?) \u2014 **Impact-Based Classification**\n- `CRITICAL` - Core engine (src/core/, consensus, auth, security)\n- `HIGH` - LLM, networking, graph, model modules\n- `MEDIUM` - Monitoring, protocols, multi-GPU\n- `LOW` - Utilities, helpers, tests\n- `THIRD_PARTY` - External dependencies\n\n**Prioritization**: P0-P3 based on Severity \u00d7 Impact matrix\n\n---"
+        },
+        {
+          "id": "6a7d12204bed01ba477f4d96e73c2157313b74e5",
+          "title": "\ud83c\udfaf Quick Start",
+          "content": "\ud83c\udfaf Quick Start"
+        },
+        {
+          "id": "bbf8403d647b296827886340801f8e072047781c",
+          "title": "1. Scan a Directory (Fast Mode)",
+          "content": "1. Scan a Directory (Fast Mode)\n```bash\npython -m tools.gs3 scan src include --scan-mode fast\n```\n\n**Output**:\n- JSON: `ai_working/scan_results.json` (370k+ findings)\n- Markdown: `ai_working/scan_results.md` (human-readable report)"
+        },
+        {
+          "id": "2789d37c7a6e03c6aff2615476f936b79fe104a0",
+          "title": "2. List All Scanners",
+          "content": "2. List All Scanners\n```bash\npython -m tools.gs3 list-scanners\npython -m tools.gs3 list-scanners --step 2  # Step 2 only\n```"
+        },
+        {
+          "id": "316e47500e819c117cb2d184b8e4c7aa236bfde6",
+          "title": "3. Generate Report",
+          "content": "3. Generate Report\n```bash\npython -m tools.gs3 report ai_working/scan_results.json --format md --output report.md\n```"
+        },
+        {
+          "id": "e9888c5f80e88bad1fb5159a6e56374e728eef5f",
+          "title": "4. Show Configuration",
+          "content": "4. Show Configuration\n```bash\npython -m tools.gs3 config --show\n```\n\n---"
+        },
+        {
+          "id": "f0f69cd5256fabb1ef212b2508bd69ef0ae1dfde",
+          "title": "\ud83d\udcc2 Architecture Overview",
+          "content": "\ud83d\udcc2 Architecture Overview\n\n```\ntools/\n\u251c\u2500\u2500 gs3.py                              \u2190 MAIN CLI (NEW - START HERE)\n\u251c\u2500\u2500 gs3_orchestrator.py                 \u2190 Orchestrator (runs all scanners)\n\u251c\u2500\u2500 gs3_base_scanner.py                 \u2190 Base class + Gap dataclass\n\u251c\u2500\u2500 scanners/\n\u2502   \u251c\u2500\u2500 gs3_impact_classifier.py        \u2190 Impact classification engine\n\u2502   \u251c\u2500\u2500 gs3_step00_uniform_full.py      \u2190 Step 0: Meta-orchestrator\n\u2502   \u251c\u2500\u2500 gs3_step01_*.py                 \u2190 Step 1: Baseline (20+ scanners)\n\u2502   \u251c\u2500\u2500 gs3_step02_*.py                 \u2190 Step 2: Context-aware (5+ scanners)\n\u2502   \u251c\u2500\u2500 gs3_step03_*.py                 \u2190 Step 3: Security (8+ scanners)\n\u2502   \u2514\u2500\u2500 gs3_step04_*.py                 \u2190 Step 4: Design rules (15+ scanners)\n\u2514\u2500\u2500 gap_scanner_v3*.py                  \u2190 LEGACY CODE (deprecated)\n```\n\n---"
+        },
+        {
+          "id": "e37eeae87c1f1e08fb1ca7b35ab8d44f207d296b",
+          "title": "\ud83d\udd04 Execution Flow",
+          "content": "\ud83d\udd04 Execution Flow\n\n```\n1. CLI Entry Point (tools/gs3.py)\n      \u2193\n2. Argument Parsing + Validation\n      \u2193\n3. Orchestrator (gs3_orchestrator.py)\n      \u251c\u2192 Load all scanner classes by priority\n      \u251c\u2192 Initialize each scanner\n      \u251c\u2192 Execute by step (0 \u2192 1 \u2192 2 \u2192 3 \u2192 4)\n      \u2514\u2192 Aggregate results\n      \u2193\n4. Impact Classifier (gs3_impact_classifier.py)\n      \u251c\u2192 For each finding, classify impact level\n      \u251c\u2192 Assign to subsystem (core, llm, graph, utils, etc.)\n      \u2514\u2192 Tag priority tier (P0-P3)\n      \u2193\n5. Export Results\n      \u251c\u2192 JSON: Full structured data\n      \u251c\u2192 Markdown: Human-readable report\n      \u2514\u2192 Metrics: Summary statistics\n```\n\n---"
+        },
+        {
+          "id": "e5dd2669f02b3bf0afc90ff65fcfd9ef9cf9a788",
+          "title": "\ud83d\udcca Step-by-Step Breakdown",
+          "content": "\ud83d\udcca Step-by-Step Breakdown"
+        },
+        {
+          "id": "8d78b037d638fd9ad62c388e5a84efeb2578ff14",
+          "title": "**Step 0** - Meta-Orchestrator",
+          "content": "**Step 0** - Meta-Orchestrator\n- **File**: `gs3_step00_uniform_full.py`\n- **Purpose**: Coordinates all other steps\n- **Mode**: Ultra-fast discovery phase\n- **Scanners**: 1"
+        },
+        {
+          "id": "d91e8fdfe3c72f28031b0584867a1af27f510652",
+          "title": "**Step 1** - Baseline Detection",
+          "content": "**Step 1** - Baseline Detection\n- **File**: `gs3_step01_*.py` (20+ files)\n- **Purpose**: Fast keyword/pattern matching (~1-2 sec/file)\n- **Examples**:\n  - Braces imbalance (parsing)\n  - Scope mismatches (namespaces)\n  - TODOs in production code\n  - Missing Doxygen tags\n- **Scanners**: 20+"
+        },
+        {
+          "id": "d54574b34e5e8d6f3157f6e0f370ce397ba5e624",
+          "title": "**Step 2** - Context-Aware Analysis",
+          "content": "**Step 2** - Context-Aware Analysis\n- **File**: `gs3_step02_*.py` (5+ files)\n- **Purpose**: Semantic analysis with code context (~5-15 sec/file)\n- **Examples**:\n  - Exception safety issues\n  - Input validation gaps\n  - Type conversion bugs\n  - Uninitialized variables\n- **Scanners**: 5+"
+        },
+        {
+          "id": "62bfa1e80f6a3ebdfba8c96bab6deb0983667e67",
+          "title": "**Step 3** - Security & Cryptography",
+          "content": "**Step 3** - Security & Cryptography\n- **File**: `gs3_step03_*.py` (8+ files)\n- **Purpose**: Security-focused patterns (~15-40 sec/file)\n- **Examples**:\n  - Attack vectors\n  - Data leaks\n  - Encryption misuse\n  - Legacy duplication\n- **Scanners**: 8+"
+        },
+        {
+          "id": "7b668fd3ee30aabe7d7badcc1e4fc42b8e420b25",
+          "title": "**Step 4** - Design & Architecture Rules",
+          "content": "**Step 4** - Design & Architecture Rules\n- **File**: `gs3_step04_*.py` (15+ files)\n- **Purpose**: High-level design patterns (~2-5 min/file candidates)\n- **Examples**:\n  - Architecture violations\n  - Module governance\n  - API deprecation\n  - Performance patterns\n  - Distributed consistency\n- **Scanners**: 15+\n\n---"
+        },
+        {
+          "id": "4e508c934193e1fab7eb282677ea5082dd0125c0",
+          "title": "\ud83c\udfaf Scanner Registry & Auto-Discovery",
+          "content": "\ud83c\udfaf Scanner Registry & Auto-Discovery\n\nAll scanners are automatically discovered and registered via the `ScannerRegistry` singleton:\n\n```python"
+        },
+        {
+          "id": "412db4117a43f9974ca7c675eb14d9c59910cb5d",
+          "title": "In gs3_base_scanner.py",
+          "content": "In gs3_base_scanner.py\nclass ScannerRegistry:\n    _instance = None\n    _scanners = set()\n    \n    @classmethod\n    def get_instance(cls):\n        if cls._instance is None:\n            cls._instance = ScannerRegistry()\n        return cls._instance\n    \n    def register(self, scanner_class):\n        self._scanners.add(scanner_class)\n    \n    def get_scanners(self):\n        return sorted(self._scanners, key=lambda s: getattr(s, 'step', 0))\n```\n\n**How It Works**:\n1. Each scanner module (`gs3_step*.py`) imports `BaseGapScanner`\n2. Scanner class inherits from `BaseGapScanner`\n3. On import, the scanner auto-registers via `@dataclass` decorator\n4. Orchestrator queries `ScannerRegistry.get_instance().get_scanners()`\n5. Scanners execute in priority order (Step 0 \u2192 Step 4)\n\n---"
+        },
+        {
+          "id": "618a7c445a990e2130d6eda455aa6c599f8f0542",
+          "title": "\ud83d\udcdd Creating a New Scanner",
+          "content": "\ud83d\udcdd Creating a New Scanner"
+        },
+        {
+          "id": "52cc2183e387102623fba130e95a899a6ce8a50f",
+          "title": "Template",
+          "content": "Template\n```python\n#!/usr/bin/env python3\n\"\"\"Scanner for detecting X issues\"\"\"\n\nfrom pathlib import Path\nfrom typing import List\nfrom ..gs3_base_scanner import BaseGapScanner, Gap\n\nclass MyCustomScanner(BaseGapScanner):\n    \"\"\"Detects X issues in code\"\"\"\n    \n    step = 1  # Step number (0-4)\n    priority = \"BASELINE\"  # BASELINE, MEDIUM, SPECIALIZED, FP_FILTER, SEMANTIC\n    \n    def scan_file(self, filepath: Path, content: str) -> List[Gap]:\n        \"\"\"Scan single file and return gaps\"\"\"\n        gaps = []\n        \n        for line_num, line in enumerate(content.split('\\n'), 1):\n            if self._is_issue(line):\n                gap = Gap(\n                    file=str(filepath),\n                    line=line_num,\n                    type='my_issue_type',\n                    severity='HIGH',\n                    confidence=0.95,\n                    description='What is wrong',\n                    remediation='How to fix it',\n                    context=line.strip()\n                )\n                gaps.append(gap)\n        \n        return gaps\n    \n    def _is_issue(self, line: str) -> bool:\n        \"\"\"Detect the issue pattern\"\"\"\n        return 'TODO' in line and 'FIXME' in line\n``"
+        },
+        {
+          "id": "a44866c865fbd08e9b0a86c422f3f4c694834cb7",
+          "title": "Template",
+          "content": "`"
+        },
+        {
+          "id": "1a1e6257012b34aac7ae0605e5458199ee2792e2",
+          "title": "Register the Scanner",
+          "content": "Register the Scanner\n1. Create `tools/scanners/gs3_step01_my_custom.py`\n2. Import `BaseGapScanner`\n3. Inherit and implement `scan_file()` method\n4. Set `step` and `priority` class attributes\n5. Run: `python -m tools.gs3 list-scanners` to verify registration\n\n---"
+        },
+        {
+          "id": "6f383da3d6c41dd1c864f793ee7c654455d3be5c",
+          "title": "\ud83d\udd27 Impact Classification",
+          "content": "\ud83d\udd27 Impact Classification\n\nThe `ImpactClassifier` automatically assigns impact levels based on file paths:\n\n```python\nfrom tools.scanners.gs3_impact_classifier import ImpactClassifier"
+        },
+        {
+          "id": "e75fe585f1468e93440f94b6b4d37dd095d709bd",
+          "title": "Classify a file",
+          "content": "Classify a file\nimpact_level, subsystem = ImpactClassifier.classify('src/core/engine.cpp')"
+        },
+        {
+          "id": "7169d228eabdfb4d40b4951e8a4df8909155f732",
+          "title": "Returns: ('CRITICAL', 'core')",
+          "content": "Returns: ('CRITICAL', 'core')\n\nimpact_level, subsystem = ImpactClassifier.classify('tests/unit/test_utils.cpp')"
+        },
+        {
+          "id": "912a753ac9b179f097239d5af607848c0bf10f91",
+          "title": "Returns: ('LOW', 'utils')",
+          "content": "Returns: ('LOW', 'utils')\n```"
+        },
+        {
+          "id": "06be81c0b197be28a8632d1fe260bf1361b8412e",
+          "title": "Module Hierarchy",
+          "content": "Module Hierarchy\n```\nCRITICAL Impact:\n  src/core/          \u2192 'core'\n  src/auth/          \u2192 'auth'\n  src/security/      \u2192 'security'\n  src/distributed/*  \u2192 'core'\n\nHIGH Impact:\n  src/llm/           \u2192 'llm'\n  src/ai_*/          \u2192 'ai'\n  src/network/       \u2192 'network'\n  src/graph/         \u2192 'graph'\n  src/model/         \u2192 'model'\n\nMEDIUM Impact:\n  src/monitoring/    \u2192 'monitoring'\n  src/multi/         \u2192 'multi'\n  src/mqtt/          \u2192 'mqtt'\n  src/kafka/         \u2192 'kafka'\n\nLOW Impact:\n  src/utils/         \u2192 'utils'\n  src/helper/        \u2192 'utils'\n  tests/             \u2192 'tests'\n  benchmarks/        \u2192 'benchmarks'\n\nTHIRD_PARTY:\n  external/          \u2192 'external'\n  third_party/       \u2192 'external'\n```\n\n---"
+        },
+        {
+          "id": "698e1b92ada35e78580f4f39da92e0b5e13abb17",
+          "title": "\ud83d\udcca Output Format",
+          "content": "\ud83d\udcca Output Format"
+        },
+        {
+          "id": "2f4ca3e188193dd3494a52dbd068554890dcdde3",
+          "title": "JSON Output (`scan_results.json`)",
+          "content": "JSON Output (`scan_results.json`)\n```json\n{\n  \"summary\": {\n    \"total_findings\": 370707,\n    \"severity\": {\n      \"CRITICAL\": 5530,\n      \"HIGH\": 43086,\n      \"MEDIUM\": 298581,\n      \"LOW\": 23510\n    },\n    \"impact\": {\n      \"CRITICAL\": 315,\n      \"HIGH\": 2838,\n      \"LOW\": 367021,\n      \"THIRD_PARTY\": 533\n    }\n  },\n  \"gaps\": [\n    {\n      \"file\": \"src/core/engine.cpp\",\n      \"line\": 123,\n      \"type\": \"todo_as_productionlogic\",\n      \"severity\": \"HIGH\",\n      \"confidence\": 0.95,\n      \"description\": \"TODO in production logic path\",\n      \"remediation\": \"Replace with implementation or justified skip\",\n      \"context\": \"  // TODO: Implement proper error handling\",\n      \"scanner\": \"TodoProductionLogicScanner\",\n      \"step\": 1,\n      \"impact_level\": \"CRITICAL\",\n      \"subsystem\": \"core\"\n    }\n  ]\n}\n```"
+        },
+        {
+          "id": "c4de758c084600a3b65cc0f793025b80b76f805e",
+          "title": "Markdown Report (`scan_results.md`)",
+          "content": "Markdown Report (`scan_results.md`)\n```markdown"
+        },
+        {
+          "id": "3159e378e7b01a98cf422de588a0d908af4857ad",
+          "title": "Gap Scanner V3 Report",
+          "content": "Gap Scanner V3 Report\n\n**Total Findings**: 370,707"
+        },
+        {
+          "id": "f5784605706ae58aafdca13dcfda5e4316fa8da7",
+          "title": "Summary by Severity",
+          "content": "Summary by Severity\n| Severity | Count |\n|----------|-------|\n| CRITICAL | 5,530 |\n| HIGH | 43,086 |\n| MEDIUM | 298,581 |\n| LOW | 23,510 |"
+        },
+        {
+          "id": "bc8192de1c96260a6daa8d4cce2ee07f875a30d6",
+          "title": "Summary by Impact",
+          "content": "Summary by Impact\n| Impact | Count |\n|--------|-------|\n| CRITICAL | 315 |\n| HIGH | 2,838 |\n| MEDIUM | 0 |\n| LOW | 367,021 |"
+        },
+        {
+          "id": "484967f90ae92d32e6ab4d1b5c3f7d3b26acb34f",
+          "title": "Priority Analysis",
+          "content": "Priority Analysis\n- P0 (CRITICAL\u00d7CRITICAL): 0 findings\n- P0.5 (CRITICAL\u00d7HIGH): 0 findings\n- P1 (HIGH\u00d7CRITICAL): 3 findings\n- P1.5 (HIGH\u00d7HIGH): 3 findings\n```\n\n---"
+        },
+        {
+          "id": "17a894952f7360c1f029a1625e87ae0578da9631",
+          "title": "\ud83d\ude80 Usage Examples",
+          "content": "\ud83d\ude80 Usage Examples"
+        },
+        {
+          "id": "2d50813b8d254240835d792a8c1f336a8644fda9",
+          "title": "Full Codebase Scan",
+          "content": "Full Codebase Scan\n```bash\npython -m tools.gs3 scan src include tests benchmarks --scan-mode thorough --output results_full.json\n```"
+        },
+        {
+          "id": "1ab3dbc657ae5e2a169f2bcaf9581e162a93b276",
+          "title": "Fast Scan (Production)",
+          "content": "Fast Scan (Production)\n```bash\npython -m tools.gs3 scan src --scan-mode fast --output results_fast.json\n```"
+        },
+        {
+          "id": "2f0f738f0b22898b0c16b56451503569c1e62dbc",
+          "title": "Scan with Markdown Report",
+          "content": "Scan with Markdown Report\n```bash\npython -m tools.gs3 scan src \\\n  --output ai_working/scan.json \\\n  --md-report ai_working/scan.md\n```"
+        },
+        {
+          "id": "2e7813b70788be7c8dd20e6d1b6ab1f80f321d4c",
+          "title": "Generate Report from Existing Scan",
+          "content": "Generate Report from Existing Scan\n```bash\npython -m tools.gs3 report ai_working/scan.json --format md --output report.md\n```"
+        },
+        {
+          "id": "96c25645ded0b87d4cb69cce74acdf44ae0bb44a",
+          "title": "List Scanners by Step",
+          "content": "List Scanners by Step\n```bash\npython -m tools.gs3 list-scanners --step 1\npython -m tools.gs3 list-scanners --step 4\n```\n\n---"
+        },
+        {
+          "id": "49ee5b8cf3470896a85cca0c5f51f377d31e8db0",
+          "title": "\ud83d\udce6 Dependencies",
+          "content": "\ud83d\udce6 Dependencies\n\n- **Python**: 3.9+\n- **Internal**:\n  - `tools.gs3_base_scanner` - Base class\n  - `tools.gs3_orchestrator` - Orchestrator\n  - `tools.scanners.*` - Individual scanners\n- **External**: None (stdlib only)\n\n---"
+        },
+        {
+          "id": "7342c8c990e66b80051f105095e9a0a6db1b5206",
+          "title": "\ud83d\udd0d Troubleshooting",
+          "content": "\ud83d\udd0d Troubleshooting"
+        },
+        {
+          "id": "aba36ebf3a89e7c43e62ea22a8a1f322dd51ef83",
+          "title": "\"No scanners found\"",
+          "content": "\"No scanners found\"\n- Verify `tools/scanners/` directory exists\n- Check scanner files have `BaseGapScanner` inheritance\n- Run: `python -m tools.gs3 list-scanners`"
+        },
+        {
+          "id": "7e24f52f300f2ebd14dc10623bb0b40ab147fc5a",
+          "title": "\"Import error: gs3_base_scanner\"",
+          "content": "\"Import error: gs3_base_scanner\"\n- Ensure `tools/` is in Python path\n- Run from project root: `python -m tools.gs3 ...`"
+        },
+        {
+          "id": "d85a5cdcf13604f1abf666b57e1f5136c2e0166f",
+          "title": "\"Orchestrator fails\"",
+          "content": "\"Orchestrator fails\"\n- Check `tools/gs3_orchestrator.py` is executable\n- Verify scanner step numbers are 0-4\n- Check input directories exist"
+        },
+        {
+          "id": "cff4669c59fdcb4a9eca8b112d1a7a1634421014",
+          "title": "\"Large output file\"",
+          "content": "\"Large output file\"\n- Full codebase scan generates ~100-200MB JSON\n- Use `--scan-mode fast` for baseline only\n- Filter results before reporting\n\n---"
+        },
+        {
+          "id": "b25701d77d52953ee3d37ea166f0a20388c09a10",
+          "title": "\ud83d\udcda Related Documentation",
+          "content": "\ud83d\udcda Related Documentation\n\n- [IMPACT_CLASSIFICATION_SESSION_SUMMARY.md](../IMPACT_CLASSIFICATION_SESSION_SUMMARY.md) - Impact system details\n- [IMPACT_REMEDIATION_ROADMAP.md](../IMPACT_REMEDIATION_ROADMAP.md) - Remediation strategy\n- [FULL_SCAN_COMPREHENSIVE_REPORT_2026_06_21.md](../FULL_SCAN_COMPREHENSIVE_REPORT_2026_06_21.md) - Sample report\n- [CONTRIBUTING.md](../CONTRIBUTING.md) - Code standards\n\n---"
+        },
+        {
+          "id": "75d3da85610c0a3f9db29f0a8456aeef49e2e647",
+          "title": "\u2728 Key Features",
+          "content": "\u2728 Key Features\n\n\u2705 **Modular Architecture**: 50+ independent scanners  \n\u2705 **Auto-Discovery**: Scanners self-register via registry  \n\u2705 **Impact Classification**: Severity \u00d7 Impact dual-axis prioritization  \n\u2705 **Fast Baseline**: Ultra-fast keyword scanning (Step 1)  \n\u2705 **Deep Analysis**: Multi-step context-aware analysis (Steps 2-4)  \n\u2705 **Export Formats**: JSON, Markdown, metrics  \n\u2705 **Extensible**: Easy to add new scanners  \n\n---"
+        },
+        {
+          "id": "f2f07dbe3b610cd4a0b79614bea38d3853f803e9",
+          "title": "\ud83c\udf93 Learning Path",
+          "content": "\ud83c\udf93 Learning Path\n\n1. **Start Here**: Read this file (you are here)\n2. **Understand Flow**: Check `tools/gs3_orchestrator.py`\n3. **Base Class**: Review `tools/gs3_base_scanner.py`\n4. **Impact System**: Study `tools/scanners/gs3_impact_classifier.py`\n5. **Example Scanner**: Look at `tools/scanners/gs3_step01_ai_todo_productionlogic.py`\n6. **Run CLI**: Execute `python -m tools.gs3 list-scanners`\n7. **Create Scanner**: Follow [Creating a New Scanner](#-creating-a-new-scanner)\n\n---"
+        },
+        {
+          "id": "06788576d39b7f53def7b994388e83922b7a453f",
+          "title": "\ud83d\udcde Questions?",
+          "content": "\ud83d\udcde Questions?\n\nRefer to inline code comments for detailed implementation notes. Each scanner module includes:\n- Clear docstrings\n- Example patterns\n- Confidence thresholds\n- Remediation guidance\n\n**Report bugs in**: [CONTRIBUTING.md](../CONTRIBUTING.md)\n\n---\n\n**Last Updated**: 2026-06-21  \n**Maintained By**: ThemisDB Development Team  \n**License**: See LICENSE file"
+        }
+      ],
+      "includes": []
+    }
+  ],
+  "edges": []
+}
