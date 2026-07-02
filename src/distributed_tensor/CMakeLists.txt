@@ -4,10 +4,12 @@
 # Define source files for the distributed tensor library
 set(DISTRIBUTED_TENSOR_PUBLIC_HEADERS
     include/tensor_artifact_classes.h
+    include/artifact_manifest.h
 )
 
 set(DISTRIBUTED_TENSOR_SOURCES
     src/tensor_artifact_classes.cc
+    src/artifact_manifest.cc
 )
 
 # Create the distributed tensor library
