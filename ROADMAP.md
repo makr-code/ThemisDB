@@ -1182,7 +1182,7 @@ Focus: Deepen AI capabilities across prompt engineering, training, RAG, and anal
 #### 2.1 Prompt Engineering
 - [x] Token counting and context-window budget enforcement (Target: Q2 2026) — `ContextWindowBudgetManager` + `IRAGContextBudgetManager` (2026-04-19)
 - [x] Typed template DSL with compile-time placeholder validation (Target: Q2 2026) — `CompiledPromptTemplate` + `IPromptTemplate` + `IPromptQualityEvaluator` + `IPromptABFramework` (2026-04-19)
-- [?] Batch A/B test runner with configurable traffic splits (Target: Q3 2026)
+- [x] Production A/B Testing, Promotion & Rollback Integration (Target: Q3 2026) — `ABTestProductionRouter` + `ABTestPromotionEngine` + `ABTestRollbackAutomator` with live traffic, metrics-driven decisions, and automatic rollback (2026-07-02)
 - [?] RLHF integration for prompt quality improvement (Target: Q4 2026)
 
 #### 2.2 Training
