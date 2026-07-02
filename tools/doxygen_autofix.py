@@ -69,6 +69,7 @@ class Config:
     check_only: bool
     apply: bool
     convert_existing: bool = False  # New: Convert existing comments to Doxygen
+    limit_files: Optional[int] = None  # Limit number of files to process (for testing)
     include_paths: List[str] = field(default_factory=lambda: ["src", "include"])
     exts: List[str] = field(default_factory=lambda: [".h", ".hpp", ".hh", ".hxx", ".c", ".cc", ".cpp", ".cxx"])
     timeout_sec: int = 45
@@ -114,11 +115,41 @@ MULTI_LINE_COMMENT_END_RE = re.compile(r'\*/\s*$')
 
 
 def is_in_scope(p: Path, cfg: Config) -> bool:
-    parts = set(p.parts)
-    if parts & EXCLUDE_PARTS:
+    # Convert to absolute paths for comparison
+    try:
+        abs_path = p.resolve()
+        abs_root = cfg.root.resolve()
+        
+        # Check if the path is under excluded directories
+        path_str = str(abs_path).lower().replace("\\", "/")
+        root_str = str(abs_root).lower().replace("\\", "/")
+        
+        # Check for excluded directory patterns
+        exclude_patterns = [
+            "/vcpkg/", "/third_party/", "/external/", "/build/", 
+            "/.git/", "/releases/", "/proto/", "/packages/",
+            "vcpkg_installed", "llama.cpp", "whisper.cpp"
+        ]
+        
+        if any(pattern in path_str for pattern in exclude_patterns):
+            return False
+        
+        # Check if the path is under our source directories
+        for prefix in cfg.include_paths:
+            prefix_path = (abs_root / prefix).resolve()
+            prefix_str = str(prefix_path).lower().replace("\\", "/")
+            
+            if path_str.startswith(prefix_str + "/") or path_str == prefix_str:
+                return True
+        
+        # Also check if it's directly under src or include
+        if "/src/" in path_str or "/include/" in path_str or path_str.endswith("/src") or path_str.endswith("/include"):
+            return True
+            
+    except Exception:
         return False
-    rel = p.relative_to(cfg.root).as_posix()
-    return any(rel.startswith(prefix + "/") or rel == prefix for prefix in cfg.include_paths)
+    
+    return False
 
 
 def find_existing_comments(lines: List[str], func_start_line: int) -> Optional[Tuple[int, int, str]]:
@@ -156,14 +187,27 @@ def find_existing_comments(lines: List[str], func_start_line: int) -> Optional[T
 
 
 def iter_source_files(cfg: Config):
-    for path in cfg.root.rglob("*"):
-        if not path.is_file():
+    # Use more targeted search instead of rglob("*") for performance
+    for include_path in cfg.include_paths:
+        base_path = cfg.root / include_path
+        if base_path.exists() and base_path.is_dir():
+            for ext in cfg.exts:
+                try:
+                    for path in base_path.rglob(f"*{ext}"):
+                        if path.is_file():
+                            yield path
+                except Exception:
+                    # Skip directories that cause errors (permission issues, etc.)
+                    continue
+    
+    # Also check root directory for files that might be in src/include but not in subdirectories
+    for ext in cfg.exts:
+        try:
+            for path in cfg.root.glob(f"*{ext}"):
+                if path.is_file() and is_in_scope(path, cfg):
+                    yield path
+        except Exception:
             continue
-        if path.suffix.lower() not in cfg.exts:
-            continue
-        if not is_in_scope(path, cfg):
-            continue
-        yield path
 
 
 # -----------------------------
@@ -467,6 +511,7 @@ def main():
     ap.add_argument("--check-only", action="store_true", help="Do not write files; just report")
     ap.add_argument("--apply", action="store_true", help="Write changes to files")
     ap.add_argument("--convert-existing", action="store_true", help="Convert existing // and /* */ comments to Doxygen format")
+    ap.add_argument("--limit", type=int, default=None, help="Limit number of files to process (for testing)")
     ap.add_argument("--report", default="ai_working/doxygen_autofix_report.json", help="Report path")
     args = ap.parse_args()
 
@@ -482,6 +527,7 @@ def main():
         check_only=args.check_only,
         apply=args.apply,
         convert_existing=args.convert_existing,
+        limit_files=args.limit,
     )
 
     all_changes: List[Change] = []
@@ -489,13 +535,24 @@ def main():
     files_scanned = 0
 
     for fp in iter_source_files(cfg):
+        if cfg.limit_files and files_scanned >= cfg.limit_files:
+            print(f"Reached limit of {cfg.limit_files} files")
+            break
+            
         files_scanned += 1
-        new_lines, changes = process_file(fp, cfg)
-        if changes:
-            all_changes.extend(changes)
-            files_changed += 1
-            if cfg.apply:
-                fp.write_text("".join(new_lines), encoding="utf-8")
+        if files_scanned % 10 == 0:  # Progress indicator every 10 files
+            print(f"Scanned {files_scanned} files...")
+        
+        try:
+            new_lines, changes = process_file(fp, cfg)
+            if changes:
+                all_changes.extend(changes)
+                files_changed += 1
+                if cfg.apply:
+                    fp.write_text("".join(new_lines), encoding="utf-8")
+        except Exception as e:
+            print(f"Error processing {fp}: {e}")
+            continue
 
     report = {
         "root": str(cfg.root),
