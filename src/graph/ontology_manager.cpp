@@ -169,7 +169,7 @@ static std::vector<std::string> parseStringArray(const std::string &s, std::size
     std::vector<std::string> result;
     skipWs(s, pos);
     if (pos >= s.size() || s[pos] != '[') {
-        return result;
+        return result;  // Fail-safe: guard against missing opening bracket
     }
     ++pos;
     skipWs(s, pos);
@@ -296,7 +296,8 @@ parseObject(const std::string &s, std::size_t &pos,
 /// @note Stack-allocated; no allocation/deallocation overhead
 /// @note Implicit copy/move constructors and destructor are correct and optimal
 /// @note Rule of Five satisfied implicitly by STL member semantics (no custom operators needed)
-/// @see parseYamlSection() for usage context
+/// @note Exception-safe: STL container strong exception guarantees apply to all operations
+/// @see parseYamlSection() for usage context; see parseString() for string parsing semantics
 struct YamlEntry {
     std::unordered_map<std::string, std::string> scalar;
     std::unordered_map<std::string, std::vector<std::string>> list;
@@ -307,6 +308,17 @@ struct YamlEntry {
     /// - Document the RAII contract explicitly
     /// - Satisfy Rule of Five if other special members were explicitly defined
     /// - Enable compiler optimizations that depend on explicit destructor presence
+    /// - Maintain consistency with modern C++ best practices
+    ///
+    /// **Resource Cleanup Semantics:**
+    /// When a YamlEntry is destroyed (either at scope exit or via explicit deletion):
+    /// 1. Each unordered_map member destructor is invoked automatically
+    /// 2. All string keys and values are deallocated
+    /// 3. All vector elements (if any) in list values are deallocated
+    /// 4. No manual cleanup or external resource management needed
+    ///
+    /// This RAII pattern ensures exception-safe resource management: even if an exception
+    /// occurs, YamlEntry cleanup is guaranteed via automatic destructor invocation.
     ~YamlEntry() = default;
 };
 
@@ -319,6 +331,53 @@ static std::string trimYaml(const std::string &s) {
     return s.substr(a, b - a + 1);
 }
 
+/// @brief Parses a YAML section into structured entries with defensive guard patterns.
+///
+/// **Defensive Guard Patterns:**
+///
+/// This function implements multiple fail-safe defensive guards to handle malformed YAML:
+///
+/// 1. **Empty/Whitespace Lines**: Skipped silently (no guard exception)
+/// 2. **Comment Lines** (starting with '#'): Skipped silently
+/// 3. **Parse Errors** (malformed strings): Empty strings returned by parseString() are ignored
+/// 4. **Unmatched Brackets**: Early return with partial results
+/// 5. **Indent Misalignment**: Exit current section when indent decreases
+///
+/// All guards are fail-safe and non-throwing. Parsing continues on error, allowing partial
+/// recovery and graceful degradation.
+///
+/// **Initialization Semantics:**
+///
+/// YamlEntry members are initialized as follows:
+/// - `current`: Default-constructed (both maps empty on creation)
+/// - `current.scalar` and `current.list`: Empty until populated
+/// - On flush: new YamlEntry{} creates fresh default-initialized instance (RAII cleanup)
+/// - Exception-safe: std::move ensures no exceptions during transfer to results vector
+///
+/// **Iterator Safety:**
+///
+/// The function iterates through `lines` by index (size_t i), not by iterator:
+/// - No iterator invalidation risk (we don't modify lines)
+/// - Bounds checking: `while (i < lines.size())`
+/// - Safe string subscript access: `raw[indent]` checked via size comparison
+/// - Position tracking: pos parameter in parseString/parseStringArray is checked before access
+///
+/// **Position Tracking (pos parameter):**
+///
+/// The pos parameter tracks position within individual strings during parsing:
+/// - Advanced by parseString() on success, unchanged on parse error (fail-safe guard)
+/// - Bounds checked: `pos < s.size()` before every access
+/// - Never escapes string scope (local parameter only)
+///
+/// @param lines Input YAML lines (parsed into strings, one per line)
+/// @param [in/out] i Current line index; updated to next unprocessed line on return
+/// @param section_indent Expected indentation level for this section
+/// @return Vector of YamlEntry results; may be partial if parse errors occur (fail-safe)
+///
+/// @note No exceptions thrown; all errors are fail-safe (skip/continue)
+/// @note Not thread-safe; designed for single-threaded parser contexts
+/// @note Position tracking is per-string (local to parseString calls); never escapes scope
+/// @note YamlEntry instances use move semantics; efficient transfer via push_back(std::move(...))
 static std::vector<YamlEntry> parseYamlSection(const std::vector<std::string> &lines, std::size_t &i,
                                                int section_indent) {
     std::vector<YamlEntry> entries;

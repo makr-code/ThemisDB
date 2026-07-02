@@ -99,41 +99,123 @@ void PathConstraints::setGraphManager(GraphIndexManager *graph_mgr) {
     graph_mgr_ = graph_mgr;
 }
 
+/// @brief Adds a minimum path length constraint.
+///
+/// **Constraint Semantics:**
+/// Applies to all subsequent pathQuery() calls until constraints are cleared.
+/// Constraints are cumulative; multiple calls add additional restrictions.
+///
+/// @param min_length Minimum number of edges in valid paths (≥ 0)
+///
+/// @note Constraints persist across multiple queries; use clearConstraints() to reset
+/// @note Negative values are clamped to 0 by path validation logic
+/// @note Thread-safety: Use external synchronization if multiple threads add constraints
 void PathConstraints::addMinLength(int min_length) {
     constraints_.emplace_back(ConstraintType::MIN_LENGTH, min_length);
 }
 
+/// @brief Adds a maximum path length constraint.
+///
+/// **Constraint Semantics:**
+/// Applies to all subsequent pathQuery() calls until constraints are cleared.
+/// Constraints are cumulative; multiple calls add additional restrictions.
+///
+/// @param max_length Maximum number of edges in valid paths (≥ 0)
+///
+/// @note Constraints persist across multiple queries; use clearConstraints() to reset
+/// @note If max_length < min_length, no paths will satisfy both constraints
+/// @note Thread-safety: Use external synchronization if multiple threads add constraints
 void PathConstraints::addMaxLength(int max_length) {
     constraints_.emplace_back(ConstraintType::MAX_LENGTH, max_length);
 }
 
+/// @brief Adds a forbidden node to the constraint set.
+///
+/// **Constraint Semantics:**
+/// Paths containing this node are rejected by pathQuery(). Applies cumulatively until
+/// constraints are cleared. Invalid identifiers (containing null bytes, exceeding length limits)
+/// are silently ignored.
+///
+/// **Defensive Guard Pattern:**
+/// Invalid identifiers are checked via isValidIdentifier() before insertion. This fail-safe
+/// approach prevents malformed data from corrupting constraint state. No exception is thrown
+/// on invalid input; caller should validate identifiers independently if strict error handling
+/// is required.
+///
+/// @param node_id Forbidden node identifier; must be valid per isValidIdentifier()
+///
+/// @note Constraints persist across multiple queries; use clearConstraints() to reset
+/// @note Invalid identifiers are silently ignored (fail-safe guard)
+/// @note Thread-safety: Use external synchronization if multiple threads add constraints
+/// @see isValidIdentifier() for validation logic (rejects null bytes, length > MAX_ID_LENGTH)
 void PathConstraints::addForbiddenNode(std::string_view node_id) {
     if (!isValidIdentifier(node_id)) {
-        return;
+        return;  // Fail-safe: ignore invalid identifiers
     }
     forbidden_nodes_.insert(std::string(node_id));
     constraints_.emplace_back(ConstraintType::FORBIDDEN_NODE, std::string(node_id));
 }
 
+/// @brief Adds a required node to the constraint set.
+///
+/// **Constraint Semantics:**
+/// Paths NOT containing this node are rejected by pathQuery(). Applies cumulatively until
+/// constraints are cleared. Multiple required nodes mean paths must contain ALL of them.
+/// Invalid identifiers are silently ignored (fail-safe guard).
+///
+/// @param node_id Required node identifier; must be valid per isValidIdentifier()
+///
+/// @note Constraints persist across multiple queries; use clearConstraints() to reset
+/// @note Invalid identifiers are silently ignored (fail-safe guard)
+/// @note Multiple required nodes must ALL be present in valid paths
+/// @note Thread-safety: Use external synchronization if multiple threads add constraints
+/// @see isValidIdentifier() for validation logic
 void PathConstraints::addRequiredNode(std::string_view node_id) {
     if (!isValidIdentifier(node_id)) {
-        return;
+        return;  // Fail-safe: ignore invalid identifiers
+    }
     }
     required_nodes_.insert(std::string(node_id));
     constraints_.emplace_back(ConstraintType::REQUIRED_NODE, std::string(node_id));
 }
 
+/// @brief Adds a forbidden edge to the constraint set.
+///
+/// **Constraint Semantics:**
+/// Paths containing this edge are rejected by pathQuery(). Applies cumulatively until
+/// constraints are cleared. Invalid identifiers are silently ignored (fail-safe guard).
+///
+/// @param edge_id Forbidden edge identifier; must be valid per isValidIdentifier()
+///
+/// @note Constraints persist across multiple queries; use clearConstraints() to reset
+/// @note Invalid identifiers are silently ignored (fail-safe guard)
+/// @note Thread-safety: Use external synchronization if multiple threads add constraints
+/// @see isValidIdentifier() for validation logic (rejects null bytes, length > MAX_ID_LENGTH)
 void PathConstraints::addForbiddenEdge(std::string_view edge_id) {
     if (!isValidIdentifier(edge_id)) {
-        return;
+        return;  // Fail-safe: ignore invalid identifiers
     }
     forbidden_edges_.insert(std::string(edge_id));
     constraints_.emplace_back(ConstraintType::FORBIDDEN_EDGE, std::string(edge_id));
 }
 
+/// @brief Adds a required edge to the constraint set.
+///
+/// **Constraint Semantics:**
+/// Paths NOT containing this edge are rejected by pathQuery(). Applies cumulatively until
+/// constraints are cleared. Multiple required edges mean paths must contain ALL of them.
+/// Invalid identifiers are silently ignored (fail-safe guard).
+///
+/// @param edge_id Required edge identifier; must be valid per isValidIdentifier()
+///
+/// @note Constraints persist across multiple queries; use clearConstraints() to reset
+/// @note Invalid identifiers are silently ignored (fail-safe guard)
+/// @note Multiple required edges must ALL be present in valid paths
+/// @note Thread-safety: Use external synchronization if multiple threads add constraints
+/// @see isValidIdentifier() for validation logic
 void PathConstraints::addRequiredEdge(std::string_view edge_id) {
     if (!isValidIdentifier(edge_id)) {
-        return;
+        return;  // Fail-safe: ignore invalid identifiers
     }
     required_edges_.insert(std::string(edge_id));
     constraints_.emplace_back(ConstraintType::REQUIRED_EDGE, std::string(edge_id));
