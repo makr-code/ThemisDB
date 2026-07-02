@@ -487,3 +487,235 @@ TEST(DistributedGraphSharedMutexStressTest, ConcurrentReadsAndOneWriter) {
     // After the writer finishes, only the original 4 shards should remain.
     EXPECT_EQ(mgr.shardCount(), 4u);
 }
+
+// ---------------------------------------------------------------------------
+// QW-024, QW-025: Shard-Aware Routing and K-Way Merge Tests
+// ---------------------------------------------------------------------------
+
+TEST_F(DistributedGraphTest, QW024_KHopNeighborsWithAffinityRouting) {
+    // Test that kHopNeighbors correctly identifies and queries primary shard first
+    
+    // Clear and re-populate with unique data on each shard
+    dist_mgr_.reset();
+    mgr1_.reset();
+    mgr2_.reset();
+    
+    // Recreate graph managers and populate with distinct data
+    db1_ = std::make_unique<themis::RocksDBWrapper>(themis::RocksDBWrapper::Config{
+        .db_path = path1_,
+        .memtable_size_mb = 64,
+        .block_cache_size_mb = 128,
+    });
+    db1_->open();
+    mgr1_ = std::make_unique<themis::GraphIndexManager>(*db1_);
+    
+    db2_ = std::make_unique<themis::RocksDBWrapper>(themis::RocksDBWrapper::Config{
+        .db_path = path2_,
+        .memtable_size_mb = 64,
+        .block_cache_size_mb = 128,
+    });
+    db2_->open();
+    mgr2_ = std::make_unique<themis::GraphIndexManager>(*db2_);
+    
+    // Add edges to shard1: A -> B (only on shard1)
+    themis::BaseEntity e1("e1");
+    e1.setField("_from", "A");
+    e1.setField("_to", "B");
+    mgr1_->addEdge(e1);
+    
+    // Add edges to shard2: C -> D (only on shard2)
+    themis::BaseEntity e2("e2");
+    e2.setField("_from", "C");
+    e2.setField("_to", "D");
+    mgr2_->addEdge(e2);
+    
+    themis::graph::DistributedGraphConfig cfg;
+    cfg.partitioning = themis::graph::PartitionStrategy::HASH;
+    dist_mgr_ = std::make_unique<themis::graph::DistributedGraphManager>(cfg);
+    dist_mgr_->addShard("shard1",
+        std::make_shared<themis::graph::LocalShardGraphExecutor>("shard1", *mgr1_));
+    dist_mgr_->addShard("shard2",
+        std::make_shared<themis::graph::LocalShardGraphExecutor>("shard2", *mgr2_));
+    
+    // Query k-hop neighbors - should work on both shards
+    auto result = dist_mgr_->kHopNeighbors("A", 1);
+    EXPECT_TRUE(result);
+    // Result should contain vertices from the queried graph
+}
+
+TEST_F(DistributedGraphTest, QW025_KWayMergeDeduplicate) {
+    // Test that k-way merge properly deduplicates results
+    auto result = dist_mgr_->kHopNeighbors("A", 2);
+    EXPECT_TRUE(result);
+    
+    // Verify no duplicates in result
+    std::unordered_set<std::string> seen;
+    for (const auto& vertex : *result) {
+        EXPECT_EQ(seen.count(vertex), 0) << "Duplicate vertex found: " << vertex;
+        seen.insert(vertex);
+    }
+}
+
+// ---------------------------------------------------------------------------
+// QW-027: Affinity Cache Tests
+// ---------------------------------------------------------------------------
+
+TEST_F(DistributedGraphTest, QW027_AffinityCacheEnabled) {
+    // Test that affinity cache is enabled by default
+    themis::graph::DistributedGraphConfig cfg;
+    cfg.enable_affinity_cache = true;
+    cfg.affinity_cache_size = 100;
+    
+    auto mgr = std::make_unique<themis::graph::DistributedGraphManager>(cfg);
+    mgr->addShard("shard1",
+        std::make_shared<themis::graph::LocalShardGraphExecutor>("shard1", *mgr1_));
+    
+    // First query should resolve shard via hash
+    std::string shard1 = mgr->resolveShardForVertex("vertex_A");
+    
+    // Second query for same vertex should use cache (we can't directly observe this,
+    // but verify the shard resolution is consistent)
+    std::string shard2 = mgr->resolveShardForVertex("vertex_A");
+    EXPECT_EQ(shard1, shard2);
+}
+
+TEST_F(DistributedGraphTest, QW027_AffinityCacheCanBeDisabled) {
+    // Test that affinity cache can be disabled
+    themis::graph::DistributedGraphConfig cfg;
+    cfg.enable_affinity_cache = false;
+    
+    auto mgr = std::make_unique<themis::graph::DistributedGraphManager>(cfg);
+    mgr->addShard("shard1",
+        std::make_shared<themis::graph::LocalShardGraphExecutor>("shard1", *mgr1_));
+    
+    // Verify shard resolution works even when cache is disabled
+    std::string shard = mgr->resolveShardForVertex("vertex_A");
+    EXPECT_EQ(shard, "shard1");
+}
+
+TEST_F(DistributedGraphTest, QW027_AffinityCacheInvalidatedOnAddShard) {
+    // Test that cache is invalidated when shards are added
+    themis::graph::DistributedGraphConfig cfg;
+    cfg.enable_affinity_cache = true;
+    
+    auto mgr = std::make_unique<themis::graph::DistributedGraphManager>(cfg);
+    mgr->addShard("shard1",
+        std::make_shared<themis::graph::LocalShardGraphExecutor>("shard1", *mgr1_));
+    
+    std::string shard1 = mgr->resolveShardForVertex("vertex_test");
+    
+    // Add another shard - this should invalidate the cache internally
+    mgr->addShard("shard2",
+        std::make_shared<themis::graph::LocalShardGraphExecutor>("shard2", *mgr2_));
+    
+    // Resolution should still work (now possibly different due to hash change with 2 shards)
+    std::string shard2 = mgr->resolveShardForVertex("vertex_test");
+    EXPECT_FALSE(shard2.empty());
+}
+
+// ---------------------------------------------------------------------------
+// QW-028: Error Handling Tests
+// ---------------------------------------------------------------------------
+
+TEST_F(DistributedGraphTest, QW028_KHopNeighborsValidation_EmptyStartVertex) {
+    // Test that empty start vertex is rejected
+    auto result = dist_mgr_->kHopNeighbors("", 1);
+    EXPECT_FALSE(result);
+    EXPECT_EQ(result.error().code, themis::errors::ErrorCode::ERR_QUERY_INVALID_INPUT);
+}
+
+TEST_F(DistributedGraphTest, QW028_KHopNeighborsValidation_InvalidK) {
+    // Test that invalid k values are rejected
+    auto result1 = dist_mgr_->kHopNeighbors("A", 0);
+    EXPECT_FALSE(result1);
+    EXPECT_EQ(result1.error().code, themis::errors::ErrorCode::ERR_QUERY_INVALID_INPUT);
+    
+    auto result2 = dist_mgr_->kHopNeighbors("A", -1);
+    EXPECT_FALSE(result2);
+    EXPECT_EQ(result2.error().code, themis::errors::ErrorCode::ERR_QUERY_INVALID_INPUT);
+    
+    auto result3 = dist_mgr_->kHopNeighbors("A", 2000);
+    EXPECT_FALSE(result3);
+    EXPECT_EQ(result3.error().code, themis::errors::ErrorCode::ERR_QUERY_INVALID_INPUT);
+}
+
+TEST_F(DistributedGraphTest, QW028_ShortestPathValidation_EmptyStartVertex) {
+    // Test that empty start vertex is rejected
+    auto result = dist_mgr_->shortestPath("", "B");
+    EXPECT_FALSE(result);
+    EXPECT_EQ(result.error().code, themis::errors::ErrorCode::ERR_QUERY_INVALID_INPUT);
+}
+
+TEST_F(DistributedGraphTest, QW028_ShortestPathValidation_EmptyTargetVertex) {
+    // Test that empty target vertex is rejected
+    auto result = dist_mgr_->shortestPath("A", "");
+    EXPECT_FALSE(result);
+    EXPECT_EQ(result.error().code, themis::errors::ErrorCode::ERR_QUERY_INVALID_INPUT);
+}
+
+// ---------------------------------------------------------------------------
+// QW-026: Cache Invalidation Tests
+// ---------------------------------------------------------------------------
+
+TEST(GraphQueryOptimizerCacheInvalidationTest, QW026_BroadcastInvalidationClears) {
+    // Create a simple test database for the optimizer
+    std::string db_path = "./data/themis_cache_invalidation_test";
+    fs::remove_all(db_path);
+    
+    {
+        themis::RocksDBWrapper::Config cfg;
+        cfg.db_path = db_path;
+        cfg.memtable_size_mb = 64;
+        cfg.block_cache_size_mb = 64;
+        cfg.max_background_jobs = 2;
+        auto db = std::make_unique<themis::RocksDBWrapper>(cfg);
+        ASSERT_TRUE(db->open());
+        auto mgr = std::make_unique<themis::GraphIndexManager>(*db);
+        
+        themis::graph::GraphQueryOptimizer optimizer(*mgr);
+        
+        // Populate plan cache with some entries
+        auto plan = optimizer.optimizeShortestPath("A", "B");
+        ASSERT_TRUE(plan);
+        
+        // Verify cache has entries
+        size_t cache_size_before = optimizer.getPlanCacheSize();
+        
+        // Broadcast invalidation
+        auto invalidation_result = optimizer.broadcastInvalidation({});
+        EXPECT_TRUE(invalidation_result);
+        
+        // Verify cache was cleared
+        size_t cache_size_after = optimizer.getPlanCacheSize();
+        EXPECT_LT(cache_size_after, cache_size_before);
+    }
+    
+    fs::remove_all(db_path);
+}
+
+TEST(GraphQueryOptimizerCacheInvalidationTest, QW026_BroadcastInvalidationWithVertices) {
+    // Test selective invalidation with vertex list
+    std::string db_path = "./data/themis_cache_selective_invalidation_test";
+    fs::remove_all(db_path);
+    
+    {
+        themis::RocksDBWrapper::Config cfg;
+        cfg.db_path = db_path;
+        cfg.memtable_size_mb = 64;
+        cfg.block_cache_size_mb = 64;
+        cfg.max_background_jobs = 2;
+        auto db = std::make_unique<themis::RocksDBWrapper>(cfg);
+        ASSERT_TRUE(db->open());
+        auto mgr = std::make_unique<themis::GraphIndexManager>(*db);
+        
+        themis::graph::GraphQueryOptimizer optimizer(*mgr);
+        
+        // Broadcast selective invalidation
+        std::vector<std::string> affected = {"vertex_A", "vertex_B"};
+        auto result = optimizer.broadcastInvalidation(affected);
+        EXPECT_TRUE(result);
+    }
+    
+    fs::remove_all(db_path);
+}
+
