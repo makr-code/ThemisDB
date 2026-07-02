@@ -1224,6 +1224,10 @@ set(THEMIS_LLM_SOURCES
     ../src/llm/lora_framework/model_compatibility.cpp
     ../src/llm/lora_framework/resource_profiler.cpp
     ../src/llm/lora_framework/training_service_registry.cpp
+    # Automatic retraining with feedback integration (issue #5447)
+    ../src/llm/lora_framework/telemetry_feedback_adapter.cpp
+    ../src/llm/lora_framework/adaptive_retraining_controller.cpp
+    ../src/llm/lora_framework/adapter_version_manager.cpp
     ../src/llm/byzantine_detector.cpp
     ../src/security/vram_secure_clear.cpp
     # GPU memory management and security
