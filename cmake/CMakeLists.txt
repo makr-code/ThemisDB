@@ -3164,6 +3164,9 @@ if(THEMIS_ENABLE_LLM)
     ../src/rag/bayesian_optimizer.cpp
     ../src/rag/ab_testing_framework.cpp
     ../src/rag/continuous_learning_orchestrator.cpp
+    # ML Observability & Monitoring (Issue #5449)
+    ../src/rag/ml_learning_metrics_collector.cpp
+    ../src/rag/ml_observability_integration.cpp
     # IMPL-A1: Database-domain auto-labeler for LoRA training (S-2)
     ../src/training/database_domain_auto_labeler.cpp
     # AdaLoRA ↔ TT-format bridge — zero-copy adapter lifecycle management (STUB #271)
@@ -4534,6 +4537,9 @@ if(THEMIS_ENABLE_LLM)
         ../src/rag/bayesian_optimizer.cpp
         ../src/rag/ab_testing_framework.cpp
         ../src/rag/continuous_learning_orchestrator.cpp
+        # ML Observability & Monitoring (Issue #5449)
+        ../src/rag/ml_learning_metrics_collector.cpp
+        ../src/rag/ml_observability_integration.cpp
 
         # RAG Enhancement: Hallucination Rate Tracking Dashboard (Phase 2)
         ../src/rag/hallucination_dashboard.cpp
