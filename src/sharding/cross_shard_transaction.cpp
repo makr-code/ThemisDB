@@ -674,6 +674,18 @@ bool CrossShardTransactionCoordinator::addParticipant(
         return false;
     }
     
+    // QW-5a: Cross-Shard Consistency Guard - Prevent participant addition after PREPARING.
+    // Once a transaction enters PREPARING state, the participant set is frozen to ensure
+    // consistency across shard boundaries. This prevents late-joining participants that
+    // could cause prepare consensus failures.
+    if (txn.state == TransactionState::PREPARING || txn.state == TransactionState::PREPARED ||
+        txn.state == TransactionState::COMMITTING || txn.state == TransactionState::COMMITTED ||
+        txn.state == TransactionState::ABORTING || txn.state == TransactionState::ABORTED) {
+        spdlog::error("Cannot add participant {} to transaction {} in state {} (participant set is frozen)",
+                     shard_id, transaction_id, static_cast<int>(txn.state));
+        return false;
+    }
+    
     // W2-S04: Fail-closed if participant already exists (duplicate shard)
     if (txn.participants.find(shard_id) != txn.participants.end()) {
         spdlog::error("Participant {} already exists in transaction {}", shard_id, transaction_id);
@@ -718,6 +730,28 @@ bool CrossShardTransactionCoordinator::prepare(const std::string& transaction_id
     if (txn.participants.empty()) {
         spdlog::error("Cannot prepare transaction {} with no participants", transaction_id);
         return false;
+    }
+    
+    // QW-5a: State Consistency Guard - Validate participant set matches prepared set invariant.
+    // After PREPARING state, no participants can be added, ensuring consistency across
+    // shard boundaries. We snapshot the participant count now to prevent post-prepare mutations.
+    size_t participant_count = txn.participants.size();
+    for (const auto& [shard_id, participant] : txn.participants) {
+        if (shard_id.empty()) {
+            spdlog::error("Transaction {} has participant with empty shard_id (invariant violation)",
+                         transaction_id);
+            return false;
+        }
+        if (participant.endpoint.empty()) {
+            spdlog::error("Transaction {} participant {} missing endpoint (invariant violation)",
+                         transaction_id, shard_id);
+            return false;
+        }
+        if (participant.operations.empty()) {
+            spdlog::error("Transaction {} participant {} missing operations (invariant violation)",
+                         transaction_id, shard_id);
+            return false;
+        }
     }
 
     // Issue #5390: Cross-Shard FK Referential Integrity Check.
