@@ -146,6 +146,71 @@ void checkLimitZero(const std::string &query, ValidationResult &result) {
     }
 }
 
+// QW-028: Add bounds validation for limit/offset/batch_size parameters
+void checkBoundsValidation(const std::string &query, ValidationResult &result) {
+    /// @brief Validate LIMIT, OFFSET, and batch size bounds
+    /// Prevents invalid parameter values like negative offsets or excessively large limits
+    
+    // Check LIMIT bounds (should be positive, cap at 10000)
+    std::regex limit_re(R"(LIMIT\s+(\d+))", std::regex::icase);
+    std::smatch match;
+    if (std::regex_search(query, match, limit_re)) {
+        try {
+            size_t limit_val = std::stoull(match[1].str());
+            
+            // Warn if limit > 10000 (performance risk)
+            if (limit_val > 10000) {
+                result.issues.push_back({
+                    ValidationIssue::Severity::WARNING,
+                    "LIMIT value (" + std::to_string(limit_val) + ") exceeds recommended maximum of 10000. "
+                    "This may cause performance degradation.",
+                    "LIMIT"
+                });
+            }
+        } catch (const std::exception& e) {
+            result.issues.push_back({
+                ValidationIssue::Severity::ERROR,
+                "LIMIT value is not a valid positive integer",
+                "LIMIT"
+            });
+            result.is_valid = false;
+        }
+    }
+    
+    // Check OFFSET bounds (should be non-negative)
+    std::regex offset_re(R"(OFFSET\s+(-?\d+))", std::regex::icase);
+    if (std::regex_search(query, match, offset_re)) {
+        try {
+            long long offset_val = std::stoll(match[1].str());
+            
+            if (offset_val < 0) {
+                result.issues.push_back({
+                    ValidationIssue::Severity::ERROR,
+                    "OFFSET value (" + std::to_string(offset_val) + ") must be non-negative",
+                    "OFFSET"
+                });
+                result.is_valid = false;
+            }
+            
+            if (offset_val > 1000000) {  // Warn on very large offsets
+                result.issues.push_back({
+                    ValidationIssue::Severity::WARNING,
+                    "OFFSET value (" + std::to_string(offset_val) + ") is very large. "
+                    "Consider using keyset pagination for better performance.",
+                    "OFFSET"
+                });
+            }
+        } catch (const std::exception& e) {
+            result.issues.push_back({
+                ValidationIssue::Severity::ERROR,
+                "OFFSET value is not a valid integer",
+                "OFFSET"
+            });
+            result.is_valid = false;
+        }
+    }
+}
+
 // Check for COLLECT placed after SORT (usually a mistake)
 void checkCollectAfterSort(const std::string &upper_query, ValidationResult &result) {
     size_t sort_pos    = upper_query.find("SORT");
@@ -253,6 +318,7 @@ ValidationResult AQLQueryValidator::validate(const std::string &query) const {
     checkMissingFor(query, result);
     checkMissingReturn(query, result);
     checkLimitZero(query, result);
+    checkBoundsValidation(query, result);  // QW-028: Add bounds checks
     checkCollectAfterSort(query, result);
     checkAssignmentInFilter(query, result);
     checkMissingLimit(query, result);
