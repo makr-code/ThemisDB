@@ -2447,6 +2447,7 @@ set(THEMIS_CORE_SOURCES
     ../src/search/search_highlighter.cpp
     ../src/search/negative_keyword_filter.cpp
     ../src/search/distributed_hybrid_search.cpp
+    ../src/search/layered_retrieval_orchestrator.cpp
     ../src/security/pki_key_provider.cpp
     ../src/security/cms_signing.cpp
     ../src/security/rbac.cpp
@@ -5147,6 +5148,13 @@ if(THEMIS_BUILD_ENTERPRISE_PLUGINS)
     if(EXISTS "${THEMIS_ROOT_DIR}/src/tensor/CMakeLists.txt")
         add_subdirectory(${THEMIS_ROOT_DIR}/src/tensor
                          ${CMAKE_CURRENT_BINARY_DIR}/src/tensor)
+    endif()
+
+    # Distributed Tensor Artifacts module (EPIC 3, 2026-07-01)
+    # -------------------------------------------------------------------------
+    if(EXISTS "${THEMIS_ROOT_DIR}/src/distributed_tensor/CMakeLists.txt")
+        add_subdirectory(${THEMIS_ROOT_DIR}/src/distributed_tensor
+                         ${CMAKE_CURRENT_BINARY_DIR}/src/distributed_tensor)
     endif()
 
     # Non-compiled plugin manifests / legacy orchestration: plugins/

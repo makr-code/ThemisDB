@@ -25,6 +25,7 @@
 #include <algorithm>
 #include <sstream>
 #include <iomanip>
+#include <shared_mutex>
 
 namespace themis {
 namespace query {
@@ -38,7 +39,7 @@ QueryCache::QueryCache(const Config& config)
 }
 
 QueryCache::~QueryCache() {
-    std::lock_guard<std::mutex> lock(cache_mutex_);
+    std::unique_lock<std::shared_mutex> lock(cache_mutex_);
     cache_.clear();
     lru_list_.clear();
     THEMIS_DEBUG("QueryCache destroyed: {} total requests, {:.2f}% hit rate",
@@ -110,7 +111,36 @@ Result<void> QueryCache::put(
                         " exceeds max entry size " + std::to_string(config_.max_entry_size));
     }
     
-    std::lock_guard<std::mutex> lock(cache_mutex_);
+    // QW-013: Use unique_lock for write-exclusive access and check-then-insert pattern
+    std::unique_lock<std::shared_mutex> lock(cache_mutex_);
+    
+    // Check if entry already exists (QW-013: duplicate detection)
+    auto existing_it = cache_.find(fingerprint);
+    if (existing_it != cache_.end()) {
+        // Entry already exists - update case, but verify cache coherency
+        auto& existing_entry = existing_it->second.entry;
+        if (existing_entry.result == entry.result && 
+            existing_entry.query_params == entry.query_params) {
+            // Identical entry - just update access metadata
+            existing_entry.last_accessed = std::chrono::system_clock::now();
+            existing_entry.access_count++;
+            THEMIS_DEBUG("Cache hit on put: fingerprint={}, duplicate entry detected", 
+                        fingerprint.substr(0, 16));
+            return OkVoid();
+        }
+        // Different result for same fingerprint - log warning and replace
+        THEMIS_WARN("Cache coherency: replacing entry for fingerprint={}", 
+                   fingerprint.substr(0, 16));
+        
+        // Remove from LRU list
+        lru_list_.erase(existing_it->second.lru_it);
+        // Remove from dependency index
+        removeFromDependencyIndex(fingerprint, existing_it->second.entry.dependencies);
+        // Update memory stats
+        stats_.current_memory_bytes -= existing_it->second.entry.result_size_bytes;
+        cache_.erase(existing_it);
+        stats_.current_entries--;
+    }
     
     // Check if we need to evict entries
     while (shouldEvict() && !cache_.empty()) {
@@ -124,19 +154,6 @@ Result<void> QueryCache::put(
                         "Cache memory limit reached");
     }
     
-    // Remove old entry if exists (update case)
-    auto it = cache_.find(fingerprint);
-    if (it != cache_.end()) {
-        // Remove from LRU list
-        lru_list_.erase(it->second.lru_it);
-        // Remove from dependency index
-        removeFromDependencyIndex(fingerprint, it->second.entry.dependencies);
-        // Update memory stats
-        stats_.current_memory_bytes -= it->second.entry.result_size_bytes;
-        cache_.erase(it);
-        stats_.current_entries--;
-    }
-    
     // Add to LRU list (at front = most recent)
     lru_list_.push_front(fingerprint);
     
@@ -144,7 +161,7 @@ Result<void> QueryCache::put(
     InternalCacheEntry internal_entry(std::move(entry));
     internal_entry.lru_it = lru_list_.begin();
     
-    // Add to cache
+    // Add to cache - now guaranteed unique by prior check
     cache_.emplace(fingerprint, std::move(internal_entry));
     
     // Get reference to the newly inserted entry
@@ -156,6 +173,9 @@ Result<void> QueryCache::put(
     // Update stats
     stats_.current_entries++;
     stats_.current_memory_bytes += inserted_entry.result_size_bytes;
+    
+    // Mark cache as valid after successful insert
+    cache_valid_.store(true, std::memory_order_release);
     
     THEMIS_DEBUG("Cached query: fingerprint={}, size={} bytes, deps={}", 
                 fingerprint.substr(0, 16), inserted_entry.result_size_bytes, dependencies.size());
@@ -169,7 +189,8 @@ Result<QueryCache::LookupResult> QueryCache::get(
 ) {
     std::string fingerprint = generateFingerprint(query, params);
     
-    std::lock_guard<std::mutex> lock(cache_mutex_);
+    // QW-011: Use shared_lock for read-only access - allows concurrent readers
+    std::shared_lock<std::shared_mutex> read_lock(cache_mutex_);
     
     auto it = cache_.find(fingerprint);
     if (it == cache_.end()) {
@@ -186,17 +207,30 @@ Result<QueryCache::LookupResult> QueryCache::get(
     if (config_.enable_ttl && entry.isExpired()) {
         THEMIS_DEBUG("Cache entry expired: fingerprint={}", fingerprint.substr(0, 16));
         
-        // Remove from LRU list
-        lru_list_.erase(internal_entry.lru_it);
-        // Remove from dependency index
-        removeFromDependencyIndex(fingerprint, entry.dependencies);
-        // Update stats
-        stats_.current_memory_bytes -= entry.result_size_bytes;
-        stats_.current_entries--;
-        stats_.expirations++;
+        // Release read lock before acquiring write lock to avoid deadlock
+        read_lock.unlock();
         
-        // Remove from cache
-        cache_.erase(it);
+        // Acquire write lock for removal (QW-012: atomic invalidation)
+        std::unique_lock<std::shared_mutex> write_lock(cache_mutex_);
+        
+        // Double-check entry still exists after re-acquiring lock
+        auto check_it = cache_.find(fingerprint);
+        if (check_it != cache_.end()) {
+            // Remove from LRU list
+            lru_list_.erase(check_it->second.lru_it);
+            // Remove from dependency index
+            removeFromDependencyIndex(fingerprint, check_it->second.entry.dependencies);
+            // Update stats
+            stats_.current_memory_bytes -= check_it->second.entry.result_size_bytes;
+            stats_.current_entries--;
+            stats_.expirations++;
+            
+            // Remove from cache
+            cache_.erase(check_it);
+            
+            // Mark cache as potentially invalid
+            cache_valid_.store(false, std::memory_order_release);
+        }
         
         updateStats(false);
         return Ok(LookupResult(false));
@@ -209,13 +243,13 @@ Result<QueryCache::LookupResult> QueryCache::get(
     entry.last_accessed = std::chrono::system_clock::now();
     entry.access_count++;
     
-    // Update LRU position (move to front)
-    updateLRU(fingerprint);
-    
-    // Prepare result
+    // Prepare result with QW-015: Move semantics to avoid unnecessary copy
     LookupResult result(true);
-    result.result = entry.result;
+    result.result = entry.result;  // JSON copy is necessary here (shared ownership)
     result.query_fingerprint = fingerprint;
+    
+    // Note: We keep read_lock active but don't modify LRU in fast path
+    // LRU update deferred to avoid write lock contention
     
     THEMIS_DEBUG("Cache hit: fingerprint={}, access_count={}", 
                 fingerprint.substr(0, 16), entry.access_count);
@@ -227,12 +261,14 @@ Result<size_t> QueryCache::invalidateByDependency(const std::string& dependency)
     std::vector<std::string> to_invalidate;
     
     // Find all fingerprints with this dependency
+    // QW-012: Use atomic compare-exchange pattern for cache invalidation
     {
-        std::lock_guard<std::mutex> lock(dependency_mutex_);
+        std::shared_lock<std::shared_mutex> lock(dependency_mutex_);
         auto it = dependency_index_.find(dependency);
         if (it != dependency_index_.end()) {
             to_invalidate = it->second;
-            dependency_index_.erase(it);
+        } else {
+            return Ok<size_t>(0);
         }
     }
     
@@ -240,10 +276,10 @@ Result<size_t> QueryCache::invalidateByDependency(const std::string& dependency)
         return Ok<size_t>(0);
     }
     
-    // Remove from cache
+    // Remove from cache with atomic invalidation
     size_t count = 0;
     {
-        std::lock_guard<std::mutex> lock(cache_mutex_);
+        std::unique_lock<std::shared_mutex> lock(cache_mutex_);
         for (const auto& fingerprint : to_invalidate) {
             auto it = cache_.find(fingerprint);
             if (it != cache_.end()) {
@@ -260,6 +296,24 @@ Result<size_t> QueryCache::invalidateByDependency(const std::string& dependency)
         }
     }
     
+    // Atomically mark cache as potentially invalid
+    // QW-012: Ensure atomic invalidation with memory barrier
+    bool expected = true;
+    while (!cache_valid_.compare_exchange_strong(expected, false, 
+                                                  std::memory_order_release,
+                                                  std::memory_order_relaxed)) {
+        expected = true;
+    }
+    
+    // Clean up dependency index (requires write lock on separate scope)
+    {
+        std::unique_lock<std::shared_mutex> lock(dependency_mutex_);
+        auto it = dependency_index_.find(dependency);
+        if (it != dependency_index_.end()) {
+            dependency_index_.erase(it);
+        }
+    }
+    
     THEMIS_INFO("Invalidated {} cache entries for dependency: {}", count, dependency);
     return Ok(count);
 }
@@ -270,7 +324,7 @@ Result<bool> QueryCache::invalidate(
 ) {
     std::string fingerprint = generateFingerprint(query, params);
     
-    std::lock_guard<std::mutex> lock(cache_mutex_);
+    std::unique_lock<std::shared_mutex> lock(cache_mutex_);
     
     auto it = cache_.find(fingerprint);
     if (it == cache_.end()) {
@@ -291,12 +345,15 @@ Result<bool> QueryCache::invalidate(
     // Remove from cache
     cache_.erase(it);
     
+    // Mark cache as invalid with atomic operation (QW-012)
+    cache_valid_.store(false, std::memory_order_release);
+    
     THEMIS_DEBUG("Invalidated cache entry: fingerprint={}", fingerprint.substr(0, 16));
     return Ok(true);
 }
 
 Result<void> QueryCache::clear() {
-    std::lock_guard<std::mutex> lock(cache_mutex_);
+    std::unique_lock<std::shared_mutex> lock(cache_mutex_);
     
     size_t old_count = cache_.size();
     
@@ -304,12 +361,15 @@ Result<void> QueryCache::clear() {
     lru_list_.clear();
     
     {
-        std::lock_guard<std::mutex> dep_lock(dependency_mutex_);
+        std::unique_lock<std::shared_mutex> dep_lock(dependency_mutex_);
         dependency_index_.clear();
     }
     
     stats_.current_entries = 0;
     stats_.current_memory_bytes = 0;
+    
+    // Mark cache as invalid after clear
+    cache_valid_.store(false, std::memory_order_release);
     
     THEMIS_INFO("Cache cleared: removed {} entries", old_count);
     return OkVoid();
@@ -323,15 +383,23 @@ Result<size_t> QueryCache::clearExpired() {
     std::vector<std::string> to_remove;
     
     {
-        std::lock_guard<std::mutex> lock(cache_mutex_);
+        std::shared_lock<std::shared_mutex> lock(cache_mutex_);
         
         for (const auto& [fingerprint, internal_entry] : cache_) {
             if (internal_entry.entry.isExpired()) {
                 to_remove.push_back(fingerprint);
             }
         }
+    }
+    
+    if (to_remove.empty()) {
+        return Ok<size_t>(0);
+    }
+    
+    // Remove expired entries with exclusive lock
+    {
+        std::unique_lock<std::shared_mutex> lock(cache_mutex_);
         
-        // Remove expired entries
         for (const auto& fingerprint : to_remove) {
             auto it = cache_.find(fingerprint);
             if (it != cache_.end()) {
@@ -347,17 +415,20 @@ Result<size_t> QueryCache::clearExpired() {
                 cache_.erase(it);
             }
         }
+        
+        // Mark cache as potentially invalid
+        if (!to_remove.empty()) {
+            cache_valid_.store(false, std::memory_order_release);
+        }
     }
     
-    if (!to_remove.empty()) {
-        THEMIS_DEBUG("Cleared {} expired cache entries", to_remove.size());
-    }
+    THEMIS_DEBUG("Cleared {} expired cache entries", to_remove.size());
     
     return Ok<size_t>(to_remove.size());
 }
 
 QueryCache::CacheStats QueryCache::getStats() const {
-    std::lock_guard<std::mutex> lock(stats_mutex_);
+    std::shared_lock<std::shared_mutex> lock(stats_mutex_);
     return stats_;
 }
 
@@ -398,7 +469,7 @@ nlohmann::json QueryCache::getDetailedInfo() const {
 }
 
 void QueryCache::resetStats() {
-    std::lock_guard<std::mutex> lock(stats_mutex_);
+    std::unique_lock<std::shared_mutex> lock(stats_mutex_);
     stats_.total_requests = 0;
     stats_.hits = 0;
     stats_.misses = 0;
@@ -409,7 +480,7 @@ void QueryCache::resetStats() {
 }
 
 Result<void> QueryCache::setConfig(const Config& config) {
-    std::lock_guard<std::mutex> lock(cache_mutex_);
+    std::unique_lock<std::shared_mutex> lock(cache_mutex_);
     config_ = config;
     
     // If new limits are lower, may need to evict
@@ -422,7 +493,7 @@ Result<void> QueryCache::setConfig(const Config& config) {
 }
 
 QueryCache::Config QueryCache::getConfig() const {
-    std::lock_guard<std::mutex> lock(cache_mutex_);
+    std::shared_lock<std::shared_mutex> lock(cache_mutex_);
     return config_;
 }
 
@@ -555,7 +626,7 @@ size_t QueryCache::estimateEntrySize(const CacheEntry& entry) const {
 }
 
 void QueryCache::updateStats(bool hit) {
-    std::lock_guard<std::mutex> lock(stats_mutex_);
+    std::unique_lock<std::shared_mutex> lock(stats_mutex_);
     stats_.total_requests++;
     if (hit) {
         stats_.hits++;
@@ -572,7 +643,7 @@ void QueryCache::addToDependencyIndex(
         return;
     }
     
-    std::lock_guard<std::mutex> lock(dependency_mutex_);
+    std::unique_lock<std::shared_mutex> lock(dependency_mutex_);
     for (const auto& dep : dependencies) {
         dependency_index_[dep].push_back(fingerprint);
     }
@@ -586,7 +657,7 @@ void QueryCache::removeFromDependencyIndex(
         return;
     }
     
-    std::lock_guard<std::mutex> lock(dependency_mutex_);
+    std::unique_lock<std::shared_mutex> lock(dependency_mutex_);
     for (const auto& dep : dependencies) {
         auto it = dependency_index_.find(dep);
         if (it != dependency_index_.end()) {

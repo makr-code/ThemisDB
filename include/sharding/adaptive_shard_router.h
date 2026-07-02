@@ -257,6 +257,33 @@ public:
      * @param config New configuration
      */
     void updateAdaptiveConfig(const AdaptiveConfig& config);
+    
+    // ========================================================================
+    // QW-027: Shard affinity optimization - Pre-computed routing policy
+    // ========================================================================
+    
+    /**
+     * @brief Pre-compute and cache shard routing policy matrix
+     * 
+     * Builds affinity matrix for all (domain, shard) pairs at startup.
+     * This avoids recomputing routing decisions per-query and improves latency.
+     * 
+     * @return true if pre-computation succeeded
+     */
+    bool precomputeRoutingPolicy();
+    
+    /**
+     * @brief Get pre-computed routing policy for a domain
+     * 
+     * Returns cached routing decisions built by precomputeRoutingPolicy().
+     * If not pre-computed, returns empty vector.
+     * 
+     * @param domain Domain type
+     * @return Vector of shard IDs ordered by preference (highest score first)
+     */
+    std::vector<std::string> getRoutingPolicy(
+        themis::distributed_knowledge::AdapterDomainType domain
+    ) const;
 
     /**
      * @brief Inject NLP/ML query-context enrichment callback.
@@ -317,6 +344,13 @@ private:
 
     std::optional<NlpContextFn> nlp_context_fn_;
     mutable std::mutex nlp_context_fn_mutex_;
+    
+    // QW-027: Pre-computed routing policy cache
+    // Maps domain type to sorted shard IDs by affinity score
+    std::map<themis::distributed_knowledge::AdapterDomainType, std::vector<std::string>>
+        routing_policy_cache_;
+    mutable std::mutex routing_policy_cache_mutex_;
+    bool routing_policy_precomputed_ = false;
     
     // Statistics
     mutable std::atomic<uint64_t> total_adaptive_queries_{0};
