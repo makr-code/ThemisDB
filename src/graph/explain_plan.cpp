@@ -21,6 +21,7 @@
 #include "graph/explain_plan.h"
 
 #include <sstream>
+#include <fmt/format.h>
 
 namespace themis {
 namespace graph {
@@ -47,15 +48,23 @@ const char* nodeTypeToString(GraphPlanNodeType type) {
 
 std::string escapeJson(const std::string& value) {
     std::string out;
-    out.reserve(value.size());
-    for (char c : value) {
+    out.reserve(value.size() * 1.2);  // Conservative estimate with headroom
+    for (unsigned char c : value) {
         switch (c) {
             case '\\': out += "\\\\"; break;
             case '"': out += "\\\""; break;
+            case '\b': out += "\\b"; break;
+            case '\f': out += "\\f"; break;
             case '\n': out += "\\n"; break;
             case '\r': out += "\\r"; break;
             case '\t': out += "\\t"; break;
-            default: out += c; break;
+            default:
+                // Escape control characters (0x00-0x1F) to prevent JSON parsing errors
+                if (c < 0x20) {
+                    out += fmt::format("\\u{:04x}", static_cast<unsigned int>(c));
+                } else {
+                    out += static_cast<char>(c);
+                }
         }
     }
     return out;
@@ -66,20 +75,45 @@ std::string escapeJson(const std::string& value) {
 /// @brief Generates a DOT graph representation of the execution plan.
 /// 
 /// Converts the query execution plan tree into DOT (Graphviz) format for visualization.
+/// Enables plan debugging and introspection through Graphviz rendering.
 /// 
 /// @return DOT-format string if plan contains nodes; empty string otherwise.
-/// @note Defensive guard: empty plan → empty DOT output is intentional (not an error state).
-///       Consumers should interpret empty output as "plan not yet populated" and handle
-///       gracefully. This avoids exception-based error handling for expected conditions.
+/// 
+/// @details
+/// **Defensive Guard Pattern (Early Return)**:
+/// When the execution plan is empty (nodes.empty()), returns an empty string rather than
+/// generating invalid DOT markup. This guard pattern:
+/// - Prevents malformed DOT output from being processed by visualization tools
+/// - Signals to consumers that the plan is not yet populated (expected in streaming workflows)
+/// - Avoids exception-based error handling for expected conditions
+/// - Allows graceful degradation in consumer code
+/// 
+/// Example:
+/// @code
+/// GraphExplainPlan plan;
+/// std::string dot = plan.toDot();  // Returns empty string
+/// if (dot.empty()) {
+///     // Plan not yet available; retry later or use partial results
+/// } else {
+///     // Generate visualization from DOT
+/// }
+/// @endcode
+/// 
+/// @note No exceptions are thrown; clients should always check for empty output
+/// @note Thread-safe: reads only const member (nodes)
 std::string GraphExplainPlan::toDot() const {
+    // Defensive guard: empty plan returns empty string (fail-safe, not exception)
+    // Allows graceful degradation in streaming workflows
     if (nodes.empty()) {
-        return {};  // Defensive: early return for unpopulated plan (expected in streaming)
+        return {};  // Fail-safe: early return for unpopulated plan (expected in streaming)
     }
 
     std::ostringstream out;
     out << "digraph GraphExplainPlan {\n";
     out << "  label=\"" << escapeJson(plan_id) << "\";\n";
 
+    // ITERATOR SAFETY: nodes is a const vector; iteration is safe
+    // No modification during iteration; no invalidation possible
     for (const auto& node : nodes) {
         out << "  \"" << escapeJson(node.node_id) << "\" [label=\""
             << nodeTypeToString(node.type) << "\\n"
@@ -97,17 +131,41 @@ std::string GraphExplainPlan::toDot() const {
 
 /// @brief Generates a JSON representation of the execution plan.
 /// 
-/// Converts the query execution plan tree into JSON format for API serialization.
+/// Converts the query execution plan tree into JSON format for API serialization,
+/// network transmission, and structured analysis of execution strategies.
 /// 
 /// @return JSON-format string if plan contains nodes; empty string otherwise.
-/// @note Defensive guard: empty plan → empty JSON output is intentional (not an error state).
-///       Consumers should interpret empty output as "plan not yet populated" and handle
-///       gracefully. This avoids exception-based error handling for expected conditions.
-///       JSON parsers receiving empty string will fail fast; consumer code can detect
-///       this and request plan regeneration if needed.
+/// 
+/// @details
+/// **Defensive Guard Pattern (Early Return)**:
+/// When the execution plan is empty (nodes.empty()), returns an empty string rather than
+/// generating a JSON structure with empty arrays. This guard pattern:
+/// - Prevents invalid or trivial JSON from being processed by consumers
+/// - Signals clearly to callers that the plan is not yet available
+/// - Eliminates the need for exception-based error handling in normal control flow
+/// - Allows downstream JSON parsers to fail fast on empty input (expected behavior)
+/// 
+/// Example:
+/// @code
+/// GraphExplainPlan plan;
+/// std::string json = plan.toJson();
+/// if (json.empty()) {
+///     // Plan not yet available; request update or use cache
+/// } else {
+///     // Parse JSON and populate analysis structures
+/// }
+/// @endcode
+/// 
+/// @note The returned JSON, when non-empty, is always valid (properly escaped and structured)
+/// @note No exceptions thrown; clients must always check for empty output before parsing
+/// @note Thread-safe: reads only const member (nodes)
+/// 
+/// @see parseYamlSection() for the inverse operation (JSON to plan)
 std::string GraphExplainPlan::toJson() const {
+    // Defensive guard: empty plan returns empty string (fail-safe, not exception)
+    // Prevents invalid JSON from being processed by consumers
     if (nodes.empty()) {
-        return {};  // Defensive: early return for unpopulated plan (expected in streaming)
+        return {};  // Fail-safe: early return for unpopulated plan (expected in streaming)
     }
 
     std::ostringstream out;
@@ -120,6 +178,8 @@ std::string GraphExplainPlan::toJson() const {
     out << "\"is_analyzed\":" << (is_analyzed ? "true" : "false") << ",";
     out << "\"nodes\":[";
 
+    // ITERATOR SAFETY: nodes is a const vector; iteration is safe
+    // No modification during iteration; no invalidation possible
     for (size_t i = 0; i < nodes.size(); ++i) {
         const auto& node = nodes[i];
         out << "{";

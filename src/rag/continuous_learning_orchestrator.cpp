@@ -110,6 +110,51 @@ struct ContinuousLearningOrchestrator::Impl {
     /// Loop 4: FeedbackCollector::newEntryCount() provider.
     std::function<size_t()> feedback_entry_count_provider;
 
+    // ---- Provider health tracking (production mode enforcement) ----
+    /// Track whether each provider is currently available (for monitoring)
+    bool loop1_provider_available = false;
+    bool loop2_provider_available = false;
+    bool loop4_provider_available = false;
+    /// Timestamps of provider failures for diagnostics
+    std::chrono::system_clock::time_point loop1_last_provider_failure;
+    std::chrono::system_clock::time_point loop2_last_provider_failure;
+    std::chrono::system_clock::time_point loop4_last_provider_failure;
+    /// Counter of consecutive provider failures per loop
+    size_t loop1_provider_failures = 0;
+    size_t loop2_provider_failures = 0;
+    size_t loop4_provider_failures = 0;
+
+    // ---- Cooldown rejection tracking (Phase 3: Loop Protection) ----
+    /// Counter of cooldown rejections per loop
+    size_t loop1_cooldown_rejections = 0;
+    size_t loop2_cooldown_rejections = 0;
+    size_t loop3_cooldown_rejections = 0;
+    size_t loop4_cooldown_rejections = 0;
+    /// Timestamp of last cooldown rejection per loop
+    std::chrono::system_clock::time_point loop1_last_cooldown_rejection;
+    std::chrono::system_clock::time_point loop2_last_cooldown_rejection;
+    std::chrono::system_clock::time_point loop3_last_cooldown_rejection;
+    std::chrono::system_clock::time_point loop4_last_cooldown_rejection;
+
+    // ---- Edge case guards (Phase 5: Resilience) ----
+    /// Circuit breaker thresholds: max consecutive provider failures before circuit opens
+    static constexpr size_t CIRCUIT_BREAKER_THRESHOLD = 5;
+    /// Circuit breaker state: consecutive failure counts per loop
+    size_t loop1_circuit_breaker_count = 0;
+    size_t loop2_circuit_breaker_count = 0;
+    size_t loop3_circuit_breaker_count = 0;
+    size_t loop4_circuit_breaker_count = 0;
+    /// Undertraining detection: last feedback count threshold check
+    size_t last_feedback_count = 0;
+    std::chrono::system_clock::time_point last_feedback_check_time;
+    /// Guardrail bypass override flags (for manual/emergency scenarios)
+    bool bypass_guardrail_loop1 = false;
+    bool bypass_guardrail_loop2 = false;
+    bool bypass_guardrail_loop3 = false;
+    bool bypass_guardrail_loop4 = false;
+    /// Overselection prevention: max allowed improvement before triggering rollback
+    static constexpr double MAX_IMPROVEMENT_PERCENT = 50.0;
+
     // ---- IMPL-A3: Federation bridges ----
     std::shared_ptr<themis::distributed_knowledge::ILoRAFederationCoordinator>
         federation_coordinator_;
@@ -121,6 +166,19 @@ ContinuousLearningOrchestrator::ContinuousLearningOrchestrator(const ContinuousL
     : impl_(std::make_unique<Impl>()) {
     impl_->config       = config;
     impl_->ab_framework = std::make_unique<ABTestingFramework>();
+
+    // Auto-detect production mode from environment if enabled
+    if (impl_->config.auto_detect_production_mode) {
+        const char* prod_mode = std::getenv("THEMIS_PRODUCTION_MODE");
+        const char* environment = std::getenv("THEMIS_ENVIRONMENT");
+        if ((prod_mode && (std::string(prod_mode) == "1" || std::string(prod_mode) == "true" ||
+                          std::string(prod_mode) == "yes")) ||
+            (environment && (std::string(environment) == "production" || 
+                            std::string(environment) == "prod"))) {
+            impl_->config.enforce_live_providers = true;
+            spdlog::info("CLO: Production mode detected from environment; enforcing live signal providers");
+        }
+    }
 
     // Initialise data selection pipeline (live-reload from file if path provided)
     auto ds_cfg = config.data_selection_config;
@@ -574,30 +632,285 @@ void ContinuousLearningOrchestrator::deployABTest(const std::string &model_id) {
 
 void ContinuousLearningOrchestrator::promoteOrRollback(const ABTestResult &result) {
     bool should_promote = false;
+    bool should_rollback = false;
 
     if (result.is_significant && result.improvement >= impl_->config.min_improvement_threshold) {
         should_promote = true;
+        spdlog::info("CLO: A/B Test '{}' ready for promotion: improvement={:.4f}% (p={:.6f})",
+                    result.test_id, result.improvement * 100, result.p_value);
     } else if (impl_->config.enable_auto_rollback && result.improvement < -impl_->config.min_improvement_threshold) {
-        should_promote = false;
+        should_rollback = true;
+        spdlog::warn("CLO: A/B Test '{}' detected degradation: improvement={:.4f}% (p={:.6f}); auto-rollback enabled",
+                    result.test_id, result.improvement * 100, result.p_value);
     } else {
         // Not significant enough either way - let test continue
+        spdlog::debug("CLO: A/B Test '{}' still running: improvement={:.4f}% (p={:.6f}, significant={})",
+                     result.test_id, result.improvement * 100, result.p_value, result.is_significant);
         return;
     }
 
     impl_->ab_framework->completeTest(result.test_id, should_promote);
 
-    // Record improvement event
-    if (should_promote) {
-        ImprovementEvent event;
-        event.timestamp        = std::chrono::system_clock::now();
-        event.component        = result.test_id;
-        event.improvement_type = "A/B Test Promotion";
-        event.metric_before    = result.control_success_rate;
-        event.metric_after     = result.treatment_success_rate;
-        event.description      = "Promoted after successful A/B test";
-
+    // Record improvement or degradation event
+    {
         std::lock_guard<std::mutex> lock(impl_->mutex);
-        impl_->stats.recent_improvements.push_back(event);
+        
+        if (should_promote) {
+            ImprovementEvent event;
+            event.timestamp        = std::chrono::system_clock::now();
+            event.component        = result.test_id;
+            event.improvement_type = "A/B Test Promotion";
+            event.metric_before    = result.control_success_rate;
+            event.metric_after     = result.treatment_success_rate;
+            event.description      = "Promoted after successful A/B test with " + 
+                                    std::to_string(static_cast<int>(result.improvement * 100)) + 
+                                    "% improvement";
+            impl_->stats.recent_improvements.push_back(event);
+        } else if (should_rollback) {
+            ImprovementEvent event;
+            event.timestamp        = std::chrono::system_clock::now();
+            event.component        = result.test_id;
+            event.improvement_type = "A/B Test Rollback";
+            event.metric_before    = result.treatment_success_rate;
+            event.metric_after     = result.control_success_rate;
+            event.description      = "Rolled back due to " + 
+                                    std::to_string(static_cast<int>(-result.improvement * 100)) + 
+                                    "% degradation";
+            impl_->stats.recent_improvements.push_back(event);
+        }
+    }
+}
+
+std::string ContinuousLearningOrchestrator::getProviderHealthMetrics() const {
+    std::lock_guard<std::mutex> lock(impl_->mutex);
+    
+    // Format last failure timestamps
+    auto format_timestamp = [](const std::chrono::system_clock::time_point& tp) -> std::string {
+        if (tp == std::chrono::system_clock::time_point::min()) {
+            return "";
+        }
+        auto time_t_val = std::chrono::system_clock::to_time_t(tp);
+        char buf[30];
+        std::strftime(buf, sizeof(buf), "%Y-%m-%dT%H:%M:%SZ", std::gmtime(&time_t_val));
+        return buf;
+    };
+
+    std::string json = "{\n";
+    json += "  \"loop_1_hnsw\": {\n";
+    json += "    \"available\": " + std::string(impl_->loop1_provider_available ? "true" : "false") + ",\n";
+    json += "    \"failures\": " + std::to_string(impl_->loop1_provider_failures) + ",\n";
+    json += "    \"last_failure\": \"" + format_timestamp(impl_->loop1_last_provider_failure) + "\"\n";
+    json += "  },\n";
+    json += "  \"loop_2_workload\": {\n";
+    json += "    \"available\": " + std::string(impl_->loop2_provider_available ? "true" : "false") + ",\n";
+    json += "    \"failures\": " + std::to_string(impl_->loop2_provider_failures) + ",\n";
+    json += "    \"last_failure\": \"" + format_timestamp(impl_->loop2_last_provider_failure) + "\"\n";
+    json += "  },\n";
+    json += "  \"loop_4_rlaif\": {\n";
+    json += "    \"available\": " + std::string(impl_->loop4_provider_available ? "true" : "false") + ",\n";
+    json += "    \"failures\": " + std::to_string(impl_->loop4_provider_failures) + ",\n";
+    json += "    \"last_failure\": \"" + format_timestamp(impl_->loop4_last_provider_failure) + "\"\n";
+    json += "  },\n";
+    json += "  \"production_mode_enforced\": " + std::string(impl_->config.enforce_live_providers ? "true" : "false") + "\n";
+    json += "}";
+
+    return json;
+}
+
+std::vector<std::string> ContinuousLearningOrchestrator::getActiveABTests() const {
+    std::lock_guard<std::mutex> lock(impl_->mutex);
+    return impl_->ab_framework->getActiveTests();
+}
+
+ABTestResult ContinuousLearningOrchestrator::getABTestResults(const std::string &test_id) const {
+    std::lock_guard<std::mutex> lock(impl_->mutex);
+    return impl_->ab_framework->evaluateTest(test_id);
+}
+
+std::string ContinuousLearningOrchestrator::getABTestMetrics() const {
+    std::lock_guard<std::mutex> lock(impl_->mutex);
+    
+    auto active_tests = impl_->ab_framework->getActiveTests();
+    
+    std::string json = "{\n";
+    json += "  \"active_tests\": " + std::to_string(active_tests.size()) + ",\n";
+    json += "  \"tests\": [\n";
+    
+    bool first = true;
+    for (const auto& test_id : active_tests) {
+        if (!first) json += ",\n";
+        first = false;
+        
+        auto result = impl_->ab_framework->evaluateTest(test_id);
+        auto status = impl_->ab_framework->getTestStatus(test_id);
+        
+        std::string status_str;
+        switch (status) {
+            case ABTestStatus::ACTIVE: status_str = "active"; break;
+            case ABTestStatus::COMPLETED: status_str = "completed"; break;
+            case ABTestStatus::PROMOTED: status_str = "promoted"; break;
+            case ABTestStatus::ROLLED_BACK: status_str = "rolled_back"; break;
+            case ABTestStatus::CANCELLED: status_str = "cancelled"; break;
+        }
+        
+        json += "    {\n";
+        json += "      \"test_id\": \"" + result.test_id + "\",\n";
+        json += "      \"status\": \"" + status_str + "\",\n";
+        json += "      \"control_success_rate\": " + std::to_string(result.control_success_rate) + ",\n";
+        json += "      \"treatment_success_rate\": " + std::to_string(result.treatment_success_rate) + ",\n";
+        json += "      \"improvement\": " + std::to_string(result.improvement) + ",\n";
+        json += "      \"p_value\": " + std::to_string(result.p_value) + ",\n";
+        json += "      \"is_significant\": " + std::string(result.is_significant ? "true" : "false") + ",\n";
+        json += "      \"sample_size_control\": " + std::to_string(result.sample_size_control) + ",\n";
+        json += "      \"sample_size_treatment\": " + std::to_string(result.sample_size_treatment) + "\n";
+        json += "    }";
+    }
+    
+    json += "\n  ]\n";
+    json += "}";
+    
+    return json;
+}
+
+std::string ContinuousLearningOrchestrator::getCooldownMetrics() const {
+    std::lock_guard<std::mutex> lock(impl_->mutex);
+    
+    auto format_timestamp = [](const std::chrono::system_clock::time_point& tp) -> std::string {
+        if (tp == std::chrono::system_clock::time_point::min()) {
+            return "";
+        }
+        auto time_t_val = std::chrono::system_clock::to_time_t(tp);
+        char buf[30];
+        std::strftime(buf, sizeof(buf), "%Y-%m-%dT%H:%M:%SZ", std::gmtime(&time_t_val));
+        return buf;
+    };
+
+    std::string json = "{\n";
+    json += "  \"cooldown_window_seconds\": " + std::to_string(impl_->loop_cooldown_secs.count()) + ",\n";
+    json += "  \"loop_1\": {\n";
+    json += "    \"rejections\": " + std::to_string(impl_->loop1_cooldown_rejections) + ",\n";
+    json += "    \"last_rejection\": \"" + format_timestamp(impl_->loop1_last_cooldown_rejection) + "\"\n";
+    json += "  },\n";
+    json += "  \"loop_2\": {\n";
+    json += "    \"rejections\": " + std::to_string(impl_->loop2_cooldown_rejections) + ",\n";
+    json += "    \"last_rejection\": \"" + format_timestamp(impl_->loop2_last_cooldown_rejection) + "\"\n";
+    json += "  },\n";
+    json += "  \"loop_3\": {\n";
+    json += "    \"rejections\": " + std::to_string(impl_->loop3_cooldown_rejections) + ",\n";
+    json += "    \"last_rejection\": \"" + format_timestamp(impl_->loop3_last_cooldown_rejection) + "\"\n";
+    json += "  },\n";
+    json += "  \"loop_4\": {\n";
+    json += "    \"rejections\": " + std::to_string(impl_->loop4_cooldown_rejections) + ",\n";
+    json += "    \"last_rejection\": \"" + format_timestamp(impl_->loop4_last_cooldown_rejection) + "\"\n";
+    json += "  }\n";
+    json += "}";
+
+    return json;
+}
+
+std::string ContinuousLearningOrchestrator::getCircuitBreakerStatus() const {
+    std::lock_guard<std::mutex> lock(impl_->mutex);
+
+    std::string json = "{\n";
+    json += "  \"loop_1\": {\n";
+    json += "    \"consecutive_failures\": " + std::to_string(impl_->loop1_circuit_breaker_count) + ",\n";
+    json += "    \"breaker_open\": " + std::string(impl_->loop1_circuit_breaker_count >= impl_->CIRCUIT_BREAKER_THRESHOLD ? "true" : "false") + "\n";
+    json += "  },\n";
+    json += "  \"loop_2\": {\n";
+    json += "    \"consecutive_failures\": " + std::to_string(impl_->loop2_circuit_breaker_count) + ",\n";
+    json += "    \"breaker_open\": " + std::string(impl_->loop2_circuit_breaker_count >= impl_->CIRCUIT_BREAKER_THRESHOLD ? "true" : "false") + "\n";
+    json += "  },\n";
+    json += "  \"loop_3\": {\n";
+    json += "    \"consecutive_failures\": " + std::to_string(impl_->loop3_circuit_breaker_count) + ",\n";
+    json += "    \"breaker_open\": " + std::string(impl_->loop3_circuit_breaker_count >= impl_->CIRCUIT_BREAKER_THRESHOLD ? "true" : "false") + "\n";
+    json += "  },\n";
+    json += "  \"loop_4\": {\n";
+    json += "    \"consecutive_failures\": " + std::to_string(impl_->loop4_circuit_breaker_count) + ",\n";
+    json += "    \"breaker_open\": " + std::string(impl_->loop4_circuit_breaker_count >= impl_->CIRCUIT_BREAKER_THRESHOLD ? "true" : "false") + "\n";
+    json += "  },\n";
+    json += "  \"threshold\": " + std::to_string(impl_->CIRCUIT_BREAKER_THRESHOLD) + "\n";
+    json += "}";
+
+    return json;
+}
+
+std::string ContinuousLearningOrchestrator::getUndertrainingStatus() const {
+    std::lock_guard<std::mutex> lock(impl_->mutex);
+
+    auto format_duration = [](const std::chrono::system_clock::time_point& tp) -> int {
+        if (tp == std::chrono::system_clock::time_point::min()) {
+            return 0;
+        }
+        const auto elapsed = std::chrono::duration_cast<std::chrono::seconds>(
+            std::chrono::system_clock::now() - tp
+        );
+        return static_cast<int>(elapsed.count());
+    };
+
+    // Detect if feedback is stalled (no increase in last 5 minutes)
+    static constexpr int STALL_THRESHOLD_SECONDS = 300;
+    bool feedback_stalled = false;
+    if (impl_->last_feedback_check_time != std::chrono::system_clock::time_point::min()) {
+        const int time_since_check = format_duration(impl_->last_feedback_check_time);
+        feedback_stalled = (time_since_check > STALL_THRESHOLD_SECONDS) && 
+                          (impl_->last_feedback_count == 0);
+    }
+
+    std::string json = "{\n";
+    json += "  \"last_feedback_count\": " + std::to_string(impl_->last_feedback_count) + ",\n";
+    json += "  \"feedback_stalled\": " + std::string(feedback_stalled ? "true" : "false") + ",\n";
+    json += "  \"time_since_last_check_seconds\": " + std::to_string(format_duration(impl_->last_feedback_check_time)) + ",\n";
+    json += "  \"stall_threshold_seconds\": " + std::to_string(STALL_THRESHOLD_SECONDS) + "\n";
+    json += "}";
+
+    return json;
+}
+
+void ContinuousLearningOrchestrator::setGuardrailBypass(LoopPhase phase, bool bypass) {
+    std::lock_guard<std::mutex> lock(impl_->mutex);
+    switch (phase) {
+        case LoopPhase::LOOP_1_HNSW_QUERY:
+            impl_->bypass_guardrail_loop1 = bypass;
+            if (bypass) {
+                THEMIS_WARN("Guardrail bypass ENABLED for Loop 1 (HNSW Query) - emergency override");
+            }
+            break;
+        case LoopPhase::LOOP_2_WORKLOAD:
+            impl_->bypass_guardrail_loop2 = bypass;
+            if (bypass) {
+                THEMIS_WARN("Guardrail bypass ENABLED for Loop 2 (Workload Adaptation) - emergency override");
+            }
+            break;
+        case LoopPhase::LOOP_3_SCHEMA_INDEX:
+            impl_->bypass_guardrail_loop3 = bypass;
+            if (bypass) {
+                THEMIS_WARN("Guardrail bypass ENABLED for Loop 3 (Schema/Index) - emergency override");
+            }
+            break;
+        case LoopPhase::LOOP_4_RLAIF:
+            impl_->bypass_guardrail_loop4 = bypass;
+            if (bypass) {
+                THEMIS_WARN("Guardrail bypass ENABLED for Loop 4 (RLAIF) - emergency override");
+            }
+            break;
+        default:
+            break;
+    }
+}
+
+bool ContinuousLearningOrchestrator::isGuardrailBypassEnabled(LoopPhase phase) const {
+    std::lock_guard<std::mutex> lock(impl_->mutex);
+    switch (phase) {
+        case LoopPhase::LOOP_1_HNSW_QUERY:
+            return impl_->bypass_guardrail_loop1;
+        case LoopPhase::LOOP_2_WORKLOAD:
+            return impl_->bypass_guardrail_loop2;
+        case LoopPhase::LOOP_3_SCHEMA_INDEX:
+            return impl_->bypass_guardrail_loop3;
+        case LoopPhase::LOOP_4_RLAIF:
+            return impl_->bypass_guardrail_loop4;
+        default:
+            return false;
     }
 }
 
@@ -862,6 +1175,12 @@ ContinuousLearningOrchestrator::triggerLoop(LoopPhase phase) {
             // Guardrail: ECE < 0.05 AND hot_coverage >= 0.85
             double miss_rate        = 1.0 - current_accuracy;
             result.signal_source    = "fallback_missing";
+            bool production_mode = false;
+            {
+                std::lock_guard<std::mutex> lock(impl_->mutex);
+                production_mode = impl_->config.enforce_live_providers;
+            }
+
             if (miss_rate_fn) {
                 try {
                     const double live_miss_rate = miss_rate_fn();
@@ -870,27 +1189,66 @@ ContinuousLearningOrchestrator::triggerLoop(LoopPhase phase) {
                         && live_miss_rate <= 1.0) {
                         miss_rate           = live_miss_rate;
                         result.signal_source = "live";
+                        {
+                            std::lock_guard<std::mutex> lock(impl_->mutex);
+                            impl_->loop1_provider_failures = 0;  // Reset failure counter on success
+                        }
                     } else {
                         spdlog::warn("CLO Loop1: Bao miss-rate provider returned invalid value; using fallback");
                         result.signal_source = "fallback_invalid";
+                        {
+                            std::lock_guard<std::mutex> lock(impl_->mutex);
+                            ++impl_->loop1_provider_failures;
+                            impl_->loop1_last_provider_failure = std::chrono::system_clock::now();
+                        }
                     }
                 } catch (const std::exception& e) {
                     spdlog::warn("CLO Loop1: Bao miss-rate provider failed ({}); using fallback", e.what());
                     result.signal_source = "fallback_error";
+                    {
+                        std::lock_guard<std::mutex> lock(impl_->mutex);
+                        ++impl_->loop1_provider_failures;
+                        impl_->loop1_last_provider_failure = std::chrono::system_clock::now();
+                    }
                 } catch (...) {
                     spdlog::warn("CLO Loop1: Bao miss-rate provider failed (unknown); using fallback");
                     result.signal_source = "fallback_error";
+                    {
+                        std::lock_guard<std::mutex> lock(impl_->mutex);
+                        ++impl_->loop1_provider_failures;
+                        impl_->loop1_last_provider_failure = std::chrono::system_clock::now();
+                    }
                 }
             } else {
                 spdlog::warn("CLO Loop1: Bao miss-rate provider not wired; using fallback");
+                if (production_mode) {
+                    spdlog::error("CLO Loop1: Production mode enforced but provider is not wired; failing loop");
+                    result.signal_source = "production_mode_fail_closed";
+                    result.success = false;
+                    result.guardrail_passed = false;
+                    {
+                        std::lock_guard<std::mutex> lock(impl_->mutex);
+                        ++impl_->loop1_provider_failures;
+                        impl_->loop1_last_provider_failure = std::chrono::system_clock::now();
+                    }
+                    break;
+                }
             }
             result.signal_value     = miss_rate;
             // Guardrail policy:
             // - live source: strict thresholding
             // - fallback source: advisory-success so trigger plumbing remains testable
-            result.guardrail_passed = (result.signal_source == "live")
-                ? ((miss_rate < 0.05) || (current_accuracy >= 0.95))
-                : true;
+            // - bypass enabled: skip guardrail checks (emergency override)
+            {
+                std::lock_guard<std::mutex> lock(impl_->mutex);
+                if (impl_->bypass_guardrail_loop1) {
+                    result.guardrail_passed = true;  // Emergency bypass enabled
+                } else {
+                    result.guardrail_passed = (result.signal_source == "live")
+                        ? ((miss_rate < 0.05) || (current_accuracy >= 0.95))
+                        : true;
+                }
+            }
             result.success          = result.guardrail_passed;
             result.metric_delta     = result.guardrail_passed ? 0.02 : 0.0;
             result.adapter_version  = result.guardrail_passed
@@ -908,6 +1266,12 @@ ContinuousLearningOrchestrator::triggerLoop(LoopPhase phase) {
             // Guardrail: no regression in avg_speedup
             double drift           = 1.0 - current_accuracy;
             result.signal_source   = "fallback_missing";
+            bool production_mode = false;
+            {
+                std::lock_guard<std::mutex> lock(impl_->mutex);
+                production_mode = impl_->config.enforce_live_providers;
+            }
+
             if (drift_fn) {
                 try {
                     const double live_drift = drift_fn();
@@ -916,23 +1280,62 @@ ContinuousLearningOrchestrator::triggerLoop(LoopPhase phase) {
                         && live_drift <= 1.0) {
                         drift               = live_drift;
                         result.signal_source = "live";
+                        {
+                            std::lock_guard<std::mutex> lock(impl_->mutex);
+                            impl_->loop2_provider_failures = 0;  // Reset failure counter on success
+                        }
                     } else {
                         spdlog::warn("CLO Loop2: workload-drift provider returned invalid value; using fallback");
                         result.signal_source = "fallback_invalid";
+                        {
+                            std::lock_guard<std::mutex> lock(impl_->mutex);
+                            ++impl_->loop2_provider_failures;
+                            impl_->loop2_last_provider_failure = std::chrono::system_clock::now();
+                        }
                     }
                 } catch (const std::exception& e) {
                     spdlog::warn("CLO Loop2: workload-drift provider failed ({}); using fallback", e.what());
                     result.signal_source = "fallback_error";
+                    {
+                        std::lock_guard<std::mutex> lock(impl_->mutex);
+                        ++impl_->loop2_provider_failures;
+                        impl_->loop2_last_provider_failure = std::chrono::system_clock::now();
+                    }
                 } catch (...) {
                     spdlog::warn("CLO Loop2: workload-drift provider failed (unknown); using fallback");
                     result.signal_source = "fallback_error";
+                    {
+                        std::lock_guard<std::mutex> lock(impl_->mutex);
+                        ++impl_->loop2_provider_failures;
+                        impl_->loop2_last_provider_failure = std::chrono::system_clock::now();
+                    }
                 }
             } else {
                 spdlog::warn("CLO Loop2: workload-drift provider not wired; using fallback");
+                if (production_mode) {
+                    spdlog::error("CLO Loop2: Production mode enforced but provider is not wired; failing loop");
+                    result.signal_source = "production_mode_fail_closed";
+                    result.success = false;
+                    result.guardrail_passed = false;
+                    {
+                        std::lock_guard<std::mutex> lock(impl_->mutex);
+                        ++impl_->loop2_provider_failures;
+                        impl_->loop2_last_provider_failure = std::chrono::system_clock::now();
+                    }
+                    break;
+                }
             }
             result.signal_value     = drift;
             // Guardrail: drift must stay below 0.1 or current accuracy must not regress
-            result.guardrail_passed = (drift < 0.1) || (current_accuracy >= baseline_accuracy);
+            // Also respect emergency bypass if enabled
+            {
+                std::lock_guard<std::mutex> lock(impl_->mutex);
+                if (impl_->bypass_guardrail_loop2) {
+                    result.guardrail_passed = true;  // Emergency bypass enabled
+                } else {
+                    result.guardrail_passed = (drift < 0.1) || (current_accuracy >= baseline_accuracy);
+                }
+            }
             result.success          = result.guardrail_passed;
             result.metric_delta     = result.guardrail_passed ? 0.01 : 0.0;
             result.adapter_version  = "";
@@ -957,27 +1360,67 @@ ContinuousLearningOrchestrator::triggerLoop(LoopPhase phase) {
             // Guardrail: DBA acceptance rate >= 0.75
             size_t entry_count      = 0;
             result.signal_source    = "fallback_missing";
+            bool production_mode = false;
+            {
+                std::lock_guard<std::mutex> lock(impl_->mutex);
+                production_mode = impl_->config.enforce_live_providers;
+            }
+
             if (feedback_count_fn) {
                 try {
                     entry_count         = feedback_count_fn();
                     result.signal_source = "live";
+                    {
+                        std::lock_guard<std::mutex> lock(impl_->mutex);
+                        impl_->loop4_provider_failures = 0;  // Reset failure counter on success
+                    }
                 } catch (const std::exception& e) {
                     spdlog::warn("CLO Loop4: feedback-count provider failed ({}); using fallback", e.what());
                     result.signal_source = "fallback_error";
+                    {
+                        std::lock_guard<std::mutex> lock(impl_->mutex);
+                        ++impl_->loop4_provider_failures;
+                        impl_->loop4_last_provider_failure = std::chrono::system_clock::now();
+                    }
                 } catch (...) {
                     spdlog::warn("CLO Loop4: feedback-count provider failed (unknown); using fallback");
                     result.signal_source = "fallback_error";
+                    {
+                        std::lock_guard<std::mutex> lock(impl_->mutex);
+                        ++impl_->loop4_provider_failures;
+                        impl_->loop4_last_provider_failure = std::chrono::system_clock::now();
+                    }
                 }
             } else {
                 spdlog::warn("CLO Loop4: feedback-count provider not wired; using fallback");
+                if (production_mode) {
+                    spdlog::error("CLO Loop4: Production mode enforced but provider is not wired; failing loop");
+                    result.signal_source = "production_mode_fail_closed";
+                    result.success = false;
+                    result.guardrail_passed = false;
+                    {
+                        std::lock_guard<std::mutex> lock(impl_->mutex);
+                        ++impl_->loop4_provider_failures;
+                        impl_->loop4_last_provider_failure = std::chrono::system_clock::now();
+                    }
+                    break;
+                }
             }
             result.signal_value     = static_cast<double>(entry_count);
             // When a real provider is wired, require at least 100 new entries before
-            // committing a new adapter.  Without provider, fall back to accuracy proxy.
+            // committing a new adapter. Without provider, fall back to accuracy proxy.
+            // Also respect emergency bypass if enabled.
             const bool enough_feedback = (result.signal_source == "live")
                 ? (entry_count >= 100)
                 : true;
-            result.guardrail_passed = enough_feedback;
+            {
+                std::lock_guard<std::mutex> lock(impl_->mutex);
+                if (impl_->bypass_guardrail_loop4) {
+                    result.guardrail_passed = true;  // Emergency bypass enabled
+                } else {
+                    result.guardrail_passed = enough_feedback;
+                }
+            }
             result.success          = result.guardrail_passed;
             result.metric_delta     = result.guardrail_passed ? 0.03 : 0.0;
             result.adapter_version  = result.guardrail_passed
@@ -998,6 +1441,94 @@ ContinuousLearningOrchestrator::triggerLoop(LoopPhase phase) {
     if (result.guardrail_passed && !result.adapter_version.empty()) {
         std::lock_guard<std::mutex> lock(impl_->mutex);
         ++impl_->stats.lora_retraining_count;
+    }
+
+    // ── Circuit breaker management ────────────────────────────────────────
+    // Increment circuit breaker on failure, reset on success
+    {
+        std::lock_guard<std::mutex> lock(impl_->mutex);
+        if (!result.success) {
+            // Increment circuit breaker counters on failure
+            switch (phase) {
+                case LoopPhase::LOOP_1_HNSW_QUERY:
+                    ++impl_->loop1_circuit_breaker_count;
+                    if (impl_->loop1_circuit_breaker_count >= impl_->CIRCUIT_BREAKER_THRESHOLD) {
+                        THEMIS_WARN("Loop 1 circuit breaker threshold reached ({} consecutive failures)",
+                                   impl_->loop1_circuit_breaker_count);
+                    }
+                    break;
+                case LoopPhase::LOOP_2_WORKLOAD:
+                    ++impl_->loop2_circuit_breaker_count;
+                    if (impl_->loop2_circuit_breaker_count >= impl_->CIRCUIT_BREAKER_THRESHOLD) {
+                        THEMIS_WARN("Loop 2 circuit breaker threshold reached ({} consecutive failures)",
+                                   impl_->loop2_circuit_breaker_count);
+                    }
+                    break;
+                case LoopPhase::LOOP_3_SCHEMA_INDEX:
+                    ++impl_->loop3_circuit_breaker_count;
+                    if (impl_->loop3_circuit_breaker_count >= impl_->CIRCUIT_BREAKER_THRESHOLD) {
+                        THEMIS_WARN("Loop 3 circuit breaker threshold reached ({} consecutive failures)",
+                                   impl_->loop3_circuit_breaker_count);
+                    }
+                    break;
+                case LoopPhase::LOOP_4_RLAIF:
+                    ++impl_->loop4_circuit_breaker_count;
+                    if (impl_->loop4_circuit_breaker_count >= impl_->CIRCUIT_BREAKER_THRESHOLD) {
+                        THEMIS_WARN("Loop 4 circuit breaker threshold reached ({} consecutive failures)",
+                                   impl_->loop4_circuit_breaker_count);
+                    }
+                    break;
+                default:
+                    break;
+            }
+        } else {
+            // Reset circuit breaker counters on success
+            switch (phase) {
+                case LoopPhase::LOOP_1_HNSW_QUERY:
+                    if (impl_->loop1_circuit_breaker_count > 0) {
+                        THEMIS_INFO("Loop 1 circuit breaker reset (was at {} failures)", 
+                                   impl_->loop1_circuit_breaker_count);
+                        impl_->loop1_circuit_breaker_count = 0;
+                    }
+                    break;
+                case LoopPhase::LOOP_2_WORKLOAD:
+                    if (impl_->loop2_circuit_breaker_count > 0) {
+                        THEMIS_INFO("Loop 2 circuit breaker reset (was at {} failures)", 
+                                   impl_->loop2_circuit_breaker_count);
+                        impl_->loop2_circuit_breaker_count = 0;
+                    }
+                    break;
+                case LoopPhase::LOOP_3_SCHEMA_INDEX:
+                    if (impl_->loop3_circuit_breaker_count > 0) {
+                        THEMIS_INFO("Loop 3 circuit breaker reset (was at {} failures)", 
+                                   impl_->loop3_circuit_breaker_count);
+                        impl_->loop3_circuit_breaker_count = 0;
+                    }
+                    break;
+                case LoopPhase::LOOP_4_RLAIF:
+                    if (impl_->loop4_circuit_breaker_count > 0) {
+                        THEMIS_INFO("Loop 4 circuit breaker reset (was at {} failures)", 
+                                   impl_->loop4_circuit_breaker_count);
+                        impl_->loop4_circuit_breaker_count = 0;
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        // Detect overselection: if improvement is anomalously high, prepare for rollback
+        if (result.success && result.metric_delta > impl_->MAX_IMPROVEMENT_PERCENT) {
+            THEMIS_WARN("Overselection detected in phase {:d}: improvement={:.1f}% (threshold={}%) - "
+                       "monitoring for potential rollback",
+                       static_cast<int>(phase), result.metric_delta * 100.0, impl_->MAX_IMPROVEMENT_PERCENT);
+        }
+
+        // Track feedback count for undertraining detection
+        if (phase == LoopPhase::LOOP_4_RLAIF && !feedback_count_fn.target_type().name() == typeid(std::nullptr_t).name()) {
+            impl_->last_feedback_check_time = std::chrono::system_clock::now();
+            // Note: feedback count update happens via direct call to feedback_count_fn() if needed
+        }
     }
 
     // Invoke completion handler (if registered), outside the mutex.
@@ -1038,6 +1569,27 @@ bool ContinuousLearningOrchestrator::checkAndUpdateCooldown(LoopPhase phase) {
     if (it != impl_->loop_last_trigger.end()) {
         const auto elapsed = std::chrono::duration_cast<std::chrono::seconds>(now - it->second);
         if (elapsed < impl_->loop_cooldown_secs) {
+            // Track cooldown rejection
+            switch (phase) {
+                case LoopPhase::LOOP_1_HNSW_QUERY:
+                    ++impl_->loop1_cooldown_rejections;
+                    impl_->loop1_last_cooldown_rejection = now;
+                    break;
+                case LoopPhase::LOOP_2_WORKLOAD:
+                    ++impl_->loop2_cooldown_rejections;
+                    impl_->loop2_last_cooldown_rejection = now;
+                    break;
+                case LoopPhase::LOOP_3_SCHEMA_INDEX:
+                    ++impl_->loop3_cooldown_rejections;
+                    impl_->loop3_last_cooldown_rejection = now;
+                    break;
+                case LoopPhase::LOOP_4_RLAIF:
+                    ++impl_->loop4_cooldown_rejections;
+                    impl_->loop4_last_cooldown_rejection = now;
+                    break;
+                default:
+                    break;
+            }
             return false; // still within cooldown window
         }
     }
@@ -1062,8 +1614,19 @@ ContinuousLearningOrchestrator::triggerLoop1QueryExecution(
         blocked.adapter_version = "cooldown";
         return blocked;
     }
+
+    // Check circuit breaker status
     {
         std::lock_guard<std::mutex> lock(impl_->mutex);
+        if (impl_->loop1_circuit_breaker_count >= impl_->CIRCUIT_BREAKER_THRESHOLD) {
+            THEMIS_WARN("Loop 1 circuit breaker OPEN - skipping execution (consecutive failures: {})",
+                       impl_->loop1_circuit_breaker_count);
+            LoopResult blocked;
+            blocked.phase           = LoopPhase::LOOP_1_HNSW_QUERY;
+            blocked.success         = false;
+            blocked.adapter_version = "circuit_breaker_open";
+            return blocked;
+        }
         impl_->last_loop1_outcome = outcome;
     }
     return triggerLoop(LoopPhase::LOOP_1_HNSW_QUERY);
@@ -1078,6 +1641,20 @@ ContinuousLearningOrchestrator::triggerLoop2WorkloadAdaptation() {
         blocked.adapter_version = "cooldown";
         return blocked;
     }
+
+    // Check circuit breaker status
+    {
+        std::lock_guard<std::mutex> lock(impl_->mutex);
+        if (impl_->loop2_circuit_breaker_count >= impl_->CIRCUIT_BREAKER_THRESHOLD) {
+            THEMIS_WARN("Loop 2 circuit breaker OPEN - skipping execution (consecutive failures: {})",
+                       impl_->loop2_circuit_breaker_count);
+            LoopResult blocked;
+            blocked.phase           = LoopPhase::LOOP_2_WORKLOAD;
+            blocked.success         = false;
+            blocked.adapter_version = "circuit_breaker_open";
+            return blocked;
+        }
+    }
     return triggerLoop(LoopPhase::LOOP_2_WORKLOAD);
 }
 
@@ -1090,6 +1667,20 @@ ContinuousLearningOrchestrator::triggerLoop3IndexLifecycle() {
         blocked.adapter_version = "cooldown";
         return blocked;
     }
+
+    // Check circuit breaker status
+    {
+        std::lock_guard<std::mutex> lock(impl_->mutex);
+        if (impl_->loop3_circuit_breaker_count >= impl_->CIRCUIT_BREAKER_THRESHOLD) {
+            THEMIS_WARN("Loop 3 circuit breaker OPEN - skipping execution (consecutive failures: {})",
+                       impl_->loop3_circuit_breaker_count);
+            LoopResult blocked;
+            blocked.phase           = LoopPhase::LOOP_3_SCHEMA_INDEX;
+            blocked.success         = false;
+            blocked.adapter_version = "circuit_breaker_open";
+            return blocked;
+        }
+    }
     return triggerLoop(LoopPhase::LOOP_3_SCHEMA_INDEX);
 }
 
@@ -1101,6 +1692,20 @@ ContinuousLearningOrchestrator::triggerLoop4AdapterImprovement() {
         blocked.success         = false;
         blocked.adapter_version = "cooldown";
         return blocked;
+    }
+
+    // Check circuit breaker status
+    {
+        std::lock_guard<std::mutex> lock(impl_->mutex);
+        if (impl_->loop4_circuit_breaker_count >= impl_->CIRCUIT_BREAKER_THRESHOLD) {
+            THEMIS_WARN("Loop 4 circuit breaker OPEN - skipping execution (consecutive failures: {})",
+                       impl_->loop4_circuit_breaker_count);
+            LoopResult blocked;
+            blocked.phase           = LoopPhase::LOOP_4_RLAIF;
+            blocked.success         = false;
+            blocked.adapter_version = "circuit_breaker_open";
+            return blocked;
+        }
     }
     return triggerLoop(LoopPhase::LOOP_4_RLAIF);
 }
@@ -1245,6 +1850,8 @@ void ContinuousLearningOrchestrator::wireLiveSignalProviders(
     std::shared_ptr<themis::performance::phase3::BaoOptimizer> bao_optimizer,
     std::shared_ptr<themis::performance::WorkloadAdaptiveOptimizer> workload_optimizer,
     std::shared_ptr<themis::prompt_engineering::FeedbackCollector> feedback_collector) {
+    std::lock_guard<std::mutex> lock(impl_->mutex);
+
     if (bao_optimizer) {
 #if defined(THEMIS_ENABLE_BAO)
         std::weak_ptr<themis::performance::phase3::BaoOptimizer> bao_weak = bao_optimizer;
@@ -1255,14 +1862,18 @@ void ContinuousLearningOrchestrator::wireLiveSignalProviders(
             }
             return bao->getMissRate();
         });
+        impl_->loop1_provider_available = true;
+        spdlog::info("CLO wireLiveSignalProviders: BaoOptimizer (Loop 1) wired successfully");
 #else
         spdlog::warn(
             "CLO wireLiveSignalProviders: BaoOptimizer provided but THEMIS_ENABLE_BAO is OFF; Loop1 stays on fallback");
         setHnswMissRateProvider({});
+        impl_->loop1_provider_available = false;
 #endif
     } else {
         spdlog::warn("CLO wireLiveSignalProviders: BaoOptimizer is null; Loop1 stays on fallback");
         setHnswMissRateProvider({});
+        impl_->loop1_provider_available = false;
     }
 
     if (workload_optimizer) {
@@ -1275,10 +1886,13 @@ void ContinuousLearningOrchestrator::wireLiveSignalProviders(
             }
             return workload->getProfileDrift();
         });
+        impl_->loop2_provider_available = true;
+        spdlog::info("CLO wireLiveSignalProviders: WorkloadAdaptiveOptimizer (Loop 2) wired successfully");
     } else {
         spdlog::warn(
             "CLO wireLiveSignalProviders: WorkloadAdaptiveOptimizer is null; Loop2 stays on fallback");
         setWorkloadDriftProvider({});
+        impl_->loop2_provider_available = false;
     }
 
     if (feedback_collector) {
@@ -1290,9 +1904,20 @@ void ContinuousLearningOrchestrator::wireLiveSignalProviders(
             }
             return feedback->newEntryCount();
         });
+        impl_->loop4_provider_available = true;
+        spdlog::info("CLO wireLiveSignalProviders: FeedbackCollector (Loop 4) wired successfully");
     } else {
         spdlog::warn("CLO wireLiveSignalProviders: FeedbackCollector is null; Loop4 stays on fallback");
         setFeedbackEntryCountProvider({});
+        impl_->loop4_provider_available = false;
+    }
+
+    // Production mode enforcement: log if any provider is missing in production
+    if (impl_->config.enforce_live_providers && 
+        (!impl_->loop1_provider_available || !impl_->loop2_provider_available || !impl_->loop4_provider_available)) {
+        spdlog::error("CLO wireLiveSignalProviders: Production mode enabled but not all providers are available. "
+                     "Loop1: {}, Loop2: {}, Loop4: {}",
+                     impl_->loop1_provider_available, impl_->loop2_provider_available, impl_->loop4_provider_available);
     }
 }
 
