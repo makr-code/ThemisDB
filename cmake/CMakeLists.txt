@@ -3700,17 +3700,7 @@ if(THEMIS_ENABLE_DIRECTX OR THEMIS_ENABLE_VULKAN OR THEMIS_ENABLE_OPENGL)
                 # Make themis_core depend on shader compilation
                 add_dependencies(themis_core directx_shaders)
                 
-                # Compile ANN/Geospatial HLSL shaders (l2_distance, cosine_distance, etc.)
-                if(EXISTS "${CMAKE_SOURCE_DIR}/src/acceleration/directx/shaders/CMakeLists.txt")
-                    add_subdirectory(
-                        "${CMAKE_SOURCE_DIR}/src/acceleration/directx/shaders"
-                        "${CMAKE_BINARY_DIR}/directx_ann_geo_shaders"
-                    )
-                endif()
-                
-                message(STATUS "  Shaders: matmul.hlsl, elementwise.hlsl, gradient.hlsl → .cso (LoRA)")
-                message(STATUS "  Shaders: l2_distance.hlsl, cosine_distance.hlsl, inner_product_distance.hlsl → .cso (ANN)")
-                message(STATUS "  Shaders: haversine_distance.hlsl, point_in_polygon.hlsl → .cso (Geo)")
+                message(STATUS "  Shaders: matmul.hlsl, elementwise.hlsl, gradient.hlsl → .cso")
             else()
                 message(WARNING "DXC compiler not found - DirectX shaders will not be compiled")
                 message(WARNING "  Install Windows 10 SDK 10.0.19041.0+ or DirectX Agility SDK")
