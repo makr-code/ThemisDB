@@ -573,76 +573,6 @@ struct RegisteredBackend {
     IMatrixBackend*  matrixPtr = nullptr;  ///< First IMatrixBackend of this type, or nullptr
 };
 
-// ---------------------------------------------------------------------------
-// KernelCoverage — per-backend kernel slot coverage summary
-// ---------------------------------------------------------------------------
-
-/**
- * @brief Coverage summary for one backend's kernel dispatch table registration.
- *
- * Returned as part of a ValidationReport from KernelRegistry::validate().
- * Suitable for CI assertions.
- */
-struct KernelCoverage {
-    BackendType backend         = BackendType::CPU;
-
-    bool        hasANN          = false; ///< At least one ANN dispatch table registered.
-    bool        hasGeo          = false; ///< At least one Geo dispatch table registered.
-    bool        hasMatrix       = false; ///< At least one Matrix dispatch table registered.
-
-    bool        annComplete     = false; ///< All ANN slots non-null.
-    bool        geoComplete     = false; ///< All Geo slots non-null.
-    bool        matrixComplete  = false; ///< Matrix slot non-null.
-
-    /// Human-readable list of missing slot names (empty when all complete).
-    std::vector<std::string> missingSlots;
-};
-
-// ---------------------------------------------------------------------------
-// ValidationReport — aggregate result from KernelRegistry::validate()
-// ---------------------------------------------------------------------------
-
-/**
- * @brief Aggregate validation report returned by KernelRegistry::validate().
- *
- * Usage in CI / unit tests:
- * @code
- *   KernelRegistry reg;
- *   // ... register backends ...
- *   auto report = reg.validate();
- *   ASSERT_TRUE(report.allComplete()) << report.summary();
- * @endcode
- */
-struct ValidationReport {
-    std::vector<KernelCoverage> entries; ///< One entry per registered backend type.
-
-    /**
-     * @brief Returns true when every registered backend has complete kernel coverage.
-     *
-     * A backend is complete when all slots in each registered dispatch category
-     * are non-null.
-     */
-    [[nodiscard]] bool allComplete() const noexcept {
-        for (const auto& e : entries) {
-            if (e.hasANN    && !e.annComplete)    return false;
-            if (e.hasGeo    && !e.geoComplete)    return false;
-            if (e.hasMatrix && !e.matrixComplete) return false;
-        }
-        return true;
-    }
-
-    /**
-     * @brief Returns a multi-line human-readable summary string.
-     *
-     * Format (one line per backend):
-     * @code
-     *   CUDA    ANN=✓ Geo=✓ Matrix=✓
-     *   HIP     ANN=✓ Geo=✗ [Geo::launchContainment]
-     * @endcode
-     */
-    [[nodiscard]] std::string summary() const;
-};
-
 /**
  * @brief Central registry for frozen kernel launcher tables.
  *
@@ -655,107 +585,39 @@ struct ValidationReport {
  * Missing registrations return an empty dispatch table whose function-pointer
  * slots are all null.  Callers can use `has*Dispatch()` to distinguish
  * "backend registered but operation unsupported" from "backend type unknown".
- *
- * ### Extended API (issue #5382 — central kernel registry)
- *
- * validate() returns a ValidationReport that CI tests can assert on to ensure
- * complete kernel coverage across all registered backends.
- *
- * lookupANNWithFallback() / lookupGeoWithFallback() return dispatch tables with
- * null slots filled from the CPU backend, enabling graceful degradation.
- *
- * registeredBackends() enumerates all backend types that have at least one
- * registered dispatch category.
  */
 class KernelRegistry {
 public:
-    // -----------------------------------------------------------------------
-    // Mutation
-    // -----------------------------------------------------------------------
-
-    /**
-     * @brief Remove all registered dispatch tables.
-     *
-     * Safe to call at any time; intended for use in unit tests.
-     */
     void clear() noexcept {
         annDispatch_.clear();
         geoDispatch_.clear();
         matrixDispatch_.clear();
     }
 
-    /**
-     * @brief Register an ANN kernel dispatch table for @p type.
-     *
-     * First registration wins; subsequent calls for the same @p type are
-     * silently ignored so that backend ordering is stable.
-     *
-     * @param type     Backend type.
-     * @param dispatch Populated ANNKernelDispatch structure.
-     */
     void registerANNDispatch(BackendType type, ANNKernelDispatch dispatch) {
         annDispatch_.emplace(type, dispatch);
     }
 
-    /**
-     * @brief Register a Geo kernel dispatch table for @p type.
-     *
-     * @param type     Backend type.
-     * @param dispatch Populated GeoKernelDispatch structure.
-     */
     void registerGeoDispatch(BackendType type, GeoKernelDispatch dispatch) {
         geoDispatch_.emplace(type, dispatch);
     }
 
-    /**
-     * @brief Register a Matrix kernel dispatch table for @p type.
-     *
-     * @param type     Backend type.
-     * @param dispatch Populated MatrixKernelDispatch structure.
-     */
     void registerMatrixDispatch(BackendType type, MatrixKernelDispatch dispatch) {
         matrixDispatch_.emplace(type, dispatch);
     }
 
-    // -----------------------------------------------------------------------
-    // Existence queries
-    // -----------------------------------------------------------------------
-
-    /**
-     * @brief Returns true when an ANN dispatch table is registered for @p type.
-     * @param type Backend type to test.
-     */
     [[nodiscard]] bool hasANNDispatch(BackendType type) const noexcept {
         return annDispatch_.find(type) != annDispatch_.end();
     }
 
-    /**
-     * @brief Returns true when a Geo dispatch table is registered for @p type.
-     * @param type Backend type to test.
-     */
     [[nodiscard]] bool hasGeoDispatch(BackendType type) const noexcept {
         return geoDispatch_.find(type) != geoDispatch_.end();
     }
 
-    /**
-     * @brief Returns true when a Matrix dispatch table is registered for @p type.
-     * @param type Backend type to test.
-     */
     [[nodiscard]] bool hasMatrixDispatch(BackendType type) const noexcept {
         return matrixDispatch_.find(type) != matrixDispatch_.end();
     }
 
-    // -----------------------------------------------------------------------
-    // Lookup — raw dispatch tables
-    // -----------------------------------------------------------------------
-
-    /**
-     * @brief Return the ANN dispatch table for @p type.
-     *
-     * Returns an all-null dispatch table when no table has been registered.
-     *
-     * @param type Backend type to query.
-     */
     [[nodiscard]] ANNKernelDispatch getANNDispatch(BackendType type) const noexcept {
         if (const auto it = annDispatch_.find(type); it != annDispatch_.end()) {
             return it->second;
@@ -763,13 +625,6 @@ public:
         return {};
     }
 
-    /**
-     * @brief Return the Geo dispatch table for @p type.
-     *
-     * Returns an all-null dispatch table when no table has been registered.
-     *
-     * @param type Backend type to query.
-     */
     [[nodiscard]] GeoKernelDispatch getGeoDispatch(BackendType type) const noexcept {
         if (const auto it = geoDispatch_.find(type); it != geoDispatch_.end()) {
             return it->second;
@@ -777,75 +632,12 @@ public:
         return {};
     }
 
-    /**
-     * @brief Return the Matrix dispatch table for @p type.
-     *
-     * Returns an all-null dispatch table when no table has been registered.
-     *
-     * @param type Backend type to query.
-     */
     [[nodiscard]] MatrixKernelDispatch getMatrixDispatch(BackendType type) const noexcept {
         if (const auto it = matrixDispatch_.find(type); it != matrixDispatch_.end()) {
             return it->second;
         }
         return {};
     }
-
-    // -----------------------------------------------------------------------
-    // Lookup — with CPU fallback resolution
-    // -----------------------------------------------------------------------
-
-    /**
-     * @brief Return an ANN dispatch table with null slots filled from the CPU backend.
-     *
-     * For each slot in the @p primary backend's table that is nullptr, the
-     * corresponding slot from the CPU backend's table is substituted.  If the
-     * CPU backend has no registration either the slot remains nullptr.
-     *
-     * @param primary  Preferred GPU backend.
-     * @return Resolved ANNKernelDispatch with at least CPU-level slot coverage.
-     */
-    [[nodiscard]] ANNKernelDispatch lookupANNWithFallback(BackendType primary) const noexcept;
-
-    /**
-     * @brief Return a Geo dispatch table with null slots filled from the CPU backend.
-     *
-     * @param primary  Preferred GPU backend.
-     * @return Resolved GeoKernelDispatch with at least CPU-level slot coverage.
-     */
-    [[nodiscard]] GeoKernelDispatch lookupGeoWithFallback(BackendType primary) const noexcept;
-
-    // -----------------------------------------------------------------------
-    // Enumeration
-    // -----------------------------------------------------------------------
-
-    /**
-     * @brief Returns all backend types that have at least one registered dispatch table.
-     *
-     * The returned list is deduplicated; order is not guaranteed.
-     */
-    [[nodiscard]] std::vector<BackendType> registeredBackends() const;
-
-    // -----------------------------------------------------------------------
-    // Validation (CI use)
-    // -----------------------------------------------------------------------
-
-    /**
-     * @brief Validate kernel slot completeness for all registered backends.
-     *
-     * Checks that every non-null dispatch table has all mandatory slots
-     * populated.  Returns a ValidationReport that can be asserted on in CI:
-     *
-     * @code
-     *   KernelRegistry reg;
-     *   // ... populate ...
-     *   auto r = reg.validate();
-     *   ASSERT_TRUE(r.allComplete()) << r.summary();
-     * @endcode
-     *
-     * @return ValidationReport with one KernelCoverage entry per backend.
-     */
-    [[nodiscard]] ValidationReport validate() const;
 
 private:
     std::unordered_map<BackendType, ANNKernelDispatch>    annDispatch_;
@@ -891,16 +683,6 @@ public:
 
     /// Returns the registered matrix dispatch table for @p type, or an empty table when absent.
     [[nodiscard]] MatrixKernelDispatch getMatrixDispatch(BackendType type) const noexcept;
-
-    /// Validate kernel dispatch slot completeness for all registered backends.
-    /// Returns a ValidationReport suitable for CI assertions.
-    /// @see KernelRegistry::validate()
-    [[nodiscard]] ValidationReport validateKernels() const;
-
-    /// Returns a const reference to the embedded KernelRegistry for direct
-    /// inspection.  The returned reference is valid for the lifetime of this
-    /// BackendRegistry instance.
-    [[nodiscard]] const KernelRegistry& getKernelRegistry() const noexcept;
     
     // Get best available backend for a capability
     IVectorBackend* getBestVectorBackend() const;
