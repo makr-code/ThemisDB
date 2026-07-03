@@ -12,6 +12,7 @@
 #include <ctime>
 #include <algorithm>
 #include <cmath>
+#include <functional>
 
 using json = nlohmann::json;
 
@@ -146,11 +147,42 @@ bool ArtifactManifest::isCorrupted() const {
   }
 
   // Recalculate expected manifest_hash and compare
-  // For now, this is a placeholder; real implementation would:
-  // 1. Serialize manifest fields (excluding manifest_hash itself)
-  // 2. Hash the serialized data
-  // 3. Compare with stored manifest_hash
-  return false;
+  // Serialize manifest fields (excluding manifest_hash itself) to deterministic JSON
+  json j;
+  
+  // Include all fields except manifest_hash in the integrity check
+  j["artifact_id"] = artifact_id;
+  j["version"] = version;
+  j["content_hash"] = content_hash;
+  j["artifact_class"] = static_cast<int>(artifact_class);
+  j["truth_semantic"] = static_cast<int>(truth_semantic);
+  j["lifecycle_state"] = static_cast<int>(lifecycle_state);
+  j["created_at_unix_sec"] = created_at_unix_sec;
+  j["updated_at_unix_sec"] = updated_at_unix_sec;
+  j["last_verified_unix_sec"] = last_verified_unix_sec;
+  j["last_rebuild_at_unix_sec"] = last_rebuild_at_unix_sec;
+  j["residual"] = residual;
+  j["rank_cap"] = rank_cap;
+  j["rank_status"] = rank_status;
+  j["rebuild_state"] = static_cast<int>(rebuild_state);
+  j["update_mode"] = static_cast<int>(update_mode);
+  j["invalidation_reason"] = static_cast<int>(invalidation_reason);
+  
+  // Serialize to deterministic JSON string (sorted keys)
+  std::string serialized = j.dump();
+  
+  // Compute hash of serialized data
+  // For now, use simple hash function (in production, use actual SHA256)
+  std::hash<std::string> hasher;
+  size_t hash_val = hasher(serialized);
+  
+  // Convert hash to hex string for comparison
+  std::ostringstream oss;
+  oss << std::hex << hash_val;
+  std::string computed_hash = oss.str();
+  
+  // Compare with stored hash
+  return computed_hash != manifest_hash;
 }
 
 std::string ArtifactManifest::toJSON() const {
@@ -305,18 +337,83 @@ std::optional<ArtifactManifest> ArtifactManifest::fromJSON(const std::string& js
 }
 
 std::string ArtifactManifest::toYAML() const {
-  // For now, serialize to JSON and note that YAML serialization would require a YAML library
-  // This is a placeholder that returns JSON; real YAML support would use yaml-cpp or similar
+  // Convert to JSON first, then format as YAML-like output
+  // Note: Full YAML support would require yaml-cpp library
+  json j = json(*this);
+  
   std::ostringstream oss;
-  oss << "# ArtifactManifest (JSON representation)\n";
-  oss << toJSON();
+  oss << "# ArtifactManifest (YAML representation)\n";
+  oss << "# Generated: " << std::time(nullptr) << "\n";
+  oss << "\n";
+  
+  // Write as YAML-style key-value pairs
+  oss << "artifact_id: " << artifact_id << "\n";
+  oss << "version: " << version << "\n";
+  oss << "artifact_class: " << static_cast<int>(artifact_class) << "\n";
+  oss << "truth_semantic: " << static_cast<int>(truth_semantic) << "\n";
+  oss << "lifecycle_state: " << static_cast<int>(lifecycle_state) << "\n";
+  oss << "content_hash: " << content_hash << "\n";
+  oss << "manifest_hash: " << manifest_hash << "\n";
+  oss << "created_at_unix_sec: " << created_at_unix_sec << "\n";
+  oss << "updated_at_unix_sec: " << updated_at_unix_sec << "\n";
+  oss << "last_verified_unix_sec: " << last_verified_unix_sec << "\n";
+  oss << "last_rebuild_at_unix_sec: " << last_rebuild_at_unix_sec << "\n";
+  oss << "residual: " << std::scientific << residual << "\n";
+  oss << "rank_cap: " << rank_cap << "\n";
+  oss << "rank_status: " << rank_status << "\n";
+  oss << "rebuild_state: " << static_cast<int>(rebuild_state) << "\n";
+  oss << "update_mode: " << static_cast<int>(update_mode) << "\n";
+  oss << "invalidation_reason: " << static_cast<int>(invalidation_reason) << "\n";
+  
   return oss.str();
 }
 
 std::optional<ArtifactManifest> ArtifactManifest::fromYAML(const std::string& yaml_str) {
   // For now, attempt to parse as JSON
-  // Real YAML support would require a YAML library
-  return fromJSON(yaml_str);
+  // Real YAML support would require yaml-cpp library
+  
+  // Try to parse as JSON directly (assuming JSON input for now)
+  if (yaml_str.find('{') != std::string::npos) {
+    return fromJSON(yaml_str);
+  }
+  
+  // Try to build JSON from YAML-like key-value pairs
+  json j;
+  std::istringstream iss(yaml_str);
+  std::string line;
+  
+  while (std::getline(iss, line)) {
+    // Skip comments and empty lines
+    if (line.empty() || line[0] == '#') {
+      continue;
+    }
+    
+    // Parse key: value format
+    size_t colon_pos = line.find(':');
+    if (colon_pos == std::string::npos) {
+      continue;
+    }
+    
+    std::string key = line.substr(0, colon_pos);
+    std::string value = line.substr(colon_pos + 1);
+    
+    // Trim whitespace
+    key.erase(0, key.find_first_not_of(" \t"));
+    key.erase(key.find_last_not_of(" \t") + 1);
+    value.erase(0, value.find_first_not_of(" \t"));
+    value.erase(value.find_last_not_of(" \t") + 1);
+    
+    // Add to JSON (simple string values for now)
+    j[key] = value;
+  }
+  
+  // Try to construct from JSON
+  try {
+    ArtifactManifest manifest = j.get<ArtifactManifest>();
+    return manifest;
+  } catch (...) {
+    return std::nullopt;
+  }
 }
 
 // ============================================================================

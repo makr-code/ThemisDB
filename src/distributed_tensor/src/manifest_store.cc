@@ -8,9 +8,20 @@
 #include <mutex>
 #include <memory>
 #include <chrono>
+#include <nlohmann/json.hpp>
+
+using json = nlohmann::json;
 
 namespace themis {
 namespace distributed_tensor {
+
+// In-memory store implementation (mock backend for now)
+// TODO: Replace with actual RocksDB integration when available
+static std::map<std::string, std::string> g_manifest_store;
+static std::map<std::string, std::vector<ManifestVersion>> g_version_history;
+static std::map<std::string, std::pair<std::string, int64_t>> g_locks;  // artifact_id -> (lock_holder, expire_ms)
+static std::map<std::string, uint64_t> g_version_counters;
+static std::mutex g_store_mutex;
 
 // ============================================================================
 // ManifestStore Methods
@@ -19,14 +30,21 @@ namespace distributed_tensor {
 ManifestStoreStatus ManifestStore::open(const std::string& db_path) {
   db_path_ = db_path;
   is_open_ = true;
-  // Placeholder for RocksDB initialization
-  // Real implementation would create/open RocksDB instance here
+  // TODO: Replace with actual RocksDB initialization
+  // For now, clear in-memory store on open
+  {
+    std::lock_guard<std::mutex> lock(g_store_mutex);
+    g_manifest_store.clear();
+    g_version_history.clear();
+    g_locks.clear();
+    g_version_counters.clear();
+  }
   return ManifestStoreStatus::OK;
 }
 
 ManifestStoreStatus ManifestStore::close() {
   is_open_ = false;
-  // Placeholder for RocksDB cleanup
+  // TODO: Replace with actual RocksDB cleanup
   return ManifestStoreStatus::OK;
 }
 
@@ -123,63 +141,191 @@ ManifestStoreStatus ManifestStore::invalidate(const std::string& artifact_id,
 ManifestStoreStatus ManifestStore::acquireLock(const std::string& artifact_id,
                                                const std::string& lock_holder,
                                                int64_t timeout_ms) {
-  // Placeholder for lock acquisition logic
-  // Real implementation would use a distributed lock mechanism
+  std::lock_guard<std::mutex> lock(g_store_mutex);
+  
+  auto lock_it = g_locks.find(artifact_id);
+  if (lock_it != g_locks.end()) {
+    // Lock exists - check if it has expired
+    int64_t now_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+        std::chrono::system_clock::now().time_since_epoch()).count();
+    
+    if (lock_it->second.second > now_ms) {
+      // Lock still active
+      return ManifestStoreStatus::ARTIFACT_LOCKED;
+    }
+    // Lock expired, remove it
+    g_locks.erase(lock_it);
+  }
+  
+  // Acquire lock
+  int64_t expire_ms = 0;
+  if (timeout_ms > 0) {
+    expire_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+        std::chrono::system_clock::now().time_since_epoch()).count() + timeout_ms;
+  }
+  
+  g_locks[artifact_id] = {lock_holder, expire_ms};
   return ManifestStoreStatus::OK;
 }
 
 ManifestStoreStatus ManifestStore::releaseLock(const std::string& artifact_id,
                                                const std::string& lock_holder) {
-  // Placeholder for lock release logic
+  std::lock_guard<std::mutex> lock(g_store_mutex);
+  
+  auto lock_it = g_locks.find(artifact_id);
+  if (lock_it == g_locks.end()) {
+    return ManifestStoreStatus::OK;  // Not locked, no-op
+  }
+  
+  // Verify lock holder matches
+  if (lock_it->second.first != lock_holder) {
+    return ManifestStoreStatus::ARTIFACT_LOCKED;  // Different holder
+  }
+  
+  g_locks.erase(lock_it);
   return ManifestStoreStatus::OK;
 }
 
 bool ManifestStore::isLocked(const std::string& artifact_id) const {
-  // Placeholder for lock status check
-  return false;
+  std::lock_guard<std::mutex> lock(g_store_mutex);
+  
+  auto lock_it = g_locks.find(artifact_id);
+  if (lock_it == g_locks.end()) {
+    return false;
+  }
+  
+  // Check if lock has expired
+  if (lock_it->second.second == 0) {
+    return true;  // No expiration
+  }
+  
+  int64_t now_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+      std::chrono::system_clock::now().time_since_epoch()).count();
+  
+  return lock_it->second.second > now_ms;
 }
 
 uint64_t ManifestStore::getCurrentVersion(const std::string& artifact_id) const {
-  // Placeholder for version retrieval
-  // Real implementation would query RocksDB
+  std::lock_guard<std::mutex> lock(g_store_mutex);
+  
+  auto it = g_version_counters.find(artifact_id);
+  if (it != g_version_counters.end()) {
+    return it->second;
+  }
   return 0;
 }
 
 std::vector<ManifestVersion> ManifestStore::getVersionHistory(const std::string& artifact_id) {
-  // Placeholder for version history retrieval
-  std::vector<ManifestVersion> history;
-  return history;
+  std::lock_guard<std::mutex> lock(g_store_mutex);
+  
+  auto it = g_version_history.find(artifact_id);
+  if (it != g_version_history.end()) {
+    return it->second;
+  }
+  return {};
 }
 
 ManifestStoreStatus ManifestStore::deleteManifest(const std::string& artifact_id) {
   if (!is_open_) {
     return ManifestStoreStatus::STORAGE_ERROR;
   }
-
-  // Placeholder for permanent deletion
+  
+  std::lock_guard<std::mutex> lock(g_store_mutex);
+  
+  g_manifest_store.erase(artifact_id);
+  g_version_history.erase(artifact_id);
+  g_version_counters.erase(artifact_id);
+  g_locks.erase(artifact_id);
+  
   return ManifestStoreStatus::OK;
 }
 
 ManifestStore::Stats ManifestStore::getStats() const {
+  std::lock_guard<std::mutex> lock(g_store_mutex);
+  
   Stats stats;
-  // Placeholder for statistics collection
+  stats.total_artifacts = g_manifest_store.size();
+  
+  for (const auto& hist : g_version_history) {
+    stats.total_versions += hist.second.size();
+  }
+  
+  for (const auto& lock : g_locks) {
+    if (lock.second.second == 0) {
+      stats.locked_artifacts++;
+    } else {
+      int64_t now_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+          std::chrono::system_clock::now().time_since_epoch()).count();
+      if (lock.second.second > now_ms) {
+        stats.locked_artifacts++;
+      }
+    }
+  }
+  
+  // Approximate storage size
+  for (const auto& manifest : g_manifest_store) {
+    stats.storage_size_bytes += manifest.second.size();
+  }
+  
   return stats;
 }
 
 ManifestStoreStatus ManifestStore::internalRead(const std::string& artifact_id,
                                                 uint64_t version_id,
                                                 ArtifactManifest& manifest) {
-  // Placeholder for internal read implementation
-  // Real implementation would query RocksDB with artifact_id as key
-  return ManifestStoreStatus::NOT_FOUND;
+  std::lock_guard<std::mutex> lock(g_store_mutex);
+  
+  // If version_id == 0, get the latest version
+  if (version_id == 0) {
+    auto it = g_manifest_store.find(artifact_id);
+    if (it == g_manifest_store.end()) {
+      return ManifestStoreStatus::NOT_FOUND;
+    }
+    
+    try {
+      auto parsed = json::parse(it->second);
+      manifest = parsed.get<ArtifactManifest>();
+      return ManifestStoreStatus::OK;
+    } catch (...) {
+      return ManifestStoreStatus::STORAGE_ERROR;
+    }
+  }
+  
+  // Get specific version from history
+  auto hist_it = g_version_history.find(artifact_id);
+  if (hist_it == g_version_history.end()) {
+    return ManifestStoreStatus::VERSION_MISMATCH;
+  }
+  
+  for (const auto& ver : hist_it->second) {
+    if (ver.version_id == version_id) {
+      manifest = ver.manifest;
+      return ManifestStoreStatus::OK;
+    }
+  }
+  
+  return ManifestStoreStatus::VERSION_MISMATCH;
 }
 
 ManifestStoreStatus ManifestStore::internalWrite(const std::string& artifact_id,
                                                  const ArtifactManifest& manifest,
                                                  const ManifestVersion& version_info) {
-  // Placeholder for internal write implementation
-  // Real implementation would write to RocksDB with atomic CAS semantics
-  return ManifestStoreStatus::OK;
+  std::lock_guard<std::mutex> lock(g_store_mutex);
+  
+  try {
+    // Store current manifest
+    g_manifest_store[artifact_id] = json(manifest).dump();
+    
+    // Add to version history
+    g_version_history[artifact_id].push_back(version_info);
+    
+    // Update version counter
+    g_version_counters[artifact_id] = version_info.version_id;
+    
+    return ManifestStoreStatus::OK;
+  } catch (...) {
+    return ManifestStoreStatus::STORAGE_ERROR;
+  }
 }
 
 }  // namespace distributed_tensor
