@@ -1,53 +1,7 @@
 # GPU Module - Future Enhancements
 
-<!-- Status: current | validated: 2026-06-30 -->
+<!-- Status: current | validated: 2026-05-31 -->
 <!-- Links: README.md · ROADMAP.md · PERFORMANCE_EXPECTATIONS.md -->
-
-## IVRAMPolicy Hierarchy — Extension Points
-
-The `IVRAMPolicy` abstract interface (`include/themis/gpu/ivram_policy.h`) is the
-consolidation point for all GPU memory policy concerns.  Future enhancements can extend
-the hierarchy by implementing the interface or composing it:
-
-### Scope
-- Per-backend policy specializations (CUDA-specific OOM retry, Vulkan memory type hints)
-- Remote/distributed VRAM pool coordination (cluster-wide tenant quota enforcement)
-- Priority-based policy: preemptable vs. pinned allocations
-- Adaptive OOM policy: spill-to-CPU, block compaction, graceful degradation
-
-### Design Constraints
-- New policy implementations MUST honor the `canAllocate()` / `onAllocate()` / `onDeallocate()` contract.
-- Policy objects MUST be thread-safe (internal synchronization expected by callers).
-- Subsystem managers (`themis::llm::GPUMemoryManager`, `themis::llm::lora::VRAMAllocator`) MUST NOT bypass the canonical policy gate.
-
-### Required Interfaces
-| Extension Point | Mechanism |
-|---|---|
-| Per-backend specialization | Derive from `IVRAMPolicy`, register with subsystem factory |
-| Cluster-wide quotas | Composable policy wrapper implementing `IVRAMPolicy` that calls remote quota service |
-| Priority / preemption | Add `Priority` parameter to `onAllocate()`; canonical manager enforces eviction order |
-
-### Implementation Notes
-- `isGPUEnabled()` returning `false` fully disables the canonical gate (CPU-only builds unaffected).
-- Tenant quota map on `GPUMemoryManager` is the authoritative quota store for all subsystems.
-- New backends must register via the `BackendType` enum in `lora_framework/vram_allocator.h` and update `is_gpu_backend()` in `vram_allocator.cpp`.
-
-### Test Strategy
-- Unit tests for each `IVRAMPolicy` implementation in `tests/gpu/`.
-- Integration tests validating delegation chain: LLM manager → canonical → policy.
-- OOM simulation tests must verify rollback atomicity across all hierarchy levels.
-
-### Performance Targets
-- Policy gate overhead: < 1 µs per allocation (lock-free read path for the fast case).
-- Tenant quota lookup: O(1) amortized (hash map).
-
-### Security / Reliability
-- Tenant quota enforcement must be fail-closed: a missing quota entry MUST NOT allow
-  unbounded allocation (treat missing = unlimited OR denied, based on edition policy).
-- Double-accounting bugs (allocate without matching deallocate) should be detectable via
-  `usedBytes()` drift monitoring.
-
----
 
 ## Scope
 
