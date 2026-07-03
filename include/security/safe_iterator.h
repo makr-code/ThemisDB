@@ -7,14 +7,22 @@
 #include <type_traits>
 #include <atomic>
 
-// Optional: spdlog is used for debug logging only
-// If spdlog is not available, logging calls are no-ops
-#ifdef THEMIS_HAS_SPDLOG
-#include <spdlog/spdlog.h>
-#else
+// Conditional spdlog inclusion - only if available
+#ifdef __has_include
+  #if __has_include(<spdlog/spdlog.h>)
+    #define THEMIS_HAS_SPDLOG 1
+    #include <spdlog/spdlog.h>
+  #endif
+#endif
+
+// Fallback: provide no-op logging if spdlog not available
+#ifndef THEMIS_HAS_SPDLOG
 namespace spdlog {
-    inline void debug(const char*, ...) {}
-    inline void warn(const char*, ...) {}
+    template<typename... Args>
+    inline void debug(const char*, Args&&...) {}
+    
+    template<typename... Args>
+    inline void warn(const char*, Args&&...) {}
 }
 #endif
 
