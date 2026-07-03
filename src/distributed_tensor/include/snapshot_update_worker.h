@@ -49,6 +49,7 @@
 #include "src/distributed_tensor/include/crash_recovery_checkpoint.h"
 #include "src/distributed_tensor/include/distributed_lock_manager.h"
 #include "src/distributed_tensor/include/stale_artifact_detector.h"
+#include "src/distributed_tensor/include/error_recovery_handler.h"
 #include <string>
 #include <memory>
 #include <vector>
@@ -266,6 +267,10 @@ class SnapshotBasedUpdateWorker {
   /// @param detector Shared detector instance
   void setStaleArtifactDetector(std::shared_ptr<StaleArtifactDetector> detector);
 
+  /// Sets the error recovery handler.
+  /// @param handler Shared error recovery handler instance
+  void setErrorRecoveryHandler(std::shared_ptr<ErrorRecoveryHandler> handler);
+
   /// Recovers from a crash by loading checkpoint.
   /// @param artifact_id Artifact to recover
   /// @return true if recovery was successful or no checkpoint exists, false on error
@@ -316,6 +321,7 @@ class SnapshotBasedUpdateWorker {
   std::unique_ptr<CrashRecoveryCheckpoint> checkpoint_manager_;
   std::shared_ptr<DistributedLockManager> lock_manager_;
   std::shared_ptr<StaleArtifactDetector> stale_detector_;
+  std::shared_ptr<ErrorRecoveryHandler> error_handler_;
   std::string worker_id_;  // Unique worker identifier for locking
 
   /// Internal helper to check if rank cap would be breached.

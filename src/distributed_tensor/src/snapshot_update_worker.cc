@@ -194,18 +194,46 @@ bool SnapshotBasedUpdateWorker::executePartialRefit(const std::string& artifact_
                                                     ArtifactManifest& current_manifest) {
   // Check rank cap breach
   if (wouldBreachRankCap(current_manifest, delta_window)) {
+    if (error_handler_) {
+      ErrorRecoveryInfo error_info = error_handler_->analyzeRankCapBreach(
+          artifact_id, current_manifest.rank_status + 100, current_manifest.rank_cap);
+      // Log the error for monitoring
+    }
     // Fallback to rebuild
     return executeRebuild(artifact_id, delta_window, current_manifest);
   }
 
-  // Placeholder partial refit implementation
-  // Real implementation would selectively retrain tensor components
-  current_manifest.rebuild_state = RebuildState::PARTIAL_REFITTED;
-  current_manifest.update_mode = UpdateMode::PARTIAL_REFIT;
-  current_manifest.source_seq_end = delta_window.sequence_end;
-  current_manifest.delta_lag = 0;
-  current_manifest.residual *= 1.02;  // Simulate slight quality loss
-  return true;
+  try {
+    // Placeholder partial refit implementation
+    // Real implementation would selectively retrain tensor components
+    double prev_residual = current_manifest.residual;
+    current_manifest.rebuild_state = RebuildState::PARTIAL_REFITTED;
+    current_manifest.update_mode = UpdateMode::PARTIAL_REFIT;
+    current_manifest.source_seq_end = delta_window.sequence_end;
+    current_manifest.delta_lag = 0;
+    current_manifest.residual *= 1.02;  // Simulate slight quality loss
+
+    // Check if residual increased too much
+    if (current_manifest.residual - prev_residual > residual_max_increase_allowed_) {
+      if (error_handler_) {
+        ErrorRecoveryInfo error_info = error_handler_->analyzePartialRefitFailure(
+            artifact_id, "residual threshold exceeded", prev_residual, current_manifest.residual);
+        // Log for monitoring
+      }
+      // Fallback to rebuild
+      return executeRebuild(artifact_id, delta_window, current_manifest);
+    }
+
+    return true;
+  } catch (const std::exception& e) {
+    if (error_handler_) {
+      ErrorRecoveryInfo error_info = error_handler_->analyzePartialRefitFailure(
+          artifact_id, std::string(e.what()), current_manifest.residual, current_manifest.residual);
+      // Log for monitoring
+    }
+    // Fallback to rebuild
+    return executeRebuild(artifact_id, delta_window, current_manifest);
+  }
 }
 
 bool SnapshotBasedUpdateWorker::executeRebuild(const std::string& artifact_id,
@@ -262,6 +290,10 @@ void SnapshotBasedUpdateWorker::setLockManager(std::shared_ptr<DistributedLockMa
 
 void SnapshotBasedUpdateWorker::setStaleArtifactDetector(std::shared_ptr<StaleArtifactDetector> detector) {
   stale_detector_ = detector;
+}
+
+void SnapshotBasedUpdateWorker::setErrorRecoveryHandler(std::shared_ptr<ErrorRecoveryHandler> handler) {
+  error_handler_ = handler;
 }
 
 bool SnapshotBasedUpdateWorker::recoverFromCheckpoint(const std::string& artifact_id) {
