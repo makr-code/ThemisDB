@@ -1,16 +1,12 @@
 # Index Module Roadmap
 
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] issue  [P] PR  [?] blocked  [!] unclear -->
-<!-- Status: current | validated: 2026-06-30 -->
+<!-- Status: current | validated: 2026-05-31 -->
 <!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md -->
 
 ## Current Status
 
 Production index runtime exists across vector/secondary/spatial/graph indexing, acceleration/compression pathways, and index lifecycle/rebuild/tiering operations.
-
-**ANN Frontdoor formalized** (issue #5424): `AnnFrontdoor` is the single universal retrieval gate for all
-ANN queries. All six artifact classes — Document, Chunk, Entity, Adapter, Package, ShardSummary — are
-registered as first-class `AnnScopeKind` values with hot/cold routing and observability.
 
 ## In Progress
 
@@ -34,74 +30,43 @@ registered as first-class `AnnScopeKind` values with hot/cold routing and observ
 
 ## Implementation Phases
 
-### Phase 1: Design / API Contract — ANN Frontdoor (issue #5424)
-- [x] AnnFrontdoor abstraction API defined (`include/index/ann_frontdoor.h`)
-- [x] Decision tree HNSW / ScaNN / DiskANN / Distributed / Flat formalized
-- [x] All six artifact scope kinds defined: Document, Chunk, Entity, Adapter, Package, ShardSummary
-- [x] Metadata fields for ANN route-aware sharding (ShardMetadata, AnnQueryContext, AnnRetrievalPlan)
+### Phase 1: Design / API Contract
 - [ ] freeze core/acceleration/lifecycle contracts for active major line (Target: Q3 2026)
 - [ ] define explicit error taxonomy for backend, rebuild, and distribution failure classes (Target: Q3 2026)
 
-### Phase 2: Core Implementation — ANN Frontdoor (issue #5424)
-- [x] AnnFrontdoor::search() / planStrategy() / planRetrieval() implemented
-- [x] Routing logic for all six artifact classes with hot/cold tier awareness
-- [x] Distributed fan-out with cost-aware shard pruning
-- [x] TieredIndexManager integration for hot/cold tier resolution
+### Phase 2: Core Implementation
 - [ ] complete hardening for vector/secondary/spatial/graph index internals (Target: Q4 2026)
 - [ ] align quantization/compression behavior to bounded runtime contracts (Target: Q4 2026)
 
-### Phase 3: Error Handling and Edge Cases — ANN Frontdoor (issue #5424)
-- [x] Missing backend → FLAT_BRUTE_FORCE fallback with degraded_continue reason code
-- [x] Partial shard failures → partial_results flag + configurable fail-closed behavior
-- [x] nullptr query / dim==0 guard with std::invalid_argument
+### Phase 3: Error Handling and Edge Cases
 - [ ] standardize fail-safe behavior for unsupported/degraded backend scenarios (Target: Q4 2026)
 - [ ] unify diagnostics across rebuild/tiering/distributed failure incidents (Target: Q4 2026)
 
-### Phase 4: Tests — ANN Frontdoor (issue #5424)
-- [x] Unit tests for all routing strategies and scope kinds (tests/index/test_ann_frontdoor.cpp)
-- [x] Tests for Document, Chunk, Entity scope kind routing and candidate return
-- [x] Distributed fan-out, flaky shard, and retry tests
-- [x] Hot/cold tier demotion tests
+### Phase 4: Tests
 - [ ] expand focused regressions for mixed backend/index/lifecycle edge scenarios (Target: Q4 2026)
 - [ ] extend deterministic stress fixtures for high-concurrency retrieval and update workloads (Target: Q4 2026)
 
 ### Phase 5: Performance and Hardening
-- [ ] hot vs cold benchmark for ANN frontdoor routing paths (Target: Q4 2026)
 - [ ] lock benchmark-backed release gates for index hot paths (Target: Q4 2026)
 - [ ] validate p95/p99 and throughput behavior against release baselines (Target: Q4 2026)
 
-### Phase 6: Documentation and Acceptance — ANN Frontdoor (issue #5424)
-- [x] ANN frontdoor API documented in include/index/ann_frontdoor.h (Doxygen)
-- [x] Artifact class routing table documented in TARGET_ARCHITECTURE.md §2.1
-- [x] HNSW vs DiskANN decision tree documented in TARGET_ARCHITECTURE.md §2.1
+### Phase 6: Documentation and Acceptance
 - [x] core index module docs aligned to source-verifiable behavior
 - [x] roadmap/future planning separated from historical changelog entries
 
-### Phase 7: Migration / Go-Live — ANN Frontdoor (issue #5424)
-- [x] HybridSearch::setAnnFrontdoor() integration point established
-- [x] Tensor mid-layer (AdapterRepository, TensorMidLayer) integrates via setAnnFrontdoor()
-- [ ] Migrate all existing retrieval flows to pass through AnnFrontdoor (Target: Q3 2026)
-- [ ] Rollout guide for existing callers (Target: Q3 2026)
-
 ## Production Readiness Checklist
 
-- [x] ANN Frontdoor API stable and documented
-- [x] HNSW / ScaNN / DiskANN switching validated via unit tests
-- [x] All six ANN scope kinds defined and tested
-- [x] Shard-aware routing with cost-aware pruning implemented and tested
 - [x] core index surfaces documented and source-verified
 - [x] module-level security and failure behavior documented
 - [x] benchmark mapping documented in performance expectations
 - [ ] remaining hardening tasks closed for backend/lifecycle edge paths
 - [ ] release benchmark stabilization complete
-- [ ] hot vs cold ANN path benchmarks completed
 
 ## Known Issues and Limitations
 
 - runtime behavior depends on backend capability, selected index strategy, and operational configuration.
 - distributed and advanced acceleration edge scenarios need continued hardening.
 - benchmark breadth should continue expanding for specialized index workflows.
-- shard-aware routing metadata (ShardMetadata) uses fixed defaults; real cost/freshness injection is future work.
 
 ## Breaking Changes
 
