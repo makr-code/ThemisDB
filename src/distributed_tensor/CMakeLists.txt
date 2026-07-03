@@ -6,12 +6,22 @@ set(DISTRIBUTED_TENSOR_PUBLIC_HEADERS
     include/tensor_artifact_classes.h
     include/artifact_manifest.h
     include/shard_placement.h
+    include/tensor_delta_log.h
+    include/manifest_store.h
+    include/snapshot_update_worker.h
+    include/artifact_invalidation.h
+    include/exact_graph_fallback.h
 )
 
 set(DISTRIBUTED_TENSOR_SOURCES
     src/tensor_artifact_classes.cc
     src/artifact_manifest.cc
     src/shard_placement.cc
+    src/tensor_delta_log.cc
+    src/manifest_store.cc
+    src/snapshot_update_worker.cc
+    src/artifact_invalidation.cc
+    src/exact_graph_fallback.cc
 )
 
 # Create the distributed tensor library
