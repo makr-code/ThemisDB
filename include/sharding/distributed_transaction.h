@@ -116,22 +116,15 @@ public:
         std::string coordinator_id;             ///< Prometheus label value for coordinator metrics.
 
         /**
-         * When true, transactions with isolation_level == SNAPSHOT_ISOLATION use
-         * the Percolator commit path instead of full 2PC:
-         *   - Run a cross-shard prepare phase for write-write conflict detection.
+         * When true (default), transactions with isolation_level ==
+         * SNAPSHOT_ISOLATION use the Percolator commit path instead of 2PC:
+         *   - Skip the prepare / vote round.
          *   - Derive commit timestamp from TrueTime::now_with_uncertainty().
          *   - Apply commit-wait before sending COMMIT to participants.
          *
-         * SERIALIZABLE transactions always use full 2PC regardless of this flag.
-         *
-         * @warning Percolator is designed for read-heavy, non-safety-critical
-         * workloads.  For safety-critical applications that require full ACID
-         * guarantees and zero tolerance for anomalies, leave this flag at its
-         * default of false so that all transactions use the standard 2PC path.
-         * Enable it only after explicitly accepting the trade-offs documented in
-         * docs/DISTRIBUTED_TRANSACTIONS.md §Percolator Mode.
+         * SERIALIZABLE transactions always use 2PC regardless of this flag.
          */
-        bool use_percolator_for_snapshot = false;
+        bool use_percolator_for_snapshot = true;
     };
 
     /**
@@ -394,19 +387,19 @@ private:
     /**
      * @brief Percolator-style commit for SNAPSHOT_ISOLATION transactions.
      *
-     * Executes cross-shard conflict detection and TrueTime-anchored commit for
-     * snapshot-isolated transactions.  The full sequence is:
-     *   0. Prepare phase — all participants vote COMMIT or ABORT (conflict check).
-     *      Any ABORT vote triggers abort of all prepared participants and returns false.
-     *   1. Derive commit timestamp via TrueTime::now_with_uncertainty().latest.
-     *   2. Perform commit-wait: spin until TT.now().earliest > commit_ts.
-     *   3. Send COMMIT to all participants with the agreed timestamp.
+     * Replaces the 2PC prepare phase with an optimistic, primary-lock
+     * approach:
+     *   1. Skip the global prepare / vote round.
+     *   2. Derive commit timestamp via TrueTime::now_with_uncertainty().latest.
+     *   3. Perform commit-wait: spin until TT.now().earliest >
+     *      commit_ts + max_uncertainty.
+     *   4. Send COMMIT directly to all participants.
      *
      * This path is chosen when Config::use_percolator_for_snapshot == true and
      * the transaction's isolation_level == SNAPSHOT_ISOLATION.
      *
      * @param txn Distributed transaction (state mutated in-place).
-     * @return True if all participants prepared and committed successfully.
+     * @return True if all participants committed successfully.
      */
     bool percolatorCommit(DistributedTransaction& txn);
 };
