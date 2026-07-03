@@ -573,78 +573,6 @@ struct RegisteredBackend {
     IMatrixBackend*  matrixPtr = nullptr;  ///< First IMatrixBackend of this type, or nullptr
 };
 
-/**
- * @brief Central registry for frozen kernel launcher tables.
- *
- * Each registration is keyed by `BackendType` and stored per operation family
- * (ANN/vector, geospatial, matrix).  The first backend registered for a given
- * backend type + operation family wins so the launcher lookup stays consistent
- * with `BackendRegistry::typeIndex_`, which also preserves the first typed
- * backend pointer for each backend type.
- *
- * Missing registrations return an empty dispatch table whose function-pointer
- * slots are all null.  Callers can use `has*Dispatch()` to distinguish
- * "backend registered but operation unsupported" from "backend type unknown".
- */
-class KernelRegistry {
-public:
-    void clear() noexcept {
-        annDispatch_.clear();
-        geoDispatch_.clear();
-        matrixDispatch_.clear();
-    }
-
-    void registerANNDispatch(BackendType type, ANNKernelDispatch dispatch) {
-        annDispatch_.emplace(type, dispatch);
-    }
-
-    void registerGeoDispatch(BackendType type, GeoKernelDispatch dispatch) {
-        geoDispatch_.emplace(type, dispatch);
-    }
-
-    void registerMatrixDispatch(BackendType type, MatrixKernelDispatch dispatch) {
-        matrixDispatch_.emplace(type, dispatch);
-    }
-
-    [[nodiscard]] bool hasANNDispatch(BackendType type) const noexcept {
-        return annDispatch_.find(type) != annDispatch_.end();
-    }
-
-    [[nodiscard]] bool hasGeoDispatch(BackendType type) const noexcept {
-        return geoDispatch_.find(type) != geoDispatch_.end();
-    }
-
-    [[nodiscard]] bool hasMatrixDispatch(BackendType type) const noexcept {
-        return matrixDispatch_.find(type) != matrixDispatch_.end();
-    }
-
-    [[nodiscard]] ANNKernelDispatch getANNDispatch(BackendType type) const noexcept {
-        if (const auto it = annDispatch_.find(type); it != annDispatch_.end()) {
-            return it->second;
-        }
-        return {};
-    }
-
-    [[nodiscard]] GeoKernelDispatch getGeoDispatch(BackendType type) const noexcept {
-        if (const auto it = geoDispatch_.find(type); it != geoDispatch_.end()) {
-            return it->second;
-        }
-        return {};
-    }
-
-    [[nodiscard]] MatrixKernelDispatch getMatrixDispatch(BackendType type) const noexcept {
-        if (const auto it = matrixDispatch_.find(type); it != matrixDispatch_.end()) {
-            return it->second;
-        }
-        return {};
-    }
-
-private:
-    std::unordered_map<BackendType, ANNKernelDispatch>    annDispatch_;
-    std::unordered_map<BackendType, GeoKernelDispatch>    geoDispatch_;
-    std::unordered_map<BackendType, MatrixKernelDispatch> matrixDispatch_;
-};
-
 // Forward declaration
 class PluginLoader;
 
@@ -665,24 +593,6 @@ public:
     
     // Get backend by type
     IComputeBackend* getBackend(BackendType type) const;
-
-    /// Returns true when a vector/ANN dispatch table has been registered for @p type.
-    [[nodiscard]] bool hasANNDispatch(BackendType type) const noexcept;
-
-    /// Returns true when a geospatial dispatch table has been registered for @p type.
-    [[nodiscard]] bool hasGeoDispatch(BackendType type) const noexcept;
-
-    /// Returns true when a matrix dispatch table has been registered for @p type.
-    [[nodiscard]] bool hasMatrixDispatch(BackendType type) const noexcept;
-
-    /// Returns the registered ANN dispatch table for @p type, or an empty table when absent.
-    [[nodiscard]] ANNKernelDispatch getANNDispatch(BackendType type) const noexcept;
-
-    /// Returns the registered geospatial dispatch table for @p type, or an empty table when absent.
-    [[nodiscard]] GeoKernelDispatch getGeoDispatch(BackendType type) const noexcept;
-
-    /// Returns the registered matrix dispatch table for @p type, or an empty table when absent.
-    [[nodiscard]] MatrixKernelDispatch getMatrixDispatch(BackendType type) const noexcept;
     
     // Get best available backend for a capability
     IVectorBackend* getBestVectorBackend() const;
@@ -830,7 +740,6 @@ private:
 
     std::vector<std::unique_ptr<IComputeBackend>> backends_;
     std::unordered_map<BackendType, RegisteredBackend> typeIndex_;
-    KernelRegistry kernelRegistry_;
     std::unique_ptr<PluginLoader> pluginLoader_;
 
     // Backends selected at the last initializeRuntime() call (nullptr until

@@ -1151,13 +1151,42 @@ size_t DistributedTransactionCoordinator::recoverTransactions() {
 // ---------------------------------------------------------------------------
 // Percolator-style commit path (used for SNAPSHOT_ISOLATION transactions)
 // ---------------------------------------------------------------------------
-/** @brief Execute Percolator-style commit path for snapshot-isolated transaction. */
+/** @brief Execute Percolator-style commit path for snapshot-isolated transaction.
+ *
+ * The protocol performs cross-shard write-write conflict detection via a full
+ * prepare phase before assigning a commit timestamp.  Skipping the prepare
+ * phase would allow write-skew anomalies: two concurrent transactions can each
+ * read a consistent snapshot, write to disjoint shards, and both commit without
+ * detecting the mutual conflict.  Running the prepare vote here ensures every
+ * participant performs its local conflict check before the coordinator proceeds
+ * to the commit timestamp / commit-wait / send-COMMIT sequence.
+ *
+ * Protocol (with conflict detection):
+ *   0. PREPARE phase — all participants vote COMMIT or ABORT.
+ *      If any vote ABORT, send ABORT to all prepared participants and return false.
+ *   1. Assign commit timestamp from TrueTime::now_with_uncertainty().latest
+ *   2. Commit-wait: spin until TT.now().earliest > commit_ts
+ *   3. Send COMMIT to all participants with the agreed timestamp
+ */
 bool DistributedTransactionCoordinator::percolatorCommit(DistributedTransaction& txn) {
-    // Percolator protocol skips the global prepare / vote round.
-    // Instead it:
-    //   1. Assigns a commit timestamp from TrueTime::now_with_uncertainty().latest
-    //   2. Performs commit-wait: spins until TT.now().earliest > commit_ts + epsilon
-    //   3. Sends COMMIT to all participants with the agreed timestamp
+    // Step 0: Cross-shard write-write conflict detection via the prepare phase.
+    // Every participant must vote before the coordinator assigns a commit
+    // timestamp.  This prevents write-skew anomalies where two overlapping
+    // snapshot-isolation transactions both observe a consistent state and both
+    // commit conflicting writes to different shards.
+    txn.state = TransactionState::PREPARING;
+    if (!preparePhase(txn)) {
+        THEMIS_WARN("Percolator conflict detected for txn {} — aborting: {}",
+                    txn.transaction_id, txn.error_detail);
+        // Send ABORT to every participant that already voted COMMIT so they
+        // can release any locks or tentative writes they acquired.
+        for (auto& participant : txn.participants) {
+            if (participant.prepared) {
+                sendAbort(participant, txn.transaction_id);
+            }
+        }
+        return false;
+    }
 
     // Step 1: Derive commit timestamp.
     // Use the *latest* bound so every concurrent snapshot read that started

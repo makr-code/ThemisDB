@@ -206,6 +206,68 @@ config.max_backoff_ms = 5000;
 config.enable_recovery_log = true;
 ```
 
+## Percolator Mode (Non-Safety-Critical Workloads Only)
+
+The coordinator supports an optional Percolator-style commit path for
+`SNAPSHOT_ISOLATION` transactions, controlled by `Config::use_percolator_for_snapshot`.
+
+### Default: 2PC (Safety-Critical)
+
+`use_percolator_for_snapshot` defaults to **`false`**.  All transactions use
+full 2PC regardless of isolation level.  This is the correct choice for
+safety-critical applications that require complete ACID guarantees.
+
+### Opting into Percolator
+
+```cpp
+// Enable only after explicitly accepting the trade-offs below.
+config.use_percolator_for_snapshot = true;
+```
+
+When enabled, `SNAPSHOT_ISOLATION` transactions follow this sequence instead
+of standard 2PC:
+
+1. **Prepare phase** — all participants vote COMMIT or ABORT (cross-shard
+   write-write conflict detection).  Any ABORT vote immediately aborts all
+   prepared participants and returns failure to the caller.
+2. **Commit timestamp** — coordinator draws `commit_ts` from
+   `TrueTime::now_with_uncertainty().latest`.
+3. **Commit-wait** — coordinator spins until `TT.now().earliest > commit_ts`,
+   guaranteeing external consistency.
+4. **COMMIT** — coordinator sends COMMIT with the agreed timestamp to all
+   participants in parallel.
+
+> ⚠️ **Important**: The prepare step is mandatory and cannot be bypassed.
+> Omitting it would allow write-skew anomalies: two concurrent
+> SNAPSHOT_ISOLATION transactions could each read a consistent state, write to
+> disjoint shards, and both commit without detecting the mutual conflict.
+
+### Write-Skew Risk
+
+Write-skew is a subtle anomaly that snapshot isolation does not prevent by
+default.  Consider:
+
+| Step | Tx1 | Tx2 |
+|------|-----|-----|
+| Read | shard-A=100, shard-B=100 | shard-A=100, shard-B=100 |
+| Decision | zero shard-A (total still OK) | zero shard-B (total still OK) |
+| Write | shard-A ← 0 | shard-B ← 0 |
+| Commit | ✓ | ✓ (without conflict detection) |
+| Result | **total = 0** — invariant broken | |
+
+The prepare phase in the Percolator path prevents this: both transactions
+attempt to acquire write locks on their target shards during prepare.  The
+coordinator that loses the race receives a conflict vote and must abort,
+preserving the invariant.
+
+### When to Use Percolator
+
+- **Appropriate**: read-heavy workloads, analytics, reporting, batch jobs where
+  a small risk of write-skew is explicitly accepted and documented.
+- **Not appropriate**: financial transactions, inventory systems, safety-critical
+  workflows, or any case where full serializability is required (use
+  `SERIALIZABLE` isolation with standard 2PC instead).
+
 ## Transaction States
 
 | State | Description |
@@ -408,7 +470,12 @@ Transaction lifecycle events are logged:
 ✅ **Dedicated WALEntryType::PREPARE_TX**: Semantically correct WAL entry type for 2PC PREPARE phase  
 ✅ **TwoPhaseCommitParticipant**: Shard-side participant handler with idempotent message handling,
    WAL-backed durability, prepare-timeout auto-abort, and crash recovery (`recoverFromWAL`)  
-✅ **HTTP API**: REST endpoints for distributed transactions (`/dtxn/*`, see below)
+✅ **HTTP API**: REST endpoints for distributed transactions (`/dtxn/*`, see below)  
+✅ **Percolator Write-Skew Fix**: `percolatorCommit()` now runs the full prepare phase for
+   cross-shard write-write conflict detection before assigning the commit timestamp.
+   Skipping the prepare phase previously allowed write-skew anomalies under `SNAPSHOT_ISOLATION`.  
+✅ **Percolator Opt-In Default**: `Config::use_percolator_for_snapshot` now defaults to `false`
+   (2PC for safety).  Percolator must be explicitly enabled for non-safety-critical workloads.
 
 ### HTTP API Reference
 

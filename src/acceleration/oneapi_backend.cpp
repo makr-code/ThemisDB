@@ -23,10 +23,11 @@
 // Copyright (c) 2024 ThemisDB
 
 #include "acceleration/compute_backend.h"
+#include "utils/logger.h"
 #include <stdexcept>
 #include <vector>
 #include <cmath>
-#include <iostream>
+#include <optional>
 #include <algorithm>
 #include <functional>
 #include <mutex>
@@ -43,18 +44,18 @@ namespace acceleration {
 
 class OneAPIVectorBackend : public IVectorBackend {
 private:
-    sycl::queue* queue_ = nullptr;
+    /// @brief SYCL execution queue; held in optional to avoid raw pointer.
+    std::optional<sycl::queue> queue_{};
+    /// @brief Guards initialize() / shutdown() for thread-safe lifecycle management.
+    mutable std::mutex lifecycle_mutex_;
     bool initialized_ = false;
 
 public:
     OneAPIVectorBackend() = default;
-    
-    ~OneAPIVectorBackend() {
-        if (queue_) {
-            delete queue_;
-            queue_ = nullptr;
-        }
-    }
+
+    // Non-copyable, non-movable: sycl::queue wraps a device context.
+    OneAPIVectorBackend(const OneAPIVectorBackend&) = delete;
+    OneAPIVectorBackend& operator=(const OneAPIVectorBackend&) = delete;
 
     BackendType type() const override { return BackendType::ONEAPI; }
     
@@ -71,51 +72,55 @@ public:
                 }
             }
         } catch (const std::exception& e) {
-            std::cerr << "OneAPI: Error checking availability: " << e.what() << "\n";
+            THEMIS_WARN("OneAPI: Error checking availability: {}", e.what());
         }
         return false;
     }
     
     bool initialize() override {
+        std::lock_guard<std::mutex> lk(lifecycle_mutex_);
+        if (initialized_) {
+            return true;
+        }
         try {
-            // Try to create GPU queue
+            // Try to create GPU queue; fall back to default device on failure.
             try {
-                queue_ = new sycl::queue(sycl::gpu_selector_v);
+                queue_.emplace(sycl::gpu_selector_v);
             } catch (const std::exception &e) {
-                // Fallback to default device
-                std::cerr << "OneAPI: GPU selector failed, trying default device: " << e.what() << "\n";
-                queue_ = new sycl::queue(sycl::default_selector_v);
+                THEMIS_WARN("OneAPI: GPU selector failed, trying default device: {}", e.what());
+                queue_.emplace(sycl::default_selector_v);
             } catch (const std::string &e) {
-                std::cerr << "OneAPI: GPU selector failed, trying default device: " << e << "\n";
-                queue_ = new sycl::queue(sycl::default_selector_v);
+                THEMIS_WARN("OneAPI: GPU selector failed, trying default device: {}", e);
+                queue_.emplace(sycl::default_selector_v);
             } catch (const char *e) {
-                std::cerr << "OneAPI: GPU selector failed, trying default device: "
-                          << (e ? e : "<null>") << "\n";
-                queue_ = new sycl::queue(sycl::default_selector_v);
+                THEMIS_WARN("OneAPI: GPU selector failed, trying default device: {}",
+                            (e ? e : "<null>"));
+                queue_.emplace(sycl::default_selector_v);
             }
-            
-            auto device = queue_->get_device();
-            auto platform = device.get_platform();
-            
-            std::cout << "OneAPI backend initialized successfully\n";
-            std::cout << "  Platform: " << platform.get_info<sycl::info::platform::name>() << "\n";
-            std::cout << "  Device: " << device.get_info<sycl::info::device::name>() << "\n";
-            std::cout << "  Max Compute Units: " << device.get_info<sycl::info::device::max_compute_units>() << "\n";
-            std::cout << "  Max Work Group Size: " << device.get_info<sycl::info::device::max_work_group_size>() << "\n";
-            
+
+            const auto device   = queue_->get_device();
+            const auto platform = device.get_platform();
+
+            THEMIS_INFO("OneAPI backend initialized successfully");
+            THEMIS_INFO("  Platform: {}", platform.get_info<sycl::info::platform::name>());
+            THEMIS_INFO("  Device: {}", device.get_info<sycl::info::device::name>());
+            THEMIS_INFO("  Max Compute Units: {}",
+                        device.get_info<sycl::info::device::max_compute_units>());
+            THEMIS_INFO("  Max Work Group Size: {}",
+                        device.get_info<sycl::info::device::max_work_group_size>());
+
             initialized_ = true;
             return true;
         } catch (const std::exception& e) {
-            std::cerr << "OneAPI: Initialization failed: " << e.what() << "\n";
+            THEMIS_ERROR("OneAPI: Initialization failed: {}", e.what());
+            queue_.reset();
             return false;
         }
     }
     
     void shutdown() override {
-        if (queue_) {
-            delete queue_;
-            queue_ = nullptr;
-        }
+        std::lock_guard<std::mutex> lk(lifecycle_mutex_);
+        queue_.reset();
         initialized_ = false;
     }
     
@@ -124,75 +129,83 @@ public:
         const float* vectors, size_t numVectors,
         size_t dimension, bool useL2) override 
     {
-        if (!initialized_ || !queue_) {
-            std::cerr << "OneAPI: Backend not initialized\n";
+        if (!initialized_ || !queue_.has_value()) {
+            THEMIS_ERROR("OneAPI: Backend not initialized");
             return {};
         }
         
         try {
-            size_t resultSize = numQueries * numVectors;
+            const size_t resultSize = numQueries * numVectors;
             std::vector<float> distances(resultSize);
-            
-            // Allocate device memory
-            float* d_queries = sycl::malloc_device<float>(numQueries * dimension, *queue_);
-            float* d_vectors = sycl::malloc_device<float>(numVectors * dimension, *queue_);
-            float* d_distances = sycl::malloc_device<float>(resultSize, *queue_);
-            
-            // Copy data to device
-            queue_->memcpy(d_queries, queries, numQueries * dimension * sizeof(float)).wait();
-            queue_->memcpy(d_vectors, vectors, numVectors * dimension * sizeof(float)).wait();
-            
-            // Launch kernel
-            if (useL2) {
-                // L2 Distance Kernel
-                queue_->parallel_for(sycl::range<2>(numQueries, numVectors),
-                    [=](sycl::id<2> idx) {
-                        size_t q = idx[0];
-                        size_t v = idx[1];
-                        
-                        float sum = 0.0f;
-                        for (size_t d = 0; d < dimension; d++) {
-                            float diff = d_queries[q * dimension + d] - d_vectors[v * dimension + d];
-                            sum += diff * diff;
-                        }
-                        
-                        d_distances[q * numVectors + v] = sycl::sqrt(sum);
-                    }).wait();
-            } else {
-                // Cosine Distance Kernel
-                queue_->parallel_for(sycl::range<2>(numQueries, numVectors),
-                    [=](sycl::id<2> idx) {
-                        size_t q = idx[0];
-                        size_t v = idx[1];
-                        
-                        float dotProduct = 0.0f;
-                        float normQ = 0.0f;
-                        float normV = 0.0f;
-                        
-                        for (size_t d = 0; d < dimension; d++) {
-                            float qVal = d_queries[q * dimension + d];
-                            float vVal = d_vectors[v * dimension + d];
-                            dotProduct += qVal * vVal;
-                            normQ += qVal * qVal;
-                            normV += vVal * vVal;
-                        }
-                        
-                        float cosineSim = dotProduct / (sycl::sqrt(normQ) * sycl::sqrt(normV) + 1e-8f);
-                        d_distances[q * numVectors + v] = 1.0f - cosineSim;
-                    }).wait();
+
+            sycl::queue& q = *queue_;
+
+            // Allocate USM device buffers; freed via RAII lambdas on scope exit.
+            float* d_queries   = sycl::malloc_device<float>(numQueries * dimension, q);
+            float* d_vectors   = sycl::malloc_device<float>(numVectors * dimension, q);
+            float* d_distances = sycl::malloc_device<float>(resultSize, q);
+
+            // Defer USM frees so they always run even on throw.
+            auto freeUSM = [&]() noexcept {
+                sycl::free(d_queries,   q);
+                sycl::free(d_vectors,   q);
+                sycl::free(d_distances, q);
+            };
+
+            try {
+                // Copy data to device; wait_and_throw() propagates SYCL async errors.
+                q.memcpy(d_queries, queries, numQueries * dimension * sizeof(float))
+                 .wait_and_throw();
+                q.memcpy(d_vectors, vectors, numVectors * dimension * sizeof(float))
+                 .wait_and_throw();
+
+                // Launch kernel
+                if (useL2) {
+                    q.parallel_for(sycl::range<2>(numQueries, numVectors),
+                        [=](sycl::id<2> idx) {
+                            const size_t qi = idx[0];
+                            const size_t vi = idx[1];
+                            float sum = 0.0f;
+                            for (size_t d = 0; d < dimension; d++) {
+                                const float diff = d_queries[qi * dimension + d]
+                                                 - d_vectors[vi * dimension + d];
+                                sum += diff * diff;
+                            }
+                            d_distances[qi * numVectors + vi] = sycl::sqrt(sum);
+                        }).wait_and_throw();
+                } else {
+                    q.parallel_for(sycl::range<2>(numQueries, numVectors),
+                        [=](sycl::id<2> idx) {
+                            const size_t qi = idx[0];
+                            const size_t vi = idx[1];
+                            float dotProduct = 0.0f;
+                            float normQ      = 0.0f;
+                            float normV      = 0.0f;
+                            for (size_t d = 0; d < dimension; d++) {
+                                const float qVal = d_queries[qi * dimension + d];
+                                const float vVal = d_vectors[vi * dimension + d];
+                                dotProduct += qVal * vVal;
+                                normQ      += qVal * qVal;
+                                normV      += vVal * vVal;
+                            }
+                            const float cosineSim = dotProduct
+                                / (sycl::sqrt(normQ) * sycl::sqrt(normV) + 1e-8f);
+                            d_distances[qi * numVectors + vi] = 1.0f - cosineSim;
+                        }).wait_and_throw();
+                }
+
+                // Copy results back
+                q.memcpy(distances.data(), d_distances, resultSize * sizeof(float))
+                 .wait_and_throw();
+            } catch (...) {
+                freeUSM();
+                throw;
             }
-            
-            // Copy results back
-            queue_->memcpy(distances.data(), d_distances, resultSize * sizeof(float)).wait();
-            
-            // Cleanup
-            sycl::free(d_queries, *queue_);
-            sycl::free(d_vectors, *queue_);
-            sycl::free(d_distances, *queue_);
-            
+
+            freeUSM();
             return distances;
         } catch (const std::exception& e) {
-            std::cerr << "OneAPI: Compute failed: " << e.what() << "\n";
+            THEMIS_ERROR("OneAPI: Compute failed: {}", e.what());
             return {};
         }
     }
