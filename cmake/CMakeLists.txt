@@ -2663,9 +2663,6 @@ set(THEMIS_CORE_SOURCES
     # shader_integrity.cpp uses only OpenSSL (SHA-256) — no GPU/graphics dependency.
     # Compiled unconditionally so ShaderIntegrityVerifier is always available.
     ../src/acceleration/shader_integrity.cpp
-    # kernel_registry.cpp — central kernel/shader dispatch catalog (issue #5382).
-    # No GPU runtime dependency; compiled unconditionally.
-    ../src/acceleration/kernel_registry.cpp
     # AI Hardware Dispatcher: universal AI-hardware abstraction layer
     # (Apple ANE, Intel NPU, Qualcomm QNN, ARM Ethos, NNAPI, ONNX Runtime, GPU fallback)
     ../src/acceleration/ai_hardware_dispatcher.cpp

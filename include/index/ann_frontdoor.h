@@ -73,14 +73,31 @@ enum class AnnStrategy : uint8_t {
 /**
  * @brief Logical scope classification for ANN registration and routing.
  *
- * The frontdoor treats adapters, packages, and shard summaries as first-class
- * ANN scopes. The kind influences routing decisions and the hot/cold plan.
+ * All six artifact classes named in the ANN Frontdoor contract are first-class
+ * scopes.  The kind is recorded in the retrieval plan and forwarded to the
+ * Tensor mid-layer as observability metadata.
+ *
+ * Routing influence:
+ * - ShardSummary: when shard_aware == true, routes to DISTRIBUTED.
+ * - Document, Chunk, Entity: use standard hot/cold routing; no special fanout.
+ * - Adapter, Package: use standard hot/cold routing; no special fanout.
+ * - Generic: same as Document/Chunk/Entity; use when scope is unknown.
  */
 enum class AnnScopeKind : uint8_t {
+    /// Unclassified or unknown artifact scope.
     Generic,
+    /// LoRA / AdaLoRA adapter embedding (adapter fingerprint).
     Adapter,
+    /// Knowledge package embedding (package fingerprint).
     Package,
+    /// Cross-shard summary embedding; eligible for distributed fan-out.
     ShardSummary,
+    /// Top-level document embedding (full-document vector).
+    Document,
+    /// Sub-document chunk embedding (passage / paragraph vector).
+    Chunk,
+    /// Knowledge-graph entity embedding.
+    Entity,
 };
 
 /**
@@ -258,6 +275,19 @@ struct AnnFrontdoorResult {
  * - Select the optimal ANN backend via planStrategy().
  * - Execute the search and return a ranked candidate list.
  * - Provide routing transparency (strategy_used, routing_reason).
+ *
+ * ### Supported ANN artifact classes (AnnScopeKind)
+ * The frontdoor supports all six artifact classes defined by the ANN Frontdoor
+ * contract:
+ *
+ * | Scope kind    | Typical scope_id prefix | Routing notes                      |
+ * |---------------|-------------------------|------------------------------------|
+ * | Document      | `doc:`                  | standard hot/cold routing          |
+ * | Chunk         | `chunk:`                | standard hot/cold routing          |
+ * | Entity        | `entity:`               | standard hot/cold routing          |
+ * | Adapter       | `adapter:`              | standard hot/cold routing          |
+ * | Package       | `pkg:`                  | standard hot/cold routing          |
+ * | ShardSummary  | `shard:`                | DISTRIBUTED when shard_aware=true  |
  *
  * ### Backend selection rules (in priority order)
  * 1. Scope-specific backend registered under context.scope_id (if set).
@@ -541,6 +571,24 @@ private:
         case AnnStrategy::FLAT_BRUTE_FORCE: return "FLAT_BRUTE_FORCE";
     }
     return "UNKNOWN";
+}
+
+/**
+ * @brief Returns the name of an AnnScopeKind as a C-string.
+ * @param k  Scope kind value.
+ * @return   Null-terminated string, e.g. "Document", "Chunk", "Entity".
+ */
+[[nodiscard]] constexpr const char* annScopeKindName(AnnScopeKind k) noexcept {
+    switch (k) {
+        case AnnScopeKind::Generic:      return "Generic";
+        case AnnScopeKind::Adapter:      return "Adapter";
+        case AnnScopeKind::Package:      return "Package";
+        case AnnScopeKind::ShardSummary: return "ShardSummary";
+        case AnnScopeKind::Document:     return "Document";
+        case AnnScopeKind::Chunk:        return "Chunk";
+        case AnnScopeKind::Entity:       return "Entity";
+    }
+    return "Unknown";
 }
 
 } // namespace index
