@@ -6,7 +6,17 @@
 #include <memory>
 #include <type_traits>
 #include <atomic>
+
+// Optional: spdlog is used for debug logging only
+// If spdlog is not available, logging calls are no-ops
+#ifdef THEMIS_HAS_SPDLOG
 #include <spdlog/spdlog.h>
+#else
+namespace spdlog {
+    inline void debug(const char*, ...) {}
+    inline void warn(const char*, ...) {}
+}
+#endif
 
 namespace themis::security {
 
