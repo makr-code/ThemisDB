@@ -303,58 +303,28 @@ size_t TwoPhaseCommitCoordinator::recoverInDoubtTransactions() {
 
     try {
         auto entries = wal_->readRange(wal_->getOldestLSN());
-
-        // Replay entries to rebuild coordinator state
-        std::map<std::string, CoordinatorTxnRecord> recovered;
-        std::map<std::string, bool>                 decisions; // txn_id → commit?
-
-        for (const auto& entry : entries) {
-            const std::string& txn_id = entry.transaction_id;
-            if (txn_id.empty()) continue;
-
-            if (entry.type == WALEntryType::BEGIN_TX) {
-                CoordinatorTxnRecord& rec  = recovered[txn_id];
-                rec.transaction_id         = txn_id;
-                rec.state                  = CoordinatorTxnState::ACTIVE;
-                rec.started_at             = std::chrono::steady_clock::now();
-            } else if (entry.type == WALEntryType::COMMIT_TX) {
-                auto phase = entry.data.value("phase", "");
-                if (phase == "complete") {
-                    if (recovered.count(txn_id)) {
-                        recovered[txn_id].state = CoordinatorTxnState::COMPLETED;
-                    }
-                } else {
-                    auto decision = entry.data.value("decision", "");
-                    if (decision == "commit") {
-                        decisions[txn_id] = true;
-                        if (recovered.count(txn_id))
-                            recovered[txn_id].state = CoordinatorTxnState::COMMIT_DECIDED;
-                    }
-                }
-            } else if (entry.type == WALEntryType::ABORT_TX) {
-                auto phase = entry.data.value("phase", "");
-                if (phase == "complete") {
-                    if (recovered.count(txn_id))
-                        recovered[txn_id].state = CoordinatorTxnState::COMPLETED;
-                } else {
-                    decisions[txn_id] = false;
-                    if (recovered.count(txn_id))
-                        recovered[txn_id].state = CoordinatorTxnState::ABORT_DECIDED;
-                }
-            }
-        }
+        const auto recovered =
+            themis::transaction::TwoPhaseCommitWALRecovery::reconstruct(entries);
 
         // Re-drive transactions that have a Phase 2 decision but are not COMPLETED
         // 2PC-1: use unique_lock so runPhase2 can release it around each RPC.
         std::unique_lock<std::timed_mutex> lock(mutex_);
-        for (auto& [txn_id, rec] : recovered) {
-            if (rec.state == CoordinatorTxnState::COMPLETED) {
+        for (const auto& [txn_id, replay_txn] : recovered) {
+            CoordinatorTxnRecord rec;
+            rec.transaction_id = txn_id;
+            rec.started_at = std::chrono::steady_clock::now();
+
+            for (const auto& shard_id : replay_txn.participantIds()) {
+                rec.shard_payloads.emplace(shard_id, std::string{});
+            }
+
+            if (replay_txn.completed) {
+                rec.state = CoordinatorTxnState::COMPLETED;
                 transactions_[txn_id] = rec;
                 continue;
             }
 
-            auto it = decisions.find(txn_id);
-            if (it == decisions.end()) {
+            if (!replay_txn.decision.has_value()) {
                 // No decision logged → abort conservatively and broadcast ABORT
                 // to release participants from PREPARED state (2PC-2 fix).
                 THEMIS_WARN("2PC coordinator [{}] in-doubt txn {} has no decision "
@@ -376,7 +346,7 @@ size_t TwoPhaseCommitCoordinator::recoverInDoubtTransactions() {
                 continue;
             }
 
-            const bool do_commit = it->second;
+            const bool do_commit = *replay_txn.decision;
             rec.state = do_commit
                 ? CoordinatorTxnState::COMMIT_DECIDED
                 : CoordinatorTxnState::ABORT_DECIDED;
@@ -409,75 +379,55 @@ size_t TwoPhaseCommitCoordinator::recoverInDoubtTransactions() {
     return resolved;
 }
 
-/**
- * @brief Return stable coordinator type name for global recovery reports.
- * @return "TwoPhaseCommitCoordinator".
- */
 std::string TwoPhaseCommitCoordinator::recoveryCoordinatorName() const {
     return "TwoPhaseCommitCoordinator";
 }
 
-/**
- * @brief Return name of the durable backend used by this coordinator.
- * @return "WAL" when a WAL directory is configured, "disabled" otherwise.
- */
 std::string TwoPhaseCommitCoordinator::recoveryBackendName() const {
     return wal_ ? "WAL" : "disabled";
 }
 
-/**
- * @brief Return normalized snapshot of non-final transactions for global recovery.
- *
- * Iterates the in-memory transaction map and maps each coordinator-local
- * CoordinatorTxnState to the canonical RecoverableTwoPhaseState.
- *
- * @return List of non-final (not COMPLETED) transactions.
- */
 std::vector<themis::transaction::RecoverableTwoPhaseTransaction>
 TwoPhaseCommitCoordinator::getRecoverableTransactions() const {
-    using themis::transaction::RecoverableTwoPhaseState;
-    using themis::transaction::RecoverableTwoPhaseTransaction;
+    std::vector<themis::transaction::RecoverableTwoPhaseTransaction> recoverable;
 
     std::lock_guard<std::timed_mutex> lock(mutex_);
-
-    std::vector<RecoverableTwoPhaseTransaction> result;
+    recoverable.reserve(transactions_.size());
     for (const auto& [txn_id, rec] : transactions_) {
         if (rec.state == CoordinatorTxnState::COMPLETED) {
             continue;
         }
 
-        RecoverableTwoPhaseTransaction rt;
-        rt.transaction_id = txn_id;
-
+        themis::transaction::RecoverableTwoPhaseTransaction tx;
+        tx.transaction_id = txn_id;
         switch (rec.state) {
-        case CoordinatorTxnState::ACTIVE:
-            rt.state = RecoverableTwoPhaseState::ACTIVE;
-            break;
-        case CoordinatorTxnState::PREPARING:
-            rt.state = RecoverableTwoPhaseState::PREPARING;
-            break;
-        case CoordinatorTxnState::COMMIT_DECIDED:
-            rt.state             = RecoverableTwoPhaseState::COMMITTING;
-            rt.decision_recorded = true;
-            rt.decision_commit   = true;
-            break;
-        case CoordinatorTxnState::ABORT_DECIDED:
-            rt.state             = RecoverableTwoPhaseState::ABORTING;
-            rt.decision_recorded = true;
-            rt.decision_commit   = false;
-            break;
-        case CoordinatorTxnState::FAILED:
-            rt.state = RecoverableTwoPhaseState::FAILED;
-            break;
-        default:
-            rt.state = RecoverableTwoPhaseState::UNKNOWN;
-            break;
+            case CoordinatorTxnState::ACTIVE:
+                tx.state = themis::transaction::RecoverableTwoPhaseState::ACTIVE;
+                break;
+            case CoordinatorTxnState::PREPARING:
+                tx.state = themis::transaction::RecoverableTwoPhaseState::PREPARING;
+                break;
+            case CoordinatorTxnState::COMMIT_DECIDED:
+                tx.state = themis::transaction::RecoverableTwoPhaseState::COMMITTING;
+                tx.decision_recorded = true;
+                tx.decision_commit = true;
+                break;
+            case CoordinatorTxnState::ABORT_DECIDED:
+                tx.state = themis::transaction::RecoverableTwoPhaseState::ABORTING;
+                tx.decision_recorded = true;
+                tx.decision_commit = false;
+                break;
+            case CoordinatorTxnState::FAILED:
+                tx.state = themis::transaction::RecoverableTwoPhaseState::FAILED;
+                break;
+            case CoordinatorTxnState::COMPLETED:
+                tx.state = themis::transaction::RecoverableTwoPhaseState::COMPLETED;
+                break;
         }
-
-        result.push_back(std::move(rt));
+        recoverable.push_back(std::move(tx));
     }
 
-    return result;
+    return recoverable;
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
