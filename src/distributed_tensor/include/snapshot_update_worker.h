@@ -46,6 +46,9 @@
 #include "src/distributed_tensor/include/artifact_manifest.h"
 #include "src/distributed_tensor/include/tensor_delta_log.h"
 #include "src/distributed_tensor/include/manifest_store.h"
+#include "src/distributed_tensor/include/crash_recovery_checkpoint.h"
+#include "src/distributed_tensor/include/distributed_lock_manager.h"
+#include "src/distributed_tensor/include/stale_artifact_detector.h"
 #include <string>
 #include <memory>
 #include <vector>
@@ -255,6 +258,54 @@ class SnapshotBasedUpdateWorker {
   /// @param checkpoint_path Path to store checkpoint files
   void setCheckpointPath(const std::string& checkpoint_path);
 
+  /// Sets the lock manager for distributed locking.
+  /// @param lock_manager Shared lock manager instance
+  void setLockManager(std::shared_ptr<DistributedLockManager> lock_manager);
+
+  /// Sets the stale artifact detector.
+  /// @param detector Shared detector instance
+  void setStaleArtifactDetector(std::shared_ptr<StaleArtifactDetector> detector);
+
+  /// Recovers from a crash by loading checkpoint.
+  /// @param artifact_id Artifact to recover
+  /// @return true if recovery was successful or no checkpoint exists, false on error
+  virtual bool recoverFromCheckpoint(const std::string& artifact_id);
+
+  /// Saves a checkpoint before starting long-running operation.
+  /// @param artifact_id Artifact being processed
+  /// @param task Update task being executed
+  /// @return true on success, false on error
+  virtual bool saveCheckpoint(const std::string& artifact_id, const UpdateTask& task);
+
+  /// Acquires exclusive lock for artifact update.
+  /// @param artifact_id Artifact to lock
+  /// @param lock_reason Reason for the lock (e.g., "partial_refit", "rebuild")
+  /// @param ttl_seconds Time-to-live for lock in seconds
+  /// @return true if lock acquired, false otherwise
+  virtual bool acquireUpdateLock(const std::string& artifact_id,
+                                 const std::string& lock_reason = "",
+                                 int64_t ttl_seconds = 3600);
+
+  /// Releases a lock for an artifact.
+  /// @param artifact_id Artifact to unlock
+  /// @return true on success, false otherwise
+  virtual bool releaseUpdateLock(const std::string& artifact_id);
+
+  /// Renews a lock during long-running updates.
+  /// @param artifact_id Artifact whose lock to renew
+  /// @param ttl_seconds New time-to-live
+  /// @return true on success, false otherwise
+  virtual bool renewUpdateLock(const std::string& artifact_id, int64_t ttl_seconds = 3600);
+
+  /// Detects and handles stale artifacts.
+  /// @param artifact_id Artifact to check
+  /// @param current_manifest Current manifest state
+  /// @param current_source_seq Current sequence number in exact graph
+  /// @return Staleness metrics
+  virtual StaleArtifactMetrics detectStaleness(const std::string& artifact_id,
+                                               const ArtifactManifest& current_manifest,
+                                               uint64_t current_source_seq);
+
  protected:
   UpdateWorkerState state_ = UpdateWorkerState::IDLE;
   Stats stats_;
@@ -262,6 +313,10 @@ class SnapshotBasedUpdateWorker {
   double refit_threshold_pct_ = 50.0;
   double residual_max_increase_allowed_ = 0.05;
   std::string checkpoint_path_;
+  std::unique_ptr<CrashRecoveryCheckpoint> checkpoint_manager_;
+  std::shared_ptr<DistributedLockManager> lock_manager_;
+  std::shared_ptr<StaleArtifactDetector> stale_detector_;
+  std::string worker_id_;  // Unique worker identifier for locking
 
   /// Internal helper to check if rank cap would be breached.
   bool wouldBreachRankCap(const ArtifactManifest& manifest, const DeltaWindow& delta_window);
