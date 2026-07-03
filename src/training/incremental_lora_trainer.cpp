@@ -23,10 +23,8 @@
 #include "training/lora_checkpoint_manager.h"
 #include "llm/prompt_safety_utils.h"
 #include "utils/checksum_utils.h"
-#include "utils/logger.h"
 #include <nlohmann/json.hpp>
 #include <algorithm>
-#include <atomic>
 #include <unordered_set>
 #include <cerrno>
 #include <chrono>
@@ -229,16 +227,6 @@ public:
     // Phase 3: Training implementation
     // -------------------------------------------------------------------------
     TrainingResult train(TrainingMode mode, TrainingCallback callback) {
-        // Fail-closed concurrency guard: train() is not thread-safe.
-        // Reject any call that arrives while a training run is already in progress.
-        if (training_active_.exchange(true)) {
-            TrainingResult early;
-            early.success = false;
-            early.error_message = "concurrent train() call rejected";
-            THEMIS_ERROR("IncrementalLoRATrainer: concurrent train() call rejected (not thread-safe)");
-            return early;
-        }
-
         TrainingResult result;
         auto start_time = std::chrono::steady_clock::now();
 
@@ -249,7 +237,6 @@ public:
                                             sanitized_collection_name,
                                             &blocked_rule,
                                             &blocked_reason)) {
-            training_active_.store(false);
             result.success = false;
             result.error_message =
                 "Training input blocked by prompt policy rule '" + blocked_rule + "': " + blocked_reason;
@@ -377,8 +364,6 @@ public:
             std::chrono::duration<double>(end_time - start_time).count();
         metrics_.total_elapsed_seconds = result.training_time_seconds;
 
-        // Release concurrency guard before returning on all paths.
-        training_active_.store(false);
         return result;
     }
 
@@ -837,36 +822,29 @@ public:
         if (!ok) {
             return DeployResult::fail("version_not_found");
         }
-        // Propagate to LLM router when available.
-        // router_mutex_ and version_registry_mutex_ are NEVER held simultaneously
-        // to prevent lock-order inversion / deadlock (gap-scanner finding).
-        // The failure reason is captured inside router_mutex_, then the registry
-        // revert is performed afterward under version_registry_mutex_ alone.
-        std::string router_failure;
+        // Propagate to LLM router when available
         {
             try {
                 std::lock_guard<std::mutex> lk(router_mutex_);
                 if (llm_router_) {
                     if (!llm_router_->isAvailable()) {
-                        router_failure = "router_unavailable";
-                    } else {
-                        const bool weight_set =
-                            llm_router_->setAdapterWeight(adapter_version, traffic_split);
-                        if (!weight_set) {
-                            router_failure = "router_update_failed";
-                        }
+                        std::lock_guard<std::mutex> version_lock(version_registry_mutex_);
+                        version_registry_ = previous_registry;
+                        return DeployResult::fail("router_unavailable");
+                    }
+                    const bool weight_set =
+                        llm_router_->setAdapterWeight(adapter_version, traffic_split);
+                    if (!weight_set) {
+                        std::lock_guard<std::mutex> version_lock(version_registry_mutex_);
+                        version_registry_ = previous_registry;
+                        return DeployResult::fail("router_update_failed");
                     }
                 }
             } catch (...) {
-                router_failure = "router_update_failed";
+                std::lock_guard<std::mutex> version_lock(version_registry_mutex_);
+                version_registry_ = previous_registry;
+                return DeployResult::fail("router_update_failed");
             }
-        }
-        if (!router_failure.empty()) {
-            THEMIS_ERROR("IncrementalLoRATrainer: router update failed during deploy ({}); "
-                         "version registry reverted", router_failure);
-            std::lock_guard<std::mutex> version_lock(version_registry_mutex_);
-            version_registry_ = previous_registry;
-            return DeployResult::fail(router_failure);
         }
         return DeployResult::ok(adapter_version, traffic_split);
     }
@@ -887,34 +865,27 @@ public:
         if (!ok) {
             return DeployResult::fail("version_not_found");
         }
-        // Propagate to LLM router when available.
-        // router_mutex_ and version_registry_mutex_ are NEVER held simultaneously
-        // to prevent lock-order inversion / deadlock (gap-scanner finding).
-        std::string router_failure;
         {
             try {
                 std::lock_guard<std::mutex> lk(router_mutex_);
                 if (llm_router_) {
                     if (!llm_router_->isAvailable()) {
-                        router_failure = "router_unavailable";
-                    } else {
-                        const bool weight_set =
-                            llm_router_->setAdapterWeight(target_version, 1.0f);
-                        if (!weight_set) {
-                            router_failure = "router_update_failed";
-                        }
+                        std::lock_guard<std::mutex> version_lock(version_registry_mutex_);
+                        version_registry_ = previous_registry;
+                        return DeployResult::fail("router_unavailable");
+                    }
+                    const bool weight_set = llm_router_->setAdapterWeight(target_version, 1.0f);
+                    if (!weight_set) {
+                        std::lock_guard<std::mutex> version_lock(version_registry_mutex_);
+                        version_registry_ = previous_registry;
+                        return DeployResult::fail("router_update_failed");
                     }
                 }
             } catch (...) {
-                router_failure = "router_update_failed";
+                std::lock_guard<std::mutex> version_lock(version_registry_mutex_);
+                version_registry_ = previous_registry;
+                return DeployResult::fail("router_update_failed");
             }
-        }
-        if (!router_failure.empty()) {
-            THEMIS_ERROR("IncrementalLoRATrainer: router update failed during rollback ({}); "
-                         "version registry reverted", router_failure);
-            std::lock_guard<std::mutex> version_lock(version_registry_mutex_);
-            version_registry_ = previous_registry;
-            return DeployResult::fail(router_failure);
         }
         return DeployResult::ok(target_version, 1.0f);
     }
@@ -925,10 +896,6 @@ public:
     size_t checkpoint_steps_;
     std::map<std::string, VersionRecord> version_registry_;
     mutable std::mutex version_registry_mutex_; ///< Protects version_registry_ reads/writes
-
-    /// Fail-closed concurrency guard: set to true while train() is executing.
-    /// A concurrent train() call is immediately rejected (not thread-safe by design).
-    std::atomic<bool> training_active_{false};
 
     // LLM inference router for adapter serving integration (non-owning, may be null)
     ILLMRouter* llm_router_ = nullptr;
@@ -1673,17 +1640,13 @@ public:
             }
         }
 
-        // Try path as a metadata file directly (legacy format, pre-v2.0).
-        // LEGACY PATH: retained for backward compatibility with checkpoints saved before
-        // the _metadata.txt suffix was introduced.  Emits a warning to encourage migration.
+        // Try path as a metadata file directly (legacy format)
         {
             std::ifstream f(path);
             if (f.is_open()) {
                 std::string data((std::istreambuf_iterator<char>(f)),
                                   std::istreambuf_iterator<char>());
                 if (checkpoint::parseMetadata(data, version, epoch, step, loss, accuracy, error_reason)) {
-                    THEMIS_WARN("IncrementalLoRATrainer: loaded checkpoint using legacy path format '{}'; "
-                                "please re-save using current checkpoint format (add _metadata.txt suffix)", path);
                     return true;
                 }
             }

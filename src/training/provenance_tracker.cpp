@@ -31,7 +31,6 @@
 #include <functional>
 #include <sstream>
 #include <stdexcept>
-#include <map>
 #include <unordered_map>
 
 namespace themis {
@@ -94,14 +93,6 @@ public:
         const bool has_timeout = config_.write_timeout_ms > 0;
         const auto deadline = t0 + std::chrono::milliseconds(config_.write_timeout_ms);
 
-        // Per-record helper: returns false when the write deadline has passed.
-        // Checked before every individual executeAql() call so that a single
-        // slow network write cannot block indefinitely beyond the configured
-        // per-operation window (gap-scanner finding: no_timeout on file I/O).
-        auto shouldContinue = [&]() -> bool {
-            return !has_timeout || std::chrono::steady_clock::now() < deadline;
-        };
-
         size_t batch_start = 0;
         while (batch_start < records.size()) {
             // Enforce write deadline before starting each batch.
@@ -136,13 +127,7 @@ public:
                     nlohmann::json fingerprints_arr(rec.enrichment_query_fingerprints);
                     std::string fingerprints_json = fingerprints_arr.dump();
 
-                    // Build and execute the vertex INSERT; bail out early when
-                    // the write deadline has already elapsed (per-AQL timeout guard).
-                    if (!shouldContinue()) {
-                        stats.records_rejected += (batch_end - i);
-                        batch_start = batch_end;
-                        break;
-                    }
+                    // Build and execute the vertex INSERT
                     std::string vertex_query = buildQuery(
                         provenance_aql::INSERT_SAMPLE_VERTEX,
                         {
@@ -163,12 +148,6 @@ public:
 
                     // Insert the DerivedFrom edge only when a source URN is available
                     if (!rec.source_doc_urn.empty()) {
-                        // Check deadline again before the second AQL call
-                        if (!shouldContinue()) {
-                            stats.records_rejected += (batch_end - i);
-                            batch_start = batch_end;
-                            break;
-                        }
                         std::string edge_query = buildQuery(
                             provenance_aql::INSERT_DERIVED_FROM_EDGE,
                             {
@@ -371,7 +350,7 @@ private:
     ProvenanceTrackerConfig                           config_;
     std::string                                       db_connection_;
     query::QueryEngine*                               query_engine_;   ///< non-owning; nullptr = offline/test
-    std::map<std::string, ProvenanceRecord>               store_;
+    std::unordered_map<std::string, ProvenanceRecord> store_;
     std::vector<std::string>                          audit_log_;
 
     // Build an AQL query string from a template by substituting @placeholder tokens.

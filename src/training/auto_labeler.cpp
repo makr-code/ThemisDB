@@ -450,8 +450,7 @@ private:
 
     std::vector<std::string> fetchAllDocumentIdsDirect() const {
         std::vector<std::string> ids;
-        auto docs = fetchAllDocumentsDirect();
-        for (const auto& entity : docs) {
+        for (const auto& entity : fetchAllDocumentsDirect()) {
             auto text = entity.getFieldAsString("text");
             if (text.has_value() && !text->empty()) {
                 ids.push_back(entity.getPrimaryKey());
@@ -484,8 +483,7 @@ private:
         const std::string filter_field = has_filter ? match[3].str() : std::string{};
         const std::string filter_value = has_filter ? match[4].str() : std::string{};
 
-        auto docs = fetchAllDocumentsDirect();
-        for (const auto& entity : docs) {
+        for (const auto& entity : fetchAllDocumentsDirect()) {
             if (has_filter) {
                 auto field_value = entity.getFieldAsString(filter_field);
                 if (!field_value.has_value() || *field_value != filter_value) {
@@ -570,8 +568,7 @@ private:
                 }
             }
 
-            auto direct_docs = fetchAllDocumentsDirect();
-            for (const auto& entity : direct_docs) {
+            for (const auto& entity : fetchAllDocumentsDirect()) {
                 if (entity.getPrimaryKey() != document_id) {
                     continue;
                 }
