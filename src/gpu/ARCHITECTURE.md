@@ -1,6 +1,6 @@
 # Architecture - GPU Module
 
-<!-- Status: current | validated: 2026-06-30 -->
+<!-- Status: current | validated: 2026-05-31 -->
 <!-- Links: README.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
 
 ## Overview
@@ -25,45 +25,6 @@ The GPU module composes resource governance, backend abstraction, execution orch
 - circuit-breaker fallback and degraded-mode behavior
 - metrics/profiling/admin operational observability surfaces
 
-## Unified GPU Memory Manager Hierarchy
-
-All GPU memory managers in ThemisDB share a consolidated `IVRAMPolicy` interface
-(`include/themis/gpu/ivram_policy.h`) so that edition limits, tenant quotas, and OOM
-handling are enforced at a single control point.
-
-```
-IVRAMPolicy  (themis::gpu)
-└── GPUMemoryManager   — canonical singleton, edition-aware
-    ├── themis::llm::GPUMemoryManager   — multi-model/multi-GPU LLM serving manager
-    │   delegates allocateGPU() / freeGPU() / freeModel() through canonical policy
-    └── themis::llm::lora::VRAMAllocator — LoRA training VRAM allocator
-        delegates allocate() / deallocate() through canonical policy (GPU backends only)
-```
-
-### Delegation Contract
-
-- Every GPU allocation in `themis::llm::GPUMemoryManager` is pre-checked via
-  `themis::gpu::GPUMemoryManager::TryAllocateGPU()`.  On physical allocation failure
-  the canonical reservation is undone via `DeallocateGPU()`.
-- Every GPU deallocation in `themis::llm::GPUMemoryManager` calls
-  `themis::gpu::GPUMemoryManager::DeallocateGPU()` to keep global accounting consistent.
-- `themis::llm::lora::VRAMAllocator` applies the same gate for GPU backends (CUDA, HIP,
-  Vulkan, DirectX, ROCm, ZLUDA).  CPU-backed allocators skip the policy check.
-- The canonical manager is a no-op gate when `isGPUEnabled()` returns false (e.g.
-  Community edition with a 0 GB VRAM limit), preserving backward compatibility.
-
-### Tenant Isolation
-
-Tenant VRAM quotas are registered on the canonical `GPUMemoryManager` singleton via
-`SetTenantQuota(tenant_id, quota_bytes)`.  All subsystem managers that delegate through
-the canonical gate automatically inherit this quota enforcement.
-
-### OOM Policy
-
-The canonical `GPUMemoryManager::canAllocate()` / `TryAllocateGPU()` methods fail fast
-(return `false`) instead of throwing, providing deterministic OOM signaling.  Subsystem
-managers map this to `nullptr` returns or error-log paths as appropriate.
-
 ## Core Contracts
 
 | Contract | Behavior |
@@ -84,8 +45,6 @@ managers map this to `nullptr` returns or error-log paths as appropriate.
 - Verified files:
   - src/gpu/gpu_module.cpp
   - src/gpu/gpu_memory_manager_edition.cpp
-  - include/themis/gpu/ivram_policy.h
-  - include/themis/gpu/memory_manager.h
   - src/gpu/device_discovery.cpp
   - src/gpu/stream_manager.cpp
   - src/gpu/launcher.cpp
@@ -94,10 +53,7 @@ managers map this to `nullptr` returns or error-log paths as appropriate.
   - src/gpu/rocm_backend.cpp
   - src/gpu/vulkan_backend.cpp
   - src/gpu/p2p_transfer.cpp
-  - src/llm/gpu_memory_manager.cpp
-  - src/llm/lora_framework/vram_allocator.cpp
 - Verified architecture claims:
   - explicit resource/backend/execution/operations planes
   - deterministic fallback/degraded behavior boundaries
   - module-local ownership of GPU orchestration surfaces
-  - unified IVRAMPolicy hierarchy across namespaces

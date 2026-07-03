@@ -26,13 +26,12 @@
 #include <unordered_map>
 #include <vector>
 #include "themis/edition.h"
-#include "themis/gpu/ivram_policy.h"
 
 namespace themis {
 namespace gpu {
 
 /**
- * @brief Edition-aware GPU VRAM memory manager — canonical `IVRAMPolicy` implementation.
+ * @brief Edition-aware GPU VRAM memory manager.
  *
  * Enforces per-edition VRAM limits at runtime.  All limits are set at
  * compile-time via CMakeLists.txt (-DTHEMIS_EDITION).  The manager tracks
@@ -44,16 +43,8 @@ namespace gpu {
  * both the global edition limit and the per-tenant quota.
  *
  * Thread safety: all public methods are protected by an internal mutex.
- *
- * ### Unified hierarchy role
- *
- * This class is the **canonical** `IVRAMPolicy` implementation for the
- * ThemisDB GPU memory hierarchy.  Subsystem managers (e.g.,
- * `themis::llm::GPUMemoryManager`, `themis::llm::lora::GPUMemoryManager`)
- * delegate their allocation accounting to the singleton instance so that
- * global VRAM budgets and per-tenant quotas are enforced at a single point.
  */
-class GPUMemoryManager : public IVRAMPolicy {
+class GPUMemoryManager {
 public:
     // -----------------------------------------------------------------------
     // Allocation record — one entry per successful TryAllocateGPU() call
@@ -223,50 +214,6 @@ public:
 
     /** @brief Total bytes currently held by outstanding hints. */
     uint64_t GetHintReservedBytes() const;
-
-    // -----------------------------------------------------------------------
-    // IVRAMPolicy implementation
-    // -----------------------------------------------------------------------
-
-    /**
-     * @brief Check if @p size_bytes can be allocated (IVRAMPolicy contract).
-     *
-     * Equivalent to a non-committing TryAllocateGPU() probe: checks the
-     * global edition VRAM limit and the per-tenant quota (when tenant_id is
-     * non-empty) without modifying any state.
-     */
-    [[nodiscard]] bool canAllocate(uint64_t size_bytes,
-                                   const std::string& tenant_id = "") const override;
-
-    /**
-     * @brief Record a successful allocation (IVRAMPolicy contract).
-     *
-     * Updates the global and per-tenant accounting as if TryAllocateGPU()
-     * had been called.  Use this when physical memory is allocated outside
-     * the manager but its VRAM footprint must be tracked here.
-     */
-    void onAllocate(uint64_t size_bytes,
-                    const std::string& tag,
-                    const std::string& tenant_id = "") override;
-
-    /**
-     * @brief Record a deallocation (IVRAMPolicy contract).
-     *
-     * Decrements global and per-tenant accounting.
-     */
-    void onDeallocate(uint64_t size_bytes,
-                      const std::string& tenant_id = "") override;
-
-    /**
-     * @brief Return currently tracked VRAM usage (IVRAMPolicy contract).
-     */
-    [[nodiscard]] uint64_t usedBytes() const override;
-
-    /**
-     * @brief Return true when the current edition allows GPU acceleration
-     *        (IVRAMPolicy contract).
-     */
-    [[nodiscard]] bool isGPUEnabled() const noexcept override;
 
     // -----------------------------------------------------------------------
     // Queries

@@ -6,7 +6,7 @@
 
 ## Current Status
 
-Production GPU runtime exists across device discovery, allocation/governance, backend execution, stream/launcher orchestration, fallback management, and accelerated query/training paths.  The GPU memory manager hierarchy has been consolidated under a unified `IVRAMPolicy` interface (issue #5385).
+Production GPU runtime exists across device discovery, allocation/governance, backend execution, stream/launcher orchestration, fallback management, and accelerated query/training paths.
 
 ## In Progress
 
@@ -54,7 +54,6 @@ Production GPU runtime exists across device discovery, allocation/governance, ba
 ### Phase 6: Documentation and Acceptance
 - [x] core GPU module docs aligned to source-verifiable behavior
 - [x] roadmap/future planning separated from historical changelog entries
-- [x] unified GPU memory manager hierarchy (IVRAMPolicy) — architecture docs updated (issue #5385)
 
 ## Production Readiness Checklist
 

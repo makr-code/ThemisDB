@@ -76,49 +76,6 @@ bool GPUMemoryManager::TryAllocateUnderLock(uint64_t size_bytes, const std::stri
 }
 
 // ============================================================================
-// IVRAMPolicy implementation
-// ============================================================================
-
-bool GPUMemoryManager::canAllocate(uint64_t size_bytes, const std::string &tenant_id) const {
-    std::lock_guard<std::mutex> lock(mutex_);
-    const uint64_t max_vram  = GetMaxGPUVRAMBytes();
-    const uint64_t new_total = gpu_memory_allocated_ + hint_reserved_bytes_ + size_bytes;
-    if (new_total > max_vram) {
-        return false;
-    }
-    if (!tenant_id.empty()) {
-        auto it = tenant_states_.find(tenant_id);
-        if (it != tenant_states_.end() && it->second.quota_bytes > 0) {
-            if (it->second.allocated_bytes + size_bytes > it->second.quota_bytes) {
-                return false;
-            }
-        }
-    }
-    return true;
-}
-
-void GPUMemoryManager::onAllocate(uint64_t size_bytes, const std::string &tag, const std::string &tenant_id) {
-    std::lock_guard<std::mutex> lock(mutex_);
-    TryAllocateUnderLock(size_bytes, tag, tenant_id);
-}
-
-void GPUMemoryManager::onDeallocate(uint64_t size_bytes, const std::string &tenant_id) {
-    if (tenant_id.empty()) {
-        DeallocateGPU(size_bytes);
-    } else {
-        DeallocateGPU(size_bytes, tenant_id);
-    }
-}
-
-uint64_t GPUMemoryManager::usedBytes() const {
-    return GetGPUMemoryUsed();
-}
-
-bool GPUMemoryManager::isGPUEnabled() const noexcept {
-    return IsGPUAccelerationEnabled();
-}
-
-// ============================================================================
 // Tenant quota management
 // ============================================================================
 
