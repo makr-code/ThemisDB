@@ -6029,27 +6029,6 @@ MultiRegionActiveActiveManager::write(
     ConsistencyLevel   consistency,
     const std::string& /*session_token*/)
 {
-    // Apply per-collection consistency override when configured.
-    const ConsistencyLevel effective = getEffectiveConsistency(collection);
-    if (effective != config_.default_consistency) {
-        consistency = effective;
-    }
-
-    // Leader-region fencing: STRONG writes are only accepted by the designated
-    // leader region to prevent split-brain lost-update scenarios.
-    if (consistency == ConsistencyLevel::STRONG &&
-        !config_.leader_region_id.empty() &&
-        config_.local_region_id != config_.leader_region_id) [[unlikely]] {
-        ++leader_write_rejections_;
-        THEMIS_WARN("MultiRegionActiveActive: STRONG write rejected – "
-                    "local_region={} is not the leader_region={}; "
-                    "route this write to the leader region for linearisable guarantees",
-                    config_.local_region_id, config_.leader_region_id);
-        WriteResult rejected;
-        rejected.success   = false;
-        rejected.region_id = config_.local_region_id;
-        return rejected;
-    }
 
     uint64_t seq = ++local_sequence_;
     ++writes_total_;
@@ -6070,8 +6049,6 @@ MultiRegionActiveActiveManager::write(
     result.region_id        = config_.local_region_id;
     result.sequence_number  = seq;
     result.session_token    = generateSessionToken(seq);
-    result.is_leader_region = config_.leader_region_id.empty() ||
-                              (config_.local_region_id == config_.leader_region_id);
 
     THEMIS_INFO("MultiRegionActiveActive: write seq={} region={} consistency={}",
                 seq, config_.local_region_id, static_cast<int>(consistency));
@@ -6085,11 +6062,6 @@ MultiRegionActiveActiveManager::read(
     ConsistencyLevel   consistency,
     const std::string& session_token)
 {
-    // Apply per-collection consistency override when configured.
-    const ConsistencyLevel effective = getEffectiveConsistency(collection);
-    if (effective != config_.default_consistency) {
-        consistency = effective;
-    }
 
     ++reads_total_;
 
@@ -6236,32 +6208,6 @@ void MultiRegionActiveActiveManager::updateRegionStaleness(
                                staleness_ms <= static_cast<int64_t>(config_.max_staleness_ms) * 2);
 }
 
-ConsistencyLevel MultiRegionActiveActiveManager::getEffectiveConsistency(
-    const std::string& collection) const
-{
-    auto it = config_.collection_consistency_overrides.find(collection);
-    if (it != config_.collection_consistency_overrides.end()) {
-        return it->second;
-    }
-    return config_.default_consistency;
-}
-
-bool MultiRegionActiveActiveManager::isSplitBrain() const
-{
-    if (!config_.split_brain_detection_enabled) return false;
-    if (config_.peer_region_ids.empty()) return false;
-
-    std::shared_lock<std::shared_mutex> lock(staleness_mutex_);
-    for (const auto& peer_id : config_.peer_region_ids) {
-        auto it = region_staleness_.find(peer_id);
-        if (it != region_staleness_.end() && it->second.is_healthy) {
-            return false; // At least one peer is healthy — no split-brain
-        }
-    }
-    // All configured peers are unhealthy: potential network partition
-    return true;
-}
-
 std::string MultiRegionActiveActiveManager::exportPrometheusMetrics() const {
     std::ostringstream oss;
     const auto& r = config_.local_region_id;
@@ -6300,11 +6246,6 @@ std::string MultiRegionActiveActiveManager::exportPrometheusMetrics() const {
         << "# TYPE themisdb_mraaa_eventual_reads_total counter\n"
         << "themisdb_mraaa_eventual_reads_total{region=\"" << r << "\"} "
         << eventual_reads_.load() << "\n\n";
-
-    oss << "# HELP themisdb_mraaa_leader_write_rejections_total STRONG writes rejected because local is not the leader region\n"
-        << "# TYPE themisdb_mraaa_leader_write_rejections_total counter\n"
-        << "themisdb_mraaa_leader_write_rejections_total{region=\"" << r << "\"} "
-        << leader_write_rejections_.load() << "\n\n";
 
     // Per-region staleness gauges
     {
