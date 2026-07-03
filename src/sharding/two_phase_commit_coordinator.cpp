@@ -42,6 +42,14 @@
 
 namespace themis::sharding {
 
+// ============================================================================
+// Sprint 8 Phase 1: Use-After-Move Safety (GAP B-1/B-2)
+// ============================================================================
+// Coordinator adapters are moved to owned_adapters_ map for lifetime management,
+// but raw pointers are stored in participants_ for O(1) lookup during 2PC operations.
+// This pattern ensures coordinator state survives moves through pipeline stages.
+// Pattern: Move unique_ptr to storage, access via raw pointer; safe reference semantics.
+
 // ─────────────────────────────────────────────────────────────────────────────
 // Constructor
 // ─────────────────────────────────────────────────────────────────────────────
@@ -110,7 +118,10 @@ void TwoPhaseCommitCoordinator::registerParticipantByEndpoint(
 ) {
     std::lock_guard<std::timed_mutex> lock(mutex_);
     auto adapter = std::make_unique<ShardRPCClientAdapter>(rpc_config);
-    participants_[shard_id] = adapter.get();
+    participants_[shard_id] = adapter.get();  // Sprint 8: Store raw pointer for O(1) lookup
+    // Sprint 8 Phase 1 (GAP B-1/B-2): Unique_ptr moved to owned_adapters_ for lifetime management.
+    // Raw pointer stored in participants_ for transaction phase access. Pattern: Move for storage,
+    // access via pointer; never access moved unique_ptr.
     owned_adapters_[shard_id] = std::move(adapter);
     THEMIS_DEBUG("2PC coordinator [{}] registered remote participant shard {} at {}",
                  coordinator_id_, shard_id, rpc_config.endpoint);
