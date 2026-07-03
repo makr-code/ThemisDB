@@ -32,8 +32,6 @@
 // Include the central directx context header which provides D3D includes and a ComPtr fallback
 #include "llm/lora_framework/directx_context.h"
 #include <iostream>
-#include <fstream>
-#include <filesystem>
 #include <vector>
 #include <algorithm>
 #include <queue>
@@ -76,93 +74,80 @@ namespace acceleration {
     } while(0)
 
 // ============================================================================
-// Shader file-loading utilities
+// HLSL Compute Shaders (embedded as source strings, compiled at runtime)
 // ============================================================================
 
-namespace {
+static const char* s_L2DistanceHLSL = R"HLSL(
+RWStructuredBuffer<float> queries  : register(u0);
+RWStructuredBuffer<float> vectors  : register(u1);
+RWStructuredBuffer<float> distances: register(u2);
 
-/**
- * @brief Probe candidate directories for a shader file with the given stem.
- *
- * Search order for each root:
- *   1. <root>/shaders/vector_index/<stem>.cso   (pre-compiled, preferred)
- *   2. <root>/shaders/vector_index/<stem>.hlsl
- *   3. <root>/bin/shaders/vector_index/<stem>.cso
- *   4. <root>/src/acceleration/directx/shaders/<stem>.cso
- *   5. <root>/src/acceleration/directx/shaders/<stem>.hlsl
- *
- * @param stem  Base file name without extension (e.g. "l2_distance").
- * @return Absolute path to the first matching file, or empty string if none found.
- */
-static std::string find_ann_shader_path(const std::string& stem)
+cbuffer Constants : register(b0)
 {
-    namespace fs = std::filesystem;
+    uint numQueries;
+    uint numVectors;
+    uint dim;
+    uint padding;
+};
 
-    // Build candidate roots: cwd + up to 4 parent directories
-    std::vector<fs::path> roots;
-    fs::path cur = fs::current_path();
-    for (int i = 0; i < 5 && cur.has_parent_path(); ++i) {
-        roots.push_back(cur);
-        cur = cur.parent_path();
-    }
-    // Also probe the directory containing the repository root (look for CMakeLists.txt)
-    fs::path probe = fs::current_path();
-    for (int i = 0; i < 8 && probe.has_parent_path(); ++i) {
-        if (fs::exists(probe / "CMakeLists.txt")) {
-            roots.push_back(probe);
-            break;
-        }
-        probe = probe.parent_path();
-    }
-
-    for (const auto& root : roots) {
-        std::vector<fs::path> candidates = {
-            root / "shaders" / "vector_index" / (stem + ".cso"),
-            root / "shaders" / "vector_index" / (stem + ".hlsl"),
-            root / "bin" / "shaders" / "vector_index" / (stem + ".cso"),
-            root / "src" / "acceleration" / "directx" / "shaders" / (stem + ".cso"),
-            root / "src" / "acceleration" / "directx" / "shaders" / (stem + ".hlsl"),
-        };
-        for (const auto& c : candidates) {
-            if (fs::exists(c)) {
-                return c.string();
-            }
-        }
-    }
-    return {};
-}
-
-/**
- * @brief Read a binary file into a byte vector.
- *
- * @param path  Absolute path to the file.
- * @return File contents, or empty vector on failure.
- */
-static std::vector<uint8_t> read_binary_file(const std::string& path)
+[numthreads(16, 16, 1)]
+void CSMain(uint3 DTid : SV_DispatchThreadID)
 {
-    std::ifstream f(path, std::ios::binary | std::ios::ate);
-    if (!f) return {};
-    auto size = static_cast<std::size_t>(f.tellg());
-    f.seekg(0);
-    std::vector<uint8_t> buf(size);
-    f.read(reinterpret_cast<char*>(buf.data()), static_cast<std::streamsize>(size));
-    return buf;
-}
+    uint qIdx = DTid.y;
+    uint vIdx = DTid.x;
+    if (qIdx >= numQueries || vIdx >= numVectors)
+        return;
 
-/**
- * @brief Read a text file into a string.
- *
- * @param path  Absolute path to the file.
- * @return File contents, or empty string on failure.
- */
-static std::string read_text_file(const std::string& path)
+    float sum = 0.0f;
+    uint qOff = qIdx * dim;
+    uint vOff = vIdx * dim;
+    for (uint i = 0; i < dim; ++i)
+    {
+        float d = queries[qOff + i] - vectors[vOff + i];
+        sum += d * d;
+    }
+    distances[qIdx * numVectors + vIdx] = sqrt(sum);
+}
+)HLSL";
+
+static const char* s_CosineDistanceHLSL = R"HLSL(
+RWStructuredBuffer<float> queries  : register(u0);
+RWStructuredBuffer<float> vectors  : register(u1);
+RWStructuredBuffer<float> distances: register(u2);
+
+cbuffer Constants : register(b0)
 {
-    std::ifstream f(path);
-    if (!f) return {};
-    return {std::istreambuf_iterator<char>(f), {}};
-}
+    uint numQueries;
+    uint numVectors;
+    uint dim;
+    uint padding;
+};
 
-} // anonymous namespace
+[numthreads(16, 16, 1)]
+void CSMain(uint3 DTid : SV_DispatchThreadID)
+{
+    uint qIdx = DTid.y;
+    uint vIdx = DTid.x;
+    if (qIdx >= numQueries || vIdx >= numVectors)
+        return;
+
+    float dot = 0.0f, normQ = 0.0f, normV = 0.0f;
+    uint qOff = qIdx * dim;
+    uint vOff = vIdx * dim;
+    for (uint i = 0; i < dim; ++i)
+    {
+        float q = queries[qOff + i];
+        float v = vectors[vOff + i];
+        dot   += q * v;
+        normQ += q * q;
+        normV += v * v;
+    }
+    float sim = (normQ > 1e-10f && normV > 1e-10f)
+        ? dot / (sqrt(normQ) * sqrt(normV))
+        : 0.0f;
+    distances[qIdx * numVectors + vIdx] = 1.0f - sim;
+}
+)HLSL";
 
 // ============================================================================
 // DirectXVectorBackend::DirectXVectorBackendImpl
@@ -473,10 +458,8 @@ private:
     // Compile HLSL shaders at runtime and create compute pipeline states
     // ------------------------------------------------------------------
     bool createComputePipelines() {
-        // Helper: create a pipeline state from an HLSL source string.
-        auto compilePipelineFromSource = [&](const std::string& hlsl,
-                                              const char*       debugName,
-                                              ComPtr<ID3D12PipelineState>& pso) -> bool {
+        auto compilePipeline = [&](const char* hlsl, const char* name,
+                                   ComPtr<ID3D12PipelineState>& pso) -> bool {
             ComPtr<ID3DBlob> shaderBlob, errorBlob;
             UINT flags = 0;
 #ifdef _DEBUG
@@ -484,68 +467,24 @@ private:
 #else
             flags = D3DCOMPILE_OPTIMIZATION_LEVEL3;
 #endif
-            HRESULT hr = D3DCompile(hlsl.c_str(), hlsl.size(), debugName,
+            HRESULT hr = D3DCompile(hlsl, strlen(hlsl), name,
                                     nullptr, nullptr, "CSMain", "cs_5_0",
                                     flags, 0, &shaderBlob, &errorBlob);
             if (FAILED(hr)) {
-                if (errorBlob)
-                    std::cerr << "[DirectX] Shader compile error (" << debugName << "): "
-                              << static_cast<char*>(errorBlob->GetBufferPointer()) << std::endl;
+                if (errorBlob) std::cerr << "[DirectX] Shader compile error (" << name << "): "
+                                         << static_cast<char*>(errorBlob->GetBufferPointer()) << std::endl;
                 return false;
             }
             D3D12_COMPUTE_PIPELINE_STATE_DESC psoDesc = {};
-            psoDesc.pRootSignature     = rootSignature_.Get();
-            psoDesc.CS.pShaderBytecode = shaderBlob->GetBufferPointer();
-            psoDesc.CS.BytecodeLength  = shaderBlob->GetBufferSize();
+            psoDesc.pRootSignature      = rootSignature_.Get();
+            psoDesc.CS.pShaderBytecode  = shaderBlob->GetBufferPointer();
+            psoDesc.CS.BytecodeLength   = shaderBlob->GetBufferSize();
             DX_CHECK(device_->CreateComputePipelineState(&psoDesc, IID_PPV_ARGS(&pso)));
             return true;
         };
 
-        // Helper: create a pipeline state from a pre-compiled .cso bytecode blob.
-        auto compilePipelineFromCSO = [&](const std::vector<uint8_t>& cso,
-                                           ComPtr<ID3D12PipelineState>& pso) -> bool {
-            D3D12_COMPUTE_PIPELINE_STATE_DESC psoDesc = {};
-            psoDesc.pRootSignature     = rootSignature_.Get();
-            psoDesc.CS.pShaderBytecode = cso.data();
-            psoDesc.CS.BytecodeLength  = cso.size();
-            DX_CHECK(device_->CreateComputePipelineState(&psoDesc, IID_PPV_ARGS(&pso)));
-            return true;
-        };
-
-        // Helper: load a pipeline from external files, trying .cso then .hlsl.
-        // The shader stem (e.g. "l2_distance") is resolved via find_ann_shader_path().
-        auto loadPipeline = [&](const char* stem,
-                                 ComPtr<ID3D12PipelineState>& pso) -> bool {
-            std::string path = find_ann_shader_path(stem);
-            if (path.empty()) {
-                std::cerr << "[DirectX] Shader file not found: " << stem
-                          << " (.cso or .hlsl). "
-                          << "Build the directx_vector_shaders target or place the shader "
-                          << "files in shaders/vector_index/." << std::endl;
-                return false;
-            }
-
-            namespace fs = std::filesystem;
-            if (fs::path(path).extension() == ".cso") {
-                auto bytes = read_binary_file(path);
-                if (bytes.empty()) {
-                    std::cerr << "[DirectX] Failed to read .cso: " << path << std::endl;
-                    return false;
-                }
-                return compilePipelineFromCSO(bytes, pso);
-            }
-
-            // .hlsl path: load and compile at runtime with d3dcompiler
-            auto src = read_text_file(path);
-            if (src.empty()) {
-                std::cerr << "[DirectX] Failed to read .hlsl: " << path << std::endl;
-                return false;
-            }
-            return compilePipelineFromSource(src, stem, pso);
-        };
-
-        if (!loadPipeline("l2_distance",     l2Pipeline_))     return false;
-        if (!loadPipeline("cosine_distance", cosinePipeline_)) return false;
+        if (!compilePipeline(s_L2DistanceHLSL,     "L2Distance.hlsl",     l2Pipeline_))     return false;
+        if (!compilePipeline(s_CosineDistanceHLSL, "CosineDistance.hlsl", cosinePipeline_)) return false;
         return true;
     }
 

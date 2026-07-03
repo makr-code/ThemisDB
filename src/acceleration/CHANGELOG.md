@@ -10,24 +10,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
-### Added
-- `src/acceleration/directx/shaders/l2_distance.hlsl`, `cosine_distance.hlsl`, `inner_product_distance.hlsl`, `batch_search.hlsl`, `topk_selection.hlsl`: DirectX 12 HLSL ANN/vector-index compute shaders extracted from inline `directx_backend_full.cpp` strings into standalone source files.
-- `src/acceleration/directx/shaders/haversine_distance.hlsl`, `point_in_polygon.hlsl`: DirectX 12 Geospatial HLSL compute shaders, matching Vulkan `.comp` parity.
-- `src/acceleration/directx/shaders/lora/dequantization_nf4.hlsl`, `quantization_nf4.hlsl`: DirectX 12 HLSL ports of the Vulkan NF4 quantization/dequantization shaders.
-- `src/acceleration/directx/shaders/CMakeLists.txt`: DXC compilation targets for all ANN, Geospatial, and LoRA HLSL shaders to `.cso`; install rules for runtime and source; wired into `cmake/CMakeLists.txt` via `add_subdirectory`.
-- `src/acceleration/hip/graph_kernels.hip`: HIP-native BFS init/expand/gather and Bellman-Ford init/relax kernels with occupancy-tuned external-C launchers (`hipLaunchGraphBFS*`, `hipTuneGraphBFSBlockDim`).
-- `src/acceleration/hip/hnsw_kernels.hip`: HIP-native HNSW ef-limited greedy best-first search kernel (one thread per query, dynamic LDS result buffers, per-query visited bitset); exposes `themis::hip::launchHipHnswSearchKernel()`.
-
-### Changed
-- `src/acceleration/directx/directx_backend_full.cpp`: replaced inline `s_L2DistanceHLSL` / `s_CosineDistanceHLSL` strings with file-based loader (`find_ann_shader_path`) that searches for pre-compiled `.cso` files first, then falls back to `.hlsl` source compilation via `D3DCompile` at runtime.
-- `src/acceleration/oneapi_backend.cpp` (CRITICAL gap remediation, closes #5384 quality items):
-  - Replaced raw `sycl::queue* queue_` with `std::optional<sycl::queue> queue_` — eliminates `new_without_raii` and `smart_ptr_misuse` CRITICAL gaps.
-  - Added `mutable std::mutex lifecycle_mutex_` protecting `initialize()` / `shutdown()` — eliminates `data_race` CRITICAL gap.
-  - Replaced all `.wait()` calls with `.wait_and_throw()` — SYCL async errors now propagate as C++ exceptions; eliminates `blocking_no_timeout` CRITICAL gap.
-  - Added try/catch with RAII `freeUSM` lambda to guarantee USM device-buffer deallocation on kernel error.
-  - Replaced `std::cerr` / `std::cout` with `THEMIS_ERROR` / `THEMIS_WARN` / `THEMIS_INFO` — eliminates direct stderr/stdout coupling.
-  - Added explicit delete/delete copy/move constructors; `#include <optional>` added.
-
 ### Changed
 - Documentation governance sync: roadmap/future/audit/readme/architecture/security/performance docs aligned to source-verifiable statements; planning remains in roadmap/future and history remains in changelog.
 
