@@ -41,7 +41,7 @@ CompressionResult TTDecompositionStrategy::compress(
     result.compressed_size = (dim * sizeof(float)) / 2;  // Assume 2x compression
     result.compression_ratio = 2.0f;
     result.achieved_error = config.tt_epsilon;
-    result.achieved_rank = std::min(16UL, dim);
+    result.achieved_rank = std::min<std::size_t>(static_cast<std::size_t>(16), dim);
     result.compression_metadata = "TT_DECOMPOSITION(eps=" + std::to_string(config.tt_epsilon) + ")";
     return result;
 }

@@ -100,7 +100,7 @@ TEST_F(DistributedTransactionManagerStub279Test, FailFastOnMissingPhase2Transpor
     
     // Configure Phase-1 dispatch but NO Phase-2 transport
     cfg.remote_phase1_dispatch = [](const std::string&, const std::string&,
-                                     const std::string&, const std::vector<std::string>&) {
+                                     const std::string&, const std::set<std::string>&) {
         return true;  // PREPARE vote: COMMIT
     };
     // NOTE: phase2_rpc_fn, remote_phase2_dispatch, and legacy RpcPhase2Fn are all NOT set
@@ -122,7 +122,7 @@ TEST_F(DistributedTransactionManagerStub279Test, AllowConstructionWithPhase2Tran
     auto cfg = createBaseConfig();
     
     cfg.remote_phase1_dispatch = [](const std::string&, const std::string&,
-                                     const std::string&, const std::vector<std::string>&) {
+                                     const std::string&, const std::set<std::string>&) {
         return true;
     };
     
@@ -164,12 +164,12 @@ TEST_F(DistributedTransactionManagerStub279Test, AllowConstructionWithRemotePhas
     auto cfg = createBaseConfig();
     
     cfg.remote_phase1_dispatch = [](const std::string&, const std::string&,
-                                     const std::string&, const std::vector<std::string>&) {
+                                     const std::string&, const std::set<std::string>&) {
         return true;
     };
     
-    cfg.remote_phase2_dispatch = [](const std::string&, const std::string&,
-                                     const std::string&, bool) {
+    cfg.remote_phase1_dispatch = [](const std::string&, const std::string&,
+                                     const std::string&, const std::set<std::string>&) {
         return true;
     };
 
@@ -309,14 +309,14 @@ TEST_F(DistributedTransactionManagerStub279Test, ErrorMessageClearWhenPhase2Brid
 
 class VoiceApiHandlerStub302Test : public ::testing::Test {
 protected:
-    std::shared_ptr<voice::VoiceAssistant> createVoiceAssistant() {
-        return std::make_shared<voice::VoiceAssistant>(voice::VoiceAssistant::Config{});
+    std::shared_ptr<themis::voice::VoiceAssistant> createVoiceAssistant() {
+        return std::make_shared<themis::voice::VoiceAssistant>(themis::voice::VoiceAssistant::Config{});
     }
 
-    std::shared_ptr<AuthMiddleware> createAuthWithStaticToken(
+    std::shared_ptr<themis::AuthMiddleware> createAuthWithStaticToken(
         const std::string& token_value) {
-        auto auth = std::make_shared<AuthMiddleware>();
-        AuthMiddleware::TokenConfig cfg;
+        auto auth = std::make_shared<themis::AuthMiddleware>();
+        themis::AuthMiddleware::TokenConfig cfg;
         cfg.token = token_value;
         cfg.user_id = "test-user";
         cfg.scopes = {"api:read", "api:write"};

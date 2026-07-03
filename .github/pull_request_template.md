@@ -1,5 +1,8 @@
 # Pull Request
 
+> For EPIC-branch workflow PRs, use `.github/PULL_REQUEST_TEMPLATE/epic-branch-flow.md`.
+> This applies to both `feature/* -> epic/*` and `epic/* -> develop` integration PRs.
+
 ## Description
 
 <!-- Describe the changes in this PR -->

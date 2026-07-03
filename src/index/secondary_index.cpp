@@ -19,7 +19,6 @@
  */
 
 #include "utils/normalizer.h"
-#include "security/safe_format.h"
 #include <stdexcept>
 // Secondary index implementation
 
@@ -420,7 +419,8 @@ std::string SecondaryIndexManager::makeGeoIndexPrefix(std::string_view table, st
 std::string SecondaryIndexManager::makeTTLIndexKey(std::string_view table, std::string_view column, int64_t expireTimestamp, std::string_view pk) {
 	// Format: ttlidx:table:column:timestamp:PK
 	// timestamp wird mit führenden Nullen auf 20 Zeichen padded für lexikografische Sortierung
-	std::string buf = themis::security::SafeFormat::format_safe("{:020d}", expireTimestamp);
+	char buf[32];
+	snprintf(buf, sizeof(buf), "%020lld", (long long)expireTimestamp);
 	std::string key = "ttlidx:" + std::string(table) + ":" + std::string(column) + ":" + buf + ":" + std::string(pk);
 	return key;
 }
@@ -2315,10 +2315,11 @@ std::string SecondaryIndexManager::encodeGeohash(double lat, double lon, int /*p
 	for (int i = 0; i < 32; ++i) {
 		morton |= ((lat_bits & (1ULL << i)) << i) | ((lon_bits & (1ULL << i)) << (i + 1));
 	}
+	
 	// Convert to hex string
-	// Convert to hex string
-	std::string buf = themis::security::SafeFormat::format_safe("{:016x}", morton);
-	return buf;
+	char buf[32];
+	snprintf(buf, sizeof(buf), "%016llx", (unsigned long long)morton);
+	return std::string(buf);
 }
 
 std::pair<double, double> SecondaryIndexManager::decodeGeohash(std::string_view geohash) {
@@ -2457,7 +2458,8 @@ SecondaryIndexManager::cleanupExpiredEntities(std::string_view table, std::strin
 	
 	// Scan TTL index for expired entries: ttlidx:table:column:0 bis ttlidx:table:column:{currentTimestamp}
 	std::string prefix = makeTTLIndexPrefix(table, column);
-	std::string maxBuf = themis::security::SafeFormat::format_safe("{:020d}", currentTimestamp);
+	char maxBuf[32];
+	snprintf(maxBuf, sizeof(maxBuf), "%020lld", (long long)currentTimestamp);
 	std::string upperBound = prefix + maxBuf;
 	
 	std::vector<std::string> expiredPKs;

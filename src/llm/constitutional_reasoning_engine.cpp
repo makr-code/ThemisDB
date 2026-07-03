@@ -15,8 +15,6 @@
 #include <regex>
 #include <mutex>
 
-#include "security/safe_regex.h"
-
 namespace themis {
 namespace llm {
 
@@ -309,13 +307,6 @@ std::string ConstitutionalReasoningEngine::generateRevision(
     // Apply rule-based revisions
     // This provides deterministic, fast revision without LLM overhead
     std::string revised = response;
-    
-    // REMEDIATION: SafeRegex with input validation before pattern replacement
-    // Validate response before regex operations to prevent ReDoS
-    if (!themis::security::SafeRegex::validate_input(response, 256 * 1024)) {  // 256KB max response
-        // Response too large - return original
-        return response;
-    }
     
     // Replace directive language with suggestions
     std::regex must_pattern("(you must|you have to)", std::regex::icase);

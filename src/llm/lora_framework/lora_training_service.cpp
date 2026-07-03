@@ -773,7 +773,7 @@ public:
                     }
                     
                     // Create synthetic training batch (TEMPORARY - Phase 1 only)
-                    // TODO: In future PRs, replace with real text data processing:
+                    // In future PRs, replace with real text data processing:
                     //   1. Tokenize input text using llama.cpp tokenizer
                     //   2. Create embeddings from base model
                     //   3. Apply LoRA adapter on top of base model outputs

@@ -63,10 +63,6 @@ struct DistributedGraphConfig {
     uint32_t timeout_ms = 5000;
     /// Maximum number of shards to query in parallel (0 = all).
     uint32_t max_parallel_shards = 0;
-    /// Enable affinity caching for shard resolution results (QW-027).
-    bool enable_affinity_cache = true;
-    /// Maximum number of affinity cache entries (LRU eviction).
-    size_t affinity_cache_size = 10000;
 
     DistributedGraphConfig() = default;
 };
@@ -128,23 +124,6 @@ public:
      * penalty.
      */
     virtual bool isHealthy() const { return true; }
-
-    /**
-     * @brief Compute per-vertex betweenness centrality on this shard.
-     *
-     * Uses a distributed variant of Brandes' algorithm: BFS from each sampled
-     * source vertex to build the shortest-path DAG, then accumulates pair
-     * dependencies back along the DAG.
-     *
-     * @param sample_fraction Fraction of vertices to use as BFS sources [0.01, 1.0].
-     * @return Map from local vertex ID to raw (unnormalized) betweenness score.
-     *         The default implementation returns an empty map so that existing
-     *         shard implementors do not need to override this method.
-     */
-    [[nodiscard]] virtual Result<std::unordered_map<std::string, double>>
-    computeLocalBetweenness(double /*sample_fraction*/) const {
-        return Ok(std::unordered_map<std::string, double>{});
-    }
 };
 
 // ---------------------------------------------------------------------------
@@ -179,30 +158,8 @@ public:
         const std::string& target_vertex,
         const GraphQueryOptimizer::QueryConstraints& constraints) override;
 
-    /**
-     * @brief Compute betweenness centrality for all vertices on this local shard.
-     *
-     * Implements Brandes' BFS-based algorithm over the shard's in-process graph.
-     * Samples ceil(sample_fraction * |V|) source vertices in insertion order for
-     * deterministic, reproducible results.
-     *
-     * @param sample_fraction Fraction of vertices used as BFS sources [0.01, 1.0].
-     * @return Map from local vertex ID to raw (unnormalized) betweenness score.
-     */
-    [[nodiscard]] Result<std::unordered_map<std::string, double>>
-    computeLocalBetweenness(double sample_fraction) const override;
-
 private:
     std::string shard_id_;
-    /**
-     * @brief Reference to the graph manager for this shard.
-     * 
-     * @note **Ownership**: Non-owning reference. The GraphIndexManager must
-     *       outlive this executor. Caller is responsible for managing lifetime.
-     *       This is a reference (not smart pointer) for performance; the owner
-     *       is typically a DistributedGraphManager or test harness.
-     */
-    GraphIndexManager& graph_mgr_;
     GraphQueryOptimizer optimizer_;
 
     /// Qualify a vertex ID returned by the local optimizer as "<id>@<shard_id_>".
@@ -308,15 +265,11 @@ public:
      * @param k             Maximum hop count.
      * @param constraints   Optional per-query execution constraints.
      * @return Merged list of reachable vertex IDs, each qualified as "<id>@<shard>".
-     *
-     * @note **Move Semantics**: The returned vector is moved (not copied) to the caller
-     *       via RVO. Caller owns the vector and may efficiently transfer ownership
-     *       downstream without triggering allocations via std::move.
      */
     Result<std::vector<std::string>> kHopNeighbors(
-       std::string_view start_vertex,
-       int k,
-       const GraphQueryOptimizer::QueryConstraints& constraints = {});
+        std::string_view start_vertex,
+        int k,
+        const GraphQueryOptimizer::QueryConstraints& constraints = {});
 
     /**
      * @brief Generate a shard-aware OptimizationPlan for a distributed query.
@@ -336,47 +289,6 @@ public:
         std::string_view target_vertex,
         GraphQueryOptimizer::QueryPattern pattern,
         const GraphQueryOptimizer::QueryConstraints& constraints = {});
-
-    // -----------------------------------------------------------------------
-    // Distributed analytics
-    // -----------------------------------------------------------------------
-
-    /// @brief Result of a distributed betweenness centrality computation.
-    struct BetweennessResult {
-        /// Map from qualified vertex ID ("<id>@<shardId>") to normalized
-        /// betweenness centrality score in [0, 1].
-        std::unordered_map<std::string, double> scores;
-        /// Number of shards that successfully contributed results.
-        uint32_t shards_queried{0};
-        /// Wall-clock computation time in milliseconds.
-        uint64_t elapsed_ms{0};
-    };
-
-    /**
-     * @brief Compute approximate distributed betweenness centrality across all shards.
-     *
-     * Uses a distributed variant of Brandes' algorithm: each shard independently
-     * computes per-vertex pair dependencies via BFS, then results are aggregated
-     * and normalized across all shards.
-     *
-     * Scores for vertices appearing in multiple shard results are summed before
-     * normalization (cross-shard accumulation).  The maximum score across all
-     * vertices is used as the denominator so all output scores lie in [0, 1].
-     * When sample_fraction < 1.0 an additional 1/sample_fraction scaling is
-     * applied before the [0, 1] clamp to approximate the true betweenness value.
-     *
-     * @param sample_fraction Fraction of vertices to use as BFS sources [0.01, 1.0].
-     *        Use 1.0 for exact betweenness, <1.0 for approximate (faster on large
-     *        graphs).
-     * @param timeout_override_ms Optional per-call timeout in milliseconds
-     *        (0 = use DistributedGraphConfig::timeout_ms).
-     * @return BetweennessResult with per-vertex scores, shards_queried count,
-     *         and elapsed_ms, or an error when no healthy shards are available or
-     *         sample_fraction is out of range.
-     */
-    [[nodiscard]] Result<BetweennessResult> computeBetweennessCentrality(
-        double sample_fraction = 1.0,
-        uint32_t timeout_override_ms = 0) const;
 
     // -----------------------------------------------------------------------
     // Utilities
@@ -404,25 +316,9 @@ public:
 private:
     DistributedGraphConfig config_;
 
-    /**
-     * @brief Registered shards: shard_id -> executor
-     * 
-     * @note **Ownership**: Uses std::shared_ptr for RAII compliance. Each executor
-     *       is reference-counted; shards are automatically cleaned up when removed
-     *       from the map and no other references exist. Thread-safe via shared_mutex.
-     */
+    // Registered shards: shard_id -> executor
     std::unordered_map<std::string, std::shared_ptr<ShardGraphExecutor>> shards_;
     mutable std::shared_mutex shards_mutex_;
-
-    /**
-     * @brief QW-027: Affinity cache for shard resolution results (LRU via map).
-     * 
-     * @note **Ownership**: Cache entries are value-semantics strings; managed
-     *       by the unordered_map container. LRU eviction is manual but RAII-safe.
-     */
-    mutable std::unordered_map<std::string, std::string> affinity_cache_;
-    mutable std::shared_mutex affinity_cache_mutex_;
-    mutable std::vector<std::string> affinity_cache_lru_;  ///< LRU eviction order
 
     /// Collect all healthy shard executors (snapshot under lock).
     std::vector<std::pair<std::string, std::shared_ptr<ShardGraphExecutor>>>
@@ -430,25 +326,6 @@ private:
 
     /// Resolve per-query parallelism cap.
     size_t effectiveParallelism(size_t num_shards) const;
-
-    /// QW-024: Execute kHopNeighbors on primary shard first, parallelize secondary shards.
-    [[nodiscard]] Result<std::vector<std::string>> kHopNeighborsWithAffinity(
-        std::string_view start_vertex,
-        int k,
-        const GraphQueryOptimizer::QueryConstraints& constraints,
-        const std::string& primary_shard_id);
-
-    /// QW-025: Merge multiple shard results using k-way merge for sorted results.
-    void mergeShardResultsKWay(
-        std::vector<std::vector<std::string>>& shard_results,
-        std::vector<std::string>& merged_output,
-        bool preserve_rank = false);
-
-    /// QW-027: Get or update affinity cache for vertex shard resolution.
-    std::string resolveShardForVertexWithCache(const std::string& local_vertex_id);
-
-    /// QW-027: Invalidate all affinity cache entries (called when shards added/removed).
-    void invalidateAffinityCache();
 };
 
 } // namespace graph

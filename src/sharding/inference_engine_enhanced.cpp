@@ -35,17 +35,9 @@ InferenceEngineEnhanced::InferenceEngineEnhanced(const ModelConfig& model_config
     spdlog::info("InferenceEngineEnhanced created for model: {}", model_config_.model_id);
 }
 
-InferenceEngineEnhanced::~InferenceEngineEnhanced() noexcept {
-    try {
-        shutdown();
-        spdlog::info("InferenceEngineEnhanced destroyed");
-    } catch (const std::exception& e) {
-        spdlog::error("InferenceEngineEnhanced::~InferenceEngineEnhanced: shutdown failed: {}",
-                      e.what());
-    } catch (...) {
-        spdlog::error(
-            "InferenceEngineEnhanced::~InferenceEngineEnhanced: shutdown failed with unknown exception");
-    }
+InferenceEngineEnhanced::~InferenceEngineEnhanced() {
+    shutdown();
+    spdlog::info("InferenceEngineEnhanced destroyed");
 }
 
 // ============================================================================

@@ -221,5 +221,3 @@ TEST_F(CloudSDKIntegrationTest, CallbackFlowIntegration) {
     // In a real test with valid credentials, we could test actual S3 operations
     // For now, we just verify the initialization completed
 }
-
-} // namespace

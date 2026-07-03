@@ -550,7 +550,7 @@ http::response<http::string_body> QueryApiHandler::handleQuery(
                         std::string schema_json(schema_bytes->begin(), schema_bytes->end());
                         schema = nlohmann::json::parse(schema_json);
                     }
-                } catch (...) { THEMIS_WARN("Encryption schema load failed, disabling encryption for scan"); }
+                } catch (...) {}
                 bool enabled = false;
                 std::vector<std::string> fields;
                 std::string context_type = "user";

@@ -12,11 +12,20 @@ message(STATUS "Configuring ThemisDB test suite")
 # Per team policy: suppress warnings for test builds only.
 # Core/library targets keep their warning policy unchanged.
 if(MSVC)
-    add_compile_options(/W0)
-    message(STATUS "MSVC: compiler warnings are suppressed for tests")
+    # Avoid adding a second /W flag if one is already present in the
+    # global CMake flags (e.g. /W4 set by the project). Only add /W0 per
+    # test target when no /W flag is present to prevent cl D9025 warnings.
+    if(CMAKE_CXX_FLAGS MATCHES "/W[0-4]" OR CMAKE_C_FLAGS MATCHES "/W[0-4]")
+        set(_THEMIS_TESTS_SUPPRESS_WARNINGS_MVC_ALREADY_SET ON)
+        message(STATUS "MSVC: global warning level already set; not forcing /W0 for tests")
+    else()
+        set(_THEMIS_TESTS_SUPPRESS_WARNINGS_MVC ON)
+        message(STATUS "MSVC: compiler warnings will be suppressed per-test target (/W0)")
+    endif()
 elseif(CMAKE_CXX_COMPILER_ID MATCHES "Clang|GNU")
-    add_compile_options(-w)
-    message(STATUS "Compiler warnings are suppressed for tests")
+    # For non-MSVC compilers suppress warnings per-target as well.
+    set(_THEMIS_TESTS_SUPPRESS_WARNINGS_UNIX ON)
+    message(STATUS "Compiler warnings will be suppressed per-test target")
 endif()
 
 include(${CMAKE_CURRENT_LIST_DIR}/cmake/TestPolicy.cmake)

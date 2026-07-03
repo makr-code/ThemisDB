@@ -11,7 +11,6 @@
 
 #include "rag/evaluation_report_exporter.h"
 #include "utils/logger.h"
-#include "security/safe_format.h"
 
 #include <chrono>
 #include <cmath>
@@ -40,8 +39,10 @@ std::string EvaluationReportExporter::escapeJSON(const std::string& s) {
             default:
                 if (c < 0x20) {
                     // control character → \uXXXX
-                    out += themis::security::SafeFormat::format_safe("\\u{:04x}",
+                    char buf[8];
+                    std::snprintf(buf, sizeof(buf), "\\u%04x",
                                   static_cast<unsigned>(c));
+                    out += buf;
                 } else {
                     out += static_cast<char>(c);
                 }

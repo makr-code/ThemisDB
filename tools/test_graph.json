@@ -1,0 +1,18 @@
+{
+  "nodes": [
+    {"id": "n1", "label": "src/a"},
+    {"id": "n2", "label": "src/b"},
+    {"id": "n3", "label": "src/c"},
+    {"id": "n4", "label": "src/d"},
+    {"id": "n5", "label": "src/e"}
+  ],
+  "edges": [
+    {"source": "n1", "target": "n2"},
+    {"source": "n2", "target": "n3"},
+    {"source": "n3", "target": "n4"},
+    {"source": "n4", "target": "n5"},
+    {"source": "n5", "target": "n1"}
+  ],
+  "chunks": {},
+  "gaps": {}
+}

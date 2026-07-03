@@ -549,7 +549,7 @@ std::string AnnFrontdoor::buildRoutingReason(
     ss << " latency_budget_ms=" << context.latency_budget_ms;
     if (!context.scope_id.empty()) {
         ss << " scope_id=" << context.scope_id;
-        ss << " scope_kind=" << annScopeKindName(getScopeKind(context.scope_id));
+        ss << " scope_kind=" << static_cast<int>(getScopeKind(context.scope_id));
     }
     ss << " hnsw_max=" << config_.hnsw_max_elements;
     ss << " scann_max=" << config_.scann_max_elements;

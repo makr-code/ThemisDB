@@ -33,6 +33,8 @@ class ThemisCppDoxygenPolicyRulesScan:
     """Scan public C++ declarations for Doxygen policy coverage gaps."""
 
     HEADER_EXTS = {".h", ".hpp", ".hh", ".hxx"}
+    SOURCE_EXTS = {".c", ".cc", ".cpp", ".cxx"}
+    ALL_EXTS = HEADER_EXTS | SOURCE_EXTS
     ACCESS_RE = re.compile(r"^\s*(public|protected|private)\s*:\s*$")
     CLASS_RE = re.compile(r"^\s*(class|struct)\s+([A-Za-z_][A-Za-z0-9_]*)[^;{]*\{\s*$")
     FUNCTION_NAME_RE = re.compile(r"([~A-Za-z_][A-Za-z0-9_:~]*)\s*\(")
@@ -59,9 +61,15 @@ class ThemisCppDoxygenPolicyRulesScan:
 
         scoped_modules = self._modules_in_scope(file_list)
         header_files = self._collect_public_headers(file_list, scoped_modules)
+        
+        # Also scan source files for public API implementations
+        source_files = self._collect_source_files(file_list, scoped_modules)
 
         for header_path in header_files:
-            self._scan_header(header_path)
+            self._scan_file(header_path)
+            
+        for source_path in source_files:
+            self._scan_file(source_path)
 
         return self.gaps
 
@@ -118,6 +126,49 @@ class ThemisCppDoxygenPolicyRulesScan:
     def _is_public_api_header(self, path: Path) -> bool:
         normalized = "/".join(part.lower() for part in path.parts)
         return "/include/" in normalized or normalized.startswith("include/")
+    
+    def _is_source_file(self, path: Path) -> bool:
+        """Check if this is a source file (not a header)."""
+        return path.suffix.lower() in self.SOURCE_EXTS
+    
+    def _collect_source_files(self, file_list: List[Path], scoped_modules: List[str]) -> List[Path]:
+        """Collect source files that might contain public API implementations."""
+        source_files = [
+            path
+            for path in file_list
+            if self._is_source_file(path) and self._is_public_api_source(path)
+        ]
+        
+        src_root = self.repo_root / "src"
+        if src_root.exists() and src_root.is_dir():
+            if scoped_modules:
+                for module in scoped_modules:
+                    candidate = src_root / module
+                    if candidate.exists() and candidate.is_dir():
+                        for ext in self.SOURCE_EXTS:
+                            source_files.extend(candidate.rglob(f"*{ext}"))
+            else:
+                for ext in self.SOURCE_EXTS:
+                    source_files.extend(src_root.rglob(f"*{ext}"))
+        
+        unique: List[Path] = []
+        seen = set()
+        for path in source_files:
+            try:
+                key = str(path.resolve())
+            except Exception:
+                key = str(path)
+            if key in seen:
+                continue
+            seen.add(key)
+            unique.append(path)
+        
+        return [path for path in unique if not self._should_skip_header(path)]
+    
+    def _is_public_api_source(self, path: Path) -> bool:
+        """Check if source file is in public API areas."""
+        normalized = "/".join(part.lower() for part in path.parts)
+        return "/src/" in normalized or normalized.startswith("src/")
 
     def _should_skip_header(self, path: Path) -> bool:
         normalized = "/" + "/".join(part.lower() for part in path.parts) + "/"
@@ -130,15 +181,15 @@ class ThemisCppDoxygenPolicyRulesScan:
 
         return False
 
-    def _scan_header(self, header_path: Path) -> None:
+    def _scan_file(self, file_path: Path) -> None:
         try:
-            text = header_path.read_text(encoding="utf-8", errors="ignore")
+            text = file_path.read_text(encoding="utf-8", errors="ignore")
         except Exception:
             return
 
         lines = text.splitlines()
         declarations = self._collect_declarations(lines)
-        rel = str(header_path.relative_to(self.repo_root)).replace("\\", "/")
+        rel = str(file_path.relative_to(self.repo_root)).replace("\\", "/")
 
         for decl in declarations:
             if not self._looks_like_function_declaration(decl.text):
@@ -157,6 +208,22 @@ class ThemisCppDoxygenPolicyRulesScan:
 
             if info["skip_doc_enforcement"]:
                 continue
+            
+            # Check class documentation if this is a class method
+            if decl.class_name:
+                class_doc = self._extract_leading_class_doc(lines, decl.start_line)
+                if class_doc is None:
+                    # Check if the class itself needs documentation
+                    class_info = self._find_class_definition(lines, decl.class_name, decl.start_line)
+                    if class_info and class_info['needs_doc']:
+                        self._append(
+                            rel,
+                            class_info['line'],
+                            "MEDIUM",
+                            "missing_doxygen_class",
+                            f"Class '{decl.class_name}' is missing a Doxygen comment",
+                            decl.class_name,
+                        )
 
             doc = self._extract_leading_doc(lines, decl.start_line)
             if doc is None:
@@ -501,4 +568,64 @@ class ThemisCppDoxygenPolicyRulesScan:
             block.reverse()
             return "\n".join(block)
 
+        return None
+    
+    def _extract_leading_class_doc(self, lines: List[str], start_line: int) -> Optional[str]:
+        """Extract leading documentation for a class."""
+        # Look backwards from the start_line to find class definition and its doc
+        idx = start_line - 2
+        while idx >= 0 and not lines[idx].strip():
+            idx -= 1
+        
+        if idx < 0:
+            return None
+        
+        line = lines[idx].lstrip()
+        if line.startswith("///"):
+            collected: List[str] = []
+            while idx >= 0 and lines[idx].lstrip().startswith("///"):
+                collected.append(lines[idx].lstrip()[3:].strip())
+                idx -= 1
+            collected.reverse()
+            return "\n".join(collected)
+        
+        if "*/" in line:
+            block: List[str] = [line]
+            idx -= 1
+            found_start = False
+            while idx >= 0:
+                current = lines[idx].lstrip()
+                block.append(current)
+                if current.startswith("/**") or current.startswith("/*!"):
+                    found_start = True
+                    break
+                if current.startswith("/*"):
+                    break
+                idx -= 1
+            if not found_start:
+                return None
+            block.reverse()
+            return "\n".join(block)
+        
+        return None
+    
+    def _find_class_definition(self, lines: List[str], class_name: str, start_line: int) -> Optional[Dict]:
+        """Find the class definition and check if it has documentation."""
+        # Look backwards for class definition
+        class_pattern = re.compile(rf'\b(class|struct)\s+{re.escape(class_name)}\s*[{{:]')
+        
+        idx = start_line - 1
+        while idx >= 0:
+            line = lines[idx].strip()
+            if class_pattern.search(line):
+                # Check if there's documentation before this line
+                class_doc = self._extract_leading_class_doc(lines, idx)
+                needs_doc = class_doc is None or "@brief" not in (class_doc or "").lower()
+                return {
+                    'line': idx + 1,  # 1-indexed
+                    'name': class_name,
+                    'needs_doc': needs_doc
+                }
+            idx -= 1
+        
         return None

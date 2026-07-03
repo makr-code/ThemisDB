@@ -29,7 +29,6 @@
 #include <chrono>
 #include <cmath>
 #include <mutex>
-#include <spdlog/spdlog.h>
 #include <sstream>
 #include <stdexcept>
 #include <unordered_set>
@@ -441,12 +440,6 @@ void KnowledgeGraphReasoner::onCDCEvent(const CDCEvent &event) {
 
         std::vector<InferenceEdge> derived;
         forwardChain(working_set, derived, 1); // single incremental hop
-        // derived facts are persisted inside forwardChain via inference_store_.store();
-        // log the count so that silent no-ops are diagnosable in trace logs.
-        if (!derived.empty()) {
-            spdlog::debug("knowledge_graph_reasoner: {} new fact(s) derived from CDC INSERT event",
-                          derived.size());
-        }
 
     } else { // DELETE
         // Remove from base facts.
@@ -460,9 +453,6 @@ void KnowledgeGraphReasoner::onCDCEvent(const CDCEvent &event) {
         // Conservatively clear derived triples whose premises included this edge.
         // We rebuild on the next infer() call.
         std::vector<InferenceEdge> all_derived = inference_store_.getDerived(event.edge.subject);
-        if (all_derived.empty()) {
-            return; // nothing derived from this subject — nothing to evict
-        }
         for (auto &edge : all_derived) {
             for (const auto &premise : edge.premises) {
                 if (premise == event.edge) {

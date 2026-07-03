@@ -38,7 +38,9 @@ int64_t nowMs() {
     ).count();
 }
 
-/// Round `n` up to the nearest multiple of `alignment` (must be power-of-two).
+/**
+ * @brief Round `n` up to the nearest multiple of `alignment` (must be power-of-two).
+ */
 size_t alignUp(size_t n, size_t alignment) {
     return (n + alignment - 1) & ~(alignment - 1);
 }
@@ -486,6 +488,14 @@ public:
         // Store handle so memory is not leaked; keyed by raw pointer
         std::lock_guard<std::mutex> lock(mu_);
         bridge_handles_[handle->id] = *handle;
+        
+        // For external allocations, we cannot provide a direct pointer
+        // as the memory is managed externally
+        if (handle->is_external) {
+            *ptr = nullptr;
+            return false;
+        }
+        
         *ptr = handle->is_spilled ? handle->cpu_ptr : handle->gpu_ptr;
         return *ptr != nullptr;
     }

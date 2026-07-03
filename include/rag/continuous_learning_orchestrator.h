@@ -73,16 +73,6 @@ struct ContinuousLearningConfig {
 
     /// Path to SelfImprovementModule.yaml for live-reload (empty = use defaults).
     std::string self_improvement_config_path;
-
-    // ---- Production mode enforcement ----
-    /// When true, loops require live signal providers (fallback is not allowed).
-    /// In production mode, if a provider is unavailable, the loop is marked as failed.
-    /// Set via THEMIS_PRODUCTION_MODE environment variable or explicitly.
-    bool enforce_live_providers = false;
-
-    /// When true, automatically detect production mode from THEMIS_PRODUCTION_MODE
-    /// or THEMIS_ENVIRONMENT environment variables.
-    bool auto_detect_production_mode = true;
 };
 
 /**
@@ -345,75 +335,6 @@ class ContinuousLearningOrchestrator {
      */
     void setOptimizationCooldown(std::chrono::seconds cooldown);
 
-    // ── Cooldown & Loop Protection Monitoring ────────────────────────────────
-
-    /**
-     * @brief Get cooldown rejection metrics for monitoring.
-     *
-     * Returns JSON with cooldown rejection counts and timestamps for each loop.
-     * Useful for detecting if loops are getting stuck behind cooldown guards.
-     *
-     * Example output:
-     * {
-     *   "loop_1": {"rejections": 5, "last_rejection": "2026-07-01T17:46:00Z"},
-     *   "loop_2": {"rejections": 0, "last_rejection": ""},
-     *   "loop_3": {"rejections": 0, "last_rejection": ""},
-     *   "loop_4": {"rejections": 0, "last_rejection": ""}
-     * }
-     */
-    std::string getCooldownMetrics() const;
-
-    // ── Edge Case Guards (Phase 5: Resilience) ───────────────────────────────
-    /**
-     * @brief Get circuit breaker status for each loop.
-     *
-     * Returns JSON with circuit breaker state (open/closed), consecutive failure counts,
-     * and whether each loop is currently blocked due to circuit breaker.
-     *
-     * Example output:
-     * {
-     *   "loop_1": {"consecutive_failures": 0, "breaker_open": false},
-     *   "loop_2": {"consecutive_failures": 0, "breaker_open": false},
-     *   "loop_3": {"consecutive_failures": 0, "breaker_open": false},
-     *   "loop_4": {"consecutive_failures": 0, "breaker_open": false}
-     * }
-     */
-    std::string getCircuitBreakerStatus() const;
-
-    /**
-     * @brief Get undertraining detection status.
-     *
-     * Returns JSON with feedback stall detection, last feedback count, and time since last check.
-     *
-     * Example output:
-     * {
-     *   "last_feedback_count": 12345,
-     *   "feedback_stalled": false,
-     *   "time_since_last_check_seconds": 5,
-     *   "stall_threshold_seconds": 300
-     * }
-     */
-    std::string getUndertrainingStatus() const;
-
-    /**
-     * @brief Set guardrail bypass for a specific loop (emergency override).
-     *
-     * When enabled, the specified loop skips guardrail checks and always executes.
-     * This should only be used for manual override scenarios or emergency recovery.
-     *
-     * @param phase  Loop phase to bypass guardrails for
-     * @param bypass True to enable bypass, false to disable
-     */
-    void setGuardrailBypass(LoopPhase phase, bool bypass);
-
-    /**
-     * @brief Check if guardrail bypass is enabled for a specific loop.
-     *
-     * @param phase  Loop phase to check
-     * @return True if guardrail bypass is enabled, false otherwise
-     */
-    bool isGuardrailBypassEnabled(LoopPhase phase) const;
-
     // ── JSON context serialiser ─────────────────────────────────────────────
 
     /**
@@ -535,44 +456,6 @@ class ContinuousLearningOrchestrator {
         std::shared_ptr<themis::performance::phase3::BaoOptimizer> bao_optimizer,
         std::shared_ptr<themis::performance::WorkloadAdaptiveOptimizer> workload_optimizer,
         std::shared_ptr<themis::prompt_engineering::FeedbackCollector> feedback_collector);
-
-    // ── Provider health monitoring (production mode support) ──────────────────
-    /**
-     * @brief Get provider health status for all 4 loops.
-     *
-     * Returns JSON with provider availability, failure counts, and last failure timestamps.
-     * Useful for monitoring and debugging production issues.
-     *
-     * Example output:
-     * {
-     *   "loop_1_hnsw": {"available": true, "failures": 0, "last_failure": ""},
-     *   "loop_2_workload": {"available": true, "failures": 0, "last_failure": ""},
-     *   "loop_4_rlaif": {"available": true, "failures": 0, "last_failure": ""}
-     * }
-     */
-    std::string getProviderHealthMetrics() const;
-
-    // ── A/B Testing Monitoring ──────────────────────────────────────────────────
-    /**
-     * @brief Get active A/B tests for monitoring.
-     *
-     * Returns a list of currently running test IDs.
-     */
-    std::vector<std::string> getActiveABTests() const;
-
-    /**
-     * @brief Evaluate and get results for a specific A/B test.
-     *
-     * Returns the test results with statistical analysis, suitable for decision-making.
-     */
-    ABTestResult getABTestResults(const std::string &test_id) const;
-
-    /**
-     * @brief Get A/B test metrics as JSON for monitoring/dashboards.
-     *
-     * Returns JSON with all active test results and their status.
-     */
-    std::string getABTestMetrics() const;
 
     // Persistence
     void saveMetrics();

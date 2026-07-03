@@ -2447,7 +2447,6 @@ set(THEMIS_CORE_SOURCES
     ../src/search/search_highlighter.cpp
     ../src/search/negative_keyword_filter.cpp
     ../src/search/distributed_hybrid_search.cpp
-    ../src/search/layered_retrieval_orchestrator.cpp
     ../src/security/pki_key_provider.cpp
     ../src/security/cms_signing.cpp
     ../src/security/rbac.cpp
@@ -2582,6 +2581,7 @@ set(THEMIS_CORE_SOURCES
     ../src/sharding/admin_api.cpp
     ../src/sharding/cloud_agent.cpp
     ../src/sharding/cloud_backup.cpp
+    ../src/sharding/cloud_sdk_integration_stubs.cpp
     ../src/sharding/orphan_detector.cpp
     ../src/sharding/circuit_breaker.cpp
     ../src/sharding/gossip_protocol.cpp
@@ -3164,9 +3164,6 @@ if(THEMIS_ENABLE_LLM)
     ../src/rag/bayesian_optimizer.cpp
     ../src/rag/ab_testing_framework.cpp
     ../src/rag/continuous_learning_orchestrator.cpp
-    # ML Observability & Monitoring (Issue #5449)
-    ../src/rag/ml_learning_metrics_collector.cpp
-    ../src/rag/ml_observability_integration.cpp
     # IMPL-A1: Database-domain auto-labeler for LoRA training (S-2)
     ../src/training/database_domain_auto_labeler.cpp
     # AdaLoRA ↔ TT-format bridge — zero-copy adapter lifecycle management (STUB #271)
@@ -4537,9 +4534,6 @@ if(THEMIS_ENABLE_LLM)
         ../src/rag/bayesian_optimizer.cpp
         ../src/rag/ab_testing_framework.cpp
         ../src/rag/continuous_learning_orchestrator.cpp
-        # ML Observability & Monitoring (Issue #5449)
-        ../src/rag/ml_learning_metrics_collector.cpp
-        ../src/rag/ml_observability_integration.cpp
 
         # RAG Enhancement: Hallucination Rate Tracking Dashboard (Phase 2)
         ../src/rag/hallucination_dashboard.cpp
@@ -5154,13 +5148,6 @@ if(THEMIS_BUILD_ENTERPRISE_PLUGINS)
     if(EXISTS "${THEMIS_ROOT_DIR}/src/tensor/CMakeLists.txt")
         add_subdirectory(${THEMIS_ROOT_DIR}/src/tensor
                          ${CMAKE_CURRENT_BINARY_DIR}/src/tensor)
-    endif()
-
-    # Distributed Tensor Artifacts module (EPIC 3, 2026-07-01)
-    # -------------------------------------------------------------------------
-    if(EXISTS "${THEMIS_ROOT_DIR}/src/distributed_tensor/CMakeLists.txt")
-        add_subdirectory(${THEMIS_ROOT_DIR}/src/distributed_tensor
-                         ${CMAKE_CURRENT_BINARY_DIR}/src/distributed_tensor)
     endif()
 
     # Non-compiled plugin manifests / legacy orchestration: plugins/

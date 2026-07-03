@@ -23,7 +23,6 @@
 #include "graph/parallel_traversal.h"
 
 #include <algorithm>
-#include <atomic>
 #include <chrono>
 #include <future>
 #include <queue>
@@ -315,25 +314,16 @@ Result<ParallelTraversal::MultiSourceResult> ParallelTraversal::multiSourceBFS(c
     std::vector<SourceTraversalResult> per_source;
     per_source.reserve(sources.size());
 
-    // QW-014: Deep copy sources and config before thread spawn to avoid data races
-    // Each batch gets its own copy of sources to ensure thread safety
-    auto sources_copy = sources;
-    auto config_copy = config;
-
     // Process sources in batches of max_concurrent to cap thread count.
-    for (size_t batch_start = 0; batch_start < sources_copy.size();) {
-        const size_t batch_end = std::min(batch_start + max_concurrent, sources_copy.size());
+    for (size_t batch_start = 0; batch_start < sources.size();) {
+        const size_t batch_end = std::min(batch_start + max_concurrent, sources.size());
 
         std::vector<std::future<SourceTraversalResult>> futures;
         futures.reserve(batch_end - batch_start);
 
         for (size_t i = batch_start; i < batch_end; ++i) {
-            // QW-014: Capture by value instead of by reference to ensure thread safety.
-            // Each lambda gets its own copy of the source string and config.
             futures.push_back(std::async(
-                std::launch::async, [this, source_copy = sources_copy[i], config_inner = config_copy]() { 
-                    return this->runSingleBFS(source_copy, config_inner); 
-                }));
+                std::launch::async, [this, &sources, i, &config]() { return this->runSingleBFS(sources[i], config); }));
         }
 
         for (auto &fut : futures) {
@@ -372,22 +362,15 @@ Result<ParallelTraversal::MultiSourceResult> ParallelTraversal::multiSourceDFS(c
     std::vector<SourceTraversalResult> per_source;
     per_source.reserve(sources.size());
 
-    // QW-014: Deep copy sources and config before thread spawn to avoid data races
-    auto sources_copy = sources;
-    auto config_copy = config;
-
-    for (size_t batch_start = 0; batch_start < sources_copy.size();) {
-        const size_t batch_end = std::min(batch_start + max_concurrent, sources_copy.size());
+    for (size_t batch_start = 0; batch_start < sources.size();) {
+        const size_t batch_end = std::min(batch_start + max_concurrent, sources.size());
 
         std::vector<std::future<SourceTraversalResult>> futures;
         futures.reserve(batch_end - batch_start);
 
         for (size_t i = batch_start; i < batch_end; ++i) {
-            // QW-014: Capture by value to ensure thread safety; each thread gets its own copy.
             futures.push_back(std::async(
-                std::launch::async, [this, source_copy = sources_copy[i], config_inner = config_copy]() { 
-                    return this->runSingleDFS(source_copy, config_inner); 
-                }));
+                std::launch::async, [this, &sources, i, &config]() { return this->runSingleDFS(sources[i], config); }));
         }
 
         for (auto &fut : futures) {

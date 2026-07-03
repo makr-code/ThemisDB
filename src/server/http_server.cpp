@@ -213,7 +213,6 @@ static inline void portable_gmtime_r_impl(const time_t* t, std::tm* out) {
 #include <nlohmann/json.hpp>
 #include <yaml-cpp/yaml.h>
 #include <algorithm>
-#include <mutex>
 #include <sstream>
 #include <iomanip>
 #include <tuple>
@@ -688,7 +687,7 @@ HttpServer::HttpServer(
             // GAP-011 fixed: log only token length, never prefix/suffix bytes.
             THEMIS_INFO("Auth check after addToken: validateToken(token_len={}) -> authorized={} user_id='{}' reason='{}'",
                        cfg.token.size(), v.authorized, v.user_id, v.reason);
-        } catch (...) { THEMIS_WARN("Auth: post-setup validateToken check threw exception (token_len={})", cfg.token.size()); }
+        } catch (...) {}
     }
     // Read-only token
     if (auto t = themis_get_env("THEMIS_TOKEN_READONLY")) {
@@ -4606,14 +4605,15 @@ http::response<http::string_body> HttpServer::routeRequest(
                     }
 
                     static llm::DocsAssistant assistant;
-                    static std::once_flag init_flag;
-                    static bool init_ok = false;
-                    std::call_once(init_flag, [&]() { init_ok = assistant.loadDatabase(); });
-                    if (!init_ok) {
-                        auto response = makeErrorResponse(http::status::service_unavailable,
-                            "Documentation database not available", req);
-                        applyGovernanceHeaders(req, response);
-                        return response;
+                    static bool initialized = false;
+                    if (!initialized) {
+                        if (!assistant.loadDatabase()) {
+                            auto response = makeErrorResponse(http::status::service_unavailable,
+                                "Documentation database not available", req);
+                            applyGovernanceHeaders(req, response);
+                            return response;
+                        }
+                        initialized = true;
                     }
 
                     auto result = assistant.query(query);
@@ -4666,14 +4666,15 @@ http::response<http::string_body> HttpServer::routeRequest(
                     }
 
                     static llm::DocsAssistant assistant;
-                    static std::once_flag init_flag;
-                    static bool init_ok = false;
-                    std::call_once(init_flag, [&]() { init_ok = assistant.loadDatabase(); });
-                    if (!init_ok) {
-                        auto response = makeErrorResponse(http::status::service_unavailable,
-                            "Documentation database not available", req);
-                        applyGovernanceHeaders(req, response);
-                        return response;
+                    static bool initialized = false;
+                    if (!initialized) {
+                        if (!assistant.loadDatabase()) {
+                            auto response = makeErrorResponse(http::status::service_unavailable,
+                                "Documentation database not available", req);
+                            applyGovernanceHeaders(req, response);
+                            return response;
+                        }
+                        initialized = true;
                     }
 
                     auto result = assistant.getConfigHelp(topic);
@@ -4716,14 +4717,15 @@ http::response<http::string_body> HttpServer::routeRequest(
                     }
 
                     static llm::DocsAssistant assistant;
-                    static std::once_flag init_flag;
-                    static bool init_ok = false;
-                    std::call_once(init_flag, [&]() { init_ok = assistant.loadDatabase(); });
-                    if (!init_ok) {
-                        auto response = makeErrorResponse(http::status::service_unavailable,
-                            "Documentation database not available", req);
-                        applyGovernanceHeaders(req, response);
-                        return response;
+                    static bool initialized = false;
+                    if (!initialized) {
+                        if (!assistant.loadDatabase()) {
+                            auto response = makeErrorResponse(http::status::service_unavailable,
+                                "Documentation database not available", req);
+                            applyGovernanceHeaders(req, response);
+                            return response;
+                        }
+                        initialized = true;
                     }
 
                     auto result = assistant.getTroubleshootingHelp(issue);
@@ -10094,7 +10096,7 @@ std::optional<http::response<http::string_body>> HttpServer::requireAccess(
                 entry["reason"]     = vres.reason;
                 try { audit_logger_->logEvent(entry); } catch (...) {}
             }
-        } catch (...) { THEMIS_WARN("Auth: requireAccess validateToken diagnostic threw exception"); }
+        } catch (...) {}
         auto ar = auth_->authorize(*token, required_scope);
         if (audit_logger_) {
             audit_logger_->logSecurityEvent(

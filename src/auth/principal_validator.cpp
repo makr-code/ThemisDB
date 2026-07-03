@@ -23,7 +23,6 @@
 #include <algorithm>
 #include <sstream>
 
-#include "security/safe_regex.h"
 #include "server/policy_engine.h"
 #include "utils/audit_logger.h"
 #include "utils/logger.h"
@@ -168,20 +167,18 @@ bool PrincipalValidator::matchesRule(const std::string &principal, const Rule &r
     }
 
     if (rule.is_regex) {
-        // REMEDIATION: SafeRegex wrapper to prevent ReDoS
-        // Using is_pattern_safe() to validate pattern complexity before matching
-        if (!themis::security::SafeRegex::is_pattern_safe(rule.pattern)) {
-            utils::Logger::error("Potentially unsafe regex pattern detected: '{}'", rule.pattern);
-            return false;
+        // Compile regex if not already compiled
+        compileRegex(rule);
+
+        if (rule.compiled_regex) {
+            try {
+                return std::regex_match(p, *rule.compiled_regex);
+            } catch (const std::regex_error &e) {
+                utils::Logger::error("Regex match error for pattern '{}': {}", rule.pattern, e.what());
+                return false;
+            }
         }
-         
-        themis::security::SafeRegex safe_re(5);  // 5 second timeout
-        try {
-            return safe_re.match(rule.pattern, p, std::chrono::seconds(5));
-        } catch (const std::runtime_error &e) {
-            utils::Logger::error("Regex match error for pattern '{}': {}", rule.pattern, e.what());
-            return false;
-        }
+        return false;
     } else {
         // Exact match
         return p == pattern;
@@ -198,20 +195,18 @@ bool PrincipalValidator::matchesMappingRule(const std::string &principal, const 
     }
 
     if (rule.is_regex) {
-        // REMEDIATION: SafeRegex wrapper to prevent ReDoS
-        // Using is_pattern_safe() to validate pattern complexity before matching
-        if (!themis::security::SafeRegex::is_pattern_safe(rule.principal_pattern)) {
-            utils::Logger::error("Potentially unsafe mapping regex pattern detected: '{}'", rule.principal_pattern);
-            return false;
+        compileRegex(rule);
+
+        if (rule.compiled_regex) {
+            try {
+                return std::regex_match(p, *rule.compiled_regex);
+            } catch (const std::regex_error &e) {
+                utils::Logger::error("Regex match error for mapping pattern '{}': {}", rule.principal_pattern,
+                                     e.what());
+                return false;
+            }
         }
-        
-        themis::security::SafeRegex safe_re(5);  // 5 second timeout
-        try {
-            return safe_re.match(rule.principal_pattern, p, std::chrono::seconds(5));
-        } catch (const std::runtime_error &e) {
-            utils::Logger::error("Regex match error for mapping pattern '{}': {}", rule.principal_pattern, e.what());
-            return false;
-        }
+        return false;
     } else {
         // Exact match or wildcard
         // Simple wildcard support: * matches any substring
@@ -299,13 +294,6 @@ void PrincipalValidator::compileRegex(const Rule &rule) const {
         return;
     }
 
-    // REMEDIATION: SafeRegex pattern validation to prevent ReDoS
-    // Check pattern for known dangerous constructs before compilation
-    if (!themis::security::SafeRegex::is_pattern_safe(rule.pattern)) {
-        utils::Logger::error("Potentially unsafe regex pattern detected in Rule: '{}' - skipping compilation", rule.pattern);
-        return;
-    }
-
     try {
         std::regex::flag_type flags = std::regex::ECMAScript;
         if (!config_.case_sensitive) {
@@ -319,13 +307,6 @@ void PrincipalValidator::compileRegex(const Rule &rule) const {
 
 void PrincipalValidator::compileRegex(const MappingRule &rule) const {
     if (!rule.is_regex || rule.compiled_regex) {
-        return;
-    }
-
-    // REMEDIATION: SafeRegex pattern validation to prevent ReDoS
-    // Check pattern for known dangerous constructs before compilation
-    if (!themis::security::SafeRegex::is_pattern_safe(rule.principal_pattern)) {
-        utils::Logger::error("Potentially unsafe regex pattern detected in MappingRule: '{}' - skipping compilation", rule.principal_pattern);
         return;
     }
 

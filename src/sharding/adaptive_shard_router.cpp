@@ -26,7 +26,6 @@
 #include <limits>
 #include <sstream>
 #include <numeric>
-#include <thread>
 #include <spdlog/spdlog.h>
 
 namespace themis::sharding {
@@ -163,85 +162,6 @@ double AdaptiveShardRouter::getAdapterAccuracyDelta(
     return domain_it->second;
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// QW-027: Pre-compute shard affinity routing policy
-// ─────────────────────────────────────────────────────────────────────────────
-
-bool AdaptiveShardRouter::precomputeRoutingPolicy() {
-    /// @brief Pre-compute and cache shard routing policy matrix at startup
-    /// Reduces per-query routing computation from O(n) to O(1) lookup
-    
-    std::lock_guard<std::mutex> lock(routing_policy_cache_mutex_);
-    std::lock_guard<std::mutex> domain_lock(domain_scores_mutex_);
-    
-    routing_policy_cache_.clear();
-    
-    // Collect all unique domains across all shards
-    std::set<themis::distributed_knowledge::AdapterDomainType> all_domains;
-    for (const auto& [shard_id, domain_map] : shard_domain_scores_) {
-        for (const auto& [domain, score] : domain_map) {
-            all_domains.insert(domain);
-        }
-    }
-    
-    // For each domain, build sorted list of shards by affinity score
-    for (const auto& domain : all_domains) {
-        std::vector<std::pair<std::string, double>> domain_shards;
-        
-        for (const auto& [shard_id, domain_map] : shard_domain_scores_) {
-            auto it = domain_map.find(domain);
-            if (it != domain_map.end() && std::isfinite(it->second)) {
-                domain_shards.push_back({shard_id, it->second});
-            }
-        }
-        
-        // Sort by score descending, then by shard_id lexically
-        std::sort(domain_shards.begin(), domain_shards.end(),
-                 [](const auto& a, const auto& b) {
-                     if (a.second != b.second) {
-                         return a.second > b.second;  // descending
-                     }
-                     return a.first < b.first;  // lexical tie-break
-                 });
-        
-        // Extract sorted shard IDs
-        std::vector<std::string> sorted_shards;
-        sorted_shards.reserve(domain_shards.size());
-        for (const auto& [shard_id, score] : domain_shards) {
-            sorted_shards.push_back(shard_id);
-        }
-        
-        routing_policy_cache_[domain] = std::move(sorted_shards);
-    }
-    
-    routing_policy_precomputed_ = true;
-    spdlog::info("AdaptiveShardRouter: Pre-computed routing policy for {} domains", 
-                 routing_policy_cache_.size());
-    return true;
-}
-
-std::vector<std::string> AdaptiveShardRouter::getRoutingPolicy(
-    themis::distributed_knowledge::AdapterDomainType domain
-) const {
-    /// @brief Get pre-computed routing policy for efficient per-query lookups
-    
-    std::lock_guard<std::mutex> lock(routing_policy_cache_mutex_);
-    
-    if (!routing_policy_precomputed_) {
-        return {};  // Policy not pre-computed yet
-    }
-    
-    auto it = routing_policy_cache_.find(domain);
-    if (it != routing_policy_cache_.end()) {
-        return it->second;
-    }
-    
-    return {};  // No policy cached for this domain
-}
-
-/// @brief Execute query with parallel primary + async secondary shard routing
-/// Routes primary shard synchronously, then launches async tasks for secondary shards
-/// to parallelize execution and improve overall latency.
 nlohmann::json AdaptiveShardRouter::executeQuery(const std::string& query) {
     // Check if adaptive routing is enabled
     if (!adaptive_config_.enable_adaptive_routing) {
@@ -576,40 +496,11 @@ std::vector<ShardResult> AdaptiveShardRouter::executeOnShards(
     const std::vector<std::string>& shard_ids,
     [[maybe_unused]] uint32_t timeout_ms
 ) {
-    // QW-024: Route primary shard synchronously, then async execute on secondary shards
-    if (shard_ids.empty()) {
-        return {};
-    }
-    
-    std::vector<ShardResult> primary_results;
-    
-    // Execute primary shard synchronously (first shard)
-    std::vector<std::string> primary_shard = {shard_ids[0]};
-    primary_results = ShardRouter::executeOnShards(query, primary_shard);
-    
-    // If there are secondary shards, execute them asynchronously
-    if (shard_ids.size() > 1) {
-        std::vector<std::string> secondary_shards(shard_ids.begin() + 1, shard_ids.end());
-        
-        // Launch fire-and-forget async task for secondary shards
-        // This improves latency by not blocking on secondary results
-        std::thread async_executor([this, query, secondary_shards]() {
-            try {
-                // Execute secondaries asynchronously
-                // Results are cached internally by RemoteExecutor for potential future reuse
-                auto _secondary_results = ShardRouter::executeOnShards(query, secondary_shards);
-                spdlog::debug("AdaptiveShardRouter: Async secondary execution completed for {} secondaries", 
-                             secondary_shards.size());
-            } catch (const std::exception& e) {
-                spdlog::warn("AdaptiveShardRouter: Async secondary execution failed: {}", e.what());
-            }
-        });
-        
-        // Detach the async task to avoid blocking primary response
-        async_executor.detach();
-    }
-    
-    return primary_results;
+    // Delegate to the base-class implementation which fans out via RemoteExecutor.
+    // timeout_ms is advisory; per-request timeouts are governed by the mTLS client
+    // configuration in RemoteExecutor. Per-iteration timeout enforcement is deferred
+    // until RemoteExecutor exposes a per-call timeout override API.
+    return ShardRouter::executeOnShards(query, shard_ids);
 }
 
 bool AdaptiveShardRouter::shouldStop(

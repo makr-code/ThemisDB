@@ -2,16 +2,18 @@
 # -*- coding: utf-8 -*-
 
 """
-Doxygen AutoFix (C/C++)
-- Scannt src/ und include/
-- Erkennt Funktionssignaturen heuristisch
-- Ergänzt/aktualisiert Doxygen-Blöcke (@brief, @param, @return)
-- Nutzt optional Ollama für bessere @brief Texte
-- Unterstützt --check-only und --apply
+Doxygen AutoFix (C/C++) - Enhanced Version
+- Scans src/ and include/
+- Detects function signatures heuristically
+- Adds/updates Doxygen blocks (@brief, @param, @return)
+- Converts existing regular comments to Doxygen format
+- Uses optional Ollama for better @brief text
+- Supports --check-only, --apply, and --convert-existing
 
 WICHTIG:
-- Dieses MVP ist absichtlich konservativ.
-- Bei Unsicherheit wird übersprungen statt "kaputt zu reparieren".
+- This enhanced version includes a write component to convert existing comments to Doxygen
+- Conservative approach: skips uncertain cases rather than breaking code
+- New feature: Can convert existing // and /* */ comments to Doxygen format
 """
 
 from __future__ import annotations
@@ -66,6 +68,8 @@ class Config:
     use_ollama: bool
     check_only: bool
     apply: bool
+    convert_existing: bool = False  # New: Convert existing comments to Doxygen
+    limit_files: Optional[int] = None  # Limit number of files to process (for testing)
     include_paths: List[str] = field(default_factory=lambda: ["src", "include"])
     exts: List[str] = field(default_factory=lambda: [".h", ".hpp", ".hh", ".hxx", ".c", ".cc", ".cpp", ".cxx"])
     timeout_sec: int = 45
@@ -104,24 +108,106 @@ TAG_BRIEF_RE = re.compile(r'@brief\b')
 TAG_PARAM_RE = re.compile(r'@param\b')
 TAG_RETURN_RE = re.compile(r'@return\b')
 
+# Patterns for existing comments that can be converted to Doxygen
+SINGLE_LINE_COMMENT_RE = re.compile(r'^\s*//')
+MULTI_LINE_COMMENT_START_RE = re.compile(r'^\s*/\*')
+MULTI_LINE_COMMENT_END_RE = re.compile(r'\*/\s*$')
+
 
 def is_in_scope(p: Path, cfg: Config) -> bool:
-    parts = set(p.parts)
-    if parts & EXCLUDE_PARTS:
+    # Convert to absolute paths for comparison
+    try:
+        abs_path = p.resolve()
+        abs_root = cfg.root.resolve()
+        
+        # Check if the path is under excluded directories
+        path_str = str(abs_path).lower().replace("\\", "/")
+        root_str = str(abs_root).lower().replace("\\", "/")
+        
+        # Check for excluded directory patterns
+        exclude_patterns = [
+            "/vcpkg/", "/third_party/", "/external/", "/build/", 
+            "/.git/", "/releases/", "/proto/", "/packages/",
+            "vcpkg_installed", "llama.cpp", "whisper.cpp"
+        ]
+        
+        if any(pattern in path_str for pattern in exclude_patterns):
+            return False
+        
+        # Check if the path is under our source directories
+        for prefix in cfg.include_paths:
+            prefix_path = (abs_root / prefix).resolve()
+            prefix_str = str(prefix_path).lower().replace("\\", "/")
+            
+            if path_str.startswith(prefix_str + "/") or path_str == prefix_str:
+                return True
+        
+        # Also check if it's directly under src or include
+        if "/src/" in path_str or "/include/" in path_str or path_str.endswith("/src") or path_str.endswith("/include"):
+            return True
+            
+    except Exception:
         return False
-    rel = p.relative_to(cfg.root).as_posix()
-    return any(rel.startswith(prefix + "/") or rel == prefix for prefix in cfg.include_paths)
+    
+    return False
+
+
+def find_existing_comments(lines: List[str], func_start_line: int) -> Optional[Tuple[int, int, str]]:
+    """
+    Find existing regular comments (// or /* */) that could be converted to Doxygen.
+    Returns (start_line, end_line, comment_text) or None if no convertible comment found.
+    """
+    # Look for comments in the 10 lines before the function
+    start_search = max(0, func_start_line - 10)
+    for i in range(start_search, func_start_line):
+        line = lines[i].strip()
+        
+        # Check for single-line comments
+        if SINGLE_LINE_COMMENT_RE.match(line):
+            comment_text = line[2:].strip()  # Remove //
+            return (i, i, comment_text)
+        
+        # Check for multi-line comments
+        if MULTI_LINE_COMMENT_START_RE.match(line):
+            comment_lines = [line[2:].strip()]  # Remove /*
+            j = i + 1
+            while j < len(lines) and not MULTI_LINE_COMMENT_END_RE.search(lines[j]):
+                comment_lines.append(lines[j].strip())
+                j += 1
+            if j < len(lines):
+                last_line = lines[j].strip()
+                if MULTI_LINE_COMMENT_END_RE.search(last_line):
+                    # Remove */ from the end
+                    last_line = MULTI_LINE_COMMENT_END_RE.sub('', last_line)
+                    comment_lines.append(last_line)
+                comment_text = ' '.join(comment_lines)
+                return (i, j, comment_text)
+    
+    return None
 
 
 def iter_source_files(cfg: Config):
-    for path in cfg.root.rglob("*"):
-        if not path.is_file():
+    # Use more targeted search instead of rglob("*") for performance
+    for include_path in cfg.include_paths:
+        base_path = cfg.root / include_path
+        if base_path.exists() and base_path.is_dir():
+            for ext in cfg.exts:
+                try:
+                    for path in base_path.rglob(f"*{ext}"):
+                        if path.is_file():
+                            yield path
+                except Exception:
+                    # Skip directories that cause errors (permission issues, etc.)
+                    continue
+    
+    # Also check root directory for files that might be in src/include but not in subdirectories
+    for ext in cfg.exts:
+        try:
+            for path in cfg.root.glob(f"*{ext}"):
+                if path.is_file() and is_in_scope(path, cfg):
+                    yield path
+        except Exception:
             continue
-        if path.suffix.lower() not in cfg.exts:
-            continue
-        if not is_in_scope(path, cfg):
-            continue
-        yield path
 
 
 # -----------------------------
@@ -232,6 +318,51 @@ def find_existing_doxygen_block(lines: List[str], func_start_line: int) -> Optio
     return None
 
 
+def convert_to_doxygen_format(comment_text: str, func: FunctionSig, indent: str) -> List[str]:
+    """
+    Convert existing comment text to Doxygen format with proper tags.
+    
+    Args:
+        comment_text: The existing comment text
+        func: The function signature information
+        indent: The indentation to use
+        
+    Returns:
+        List of formatted Doxygen comment lines
+    """
+    lines = []
+    
+    # Start Doxygen block
+    lines.append(f"{indent}/**")
+    
+    # Process the comment text - try to extract meaningful information
+    if comment_text:
+        # Clean up the text
+        cleaned_text = re.sub(r'\s+', ' ', comment_text).strip()
+        
+        # If it looks like a description, use it as @brief
+        if cleaned_text and not any(tag in cleaned_text.lower() for tag in ['@param', '@return', '@brief']):
+            lines.append(f"{indent} * @brief {cleaned_text}")
+        else:
+            # If it already has some structure, keep it but ensure it's in Doxygen format
+            lines.append(f"{indent} * {cleaned_text}")
+    else:
+        lines.append(f"{indent} * @brief TODO: Describe {func.name.split('::')[-1]}.")
+    
+    # Add parameter documentation if parameters exist
+    for _ptype, pname in func.params:
+        lines.append(f"{indent} * @param {pname} TODO: describe parameter.")
+    
+    # Add return documentation if not void
+    if not func.is_void:
+        lines.append(f"{indent} * @return TODO: describe return value.")
+    
+    # End Doxygen block
+    lines.append(f"{indent} */")
+    
+    return lines
+
+
 # -----------------------------
 # Doxygen generation / update
 # -----------------------------
@@ -334,6 +465,23 @@ def process_file(path: Path, cfg: Config) -> Tuple[List[str], List[Change]]:
         brief = ollama_brief(cfg, func, context)
 
         if block is None:
+            # Check if there are existing comments that can be converted
+            if cfg.convert_existing:
+                existing_comment = find_existing_comments(lines, func.start_line)
+                if existing_comment:
+                    start_line, end_line, comment_text = existing_comment
+                    new_block = convert_to_doxygen_format(comment_text, func, func.indent)
+                    # Remove the existing comment lines
+                    lines[start_line:end_line + 1] = []
+                    # Insert the new Doxygen block before the function
+                    lines[func.start_line:func.start_line] = new_block
+                    changes.append(Change(
+                        file=str(path), line=func.start_line + 1, action="convert",
+                        reason="converted existing comment to doxygen", function=func.name
+                    ))
+                    continue  # Skip the normal insertion below
+            
+            # No existing Doxygen block and no convertible comments - add new block
             new_block = build_doxy_block(func, brief)
             lines[func.start_line:func.start_line] = new_block
             changes.append(Change(
@@ -362,6 +510,8 @@ def main():
     ap.add_argument("--no-ollama", action="store_true", help="Disable Ollama, use template brief only")
     ap.add_argument("--check-only", action="store_true", help="Do not write files; just report")
     ap.add_argument("--apply", action="store_true", help="Write changes to files")
+    ap.add_argument("--convert-existing", action="store_true", help="Convert existing // and /* */ comments to Doxygen format")
+    ap.add_argument("--limit", type=int, default=None, help="Limit number of files to process (for testing)")
     ap.add_argument("--report", default="ai_working/doxygen_autofix_report.json", help="Report path")
     args = ap.parse_args()
 
@@ -376,6 +526,8 @@ def main():
         use_ollama=not args.no_ollama,
         check_only=args.check_only,
         apply=args.apply,
+        convert_existing=args.convert_existing,
+        limit_files=args.limit,
     )
 
     all_changes: List[Change] = []
@@ -383,13 +535,24 @@ def main():
     files_scanned = 0
 
     for fp in iter_source_files(cfg):
+        if cfg.limit_files and files_scanned >= cfg.limit_files:
+            print(f"Reached limit of {cfg.limit_files} files")
+            break
+            
         files_scanned += 1
-        new_lines, changes = process_file(fp, cfg)
-        if changes:
-            all_changes.extend(changes)
-            files_changed += 1
-            if cfg.apply:
-                fp.write_text("".join(new_lines), encoding="utf-8")
+        if files_scanned % 10 == 0:  # Progress indicator every 10 files
+            print(f"Scanned {files_scanned} files...")
+        
+        try:
+            new_lines, changes = process_file(fp, cfg)
+            if changes:
+                all_changes.extend(changes)
+                files_changed += 1
+                if cfg.apply:
+                    fp.write_text("".join(new_lines), encoding="utf-8")
+        except Exception as e:
+            print(f"Error processing {fp}: {e}")
+            continue
 
     report = {
         "root": str(cfg.root),

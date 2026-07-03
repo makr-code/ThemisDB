@@ -25,22 +25,19 @@ The module currently provides contract-first scaffolding aligned to the seven-ph
 ## Current Delivery State
 
 - Wave A complete: architecture and sub-issue planning docs available in `docs/EPIC3_*.md`.
-- Wave B partial: module structure (`README.md`, `include/README.md`, `src/README.md`, `CMakeLists.txt`) is in place.
-  - **3.1 Artifact classes**: COMPLETE (headers and implementation available)
-  - **3.2 Manifest schema**: COMPLETE (headers and implementation available)
-  - **3.3 Shard placement**: COMPLETE (headers, implementation, tests, benchmarks, and design documentation available)
-  - **3.4-3.7**: Out of scope for this phase
-- Wave C partial: distributed correctness tests and benchmarks available for shard placement.
+- Wave B partial: module structure (`README.md`, `include/README.md`, `src/README.md`, `CMakeLists.txt`) is in place. Header and source files (`*.h`, `*.cc`) are out of scope for this PR and will be added in a dedicated implementation PR.
+- Wave C pending: distributed correctness tests/benchmarks remain for
+  `tests/epic3_distributed_tensor/` and `benchmarks/epic3_distributed_tensor/`.
 
 ## Seven-Phase Gate (module view)
 
-- [x] Phase 1: artifact and infrastructure contracts documented (3.1, 3.2)
-- [x] Phase 2: file-level skeleton surfaces created (3.1, 3.2, 3.3)
-- [x] Phase 3: failure handling for placement/integrity/recovery paths (3.3)
-- [x] Phase 4: distributed contract tests and fault-injection scenarios (3.3)
-- [x] Phase 5: scale/performance hardening for multi-node environments (3.3)
-- [x] Phase 6: acceptance documentation tied to recovery/integrity evidence (3.3)
-- [ ] Phase 7: integration with production retrieval/evaluation pipelines (3.3 future)
+- [x] Phase 1: artifact and infrastructure contracts documented
+- [ ] Phase 2: file-level skeleton surfaces created (deferred to implementation PR)
+- [ ] Phase 3: failure handling for placement/integrity/recovery paths
+- [ ] Phase 4: distributed contract tests and fault-injection scenarios
+- [ ] Phase 5: scale/performance hardening for multi-node environments
+- [ ] Phase 6: acceptance documentation tied to recovery/integrity evidence
+- [ ] Phase 7: integration with production retrieval/evaluation pipelines
 
 ## Module Boundaries
 

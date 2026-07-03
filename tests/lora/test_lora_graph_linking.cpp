@@ -85,7 +85,7 @@ TEST_F(LoRAGraphLinkingTest, CreateFeedbackWithCallbackGraphLink) {
     feedback.id = "fb-001";
     feedback.adapter_id = "adapter-1";
     feedback.response = "Test response";
-    feedback.is_training = true;
+    feedback.flagged_for_training = true;
     feedback.rating = 5;
     
     auto result = storage_->createFeedback(feedback);
@@ -126,7 +126,7 @@ TEST_F(LoRAGraphLinkingTest, RemoveFeedbackWithCallbackGraphLinkRemoval) {
     feedback.id = "fb-002";
     feedback.adapter_id = "adapter-2";
     feedback.response = "Test response";
-    feedback.is_training = true;
+    feedback.flagged_for_training = true;
     feedback.rating = 4;
     
     auto created = storage_->createFeedback(feedback);
@@ -153,7 +153,7 @@ TEST_F(LoRAGraphLinkingTest, DirectGraphIndexLinking) {
     feedback.id = "fb-003";
     feedback.adapter_id = "adapter-3";
     feedback.response = "Test response";
-    feedback.is_training = true;
+    feedback.flagged_for_training = true;
     feedback.rating = 3;
     
     auto result = storage_->createFeedback(feedback);
@@ -179,7 +179,7 @@ TEST_F(LoRAGraphLinkingTest, CallbackErrorHandling) {
     feedback.id = "fb-004";
     feedback.adapter_id = "adapter-4";
     feedback.response = "Test response";
-    feedback.is_training = true;
+    feedback.flagged_for_training = true;
     feedback.rating = 2;
     
     // Should handle callback failure gracefully
@@ -203,7 +203,7 @@ TEST_F(LoRAGraphLinkingTest, CallbackExceptionHandling) {
     feedback.id = "fb-005";
     feedback.adapter_id = "adapter-5";
     feedback.response = "Test response";
-    feedback.is_training = true;
+    feedback.flagged_for_training = true;
     feedback.rating = 1;
     
     // Should handle exception gracefully
@@ -228,7 +228,7 @@ TEST_F(LoRAGraphLinkingTest, SwitchCallbackModes) {
     feedback1.id = "fb-006";
     feedback1.adapter_id = "adapter-6";
     feedback1.response = "Response 1";
-    feedback1.is_training = true;
+    feedback1.flagged_for_training = true;
     feedback1.rating = 5;
     
     auto result1 = storage_->createFeedback(feedback1);
@@ -243,7 +243,7 @@ TEST_F(LoRAGraphLinkingTest, SwitchCallbackModes) {
     feedback2.id = "fb-007";
     feedback2.adapter_id = "adapter-7";
     feedback2.response = "Response 2";
-    feedback2.is_training = true;
+    feedback2.flagged_for_training = true;
     feedback2.rating = 4;
     
     auto result2 = storage_->createFeedback(feedback2);

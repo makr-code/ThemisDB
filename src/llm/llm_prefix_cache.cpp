@@ -9,15 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: llm_prefix_cache.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 356
- * Gap Summary: total=5; TODO=1, Stub=3, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=6, M=0, L=0
- * PR History (last 5): #3759 feat(llm): implement KV-cac... (2026-03-12) | #239 Replace LLMPrefixCache stub... (2026-03-11) | #215 Implement P1 LLM Inference ... (2026-03-11) | #1100 [WIP] Fix missing and stub ... (2026-03-11) | #1126 Add dynamic cache routing, ... (2026-03-11)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 #include "llm/llm_prefix_cache.h"
 #include "cache/embedding_cache.h"
 #include "utils/clock.h"

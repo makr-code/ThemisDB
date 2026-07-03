@@ -276,12 +276,6 @@ std::vector<TransactionWALEntry> TransactionWAL::readEntries(LSN start_lsn) {
     try {
         auto wal_entries = wal_manager_->readRange(start_lsn);
         
-        // QW-5b: WAL Sequence Integrity Validation
-        // Track PREPARE/PREPARED cycles to detect incomplete state machines in recovery.
-        // This helps identify transactions stuck between PREPARE and PREPARED states.
-        std::map<std::string, TransactionWALEntryType> txn_last_type;
-        std::map<std::string, size_t> txn_sequence_count;
-        
         for (const auto& wal_entry : wal_entries) {
             // TWAL-2: Use the named enum boundaries instead of magic numbers.
             // TransactionWALEntryType values range from BEGIN (130) to COMPENSATE (137).
@@ -293,65 +287,12 @@ std::vector<TransactionWALEntry> TransactionWAL::readEntries(LSN start_lsn) {
             if (wal_type >= kTxnTypeMin && wal_type <= kTxnTypeMax) {
                 auto txn_entry = fromWALEntry(wal_entry);
                 if (txn_entry.has_value()) {
-                    const auto& txn_id = txn_entry.value().transaction_id;
-                    const auto& entry_type = txn_entry.value().type;
-                    
-                    // QW-5b: Validate sequence state machine
-                    if (!txn_id.empty()) {
-                        // Track entry type progression for each transaction
-                        auto last_it = txn_last_type.find(txn_id);
-                        if (last_it != txn_last_type.end()) {
-                            const auto last_type = last_it->second;
-                            
-                            // Detect invalid state transitions
-                            bool valid_transition = true;
-                            if (last_type == TransactionWALEntryType::PREPARE &&
-                                (entry_type != TransactionWALEntryType::PREPARED &&
-                                 entry_type != TransactionWALEntryType::ABORT)) {
-                                spdlog::warn(
-                                    "QW-5b: Incomplete PREPARE->? cycle in recovery for txn {}: "
-                                    "expected PREPARED or ABORT after PREPARE",
-                                    txn_id);
-                                valid_transition = false;
-                            }
-                            
-                            if (last_type == TransactionWALEntryType::PREPARED &&
-                                (entry_type != TransactionWALEntryType::COMMIT &&
-                                 entry_type != TransactionWALEntryType::ABORT &&
-                                 entry_type != TransactionWALEntryType::COMPENSATE)) {
-                                spdlog::warn(
-                                    "QW-5b: Incomplete PREPARED->? cycle in recovery for txn {}: "
-                                    "expected COMMIT, ABORT, or COMPENSATE after PREPARED",
-                                    txn_id);
-                                valid_transition = false;
-                            }
-                        }
-                        
-                        txn_last_type[txn_id] = entry_type;
-                        txn_sequence_count[txn_id]++;
-                    }
-                    
                     entries.push_back(txn_entry.value());
-                } else {
-                    spdlog::warn("QW-5b: Failed to deserialize WAL entry at LSN {}", 
-                                wal_entry.lsn.toString());
                 }
             }
         }
-        
-        // QW-5b: Log incomplete cycles for diagnostics
-        for (const auto& [txn_id, last_type] : txn_last_type) {
-            if (last_type == TransactionWALEntryType::PREPARE ||
-                last_type == TransactionWALEntryType::PREPARED) {
-                spdlog::warn(
-                    "QW-5b: Recovery detected incomplete cycle for txn {}: "
-                    "last state {} (may require cleanup)",
-                    txn_id, static_cast<int>(last_type));
-            }
-        }
 
-        spdlog::debug("Read {} transaction WAL entries from LSN {} (integrity check: {} txns)", 
-                     entries.size(), start_lsn.toString(), txn_last_type.size());
+        spdlog::debug("Read {} transaction WAL entries from LSN {}", entries.size(), start_lsn.toString());
     } catch (const std::exception& e) {
         spdlog::error("Failed to read transaction WAL entries: {}", e.what());
     }

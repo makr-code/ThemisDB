@@ -11,6 +11,12 @@ set(THEMIS_AUTO_BOOTSTRAP_DEPS OFF CACHE BOOL "Automatically bootstrap missing t
 # Must be set unconditionally (before MSVC is defined by project())
 set(CMAKE_PROJECT_INCLUDE "${CMAKE_CURRENT_SOURCE_DIR}/cmake/msvc_includes_fix.cmake")
 
+# Initialize selected Visual Studio developer environment (optional)
+# This runs VsDevCmd.bat and applies LIB/INCLUDE/LIBPATH/WindowsSdkDir/VCToolsInstallDir
+# into the CMake process so compiler detection and configure steps use the selected
+# MSVC toolset without external wrapper scripts. Control via -DTHEMIS_MSVC_SELECTION=vs2022
+include(cmake/DetectVsDevCmd.cmake OPTIONAL)
+
 # Read VERSION first (before project())
 if(NOT EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/VERSION")
     message(FATAL_ERROR "VERSION file not found at ${CMAKE_CURRENT_SOURCE_DIR}/VERSION")

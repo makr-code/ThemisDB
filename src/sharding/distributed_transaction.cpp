@@ -1060,51 +1060,51 @@ size_t DistributedTransactionCoordinator::recoverTransactions() {
         for (const auto& [txn_id, replay_txn] : recovered) {
             DistributedTransaction recovery_txn;
             recovery_txn.transaction_id = txn_id;
-            recovery_txn.commit_time = std::chrono::nanoseconds(replay_txn.commit_timestamp_ns);
+            // commit_timestamp_ns is optional
+            if (replay_txn.commit_timestamp_ns.has_value()) {
+                recovery_txn.commit_time = std::chrono::nanoseconds(replay_txn.commit_timestamp_ns.value());
+            }
 
-            if (replay_txn.participants.is_array()) {
-                for (const auto& p : replay_txn.participants) {
-                    TransactionParticipant participant;
-                    participant.shard_id = p.value("shard_id", "");
-                    participant.endpoint = p.value(
-                        "endpoint",
-                        participant.shard_id.empty()
-                            ? std::string{}
-                            : "shard://" + participant.shard_id
-                    );
-                    participant.prepared = p.value("prepared", false);
-                    participant.committed = p.value("committed", false);
-                    if (!participant.shard_id.empty()) {
-                        recovery_txn.participants.push_back(std::move(participant));
-                    }
-                }
+            // Recovered participants are simple identifiers (node/shard ids)
+            for (const auto& pid : replay_txn.participants) {
+                if (pid.empty()) continue;
+                TransactionParticipant participant;
+                participant.shard_id = pid;
+                participant.endpoint = participant.shard_id.empty()
+                    ? std::string{}
+                    : (std::string("shard://") + participant.shard_id);
+                // Durable WAL does not include per-participant prepared/committed flags
+                participant.prepared = false;
+                participant.committed = false;
+                recovery_txn.participants.push_back(std::move(participant));
             }
 
             if (replay_txn.completed) {
-                recovery_txn.state = replay_txn.decision.value_or(false)
-                    ? TransactionState::COMMITTED
-                    : TransactionState::ABORTED;
+                // Completed transactions: prefer recorded decision if present
+                if (replay_txn.has_decision) {
+                    recovery_txn.state = replay_txn.decision_commit ? TransactionState::COMMITTED : TransactionState::ABORTED;
+                } else {
+                    recovery_txn.state = TransactionState::ABORTED;
+                }
                 std::lock_guard<std::timed_mutex> lock(mutex_);
                 transactions_[txn_id] = std::move(recovery_txn);
                 continue;
             }
 
             bool success = true;
-            if (replay_txn.decision.value_or(false)) {
+            if (replay_txn.has_decision && replay_txn.decision_commit) {
                 recovery_txn.state = TransactionState::COMMITTING;
                 THEMIS_WARN("Recovery: re-driving COMMIT for in-doubt txn {}", txn_id);
                 success = commitPhase(recovery_txn);
                 if (success) {
                     recovery_txn.state = TransactionState::COMMITTED;
                 } else {
-                    recovery_txn.error_detail =
-                        "Recovery COMMIT replay failed; transaction remains in-doubt";
+                    recovery_txn.error_detail = "Recovery COMMIT replay failed; transaction remains in-doubt";
                 }
             } else {
                 recovery_txn.state = TransactionState::ABORTING;
-                if (!replay_txn.decision.has_value()) {
-                    THEMIS_WARN("Recovery: txn {} has no durable final decision; aborting conservatively",
-                                txn_id);
+                if (!replay_txn.has_decision) {
+                    THEMIS_WARN("Recovery: txn {} has no durable final decision; aborting conservatively", txn_id);
                 } else {
                     THEMIS_WARN("Recovery: re-driving ABORT for in-doubt txn {}", txn_id);
                 }

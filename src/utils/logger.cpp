@@ -25,7 +25,6 @@
 #endif
 
 #include "utils/logger.h"
-#include "security/safe_format.h"
 #include "utils/pii_redacting_sink.h"
 #include <spdlog/spdlog.h>
 #include <spdlog/sinks/stdout_color_sinks.h>
@@ -59,7 +58,9 @@ std::string jsonEscapeTraceId(const std::string& s) {
         } else if (c == '\\') {
             out += "\\\\";
         } else if (c < 0x20) {
-            out += themis::security::SafeFormat::format_safe("\\u{:04X}", static_cast<unsigned>(c));
+            char buf[8];
+            std::snprintf(buf, sizeof(buf), "\\u%04X", static_cast<unsigned>(c));
+            out += buf;
         } else {
             out += static_cast<char>(c);
         }

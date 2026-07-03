@@ -8,6 +8,8 @@
 #include <algorithm>
 #include <cmath>
 #include <unordered_set>
+#include <unordered_map>
+#include <string>
 
 namespace themis {
 namespace tensor {

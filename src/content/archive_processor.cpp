@@ -11,7 +11,6 @@
 
 #include "content/archive_processor.h"
 #include "utils/logger.h"
-#include "security/safe_format.h"
 #include <exception>
 #include <filesystem>
 #include <fstream>
@@ -696,14 +695,9 @@ ArchiveExtractionResult ArchiveProcessor::extractTar(const std::string &blob, Ar
         char name[256]     = {};
         const char *prefix = reinterpret_cast<const char *>(hdr + 345);
         if (prefix[0] && std::strncmp(reinterpret_cast<const char *>(hdr + 257), "ustar", 5) == 0) {
-            std::string formatted = themis::security::SafeFormat::format_safe("{}/{}", 
-                std::string(prefix, 155), 
-                std::string(reinterpret_cast<const char *>(hdr), 100));
-            std::strncpy(name, formatted.c_str(), sizeof(name) - 1);
+            std::snprintf(name, sizeof(name), "%.*s/%.*s", 155, prefix, 100, reinterpret_cast<const char *>(hdr));
         } else {
-            std::string formatted = themis::security::SafeFormat::format_safe("{}",
-                std::string(reinterpret_cast<const char *>(hdr), 100));
-            std::strncpy(name, formatted.c_str(), sizeof(name) - 1);
+            std::snprintf(name, sizeof(name), "%.*s", 100, reinterpret_cast<const char *>(hdr));
         }
 
         // Type flag: '0' or '\0' = regular file, '5' = directory

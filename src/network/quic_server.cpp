@@ -57,7 +57,6 @@
 #ifdef THEMIS_ENABLE_HTTP3
 
 #include "network/quic_server.h"
-#include "security/safe_format.h"
 #include "utils/logger.h"
 
 #include <ngtcp2/ngtcp2_crypto.h>
@@ -139,9 +138,10 @@ std::string anonymizePeerForLog(std::string_view value) {
     if (value.empty()) {
         return "peer#unknown";
     }
-    std::string buffer = themis::security::SafeFormat::format_safe("peer#{:016x}",
+    char buffer[32];
+    std::snprintf(buffer, sizeof(buffer), "peer#%016llx",
                   static_cast<unsigned long long>(fnv1a64(value)));
-    return buffer;
+    return std::string(buffer);
 }
 
 /// Current time in nanoseconds (ngtcp2 timestamp unit).

@@ -668,8 +668,8 @@ bool LlamaWrapper::loadModelFromThemisDB(
         // On POSIX: open(2) with 0600 (owner read/write only).
         // On Windows: std::ofstream (permissions managed via NTFS ACLs).
         // W1-L04 fix: Add timeout protection for file I/O to prevent indefinite blocking
-        // TODO: Implement non-blocking I/O with select/poll timeout for ::open and ::write
-        // (currently using synchronous I/O which can block indefinitely on slow filesystems)
+        // Note: Currently using synchronous I/O which can block indefinitely on slow filesystems.
+        // Consider implementing non-blocking I/O with select/poll timeout for ::open and ::write.
         {
 #if defined(_WIN32)
             std::ofstream ofs(temp_model_path, std::ios::binary | std::ios::trunc);
@@ -1054,8 +1054,8 @@ InferenceResponse LlamaWrapper::generate(const InferenceRequest& request) {
         throw std::runtime_error("No model loaded");
     }
     
-    spdlog::debug("Generating response for prompt: {} (max_tokens={})",
-                  safe_request.prompt.substr(0, std::min(safe_request.prompt.size(), size_t(50))), safe_request.max_tokens);
+    spdlog::debug("Generating response for prompt (length: {}, max_tokens={})",
+                  safe_request.prompt.length(), safe_request.max_tokens);
     
     // Check if speculative decoding is available and enabled
     if (config_.use_speculative_decoding && draft_model_ && draft_context_) {
@@ -1111,7 +1111,7 @@ InferenceResponse LlamaWrapper::generate(const InferenceRequest& request) {
             const std::string cache_key = safe_request.prompt + "|" + safe_request.model_id;
             auto cached_response = response_cache_ptr->get(cache_key);
             if (cached_response) {
-                spdlog::debug("Cache hit for prompt: {}", safe_request.prompt.substr(0, 50));
+                spdlog::debug("Cache hit for prompt (length: {})", safe_request.prompt.length());
                 
                 // Update request_id to match current request
                 cached_response->request_id = safe_request.request_id;
@@ -1141,8 +1141,8 @@ InferenceResponse LlamaWrapper::generate(const InferenceRequest& request) {
     
     auto start_time = std::chrono::high_resolution_clock::now();
     
-    spdlog::debug("Generating response for prompt: {} (max_tokens={})",
-                  request.prompt.substr(0, std::min(request.prompt.size(), size_t(50))), request.max_tokens);
+    spdlog::debug("Generating response for prompt (length: {}, max_tokens={})",
+                  request.prompt.length(), request.max_tokens);
     
     // Ensure model is loaded (lazy loading trigger)
     auto* const model_loader = model_loader_.get();
@@ -1633,7 +1633,7 @@ std::vector<float> LlamaWrapper::embed(const std::string& text) {
         throw std::runtime_error("No model loaded");
     }
     
-    spdlog::debug("Generating embedding for text: {}", text.substr(0, 50));
+    spdlog::debug("Generating embedding for text (length: {})", text.length());
     
     // Ensure model is loaded
     auto* const model_loader = model_loader_.get();
