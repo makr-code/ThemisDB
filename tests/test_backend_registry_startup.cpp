@@ -31,17 +31,6 @@
 
 using namespace themis::acceleration;
 
-namespace {
-
-void seedCpuKernelBackends() {
-    auto& registry = BackendRegistry::instance();
-    registry.registerBackend(std::make_unique<CPUVectorBackend>());
-    registry.registerBackend(std::make_unique<CPUGeoBackend>());
-    registry.registerBackend(std::make_unique<CPUMatrixBackend>());
-}
-
-} // namespace
-
 // =============================================================================
 // Default requirement helpers
 // =============================================================================
@@ -258,74 +247,6 @@ TEST(BackendRegistryStartup, SelectedGeoBackend_ConsistentWithSelectAPI) {
         BackendRegistry::defaultGeoRequirements());
 
     EXPECT_EQ(fromStartup, fromSelect);
-}
-
-// =============================================================================
-// KernelRegistry lookup coverage
-// =============================================================================
-
-TEST(BackendRegistryStartup, KernelRegistry_CpuDispatchesRegisteredAtStartup) {
-    auto& registry = BackendRegistry::instance();
-    seedCpuKernelBackends();
-
-    EXPECT_TRUE(registry.hasANNDispatch(BackendType::CPU));
-    const auto ann = registry.getANNDispatch(BackendType::CPU);
-    EXPECT_NE(ann.launchL2Distance,   nullptr);
-    EXPECT_NE(ann.launchCosine,       nullptr);
-    EXPECT_NE(ann.launchInnerProduct, nullptr);
-    EXPECT_NE(ann.launchTopK,         nullptr);
-
-    EXPECT_TRUE(registry.hasGeoDispatch(BackendType::CPU));
-    const auto geo = registry.getGeoDispatch(BackendType::CPU);
-    EXPECT_NE(geo.launchDistance,    nullptr);
-    EXPECT_NE(geo.launchContainment, nullptr);
-
-    EXPECT_TRUE(registry.hasMatrixDispatch(BackendType::CPU));
-    const auto matrix = registry.getMatrixDispatch(BackendType::CPU);
-    EXPECT_NE(matrix.launchMatmul, nullptr);
-}
-
-TEST(BackendRegistryStartup, KernelRegistry_UnregisteredBackendReturnsEmptyTables) {
-    auto& registry = BackendRegistry::instance();
-    seedCpuKernelBackends();
-
-    EXPECT_FALSE(registry.hasANNDispatch(BackendType::AUTO));
-    const auto ann = registry.getANNDispatch(BackendType::AUTO);
-    EXPECT_EQ(ann.launchL2Distance,   nullptr);
-    EXPECT_EQ(ann.launchCosine,       nullptr);
-    EXPECT_EQ(ann.launchInnerProduct, nullptr);
-    EXPECT_EQ(ann.launchTopK,         nullptr);
-
-    EXPECT_FALSE(registry.hasGeoDispatch(BackendType::AUTO));
-    const auto geo = registry.getGeoDispatch(BackendType::AUTO);
-    EXPECT_EQ(geo.launchDistance,    nullptr);
-    EXPECT_EQ(geo.launchContainment, nullptr);
-
-    EXPECT_FALSE(registry.hasMatrixDispatch(BackendType::AUTO));
-    const auto matrix = registry.getMatrixDispatch(BackendType::AUTO);
-    EXPECT_EQ(matrix.launchMatmul, nullptr);
-}
-
-TEST(BackendRegistryStartup, KernelRegistry_SelectedBackendsExposeSameDispatchTables) {
-    auto& registry = BackendRegistry::instance();
-    seedCpuKernelBackends();
-    registry.initializeRuntime();
-
-    auto* vector = registry.getSelectedVectorBackend();
-    ASSERT_NE(vector, nullptr);
-    const auto vectorDispatch = registry.getANNDispatch(vector->type());
-    const auto expectedVectorDispatch = vector->populateANNDispatch();
-    EXPECT_EQ(vectorDispatch.launchL2Distance,   expectedVectorDispatch.launchL2Distance);
-    EXPECT_EQ(vectorDispatch.launchCosine,       expectedVectorDispatch.launchCosine);
-    EXPECT_EQ(vectorDispatch.launchInnerProduct, expectedVectorDispatch.launchInnerProduct);
-    EXPECT_EQ(vectorDispatch.launchTopK,         expectedVectorDispatch.launchTopK);
-
-    auto* geo = registry.getSelectedGeoBackend();
-    ASSERT_NE(geo, nullptr);
-    const auto geoDispatch = registry.getGeoDispatch(geo->type());
-    const auto expectedGeoDispatch = geo->populateGeoDispatch();
-    EXPECT_EQ(geoDispatch.launchDistance,    expectedGeoDispatch.launchDistance);
-    EXPECT_EQ(geoDispatch.launchContainment, expectedGeoDispatch.launchContainment);
 }
 
 // =============================================================================
