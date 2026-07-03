@@ -545,7 +545,13 @@ class AppController:
         self.view.canvas.bind("<Configure>", self.on_canvas_resize)
 
         # canvas interaction state (must exist before drawing)
-        self._canvas_node_map = {}  # canvas_item -> node_id
+        self._canvas_node_map = {}  # canvas_item -> node_id (legacy)
+        # mappings for reuse: node id -> (oval_id, text_id)
+        self._node_canvas_items = {}
+        # edge mapping: (source,target) -> line_id
+        self._edge_canvas_items = {}
+        # cluster aggregates mapping: cluster_key -> (oval_id, text_id)
+        self._cluster_canvas_items = {}
         self._tooltip = None
 
         # initial visible nodes
@@ -613,8 +619,30 @@ class AppController:
         if not nodes:
             return
 
-        w = self.view.canvas.winfo_width() or 800
-        h = self.view.canvas.winfo_height() or 600
+        # determine virtual world bounds from canvas scrollregion (so layout occurs in world coords)
+        c = self.view.canvas
+        try:
+            sr = c.cget('scrollregion')
+            if sr:
+                if isinstance(sr, str):
+                    parts = list(map(float, sr.split()))
+                else:
+                    parts = list(sr)
+                left, top, right, bottom = parts
+                w = max(1.0, right - left)
+                h = max(1.0, bottom - top)
+                world_cx = (left + right) / 2.0
+                world_cy = (top + bottom) / 2.0
+            else:
+                w = c.winfo_width() or 800
+                h = c.winfo_height() or 600
+                world_cx = w / 2.0
+                world_cy = h / 2.0
+        except Exception:
+            w = c.winfo_width() or 800
+            h = c.winfo_height() or 600
+            world_cx = w / 2.0
+            world_cy = h / 2.0
 
         mode = (self.view.mode_var.get() or 'force') if hasattr(self.view, 'mode_var') else 'force'
         use_cluster_user = bool(getattr(self.view, 'clustering_var', tk.BooleanVar(value=False)).get())
@@ -682,9 +710,9 @@ class AppController:
             pass
 
         if mode == 'galaxy' or use_cluster_user:
-            # place cluster centers on a circle
-            cx = w / 2
-            cy = h / 2
+            # place cluster centers on a circle around the world center
+            cx = world_cx
+            cy = world_cy
             R = min(w, h) * 0.35
             k = len(clusters)
             if k == 0:
@@ -838,20 +866,29 @@ class AppController:
         t_start = time.time()
         # initialize positions (spread randomly) on a larger virtual area
         import random
-        # virtual canvas size (allow nodes to be placed far outside visible widget)
-        virt_w = max(w * 4, 4000)
-        virt_h = max(h * 4, 4000)
-        center_x = w / 2.0
-        center_y = h / 2.0
-        left = center_x - virt_w / 2.0
-        top = center_y - virt_h / 2.0
-        right = center_x + virt_w / 2.0
-        bottom = center_y + virt_h / 2.0
+        # determine virtual canvas/world bounds from canvas scrollregion so nodes aren't clamped to widget edges
+        c = self.view.canvas
+        try:
+            sr = c.cget('scrollregion')
+            if sr:
+                if isinstance(sr, str):
+                    parts = list(map(float, sr.split()))
+                else:
+                    parts = list(sr)
+                left, top, right, bottom = parts
+            else:
+                left, top, right, bottom = -2000.0, -2000.0, 2000.0, 2000.0
+        except Exception:
+            left, top, right, bottom = -2000.0, -2000.0, 2000.0, 2000.0
+        virt_w = max(1.0, right - left)
+        virt_h = max(1.0, bottom - top)
+        center_x = (left + right) / 2.0
+        center_y = (top + bottom) / 2.0
         pos = {nid: (random.uniform(left, right), random.uniform(top, bottom)) for nid in nodes}
         area = float(virt_w * virt_h)
         N = max(1, len(nodes))
         k = math.sqrt(area / N)
-        t = max(w, h) / 10.0
+        t = max(virt_w, virt_h) / 10.0
         dt = t / float(max(1, iterations))
         # build adjacency set for faster checks
         adj = {nid: set() for nid in nodes}
@@ -1008,10 +1045,23 @@ class AppController:
             it_start = time.time()
             disp = {nid: [0.0, 0.0] for nid in nodes}
 
-            # build quadtree from current positions
-            qt_build_start = time.time()
-            qt_root = build_quadtree(pos)
-            logging.debug(f"_force_simulate: quadtree build {time.time()-qt_build_start:.3f}s")
+            # Decide quadtree rebuild frequency for performance on large graphs
+            if N > 2000:
+                rebuild_every = 3
+            elif N > 800:
+                rebuild_every = 2
+            else:
+                rebuild_every = 1
+
+            # build quadtree from current positions (maybe reuse between iterations)
+            if it == 0 or (it % rebuild_every) == 0:
+                qt_build_start = time.time()
+                qt_root = build_quadtree(pos)
+                prev_qt_root = qt_root
+                logging.debug(f"_force_simulate: quadtree build {time.time()-qt_build_start:.3f}s (rebuild_every={rebuild_every})")
+            else:
+                # reuse previously built quadtree for a few iterations
+                qt_root = prev_qt_root
 
             # repulsive forces via Barnes-Hut
             for u in nodes:
@@ -1085,14 +1135,29 @@ class AppController:
         # respect user clustering toggle when drawing
         use_cluster_user = bool(getattr(self.view, 'clustering_var', tk.BooleanVar(value=False)).get())
         if not batch:
-            c.delete("all")
+            # remove only dynamic edge items; keep node items and reuse them
+            try:
+                c.delete("edge")
+            except Exception:
+                pass
+            # clear previous cluster aggregates (we recreate them)
+            try:
+                for vals in list(self._cluster_canvas_items.values()):
+                    for iid in vals:
+                        try:
+                            if iid:
+                                c.delete(iid)
+                        except Exception:
+                            pass
+                self._cluster_canvas_items.clear()
+            except Exception:
+                pass
             # draw background grid and rulers if enabled
             try:
                 if getattr(self.view, 'grid_var', tk.BooleanVar(value=False)).get():
                     self._draw_background(c)
             except Exception:
                 pass
-            self._canvas_node_map.clear()
 
         # determine nodes to draw (respect visible_nodes if set)
         nodes = list(self.visible_nodes or self.node_positions.keys())
@@ -1154,18 +1219,60 @@ class AppController:
         # draw edges only on full redraw and only if both endpoints are in the viewport set
         e_start = time.time()
         if not batch:
+            # compute node radius (scaled by UI control)
+            try:
+                scale_all = float(getattr(self.view, 'node_size_var', tk.DoubleVar(value=1.0)).get())
+            except Exception:
+                scale_all = 1.0
+            base_r = self.NODE_RADIUS
+            r_global = max(4, base_r * scale_all)
+            # reuse edge canvas items and cull to visible edges
+            desired_edges = set()
             for e in self.model.edges:
                 s = e.source
                 t = e.target
                 if s in nodes_in_view and t in nodes_in_view and s in self.node_positions and t in self.node_positions:
                     x1, y1 = self.node_positions[s]
                     x2, y2 = self.node_positions[t]
-                    # draw directed edges as lines with arrowheads
+                    dx = x2 - x1
+                    dy = y2 - y1
+                    dist = math.hypot(dx, dy)
+                    if dist <= 1e-6:
+                        continue
+                    ux = dx / dist
+                    uy = dy / dist
+                    # offset line endpoints to node perimeters to avoid overlap
+                    sx = x1 + ux * r_global
+                    sy = y1 + uy * r_global
+                    tx = x2 - ux * r_global
+                    ty = y2 - uy * r_global
+                    key = (s, t)
+                    desired_edges.add(key)
+                    if key in self._edge_canvas_items:
+                        lid = self._edge_canvas_items[key]
+                        try:
+                            c.coords(lid, sx, sy, tx, ty)
+                            c.itemconfig(lid, fill="#888")
+                        except Exception:
+                            pass
+                    else:
+                        try:
+                            lid = c.create_line(sx, sy, tx, ty, fill="#888", width=1.0, arrow='last', arrowshape=(8,10,4), tags=("edge",))
+                        except Exception:
+                            lid = c.create_line(sx, sy, tx, ty, fill="#888", tags=("edge",))
+                        self._edge_canvas_items[key] = lid
+            # cleanup edges that are no longer desired
+            try:
+                existing_edges = set(self._edge_canvas_items.keys())
+                for key in existing_edges - desired_edges:
+                    lid = self._edge_canvas_items.pop(key, None)
                     try:
-                        c.create_line(x1, y1, x2, y2, fill="#888", arrow='last', width=1.0, tags=("edge",))
+                        if lid:
+                            c.delete(lid)
                     except Exception:
-                        # fallback if arrow option unsupported
-                        c.create_line(x1, y1, x2, y2, fill="#888", tags=("edge",))
+                        pass
+            except Exception:
+                pass
         e_time = time.time() - e_start
         # decide on symbolic LOD (aggregate clusters when zoomed out)
         # compute overall bbox of positions
@@ -1244,22 +1351,33 @@ class AppController:
 
         total = len(display_items)
         if total == 0:
-            return
+            # fallback for diagnostics: if clustering/L0D removed all items, show first nodes
+            logging.debug("_draw_graph: no display_items selected — falling back to showing first nodes for debug")
+            fallback = []
+            sample = list(nodes)[:min(100, len(nodes))]
+            for n in sample:
+                fallback.append(('node', n))
+            display_items = fallback
+            total = len(display_items)
 
         start = getattr(self, '_batch_start', 0)
         end = min(start + self._batch_size, total)
 
         n_start = time.time()
+        # reuse/create/remove node canvas items to avoid expensive create/delete
+        desired_nodes = [it[1] for it in display_items[start:end] if it[0] == 'node']
+        desired_node_set = set(desired_nodes)
+        # process node items: update existing or create new
+        LABEL_THRESHOLD = 1000
+        try:
+            scale = float(getattr(self.view, 'node_size_var', tk.DoubleVar(value=1.0)).get())
+        except Exception:
+            scale = 1.0
+        base_r = self.NODE_RADIUS
         for item in display_items[start:end]:
             if item[0] == 'node':
                 nid = item[1]
                 x, y = self.node_positions.get(nid, (0, 0))
-                base_r = self.NODE_RADIUS
-                # scale by slider
-                try:
-                    scale = float(getattr(self.view, 'node_size_var', tk.DoubleVar(value=1.0)).get())
-                except Exception:
-                    scale = 1.0
                 r = int(base_r * scale)
                 gaps = self.model.gaps.get(nid) or self.model.gaps.get(self.model.nodes.get(nid).label if nid in self.model.nodes else "") or []
                 if heatmap:
@@ -1267,33 +1385,81 @@ class AppController:
                 else:
                     fill = "#e88" if gaps else "#2b7"
                 tag = f"node_{nid}"
-                oval = c.create_oval(x - r, y - r, x + r, y + r, fill=fill, outline="#070", tags=(tag,))
-                text_id = c.create_text(x, y, text=os.path.basename(self.model.nodes.get(nid).label if nid in self.model.nodes else str(nid)), font=("Arial", 9), tags=(tag,))
-                self._canvas_node_map[oval] = nid
-                self._canvas_node_map[text_id] = nid
-                c.tag_bind(tag, '<Enter>', lambda e, nid=nid: self._on_node_hover(e, nid))
-                c.tag_bind(tag, '<Leave>', lambda e, nid=nid: self._on_node_leave(e, nid))
-                c.tag_bind(tag, '<Button-1>', lambda e, nid=nid: self._on_node_click(e, nid))
+                if nid in self._node_canvas_items:
+                    oval_id, text_id = self._node_canvas_items[nid]
+                    try:
+                        c.coords(oval_id, x - r, y - r, x + r, y + r)
+                        c.itemconfig(oval_id, fill=fill)
+                    except Exception:
+                        pass
+                    if total_visible <= LABEL_THRESHOLD:
+                        label = os.path.basename(self.model.nodes.get(nid).label if nid in self.model.nodes else str(nid))
+                        if text_id:
+                            try:
+                                c.coords(text_id, x, y)
+                                c.itemconfig(text_id, text=label)
+                            except Exception:
+                                pass
+                        else:
+                            try:
+                                tid = c.create_text(x, y, text=label, font=("Arial", 9), tags=(tag,))
+                                self._node_canvas_items[nid] = (oval_id, tid)
+                            except Exception:
+                                pass
+                    else:
+                        # remove text if present to save draw time
+                        if text_id:
+                            try:
+                                c.delete(text_id)
+                            except Exception:
+                                pass
+                            self._node_canvas_items[nid] = (oval_id, None)
+                else:
+                    try:
+                        oval = c.create_oval(x - r, y - r, x + r, y + r, fill=fill, outline="#070", tags=(tag,))
+                    except Exception:
+                        oval = None
+                    text_obj = None
+                    if total_visible <= LABEL_THRESHOLD:
+                        try:
+                            text_obj = c.create_text(x, y, text=os.path.basename(self.model.nodes.get(nid).label if nid in self.model.nodes else str(nid)), font=("Arial", 9), tags=(tag,))
+                        except Exception:
+                            text_obj = None
+                    self._node_canvas_items[nid] = (oval, text_obj)
+                    # bind once
+                    try:
+                        if oval:
+                            c.tag_bind(tag, '<Enter>', lambda e, nid=nid: self._on_node_hover(e, nid))
+                            c.tag_bind(tag, '<Leave>', lambda e, nid=nid: self._on_node_leave(e, nid))
+                            c.tag_bind(tag, '<Button-1>', lambda e, nid=nid: self._on_node_click(e, nid))
+                    except Exception:
+                        pass
             else:
-                # cluster aggregate
+                # cluster aggregate: create fresh (clusters are fewer)
                 ck, cx, cy, count = item[1]
                 r = max(10, min(80, int(math.sqrt(count) * 6)))
                 tag = f"agg_cluster_{ck}"
-                oval = c.create_oval(cx - r, cy - r, cx + r, cy + r, fill="#888", outline="#333", tags=(tag,))
-                text_id = c.create_text(cx, cy, text=f"{ck} ({count})", font=("Arial", 10, "bold"), tags=(tag,))
-                c.tag_bind(tag, '<Button-1>', lambda e, ck=ck: self._on_cluster_click(e, ck))
-                # tooltip on hover showing top-3 members
+                try:
+                    oval = c.create_oval(cx - r, cy - r, cx + r, cy + r, fill="#888", outline="#333", tags=(tag,))
+                    text_id = c.create_text(cx, cy, text=f"{ck} ({count})", font=("Arial", 10, "bold"), tags=(tag,))
+                except Exception:
+                    oval = None
+                    text_id = None
+                self._cluster_canvas_items[ck] = (oval, text_id)
+                try:
+                    c.tag_bind(tag, '<Button-1>', lambda e, ck=ck: self._on_cluster_click(e, ck))
+                except Exception:
+                    pass
+                # tooltip handlers
                 def make_agg_tooltip(evt, ck=ck, members=members):
                     if not members:
                         return
                     txt = f"Cluster: {ck}\nCount: {len(members)}\nTop members:\n"
-                    # show up to top-10 members and gap summary
                     top = members[:10]
                     for m in top:
                         lbl = self.model.nodes.get(m).label if m in self.model.nodes else str(m)
                         gcount = len(self.model.gaps.get(m) or [])
                         txt += f" - {lbl} ({gcount} gaps)\n"
-                    # gap type summary across cluster (top 5)
                     type_counts = {}
                     for m in members:
                         for g in (self.model.gaps.get(m) or []):
@@ -1303,7 +1469,6 @@ class AppController:
                         txt += "\nGap types:\n"
                         for gt, cnt in sorted(type_counts.items(), key=lambda t: -t[1])[:5]:
                             txt += f" - {gt}: {cnt}\n"
-                    # show tooltip
                     t = tk.Toplevel(self.view)
                     t.wm_overrideredirect(True)
                     lblw = ttk.Label(t, text=txt, relief=tk.SOLID, padding=4)
@@ -1312,7 +1477,6 @@ class AppController:
                         t.wm_geometry(f"+{evt.x_root+12}+{evt.y_root+12}")
                     except Exception:
                         pass
-                    # store temp ref
                     self._agg_tip = t
                 def destroy_agg_tooltip(evt):
                     try:
@@ -1320,8 +1484,30 @@ class AppController:
                             self._agg_tip.destroy()
                     except Exception:
                         pass
-                c.tag_bind(tag, '<Enter>', make_agg_tooltip)
-                c.tag_bind(tag, '<Leave>', destroy_agg_tooltip)
+                try:
+                    c.tag_bind(tag, '<Enter>', make_agg_tooltip)
+                    c.tag_bind(tag, '<Leave>', destroy_agg_tooltip)
+                except Exception:
+                    pass
+
+        # remove node canvas items that are no longer desired
+        try:
+            existing = set(self._node_canvas_items.keys())
+            to_remove = existing - desired_node_set
+            for nid in to_remove:
+                oval_id, text_id = self._node_canvas_items.pop(nid, (None, None))
+                try:
+                    if oval_id:
+                        c.delete(oval_id)
+                except Exception:
+                    pass
+                try:
+                    if text_id:
+                        c.delete(text_id)
+                except Exception:
+                    pass
+        except Exception:
+            pass
             # NOTE: node drawing handled above per-item; no duplicate drawing here
 
         n_time = time.time() - n_start
@@ -1398,80 +1584,50 @@ class AppController:
     def _draw_background(self, c: tk.Canvas):
         """Draw grid lines centered on canvas center and simple rulers on top/left."""
         try:
-            w = c.winfo_width() or 800
-            h = c.winfo_height() or 600
-            cx = w / 2
-            cy = h / 2
+            # draw grid in world coordinates using canvas scrollregion/view
+            vx0 = c.canvasx(0)
+            vy0 = c.canvasy(0)
+            vx1 = c.canvasx(c.winfo_width() or 800)
+            vy1 = c.canvasy(c.winfo_height() or 600)
             spacing = int(getattr(self.view, 'grid_spacing_var', tk.IntVar(value=50)).get())
-            # grid lines (light)
             color = '#e6e6e6'
-            # vertical lines
-            x = cx
-            while x < w:
-                c.create_line(x, 0, x, h, fill=color, width=1)
+            # vertical grid lines at multiples of spacing in world coords
+            start_x = math.floor(vx0 / spacing) * spacing
+            x = start_x
+            while x <= vx1:
+                c.create_line(x, vy0, x, vy1, fill=color, width=1)
                 x += spacing
-            x = cx - spacing
-            while x > 0:
-                c.create_line(x, 0, x, h, fill=color, width=1)
-                x -= spacing
-            # horizontal lines
-            y = cy
-            while y < h:
-                c.create_line(0, y, w, y, fill=color, width=1)
+            # horizontal grid lines
+            start_y = math.floor(vy0 / spacing) * spacing
+            y = start_y
+            while y <= vy1:
+                c.create_line(vx0, y, vx1, y, fill=color, width=1)
                 y += spacing
-            y = cy - spacing
-            while y > 0:
-                c.create_line(0, y, w, y, fill=color, width=1)
-                y -= spacing
 
-            # center axes (darker)
-            c.create_line(cx, 0, cx, h, fill='#999999', width=2)
-            c.create_line(0, cy, w, cy, fill='#999999', width=2)
+            # center axes (world origin) if visible
+            try:
+                if vx0 <= 0 <= vx1:
+                    c.create_line(0, vy0, 0, vy1, fill='#999999', width=2)
+                if vy0 <= 0 <= vy1:
+                    c.create_line(vx0, 0, vx1, 0, fill='#999999', width=2)
+            except Exception:
+                pass
 
-            # rulers: top and left ticks + labels in logical coords (center=0)
-            # top ruler
+            # rulers: ticks and labels at top/left using world coords
             tick_color = '#333333'
             font = ("Arial", 8)
-            # vertical ticks along top
-            val = 0
-            # compute leftmost logical value
-            left = -int(cx)
-            # start at center and go right
-            x = cx
-            mult = 0
-            while x < w:
-                if mult % 1 == 0:
-                    # tick
-                    c.create_line(x, 0, x, 8, fill=tick_color)
-                    label = str(int((x - cx)))
-                    c.create_text(x, 12, text=label, font=font, fill=tick_color)
+            # top ticks and labels along visible width
+            x = start_x
+            while x <= vx1:
+                c.create_line(x, vy0, x, vy0 + 8, fill=tick_color)
+                c.create_text(x, vy0 + 12, text=str(int(x)), font=font, fill=tick_color)
                 x += spacing
-                mult += 1
-            x = cx - spacing
-            mult = -1
-            while x > 0:
-                c.create_line(x, 0, x, 8, fill=tick_color)
-                label = str(int((x - cx)))
-                c.create_text(x, 12, text=label, font=font, fill=tick_color)
-                x -= spacing
-                mult -= 1
-
-            # left ruler ticks
-            y = cy
-            while y < h:
-                c.create_line(0, y, 8, y, fill=tick_color)
-                label = str(int((cy - y)))
-                c.create_text(18, y, text=label, font=font, anchor='w', fill=tick_color)
+            # left ticks and labels along visible height
+            y = start_y
+            while y <= vy1:
+                c.create_line(vx0, y, vx0 + 8, y, fill=tick_color)
+                c.create_text(vx0 + 18, y, text=str(int(y)), font=font, anchor='w', fill=tick_color)
                 y += spacing
-            y = cy - spacing
-            while y > 0:
-                c.create_line(0, y, 8, y, fill=tick_color)
-                label = str(int((cy - y)))
-                c.create_text(18, y, text=label, font=font, anchor='w', fill=tick_color)
-                y -= spacing
-
-            # mark origin
-            c.create_text(cx + 6, cy + 6, text='0,0', font=font, fill='#000')
         except Exception:
             logging.exception('Error drawing background')
 
@@ -1506,10 +1662,21 @@ class AppController:
         # compute logical coords relative to center
         try:
             c = self.view.canvas
-            w = c.winfo_width() or 1
-            h = c.winfo_height() or 1
-            cx = w / 2
-            cy = h / 2
+            # compute world center from scrollregion so tooltip shows logical world coords
+            sr = c.cget('scrollregion')
+            if sr:
+                if isinstance(sr, str):
+                    parts = list(map(float, sr.split()))
+                else:
+                    parts = list(sr)
+                left, top, right, bottom = parts
+                cx = (left + right) / 2.0
+                cy = (top + bottom) / 2.0
+            else:
+                w = c.winfo_width() or 1
+                h = c.winfo_height() or 1
+                cx = w / 2
+                cy = h / 2
             nx, ny = self.node_positions.get(nid, (0, 0))
             lx = nx - cx
             ly = ny - cy
@@ -1548,13 +1715,27 @@ class AppController:
             return
         x, y = self.node_positions[nid]
         c = self.view.canvas
-        w = c.winfo_width() or 1
-        h = c.winfo_height() or 1
-        # compute offset to center
-        dx = x - (w / 2)
-        dy = y - (h / 2)
-        # translate logical positions so node becomes centered
-        self._translate_positions(-dx, -dy)
+        try:
+            # compute current viewport center in world coords
+            vx0 = c.canvasx(0)
+            vy0 = c.canvasy(0)
+            vx1 = c.canvasx(c.winfo_width() or 1)
+            vy1 = c.canvasy(c.winfo_height() or 1)
+            vcx = (vx0 + vx1) / 2.0
+            vcy = (vy0 + vy1) / 2.0
+            dx = x - vcx
+            dy = y - vcy
+            # translate logical positions so node becomes centered
+            self._translate_positions(-dx, -dy)
+        except Exception:
+            try:
+                w = c.winfo_width() or 1
+                h = c.winfo_height() or 1
+                dx = x - (w / 2)
+                dy = y - (h / 2)
+                self._translate_positions(-dx, -dy)
+            except Exception:
+                pass
         # optional: slightly zoom in
         self._scale_canvas(1.05)
 

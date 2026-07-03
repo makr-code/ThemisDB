@@ -26,6 +26,14 @@ foreach(_src IN LISTS GPU_MODULE_TEST_SOURCES)
     )
     target_compile_definitions(${_target} PRIVATE THEMIS_TEST_BUILD=1)
 
+    # Suppress compiler warnings for test targets (per-target to avoid
+    # cl D9025: '/W4' overwritten by '/W0' when global flags conflict).
+    if(DEFINED _THEMIS_TESTS_SUPPRESS_WARNINGS_MVC)
+        target_compile_options(${_target} PRIVATE /W0)
+    elseif(DEFINED _THEMIS_TESTS_SUPPRESS_WARNINGS_UNIX)
+        target_compile_options(${_target} PRIVATE -w)
+    endif()
+
     # In modular builds `themis_core` may be an INTERFACE target without
     # implementation objects. To ensure focused GPU tests have access to the
     # kernel registry implementation when modules are split, compile the
