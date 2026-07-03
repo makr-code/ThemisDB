@@ -1706,18 +1706,6 @@ struct RegionStalenessInfo {
 
 /**
  * Configuration for MultiRegionActiveActiveManager.
- *
- * ### Consistency Guarantees
- * - `STRONG` consistency is only guaranteed within a single region.
- * - Cross-region writes are always eventual unless `leader_region_id` is set
- *   and all STRONG writes are routed exclusively through the designated leader.
- * - Vector-clock-based conflict resolution (LAST_WRITE_WINS, MERGE) may produce
- *   different outcomes across regions for concurrent writes; this is expected
- *   in Active/Active deployments.
- *
- * @warning For SERIALIZABLE or STRONG guarantees on critical data, restrict
- *          writes to a single region.  Cross-region `STRONG` writes are
- *          rejected unless `local_region_id == leader_region_id`.
  */
 struct MultiRegionActiveActiveConfig {
     std::string local_region_id;                         ///< Identifier for the local region
@@ -1726,42 +1714,6 @@ struct MultiRegionActiveActiveConfig {
     uint32_t max_staleness_ms = 5000;                    ///< Upper bound for BOUNDED_STALENESS reads (ms)
     uint32_t session_token_ttl_ms = 30000;               ///< Time-to-live for session tokens (ms)
     ConflictResolution conflict_strategy = ConflictResolution::LAST_WRITE_WINS;
-
-    /**
-     * Per-collection consistency overrides.
-     *
-     * When a collection is present in this map, the configured level takes
-     * precedence over the caller-supplied level for both reads and writes.
-     * Use this to enforce STRONG consistency for critical collections while
-     * keeping the global default at BOUNDED_STALENESS or EVENTUAL.
-     *
-     * @note Configuring STRONG here for a non-leader region will cause all
-     *       writes to that collection to be rejected unless the local region
-     *       is the designated leader.
-     */
-    std::map<std::string, ConsistencyLevel> collection_consistency_overrides;
-
-    /**
-     * Designated leader region for STRONG cross-region writes.
-     *
-     * When non-empty, `write()` calls with effective consistency `STRONG` are
-     * rejected if `local_region_id != leader_region_id`.  This prevents
-     * split-brain lost-update scenarios for critical data by funnelling all
-     * strongly-consistent writes through a single region.
-     *
-     * Leave empty to allow STRONG writes on any region (legacy behaviour;
-     * provides no cross-region linearisability guarantee).
-     */
-    std::string leader_region_id;
-
-    /**
-     * Enable split-brain detection.
-     *
-     * When `true`, `isSplitBrain()` returns `true` if all peer regions report
-     * unhealthy staleness, indicating a possible network partition.  Callers
-     * may choose to reject STRONG writes or emit alerts in this state.
-     */
-    bool split_brain_detection_enabled = false;
 };
 
 /**
@@ -1769,13 +1721,10 @@ struct MultiRegionActiveActiveConfig {
  *
  * Coordinates multi-region active-active replication with bounded staleness
  * guarantees.  Every region can accept writes.  Reads are served according to
- * the requested ConsistencyLevel (or the collection-level override when
- * configured in `MultiRegionActiveActiveConfig::collection_consistency_overrides`):
+ * the requested ConsistencyLevel:
  *
  *   STRONG            – Only served when the local replica is known to be
- *                       up-to-date (staleness_ms == 0).  Writes at STRONG
- *                       are rejected when a `leader_region_id` is configured
- *                       and the local region is not the leader.
+ *                       up-to-date (staleness_ms == 0 or within lease window).
  *   BOUNDED_STALENESS – Served when staleness_ms <= max_staleness_ms; otherwise
  *                       the read is rejected (caller should retry or fall back
  *                       to another region).
@@ -1783,17 +1732,6 @@ struct MultiRegionActiveActiveConfig {
  *                       least up to the sequence embedded in the session token
  *                       (read-your-writes guarantee).
  *   EVENTUAL          – Always served from the local region regardless of lag.
- *
- * ### Cross-Region Consistency Limitations
- * STRONG consistency is **only** guaranteed within a single region.  Cross-region
- * writes are always eventual in the absence of a leader-region fence.
- * Vector-clock-based conflict resolution may produce different outcomes on
- * concurrent writes; this is an inherent property of Active/Active deployments
- * (see CAP theorem and Google Spanner TrueTime for background).
- *
- * For critical data requiring SERIALIZABLE isolation, restrict all writes to a
- * single region or use `leader_region_id` to designate one region as the sole
- * acceptor of STRONG writes.
  *
  * Staleness information must be fed in from the underlying replication layer
  * via updateRegionStaleness().  In a real deployment this is called by the
@@ -1808,7 +1746,6 @@ public:
         std::string region_id;          ///< Region that accepted the write
         uint64_t    sequence_number = 0;
         std::string session_token;      ///< Updated session token (for SESSION consistency)
-        bool        is_leader_region = false; ///< True when the write was accepted by the designated leader region
     };
 
     struct ReadResult {
@@ -1825,24 +1762,6 @@ public:
     /**
      * Record a write locally and return a WriteResult that includes a
      * session token embedding the new sequence number.
-     *
-     * If a collection-level override exists in
-     * `MultiRegionActiveActiveConfig::collection_consistency_overrides`, it
-     * replaces the caller-supplied `consistency` parameter.
-     *
-     * When `MultiRegionActiveActiveConfig::leader_region_id` is non-empty and
-     * the effective consistency is `STRONG`, the write is rejected
-     * (`success=false`) if the local region is not the designated leader.
-     * This prevents split-brain lost-update scenarios for critical writes.
-     *
-     * @param collection  Collection (table) name.
-     * @param document_id Unique document identifier within the collection.
-     * @param operation   Operation type string (e.g. "INSERT", "UPDATE", "DELETE").
-     * @param data        Serialized document payload.
-     * @param consistency Requested consistency level (may be overridden per collection).
-     * @param session_token Optional caller session token (currently unused by write).
-     * @return WriteResult with `success=true` on acceptance, or `success=false` when
-     *         rejected due to leader-region fencing.
      */
     WriteResult write(
         const std::string& collection,
@@ -1856,20 +1775,10 @@ public:
     /**
      * Attempt a read at the requested consistency level.
      *
-     * If a collection-level override exists in
-     * `MultiRegionActiveActiveConfig::collection_consistency_overrides`, it
-     * replaces the caller-supplied `consistency` parameter.
-     *
-     * Returns `success=false` when:
-     *   - `STRONG`: local staleness > 0 (replica is not fully caught up)
-     *   - `BOUNDED_STALENESS`: local staleness > `max_staleness_ms`
-     *   - `SESSION`: the local replica has not yet applied the sequence in the token
-     *
-     * @param collection   Collection (table) name.
-     * @param document_id  Unique document identifier.
-     * @param consistency  Requested consistency level (may be overridden per collection).
-     * @param session_token Optional session token for SESSION consistency (read-your-writes).
-     * @return ReadResult with `success=true` when the consistency requirement is met.
+     * Returns success=false when:
+     *   - STRONG: local staleness > 0 (i.e., the replica is not fully caught up)
+     *   - BOUNDED_STALENESS: local staleness > max_staleness_ms
+     *   - SESSION: the local replica has not yet applied the sequence in the token
      */
     ReadResult read(
         const std::string& collection,
@@ -1919,33 +1828,6 @@ public:
     /** Prometheus-format metrics snapshot. */
     std::string exportPrometheusMetrics() const;
 
-    /**
-     * Return the effective consistency level for a collection.
-     *
-     * If the collection has an entry in
-     * `MultiRegionActiveActiveConfig::collection_consistency_overrides`, that
-     * level is returned.  Otherwise `config_.default_consistency` is used.
-     *
-     * @param collection Collection (table) name to look up.
-     * @return The effective ConsistencyLevel for that collection.
-     */
-    [[nodiscard]] ConsistencyLevel getEffectiveConsistency(
-        const std::string& collection) const;
-
-    /**
-     * Return true when a split-brain condition is suspected.
-     *
-     * A split-brain is indicated when `split_brain_detection_enabled` is set
-     * in the configuration **and** every configured peer region reports an
-     * unhealthy staleness (i.e. no peer has been heard from within the
-     * `max_staleness_ms * 2` window).  Returns false when detection is
-     * disabled or when at least one peer is healthy.
-     *
-     * @note This is a heuristic based on the last staleness feed; a false
-     *       negative is possible if staleness updates are delayed.
-     */
-    [[nodiscard]] bool isSplitBrain() const;
-
 private:
     MultiRegionActiveActiveConfig config_;
 
@@ -1964,7 +1846,6 @@ private:
     std::atomic<uint64_t> bounded_staleness_reads_{0};
     std::atomic<uint64_t> session_reads_{0};
     std::atomic<uint64_t> eventual_reads_{0};
-    std::atomic<uint64_t> leader_write_rejections_{0}; ///< STRONG writes rejected because local is not the leader
 
     std::string generateWriteId(uint64_t sequence) const;
     std::string generateSessionToken(uint64_t sequence) const;
