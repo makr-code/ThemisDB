@@ -3,7 +3,7 @@
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
 
 **Version:** 2.4  
-**Last Updated:** 2026-06-30
+**Last Updated:** 2026-06-25
 **Scope:** Aggregated roadmap across tracked modules in `src/` (improved scanner pipeline Phase 1–6 complete; active baseline 22.085 deduplicated findings)
 
 > For module-specific details see each module's `src/<module>/ROADMAP.md`.
@@ -16,54 +16,6 @@ ThemisDB is a high-performance multi-model database with native AI/LLM integrati
 
 **Overall Timeline:** Q1 2026 – Q4 2027  
 **Current Release:** v1.9.0-beta
-
----
-
-## Issue #5373 - Commit/Prepare/Abort/WAL/Recovery Inventory (`sharding/` + `replication/`)
-
-Status: [x] complete (analysis baseline for 2PC/3PC refactoring epic)
-
-### Component Inventory (current implementation paths)
-
-| Module | Component / File | Commit/Prepare/Abort/WAL/Recovery responsibility |
-|---|---|---|
-| sharding | `include/sharding/cross_shard_transaction.h`, `src/sharding/cross_shard_transaction.cpp` | Protocol dispatcher + core execution paths (`execute2PC`, `execute3PC`, `executePercolator`, `executeCalvin`, `executeSaga`), participant `prepare/commit/abort` RPC driving, WAL-backed `recoverFromWAL`. |
-| sharding | `include/sharding/transaction_wal.h`, `src/sharding/transaction_wal.cpp` | Canonical transaction WAL for `BEGIN/PREPARE/PREPARED/COMMIT/COMMITTED/ABORT/ABORTED/COMPENSATE`; protocol tagging for 2PC/3PC/SAGA/Percolator/Calvin. |
-| sharding | `include/sharding/transaction_snapshot.h`, `src/sharding/transaction_snapshot.cpp` | Snapshot manager used with transaction WAL for faster in-doubt recovery bootstrap. |
-| sharding | `include/sharding/two_phase_commit_coordinator.h`, `src/sharding/two_phase_commit_coordinator.cpp` | Standalone 2PC coordinator flow (phase-1 prepare vote collection, phase-2 commit/abort broadcast) + WAL re-drive of in-doubt txns. |
-| sharding | `include/sharding/two_phase_commit_participant.h`, `src/sharding/two_phase_commit_participant.cpp` | Participant-side PREPARE/COMMIT/ABORT state machine, idempotency handling, WAL persistence, participant-local `recoverFromWAL`. |
-| sharding | `include/sharding/shard_rpc_client.h`, `src/sharding/shard_rpc_client.cpp` | Transport layer for coordinator->participant PREPARE/COMMIT/ABORT RPC delivery (`handlePrepareGrpc`, `handleCommitGrpc`, `handleAbortGrpc`). |
-| sharding | `src/sharding/orphan_detector.cpp` | Percolator stale-lock cleanup path (abort/cleanup for orphaned distributed transactions after coordinator failure). |
-| replication | `include/replication/replication_manager.h`, `src/replication/replication_manager.cpp` | WAL append/stream/apply backbone (`WALManager::append/readFrom`, `ReplicationManager::replicate`), quorum commit-index progression, failover/promotion decision paths. |
-| replication | `include/replication/logical_replication.h`, `src/replication/logical_replication.cpp` | WAL-to-logical-change decode path (`onWALEntryApplied`), slot restart/flush LSN tracking, persisted slot-state load/recovery (`loadPersistedSlots`, `persistSlot`). |
-| replication | `include/replication/raft_v2.h`, `src/replication/raft_v2.cpp` | Raft-v2 membership transition two-step commit path (JOINT->COMMIT entries) persisted through WAL-backed `writeEntry` and applied via `applyEntry`. |
-| replication | `include/replication/replication_slot.h`, `src/replication/replication_slot.cpp` | Replication slot durability and replay-position tracking used by logical/WAL propagation recovery logic. |
-| replication | `include/replication/replication_manager.h` (`WALArchivalManager`) | Segment archival/retrieval path for PITR-oriented WAL recovery and retention lifecycle. |
-
-### Protocol Variant Mapping (2PC/3PC/Percolator/Calvin/SAGA)
-
-| Protocol | sharding | replication | Current flow summary |
-|---|---|---|---|
-| 2PC | ✅ | ❌ | Coordinator prepare fan-out -> vote collection -> commit/abort decision -> participant ack + WAL replay for in-doubt states. |
-| 3PC | ✅ | ❌ | Prepare -> PreCommit callback phase -> final commit; missing PreCommit callback fails closed with abort logging. |
-| Percolator | ✅ | ❌ | Primary-lock optimistic flow with TrueTime commit-wait and WAL phase logging for takeover/recovery. |
-| Calvin | ✅ | ❌ | Deterministic pre-order execution path (`executeCalvin`) without classic vote round; uses coordinator transaction state + WAL durability hooks. |
-| SAGA | ✅ | ❌ | Stepwise execution with compensation path (`COMPENSATE` WAL entries) for long-running failure rollback. |
-| Raft membership commit (reference) | N/A | ✅ | JOINT consensus entry persisted to WAL, then COMMIT transition entry, then config activation on commit. |
-
-### Short Flow Notes for Refactoring Planning
-
-- Sharding currently carries **two overlapping commit-orchestration surfaces**: `CrossShardTransactionCoordinator` and `TwoPhaseCommitCoordinator`.
-- Recovery in sharding is **WAL + snapshot-centric** (coordinator + participant re-drive semantics).
-- Replication centers on **WAL streaming, quorum commit-index, and slot/membership state replay**, not on 2PC-style prepare/abort transaction protocols.
-
-### Identified Risks / Redundancies
-
-- **2PC duplication risk:** Similar coordinator concerns exist in both `cross_shard_transaction.*` and `two_phase_commit_coordinator.*`, increasing divergence probability under fixes.
-- **Protocol asymmetry risk:** 2PC/3PC/Percolator/Calvin/SAGA exist only in sharding; replication has different commit semantics (quorum/WAL), so shared refactoring must preserve module-specific invariants.
-- **Recovery surface fragmentation:** Recovery responsibilities are split across coordinator WAL replay, participant WAL replay, logical slot-state reload, and Raft membership WAL replay without one cross-module recovery contract.
-- **Error-path consistency risk:** 3PC depends on injected PreCommit RPC callback and fail-closed behavior; misconfiguration handling differs from 2PC and from replication failover paths.
-- **Durability policy drift risk:** Multiple WAL layers (transaction WAL, sharding WAL manager, replication WAL manager, archival manager) increase chance of inconsistent fsync/retention/replay assumptions.
 
 ---
 
@@ -1788,3 +1740,4 @@ Dettmers et al. 2023 (NF4); Zhang et al. 2023 (AdaLoRA); Bigoni et al. 2016 (com
 
 ---
 Zuletzt geprueft (Root-Sync): 2026-05-26
+
