@@ -7,11 +7,22 @@
 ## Current Status
 
 EPIC 3 distributed tensor contract ownership is documented for sub-issues 3.1–3.7.
-Header and source files are deferred to a dedicated implementation PR.
-Runtime distributed behavior, fault-path tests, and benchmark evidence remain pending.
+
+**Phase 1 (Design/API Contract) Status:**
+- 3.1 (Artifact Classes): ✅ Complete
+- 3.2 (Manifest Schema): ✅ Complete  
+- 3.3 (Shard Placement): ✅ Complete
+- **3.4 (Integrity Model): ✅ COMPLETE** ← Just completed
+- 3.5 (Recovery Strategy): 🔄 In scope
+- 3.6 (Distributed Retrieval): 🔄 In scope
+- 3.7 (Tensor Infrastructure): 🔄 In scope
+
+Header and source files created for 3.4 (integrity_verification.h/cc).
+Phase 2+ work (core implementation and beyond) remains for dedicated PRs.
 
 ## In Progress
 
+- [~] EPIC 3.4 Integrity Model Phase 1 (Design/API Contract) **✅ COMPLETE** (Target: Q3 2026)
 - [~] EPIC 3 documentation-governance alignment across roadmap/future/audit files (Target: Q3 2026)
 - [~] phase-gate acceptance criteria definition for distributed test/benchmark readiness (Target: Q3 2026)
 
@@ -29,7 +40,14 @@ Runtime distributed behavior, fault-path tests, and benchmark evidence remain pe
 ## Implementation Phases
 
 ### Phase 1: Design / API Contract
-- [x] EPIC 3 contract ownership mapped and documented
+- [x] EPIC 3.1 (Artifact Classes) contract ownership mapped and documented
+- [x] EPIC 3.2 (Manifest Schema) contract ownership mapped and documented
+- [x] EPIC 3.3 (Shard Placement) contract ownership mapped and documented
+- [x] **EPIC 3.4 (Integrity Model) contract ownership mapped and documented** ← Just completed
+
+### Phase 2: Core Implementation
+- [ ] scaffold translation units to be added with the implementation PR
+- [ ] 3.4 core implementation (runtime distributed failure semantics)
 
 ### Phase 2: Core Implementation
 - [ ] scaffold translation units to be added with the implementation PR
