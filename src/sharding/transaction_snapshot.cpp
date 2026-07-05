@@ -241,6 +241,55 @@ TransactionSnapshotManager::TransactionSnapshotManager(
     }
 }
 
+// ─────────────────────────────────────────────────────────────────────────────
+// Move Semantics (Phase 2B Type B Remediation)
+// ─────────────────────────────────────────────────────────────────────────────
+
+/**
+ * @brief Move constructor for TransactionSnapshotManager
+ * 
+ * Transfers snapshot manager state:
+ * - snapshot_directory_: filesystem path for snapshots
+ * - max_snapshots_: retention policy limit
+ * 
+ * @param other Source manager to move from
+ */
+TransactionSnapshotManager::TransactionSnapshotManager(TransactionSnapshotManager&& other) noexcept
+    : snapshot_directory_(std::move(other.snapshot_directory_)),
+      max_snapshots_(other.max_snapshots_) {
+    
+    // Clear source state
+    other.snapshot_directory_.clear();
+    other.max_snapshots_ = 0;
+    
+    spdlog::debug("TransactionSnapshotManager moved from source");
+}
+
+/**
+ * @brief Move assignment operator for TransactionSnapshotManager
+ * 
+ * Transfers manager state and clears source completely.
+ * Safe for self-assignment (no-op).
+ * 
+ * @param other Source manager to move from
+ * @return Reference to this manager
+ */
+TransactionSnapshotManager& TransactionSnapshotManager::operator=(TransactionSnapshotManager&& other) noexcept {
+    if (this == &other) {
+        return *this;
+    }
+    
+    snapshot_directory_ = std::move(other.snapshot_directory_);
+    max_snapshots_ = other.max_snapshots_;
+    
+    // Clear source state
+    other.snapshot_directory_.clear();
+    other.max_snapshots_ = 0;
+    
+    spdlog::debug("TransactionSnapshotManager move-assigned from source");
+    return *this;
+}
+
 /** @brief Compose snapshot filepath from directory and snapshot id. */
 std::string TransactionSnapshotManager::getSnapshotPath(uint64_t snapshot_id) const {
     return snapshot_directory_ + "/transaction_snapshot_" + std::to_string(snapshot_id) + ".json";

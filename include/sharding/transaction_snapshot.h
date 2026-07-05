@@ -129,7 +129,38 @@ public:
      */
     TransactionSnapshotManager(const std::string& snapshot_directory, size_t max_snapshots = 10);
     ~TransactionSnapshotManager() = default;
-    
+     
+    // ── Move semantics (Phase 2B Type B remediation) ──────────────────────────
+     
+    /**
+     * @brief Move constructor
+     * 
+     * Transfers snapshot manager state:
+     * - snapshot_directory_: target directory path
+     * - max_snapshots_: retention policy
+     * 
+     * @param other Source manager to move from
+     */
+    TransactionSnapshotManager(TransactionSnapshotManager&& other) noexcept;
+     
+    /**
+     * @brief Move assignment operator
+     * 
+     * Transfers snapshot manager state and clears source.
+     * 
+     * @param other Source manager to move from
+     * @return Reference to this manager
+     */
+    TransactionSnapshotManager& operator=(TransactionSnapshotManager&& other) noexcept;
+     
+    // ── Delete copy semantics (non-copyable) ────────────────────────────────
+     
+    /** @brief Copy constructor deleted - managers are move-only */
+    TransactionSnapshotManager(const TransactionSnapshotManager&) = delete;
+     
+    /** @brief Copy assignment deleted - managers are move-only */
+    TransactionSnapshotManager& operator=(const TransactionSnapshotManager&) = delete;
+     
     /**
      * @brief Create and persist a new transaction snapshot.
      * @return Snapshot id on success, nullopt on persistence/error failure.

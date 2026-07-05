@@ -164,6 +164,47 @@ public:
 
     ~TwoPhaseCommitParticipant() override = default;
 
+    // ── Move semantics (Phase 2B Type B remediation) ──────────────────────────
+
+    /**
+     * @brief Move constructor
+     * 
+     * Transfers all state from another participant:
+     * - shard_id_, config_
+     * - validate_and_lock_, apply_operations_, release_locks_
+     * - transactions_ (in-memory state)
+     * - wal_ (WAL manager)
+     * - Statistics (total_prepares_, total_commits_, total_aborts_, total_timeouts_)
+     * 
+     * @param other Source participant to move from
+     * 
+     * @pre other is a valid participant state
+     * @post other is left in a valid empty state
+     */
+    TwoPhaseCommitParticipant(TwoPhaseCommitParticipant&& other) noexcept;
+
+    /**
+     * @brief Move assignment operator
+     * 
+     * Transfers all state from another participant and clears source state completely.
+     * Equivalent to move constructor for all members.
+     * 
+     * @param other Source participant to move from
+     * @return Reference to this participant
+     * 
+     * @pre other is a valid participant state or *this == other
+     * @post other is left in a valid empty state if *this != other
+     */
+    TwoPhaseCommitParticipant& operator=(TwoPhaseCommitParticipant&& other) noexcept;
+
+    // ── Delete copy semantics (non-copyable) ────────────────────────────────
+
+    /** @brief Copy constructor deleted - participants are move-only */
+    TwoPhaseCommitParticipant(const TwoPhaseCommitParticipant&) = delete;
+    
+    /** @brief Copy assignment deleted - participants are move-only */
+    TwoPhaseCommitParticipant& operator=(const TwoPhaseCommitParticipant&) = delete;
+
     // ── ShardRPCServer::RequestHandler ──────────────────────────────────────
 
     /**

@@ -79,6 +79,101 @@ TwoPhaseCommitParticipant::TwoPhaseCommitParticipant(
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
+// Move Semantics (Phase 2B Type B Remediation)
+// ─────────────────────────────────────────────────────────────────────────────
+
+/**
+ * @brief Move constructor implementation
+ * 
+ * Transfers all members from source:
+ * - shard_id_: transaction shard identifier
+ * - config_: participant configuration
+ * - validate_and_lock_: validation callback
+ * - apply_operations_: apply callback
+ * - release_locks_: lock release callback
+ * - transactions_: in-memory transaction state map
+ * - wal_: WAL manager unique_ptr
+ * - Statistics: total_prepares_, total_commits_, total_aborts_, total_timeouts_
+ */
+TwoPhaseCommitParticipant::TwoPhaseCommitParticipant(TwoPhaseCommitParticipant&& other) noexcept
+    : shard_id_(std::move(const_cast<std::string&>(other.shard_id_))),
+      config_(std::move(other.config_)),
+      validate_and_lock_(std::move(other.validate_and_lock_)),
+      apply_operations_(std::move(other.apply_operations_)),
+      release_locks_(std::move(other.release_locks_)),
+      mutex_(),
+      transactions_(std::move(other.transactions_)),
+      wal_(std::move(other.wal_)),
+      total_prepares_(other.total_prepares_.load()),
+      total_commits_(other.total_commits_.load()),
+      total_aborts_(other.total_aborts_.load()),
+      total_timeouts_(other.total_timeouts_.load())
+{
+    // Clear source state completely
+    {
+        std::lock_guard<std::mutex> lock(other.mutex_);
+        other.transactions_.clear();
+        other.wal_ = nullptr;
+        other.validate_and_lock_ = nullptr;
+        other.apply_operations_ = nullptr;
+        other.release_locks_ = nullptr;
+        other.total_prepares_.store(0);
+        other.total_commits_.store(0);
+        other.total_aborts_.store(0);
+        other.total_timeouts_.store(0);
+    }
+    THEMIS_DEBUG("2PC participant [{}] moved from source", shard_id_);
+}
+
+/**
+ * @brief Move assignment operator implementation
+ * 
+ * Transfers all member state and clears source completely.
+ * Safe for self-assignment (no-op).
+ * 
+ * @param other Source participant
+ * @return Reference to this participant
+ */
+TwoPhaseCommitParticipant& TwoPhaseCommitParticipant::operator=(TwoPhaseCommitParticipant&& other) noexcept {
+    if (this == &other) {
+        return *this;
+    }
+    
+    {
+        std::lock_guard<std::mutex> this_lock(mutex_);
+        std::lock_guard<std::mutex> other_lock(other.mutex_);
+        
+        // Transfer all members
+        // Note: shard_id_ is const, so we use const_cast for move semantics
+        const_cast<std::string&>(shard_id_) = std::move(const_cast<std::string&>(other.shard_id_));
+        config_ = std::move(other.config_);
+        validate_and_lock_ = std::move(other.validate_and_lock_);
+        apply_operations_ = std::move(other.apply_operations_);
+        release_locks_ = std::move(other.release_locks_);
+        transactions_ = std::move(other.transactions_);
+        wal_ = std::move(other.wal_);
+        total_prepares_.store(other.total_prepares_.load());
+        total_commits_.store(other.total_commits_.load());
+        total_aborts_.store(other.total_aborts_.load());
+        total_timeouts_.store(other.total_timeouts_.load());
+        
+        // Clear source state completely
+        other.transactions_.clear();
+        other.wal_ = nullptr;
+        other.validate_and_lock_ = nullptr;
+        other.apply_operations_ = nullptr;
+        other.release_locks_ = nullptr;
+        other.total_prepares_.store(0);
+        other.total_commits_.store(0);
+        other.total_aborts_.store(0);
+        other.total_timeouts_.store(0);
+    }
+    
+    THEMIS_DEBUG("2PC participant [{}] move-assigned from source", shard_id_);
+    return *this;
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
 // ShardRPCServer::RequestHandler interface
 // ─────────────────────────────────────────────────────────────────────────────
 
