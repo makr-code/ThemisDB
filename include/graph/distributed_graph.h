@@ -313,6 +313,37 @@ public:
      */
     std::string resolveShardForVertex(const std::string& local_vertex_id) const;
 
+    // ── Move semantics (Phase 2B Type B remediation) ──────────────────────────
+
+    /**
+     * @brief Move constructor
+     * 
+     * Transfers distributed graph state:
+     * - config_: graph configuration
+     * - shards_: registered shard executors map
+     * 
+     * @param other Source manager to move from
+     */
+    DistributedGraphManager(DistributedGraphManager&& other) noexcept;
+
+    /**
+     * @brief Move assignment operator
+     * 
+     * Transfers distributed graph state and clears source completely.
+     * 
+     * @param other Source manager to move from
+     * @return Reference to this manager
+     */
+    DistributedGraphManager& operator=(DistributedGraphManager&& other) noexcept;
+
+    // ── Delete copy semantics (non-copyable) ────────────────────────────────
+
+    /** @brief Copy constructor deleted - managers are move-only */
+    DistributedGraphManager(const DistributedGraphManager&) = delete;
+    
+    /** @brief Copy assignment deleted - managers are move-only */
+    DistributedGraphManager& operator=(const DistributedGraphManager&) = delete;
+
 private:
     DistributedGraphConfig config_;
 

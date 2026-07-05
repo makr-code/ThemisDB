@@ -93,6 +93,64 @@ LocalShardGraphExecutor::executeDijkstra(const std::string &start_vertex, const 
 
 DistributedGraphManager::DistributedGraphManager(const DistributedGraphConfig &config) : config_(config) {}
 
+// ─────────────────────────────────────────────────────────────────────────────
+// Move Semantics (Phase 2B Type B Remediation)
+// ─────────────────────────────────────────────────────────────────────────────
+
+/**
+ * @brief Move constructor for DistributedGraphManager
+ * 
+ * Transfers distributed graph state:
+ * - config_: graph configuration
+ * - shards_: registered shard executors map
+ * 
+ * @param other Source manager to move from
+ */
+DistributedGraphManager::DistributedGraphManager(DistributedGraphManager&& other) noexcept
+    : config_(std::move(other.config_)) {
+    
+    {
+        std::unique_lock<std::shared_mutex> this_lock(shards_mutex_);
+        std::unique_lock<std::shared_mutex> other_lock(other.shards_mutex_);
+        
+        shards_ = std::move(other.shards_);
+        
+        // Clear source state
+        other.shards_.clear();
+    }
+    
+    THEMIS_DEBUG("DistributedGraphManager moved from source");
+}
+
+/**
+ * @brief Move assignment operator for DistributedGraphManager
+ * 
+ * Transfers distributed graph state and clears source completely.
+ * Safe for self-assignment (no-op).
+ * 
+ * @param other Source manager to move from
+ * @return Reference to this manager
+ */
+DistributedGraphManager& DistributedGraphManager::operator=(DistributedGraphManager&& other) noexcept {
+    if (this == &other) {
+        return *this;
+    }
+    
+    {
+        std::unique_lock<std::shared_mutex> this_lock(shards_mutex_);
+        std::unique_lock<std::shared_mutex> other_lock(other.shards_mutex_);
+        
+        config_ = std::move(other.config_);
+        shards_ = std::move(other.shards_);
+        
+        // Clear source state
+        other.shards_.clear();
+    }
+    
+    THEMIS_DEBUG("DistributedGraphManager move-assigned from source");
+    return *this;
+}
+
 void DistributedGraphManager::addShard(const std::string &shard_id, std::shared_ptr<ShardGraphExecutor> executor) {
     std::unique_lock<std::shared_mutex> lock(shards_mutex_);
     shards_[shard_id] = std::move(executor);
