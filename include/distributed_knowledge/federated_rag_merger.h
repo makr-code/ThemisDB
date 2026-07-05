@@ -150,6 +150,39 @@ struct FederatedRAGMergerConfig {
 class FederatedRAGMerger {
 public:
     explicit FederatedRAGMerger(FederatedRAGMergerConfig config = {});
+    
+    ~FederatedRAGMerger() = default;
+
+    // ── Move semantics (Phase 2B Type B remediation) ──────────────────────────
+
+    /**
+     * @brief Move constructor
+     * 
+     * Transfers merger state:
+     * - config_: merger configuration
+     * - erase_count_: GDPR erasure tracking
+     * 
+     * @param other Source merger to move from
+     */
+    FederatedRAGMerger(FederatedRAGMerger&& other) noexcept;
+
+    /**
+     * @brief Move assignment operator
+     * 
+     * Transfers merger state and clears source completely.
+     * 
+     * @param other Source merger to move from
+     * @return Reference to this merger
+     */
+    FederatedRAGMerger& operator=(FederatedRAGMerger&& other) noexcept;
+
+    // ── Delete copy semantics (non-copyable) ────────────────────────────────
+
+    /** @brief Copy constructor deleted - mergers are move-only */
+    FederatedRAGMerger(const FederatedRAGMerger&) = delete;
+    
+    /** @brief Copy assignment deleted - mergers are move-only */
+    FederatedRAGMerger& operator=(const FederatedRAGMerger&) = delete;
 
     /**
      * @brief Merge retrieval results from multiple shards.

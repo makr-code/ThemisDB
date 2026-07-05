@@ -70,6 +70,53 @@ FederatedRAGMerger::FederatedRAGMerger(FederatedRAGMergerConfig config) : config
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
+// Move Semantics (Phase 2B Type B Remediation)
+// ─────────────────────────────────────────────────────────────────────────────
+
+/**
+ * @brief Move constructor for FederatedRAGMerger
+ * 
+ * Transfers merger state:
+ * - config_: merger configuration
+ * - erase_count_: GDPR erasure tracking counter
+ * 
+ * @param other Source merger to move from
+ */
+FederatedRAGMerger::FederatedRAGMerger(FederatedRAGMerger&& other) noexcept
+    : config_(std::move(other.config_)),
+      erase_count_(other.erase_count_) {
+    
+    // Clear source state
+    other.erase_count_ = 0;
+    
+    THEMIS_DEBUG("FederatedRAGMerger moved from source");
+}
+
+/**
+ * @brief Move assignment operator for FederatedRAGMerger
+ * 
+ * Transfers merger state and clears source completely.
+ * Safe for self-assignment (no-op).
+ * 
+ * @param other Source merger to move from
+ * @return Reference to this merger
+ */
+FederatedRAGMerger& FederatedRAGMerger::operator=(FederatedRAGMerger&& other) noexcept {
+    if (this == &other) {
+        return *this;
+    }
+    
+    config_ = std::move(other.config_);
+    erase_count_ = other.erase_count_;
+    
+    // Clear source state
+    other.erase_count_ = 0;
+    
+    THEMIS_DEBUG("FederatedRAGMerger move-assigned from source");
+    return *this;
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
 // merge
 // ─────────────────────────────────────────────────────────────────────────────
 
