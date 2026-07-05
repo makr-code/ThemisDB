@@ -30,9 +30,16 @@ Integrity verification, Merkle structures, and receipt semantics.
 - [x] Document integration with manifest, placement, and recovery subsystems
 
 ### Phase 2: Core implementation
-- [ ] Implement `integrity_verification.h/cc` with full production logic
-- [ ] Document when queries may proceed with cached receipts versus fresh verification
-- [ ] Implement deterministic JSON serialization for proof computation
+- [~] Implement `integrity_verification.h/cc` with production-grade hashing, validation, and manifest-facing serialization
+- [x] Document when queries may proceed with cached receipts versus fresh verification
+- [x] Implement deterministic JSON serialization for proof computation
+
+#### Cached receipts vs. fresh verification
+
+- **Cached receipt is sufficient** when the query consumes immutable, previously verified artifact bytes and only needs audit metadata or historical lineage context.
+- **Fresh full verification is required** when artifact bytes are reloaded from shard storage, when manifest content or placement metadata changed, or when any upstream recovery/rebuild event invalidated prior trust.
+- **Fresh fragment verification is required** when the planner fetches only a subset of fragments from remote shards and the full-artifact content hash has not been recomputed in the current read path.
+- **Receipt-chain verification stays off the hot path** unless the caller explicitly needs compliance or tamper-evidence guarantees beyond the current artifact payload.
 
 ### Phase 3: Error handling and edge cases
 - [ ] Implement corruption and tampering detection

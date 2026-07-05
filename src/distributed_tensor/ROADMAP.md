@@ -17,12 +17,15 @@ EPIC 3 distributed tensor contract ownership is documented for sub-issues 3.1–
 - 3.6 (Distributed Retrieval): 🔄 In scope
 - 3.7 (Tensor Infrastructure): 🔄 In scope
 
-Header and source files created for 3.4 (integrity_verification.h/cc).
-Phase 2+ work (core implementation and beyond) remains for dedicated PRs.
+Header and source files exist for 3.4 (`integrity_verification.h/.cc`) and now include
+phase-2 canonical hashing plus manifest-facing receipt/proof serialization helpers.
+Phase 3+ work (runtime recovery semantics, tests, benchmarks, and default integration)
+remains for dedicated PRs.
 
 ## In Progress
 
-- [~] EPIC 3.4 Integrity Model Phase 1 (Design/API Contract) **✅ COMPLETE** (Target: Q3 2026)
+- [x] EPIC 3.4 Integrity Model Phase 1 (Design/API Contract) **COMPLETE** (Target: Q3 2026)
+- [~] EPIC 3.4 Integrity Model Phase 2 (Core Implementation) **IN PROGRESS** (Target: Q3 2026)
 - [~] EPIC 3 documentation-governance alignment across roadmap/future/audit files (Target: Q3 2026)
 - [~] phase-gate acceptance criteria definition for distributed test/benchmark readiness (Target: Q3 2026)
 
@@ -46,11 +49,10 @@ Phase 2+ work (core implementation and beyond) remains for dedicated PRs.
 - [x] **EPIC 3.4 (Integrity Model) contract ownership mapped and documented** ← Just completed
 
 ### Phase 2: Core Implementation
-- [ ] scaffold translation units to be added with the implementation PR
-- [ ] 3.4 core implementation (runtime distributed failure semantics)
-
-### Phase 2: Core Implementation
-- [ ] scaffold translation units to be added with the implementation PR
+- [x] integrity translation units created for EPIC 3.4
+- [x] deterministic JSON hashing and manifest-facing proof/receipt serialization implemented
+- [x] cached-receipt versus fresh-verification rules documented for query-path consumers
+- [ ] 3.4 runtime distributed failure semantics completed across recovery/planner integration
 
 ### Phase 3: Error Handling and Edge Cases
 - [ ] runtime distributed failure semantics implemented and verified

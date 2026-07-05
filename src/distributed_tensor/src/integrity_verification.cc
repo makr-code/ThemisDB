@@ -11,10 +11,69 @@
 #include <iomanip>
 #include <sstream>
 #include <algorithm>
+#include <cctype>
 #include <cstring>
 
 namespace themis {
 namespace distributed_tensor {
+
+namespace {
+
+[[nodiscard]] bool isLowercaseHexCharacter(const unsigned char c) {
+    return std::isdigit(c) != 0 || (c >= 'a' && c <= 'f');
+}
+
+[[nodiscard]] bool isLikelyArtifactIdentifier(std::string_view artifact_id) {
+    if (artifact_id.empty()) {
+        return false;
+    }
+
+    return std::none_of(artifact_id.begin(), artifact_id.end(), [](const char c) {
+        return std::iscntrl(static_cast<unsigned char>(c)) != 0;
+    });
+}
+
+[[nodiscard]] json canonicalizeJson(const json& value) {
+    if (value.is_object()) {
+        json canonical = json::object();
+        for (auto it = value.begin(); it != value.end(); ++it) {
+            canonical[it.key()] = canonicalizeJson(it.value());
+        }
+        return canonical;
+    }
+
+    if (value.is_array()) {
+        json canonical = json::array();
+        for (const auto& element : value) {
+            canonical.push_back(canonicalizeJson(element));
+        }
+        return canonical;
+    }
+
+    return value;
+}
+
+[[nodiscard]] std::optional<std::string> getRequiredString(
+    const json& j,
+    std::string_view key) {
+    const auto iter = j.find(key);
+    if (iter == j.end() || !iter->is_string()) {
+        return std::nullopt;
+    }
+
+    return iter->get<std::string>();
+}
+
+[[nodiscard]] json serializeProofPath(
+    const std::vector<MerkleProofComponent>& proof_path) {
+    auto serialized = json::array();
+    for (const auto& component : proof_path) {
+        serialized.push_back(component.toJSON());
+    }
+    return serialized;
+}
+
+}  // namespace
 
 // ============================================================================
 // ContentHash Implementation
@@ -24,8 +83,7 @@ bool ContentHash::isValid() const {
     // SHA-256 produces 32 bytes = 64 hex characters (lowercase)
     if (value.size() != 64) return false;
     for (char c : value) {
-        if (!std::isxdigit(c)) return false;
-        if (std::isalpha(c) && c != std::tolower(c)) return false;  // reject uppercase
+        if (!isLowercaseHexCharacter(static_cast<unsigned char>(c))) return false;
     }
     return true;
 }
@@ -34,8 +92,33 @@ bool ContentHash::isValid() const {
 // Merkle Proof Implementation
 // ============================================================================
 
+json MerkleProofComponent::toJSON() const {
+    return json{
+        {"sibling_hash", sibling_hash},
+        {"is_left", is_left},
+    };
+}
+
+std::optional<MerkleProofComponent> MerkleProofComponent::fromJSON(const json& j) {
+    if (!j.is_object()) {
+        return std::nullopt;
+    }
+
+    const auto sibling_hash = getRequiredString(j, "sibling_hash");
+    const auto is_left_iter = j.find("is_left");
+    if (!sibling_hash.has_value() || is_left_iter == j.end() ||
+        !is_left_iter->is_boolean()) {
+        return std::nullopt;
+    }
+
+    return MerkleProofComponent{
+        .sibling_hash = *sibling_hash,
+        .is_left = is_left_iter->get<bool>(),
+    };
+}
+
 bool MerkleProof::verify(const std::string& expected_root) const {
-    if (!isValidSHA256Hex(artifact_id) || artifact_id.empty()) {
+    if (!isLikelyArtifactIdentifier(artifact_id)) {
         spdlog::warn("MerkleProof::verify: invalid artifact_id");
         return false;
     }
@@ -45,6 +128,10 @@ bool MerkleProof::verify(const std::string& expected_root) const {
     }
     if (!isValidSHA256Hex(artifact_root_hash) || artifact_root_hash.empty()) {
         spdlog::warn("MerkleProof::verify: invalid artifact_root_hash");
+        return false;
+    }
+    if (!isValidSHA256Hex(expected_root) || expected_root.empty()) {
+        spdlog::warn("MerkleProof::verify: invalid expected_root");
         return false;
     }
 
@@ -81,6 +168,57 @@ bool MerkleProof::verify(const std::string& expected_root) const {
     return verified;
 }
 
+json MerkleProof::toJSON() const {
+    return json{
+        {"artifact_id", artifact_id},
+        {"fragment_index", fragment_index},
+        {"fragment_hash", fragment_hash},
+        {"proof_path", serializeProofPath(proof_path)},
+        {"artifact_root_hash", artifact_root_hash},
+    };
+}
+
+std::optional<MerkleProof> MerkleProof::fromJSON(const json& j) {
+    if (!j.is_object()) {
+        return std::nullopt;
+    }
+
+    const auto artifact_id = getRequiredString(j, "artifact_id");
+    const auto fragment_hash = getRequiredString(j, "fragment_hash");
+    const auto artifact_root_hash = getRequiredString(j, "artifact_root_hash");
+    const auto fragment_index_iter = j.find("fragment_index");
+    const auto proof_path_iter = j.find("proof_path");
+    if (!artifact_id.has_value() || !fragment_hash.has_value() ||
+        !artifact_root_hash.has_value() || fragment_index_iter == j.end() ||
+        !fragment_index_iter->is_number_unsigned() ||
+        proof_path_iter == j.end() || !proof_path_iter->is_array()) {
+        return std::nullopt;
+    }
+    if (!isLikelyArtifactIdentifier(*artifact_id) ||
+        !isValidSHA256Hex(*fragment_hash) ||
+        !isValidSHA256Hex(*artifact_root_hash)) {
+        return std::nullopt;
+    }
+
+    std::vector<MerkleProofComponent> proof_path;
+    proof_path.reserve(proof_path_iter->size());
+    for (const auto& component_json : *proof_path_iter) {
+        auto component = MerkleProofComponent::fromJSON(component_json);
+        if (!component.has_value()) {
+            return std::nullopt;
+        }
+        proof_path.push_back(std::move(*component));
+    }
+
+    return MerkleProof{
+        .artifact_id = *artifact_id,
+        .fragment_index = fragment_index_iter->get<uint64_t>(),
+        .fragment_hash = *fragment_hash,
+        .proof_path = std::move(proof_path),
+        .artifact_root_hash = *artifact_root_hash,
+    };
+}
+
 // ============================================================================
 // VerificationReceipt Implementation
 // ============================================================================
@@ -100,7 +238,62 @@ std::string VerificationReceipt::computeContentHash() const {
 }
 
 bool VerificationReceipt::verifyIntegrity() const {
-    return receipt_hash == computeContentHash();
+    return isValidSHA256Hex(receipt_hash) && receipt_hash == computeContentHash();
+}
+
+json VerificationReceipt::toJSON() const {
+    return json{
+        {"receipt_id", receipt_id},
+        {"artifact_id", artifact_id},
+        {"content_hash", content_hash},
+        {"timestamp", timestamp},
+        {"parent_receipt_hash", parent_receipt_hash},
+        {"receipt_hash", receipt_hash},
+        {"package_lineage_hash", package_lineage_hash},
+        {"shard_placement_id", shard_placement_id},
+        {"metadata", metadata},
+    };
+}
+
+std::optional<VerificationReceipt> VerificationReceipt::fromJSON(const json& j) {
+    if (!j.is_object()) {
+        return std::nullopt;
+    }
+
+    const auto receipt_id = getRequiredString(j, "receipt_id");
+    const auto artifact_id = getRequiredString(j, "artifact_id");
+    const auto content_hash = getRequiredString(j, "content_hash");
+    const auto timestamp = getRequiredString(j, "timestamp");
+    const auto parent_receipt_hash = getRequiredString(j, "parent_receipt_hash");
+    const auto receipt_hash = getRequiredString(j, "receipt_hash");
+    const auto package_lineage_hash = getRequiredString(j, "package_lineage_hash");
+    const auto shard_placement_id = getRequiredString(j, "shard_placement_id");
+    const auto metadata_iter = j.find("metadata");
+    if (!receipt_id.has_value() || !artifact_id.has_value() ||
+        !content_hash.has_value() || !timestamp.has_value() ||
+        !parent_receipt_hash.has_value() || !receipt_hash.has_value() ||
+        !package_lineage_hash.has_value() || !shard_placement_id.has_value() ||
+        metadata_iter == j.end()) {
+        return std::nullopt;
+    }
+    if (receipt_id->empty() || !isLikelyArtifactIdentifier(*artifact_id) ||
+        !isValidSHA256Hex(*content_hash) || timestamp->empty() ||
+        (!parent_receipt_hash->empty() && !isValidSHA256Hex(*parent_receipt_hash)) ||
+        !isValidSHA256Hex(*receipt_hash)) {
+        return std::nullopt;
+    }
+
+    return VerificationReceipt{
+        .receipt_id = *receipt_id,
+        .artifact_id = *artifact_id,
+        .content_hash = *content_hash,
+        .timestamp = *timestamp,
+        .parent_receipt_hash = *parent_receipt_hash,
+        .receipt_hash = *receipt_hash,
+        .package_lineage_hash = *package_lineage_hash,
+        .shard_placement_id = *shard_placement_id,
+        .metadata = *metadata_iter,
+    };
 }
 
 // ============================================================================
@@ -186,6 +379,62 @@ size_t ReceiptChain::size() const {
     return receipts_.size();
 }
 
+json ReceiptChain::toJSON() const {
+    return json{
+        {"receipts", [&]() {
+            auto serialized = json::array();
+            for (const auto& receipt : receipts_) {
+                serialized.push_back(receipt.toJSON());
+            }
+            return serialized;
+        }()},
+        {"metadata", toManifestMetadataJSON()},
+    };
+}
+
+json ReceiptChain::toManifestMetadataJSON() const {
+    const auto head = getHeadReceipt();
+    const auto genesis = getGenesisReceipt();
+
+    return json{
+        {"chain_length", receipts_.size()},
+        {"head_receipt_id", head.has_value() ? head->receipt_id : std::string{}},
+        {"head_receipt_hash", head.has_value() ? head->receipt_hash : std::string{}},
+        {"genesis_receipt_id", genesis.has_value() ? genesis->receipt_id : std::string{}},
+        {"genesis_receipt_hash", genesis.has_value() ? genesis->receipt_hash : std::string{}},
+    };
+}
+
+std::optional<ReceiptChain> ReceiptChain::fromJSON(const json& j) {
+    const json* receipts_json = &j;
+    if (j.is_object()) {
+        const auto iter = j.find("receipts");
+        if (iter == j.end()) {
+            return std::nullopt;
+        }
+        receipts_json = &(*iter);
+    }
+
+    if (!receipts_json->is_array()) {
+        return std::nullopt;
+    }
+
+    ReceiptChain chain;
+    for (const auto& receipt_json : *receipts_json) {
+        auto receipt = VerificationReceipt::fromJSON(receipt_json);
+        if (!receipt.has_value()) {
+            return std::nullopt;
+        }
+        chain.receipts_.push_back(std::move(*receipt));
+    }
+
+    if (!chain.verifyChainIntegrity()) {
+        return std::nullopt;
+    }
+
+    return chain;
+}
+
 // ============================================================================
 // VerificationState Utilities
 // ============================================================================
@@ -262,7 +511,7 @@ std::string computeSHA256(std::string_view data) {
 
 std::string computeJSONHash(const json& j) {
     // Deterministic JSON serialization (sorted keys, no whitespace)
-    std::string canonical = j.dump(
+    std::string canonical = canonicalizeJson(j).dump(
         -1,  // compact output
         ' ', // indent (not used with -1)
         false,  // ensure ASCII output
@@ -277,9 +526,7 @@ bool isValidSHA256Hex(std::string_view hex_str) {
     if (hex_str.size() != 64) return false;
 
     for (char c : hex_str) {
-        // Must be lowercase hex digit
-        if (!std::isxdigit(c)) return false;
-        if (std::isalpha(c) && c != std::tolower(c)) return false;
+        if (!isLowercaseHexCharacter(static_cast<unsigned char>(c))) return false;
     }
 
     return true;

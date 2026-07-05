@@ -67,7 +67,7 @@ struct ContentHash {
      * @brief Check if this hash represents valid content.
      * @return true if value is a valid 64-character hex string
      */
-    bool isValid() const;
+    [[nodiscard]] bool isValid() const;
 
     /**
      * @brief Check if two hashes are identical.
@@ -102,6 +102,21 @@ struct ContentHash {
 struct MerkleProofComponent {
     std::string sibling_hash;  ///< Sibling node hash in the proof path
     bool        is_left = false; ///< true if sibling is to the left; false if right
+
+    /**
+     * @brief Convert this proof component into manifest-safe JSON.
+     * @return JSON object with sibling hash and path direction
+     */
+    [[nodiscard]] json toJSON() const;
+
+    /**
+     * @brief Parse a proof component from manifest JSON.
+     *
+     * @param j JSON object containing `sibling_hash` and `is_left`
+     * @return Parsed proof component, or `std::nullopt` when the payload is invalid
+     */
+    [[nodiscard]] static std::optional<MerkleProofComponent> fromJSON(
+        const json& j);
 };
 
 /**
@@ -136,13 +151,27 @@ struct MerkleProof {
      * @param expected_root The artifact's published root hash
      * @return true if proof is valid and fragment is verified to belong to artifact
      */
-    bool verify(const std::string& expected_root) const;
+    [[nodiscard]] bool verify(const std::string& expected_root) const;
 
     /**
      * @brief Get the number of hash operations required to verify this proof.
      * @return Depth of the proof path (O(log N))
      */
-    size_t verificationCost() const { return proof_path.size(); }
+    [[nodiscard]] size_t verificationCost() const { return proof_path.size(); }
+
+    /**
+     * @brief Convert this proof into manifest-safe JSON.
+     * @return JSON object containing fragment identity, proof path, and expected root
+     */
+    [[nodiscard]] json toJSON() const;
+
+    /**
+     * @brief Parse a Merkle proof from manifest JSON.
+     *
+     * @param j JSON object produced by toJSON()
+     * @return Parsed proof, or `std::nullopt` when required fields are missing or malformed
+     */
+    [[nodiscard]] static std::optional<MerkleProof> fromJSON(const json& j);
 };
 
 // ============================================================================
@@ -191,13 +220,29 @@ struct VerificationReceipt {
      *
      * @return 64-character lowercase hex SHA-256 hash
      */
-    std::string computeContentHash() const;
+    [[nodiscard]] std::string computeContentHash() const;
 
     /**
      * @brief Verify that this receipt's content_hash matches the canonical value.
      * @return true if receipt_hash matches computeContentHash()
      */
-    bool verifyIntegrity() const;
+    [[nodiscard]] bool verifyIntegrity() const;
+
+    /**
+     * @brief Convert this receipt into manifest-safe JSON.
+     *
+     * @return JSON object containing all receipt fields, including `receipt_hash`
+     */
+    [[nodiscard]] json toJSON() const;
+
+    /**
+     * @brief Parse a receipt from manifest JSON.
+     *
+     * @param j JSON object containing receipt fields
+     * @return Parsed receipt, or `std::nullopt` when required fields are invalid
+     */
+    [[nodiscard]] static std::optional<VerificationReceipt> fromJSON(
+        const json& j);
 };
 
 /**
@@ -237,19 +282,19 @@ public:
      * @brief Get all receipts in the chain (oldest first).
      * @return Vector of receipts from genesis to head
      */
-    std::vector<VerificationReceipt> getAllReceipts() const;
+    [[nodiscard]] std::vector<VerificationReceipt> getAllReceipts() const;
 
     /**
      * @brief Get the most recent receipt in the chain.
      * @return Head receipt, or empty if chain is empty
      */
-    std::optional<VerificationReceipt> getHeadReceipt() const;
+    [[nodiscard]] std::optional<VerificationReceipt> getHeadReceipt() const;
 
     /**
      * @brief Get the genesis (oldest) receipt in the chain.
      * @return Genesis receipt, or empty if chain is empty
      */
-    std::optional<VerificationReceipt> getGenesisReceipt() const;
+    [[nodiscard]] std::optional<VerificationReceipt> getGenesisReceipt() const;
 
     /**
      * @brief Verify the integrity of the entire receipt chain.
@@ -259,17 +304,47 @@ public:
      *
      * @return true when entire chain is intact and unmodified
      */
-    bool verifyChainIntegrity() const;
+    [[nodiscard]] bool verifyChainIntegrity() const;
 
     /**
      * @brief Get the number of receipts in the chain.
      */
-    size_t size() const;
+    [[nodiscard]] size_t size() const;
 
     /**
      * @brief Check if chain is empty (no receipts appended).
      */
-    bool empty() const { return size() == 0; }
+    [[nodiscard]] bool empty() const { return size() == 0; }
+
+    /**
+     * @brief Serialize the entire chain for manifest or audit storage.
+     *
+     * Produces an object with a `receipts` array and summary metadata so callers
+     * can persist the head receipt while still retaining chain statistics.
+     *
+     * @return JSON object describing the full chain
+     */
+    [[nodiscard]] json toJSON() const;
+
+    /**
+     * @brief Serialize only manifest-facing chain statistics.
+     *
+     * This compact payload is intended for `receipt_chain_metadata`-style fields
+     * where callers need chain size and endpoints without embedding all receipts.
+     *
+     * @return JSON object containing chain size plus head/genesis identifiers
+     */
+    [[nodiscard]] json toManifestMetadataJSON() const;
+
+    /**
+     * @brief Parse a receipt chain from serialized JSON.
+     *
+     * Accepts either the object produced by toJSON() or a bare receipt array.
+     *
+     * @param j JSON receipt-chain payload
+     * @return Parsed chain, or `std::nullopt` when payload integrity fails
+     */
+    [[nodiscard]] static std::optional<ReceiptChain> fromJSON(const json& j);
 
 private:
     std::vector<VerificationReceipt> receipts_;  ///< Receipts from oldest to newest
@@ -300,12 +375,12 @@ enum class VerificationState {
 /**
  * @brief Conversion from VerificationState enum to human-readable string.
  */
-std::string verificationStateToString(VerificationState state);
+[[nodiscard]] std::string verificationStateToString(VerificationState state);
 
 /**
  * @brief Conversion from human-readable string to VerificationState enum.
  */
-std::optional<VerificationState> stringToVerificationState(
+[[nodiscard]] std::optional<VerificationState> stringToVerificationState(
     const std::string& s);
 
 // ============================================================================
@@ -331,7 +406,7 @@ struct VerificationResult {
     /**
      * @brief Convert to JSON for serialization/logging.
      */
-    json toJSON() const;
+    [[nodiscard]] json toJSON() const;
 };
 
 // ============================================================================
@@ -409,7 +484,7 @@ public:
  * @param data Input data
  * @return 64-character lowercase hex SHA-256 hash
  */
-std::string computeSHA256(const std::string& data);
+[[nodiscard]] std::string computeSHA256(const std::string& data);
 
 /**
  * @brief Compute SHA-256 hash of arbitrary bytes (string_view overload).
@@ -417,7 +492,7 @@ std::string computeSHA256(const std::string& data);
  * @param data Input data view
  * @return 64-character lowercase hex SHA-256 hash
  */
-std::string computeSHA256(std::string_view data);
+[[nodiscard]] std::string computeSHA256(std::string_view data);
 
 /**
  * @brief Compute deterministic SHA-256 hash of a JSON object.
@@ -428,7 +503,7 @@ std::string computeSHA256(std::string_view data);
  * @param j JSON object
  * @return 64-character lowercase hex SHA-256 hash
  */
-std::string computeJSONHash(const json& j);
+[[nodiscard]] std::string computeJSONHash(const json& j);
 
 /**
  * @brief Verify that a hex string is a valid SHA-256 hash.
@@ -436,7 +511,7 @@ std::string computeJSONHash(const json& j);
  * @param hex_str String to validate
  * @return true if hex_str is exactly 64 lowercase hex characters
  */
-bool isValidSHA256Hex(std::string_view hex_str);
+[[nodiscard]] bool isValidSHA256Hex(std::string_view hex_str);
 
 }  // namespace distributed_tensor
 }  // namespace themis
