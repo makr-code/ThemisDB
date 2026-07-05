@@ -82,8 +82,8 @@ ASSERT(allDistancesInValidRange(distanceMatrix));  // Type-specific checks
 
 **Remediation Required (Q3 2026)**:
 - [ ] Fix 50% of unchecked CUDA calls (340 → 170 gaps)
-- [ ] Add timeout enforcement in kernel invocation wrapper
-- [ ] Implement result validation before downstream use
+- [x] Add timeout enforcement in kernel invocation wrapper
+- [x] Implement result validation before downstream use
 - [ ] Add unit tests: GPU distance parity with CPU BLAS
 
 ---
@@ -114,7 +114,7 @@ ASSERT(d_topkDistances.capacity() >= k * numQueries);
 
 **Remediation Required**:
 - [ ] Add error checking around kernel launch
-- [ ] Validate output size matches expectation
+- [x] Validate output size matches expectation
 - [ ] Unit tests: TopK correctness vs CPU heap sort
 
 ---
@@ -618,15 +618,15 @@ All GPU acceleration maintains these invariants:
 
 **Actions**:
 - [ ] Fix 340 unchecked CUDA calls → 170 gaps remaining (50% reduction)
-- [ ] Implement timeout gates for distance kernels (5s SLA)
-- [ ] Add result validation for TopK selection
+- [x] Implement timeout gates for distance kernels (5s SLA)
+- [x] Add result validation for TopK selection
 - [ ] Unit tests: GPU distance parity with CPU BLAS
 - [ ] Add RAII wrappers for resource cleanup
 
 **Acceptance Criteria**:
 - [ ] All CRITICAL CUDA gaps resolved (2 remaining 0)
 - [ ] Unit tests passing (distance/TopK parity verified)
-- [ ] Timeout enforcement in place
+- [x] Timeout enforcement in place
 - [ ] No AddressSanitizer or LeakSanitizer issues
 
 **Effort**: 20-24 hours (2.5-3 days)

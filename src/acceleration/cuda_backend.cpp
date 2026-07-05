@@ -21,9 +21,12 @@
 #include "acceleration/cuda_backend.h"
 
 #include <algorithm>
+#include <chrono>
 #include <iostream>
+#include <limits>
 #include <memory>
 #include <sstream>
+#include <thread>
 
 #include "acceleration/batch_validator.h"
 #include "acceleration/error_codes.h"
@@ -97,6 +100,84 @@ namespace acceleration {
 // For k > kHnswSinglePassMaxK the engine falls through to a multi-pass
 // host-merge strategy; this is considered a degraded operation mode.
 static constexpr uint32_t kHnswSinglePassMaxK = 1024u;
+
+#ifdef THEMIS_ENABLE_CUDA
+namespace {
+constexpr auto kCategoryAKernelTimeout = std::chrono::seconds(5);
+constexpr float kCosineDistanceTolerance = 1.001f;
+
+struct StreamWaitResult {
+    bool ok = false;
+    AccelerationErrorCode errorCode = AccelerationErrorCode::SynchronizationFailed;
+    std::string message;
+};
+
+StreamWaitResult waitForStreamWithTimeout(cudaStream_t stream, std::chrono::milliseconds timeout) {
+    const auto deadline = std::chrono::steady_clock::now() + timeout;
+
+    while (true) {
+        const cudaError_t queryErr = cudaStreamQuery(stream);
+        if (queryErr == cudaSuccess) {
+            return {true, AccelerationErrorCode::SynchronizationFailed, ""};
+        }
+        if (queryErr != cudaErrorNotReady) {
+            return {false, AccelerationErrorCode::SynchronizationFailed,
+                    "Stream synchronization failed: " + std::string(cudaGetErrorString(queryErr))};
+        }
+        if (std::chrono::steady_clock::now() >= deadline) {
+            return {false, AccelerationErrorCode::OperationTimeout,
+                    "CUDA stream timeout while waiting for kernel completion"};
+        }
+        std::this_thread::sleep_for(std::chrono::milliseconds(1));
+    }
+}
+
+bool validateDistanceOutputs(const std::vector<float>& distances, bool useL2, std::string& validationError) {
+    for (size_t i = 0; i < distances.size(); ++i) {
+        const float value = distances[i];
+        if (!std::isfinite(value)) {
+            validationError = "Distance output contains non-finite value at index " + std::to_string(i);
+            return false;
+        }
+        if (useL2 && value < 0.0F) {
+            validationError = "L2 distance output is negative at index " + std::to_string(i);
+            return false;
+        }
+        if (!useL2 && (value < -kCosineDistanceTolerance || value > kCosineDistanceTolerance)) {
+            validationError = "Cosine distance output out of range at index " + std::to_string(i);
+            return false;
+        }
+    }
+    return true;
+}
+
+bool validateTopKOutputs(const std::vector<int>& topkIndices, const std::vector<float>& topkDistances, size_t numVectors,
+                         bool useL2, std::string& validationError) {
+    if (topkIndices.size() != topkDistances.size()) {
+        validationError = "Top-K output size mismatch between indices and distances";
+        return false;
+    }
+    const int maxVectorIndex = static_cast<int>(numVectors);
+    for (size_t i = 0; i < topkIndices.size(); ++i) {
+        const int index = topkIndices[i];
+        if (index < 0 || index >= maxVectorIndex) {
+            validationError = "Top-K output index out of range at position " + std::to_string(i);
+            return false;
+        }
+        const float distance = topkDistances[i];
+        if (!std::isfinite(distance)) {
+            validationError = "Top-K distance contains non-finite value at position " + std::to_string(i);
+            return false;
+        }
+        if (useL2 && distance < 0.0F) {
+            validationError = "Top-K L2 distance is negative at position " + std::to_string(i);
+            return false;
+        }
+    }
+    return true;
+}
+} // namespace
+#endif
 
 // ============================================================================
 // CUDAVectorBackend Implementation
@@ -425,11 +506,18 @@ std::vector<float> CUDAVectorBackend::computeDistances(const float *queries, siz
         std::vector<float> distances(numQueries * numVectors);
         d_distances.copyTo(distances.data(), distanceSize, stream);
 
-        cudaError_t err = cudaStreamSynchronize(stream);
-        if (err != cudaSuccess) {
-            setError(ErrorContext(AccelerationErrorCode::SynchronizationFailed, "CUDA",
-                                  "Stream synchronization failed: " + std::string(cudaGetErrorString(err)),
+        const StreamWaitResult waitResult
+            = waitForStreamWithTimeout(stream, std::chrono::duration_cast<std::chrono::milliseconds>(kCategoryAKernelTimeout));
+        if (!waitResult.ok) {
+            setError(ErrorContext(waitResult.errorCode, "CUDA", waitResult.message,
                                   "Check if the GPU is still responsive"));
+            std::cerr << lastError_.format() << std::endl;
+            return {};
+        }
+        std::string distanceValidationError;
+        if (!validateDistanceOutputs(distances, useL2, distanceValidationError)) {
+            setError(ErrorContext(AccelerationErrorCode::InputValidationFailed, "CUDA", distanceValidationError,
+                                  "Falling back to CPU path is recommended for this batch"));
             std::cerr << lastError_.format() << std::endl;
             return {};
         }
@@ -546,11 +634,18 @@ CUDAVectorBackend::batchKnnSearch(const float *queries, size_t numQueries, size_
         d_topkIndices.copyTo(topkIndices.data(), topkIdxSize, stream);
         d_topkDistances.copyTo(topkDistances.data(), topkDistSize, stream);
 
-        cudaError_t err = cudaStreamSynchronize(stream);
-        if (err != cudaSuccess) {
-            setError(ErrorContext(AccelerationErrorCode::SynchronizationFailed, "CUDA",
-                                  "Stream synchronization failed: " + std::string(cudaGetErrorString(err)),
+        const StreamWaitResult waitResult
+            = waitForStreamWithTimeout(stream, std::chrono::duration_cast<std::chrono::milliseconds>(kCategoryAKernelTimeout));
+        if (!waitResult.ok) {
+            setError(ErrorContext(waitResult.errorCode, "CUDA", waitResult.message,
                                   "Check if the GPU is still responsive"));
+            std::cerr << lastError_.format() << std::endl;
+            return {};
+        }
+        std::string topkValidationError;
+        if (!validateTopKOutputs(topkIndices, topkDistances, numVectors, useL2, topkValidationError)) {
+            setError(ErrorContext(AccelerationErrorCode::InputValidationFailed, "CUDA", topkValidationError,
+                                  "Falling back to CPU path is recommended for this batch"));
             std::cerr << lastError_.format() << std::endl;
             return {};
         }
@@ -893,11 +988,20 @@ CUDAVectorBackend::batchKnnSearchWithGraph(const float *queries, size_t numQueri
             return {};
         }
 
-        cudaError_t syncErr = cudaStreamSynchronize(mainStream);
-        if (syncErr != cudaSuccess) {
-            setError(ErrorContext(AccelerationErrorCode::SynchronizationFailed, "CUDA",
-                                  "Stream synchronization failed: " + std::string(cudaGetErrorString(syncErr)),
+        const StreamWaitResult waitResult
+            = waitForStreamWithTimeout(mainStream,
+                                       std::chrono::duration_cast<std::chrono::milliseconds>(kCategoryAKernelTimeout));
+        if (!waitResult.ok) {
+            setError(ErrorContext(waitResult.errorCode, "CUDA", waitResult.message,
                                   "Check if the GPU is still responsive"));
+            std::cerr << lastError_.format() << std::endl;
+            return {};
+        }
+        const bool useL2 = (metric == DistanceMetric::L2);
+        std::string topkValidationError;
+        if (!validateTopKOutputs(topkIndices, topkDistances, numVectors, useL2, topkValidationError)) {
+            setError(ErrorContext(AccelerationErrorCode::InputValidationFailed, "CUDA", topkValidationError,
+                                  "Falling back to non-graph CUDA path is recommended for this batch"));
             std::cerr << lastError_.format() << std::endl;
             return {};
         }
