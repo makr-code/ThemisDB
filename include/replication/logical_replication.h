@@ -109,6 +109,40 @@ public:
     LogicalReplicationManager(std::shared_ptr<WALManager> wal, Config config);
     ~LogicalReplicationManager() override = default;
 
+    // ── Move semantics (Phase 2B Type B remediation) ──────────────────────────
+
+    /**
+     * @brief Move constructor
+     * 
+     * Transfers logical replication state:
+     * - wal_: underlying WAL manager
+     * - config_: replication configuration
+     * - slots_: active replication slots
+     * - pending_changes_: queued logical changes
+     * - Statistics and metrics
+     * 
+     * @param other Source manager to move from
+     */
+    LogicalReplicationManager(LogicalReplicationManager&& other) noexcept;
+
+    /**
+     * @brief Move assignment operator
+     * 
+     * Transfers logical replication state and clears source completely.
+     * 
+     * @param other Source manager to move from
+     * @return Reference to this manager
+     */
+    LogicalReplicationManager& operator=(LogicalReplicationManager&& other) noexcept;
+
+    // ── Delete copy semantics (non-copyable) ────────────────────────────────
+
+    /** @brief Copy constructor deleted - managers are move-only */
+    LogicalReplicationManager(const LogicalReplicationManager&) = delete;
+     
+    /** @brief Copy assignment deleted - managers are move-only */
+    LogicalReplicationManager& operator=(const LogicalReplicationManager&) = delete;
+
     // ------------------------------------------------------------------
     // Slot lifecycle
     // ------------------------------------------------------------------

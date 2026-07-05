@@ -198,6 +198,40 @@ public:
         std::shared_ptr<WALManager>  wal_manager
     );
 
+    ~ReplicationSlotManager() = default;
+
+    // ── Move semantics (Phase 2B Type B remediation) ──────────────────────────
+
+    /**
+     * @brief Move constructor
+     * 
+     * Transfers replication slot manager state:
+     * - config_: manager configuration
+     * - wal_manager_: WAL manager reference
+     * - slots_: registered slot map
+     * 
+     * @param other Source manager to move from
+     */
+    ReplicationSlotManager(ReplicationSlotManager&& other) noexcept;
+
+    /**
+     * @brief Move assignment operator
+     * 
+     * Transfers slot manager state and clears source completely.
+     * 
+     * @param other Source manager to move from
+     * @return Reference to this manager
+     */
+    ReplicationSlotManager& operator=(ReplicationSlotManager&& other) noexcept;
+
+    // ── Delete copy semantics (non-copyable) ────────────────────────────────
+
+    /** @brief Copy constructor deleted - managers are move-only */
+    ReplicationSlotManager(const ReplicationSlotManager&) = delete;
+     
+    /** @brief Copy assignment deleted - managers are move-only */
+    ReplicationSlotManager& operator=(const ReplicationSlotManager&) = delete;
+
     // -----------------------------------------------------------------------
     // Slot lifecycle
     // -----------------------------------------------------------------------

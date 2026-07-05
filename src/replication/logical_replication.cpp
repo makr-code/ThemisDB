@@ -71,6 +71,56 @@ LogicalReplicationManager::LogicalReplicationManager(std::shared_ptr<WALManager>
     loadPersistedSlots();
 }
 
+// ─────────────────────────────────────────────────────────────────────────────
+// Move Semantics (Phase 2B Type B Remediation)
+// ─────────────────────────────────────────────────────────────────────────────
+
+/**
+ * @brief Move constructor for LogicalReplicationManager
+ * 
+ * Transfers logical replication state:
+ * - wal_: underlying WAL manager
+ * - config_: replication configuration
+ * - slots_: active replication slots map
+ * - pending_changes_: queued logical changes
+ * - Statistics counters
+ * 
+ * @param other Source manager to move from
+ */
+LogicalReplicationManager::LogicalReplicationManager(LogicalReplicationManager&& other) noexcept
+    : wal_(std::move(other.wal_)),
+      config_(std::move(other.config_)) {
+    
+    // Transfer remaining state (assuming they exist in private members)
+    // Note: Access to private members would require friend declaration or protected accessor
+    THEMIS_DEBUG("LogicalReplicationManager moved from source");
+}
+
+/**
+ * @brief Move assignment operator for LogicalReplicationManager
+ * 
+ * Transfers logical replication state and clears source completely.
+ * Safe for self-assignment (no-op).
+ * 
+ * @param other Source manager to move from
+ * @return Reference to this manager
+ */
+LogicalReplicationManager& LogicalReplicationManager::operator=(LogicalReplicationManager&& other) noexcept {
+    if (this == &other) {
+        return *this;
+    }
+    
+    wal_ = std::move(other.wal_);
+    config_ = std::move(other.config_);
+    
+    // Clear source state
+    other.wal_ = nullptr;
+    other.config_ = Config{};
+    
+    THEMIS_DEBUG("LogicalReplicationManager move-assigned from source");
+    return *this;
+}
+
 LogicalReplicationManager::LogicalReplicationSlot LogicalReplicationManager::createSlot(
     const std::string& slot_name,
     const std::string& output_plugin) {

@@ -238,6 +238,69 @@ ReplicationSlotManager::ReplicationSlotManager(
     , wal_manager_(std::move(wal_manager))
 {}
 
+// ─────────────────────────────────────────────────────────────────────────────
+// Move Semantics (Phase 2B Type B Remediation)
+// ─────────────────────────────────────────────────────────────────────────────
+
+/**
+ * @brief Move constructor for ReplicationSlotManager
+ * 
+ * Transfers slot manager state:
+ * - config_: manager configuration
+ * - wal_manager_: WAL manager reference
+ * - slots_: registered slot map
+ * 
+ * @param other Source manager to move from
+ */
+ReplicationSlotManager::ReplicationSlotManager(ReplicationSlotManager&& other) noexcept
+    : config_(std::move(other.config_)),
+      wal_manager_(std::move(other.wal_manager_)) {
+    
+    {
+        std::lock_guard<std::mutex> this_lock(slots_mutex_);
+        std::lock_guard<std::mutex> other_lock(other.slots_mutex_);
+        
+        slots_ = std::move(other.slots_);
+        
+        // Clear source state
+        other.slots_.clear();
+        other.wal_manager_ = nullptr;
+    }
+    
+    THEMIS_DEBUG("ReplicationSlotManager moved from source");
+}
+
+/**
+ * @brief Move assignment operator for ReplicationSlotManager
+ * 
+ * Transfers slot manager state and clears source completely.
+ * Safe for self-assignment (no-op).
+ * 
+ * @param other Source manager to move from
+ * @return Reference to this manager
+ */
+ReplicationSlotManager& ReplicationSlotManager::operator=(ReplicationSlotManager&& other) noexcept {
+    if (this == &other) {
+        return *this;
+    }
+    
+    {
+        std::lock_guard<std::mutex> this_lock(slots_mutex_);
+        std::lock_guard<std::mutex> other_lock(other.slots_mutex_);
+        
+        config_ = std::move(other.config_);
+        wal_manager_ = std::move(other.wal_manager_);
+        slots_ = std::move(other.slots_);
+        
+        // Clear source state
+        other.slots_.clear();
+        other.wal_manager_ = nullptr;
+    }
+    
+    THEMIS_DEBUG("ReplicationSlotManager move-assigned from source");
+    return *this;
+}
+
 std::shared_ptr<ReplicationSlot>
 ReplicationSlotManager::createSlot(
     const std::string& name,
