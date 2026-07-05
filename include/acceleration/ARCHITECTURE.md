@@ -60,7 +60,13 @@ For runtime composition and implementation internals see:
 | `geo_acceleration_bridge.h` | `GeoAccelerationBridge` | GPU-accelerated geospatial operations |
 | `graphics_backends.h` | `GraphicsBackend` | Graphics-API compute integration |
 | `vec_knn.h` | `VecKNN` | Batched KNN search entry point |
-### 2.5 Security and Validation
+### 2.5 Kernel Classification and Safety
+
+| Header | Public Type | Purpose |
+|--------|------------|---------|
+| `graph_kernel_classification.h` | `KernelCategory`, `KernelType`, `KernelClassificationTraits` | Bounded graph kernel classification framework (Issue #5469) |
+
+### 2.6 Security and Validation
 
 | Header | Public Type | Purpose |
 |--------|------------|---------|
@@ -73,13 +79,83 @@ For runtime composition and implementation internals see:
 
 ---
 
-## 3. Namespace Layout
+## 5. Bounded Graph Kernels Classification Framework (Issue #5469)
+
+The Acceleration module implements a three-category classification framework for graph operations eligible for GPU acceleration:
+
+### Categories
+
+| Category | Eligibility | Semantics | Timeline |
+|----------|-------------|-----------|----------|
+| **A: Acceleration-Eligible** | ✅ GPU safe (no constraints) | Advisory candidates | Phase A (Q3 2026) |
+| **B: Conditional Acceleration** | ⚠️ GPU with validation gates | Advisory with validation | Phase B (Q3 2026+) |
+| **C: CPU-First Only** | ❌ Never GPU | Truth-bearing, exact | Never GPU |
+
+### Category A Examples
+
+- ANN distance kernels (L2, Cosine, Inner Product)
+- TopK selection
+- Vector KNN insertion
+- Tensor Core matrix multiply
+
+**Constraint**: Must have CPU fallback; output validated before use.
+
+### Category B Examples
+
+- Geospatial distance (with coordinate validation gates)
+- Geospatial containment (with polygon validation gates)
+- Graph BFS (bounded k ≤ 3, frontier ≤ 10K nodes)
+- Graph Dijkstra (bounded pairs, edge weight validation)
+
+**Constraint**: Input/output validation gates required; CPU fallback mandatory; exact parity test required.
+
+### Category C Examples (CPU-Only)
+
+- ACL enforcement (security-critical)
+- Provenance chains (determinism-critical)
+- Policy validation (compliance-critical)
+- Exact multi-hop validation (correctness-critical)
+- Irregular truth-bearing traversals (schema-dependent)
+
+**Constraint**: No GPU path; CPU execution always required.
+
+### Kernel Safety Guarantees
+
+1. ✅ **Graph Truth remains canonical** — CPU-computed results are source of truth
+2. ✅ **GPU outputs remain advisory-only** — GPU kernels produce candidates for downstream validation
+3. ✅ **Summary-first never replaces exact-on-demand** — GPU summaries don't bypass CPU checks
+4. ✅ **Policy decisions on CPU first** — All security/compliance decisions are CPU-side
+5. ✅ **Provenance chains unbroken** — Evidence chains constructed on CPU with exact ordering
+6. ✅ **ACL enforcement non-negotiable** — Access control gates pre-process all GPU operations
+7. ✅ **Fallback-to-CPU always available** — Every GPU operation has CPU fallback
+
+### Integration Point
+
+```cpp
+// Compile-time kernel classification query
+using Traits = KernelClassificationTraits<KernelType::ANN_L2_DISTANCE>;
+static_assert(Traits.category == KernelCategory::ACCELERATION_ELIGIBLE);
+static_assert(Traits.has_cpu_fallback);
+static_assert(Traits.is_advisory_only);
+```
+
+### References
+
+- [`../../docs/acceleration/BOUNDED_GRAPH_KERNELS.md`](../../docs/acceleration/BOUNDED_GRAPH_KERNELS.md) — Full classification framework
+- [`../../docs/acceleration/KERNEL_ACCELERATION_EXAMPLES.md`](../../docs/acceleration/KERNEL_ACCELERATION_EXAMPLES.md) — Code patterns (allowed/disallowed)
+- [`graph_kernel_classification.h`](graph_kernel_classification.h) — Classification enums and traits
+- [`../../benchmarks/bounded_kernel_validation.cpp`](../../benchmarks/bounded_kernel_validation.cpp) — Validation tests and benchmarks
+- Issue #5469 — Kernel classification definition
+
+---
+
+## 4. Namespace Layout
 
 All public types reside in the `themis::acceleration` namespace (or a sub-namespace).
 
 ---
 
-## 4. Contract Notes
+## 6. Contract Notes
 
 - Headers in `include/acceleration/` expose the **stable public API**; internal types live in `src/acceleration/`.
 - Clients depend only on types declared here; implementation details in `src/` may change without notice.
