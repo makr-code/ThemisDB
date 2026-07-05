@@ -1139,6 +1139,88 @@ ReplicationManager::~ReplicationManager() {
     shutdown();
 }
 
+/**
+ * @brief Move constructor for ReplicationManager
+ * 
+ * Transfers replication manager state and clears source completely.
+ * 
+ * @param other Source manager to move from
+ */
+ReplicationManager::ReplicationManager(ReplicationManager&& other) noexcept
+    : config_(std::move(other.config_)),
+      node_id_(std::move(other.node_id_)),
+      wal_(std::move(other.wal_)),
+      election_(std::move(other.election_)),
+      streams_(std::move(other.streams_)),
+      replicas_(std::move(other.replicas_)),
+      conflict_resolver_(std::move(other.conflict_resolver_)),
+      listeners_(std::move(other.listeners_)),
+      stats_(std::move(other.stats_)),
+      initialized_(other.initialized_.load()),
+      running_(other.running_.load()) {
+    
+    // Clear source state
+    other.config_ = ReplicationConfig{};
+    other.node_id_.clear();
+    other.wal_ = nullptr;
+    other.election_ = nullptr;
+    other.streams_.clear();
+    other.replicas_.clear();
+    other.conflict_resolver_ = nullptr;
+    other.listeners_.clear();
+    other.stats_ = ReplicationStats{};
+    other.initialized_.store(false);
+    other.running_.store(false);
+    
+    spdlog::debug("ReplicationManager moved from source");
+}
+
+/**
+ * @brief Move assignment operator for ReplicationManager
+ * 
+ * Transfers replication manager state and clears source completely.
+ * Safe for self-assignment (no-op).
+ * 
+ * @param other Source manager to move from
+ * @return Reference to this manager
+ */
+ReplicationManager& ReplicationManager::operator=(ReplicationManager&& other) noexcept {
+    if (this == &other) {
+        return *this;
+    }
+    
+    // Shutdown existing state
+    shutdown();
+    
+    config_ = std::move(other.config_);
+    node_id_ = std::move(other.node_id_);
+    wal_ = std::move(other.wal_);
+    election_ = std::move(other.election_);
+    streams_ = std::move(other.streams_);
+    replicas_ = std::move(other.replicas_);
+    conflict_resolver_ = std::move(other.conflict_resolver_);
+    listeners_ = std::move(other.listeners_);
+    stats_ = std::move(other.stats_);
+    initialized_.store(other.initialized_.load());
+    running_.store(other.running_.load());
+    
+    // Clear source state
+    other.config_ = ReplicationConfig{};
+    other.node_id_.clear();
+    other.wal_ = nullptr;
+    other.election_ = nullptr;
+    other.streams_.clear();
+    other.replicas_.clear();
+    other.conflict_resolver_ = nullptr;
+    other.listeners_.clear();
+    other.stats_ = ReplicationStats{};
+    other.initialized_.store(false);
+    other.running_.store(false);
+    
+    spdlog::debug("ReplicationManager move-assigned");
+    return *this;
+}
+
 bool ReplicationManager::initialize() {
     if (initialized_.load()) {
         return true;

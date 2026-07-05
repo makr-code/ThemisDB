@@ -620,6 +620,42 @@ public:
     explicit ReplicationManager(const ReplicationConfig& config);
     ~ReplicationManager();
     
+    /**
+     * @brief Move constructor - transfers replication manager state and clears source.
+     * 
+     * Transfers ownership of:
+     * - config_
+     * - wal_
+     * - election_
+     * - streams_
+     * - replicas_
+     * - conflict_resolver_
+     * - listeners_
+     * - background threads
+     * - statistics
+     * 
+     * @param other Source manager to move from
+     */
+    ReplicationManager(ReplicationManager&& other) noexcept;
+    
+    /**
+     * @brief Move assignment operator - transfers replication manager state and clears source.
+     * 
+     * Safe for self-assignment (no-op).
+     * 
+     * @param other Source manager to move from
+     * @return Reference to this manager
+     */
+    ReplicationManager& operator=(ReplicationManager&& other) noexcept;
+    
+    // ── Delete copy semantics (manager is move-only) ────────────────────────
+    
+    /** @brief Copy constructor deleted - managers are move-only */
+    ReplicationManager(const ReplicationManager&) = delete;
+    
+    /** @brief Copy assignment deleted - managers are move-only */
+    ReplicationManager& operator=(const ReplicationManager&) = delete;
+    
     // Initialize replication
     bool initialize();
     
