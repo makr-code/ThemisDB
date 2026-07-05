@@ -217,6 +217,130 @@ CrossShardTransactionCoordinator::~CrossShardTransactionCoordinator() {
     stop();
 }
 
+/**
+ * @brief Move constructor for CrossShardTransactionCoordinator
+ * 
+ * Transfers coordinator state and clears source completely.
+ * 
+ * @param other Source coordinator to move from
+ */
+CrossShardTransactionCoordinator::CrossShardTransactionCoordinator(CrossShardTransactionCoordinator&& other) noexcept
+    : config_(std::move(other.config_)),
+      consensus_(std::move(other.consensus_)),
+      truetime_(std::move(other.truetime_)),
+      ssi_manager_(std::move(other.ssi_manager_)),
+      transaction_log_path_(std::move(other.transaction_log_path_)),
+      transaction_wal_(std::move(other.transaction_wal_)),
+      snapshot_manager_(std::move(other.snapshot_manager_)),
+      operations_since_snapshot_(other.operations_since_snapshot_.load()),
+      last_applied_lsn_(other.last_applied_lsn_),
+      transactions_(std::move(other.transactions_)),
+      distributed_wait_for_edges_(std::move(other.distributed_wait_for_edges_)),
+      terminal_decisions_in_progress_(std::move(other.terminal_decisions_in_progress_)),
+      on_state_change_callback_(std::move(other.on_state_change_callback_)),
+      precommit_callback_(std::move(other.precommit_callback_)),
+      deferred_precommit_callback_(std::move(other.deferred_precommit_callback_)),
+      fk_validator_(std::move(other.fk_validator_)),
+      deferred_precommits_(std::move(other.deferred_precommits_)),
+      running_(other.running_.load()),
+      total_transactions_(other.total_transactions_.load()),
+      committed_transactions_(other.committed_transactions_.load()),
+      aborted_transactions_(other.aborted_transactions_.load()),
+      deadlocked_transactions_(other.deadlocked_transactions_.load()) {
+    
+    // Clear source state
+    other.config_ = CrossShardTransactionConfig{};
+    other.consensus_ = nullptr;
+    other.truetime_ = nullptr;
+    other.transaction_log_path_.clear();
+    other.transaction_wal_ = nullptr;
+    other.snapshot_manager_ = nullptr;
+    other.operations_since_snapshot_.store(0);
+    other.last_applied_lsn_ = LSN(0, 0);
+    other.transactions_.clear();
+    other.distributed_wait_for_edges_.clear();
+    other.terminal_decisions_in_progress_.clear();
+    other.on_state_change_callback_ = nullptr;
+    other.precommit_callback_ = nullptr;
+    other.deferred_precommit_callback_ = nullptr;
+    other.fk_validator_ = nullptr;
+    other.deferred_precommits_.clear();
+    other.running_.store(false);
+    other.total_transactions_.store(0);
+    other.committed_transactions_.store(0);
+    other.aborted_transactions_.store(0);
+    other.deadlocked_transactions_.store(0);
+    
+    spdlog::debug("CrossShardTransactionCoordinator moved from source");
+}
+
+/**
+ * @brief Move assignment operator for CrossShardTransactionCoordinator
+ * 
+ * Transfers coordinator state and clears source completely.
+ * Safe for self-assignment (no-op).
+ * 
+ * @param other Source coordinator to move from
+ * @return Reference to this coordinator
+ */
+CrossShardTransactionCoordinator& CrossShardTransactionCoordinator::operator=(CrossShardTransactionCoordinator&& other) noexcept {
+    if (this == &other) {
+        return *this;
+    }
+    
+    // Stop any running operations first
+    stop();
+    
+    config_ = std::move(other.config_);
+    consensus_ = std::move(other.consensus_);
+    truetime_ = std::move(other.truetime_);
+    ssi_manager_ = std::move(other.ssi_manager_);
+    transaction_log_path_ = std::move(other.transaction_log_path_);
+    transaction_wal_ = std::move(other.transaction_wal_);
+    snapshot_manager_ = std::move(other.snapshot_manager_);
+    operations_since_snapshot_.store(other.operations_since_snapshot_.load());
+    last_applied_lsn_ = other.last_applied_lsn_;
+    transactions_ = std::move(other.transactions_);
+    distributed_wait_for_edges_ = std::move(other.distributed_wait_for_edges_);
+    terminal_decisions_in_progress_ = std::move(other.terminal_decisions_in_progress_);
+    on_state_change_callback_ = std::move(other.on_state_change_callback_);
+    precommit_callback_ = std::move(other.precommit_callback_);
+    deferred_precommit_callback_ = std::move(other.deferred_precommit_callback_);
+    fk_validator_ = std::move(other.fk_validator_);
+    deferred_precommits_ = std::move(other.deferred_precommits_);
+    running_.store(other.running_.load());
+    total_transactions_.store(other.total_transactions_.load());
+    committed_transactions_.store(other.committed_transactions_.load());
+    aborted_transactions_.store(other.aborted_transactions_.load());
+    deadlocked_transactions_.store(other.deadlocked_transactions_.load());
+    
+    // Clear source state
+    other.config_ = CrossShardTransactionConfig{};
+    other.consensus_ = nullptr;
+    other.truetime_ = nullptr;
+    other.transaction_log_path_.clear();
+    other.transaction_wal_ = nullptr;
+    other.snapshot_manager_ = nullptr;
+    other.operations_since_snapshot_.store(0);
+    other.last_applied_lsn_ = LSN(0, 0);
+    other.transactions_.clear();
+    other.distributed_wait_for_edges_.clear();
+    other.terminal_decisions_in_progress_.clear();
+    other.on_state_change_callback_ = nullptr;
+    other.precommit_callback_ = nullptr;
+    other.deferred_precommit_callback_ = nullptr;
+    other.fk_validator_ = nullptr;
+    other.deferred_precommits_.clear();
+    other.running_.store(false);
+    other.total_transactions_.store(0);
+    other.committed_transactions_.store(0);
+    other.aborted_transactions_.store(0);
+    other.deadlocked_transactions_.store(0);
+    
+    spdlog::debug("CrossShardTransactionCoordinator move-assigned");
+    return *this;
+}
+
 /** @brief Initialize coordinator dependencies and run startup recovery backend. */
 bool CrossShardTransactionCoordinator::initialize() {
     if (!consensus_) {
@@ -3187,6 +3311,57 @@ PercolatorCoordinator::PercolatorCoordinator(
     , truetime_(std::move(truetime))
     , wal_(wal)
 {
+}
+
+/**
+ * @brief Move constructor for PercolatorCoordinator
+ * 
+ * Transfers Percolator coordinator state and clears source completely.
+ * 
+ * @param other Source coordinator to move from
+ */
+PercolatorCoordinator::PercolatorCoordinator(PercolatorCoordinator&& other) noexcept
+    : config_(std::move(other.config_)),
+      truetime_(std::move(other.truetime_)),
+      wal_(other.wal_) {
+    
+    // Clear source state
+    other.config_.lock_timeout = std::chrono::milliseconds(0);
+    other.config_.max_retries = 0;
+    other.config_.stale_lock_threshold = std::chrono::seconds(0);
+    other.truetime_ = nullptr;
+    other.wal_ = nullptr;
+    
+    spdlog::debug("PercolatorCoordinator moved from source");
+}
+
+/**
+ * @brief Move assignment operator for PercolatorCoordinator
+ * 
+ * Transfers Percolator coordinator state and clears source completely.
+ * Safe for self-assignment (no-op).
+ * 
+ * @param other Source coordinator to move from
+ * @return Reference to this coordinator
+ */
+PercolatorCoordinator& PercolatorCoordinator::operator=(PercolatorCoordinator&& other) noexcept {
+    if (this == &other) {
+        return *this;
+    }
+    
+    config_ = std::move(other.config_);
+    truetime_ = std::move(other.truetime_);
+    wal_ = other.wal_;
+    
+    // Clear source state
+    other.config_.lock_timeout = std::chrono::milliseconds(0);
+    other.config_.max_retries = 0;
+    other.config_.stale_lock_threshold = std::chrono::seconds(0);
+    other.truetime_ = nullptr;
+    other.wal_ = nullptr;
+    
+    spdlog::debug("PercolatorCoordinator move-assigned");
+    return *this;
 }
 
 int64_t PercolatorCoordinator::computeCommitTimestamp() const {

@@ -78,6 +78,85 @@ TwoPhaseCommitCoordinator::TwoPhaseCommitCoordinator(
     }
 }
 
+/**
+ * @brief Move constructor for TwoPhaseCommitCoordinator
+ * 
+ * Transfers coordinator state and clears source completely.
+ * 
+ * @param other Source coordinator to move from
+ */
+TwoPhaseCommitCoordinator::TwoPhaseCommitCoordinator(TwoPhaseCommitCoordinator&& other) noexcept
+    : coordinator_id_(std::move(other.coordinator_id_)),
+      config_(std::move(other.config_)),
+      participants_(std::move(other.participants_)),
+      transactions_(std::move(other.transactions_)),
+      owned_adapters_(std::move(other.owned_adapters_)),
+      wal_(std::move(other.wal_)),
+      total_transactions_(other.total_transactions_.load()),
+      total_commits_(other.total_commits_.load()),
+      total_aborts_(other.total_aborts_.load()),
+      total_errors_(other.total_errors_.load()) {
+    
+    // Clear source state
+    other.coordinator_id_.clear();
+    other.config_.wal_directory.clear();
+    other.config_.prepare_timeout = std::chrono::milliseconds(0);
+    other.config_.sync_wal_writes = false;
+    other.participants_.clear();
+    other.transactions_.clear();
+    other.owned_adapters_.clear();
+    other.wal_ = nullptr;
+    other.total_transactions_.store(0);
+    other.total_commits_.store(0);
+    other.total_aborts_.store(0);
+    other.total_errors_.store(0);
+    
+    spdlog::debug("TwoPhaseCommitCoordinator moved from source");
+}
+
+/**
+ * @brief Move assignment operator for TwoPhaseCommitCoordinator
+ * 
+ * Transfers coordinator state and clears source completely.
+ * Safe for self-assignment (no-op).
+ * 
+ * @param other Source coordinator to move from
+ * @return Reference to this coordinator
+ */
+TwoPhaseCommitCoordinator& TwoPhaseCommitCoordinator::operator=(TwoPhaseCommitCoordinator&& other) noexcept {
+    if (this == &other) {
+        return *this;
+    }
+    
+    coordinator_id_ = std::move(other.coordinator_id_);
+    config_ = std::move(other.config_);
+    participants_ = std::move(other.participants_);
+    transactions_ = std::move(other.transactions_);
+    owned_adapters_ = std::move(other.owned_adapters_);
+    wal_ = std::move(other.wal_);
+    total_transactions_.store(other.total_transactions_.load());
+    total_commits_.store(other.total_commits_.load());
+    total_aborts_.store(other.total_aborts_.load());
+    total_errors_.store(other.total_errors_.load());
+    
+    // Clear source state
+    other.coordinator_id_.clear();
+    other.config_.wal_directory.clear();
+    other.config_.prepare_timeout = std::chrono::milliseconds(0);
+    other.config_.sync_wal_writes = false;
+    other.participants_.clear();
+    other.transactions_.clear();
+    other.owned_adapters_.clear();
+    other.wal_ = nullptr;
+    other.total_transactions_.store(0);
+    other.total_commits_.store(0);
+    other.total_aborts_.store(0);
+    other.total_errors_.store(0);
+    
+    spdlog::debug("TwoPhaseCommitCoordinator move-assigned");
+    return *this;
+}
+
 // ─────────────────────────────────────────────────────────────────────────────
 // Participant management
 // ─────────────────────────────────────────────────────────────────────────────

@@ -177,6 +177,30 @@ public:
     // Disable copy; allow move
     TwoPhaseCommitCoordinator(const TwoPhaseCommitCoordinator&)            = delete;
     TwoPhaseCommitCoordinator& operator=(const TwoPhaseCommitCoordinator&) = delete;
+    
+    /**
+     * @brief Move constructor - transfers coordinator state and clears source.
+     * 
+     * Transfers ownership of:
+     * - participants_ map
+     * - transactions_ registry
+     * - owned_adapters_
+     * - wal_
+     * - statistics
+     * 
+     * @param other Source coordinator to move from
+     */
+    TwoPhaseCommitCoordinator(TwoPhaseCommitCoordinator&& other) noexcept;
+    
+    /**
+     * @brief Move assignment operator - transfers coordinator state and clears source.
+     * 
+     * Safe for self-assignment (no-op).
+     * 
+     * @param other Source coordinator to move from
+     * @return Reference to this coordinator
+     */
+    TwoPhaseCommitCoordinator& operator=(TwoPhaseCommitCoordinator&& other) noexcept;
 
     // ── Participant management ────────────────────────────────────────────────
 

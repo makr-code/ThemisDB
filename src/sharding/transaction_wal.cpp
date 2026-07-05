@@ -55,6 +55,63 @@ TransactionWAL::TransactionWAL(const TransactionWALConfig& config)
 /** @brief Destroy transaction WAL wrapper and owned WAL manager. */
 TransactionWAL::~TransactionWAL() = default;
 
+/**
+ * @brief Move constructor for TransactionWAL
+ * 
+ * Transfers WAL state and clears source completely.
+ * 
+ * @param other Source WAL to move from
+ */
+TransactionWAL::TransactionWAL(TransactionWAL&& other) noexcept
+    : config_(std::move(other.config_)),
+      wal_manager_(std::move(other.wal_manager_)),
+      current_lsn_(other.current_lsn_) {
+    
+    // Clear source state
+    other.config_.wal_directory.clear();
+    other.config_.snapshot_directory.clear();
+    other.config_.segment_size = 0;
+    other.config_.snapshot_interval = 0;
+    other.config_.max_snapshots = 0;
+    other.config_.sync_on_write = false;
+    other.wal_manager_ = nullptr;
+    other.current_lsn_ = LSN(0, 0);
+    
+    spdlog::debug("TransactionWAL moved from source");
+}
+
+/**
+ * @brief Move assignment operator for TransactionWAL
+ * 
+ * Transfers WAL state and clears source completely.
+ * Safe for self-assignment (no-op).
+ * 
+ * @param other Source WAL to move from
+ * @return Reference to this WAL
+ */
+TransactionWAL& TransactionWAL::operator=(TransactionWAL&& other) noexcept {
+    if (this == &other) {
+        return *this;
+    }
+    
+    config_ = std::move(other.config_);
+    wal_manager_ = std::move(other.wal_manager_);
+    current_lsn_ = other.current_lsn_;
+    
+    // Clear source state
+    other.config_.wal_directory.clear();
+    other.config_.snapshot_directory.clear();
+    other.config_.segment_size = 0;
+    other.config_.snapshot_interval = 0;
+    other.config_.max_snapshots = 0;
+    other.config_.sync_on_write = false;
+    other.wal_manager_ = nullptr;
+    other.current_lsn_ = LSN(0, 0);
+    
+    spdlog::debug("TransactionWAL move-assigned");
+    return *this;
+}
+
 /** @brief Create directories and initialize base WAL manager. */
 bool TransactionWAL::initialize() {
     try {

@@ -284,6 +284,43 @@ public:
     ~CrossShardTransactionCoordinator();
     
     /**
+     * @brief Move constructor - transfers coordinator state and clears source.
+     * 
+     * Transfers ownership of:
+     * - consensus_
+     * - truetime_
+     * - ssi_manager_
+     * - transaction_wal_
+     * - snapshot_manager_
+     * - transactions_ registry
+     * - wait-for edges
+     * - deferred precommits
+     * - background threads
+     * - statistics
+     * 
+     * @param other Source coordinator to move from
+     */
+    CrossShardTransactionCoordinator(CrossShardTransactionCoordinator&& other) noexcept;
+    
+    /**
+     * @brief Move assignment operator - transfers coordinator state and clears source.
+     * 
+     * Safe for self-assignment (no-op).
+     * 
+     * @param other Source coordinator to move from
+     * @return Reference to this coordinator
+     */
+    CrossShardTransactionCoordinator& operator=(CrossShardTransactionCoordinator&& other) noexcept;
+    
+    // ── Delete copy semantics (coordinator is move-only) ──────────────────────
+    
+    /** @brief Copy constructor deleted - coordinators are move-only */
+    CrossShardTransactionCoordinator(const CrossShardTransactionCoordinator&) = delete;
+    
+    /** @brief Copy assignment deleted - coordinators are move-only */
+    CrossShardTransactionCoordinator& operator=(const CrossShardTransactionCoordinator&) = delete;
+    
+    /**
      * @brief Initialize the coordinator
      */
     bool initialize();
@@ -872,6 +909,28 @@ public:
     // Non-copyable, movable.
     PercolatorCoordinator(const PercolatorCoordinator&) = delete;
     PercolatorCoordinator& operator=(const PercolatorCoordinator&) = delete;
+    
+    /**
+     * @brief Move constructor - transfers Percolator coordinator state and clears source.
+     * 
+     * Transfers ownership of:
+     * - config_
+     * - truetime_
+     * - wal_ pointer
+     * 
+     * @param other Source coordinator to move from
+     */
+    PercolatorCoordinator(PercolatorCoordinator&& other) noexcept;
+    
+    /**
+     * @brief Move assignment operator - transfers Percolator coordinator state and clears source.
+     * 
+     * Safe for self-assignment (no-op).
+     * 
+     * @param other Source coordinator to move from
+     * @return Reference to this coordinator
+     */
+    PercolatorCoordinator& operator=(PercolatorCoordinator&& other) noexcept;
 
     /**
      * @brief Execute the Percolator protocol for @p txn.

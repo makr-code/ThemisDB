@@ -110,6 +110,36 @@ public:
     explicit TransactionWAL(const TransactionWALConfig& config);
     /** @brief Destroy transaction WAL facade and owned WAL manager. */
     ~TransactionWAL();
+    
+    /**
+     * @brief Move constructor - transfers WAL state and clears source.
+     * 
+     * Transfers ownership of:
+     * - config_
+     * - wal_manager_
+     * - current_lsn_
+     * 
+     * @param other Source WAL to move from
+     */
+    TransactionWAL(TransactionWAL&& other) noexcept;
+    
+    /**
+     * @brief Move assignment operator - transfers WAL state and clears source.
+     * 
+     * Safe for self-assignment (no-op).
+     * 
+     * @param other Source WAL to move from
+     * @return Reference to this WAL
+     */
+    TransactionWAL& operator=(TransactionWAL&& other) noexcept;
+    
+    // ── Delete copy semantics (WAL is move-only) ────────────────────────────
+    
+    /** @brief Copy constructor deleted - WALs are move-only */
+    TransactionWAL(const TransactionWAL&) = delete;
+    
+    /** @brief Copy assignment deleted - WALs are move-only */
+    TransactionWAL& operator=(const TransactionWAL&) = delete;
 
     /** @brief Initialize directories and underlying WAL manager instance. */
     bool initialize();
