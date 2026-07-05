@@ -3009,7 +3009,6 @@ std::vector<std::string> SecondaryIndexManager::tokenize(std::string_view text) 
 				std::transform(current.begin(), current.end(), current.begin(),
 					[](unsigned char c) { return std::tolower(c); });
 				tokens.emplace_back(std::move(current));
-				current.clear();
 			}
 		} else {
 			current += c;
