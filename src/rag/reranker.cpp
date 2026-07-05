@@ -330,6 +330,21 @@ CrossEncoderReranker::CrossEncoderReranker()
 CrossEncoderReranker::CrossEncoderReranker(const CrossEncoderConfig& config)
     : impl_(std::make_unique<Impl>(config)) {}
 
+// Move constructor: transfer impl ownership
+CrossEncoderReranker::CrossEncoderReranker(CrossEncoderReranker&& other) noexcept
+    : impl_(std::move(other.impl_)) {
+    // Source left with nullptr impl_, valid but unusable
+}
+
+// Move assignment: transfer impl ownership with cleanup
+CrossEncoderReranker& CrossEncoderReranker::operator=(CrossEncoderReranker&& other) noexcept {
+    if (this != &other) {
+        impl_ = std::move(other.impl_);
+        // Source left with nullptr impl_, valid but unusable
+    }
+    return *this;
+}
+
 CrossEncoderReranker::~CrossEncoderReranker() = default;
 
 RerankResult CrossEncoderReranker::rerank(

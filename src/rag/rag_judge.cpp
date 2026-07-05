@@ -1521,6 +1521,20 @@ JudgeEnsemble::JudgeEnsemble(
     impl_->strategy = strategy;
 }
 
+// Move constructor: transfer impl ownership
+JudgeEnsemble::JudgeEnsemble(JudgeEnsemble&& other) noexcept
+    : impl_(std::move(other.impl_)) {
+    // Source left with nullptr impl_
+}
+
+// Move assignment: transfer impl ownership
+JudgeEnsemble& JudgeEnsemble::operator=(JudgeEnsemble&& other) noexcept {
+    if (this != &other) {
+        impl_ = std::move(other.impl_);
+    }
+    return *this;
+}
+
 JudgeEnsemble::~JudgeEnsemble() = default;
 
 EvaluationResult JudgeEnsemble::evaluateWithEnsemble(const EvaluationInput& input) {

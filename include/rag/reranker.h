@@ -129,9 +129,26 @@ public:
     explicit CrossEncoderReranker(const CrossEncoderConfig& config);
 
     /**
-     * @brief Destructor
+     * @brief Destructor (virtual for polymorphic cleanup)
      */
-    ~CrossEncoderReranker();
+    virtual ~CrossEncoderReranker();
+    
+    /**
+     * @brief Move constructor
+     * @param other Source reranker (ownership transferred)
+     */
+    CrossEncoderReranker(CrossEncoderReranker&& other) noexcept;
+    
+    /**
+     * @brief Move assignment operator
+     * @param other Source reranker (ownership transferred)
+     * @return Reference to this
+     */
+    CrossEncoderReranker& operator=(CrossEncoderReranker&& other) noexcept;
+    
+    // Delete copy operations to enforce move semantics
+    CrossEncoderReranker(const CrossEncoderReranker&) = delete;
+    CrossEncoderReranker& operator=(const CrossEncoderReranker&) = delete;
 
     /**
      * @brief Re-rank candidate documents for a given query.

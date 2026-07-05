@@ -30,6 +30,43 @@ EvaluationCache::EvaluationCache(const CacheConfig& config)
     stats_.last_reset = std::chrono::system_clock::now();
 }
 
+// Move constructor: transfer cache ownership
+EvaluationCache::EvaluationCache(EvaluationCache&& other) noexcept
+    : config_(std::move(other.config_))
+    , cache_(std::move(other.cache_))
+    , lru_list_(std::move(other.lru_list_))
+    , lru_map_(std::move(other.lru_map_))
+    , stats_(std::move(other.stats_))
+    , invalidation_callback_(std::move(other.invalidation_callback_)) {
+    // Source object left in valid but unspecified state
+    other.invalidation_callback_ = nullptr;
+}
+
+// Move assignment: transfer cache ownership with cleanup
+EvaluationCache& EvaluationCache::operator=(EvaluationCache&& other) noexcept {
+    if (this != &other) {
+        std::lock_guard<std::mutex> lock(mutex_);
+        
+        // Clear existing state
+        cache_.clear();
+        lru_list_.clear();
+        lru_map_.clear();
+        invalidation_callback_ = nullptr;
+        
+        // Transfer state from source
+        config_ = std::move(other.config_);
+        cache_ = std::move(other.cache_);
+        lru_list_ = std::move(other.lru_list_);
+        lru_map_ = std::move(other.lru_map_);
+        stats_ = std::move(other.stats_);
+        invalidation_callback_ = std::move(other.invalidation_callback_);
+        
+        // Leave source in valid state
+        other.invalidation_callback_ = nullptr;
+    }
+    return *this;
+}
+
 EvaluationCache::~EvaluationCache() = default;
 
 // ---------------------------------------------------------------------------

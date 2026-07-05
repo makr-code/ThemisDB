@@ -478,7 +478,27 @@ public:
         VotingStrategy strategy = VotingStrategy::WEIGHTED_AVERAGE
     );
 
-    ~JudgeEnsemble();
+    /**
+     * @brief Destructor (virtual for polymorphic cleanup)
+     */
+    virtual ~JudgeEnsemble();
+    
+    /**
+     * @brief Move constructor
+     * @param other Source ensemble (ownership transferred)
+     */
+    JudgeEnsemble(JudgeEnsemble&& other) noexcept;
+    
+    /**
+     * @brief Move assignment operator
+     * @param other Source ensemble (ownership transferred)
+     * @return Reference to this
+     */
+    JudgeEnsemble& operator=(JudgeEnsemble&& other) noexcept;
+    
+    // Delete copy operations to enforce move semantics
+    JudgeEnsemble(const JudgeEnsemble&) = delete;
+    JudgeEnsemble& operator=(const JudgeEnsemble&) = delete;
     
     /**
      * @brief Evaluate with ensemble
@@ -496,10 +516,10 @@ public:
      * @return Combined comparison result
      */
     ComparisonResult compareWithEnsemble(
-        const std::string& query,
-        const std::vector<RetrievedDocument>& documents,
-        const std::string& answer_a,
-        const std::string& answer_b
+       const std::string& query,
+       const std::vector<RetrievedDocument>& documents,
+       const std::string& answer_a,
+       const std::string& answer_b
     );
     
     /**

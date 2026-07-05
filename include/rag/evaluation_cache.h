@@ -96,9 +96,26 @@ public:
     explicit EvaluationCache(const CacheConfig& config);
     
     /**
-     * @brief Destructor
+     * @brief Destructor (virtual for polymorphic cleanup)
      */
-    ~EvaluationCache();
+    virtual ~EvaluationCache();
+    
+    /**
+     * @brief Move constructor
+     * @param other Source cache (ownership transferred)
+     */
+    EvaluationCache(EvaluationCache&& other) noexcept;
+    
+    /**
+     * @brief Move assignment operator
+     * @param other Source cache (ownership transferred)
+     * @return Reference to this
+     */
+    EvaluationCache& operator=(EvaluationCache&& other) noexcept;
+    
+    // Delete copy operations to enforce move-only semantics for shared state
+    EvaluationCache(const EvaluationCache&) = delete;
+    EvaluationCache& operator=(const EvaluationCache&) = delete;
     
     /**
      * @brief Get cached evaluation result
