@@ -334,6 +334,20 @@ private:
 LoRACheckpointManager::LoRACheckpointManager(const CheckpointManagerConfig& config)
     : impl_(std::make_unique<Impl>(config)) {}
 
+// Move constructor: transfer impl ownership
+LoRACheckpointManager::LoRACheckpointManager(LoRACheckpointManager&& other) noexcept
+    : impl_(std::move(other.impl_)) {
+    // Source left with nullptr impl_
+}
+
+// Move assignment: transfer impl ownership
+LoRACheckpointManager& LoRACheckpointManager::operator=(LoRACheckpointManager&& other) noexcept {
+    if (this != &other) {
+        impl_ = std::move(other.impl_);
+    }
+    return *this;
+}
+
 LoRACheckpointManager::~LoRACheckpointManager() = default;
 
 CheckpointManifestEntry LoRACheckpointManager::save(const std::string& source_path,

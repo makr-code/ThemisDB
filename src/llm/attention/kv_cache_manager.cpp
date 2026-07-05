@@ -59,6 +59,36 @@ KVCacheManager::~KVCacheManager() {
     sequences_.clear();
 }
 
+// Move constructor: transfer block ownership and allocation state
+KVCacheManager::KVCacheManager(KVCacheManager&& other) noexcept
+    : config_(std::move(other.config_))
+    , blocks_(std::move(other.blocks_))
+    , free_blocks_(std::move(other.free_blocks_))
+    , sequences_(std::move(other.sequences_)) {
+    // Source left in valid but unspecified state (empty cache)
+}
+
+// Move assignment: transfer block ownership with cleanup
+KVCacheManager& KVCacheManager::operator=(KVCacheManager&& other) noexcept {
+    if (this != &other) {
+        std::lock_guard<std::mutex> lock(mutex_);
+        
+        // Clear existing state
+        sequences_.clear();
+        blocks_.clear();
+        while (!free_blocks_.empty()) {
+            free_blocks_.pop();
+        }
+        
+        // Transfer state from source (acquire its lock after releasing ours)
+        config_ = std::move(other.config_);
+        blocks_ = std::move(other.blocks_);
+        free_blocks_ = std::move(other.free_blocks_);
+        sequences_ = std::move(other.sequences_);
+    }
+    return *this;
+}
+
 BlockTable KVCacheManager::allocateSequence(uint64_t seq_id, int expected_tokens) {
     std::lock_guard<std::mutex> lock(mutex_);
     

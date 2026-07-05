@@ -38,6 +38,31 @@ PagedKVCacheManager::PagedKVCacheManager(const Config& config)
 
 PagedKVCacheManager::~PagedKVCacheManager() = default;
 
+// Move constructor: transfer block state and allocation tracking
+PagedKVCacheManager::PagedKVCacheManager(PagedKVCacheManager&& other) noexcept
+    : config_(std::move(other.config_))
+    , blocks_(std::move(other.blocks_))
+    , free_block_ids_(std::move(other.free_block_ids_))
+    , sequence_tables_(std::move(other.sequence_tables_))
+    , total_blocks_allocated_(other.total_blocks_allocated_) {
+    // Source left in valid but unspecified state
+    other.total_blocks_allocated_ = 0;
+}
+
+// Move assignment: transfer block state with cleanup
+PagedKVCacheManager& PagedKVCacheManager::operator=(PagedKVCacheManager&& other) noexcept {
+    if (this != &other) {
+        config_ = std::move(other.config_);
+        blocks_ = std::move(other.blocks_);
+        free_block_ids_ = std::move(other.free_block_ids_);
+        sequence_tables_ = std::move(other.sequence_tables_);
+        total_blocks_allocated_ = other.total_blocks_allocated_;
+        
+        other.total_blocks_allocated_ = 0;
+    }
+    return *this;
+}
+
 void PagedKVCacheManager::initializeBlocks() {
     blocks_.resize(config_.num_blocks);
     free_block_ids_.reserve(config_.num_blocks);

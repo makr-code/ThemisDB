@@ -99,9 +99,23 @@ public:
      */
     explicit LoRAAdapter(size_t default_rank = 4, float default_alpha = 8.0f);
 
+    /**
+     * @brief Destructor
+     */
     ~LoRAAdapter();
 
-    LoRAAdapter(const LoRAAdapter&)            = delete;
+    /**
+     * @brief Move constructor (transfer weight tensors and metadata)
+     */
+    LoRAAdapter(LoRAAdapter&& other) noexcept;
+
+    /**
+     * @brief Move assignment operator (transfer weight tensors with cleanup)
+     */
+    LoRAAdapter& operator=(LoRAAdapter&& other) noexcept;
+
+    // Delete copy operations (weight tensors and state cannot be safely copied)
+    LoRAAdapter(const LoRAAdapter&) = delete;
     LoRAAdapter& operator=(const LoRAAdapter&) = delete;
 
     // -------------------------------------------------------------------------

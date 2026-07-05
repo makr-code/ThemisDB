@@ -373,6 +373,20 @@ private:
 LoRAAdapter::LoRAAdapter(size_t default_rank, float default_alpha)
     : impl_(std::make_unique<Impl>(default_rank, default_alpha)) {}
 
+// Move constructor: transfer impl ownership
+LoRAAdapter::LoRAAdapter(LoRAAdapter&& other) noexcept
+    : impl_(std::move(other.impl_)) {
+    // Source left with nullptr impl_
+}
+
+// Move assignment: transfer impl ownership
+LoRAAdapter& LoRAAdapter::operator=(LoRAAdapter&& other) noexcept {
+    if (this != &other) {
+        impl_ = std::move(other.impl_);
+    }
+    return *this;
+}
+
 LoRAAdapter::~LoRAAdapter() = default;
 
 void LoRAAdapter::addLayer(const std::string& layer_name,

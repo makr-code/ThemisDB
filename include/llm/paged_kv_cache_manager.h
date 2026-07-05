@@ -161,6 +161,20 @@ public:
 
     PagedKVCacheManager(const Config& config);
     ~PagedKVCacheManager();
+    
+    /**
+      * @brief Move constructor (transfers block state)
+      */
+    PagedKVCacheManager(PagedKVCacheManager&& other) noexcept;
+    
+    /**
+      * @brief Move assignment operator (transfers block state)
+      */
+    PagedKVCacheManager& operator=(PagedKVCacheManager&& other) noexcept;
+    
+    // Delete copy operations (stateful cache cannot be safely copied)
+    PagedKVCacheManager(const PagedKVCacheManager&) = delete;
+    PagedKVCacheManager& operator=(const PagedKVCacheManager&) = delete;
 
     /**
      * @brief Allocate blocks for a sequence

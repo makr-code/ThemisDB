@@ -97,14 +97,25 @@ public:
      * @throws std::invalid_argument if checkpoint_dir is empty.
      */
     explicit LoRACheckpointManager(const CheckpointManagerConfig& config);
-
+    
+    /**
+     * @brief Destructor
+     */
     ~LoRACheckpointManager();
-
-    // Non-copyable, movable
-    LoRACheckpointManager(const LoRACheckpointManager&)            = delete;
+    
+    /**
+     * @brief Move constructor (transfer checkpoint metadata and paths)
+     */
+    LoRACheckpointManager(LoRACheckpointManager&& other) noexcept;
+    
+    /**
+     * @brief Move assignment operator (transfer checkpoint metadata with cleanup)
+     */
+    LoRACheckpointManager& operator=(LoRACheckpointManager&& other) noexcept;
+    
+    // Delete copy operations (checkpoint paths and metadata ownership)
+    LoRACheckpointManager(const LoRACheckpointManager&) = delete;
     LoRACheckpointManager& operator=(const LoRACheckpointManager&) = delete;
-    LoRACheckpointManager(LoRACheckpointManager&&)                 = default;
-    LoRACheckpointManager& operator=(LoRACheckpointManager&&)      = default;
 
     /**
      * @brief Atomically save a checkpoint with integrity metadata.

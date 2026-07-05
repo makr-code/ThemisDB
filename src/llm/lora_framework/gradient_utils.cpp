@@ -247,6 +247,31 @@ GradientAccumulator::GradientAccumulator(const GradientAccumulationConfig& confi
     spdlog::info("  Normalize: {}", config_.normalize);
 }
 
+// Move constructor: transfer accumulated gradient buffers and state
+GradientAccumulator::GradientAccumulator(GradientAccumulator&& other) noexcept
+    : config_(std::move(other.config_))
+    , accumulated_gradients_(std::move(other.accumulated_gradients_))
+    , current_step_(other.current_step_)
+    , initialized_(other.initialized_) {
+    // Source left in valid but unspecified state
+    other.current_step_ = 0;
+    other.initialized_ = false;
+}
+
+// Move assignment: transfer accumulated gradient buffers with cleanup
+GradientAccumulator& GradientAccumulator::operator=(GradientAccumulator&& other) noexcept {
+    if (this != &other) {
+        config_ = std::move(other.config_);
+        accumulated_gradients_ = std::move(other.accumulated_gradients_);
+        current_step_ = other.current_step_;
+        initialized_ = other.initialized_;
+        
+        other.current_step_ = 0;
+        other.initialized_ = false;
+    }
+    return *this;
+}
+
 void GradientAccumulator::accumulate(const std::vector<Tensor*>& gradients) {
     // Initialize on first accumulation
     if (!initialized_) {

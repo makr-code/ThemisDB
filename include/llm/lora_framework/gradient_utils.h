@@ -209,7 +209,25 @@ public:
 class GradientAccumulator {
 public:
     explicit GradientAccumulator(const GradientAccumulationConfig& config);
-    ~GradientAccumulator() = default;
+    
+    /**
+     * @brief Destructor (virtual for polymorphic cleanup)
+     */
+    virtual ~GradientAccumulator() = default;
+    
+    /**
+     * @brief Move constructor (transfer accumulated buffers)
+     */
+    GradientAccumulator(GradientAccumulator&& other) noexcept;
+    
+    /**
+     * @brief Move assignment operator (transfer accumulated buffers)
+     */
+    GradientAccumulator& operator=(GradientAccumulator&& other) noexcept;
+    
+    // Delete copy operations (gradient buffers cannot be safely copied)
+    GradientAccumulator(const GradientAccumulator&) = delete;
+    GradientAccumulator& operator=(const GradientAccumulator&) = delete;
     
     /**
      * @brief Add gradients to accumulator

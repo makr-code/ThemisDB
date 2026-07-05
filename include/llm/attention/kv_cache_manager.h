@@ -83,6 +83,20 @@ public:
     ~KVCacheManager();
     
     /**
+     * @brief Move constructor (transfers block ownership)
+     */
+    KVCacheManager(KVCacheManager&& other) noexcept;
+    
+    /**
+     * @brief Move assignment operator (transfers block ownership)
+     */
+    KVCacheManager& operator=(KVCacheManager&& other) noexcept;
+    
+    // Delete copy operations (stateful cache cannot be safely copied)
+    KVCacheManager(const KVCacheManager&) = delete;
+    KVCacheManager& operator=(const KVCacheManager&) = delete;
+    
+    /**
      * @brief Allocate blocks for a new sequence
      * @param seq_id Unique sequence identifier
      * @param expected_tokens Expected number of tokens
