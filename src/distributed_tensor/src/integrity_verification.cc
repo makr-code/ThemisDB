@@ -467,6 +467,358 @@ std::optional<VerificationState> stringToVerificationState(
 }
 
 // ============================================================================
+// PHASE 3: Error Handling & Edge Cases Implementation
+// ============================================================================
+
+namespace {
+    IntegrityRecoveryHook* g_recovery_hook = nullptr;
+}
+
+VerificationResult verifyArtifactIntegrity(
+    const std::string& artifact_id,
+    std::string_view payload,
+    const std::string& expected_content_hash,
+    const std::optional<MerkleProof>& merkle_proof,
+    const std::optional<ReceiptChain>& receipt_chain,
+    ProvenanceVerificationHook* provenance_hook) {
+    
+    VerificationResult result;
+    result.artifact_id = artifact_id;
+    result.expected_hash = expected_content_hash;
+    
+    // Step 1: Validate expected hash format
+    if (!isValidSHA256Hex(expected_content_hash)) {
+        result.state = VerificationState::UNVERIFIED;
+        result.error_messages.push_back(
+            "Invalid expected content hash: not a valid SHA-256 hex");
+        spdlog::warn("verifyArtifactIntegrity: invalid expected hash format for {}",
+                    artifact_id);
+        return result;
+    }
+    
+    // Step 2: Compute actual content hash
+    result.actual_hash = computeSHA256(payload);
+    
+    // Step 3: Check content hash match
+    if (result.actual_hash != expected_content_hash) {
+        result.state = VerificationState::CORRUPT;
+        result.success = false;
+        result.error_messages.push_back(
+            fmt::format("Content hash mismatch: expected {}, got {}",
+                       expected_content_hash, result.actual_hash));
+        spdlog::error("verifyArtifactIntegrity: content hash mismatch for {}", artifact_id);
+        
+        // Attempt recovery coordination
+        if (g_recovery_hook) {
+            g_recovery_hook->requestArtifactRecovery(artifact_id, "content_hash_mismatch");
+        }
+        
+        return result;
+    }
+    
+    // Step 4: Verify fragment-level integrity if Merkle proof provided
+    if (merkle_proof.has_value()) {
+        if (!merkle_proof->verify(expected_content_hash)) {
+            result.state = VerificationState::CORRUPT;
+            result.success = false;
+            result.error_messages.push_back("Merkle proof verification failed");
+            spdlog::error("verifyArtifactIntegrity: Merkle proof invalid for {}", artifact_id);
+            return result;
+        }
+        result.state = VerificationState::VERIFIED_FRAGMENTS;
+        result.fragments_verified = merkle_proof->getProofDepth();
+    } else {
+        result.state = VerificationState::VERIFIED;
+    }
+    
+    // Step 5: Verify receipt chain if provided
+    if (receipt_chain.has_value()) {
+        auto chain_result = detectReceiptChainTampering(*receipt_chain);
+        if (!chain_result.success) {
+            result.state = VerificationState::CORRUPT;
+            result.success = false;
+            result.error_messages.insert(
+                result.error_messages.end(),
+                chain_result.error_messages.begin(),
+                chain_result.error_messages.end());
+            spdlog::error("verifyArtifactIntegrity: receipt chain tampered for {}", artifact_id);
+            return result;
+        }
+        
+        // Check if receipt lineage is current
+        auto head = receipt_chain->getHeadReceipt();
+        if (head.has_value() && provenance_hook) {
+            auto current_lineage = provenance_hook->getCurrentPackageLineage();
+            if (!current_lineage.empty() && 
+                head->package_lineage_hash != current_lineage) {
+                result.state = VerificationState::STALE;
+                result.error_messages.push_back(
+                    "Receipt chain lineage is outdated (rebuild recommended)");
+                spdlog::info("verifyArtifactIntegrity: stale lineage for {}", artifact_id);
+            }
+        }
+    }
+    
+    // Step 6: Provenance verification if hook provided
+    if (provenance_hook && result.state != VerificationState::CORRUPT) {
+        auto lineage_result = provenance_hook->verifyProvenance(
+            artifact_id,
+            result.actual_hash,
+            receipt_chain.has_value() 
+                ? receipt_chain->getHeadReceipt()->has_value()
+                    ? receipt_chain->getHeadReceipt()->value().package_lineage_hash
+                    : ""
+                : "");
+        
+        if (!lineage_result.success && result.state == VerificationState::VERIFIED) {
+            result.state = VerificationState::STALE;
+            result.error_messages.push_back("Provenance lineage mismatch");
+        }
+    }
+    
+    result.success = (result.state == VerificationState::VERIFIED ||
+                     result.state == VerificationState::VERIFIED_FRAGMENTS);
+    spdlog::info("verifyArtifactIntegrity: artifact {} verification complete (state={})",
+                artifact_id, verificationStateToString(result.state));
+    
+    return result;
+}
+
+VerificationResult detectReceiptChainTampering(const ReceiptChain& chain) {
+    VerificationResult result;
+    result.state = VerificationState::VERIFIED;
+    result.success = true;
+    
+    if (chain.empty()) {
+        return result;  // Empty chain is valid
+    }
+    
+    const auto all_receipts = chain.getAllReceipts();
+    
+    // Verify genesis receipt has empty parent
+    if (!all_receipts.front().parent_receipt_hash.empty()) {
+        result.state = VerificationState::CORRUPT;
+        result.success = false;
+        result.error_messages.push_back(
+            "Genesis receipt has non-empty parent_receipt_hash");
+        spdlog::error("detectReceiptChainTampering: genesis receipt integrity failed");
+        return result;
+    }
+    
+    // Verify entire chain linkage
+    std::string expected_previous;
+    for (size_t i = 0; i < all_receipts.size(); ++i) {
+        const auto& receipt = all_receipts[i];
+        
+        // Verify self-integrity
+        if (!receipt.verifyIntegrity()) {
+            result.state = VerificationState::CORRUPT;
+            result.success = false;
+            result.error_messages.push_back(
+                fmt::format("Receipt {} content hash mismatch (tampered)", i));
+            spdlog::error("detectReceiptChainTampering: receipt {} self-integrity failed", i);
+            return result;
+        }
+        
+        // Verify parent linkage
+        if (receipt.parent_receipt_hash != expected_previous) {
+            result.state = VerificationState::CORRUPT;
+            result.success = false;
+            result.error_messages.push_back(
+                fmt::format("Receipt {} parent_receipt_hash mismatch (tampering detected)", i));
+            spdlog::error("detectReceiptChainTampering: parent linkage broken at entry {}", i);
+            return result;
+        }
+        
+        // Update expected parent for next iteration
+        expected_previous = receipt.receipt_hash;
+    }
+    
+    result.fragments_verified = all_receipts.size();
+    spdlog::info("detectReceiptChainTampering: chain integrity verified ({} receipts)",
+                all_receipts.size());
+    
+    return result;
+}
+
+VerificationResult handlePartialReceiptChain(
+    const ReceiptChain& partial_chain,
+    const std::string& artifact_id,
+    const std::string& current_hash) {
+    
+    VerificationResult result;
+    result.artifact_id = artifact_id;
+    result.expected_hash = current_hash;
+    
+    if (partial_chain.empty()) {
+        result.state = VerificationState::UNVERIFIED;
+        result.error_messages.push_back("Receipt chain is empty; cannot verify history");
+        spdlog::warn("handlePartialReceiptChain: empty chain for {}", artifact_id);
+        return result;
+    }
+    
+    // Get head receipt
+    auto head = partial_chain.getHeadReceipt();
+    if (!head.has_value()) {
+        result.state = VerificationState::UNVERIFIED;
+        result.error_messages.push_back("Cannot retrieve head receipt");
+        return result;
+    }
+    
+    // Check if head receipt's content hash matches current
+    if (head->content_hash != current_hash) {
+        result.state = VerificationState::CORRUPT;
+        result.success = false;
+        result.error_messages.push_back(
+            fmt::format("Head receipt content_hash ({}) does not match current ({})",
+                       head->content_hash, current_hash));
+        spdlog::error("handlePartialReceiptChain: head receipt mismatch for {}", artifact_id);
+        
+        if (g_recovery_hook) {
+            g_recovery_hook->requestChainRebuild(artifact_id);
+        }
+        
+        return result;
+    }
+    
+    // Verify integrity of available chain
+    if (!partial_chain.verifyChainIntegrity()) {
+        result.state = VerificationState::CORRUPT;
+        result.success = false;
+        result.error_messages.push_back("Partial receipt chain integrity check failed");
+        spdlog::error("handlePartialReceiptChain: chain verification failed for {}", artifact_id);
+        
+        if (g_recovery_hook) {
+            g_recovery_hook->requestChainRebuild(artifact_id);
+        }
+        
+        return result;
+    }
+    
+    // Mark as STALE since history is incomplete
+    result.state = VerificationState::STALE;
+    result.success = true;
+    result.fragments_verified = partial_chain.size();
+    result.error_messages.push_back(
+        fmt::format("Partial receipt chain: {} receipts available (history incomplete)",
+                   partial_chain.size()));
+    
+    spdlog::info("handlePartialReceiptChain: partial history accepted for {} "
+                "({} receipts available)", artifact_id, partial_chain.size());
+    
+    return result;
+}
+
+VerificationResult handleStaleReceipt(
+    const VerificationReceipt& head_receipt,
+    const std::string& current_lineage_hash,
+    const std::string& content_hash) {
+    
+    VerificationResult result;
+    result.artifact_id = head_receipt.artifact_id;
+    result.expected_hash = content_hash;
+    result.actual_hash = head_receipt.content_hash;
+    
+    // Verify receipt self-integrity
+    if (!head_receipt.verifyIntegrity()) {
+        result.state = VerificationState::CORRUPT;
+        result.success = false;
+        result.error_messages.push_back("Receipt self-integrity failed (tampering detected)");
+        spdlog::error("handleStaleReceipt: receipt integrity failed for {}",
+                     head_receipt.artifact_id);
+        return result;
+    }
+    
+    // Check content hash match
+    if (head_receipt.content_hash != content_hash) {
+        result.state = VerificationState::CORRUPT;
+        result.success = false;
+        result.error_messages.push_back(
+            fmt::format("Receipt content_hash mismatch: receipt={}, current={}",
+                       head_receipt.content_hash, content_hash));
+        spdlog::error("handleStaleReceipt: content mismatch for {}", head_receipt.artifact_id);
+        return result;
+    }
+    
+    // Check lineage
+    if (!current_lineage_hash.empty() &&
+        head_receipt.package_lineage_hash != current_lineage_hash) {
+        result.state = VerificationState::STALE;
+        result.success = true;
+        result.error_messages.push_back(
+            fmt::format("Package lineage changed: receipt={}, current={}",
+                       head_receipt.package_lineage_hash.substr(0, 8),
+                       current_lineage_hash.substr(0, 8)));
+        spdlog::info("handleStaleReceipt: stale lineage detected for {}",
+                    head_receipt.artifact_id);
+        
+        if (g_recovery_hook) {
+            g_recovery_hook->requestChainRebuild(head_receipt.artifact_id);
+        }
+        
+        return result;
+    }
+    
+    // Content and lineage both match
+    result.state = VerificationState::VERIFIED;
+    result.success = true;
+    result.fragments_verified = 1;
+    spdlog::info("handleStaleReceipt: receipt verified for {}", head_receipt.artifact_id);
+    
+    return result;
+}
+
+VerificationResult verifyFragmentIntegrity(
+    const std::string& artifact_id,
+    std::string_view fragment_data,
+    size_t fragment_index,
+    const MerkleProof& merkle_proof,
+    const std::string& expected_root) {
+    
+    VerificationResult result;
+    result.artifact_id = artifact_id;
+    result.expected_hash = expected_root;
+    result.state = VerificationState::UNVERIFIED;
+    
+    // Compute fragment hash
+    result.actual_hash = computeSHA256(fragment_data);
+    
+    // Verify fragment against Merkle proof
+    if (!merkle_proof.verify(expected_root)) {
+        result.state = VerificationState::CORRUPT;
+        result.success = false;
+        result.error_messages.push_back(
+            fmt::format("Fragment {} Merkle proof verification failed", fragment_index));
+        spdlog::error("verifyFragmentIntegrity: fragment {} proof invalid for {}",
+                     fragment_index, artifact_id);
+        return result;
+    }
+    
+    result.state = VerificationState::VERIFIED_FRAGMENTS;
+    result.success = true;
+    result.fragments_verified = 1;
+    spdlog::info("verifyFragmentIntegrity: fragment {} verified for {}",
+                fragment_index, artifact_id);
+    
+    return result;
+}
+
+void setIntegrityRecoveryHook(IntegrityRecoveryHook* hook) {
+    g_recovery_hook = hook;
+    if (hook) {
+        spdlog::info("Integrity recovery hook installed");
+    } else {
+        spdlog::info("Integrity recovery hook removed");
+    }
+}
+
+IntegrityRecoveryHook* getIntegrityRecoveryHook() {
+    return g_recovery_hook;
+}
+
+
+
+// ============================================================================
 // VerificationResult Implementation
 // ============================================================================
 

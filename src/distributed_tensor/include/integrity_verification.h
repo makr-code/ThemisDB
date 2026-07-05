@@ -475,6 +475,171 @@ public:
 };
 
 // ============================================================================
+// PHASE 3: Error Handling & Edge Cases
+// ============================================================================
+
+/**
+ * @brief Full artifact verification with comprehensive corruption detection.
+ *
+ * Performs end-to-end integrity verification including:
+ * - Content hash validation against expected value
+ * - Merkle fragment verification for partial loads
+ * - Receipt chain tamper-evidence checks
+ * - Provenance lineage validation
+ *
+ * @param artifact_id         Identifier of artifact being verified
+ * @param payload             Raw artifact payload bytes
+ * @param expected_content_hash  Expected SHA-256 hash of payload
+ * @param merkle_proof        Optional proof for fragment verification
+ * @param receipt_chain       Optional chain to verify lineage
+ * @param provenance_hook     Optional hook for graph validation
+ * @return VerificationResult with success status and diagnostics
+ */
+[[nodiscard]] VerificationResult verifyArtifactIntegrity(
+    const std::string& artifact_id,
+    std::string_view payload,
+    const std::string& expected_content_hash,
+    const std::optional<MerkleProof>& merkle_proof = std::nullopt,
+    const std::optional<ReceiptChain>& receipt_chain = std::nullopt,
+    ProvenanceVerificationHook* provenance_hook = nullptr);
+
+/**
+ * @brief Detect tampering in receipt chains.
+ *
+ * Comprehensive tamper detection that verifies:
+ * - Each receipt's self-hash integrity
+ * - Parent-child linkage (receipt_hash includes parent_receipt_hash)
+ * - Genesis receipt properties (empty parent)
+ * - Chain continuity (no missing receipts)
+ * - Lineage commitments are consistent
+ *
+ * @param chain              Receipt chain to analyze
+ * @return VerificationResult with tamper status; CORRUPT if any issues detected
+ */
+[[nodiscard]] VerificationResult detectReceiptChainTampering(
+    const ReceiptChain& chain);
+
+/**
+ * @brief Handle partial receipt chains (incomplete history).
+ *
+ * When a receipt chain is truncated or incomplete, determine:
+ * - Whether the present receipt is still trustworthy
+ * - How many historical receipts are missing
+ * - Whether fragment-level verification is sufficient fallback
+ * - Recovery recommendations (rebuild full chain or accept partial trust)
+ *
+ * @param partial_chain      Incomplete receipt chain
+ * @param artifact_id        Artifact this chain certifies
+ * @param current_hash       Current content hash of artifact
+ * @return VerificationResult with STALE state if history incomplete,
+ *         or VERIFIED if current receipt is sufficient
+ */
+[[nodiscard]] VerificationResult handlePartialReceiptChain(
+    const ReceiptChain& partial_chain,
+    const std::string& artifact_id,
+    const std::string& current_hash);
+
+/**
+ * @brief Handle stale receipts (outdated provenance).
+ *
+ * When artifact content is valid but package lineage has changed since
+ * receipt was issued, determine:
+ * - Whether stale provenance requires rebuild
+ * - Whether cached result is still acceptable for specific query types
+ * - Rebuild priority if needed
+ *
+ * @param head_receipt       Most recent receipt in chain
+ * @param current_lineage_hash  Current package lineage hash
+ * @param content_hash       Current artifact content hash (verified)
+ * @return VerificationResult with state=STALE if lineage mismatch,
+ *         state=VERIFIED if lineage match, or CORRUPT on conflict
+ */
+[[nodiscard]] VerificationResult handleStaleReceipt(
+    const VerificationReceipt& head_receipt,
+    const std::string& current_lineage_hash,
+    const std::string& content_hash);
+
+/**
+ * @brief Verify fragment-level integrity via Merkle proofs.
+ *
+ * When only a subset of artifact fragments are loaded, use Merkle proofs
+ * to verify:
+ * - Fragment belongs to claimed artifact
+ * - Fragment hash is consistent with full artifact root
+ * - No tampering occurred between shard and consumer
+ *
+ * @param artifact_id        Full artifact identifier
+ * @param fragment_data      Loaded fragment bytes
+ * @param fragment_index     Position in artifact (0..num_fragments-1)
+ * @param merkle_proof       Proof linking fragment to root
+ * @param expected_root      Expected Merkle root hash
+ * @return VerificationResult with state=VERIFIED_FRAGMENTS on success,
+ *         state=CORRUPT if proof invalid
+ */
+[[nodiscard]] VerificationResult verifyFragmentIntegrity(
+    const std::string& artifact_id,
+    std::string_view fragment_data,
+    size_t fragment_index,
+    const MerkleProof& merkle_proof,
+    const std::string& expected_root);
+
+/**
+ * @brief Recovery coordination callback interface (EPIC 3.5).
+ *
+ * When integrity verification detects corruption or staleness,
+ * allows coordination with recovery subsystem to initiate rebuild.
+ */
+class IntegrityRecoveryHook {
+public:
+    virtual ~IntegrityRecoveryHook() = default;
+
+    /**
+     * @brief Request recovery/rebuild for corrupted artifact.
+     *
+     * @param artifact_id   Corrupted artifact identifier
+     * @param reason        Why recovery is needed (e.g., "content_hash_mismatch")
+     * @return true if recovery initiated, false if recovery cannot be attempted
+     */
+    virtual bool requestArtifactRecovery(
+        const std::string& artifact_id,
+        const std::string& reason) = 0;
+
+    /**
+     * @brief Request receipt chain rebuild from scratch.
+     *
+     * @param artifact_id   Artifact needing chain rebuild
+     * @return true if rebuild initiated, false if impossible
+     */
+    virtual bool requestChainRebuild(const std::string& artifact_id) = 0;
+
+    /**
+     * @brief Query current recovery status for an artifact.
+     *
+     * @param artifact_id   Artifact to check
+     * @return "not_started", "in_progress", "completed", "failed", or "unknown"
+     */
+    virtual std::string getRecoveryStatus(const std::string& artifact_id) = 0;
+};
+
+/**
+ * @brief Set global recovery hook for integrity verification.
+ *
+ * The hook is called whenever integrity verification detects corruption
+ * or determines that rebuild is necessary. Allows EPIC 3.5 to coordinate
+ * recovery without tight coupling.
+ *
+ * @param hook Callback interface, or nullptr to disable recovery coordination
+ */
+void setIntegrityRecoveryHook(IntegrityRecoveryHook* hook);
+
+/**
+ * @brief Get the current recovery hook.
+ *
+ * @return Currently installed hook, or nullptr if none
+ */
+IntegrityRecoveryHook* getIntegrityRecoveryHook();
+
+// ============================================================================
 // Utility Functions
 // ============================================================================
 

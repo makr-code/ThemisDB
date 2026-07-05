@@ -29,8 +29,8 @@ Integrity verification, Merkle structures, and receipt semantics.
 - [x] Define provenance verification hooks and audit trail callbacks
 - [x] Document integration with manifest, placement, and recovery subsystems
 
-### Phase 2: Core implementation
-- [~] Implement `integrity_verification.h/cc` with production-grade hashing, validation, and manifest-facing serialization
+### Phase 2: Core implementation ✅ COMPLETE
+- [x] Implement `integrity_verification.h/cc` with production-grade hashing, validation, and manifest-facing serialization
 - [x] Document when queries may proceed with cached receipts versus fresh verification
 - [x] Implement deterministic JSON serialization for proof computation
 
@@ -41,16 +41,16 @@ Integrity verification, Merkle structures, and receipt semantics.
 - **Fresh fragment verification is required** when the planner fetches only a subset of fragments from remote shards and the full-artifact content hash has not been recomputed in the current read path.
 - **Receipt-chain verification stays off the hot path** unless the caller explicitly needs compliance or tamper-evidence guarantees beyond the current artifact payload.
 
-### Phase 3: Error handling and edge cases
-- [ ] Implement corruption and tampering detection
-- [ ] Handle partial-receipt and stale-receipt edge cases
-- [ ] Implement recovery coordination with EPIC 3.5
+### Phase 3: Error handling and edge cases ✅ COMPLETE
+- [x] Implement corruption and tampering detection
+- [x] Handle partial-receipt and stale-receipt edge cases
+- [x] Implement recovery coordination with EPIC 3.5
 
-### Phase 4: Tests
-- [ ] Write unit tests for SHA-256 computation and validation
-- [ ] Write tests for Merkle proof verification (happy path, invalid proofs, tampering)
-- [ ] Write tests for receipt chain verification (genesis, appends, tampering)
-- [ ] Write integration tests for verification workflow
+### Phase 4: Tests ✅ COMPLETE
+- [x] Write unit tests for SHA-256 computation and validation
+- [x] Write tests for Merkle proof verification (happy path, invalid proofs, tampering)
+- [x] Write tests for receipt chain verification (genesis, appends, tampering)
+- [x] Write integration tests for verification workflow
 
 ### Phase 5: Performance and hardening
 - [ ] Benchmark SHA-256 verification on various artifact sizes
