@@ -468,15 +468,28 @@ For a 10 GB tensor reconstruction with 64 shards:
 
 ## 8. Research Questions & Future Work
 
-This assessment addresses the following research questions from DISTRIBUTED_TENSOR_SHARDING.md Section 13:
+This assessment provides hardware and network foundations for answering the research questions from DISTRIBUTED_TENSOR_SHARDING.md Section 13:
 
-1. **NVMe locality**: Quantified as 100-500 ms latency delta; RAID0 striping recommended for High-Performance tier
-2. **RAM pressure during reconstruction**: Characterized across 4 scenarios; recommend 20-60 GB cache allocation
-3. **Network costs of fragment retrieval**: Modeled as 100-2000 ms per remote shard; 1-5 Gbps network consumption
-4. **Shard-summary traffic efficiency**: Broadcast model ~10-30 s one-time; pull model ~100-500 ms per lookup
-5. **Placement strategy tradeoffs**: Break-even analysis provided for 3 strategies across cluster sizes
-6. **GPU acceleration benefits**: Quantified for tensors >1 GB; ROI >2 reconstructions/minute
-7. **Cross-shard reconstruction amplification**: 1-N× multiplier; mitigation via locality optimization
+1. **Q: When does factorization-aware placement outperform generic block placement?**
+   - Answer: Factorization beneficial when r/d <0.1 (Section 4.3 break-even analysis); provides 2-3× storage savings for TT cores; network cost depends on factor distribution (Section 6 reconstruction scenarios).
+
+2. **Q: Which tensor artifact classes benefit most from erasure coding vs replication?**
+   - Answer: Primary artifacts with high durability requirements favor replication (Section 3.1); Derived artifacts can use erasure coding due to rebuildability (Section 3.2); Ephemeral artifacts need neither (Section 3.3).
+
+3. **Q: How much false-negative risk is introduced by summary-first shard routing?**
+   - Answer: Summary-first achieves >95% shard cache hit rate (Section 1.1.2); miss latency adds 100-500 ms (Section 6.1); relevant for ≤1% of queries in warm-cache scenarios.
+
+4. **Q: What are the best integrity schemes for factorized tensor fragments?**
+   - Answer: Break into hardware layers: NVMe integrity via checksums (Section 1.2), network integrity via erasure parity (Section 2), RAM integrity via hardware ECC. Cost increases with replication multiplier (Section 7.1).
+
+5. **Q: What is the break-even point for summary-first retrieval in federated environments?**
+   - Answer: Break-even at cluster scale >16 nodes with >10 Gbps interconnect (Section 5.3); 10-30 s broadcast cost amortizes over 100+ lookups at <500 ms per miss (Section 2.2).
+
+6. **Q: How should quantization be balanced against routing fidelity?**
+   - Answer: Quantization reduces shard-summary size (256 MB → 64-128 MB per shard) at cost of 1-5% routing accuracy loss; tradeoff depends on workload tolerance and network cost sensitivity (Section 3.2).
+
+7. **Q: Which tensor fragments should be hot, warm, or cold by default?**
+   - Answer: Hot (Section 5.1-5.3): Recent adapters, active LoRA weights, shard summaries. Warm: Derived artifacts, routing vectors. Cold: Archived adapters, infrequently-used factors. Recommendation: Use Section 1.2.1 access frequency thresholds.
 
 ---
 
