@@ -381,7 +381,8 @@ public:
      * @brief Construct with optional configuration.
      * @param config  Routing thresholds and defaults.
      */
-    explicit AnnFrontdoor(Config config = {});
+    AnnFrontdoor();
+    explicit AnnFrontdoor(Config config);
     ~AnnFrontdoor();
 
     // Non-copyable; move is allowed.

@@ -115,6 +115,9 @@ void emitRouteMetric(const AnnFrontdoorResult& result) {
 // Lifecycle
 // ============================================================================
 
+AnnFrontdoor::AnnFrontdoor()
+    : AnnFrontdoor(Config{}) {}
+
 AnnFrontdoor::AnnFrontdoor(Config config)
     : config_(std::move(config)) {}
 
