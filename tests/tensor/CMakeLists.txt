@@ -37,6 +37,17 @@ foreach(_src IN LISTS TENSOR_MODULE_TEST_SOURCES)
             ${THEMIS_ROOT_DIR}/src/tensor/compression_strategy.cpp
         )
     endif()
+    if("${_stem}" STREQUAL "test_federated_tensor_summaries")
+        # Federated and cross-shard tensor summaries tests (Issue #5427)
+        target_sources(${_target} PRIVATE
+            ${THEMIS_ROOT_DIR}/src/tensor/adapter_repository.cpp
+            ${THEMIS_ROOT_DIR}/src/tensor/tensor_fingerprint_graph.cpp
+            ${THEMIS_ROOT_DIR}/src/tensor/tensor_summary_types.cpp
+            ${THEMIS_ROOT_DIR}/src/tensor/tensor_error_handling.cpp
+            ${THEMIS_ROOT_DIR}/src/tensor/tensor_routing_strategy.cpp
+            ${THEMIS_ROOT_DIR}/src/tensor/compression_strategy.cpp
+        )
+    endif()
     target_include_directories(${_target} PRIVATE
         ${THEMIS_ROOT_DIR}/include
         ${THEMIS_ROOT_DIR}/src
