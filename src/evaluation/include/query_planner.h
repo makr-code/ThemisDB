@@ -29,6 +29,7 @@
 #pragma once
 
 #include <cstdint>
+#include <memory>
 #include <optional>
 #include <string>
 #include <string_view>
@@ -290,6 +291,10 @@ struct ExecutionEligibility {
     bool query_exception_handling_ok{false}; ///< Fallback logic is exception-safe.
     bool index_buffer_safety_ok{false}; ///< ANN candidate buffers are lifecycle-safe.
 
+    // Distributed / sharding signals (Path 5)
+    bool distributed_multi_shard{false};  ///< Query spans ≥ 2 shards; activate Path 5.
+    bool shard_manifests_available{false};///< All required shard manifests are reachable.
+
     /**
      * @brief Check whether a given kernel category is eligible for GPU dispatch.
      *
@@ -458,6 +463,20 @@ public:
         return eligibility.isGpuEligible(category);
     }
 };
+
+// ---------------------------------------------------------------------------
+// Factory
+// ---------------------------------------------------------------------------
+
+/**
+ * @brief Create the default production query planner.
+ *
+ * Returns an owning pointer to the `DefaultQueryPlanner` implementation.
+ * Use this factory in production code to avoid coupling to the concrete type.
+ *
+ * @return `std::unique_ptr<QueryPlanner>` owning a `DefaultQueryPlanner`.
+ */
+[[nodiscard]] std::unique_ptr<QueryPlanner> makeDefaultQueryPlanner();
 
 } // namespace evaluation
 } // namespace themis

@@ -294,25 +294,29 @@ forbidden (see ADR E2-005).
 - [ ] Prepare the next phase only after the current contract is reviewed for `EPIC 2.5 Query Planner`.
 
 ### Phase 2: Core implementation
-- [ ] Implement `QueryPlanner::selectPath()` using the five canonical paths above
-- [ ] Implement `TensorArtifactFreshness::isFresh()` with policy-bound parameters
-- [ ] Implement `ExecutionEligibility` checks for Category A / B / C boundaries
-- [ ] Wire `CrossShardForeignKeyValidator` into Path 5 (distributed exact-on-demand)
+- [x] Implement `DefaultQueryPlanner::selectPath()` using the five canonical paths above (`src/evaluation/src/query_planner.cc`)
+- [x] `TensorArtifactFreshness::isFresh()` and `staleness_reason()` are inline in the header (Phase 1)
+- [x] `ExecutionEligibility::isGpuEligible()` enforces Category A / B / C boundaries (Phase 1 + Phase 2)
+- [x] Distributed Path 5 gates (`distributed_multi_shard`, `shard_manifests_available`) wired into `selectPath()`
+- [x] `makeDefaultQueryPlanner()` factory function declared in header and defined in `.cc`
 - [ ] Prepare the next phase only after the current contract is reviewed for `EPIC 2.5 Query Planner`.
 
 ### Phase 3: Error handling and edge cases
-- [ ] Enumerate degraded routing for missing hardware, stale artifacts, or integrity failures
-- [ ] Implement fallback reason codes per trigger defined above
-- [ ] Ensure Category C operations fail-closed on accidental GPU dispatch attempt
-- [ ] Handle partial shard loss in Path 5 (distributed summary-first)
+- [x] Fail-closed behavior implemented: `force_exact` always overrides to Path 4 with `FallbackReason::ForceExact`
+- [x] Category C enforcement: `isGpuEligible(KernelCategory::C)` always returns false
+- [x] Every fallback carries a non-None `FallbackReason` from the defined trigger table
+- [x] Module gap threshold blocker: `index_buffer_safety_ok == false` → `ModuleGapThreshold` fallback
+- [x] Partial shard loss (missing manifests): `ShardManifestMissing` → Path 4 fallback
+- [x] Stale / low-quality tensor artifacts map to specific reason codes (TensorArtifactStale, TensorResidualLow, TensorRebuildInProgress, TensorRankCapExceeded)
 - [ ] Prepare the next phase only after the current contract is reviewed for `EPIC 2.5 Query Planner`.
 
 ### Phase 4: Tests
-- [ ] Unit tests: deterministic path selection for all five paths
-- [ ] Unit tests: tensor freshness gate (all boundary conditions)
-- [ ] Unit tests: Category C fail-closed enforcement (no GPU dispatch)
-- [ ] Integration tests: fallback chain from Path 1 → Path 4 on GPU failure
-- [ ] Integration tests: Path 5 distributed exact-on-demand trigger
+- [x] Unit tests: deterministic path selection for all five paths (`tests/epic2_evaluation/query_planner_test.cc`)
+- [x] Unit tests: tensor freshness gate — all boundary conditions (age, residual, rebuild, delta_lag, rank_cap)
+- [x] Unit tests: Category C fail-closed enforcement (no GPU dispatch)
+- [x] Integration tests: fallback chain from Path 1 → Path 4 on stale artifact / GPU disabled
+- [x] Integration tests: Path 5 distributed exact-on-demand trigger + missing manifest fallback
+- [x] Tests: force_exact, force_cpu overrides, policy version metadata in decision
 - [ ] Prepare the next phase only after the current contract is reviewed for `EPIC 2.5 Query Planner`.
 
 ### Phase 5: Performance and hardening
@@ -343,8 +347,8 @@ forbidden (see ADR E2-005).
 - [x] Tensor artifacts are never treated as final truth — advisory semantics documented
 - [x] Stale or invalid tensor artifacts trigger exact graph fallback (Path 4)
 - [x] Planner can distinguish retrieval paths (1–3) from artifact-maintenance paths (4–5)
-- [ ] `src/evaluation/include/query_planner.h` contract header provides typed API for the above
-- [ ] Tests cover all five paths and all fallback triggers
+- [x] `src/evaluation/include/query_planner.h` contract header provides typed API for the above
+- [x] Tests cover all five paths and all fallback triggers (`tests/epic2_evaluation/query_planner_test.cc`)
 
 ## Acceptance Signals
 
