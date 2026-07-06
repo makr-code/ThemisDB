@@ -350,9 +350,29 @@ uint64_t Changefeed::nextSequence() {
         }
 
         if (s.ok()) {
+            /**
+             * @brief CAS loop to update persisted_sequence_ with correct memory ordering.
+             *
+             * WHY acq_rel on success: this CAS acts as a release operation so that any
+             * thread that subsequently observes the updated persisted_sequence_ value via
+             * an acquire load is guaranteed to also see all the data written to RocksDB
+             * before this point (happens-before relationship).  Without the release
+             * fence, a reader using acquire could observe the new sequence number while
+             * the RocksDB write it describes is still pending in CPU store buffers on
+             * weakly-ordered architectures (e.g. ARM).
+             *
+             * WHY relaxed on failure: when the CAS fails, persisted is refreshed from
+             * the atomic and the loop retries. No synchronization is needed on the
+             * failure path because we are only reading the current value to compare
+             * against; the next iteration's success path will carry the needed fence.
+             */
             uint64_t persisted = persisted_sequence_.load(std::memory_order_relaxed);
             while (persisted < seq
-                   && !persisted_sequence_.compare_exchange_weak(persisted, seq, std::memory_order_relaxed)) {
+                   && !persisted_sequence_.compare_exchange_weak(
+                          persisted, seq,
+                          std::memory_order_acq_rel,   // success: publish write data
+                          std::memory_order_relaxed))  // failure: only re-read, no fence needed
+            {
             }
             return seq;
         }

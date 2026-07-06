@@ -777,9 +777,20 @@ void WireProtocolServer::unregisterConnection(const std::string& remote_ip) {
     const uint32_t prev = active_connection_count_.fetch_sub(1, std::memory_order_relaxed);
     // Detect recovery: if we were overloaded and have now dropped below the
     // limit, clear the flag and emit a single recovery log message.
-    if (overloaded_.load(std::memory_order_relaxed) && config_.max_connections > 0 &&
+    //
+    // Memory ordering rationale (CWE-662 / CERT CON50-CPP):
+    //   acquire on load  – ensures we observe the latest overloaded_ state written
+    //                      by any prior release-store (e.g. the exchange(true) in
+    //                      handleAccept), establishing a happens-before edge.
+    //   release on store – publishes the "not overloaded" state so that the next
+    //                      thread to read via acquire sees all side-effects that
+    //                      preceded this store (e.g. the decremented connection
+    //                      count).  Without the release here a reader on a
+    //                      weakly-ordered architecture could see overloaded_=false
+    //                      while still seeing the old (high) connection count.
+    if (overloaded_.load(std::memory_order_acquire) && config_.max_connections > 0 &&
         prev - 1 < config_.max_connections) {
-        overloaded_.store(false, std::memory_order_relaxed);
+        overloaded_.store(false, std::memory_order_release);
         std::cerr << "[WireProtocol] Backpressure recovery: active connections dropped to "
                   << (prev - 1) << " (limit=" << config_.max_connections
                   << "). Accepting new connections again.\n";

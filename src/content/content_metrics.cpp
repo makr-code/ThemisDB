@@ -481,31 +481,39 @@ std::string ContentMetrics::toPrometheusFormat() const {
 }
 
 void ContentMetrics::reset() {
-    // Reset atomic counters
-    total_ingestions_ = 0;
-    total_bytes_processed_ = 0;
-    total_validations_ = 0;
-    successful_validations_ = 0;
-    failed_validations_ = 0;
-    total_processing_ = 0;
-    successful_processing_ = 0;
-    failed_processing_ = 0;
-    total_extractions_ = 0;
-    successful_extractions_ = 0;
-    failed_extractions_ = 0;
-    total_chunks_ = 0;
-    total_embeddings_ = 0;
-    total_errors_ = 0;
-    total_timeouts_ = 0;
-    pdf_extracted_total_ = 0;
-    office_extracted_total_ = 0;
-    ocr_extracted_total_ = 0;
-    extract_errors_total_ = 0;
-    embedding_failures_ = 0;
-    dedup_checks_ = 0;
-    dedup_hits_ = 0;
-    cache_hits_ = 0;
-    cache_misses_ = 0;
+    // Reset atomic counters.
+    //
+    // Thread-safety note (CWE-362 / CERT CON50-CPP):
+    //   Each field is std::atomic<uint64_t>.  Using store(0, relaxed) is
+    //   sufficient here because reset() is only called at the start of a new
+    //   measurement window, after all writer threads have quiesced (or under
+    //   external coordination).  relaxed avoids the implicit seq_cst fence that
+    //   operator=(0) would otherwise emit, reducing unnecessary pipeline stalls
+    //   when zeroing a large batch of counters in sequence.
+    total_ingestions_.store(0, std::memory_order_relaxed);
+    total_bytes_processed_.store(0, std::memory_order_relaxed);
+    total_validations_.store(0, std::memory_order_relaxed);
+    successful_validations_.store(0, std::memory_order_relaxed);
+    failed_validations_.store(0, std::memory_order_relaxed);
+    total_processing_.store(0, std::memory_order_relaxed);
+    successful_processing_.store(0, std::memory_order_relaxed);
+    failed_processing_.store(0, std::memory_order_relaxed);
+    total_extractions_.store(0, std::memory_order_relaxed);
+    successful_extractions_.store(0, std::memory_order_relaxed);
+    failed_extractions_.store(0, std::memory_order_relaxed);
+    total_chunks_.store(0, std::memory_order_relaxed);
+    total_embeddings_.store(0, std::memory_order_relaxed);
+    total_errors_.store(0, std::memory_order_relaxed);
+    total_timeouts_.store(0, std::memory_order_relaxed);
+    pdf_extracted_total_.store(0, std::memory_order_relaxed);
+    office_extracted_total_.store(0, std::memory_order_relaxed);
+    ocr_extracted_total_.store(0, std::memory_order_relaxed);
+    extract_errors_total_.store(0, std::memory_order_relaxed);
+    embedding_failures_.store(0, std::memory_order_relaxed);
+    dedup_checks_.store(0, std::memory_order_relaxed);
+    dedup_hits_.store(0, std::memory_order_relaxed);
+    cache_hits_.store(0, std::memory_order_relaxed);
+    cache_misses_.store(0, std::memory_order_relaxed);
     
     // Reset maps
     {
