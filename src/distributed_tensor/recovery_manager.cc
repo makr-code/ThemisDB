@@ -7,7 +7,6 @@
 #include <chrono>
 #include <iomanip>
 #include <sstream>
-#include <uuid/uuid.h>
 
 namespace themis {
 namespace distributed_tensor {
