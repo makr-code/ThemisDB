@@ -3,7 +3,7 @@
  * @brief Implementation of distributed tensor retrieval planner.
  */
 
-#include "distributed_tensor/distributed_planner.h"
+#include "../include/distributed_planner.h"
 #include "tensor/tensor_summary_types.h"
 #include "rag/graph_truth_validator.h"
 
@@ -237,13 +237,8 @@ rag::GraphTruthValidationResult DistributedTensorPlanner::validateAgainstGraphTr
     // In production, this would project fragments into graph candidates
     // and validate using KG retrieval or ontology-aware retrieval
     
-    // For MVP: create a synthetic TensorLayerSummary from fragments
-    // (In real implementation, this would be more sophisticated)
-    tensor::TensorLayerSummary tensor_summary;
-    tensor_summary.correlation_id = plan.correlation_id;
-    
-    // Note: In production, this would use actual fragment data
-    // For now, we just mark that validation was attempted
+    // For MVP: Just verify fragment loading was successful
+    // (In real implementation, this would use actual fragment data for validation)
     
     if (config_.strict_graph_validation) {
         // Require all fragments loaded successfully
