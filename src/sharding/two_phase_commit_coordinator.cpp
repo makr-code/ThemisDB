@@ -186,6 +186,7 @@ CoordinatorTxnOutcome TwoPhaseCommitCoordinator::commit(
 
         // Build per-shard payloads
         for (const auto& [shard_id, ops] : ops_per_shard) {
+            rec.participant_shards.push_back(shard_id);
             rec.shard_payloads[shard_id] = buildPayload(ops);
         }
 
@@ -303,45 +304,27 @@ size_t TwoPhaseCommitCoordinator::recoverInDoubtTransactions() {
 
     try {
         auto entries = wal_->readRange(wal_->getOldestLSN());
+        const auto recovered_wal =
+            themis::transaction::TwoPhaseCommitWALRecovery::reconstruct(entries);
 
-        // Replay entries to rebuild coordinator state
         std::map<std::string, CoordinatorTxnRecord> recovered;
-        std::map<std::string, bool>                 decisions; // txn_id → commit?
+        for (const auto& [txn_id, replay_txn] : recovered_wal) {
+            CoordinatorTxnRecord rec;
+            rec.transaction_id     = txn_id;
+            rec.started_at         = std::chrono::steady_clock::now();
+            rec.participant_shards = replay_txn.participants;
 
-        for (const auto& entry : entries) {
-            const std::string& txn_id = entry.transaction_id;
-            if (txn_id.empty()) continue;
-
-            if (entry.type == WALEntryType::BEGIN_TX) {
-                CoordinatorTxnRecord& rec  = recovered[txn_id];
-                rec.transaction_id         = txn_id;
-                rec.state                  = CoordinatorTxnState::ACTIVE;
-                rec.started_at             = std::chrono::steady_clock::now();
-            } else if (entry.type == WALEntryType::COMMIT_TX) {
-                auto phase = entry.data.value("phase", "");
-                if (phase == "complete") {
-                    if (recovered.count(txn_id)) {
-                        recovered[txn_id].state = CoordinatorTxnState::COMPLETED;
-                    }
-                } else {
-                    auto decision = entry.data.value("decision", "");
-                    if (decision == "commit") {
-                        decisions[txn_id] = true;
-                        if (recovered.count(txn_id))
-                            recovered[txn_id].state = CoordinatorTxnState::COMMIT_DECIDED;
-                    }
-                }
-            } else if (entry.type == WALEntryType::ABORT_TX) {
-                auto phase = entry.data.value("phase", "");
-                if (phase == "complete") {
-                    if (recovered.count(txn_id))
-                        recovered[txn_id].state = CoordinatorTxnState::COMPLETED;
-                } else {
-                    decisions[txn_id] = false;
-                    if (recovered.count(txn_id))
-                        recovered[txn_id].state = CoordinatorTxnState::ABORT_DECIDED;
-                }
+            if (replay_txn.completed) {
+                rec.state = CoordinatorTxnState::COMPLETED;
+            } else if (replay_txn.has_decision) {
+                rec.state = replay_txn.decision_commit
+                    ? CoordinatorTxnState::COMMIT_DECIDED
+                    : CoordinatorTxnState::ABORT_DECIDED;
+            } else {
+                rec.state = CoordinatorTxnState::ACTIVE;
             }
+
+            recovered.emplace(txn_id, std::move(rec));
         }
 
         // Re-drive transactions that have a Phase 2 decision but are not COMPLETED
@@ -353,8 +336,9 @@ size_t TwoPhaseCommitCoordinator::recoverInDoubtTransactions() {
                 continue;
             }
 
-            auto it = decisions.find(txn_id);
-            if (it == decisions.end()) {
+            const bool has_decision = rec.state == CoordinatorTxnState::COMMIT_DECIDED ||
+                                      rec.state == CoordinatorTxnState::ABORT_DECIDED;
+            if (!has_decision) {
                 // No decision logged → abort conservatively and broadcast ABORT
                 // to release participants from PREPARED state (2PC-2 fix).
                 THEMIS_WARN("2PC coordinator [{}] in-doubt txn {} has no decision "
@@ -376,10 +360,7 @@ size_t TwoPhaseCommitCoordinator::recoverInDoubtTransactions() {
                 continue;
             }
 
-            const bool do_commit = it->second;
-            rec.state = do_commit
-                ? CoordinatorTxnState::COMMIT_DECIDED
-                : CoordinatorTxnState::ABORT_DECIDED;
+            const bool do_commit = rec.state == CoordinatorTxnState::COMMIT_DECIDED;
 
             THEMIS_WARN("2PC coordinator [{}] re-driving in-doubt txn {} with decision {}",
                         coordinator_id_, txn_id, do_commit ? "COMMIT" : "ABORT");
@@ -587,7 +568,19 @@ bool TwoPhaseCommitCoordinator::runPhase1(CoordinatorTxnRecord& rec,
 void TwoPhaseCommitCoordinator::runPhase2(CoordinatorTxnRecord& rec, bool do_commit,
                                           std::unique_lock<std::timed_mutex>& lock) {
     // 2PC-1: same pattern as runPhase1 — release lock around each blocking RPC.
-    for (const auto& [shard_id, _] : rec.shard_payloads) {
+    const auto shard_ids =
+        rec.participant_shards.empty()
+            ? [&rec]() {
+                  std::vector<std::string> ids;
+                  ids.reserve(rec.shard_payloads.size());
+                  for (const auto& [shard_id, _] : rec.shard_payloads) {
+                      ids.push_back(shard_id);
+                  }
+                  return ids;
+              }()
+            : rec.participant_shards;
+
+    for (const auto& shard_id : shard_ids) {
         auto pit = participants_.find(shard_id);  // safe: lock held
         if (pit == participants_.end()) {
             THEMIS_WARN("2PC coordinator [{}] Phase 2 – participant {} not found for txn {} "
