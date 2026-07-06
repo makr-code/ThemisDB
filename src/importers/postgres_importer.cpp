@@ -102,6 +102,42 @@ static const std::regex kInlineRefRe(
 } // anonymous namespace
 // ============================================================================
 
+// ============================================================================
+// I4: Structured Audit Logging helpers (Phase 4 hardening)
+// ============================================================================
+namespace {
+
+/**
+ * @brief Emit a structured JSON audit event via the THEMIS logger at WARN
+ *        level so it is always visible in production log streams.
+ *
+ * Output format (single-line JSON):
+ * @code
+ *   [AUDIT] {"event":"import_start","source":"/data/dump.sql","ts_ms":1700000000000,...}
+ * @endcode
+ *
+ * @param event_type  Short identifier, e.g. "import_start", "import_failure",
+ *                    "auth_failure", "schema_change_detection", "importer_timeout"
+ * @param fields      Arbitrary key→value string pairs appended to the payload.
+ */
+static void pgAuditLogEvent(
+    const std::string& event_type,
+    std::initializer_list<std::pair<const char*, std::string>> fields)
+{
+    using json = nlohmann::json;
+    json audit;
+    audit["event"] = event_type;
+    audit["ts_ms"]  = std::chrono::duration_cast<std::chrono::milliseconds>(
+        std::chrono::system_clock::now().time_since_epoch()).count();
+    for (const auto& [k, v] : fields) {
+        audit[k] = v;
+    }
+    THEMIS_WARN("[AUDIT] {}", audit.dump());
+}
+
+} // anonymous namespace
+// ============================================================================
+
 /**
  * Split a comma-separated list at top-level commas only, respecting nested
  * parentheses and single-quoted string literals.
@@ -289,9 +325,23 @@ ImportStats PostgreSQLImporter::importData(
     THEMIS_INFO("Starting PostgreSQL import from: {}", source_path);
     THEMIS_INFO("Options: {}", options.toJson().dump());
 
+    // I4: Audit – import start
+    pgAuditLogEvent("import_start", {
+        {"source",         source_path},
+        {"schema_name",    options.default_namespace},
+        {"dry_run",        options.dry_run ? "true" : "false"},
+        {"timeout_ms",     std::to_string(options.import_timeout_ms)}
+    });
+
     // --- Permission / ACL check ---
     if (options.permission_check) {
         if (!options.permission_check("import", "write")) {
+            // I4: Audit – authentication / authorisation failure
+            pgAuditLogEvent("auth_failure", {
+                {"source", source_path},
+                {"user",   "<caller>"},   // anonymised – never log raw credentials
+                {"reason", "permission_check denied import:write"}
+            });
             addError(stats, ImportErrorCode::PERMISSION_DENIED,
                      ImportErrorSeverity::CRITICAL,
                      "Permission denied: caller does not hold 'import:write'");
@@ -313,6 +363,16 @@ ImportStats PostgreSQLImporter::importData(
             addError(stats, ImportErrorCode::FILE_READ_FAILED,
                      ImportErrorSeverity::CRITICAL, "Failed to parse dump file");
         }
+        // I4: Audit – import failure (partial or total)
+        const std::string reason = stats.structured_errors.empty()
+            ? "parse_failed"
+            : stats.structured_errors.back().message;
+        pgAuditLogEvent("import_failure", {
+            {"source",           source_path},
+            {"reason",           reason},
+            {"records_processed", std::to_string(stats.imported_records)},
+            {"partial_import",   stats.imported_records > 0 ? "true" : "false"}
+        });
     }
     
     auto end_time = std::chrono::steady_clock::now();
@@ -697,9 +757,41 @@ bool PostgreSQLImporter::parseDumpFile(const std::string& file_path, const Impor
     line.reserve(4096);
     current_sql.reserve(8192);
 
+    // I1: Timeout / deadline guard ──────────────────────────────────────────
+    // When import_timeout_ms > 0 a deadline is computed from the current wall
+    // clock.  The deadline is checked every 500 lines (< 1 ms overhead on
+    // modern hardware) so the import loop aborts promptly without polling on
+    // every iteration.
+    const bool timeout_enabled = (options.import_timeout_ms > 0);
+    const auto import_deadline  = timeout_enabled
+        ? std::chrono::steady_clock::now() +
+          std::chrono::milliseconds(options.import_timeout_ms)
+        : std::chrono::steady_clock::time_point::max();
+    // ────────────────────────────────────────────────────────────────────────
+
     bool line_truncated = false;
     while (streamReadLinePg(file, line, line_read_limit, line_truncated) && !cancelled_) {
         line_number++;
+
+        // I1: Deadline check every 500 lines ─────────────────────────────────
+        if (timeout_enabled && (line_number % 500 == 0)) {
+            if (std::chrono::steady_clock::now() >= import_deadline) {
+                pgAuditLogEvent("importer_timeout", {
+                    {"source",            file_path},
+                    {"reason",            "import_timeout_ms exceeded"},
+                    {"timeout_triggered", "true"},
+                    {"records_processed", std::to_string(stats.imported_records)},
+                    {"timeout_ms",        std::to_string(options.import_timeout_ms)}
+                });
+                addError(stats, ImportErrorCode::DEADLINE_EXCEEDED,
+                         ImportErrorSeverity::CRITICAL,
+                         "Import timed out after " +
+                         std::to_string(options.import_timeout_ms) + " ms");
+                cancelled_ = true;
+                break;
+            }
+        }
+        // ─────────────────────────────────────────────────────────────────────
 
         if (line_truncated) {
             addError(stats, ImportErrorCode::STATEMENT_TOO_LARGE,
@@ -761,6 +853,12 @@ bool PostgreSQLImporter::parseDumpFile(const std::string& file_path, const Impor
                                 schema.foreign_keys.size();
                         }
                         THEMIS_DEBUG("Parsed table schema: {}", schema.name);
+                        // I4: Audit – schema change detected
+                        pgAuditLogEvent("schema_change_detection", {
+                            {"table_name",  schema.name},
+                            {"change_type", "CREATE_TABLE"},
+                            {"detected_at", "line:" + std::to_string(line_number)}
+                        });
                         reportProgress(callback, "schema", stats.tables_processed, 0);
                         double dur = std::chrono::duration<double>(
                             std::chrono::steady_clock::now() - t0).count();
@@ -2029,6 +2127,9 @@ std::vector<std::string> PostgreSQLImporter::parseCopyRow(const std::string& lin
     // PostgreSQL COPY text format: columns separated by TAB.
     // Special sequences: \N = SQL NULL, \t = tab, \n = newline, \r = CR, \\ = backslash.
     std::vector<std::string> result;
+    // I3: Pre-allocate for typical table width; avoids repeated reallocation
+    // in the hot per-row path during large COPY blocks.
+    result.reserve(32);
     size_t start = 0;
 
     // Process each tab-delimited raw field, then unescape
@@ -2072,6 +2173,9 @@ std::vector<std::string> PostgreSQLImporter::parseInsertValues(const std::string
     // Parse a VALUES clause like: 1, 'hello', NULL, 'it''s'
     // Handles single-quoted strings with escaped quotes ('') and numeric/NULL literals.
     std::vector<std::string> result;
+    // I3: Pre-allocate for typical column count; avoids per-push reallocation
+    // in the INSERT hot path.
+    result.reserve(32);
     size_t i = 0;
     const size_t n = values_clause.size();
 

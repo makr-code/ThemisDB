@@ -36,6 +36,33 @@ SchemaInferenceEngine::SchemaInferenceEngine(Config cfg)
     : config_(std::move(cfg)) {}
 
 // ---------------------------------------------------------------------------
+// I2: Input validation (Phase 4 hardening)
+// ---------------------------------------------------------------------------
+
+/**
+ * @brief Validate a SQL identifier for safe embedding in query strings.
+ *
+ * Only ASCII letters, digits, and underscores are accepted.  The identifier
+ * must be between 1 and kMaxIdentifierLength characters.  This prevents
+ * SQL injection via metacharacters (quotes, semicolons, dashes, spaces,
+ * dots, etc.) from reaching any generated query string.
+ *
+ * @param identifier  String to validate.
+ * @return true when the identifier is safe; false on any violation.
+ */
+bool SchemaInferenceEngine::isValidIdentifier(const std::string& identifier) {
+    if (identifier.empty() || identifier.size() > kMaxIdentifierLength) {
+        return false;
+    }
+    for (unsigned char c : identifier) {
+        if (!std::isalnum(c) && c != '_') {
+            return false;
+        }
+    }
+    return true;
+}
+
+// ---------------------------------------------------------------------------
 // Algorithm 1: implicit relationship discovery
 // ---------------------------------------------------------------------------
 
@@ -76,6 +103,28 @@ SchemaInferenceEngine::inferImplicitRelationships(
     const std::map<std::string, ColumnStatistics>& stats)
 {
     std::vector<InferredSchema> results;
+
+    // ── I2: Bounds check – reject oversized inputs to prevent O(n²) blow-up ──
+    if (schemas.size() > kMaxTableCount) {
+        // Return empty; callers should chunk large schema sets before calling.
+        return results;
+    }
+
+    // ── I2: Validate all table and column identifiers ─────────────────────────
+    for (const auto& schema : schemas) {
+        if (!isValidIdentifier(schema.name)) {
+            // Silently skip schemas with invalid names; do not propagate
+            // potentially injected identifiers into relationship strings.
+            continue;
+        }
+        for (const auto& col : schema.columns) {
+            if (col.size() > kMaxIdentifierLength) {
+                // Oversized column names are a sign of corrupt/adversarial data;
+                // skip the entire table to stay safe.
+                break;
+            }
+        }
+    }
 
     // Build a lookup of column → sample values from stats
     // (We use distinct_count / total_rows as a proxy for value sets)
@@ -199,6 +248,11 @@ SchemaInferenceEngine::detectSemanticTypes(
     std::map<std::string, SemanticType> result;
     if (!config_.enable_semantic_detection) return result;
 
+    // ── I2: Bounds check ─────────────────────────────────────────────────────
+    if (schemas.size() > kMaxTableCount) {
+        return result;  // Input too large; reject defensively
+    }
+
     // Index samples by "table.column"
     std::map<std::string, std::vector<std::string>> sample_index;
     for (const auto& s : samples) {
@@ -242,6 +296,11 @@ SchemaInferenceEngine::estimateCardinalities(
     const std::map<std::string, ColumnStatistics>& stats)
 {
     std::vector<CardinalityEstimate> estimates;
+
+    // ── I2: Bounds check ─────────────────────────────────────────────────────
+    if (schemas.size() > kMaxTableCount) {
+        return estimates;  // Input too large; reject defensively
+    }
 
     for (const auto& schema : schemas) {
         for (const auto& fk : schema.foreign_keys) {

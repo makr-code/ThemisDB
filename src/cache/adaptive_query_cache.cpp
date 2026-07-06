@@ -51,6 +51,13 @@ constexpr const char *QUERY_CACHE_PREFIX = "query_cache:";
 constexpr int RETRY_BACKOFF_MULTIPLIER   = 2;             // Exponential backoff multiplier
 constexpr int64_t ADAPTIVE_TTL_WINDOW_MS = 5 * 60 * 1000; // 5-minute sliding window
 
+// C1: Timeout-safe L3 lock — 1 000 ms deadline before returning RESOURCE_EXHAUSTED.
+constexpr auto kL3LockTimeoutMs = std::chrono::milliseconds(1000);
+
+// C4: AI/LLM safety constants — hard caps applied unconditionally in put().
+constexpr size_t  kAbsoluteMaxEntrySizeBytes = 67108864ULL; // 64 MiB
+constexpr int     kAbsoluteMaxTTLSeconds      = 86400;       // 24 hours
+
 AdaptiveQueryCache::AdaptiveQueryCache(const Config &config) : config_(config) {
     // Phase 2: Validate configuration on startup
     std::string validation_error;
@@ -431,7 +438,17 @@ std::optional<AdaptiveQueryCache::CacheEntry> AdaptiveQueryCache::get(const std:
             return std::nullopt;
         }
 
-        std::lock_guard<std::mutex> lock(l3_mutex_);
+        // C1: Timeout-safe L3 lock — avoid indefinite blocking on slow RocksDB I/O.
+        {
+            auto l3_deadline = std::chrono::steady_clock::now() + kL3LockTimeoutMs;
+            if (!l3_mutex_.try_lock_until(l3_deadline)) {
+                THEMIS_WARN("{{\"event\":\"cache_lock_timeout\",\"operation\":\"l3_cache_access\",\"timeout_ms\":1000}}");
+                stats_.misses++;
+                enhanced_metrics_.misses++;
+                return std::nullopt;
+            }
+        }
+        std::unique_lock<std::timed_mutex> lock(l3_mutex_, std::adopt_lock);
 
         std::string l3_key = QUERY_CACHE_PREFIX + fingerprint;
         std::optional<std::vector<uint8_t>> result;
@@ -600,6 +617,24 @@ bool AdaptiveQueryCache::put(const std::string &fingerprint, const nlohmann::jso
         return false;
     }
 
+    // C4: AI/LLM safety — absolute size hard-cap (64 MiB), independent of config.
+    if (result_size > kAbsoluteMaxEntrySizeBytes) {
+        THEMIS_WARN("{{\"event\":\"entry_size_exceeded\",\"operation\":\"cache_put\","
+                    "\"size_bytes\":{},\"max_bytes\":{}}}",
+                    result_size, kAbsoluteMaxEntrySizeBytes);
+        enhanced_metrics_.size_limit_rejections++;
+        return false;
+    }
+
+    // C4: AI/LLM safety — result must be a JSON object or array (not null/primitive).
+    if (!result.is_object() && !result.is_array()) {
+        THEMIS_WARN("{{\"event\":\"invalid_entry_type\",\"operation\":\"cache_put\","
+                    "\"type\":\"{}\"}}",
+                    result.type_name());
+        enhanced_metrics_.size_limit_rejections++;
+        return false;
+    }
+
     const std::string key
         = (config_.enable_tenant_isolation && !tenant_id.empty()) ? makeTenantKey(fingerprint, tenant_id) : fingerprint;
 
@@ -615,6 +650,15 @@ bool AdaptiveQueryCache::put(const std::string &fingerprint, const nlohmann::jso
                                 : (level == CacheLevel::HOT
                                        ? config_.l1_ttl_seconds
                                        : (level == CacheLevel::WARM ? config_.l2_ttl_seconds : config_.l3_ttl_seconds));
+
+    // C4: AI/LLM safety — computed TTL must be in (0, 24h].
+    if (ttl_seconds <= 0 || ttl_seconds > kAbsoluteMaxTTLSeconds) {
+        THEMIS_WARN("{{\"event\":\"invalid_ttl\",\"operation\":\"cache_put\","
+                    "\"ttl_seconds\":{}}}",
+                    ttl_seconds);
+        enhanced_metrics_.size_limit_rejections++;
+        return false;
+    }
 
     std::shared_ptr<cache::ICacheCoordinator> repl_coord;
     if (config_.enable_replication) {
@@ -695,28 +739,36 @@ bool AdaptiveQueryCache::put(const std::string &fingerprint, const nlohmann::jso
                 l3_entry_json["window_start_ms"] = now_ms;
                 l3_entry_json["window_count"]    = 0;
 
-                std::lock_guard<std::mutex> l3_lock(l3_mutex_);
-                try {
-                    const bool ok = l3_db_->put(QUERY_CACHE_PREFIX + fingerprint, l3_entry_json.dump());
-                    if (ok) {
-                        if (l3_circuit_breaker_) {
-                            l3_circuit_breaker_->recordSuccess();
-                            enhanced_metrics_.l3_circuit_breaker_open = false;
-                        }
-                        any_written = true;
-                    } else {
-                        enhanced_metrics_.l3_write_errors++;
-                        if (l3_circuit_breaker_) {
-                            l3_circuit_breaker_->recordFailure();
-                            if (l3_circuit_breaker_->isOpen()) {
-                                enhanced_metrics_.l3_circuit_breaker_trips++;
-                                enhanced_metrics_.l3_circuit_breaker_open = true;
+                // C1: Timeout-safe L3 lock for write-through path.
+                auto l3_wt_deadline = std::chrono::steady_clock::now() + kL3LockTimeoutMs;
+                if (!l3_mutex_.try_lock_until(l3_wt_deadline)) {
+                    THEMIS_WARN("{{\"event\":\"cache_lock_timeout\",\"operation\":\"l3_write_through\",\"timeout_ms\":1000}}");
+                    enhanced_metrics_.l3_write_errors++;
+                    // Skip L3 for this write; L1/L2 writes may still succeed.
+                } else {
+                    std::unique_lock<std::timed_mutex> l3_lock(l3_mutex_, std::adopt_lock);
+                    try {
+                        const bool ok = l3_db_->put(QUERY_CACHE_PREFIX + fingerprint, l3_entry_json.dump());
+                        if (ok) {
+                            if (l3_circuit_breaker_) {
+                                l3_circuit_breaker_->recordSuccess();
+                                enhanced_metrics_.l3_circuit_breaker_open = false;
+                            }
+                            any_written = true;
+                        } else {
+                            enhanced_metrics_.l3_write_errors++;
+                            if (l3_circuit_breaker_) {
+                                l3_circuit_breaker_->recordFailure();
+                                if (l3_circuit_breaker_->isOpen()) {
+                                    enhanced_metrics_.l3_circuit_breaker_trips++;
+                                    enhanced_metrics_.l3_circuit_breaker_open = true;
+                                }
                             }
                         }
+                    } catch (const std::exception &e) {
+                        THEMIS_WARN("Write-through: L3 cache write exception: {}", e.what());
+                        enhanced_metrics_.l3_write_errors++;
                     }
-                } catch (const std::exception &e) {
-                    THEMIS_WARN("Write-through: L3 cache write exception: {}", e.what());
-                    enhanced_metrics_.l3_write_errors++;
                 }
             }
         }
@@ -862,7 +914,14 @@ bool AdaptiveQueryCache::put(const std::string &fingerprint, const nlohmann::jso
         const std::string payload = entry_json.dump();
         bool ok                   = false;
         {
-            std::lock_guard<std::mutex> lock(l3_mutex_);
+            // C1: Timeout-safe L3 lock — 1 000 ms deadline.
+            auto l3_deadline = std::chrono::steady_clock::now() + kL3LockTimeoutMs;
+            if (!l3_mutex_.try_lock_until(l3_deadline)) {
+                THEMIS_WARN("{{\"event\":\"cache_lock_timeout\",\"operation\":\"l3_cache_write\",\"timeout_ms\":1000}}");
+                enhanced_metrics_.l3_write_errors++;
+                return false;
+            }
+            std::unique_lock<std::timed_mutex> lock(l3_mutex_, std::adopt_lock);
             try {
                 ok = l3_db_->put(l3_key, payload);
                 if (ok) {
@@ -949,7 +1008,13 @@ size_t AdaptiveQueryCache::invalidate(const std::string &pattern) {
 
     // Phase 1: Invalidate L3 with proper iterator-based pattern matching
     if (l3_db_) {
-        std::unique_lock<std::mutex> lock(l3_mutex_);
+        // C1: Timeout-safe initial L3 lock acquisition.
+        auto l3_inv_deadline = std::chrono::steady_clock::now() + kL3LockTimeoutMs;
+        if (!l3_mutex_.try_lock_until(l3_inv_deadline)) {
+            THEMIS_WARN("{{\"event\":\"cache_lock_timeout\",\"operation\":\"l3_invalidate\",\"timeout_ms\":1000}}");
+            enhanced_metrics_.l3_read_errors++;
+        } else {
+        std::unique_lock<std::timed_mutex> lock(l3_mutex_, std::adopt_lock);
 
         // Phase 1: Check circuit breaker before L3 operation
         if (l3_circuit_breaker_ && !l3_circuit_breaker_->allowRequest()) {
@@ -982,16 +1047,28 @@ size_t AdaptiveQueryCache::invalidate(const std::string &pattern) {
                     count++;
                 }
 
-                lock.lock();
-                if (l3_circuit_breaker_) {
-                    l3_circuit_breaker_->recordSuccess();
-                    enhanced_metrics_.l3_circuit_breaker_open = false;
+                // C1: Re-acquire with timeout instead of blocking lock().
+                {
+                    auto relock_deadline = std::chrono::steady_clock::now() + kL3LockTimeoutMs;
+                    if (lock.try_lock_until(relock_deadline)) {
+                        if (l3_circuit_breaker_) {
+                            l3_circuit_breaker_->recordSuccess();
+                            enhanced_metrics_.l3_circuit_breaker_open = false;
+                        }
+                    } else {
+                        THEMIS_WARN("{{\"event\":\"cache_lock_timeout\",\"operation\":\"l3_invalidate_relock\",\"timeout_ms\":1000}}");
+                        // Circuit breaker not updated; deletes already completed.
+                    }
                 }
 
                 THEMIS_DEBUG("Invalidated {} L3 cache entries", keys_to_delete.size());
             } catch (const std::exception &e) {
                 if (!lock.owns_lock()) {
-                    lock.lock();
+                    // C1: Re-acquire with timeout in error path.
+                    auto err_deadline = std::chrono::steady_clock::now() + kL3LockTimeoutMs;
+                    if (!lock.try_lock_until(err_deadline)) {
+                        THEMIS_WARN("{{\"event\":\"cache_lock_timeout\",\"operation\":\"l3_invalidate_error_relock\",\"timeout_ms\":1000}}");
+                    }
                 }
                 THEMIS_WARN("Failed to invalidate L3 cache entries: {}", e.what());
                 enhanced_metrics_.l3_read_errors++;
@@ -1004,6 +1081,7 @@ size_t AdaptiveQueryCache::invalidate(const std::string &pattern) {
                 }
             }
         }
+        } // end: l3_mutex_ try_lock_until block
     }
 
     THEMIS_INFO("Invalidated {} cache entries matching pattern: {}", count, pattern);
@@ -1070,7 +1148,7 @@ void AdaptiveQueryCache::clear() {
         std::vector<std::string> pii_ref_keys;
         try {
             {
-                std::lock_guard<std::mutex> lock(l3_mutex_);
+                std::lock_guard<std::timed_mutex> lock(l3_mutex_);
                 static_cast<void>(l3_db_->scanPrefix(QUERY_CACHE_PREFIX, [&keys](std::string_view key, std::string_view) {
                     keys.emplace_back(key);
                     return true;
@@ -1536,7 +1614,7 @@ bool AdaptiveQueryCache::writeThroughToL3(const std::string &fingerprint, const 
     std::string l3_key = QUERY_CACHE_PREFIX + fingerprint;
 
     try {
-        std::lock_guard<std::mutex> lock(l3_mutex_);
+        std::lock_guard<std::timed_mutex> lock(l3_mutex_);
         bool ok = l3_db_->put(l3_key, entry_json.dump());
         if (ok) {
             if (l3_circuit_breaker_) {
@@ -1854,7 +1932,7 @@ size_t AdaptiveQueryCache::invalidateTenant(const std::string &tenant_id) {
         std::vector<std::string> keys_to_delete;
         bool cb_allowed = false;
         {
-            std::unique_lock<std::mutex> lock(l3_mutex_);
+            std::unique_lock<std::timed_mutex> lock(l3_mutex_);
             cb_allowed = !l3_circuit_breaker_ || l3_circuit_breaker_->allowRequest();
             if (!cb_allowed) {
                 THEMIS_WARN("L3 circuit breaker open, skipping L3 tenant invalidation");
@@ -1883,13 +1961,13 @@ size_t AdaptiveQueryCache::invalidateTenant(const std::string &tenant_id) {
                     l3_db_->del(key);
                     count++;
                 }
-                std::lock_guard<std::mutex> lock(l3_mutex_);
+                std::lock_guard<std::timed_mutex> lock(l3_mutex_);
                 if (l3_circuit_breaker_) {
                     l3_circuit_breaker_->recordSuccess();
                 }
             } catch (const std::exception &e) {
                 THEMIS_WARN("Failed to invalidate tenant in L3: {}", e.what());
-                std::lock_guard<std::mutex> lock(l3_mutex_);
+                std::lock_guard<std::timed_mutex> lock(l3_mutex_);
                 if (l3_circuit_breaker_) {
                     l3_circuit_breaker_->recordFailure();
                 }
@@ -2011,7 +2089,7 @@ size_t AdaptiveQueryCache::invalidatePII(const std::string &pii_uuid) {
         bool cb_allowed = false;
 
         {
-            std::unique_lock<std::mutex> lock(l3_mutex_);
+            std::unique_lock<std::timed_mutex> lock(l3_mutex_);
             if (l3_circuit_breaker_ && !l3_circuit_breaker_->allowRequest()) {
                 THEMIS_WARN("L3 circuit breaker open, skipping L3 PII invalidation for uuid={}", pii_uuid);
                 enhanced_metrics_.l3_circuit_breaker_open = true;
@@ -2053,14 +2131,14 @@ size_t AdaptiveQueryCache::invalidatePII(const std::string &pii_uuid) {
                 for (const auto &rk : pii_ref_keys) {
                     static_cast<void>(l3_db_->del(rk));
                 }
-                std::lock_guard<std::mutex> lock(l3_mutex_);
+                std::lock_guard<std::timed_mutex> lock(l3_mutex_);
                 if (l3_circuit_breaker_) {
                     l3_circuit_breaker_->recordSuccess();
                     enhanced_metrics_.l3_circuit_breaker_open = false;
                 }
             } catch (const std::exception &e) {
                 THEMIS_WARN("Failed L3 PII invalidation for uuid={}: {}", pii_uuid, e.what());
-                std::lock_guard<std::mutex> lock(l3_mutex_);
+                std::lock_guard<std::timed_mutex> lock(l3_mutex_);
                 enhanced_metrics_.l3_read_errors++;
                 if (l3_circuit_breaker_) {
                     l3_circuit_breaker_->recordFailure();
@@ -2424,7 +2502,7 @@ bool AdaptiveQueryCache::remove(const std::string &fingerprint) {
         bool l3_found            = false;
         try {
             {
-                std::lock_guard<std::mutex> lock(l3_mutex_);
+                std::lock_guard<std::timed_mutex> lock(l3_mutex_);
                 l3_found = l3_db_->get(l3_key).has_value();
             }
             if (l3_found) {
@@ -2464,7 +2542,7 @@ bool AdaptiveQueryCache::contains(const std::string &fingerprint) const {
     // L3 — best-effort check
     if (l3_db_) {
         try {
-            std::lock_guard<std::mutex> lock(l3_mutex_);
+            std::lock_guard<std::timed_mutex> lock(l3_mutex_);
             return l3_db_->get(QUERY_CACHE_PREFIX + fingerprint).has_value();
         } catch (const std::exception &e) {
             THEMIS_DEBUG("AdaptiveQueryCache::contains: L3 lookup failed: {}", e.what());

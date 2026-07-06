@@ -216,6 +216,11 @@ private:
     SocketFd           pub_fd_   = kInvalidSocket;
     std::atomic<bool>  pub_ok_{false};  // D-3: atomic for lock-free reads in isConnected()
 
+    /// C2: Double-checked locking guard for expensive publisher initialization.
+    /// Set to true (memory_order_release) once ensurePublisherConnected() succeeds.
+    /// Reset to false (memory_order_release) on any send/read failure.
+    std::atomic<bool>  coordinator_ready_{false};
+
     // Subscriber thread
     std::thread        sub_thread_;
     std::atomic<bool>  stop_{false};
