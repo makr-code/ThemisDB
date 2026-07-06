@@ -29,8 +29,8 @@ Production-capable sharding runtime exists for routing/placement, distributed co
 - [ ] Phase C pre-requisite: fix 70% of cross-shard thread-safety gaps (340+ → ~102) (Target: Q3 2026)
 - [ ] Phase C pre-requisite: consistent lock ordering enforcement — lock ordering violations (95 → 0) (Target: Q3 2026)
 - [ ] Phase C pre-requisite: consensus coordination robustness (170 gaps → 51) (Target: Q4 2026)
-- [ ] Phase C ctest gate: `test_sharding_multishard_exact` under shard failure injection (Target: Q4 2026)
-- [ ] Phase C benchmark gate: `bench_multishard_exact` (Target: Q4 2026)
+- [~] Phase C ctest gate: `test_sharding_multishard_exact` under shard failure injection (implemented; environment validation pending) (Target: Q4 2026)
+- [~] Phase C benchmark gate: `bench_multishard_exact` (implemented; environment validation pending) (Target: Q4 2026)
 - [ ] Phase C observability: `sharding_cross_shard_requests_total` Prometheus metric wired (Target: Q4 2026)
 
 ### Short-term (3-6 months)

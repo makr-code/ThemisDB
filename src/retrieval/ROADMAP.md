@@ -55,13 +55,13 @@ B (local tensor + ANN), C (distributed coordination), D (optional GPU).
 ### Phase 4: Tests
 - [ ] contract and integration tests implemented in `tests/epic1_retrieval/`
 - [ ] `test_ann_frontdoor_single_shard` — Phase A gate (Target: Q3 2026)
-- [ ] `test_ann_cpu_parity` — Phase B gate (Target: Q3 2026)
-- [ ] `test_sharding_multishard_exact` — Phase C gate (Target: Q4 2026)
+- [~] `test_ann_cpu_parity` — Phase B gate (implemented; environment validation pending) (Target: Q3 2026)
+- [~] `test_sharding_multishard_exact` — Phase C gate (implemented; environment validation pending) (Target: Q4 2026)
 
 ### Phase 5: Performance and Hardening
-- [ ] benchmark suite implemented in `benchmarks/epic1_retrieval/`
-- [ ] `bench_ann_distance_cpu_vs_flat` — Phase B benchmark gate (Target: Q3 2026)
-- [ ] `bench_multishard_exact` — Phase C benchmark gate (Target: Q4 2026)
+- [~] benchmark suite implemented in `benchmarks/epic1_retrieval/` (initial gates added; full validation pending)
+- [~] `bench_ann_distance_cpu_vs_flat` — Phase B benchmark gate (implemented; environment validation pending) (Target: Q3 2026)
+- [~] `bench_multishard_exact` — Phase C benchmark gate (implemented; environment validation pending) (Target: Q4 2026)
 
 ### Phase 6: Documentation and Acceptance
 - [x] core retrieval module docs aligned to source-verifiable scaffold state
