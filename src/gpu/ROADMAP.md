@@ -1,12 +1,22 @@
 # GPU Module Roadmap
 
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] issue  [P] PR  [?] blocked  [!] unclear -->
-<!-- Status: current | validated: 2026-05-31 -->
+<!-- Status: current | validated: 2026-07-06 -->
 <!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md -->
+<!-- Rollout Plan: ai_working/HYBRID_RETRIEVAL_ROLLOUT_PLAN.md §4 (Phase D), §7 (risk) -->
 
 ## Current Status
 
 Production GPU runtime exists across device discovery, allocation/governance, backend execution, stream/launcher orchestration, fallback management, and accelerated query/training paths.  The GPU memory manager hierarchy has been consolidated under a unified `IVRAMPolicy` interface (issue #5385).
+
+**Hybrid Retrieval Rollout Readiness**: 35% 🔴 (issue #5468).
+- Phase A (exact-first): ❌ No GPU used.
+- Phase B (ANN + CPU validation): ❌ GPU not recommended — 340 unchecked CUDA calls remain.
+- Phase C (bounded GPU refinement): 🟡 Q3 2026 after error handling hardening.
+- Phase D (optional acceleration): ✅ Q4 2026 after 85% gap reduction.
+- **Critical**: All 340 unchecked CUDA calls must be addressed before any production GPU path.
+- GPU is advisory-only in all phases; Graph Truth Layer remains CPU-first unconditionally.
+- Rollout risk detail: `ai_working/HYBRID_RETRIEVAL_ROLLOUT_PLAN.md §7`
 
 ## In Progress
 
@@ -18,6 +28,20 @@ Production GPU runtime exists across device discovery, allocation/governance, ba
 - [~] GPU vector index HIP backend feature-parity (Target: Q4 2026)
 
 ## Planned Features
+
+### Hybrid Retrieval Rollout Gates (issue #5468)
+- [ ] Phase C pre-requisite: fix 50% of unchecked CUDA calls (340 → 170) — CRITICAL (Target: Q3 2026)
+- [ ] Phase C pre-requisite: kernel SLA timeout enforcement (5-second hard limit) (Target: Q3 2026)
+- [ ] Phase C pre-requisite: RAII resource lifecycle violations resolved (57 gaps) (Target: Q3 2026)
+- [ ] Phase D gate: fix 85% of unchecked CUDA calls (340 → ≤ 51) (Target: Q4 2026)
+- [ ] Phase D gate: resource exhaustion injection test suite (Target: Q4 2026)
+- [ ] Phase D gate: all GPU failures degrade to CPU cleanly (Target: Q4 2026)
+- [ ] Phase D gate: CPU/GPU break-even benchmark results reviewed (Target: 2027)
+- [ ] Phase D ctest gate: `test_gpu_error_handling` (Target: Q4 2026)
+- [ ] Phase D ctest gate: `test_gpu_resource_exhaustion` (Target: Q4 2026)
+- [ ] Phase D ctest gate: `test_gpu_fallback_all_paths` (Target: Q4 2026)
+- [ ] Phase D benchmark gate: `bench_gpu_cpu_breakeven_category_a` (Target: 2027)
+- [ ] Phase D benchmark gate: `bench_gpu_cpu_breakeven_category_b` (Target: 2027)
 
 ### Short-term (3-6 months)
 - [ ] tighten deterministic behavior for multi-device dispatch under heterogeneous hardware states (Target: Q4 2026)
