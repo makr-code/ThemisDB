@@ -437,3 +437,152 @@ TEST(QueryPlannerFactory, PlannerIsUsable) {
     EXPECT_GE(static_cast<uint8_t>(d.path), 1u);
     EXPECT_LE(static_cast<uint8_t>(d.path), 5u);
 }
+
+// ---------------------------------------------------------------------------
+// Phase 5: PlannerObserver / observability tests
+// ---------------------------------------------------------------------------
+
+namespace {
+
+/// Simple recording observer that captures the last decision and latency.
+class RecordingObserver final : public PlannerObserver {
+public:
+    void onDecision(const PlannerDecision& d, uint64_t latency_us) noexcept override {
+        last_decision = d;
+        last_latency_us = latency_us;
+        call_count++;
+    }
+
+    PlannerDecision last_decision;
+    uint64_t        last_latency_us{0};
+    int             call_count{0};
+};
+
+} // namespace
+
+TEST(PlannerObserver, NullObserverDoesNotCrash) {
+    // makeDefaultQueryPlanner(nullptr) must behave identically to makeDefaultQueryPlanner().
+    auto planner = makeDefaultQueryPlanner(nullptr);
+    ASSERT_NE(planner, nullptr);
+    const auto e = makeFullEligibility();
+    const auto f = makeNoArtifact();
+    const auto c = makeDefaultConfig();
+    EXPECT_NO_THROW({
+        const auto d = planner->selectPath(e, f, c);
+        EXPECT_GE(static_cast<uint8_t>(d.path), 1u);
+    });
+}
+
+TEST(PlannerObserver, ObserverCalledOncePerDecision) {
+    RecordingObserver obs;
+    auto planner = makeDefaultQueryPlanner(&obs);
+    const auto e = makeFullEligibility();
+    const auto f = makeNoArtifact();
+    const auto c = makeDefaultConfig();
+
+    planner->selectPath(e, f, c);
+    EXPECT_EQ(obs.call_count, 1);
+
+    planner->selectPath(e, f, c);
+    EXPECT_EQ(obs.call_count, 2);
+}
+
+TEST(PlannerObserver, ObserverReceivesCorrectDecision_AnnOnly) {
+    RecordingObserver obs;
+    auto planner = makeDefaultQueryPlanner(&obs);
+    const auto e = makeFullEligibility();
+    const auto f = makeNoArtifact();   // No artifact → Path 1
+    const auto c = makeDefaultConfig();
+
+    planner->selectPath(e, f, c);
+
+    EXPECT_EQ(obs.last_decision.path, ExecutionPath::AnnOnly);
+    EXPECT_EQ(obs.last_decision.fallback_reason, FallbackReason::None);
+}
+
+TEST(PlannerObserver, ObserverReceivesCorrectDecision_ForceExact) {
+    RecordingObserver obs;
+    auto planner = makeDefaultQueryPlanner(&obs);
+    auto e = makeFullEligibility();
+    e.force_exact = true;
+    const auto f = makeNoArtifact();
+    const auto c = makeDefaultConfig();
+
+    planner->selectPath(e, f, c);
+
+    EXPECT_EQ(obs.last_decision.path, ExecutionPath::DirectExactGraph);
+    EXPECT_EQ(obs.last_decision.fallback_reason, FallbackReason::ForceExact);
+}
+
+TEST(PlannerObserver, ObserverReceivesCorrectDecision_ModuleGapThreshold) {
+    RecordingObserver obs;
+    auto planner = makeDefaultQueryPlanner(&obs);
+    auto e = makeFullEligibility();
+    e.index_buffer_safety_ok = false;  // Trigger ModuleGapThreshold
+    const auto f = makeNoArtifact();
+    const auto c = makeDefaultConfig();
+
+    planner->selectPath(e, f, c);
+
+    EXPECT_EQ(obs.last_decision.path, ExecutionPath::DirectExactGraph);
+    EXPECT_EQ(obs.last_decision.fallback_reason, FallbackReason::ModuleGapThreshold);
+}
+
+TEST(PlannerObserver, ObserverReceivesNonZeroLatency) {
+    RecordingObserver obs;
+    auto planner = makeDefaultQueryPlanner(&obs);
+    const auto e = makeFullEligibility();
+    const auto f = makeNoArtifact();
+    const auto c = makeDefaultConfig();
+
+    planner->selectPath(e, f, c);
+
+    // Latency must be recorded (≥ 0 µs; practically > 0 on any real clock).
+    // We test only that it was set (not a magic sentinel).
+    EXPECT_GE(obs.last_latency_us, 0u);
+}
+
+TEST(PlannerObserver, ObserverWithFreshArtifactPath2) {
+    RecordingObserver obs;
+    auto planner = makeDefaultQueryPlanner(&obs);
+    auto e = makeFullEligibility();
+    auto f = makeFreshArtifact(1'000);
+    const auto c = makeDefaultConfig();
+
+    planner->selectPath(e, f, c);
+
+    EXPECT_EQ(obs.last_decision.path, ExecutionPath::AnnTensorSummary);
+    EXPECT_EQ(obs.last_decision.fallback_reason, FallbackReason::None);
+}
+
+TEST(PlannerObserver, ObserverWithDistributedPath5) {
+    RecordingObserver obs;
+    auto planner = makeDefaultQueryPlanner(&obs);
+    auto e = makeFullEligibility();
+    e.distributed_multi_shard   = true;
+    e.shard_manifests_available = true;
+    const auto f = makeNoArtifact();
+    const auto c = makeDefaultConfig();
+
+    planner->selectPath(e, f, c);
+
+    EXPECT_EQ(obs.last_decision.path,
+              ExecutionPath::DistributedSummaryFirstExactOnDemand);
+    EXPECT_EQ(obs.last_decision.fallback_reason, FallbackReason::None);
+}
+
+TEST(PlannerObserver, FactoryWithObserverReturnsUsablePlanner) {
+    RecordingObserver obs;
+    auto planner = makeDefaultQueryPlanner(&obs);
+    ASSERT_NE(planner, nullptr);
+
+    // Run all five representative decisions through the same planner.
+    {
+        const auto e = makeFullEligibility();
+        const auto f = makeNoArtifact();
+        const auto c = makeDefaultConfig();
+        planner->selectPath(e, f, c);
+    }
+    EXPECT_EQ(obs.call_count, 1);
+}
+

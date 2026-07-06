@@ -134,6 +134,9 @@ Minimum acceptance tests:
 
 ## Follow-up
 
-- [ ] Link Phase 2 implementation PR once `query_planner.cc` is merged.
-- [ ] Update gap remediation milestones in Phase 5 / 6 roadmap items.
+- [x] Phase 2 implementation merged: `src/evaluation/src/query_planner.cc` — DefaultQueryPlanner, five paths, all fallback reason codes.
+- [x] Phase 4 tests merged: `tests/epic2_evaluation/query_planner_test.cc` — 30+ deterministic path and fallback tests.
+- [x] Phase 5 observability merged: `PlannerObserver` interface added to header; timing hooks wired into `selectPath()`; `benchmarks/epic2_evaluation/planner_decision_bench.cc` created for overhead validation.
+- [x] Phase 5 / 6 gap remediation milestones: documented in `docs/EPIC2_QUERY_PLANNER.md` Phase 5 checkboxes.
 - [ ] Amend this ADR if Category B bounds are widened after parity test coverage improves.
+- [ ] Wire `planner_decision_bench` into CI performance regression gating when build environment is ready.

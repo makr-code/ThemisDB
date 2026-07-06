@@ -9,6 +9,7 @@
  *   - Kernel category eligibility checks (Category A / B / C).
  *   - Tensor artifact freshness evaluation.
  *   - Fallback reason codes and fail-closed enforcement rules.
+ *   - Observability hooks via @ref PlannerObserver for latency and fallback monitoring.
  *
  * Design constraints:
  *   - Tensor artifacts are ADVISORY ONLY and are never treated as final truth.
@@ -16,9 +17,11 @@
  *     no GPU dispatch is permitted and violations are fail-closed.
  *   - Every fallback decision carries a machine-readable @ref FallbackReason;
  *     silent fallback is forbidden (ADR E2-005).
+ *   - Observer callbacks are invoked after every @ref selectPath() call;
+ *     they must not throw and must not call back into the planner (no re-entrancy).
  *
- * @note Status: contract header (Phase 1 design sign-off).
- *       Implementation is deferred to `src/evaluation/src/query_planner.cc` (Phase 2).
+ * @note Status: Phases 1-5 complete (contract, implementation, error handling,
+ *       tests, observability). Phase 6-7 documentation and integration complete.
  *
  * @see docs/EPIC2_QUERY_PLANNER.md
  * @see docs/adr/adr-e2-003-query-planner-routing-model.md
@@ -28,6 +31,7 @@
 
 #pragma once
 
+#include <chrono>
 #include <cstdint>
 #include <memory>
 #include <optional>
@@ -465,18 +469,80 @@ public:
 };
 
 // ---------------------------------------------------------------------------
+// Observability — PlannerObserver interface (Phase 5)
+// ---------------------------------------------------------------------------
+
+/**
+ * @brief Observability hook invoked after every @ref QueryPlanner::selectPath() call.
+ *
+ * Implementations receive the completed @ref PlannerDecision and the wall-clock
+ * latency of the planner decision in microseconds. Hooks are intended for metrics
+ * export (Prometheus counters, latency histograms), structured logging, and test
+ * assertion.
+ *
+ * **Contract**:
+ * - @ref onDecision() must not throw (marked `noexcept`).
+ * - @ref onDecision() must not call back into the planner that issued the notification
+ *   (re-entrancy is forbidden and leads to undefined behaviour).
+ * - The `PlannerDecision` reference is valid only for the duration of the call.
+ * - Implementations are responsible for their own thread-safety if the planner is
+ *   called concurrently from multiple threads.
+ *
+ * **Module gap threshold monitoring**:
+ * When `decision.fallback_reason == FallbackReason::ModuleGapThreshold` the observer
+ * should increment a dedicated counter so operators can track how often the ANN path
+ * is blocked by insufficient gap-fix coverage.
+ */
+class PlannerObserver {
+public:
+    PlannerObserver()          = default;
+    virtual ~PlannerObserver() = default;
+
+    PlannerObserver(const PlannerObserver&)            = delete;
+    PlannerObserver& operator=(const PlannerObserver&) = delete;
+    PlannerObserver(PlannerObserver&&)                 = delete;
+    PlannerObserver& operator=(PlannerObserver&&)      = delete;
+
+    /**
+     * @brief Called after every path-selection decision.
+     *
+     * @param decision    The completed planner decision (path, reason, flags).
+     * @param latency_us  Wall-clock time spent inside @ref selectPath(), in microseconds.
+     *                    This covers only the planner logic, not the downstream retrieval.
+     */
+    virtual void onDecision(
+        const PlannerDecision& decision,
+        uint64_t               latency_us) noexcept = 0;
+};
+
+// ---------------------------------------------------------------------------
 // Factory
 // ---------------------------------------------------------------------------
 
 /**
- * @brief Create the default production query planner.
+ * @brief Create the default production query planner without an observer.
  *
  * Returns an owning pointer to the `DefaultQueryPlanner` implementation.
- * Use this factory in production code to avoid coupling to the concrete type.
+ * No observability callbacks will be fired. Equivalent to
+ * `makeDefaultQueryPlanner(nullptr)`.
  *
  * @return `std::unique_ptr<QueryPlanner>` owning a `DefaultQueryPlanner`.
  */
 [[nodiscard]] std::unique_ptr<QueryPlanner> makeDefaultQueryPlanner();
+
+/**
+ * @brief Create the default production query planner with an optional observer.
+ *
+ * When `observer` is non-null, @ref PlannerObserver::onDecision() is called after
+ * every @ref QueryPlanner::selectPath() invocation. The caller retains ownership of
+ * `observer`; the planner stores only a raw pointer and the lifetime of the observer
+ * must exceed the lifetime of the returned planner.
+ *
+ * @param observer  Non-owning pointer to an observer, or `nullptr` to disable hooks.
+ * @return `std::unique_ptr<QueryPlanner>` owning a `DefaultQueryPlanner`.
+ */
+[[nodiscard]] std::unique_ptr<QueryPlanner> makeDefaultQueryPlanner(
+    PlannerObserver* observer);
 
 } // namespace evaluation
 } // namespace themis

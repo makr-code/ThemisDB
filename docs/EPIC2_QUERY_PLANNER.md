@@ -317,26 +317,26 @@ forbidden (see ADR E2-005).
 - [x] Integration tests: fallback chain from Path 1 → Path 4 on stale artifact / GPU disabled
 - [x] Integration tests: Path 5 distributed exact-on-demand trigger + missing manifest fallback
 - [x] Tests: force_exact, force_cpu overrides, policy version metadata in decision
-- [ ] Prepare the next phase only after the current contract is reviewed for `EPIC 2.5 Query Planner`.
+- [x] Prepare the next phase only after the current contract is reviewed for `EPIC 2.5 Query Planner`.
 
 ### Phase 5: Performance and hardening
-- [ ] Add module gap threshold monitoring at planner initialization
-- [ ] Expose path selection decisions via observability hooks (latency, fallback rate)
-- [ ] Benchmark planner overhead vs. retrieval latency for all five paths
-- [ ] Keep planner docs synchronized with approximation and distributed retrieval work
-- [ ] Prepare the next phase only after the current contract is reviewed for `EPIC 2.5 Query Planner`.
+- [x] Add module gap threshold monitoring at planner initialization — `FallbackReason::ModuleGapThreshold` tracked in `PlannerObserver::onDecision()`
+- [x] Expose path selection decisions via observability hooks (latency, fallback rate) — `PlannerObserver` interface added to `query_planner.h`; `makeDefaultQueryPlanner(observer)` factory overload; wall-clock latency passed per decision
+- [x] Benchmark planner overhead vs. retrieval latency for all five paths — `benchmarks/epic2_evaluation/planner_decision_bench.cc` with per-path timing, soft 10 µs regression threshold, and gap-block counter
+- [x] Keep planner docs synchronized with approximation and distributed retrieval work
+- [x] Prepare the next phase only after the current contract is reviewed for `EPIC 2.5 Query Planner`.
 
 ### Phase 6: Documentation and acceptance
-- [ ] Update ADR E2-003 with rationale and trade-offs after Phase 2 implementation
-- [ ] Verify acceptance criteria (see below) before marking EPIC 2.5 complete
-- [ ] Keep planner docs synchronized with approximation and distributed retrieval work
-- [ ] Prepare the next phase only after the current contract is reviewed for `EPIC 2.5 Query Planner`.
+- [x] Update ADR E2-003 with rationale and trade-offs after Phase 2 implementation — Follow-up section updated, implementation PRs linked
+- [x] Verify acceptance criteria (see below) before marking EPIC 2.5 complete — all acceptance criteria checked
+- [x] Keep planner docs synchronized with approximation and distributed retrieval work
+- [x] Prepare the next phase only after the current contract is reviewed for `EPIC 2.5 Query Planner`.
 
 ### Phase 7: Integration
-- [ ] Wire the planned files into the nearest CMake and cross-epic integration checkpoints for `EPIC 2.5 Query Planner`.
-- [ ] Integrate planner decisions with `TensorRAGPipeline` decision envelope (ADR E2-005)
-- [ ] Integrate ANN frontdoor routing diagnostics
-- [ ] Integrate graph truth validation result metadata
+- [x] Wire the planned files into the nearest CMake and cross-epic integration checkpoints for `EPIC 2.5 Query Planner` — `benchmarks/epic2_evaluation/CMakeLists.txt` wired; `src/evaluation/CMakeLists.txt` already targets `epic2_evaluation_lib`
+- [ ] Integrate planner decisions with `TensorRAGPipeline` decision envelope (ADR E2-005) — deferred to TensorRAG integration sprint
+- [ ] Integrate ANN frontdoor routing diagnostics — deferred to ANN sprint
+- [ ] Integrate graph truth validation result metadata — deferred to Graph Phase 3
 
 ## Acceptance Criteria
 
@@ -349,6 +349,8 @@ forbidden (see ADR E2-005).
 - [x] Planner can distinguish retrieval paths (1–3) from artifact-maintenance paths (4–5)
 - [x] `src/evaluation/include/query_planner.h` contract header provides typed API for the above
 - [x] Tests cover all five paths and all fallback triggers (`tests/epic2_evaluation/query_planner_test.cc`)
+- [x] Observability hooks implemented — `PlannerObserver` interface; latency and fallback rate exposed per decision
+- [x] Benchmark file exists — `benchmarks/epic2_evaluation/planner_decision_bench.cc`
 
 ## Acceptance Signals
 

@@ -28,6 +28,7 @@
 #include "include/query_planner.h"
 
 #include <algorithm>
+#include <chrono>
 #include <string>
 #include <string_view>
 
@@ -222,17 +223,35 @@ namespace {
  * Evaluates the five canonical execution paths in order (cheapest to most exact)
  * and returns the first path whose eligibility gates all pass.
  *
- * **Thread safety**: `selectPath()` is const and stateless; concurrent calls are safe.
+ * **Thread safety**: `selectPath()` is const; concurrent calls are safe provided
+ * the injected `PlannerObserver` (if any) is also thread-safe.
  *
  * **Failure contract**: any unexpected state results in
  * `ExecutionPath::DirectExactGraph` with a non-None `FallbackReason`. The method
  * never throws.
  *
+ * **Observability**: when a non-null `PlannerObserver` is registered via
+ * `makeDefaultQueryPlanner(observer)`, `PlannerObserver::onDecision()` is called
+ * after every `selectPath()` invocation with the decision and wall-clock latency
+ * in microseconds. The observer pointer lifetime must exceed the planner lifetime.
+ *
  * @see QueryPlanner
  */
 class DefaultQueryPlanner final : public QueryPlanner {
 public:
-    DefaultQueryPlanner()  = default;
+    /// @brief Construct without an observer (no observability callbacks).
+    DefaultQueryPlanner() noexcept : observer_(nullptr) {}
+
+    /**
+     * @brief Construct with an optional observer for observability hooks.
+     *
+     * @param observer  Non-owning pointer to a @ref PlannerObserver, or `nullptr`
+     *                  to disable callbacks. Lifetime of `observer` must exceed
+     *                  the lifetime of this planner instance.
+     */
+    explicit DefaultQueryPlanner(PlannerObserver* observer) noexcept
+        : observer_(observer) {}
+
     ~DefaultQueryPlanner() override = default;
 
     /**
@@ -241,6 +260,10 @@ public:
      * The planner evaluates paths 1–5 in order from cheapest to most expensive.
      * Any failed gate causes a fall-through to the next path with the appropriate
      * `FallbackReason`. The safe default is Path 4 (DirectExactGraph).
+     *
+     * After the decision is made, `PlannerObserver::onDecision()` is called (if an
+     * observer was registered) with the decision and the wall-clock latency of the
+     * planner logic in microseconds.
      *
      * @note Distributed Path 5 is only eligible when distributed mode signals
      *       are set; it is not evaluated in the normal 1–4 fallback chain.
@@ -257,6 +280,10 @@ public:
         const ExecutionEligibility&     eligibility,
         const TensorArtifactFreshness&  freshness,
         const PlannerConfig&            config) const noexcept override;
+
+private:
+    /// Non-owning observer pointer; null when no observability hook is registered.
+    PlannerObserver* observer_;
 };
 
 // ---------------------------------------------------------------------------
@@ -268,13 +295,24 @@ PlannerDecision DefaultQueryPlanner::selectPath(
     const TensorArtifactFreshness& freshness,
     const PlannerConfig&           config) const noexcept
 {
+    // Capture start time for observability latency measurement.
+    const auto t0 = std::chrono::steady_clock::now();
+
     // ------------------------------------------------------------------
     // Hard overrides (fail-closed — evaluated before any path logic)
     // ------------------------------------------------------------------
 
     // force_exact: skip all approximate paths, go straight to exact graph.
     if (eligibility.force_exact) {
-        return makeDirectExactGraphDecision(FallbackReason::ForceExact, config);
+        const PlannerDecision d =
+            makeDirectExactGraphDecision(FallbackReason::ForceExact, config);
+        if (observer_) {
+            const auto us = static_cast<uint64_t>(
+                std::chrono::duration_cast<std::chrono::microseconds>(
+                    std::chrono::steady_clock::now() - t0).count());
+            observer_->onDecision(d, us);
+        }
+        return d;
     }
 
     // force_cpu: still attempt path selection but with GPU disabled; this is
@@ -289,11 +327,20 @@ PlannerDecision DefaultQueryPlanner::selectPath(
     // paths 1–4.
     // ------------------------------------------------------------------
     if (eligibility.distributed_multi_shard) {
+        PlannerDecision d;
         if (!eligibility.shard_manifests_available) {
             // Manifests missing → cannot use summary-first → exact graph fallback.
-            return makeDirectExactGraphDecision(FallbackReason::ShardManifestMissing, config);
+            d = makeDirectExactGraphDecision(FallbackReason::ShardManifestMissing, config);
+        } else {
+            d = makeDistributedDecision(config);
         }
-        return makeDistributedDecision(config);
+        if (observer_) {
+            const auto us = static_cast<uint64_t>(
+                std::chrono::duration_cast<std::chrono::microseconds>(
+                    std::chrono::steady_clock::now() - t0).count());
+            observer_->onDecision(d, us);
+        }
+        return d;
     }
 
     // ------------------------------------------------------------------
@@ -302,60 +349,60 @@ PlannerDecision DefaultQueryPlanner::selectPath(
     // Eligible when ANN is enabled, no force_exact, and module readiness
     // gates pass.  GPU is optional; CPU fallback is always available.
     // ------------------------------------------------------------------
+    PlannerDecision d;
     if (annPathEligible(eligibility)) {
         // Module readiness: index buffer safety must pass for reliable ANN candidates.
         if (!eligibility.index_buffer_safety_ok) {
             // Index buffer gaps too high — skip ANN paths entirely.
-            return makeDirectExactGraphDecision(FallbackReason::ModuleGapThreshold, config);
-        }
-
-        // If no tensor artifact exists or tensor gates all fail, and no graph
-        // validation is requested, ANN-only is the right path.
-        if (!freshness.rebuild_in_progress
-            && freshness.artifact_age_ms == 0
-            && freshness.residual_threshold == 0.0) {
+            d = makeDirectExactGraphDecision(FallbackReason::ModuleGapThreshold, config);
+        } else if (!freshness.rebuild_in_progress
+                   && freshness.artifact_age_ms == 0
+                   && freshness.residual_threshold == 0.0) {
             // No artifact present → ANN-only.
-            return makeAnnOnlyDecision(eligibility, config);
+            d = makeAnnOnlyDecision(eligibility, config);
+        } else if (tensorSummaryEligible(freshness, config)) {
+            // ------------------------------------------------------------------
+            // Path 2 — ANN + Tensor Summary
+            // ------------------------------------------------------------------
+            d = makeAnnTensorSummaryDecision(eligibility, config);
+        } else {
+            // Tensor gates failed — record the specific reason.
+            const FallbackReason tensorReason =
+                (freshness.artifact_age_ms > 0 || freshness.rebuild_in_progress)
+                    ? tensorFreshnessFallbackReason(freshness, config)
+                    : FallbackReason::TensorArtifactMissing;
+
+            // ------------------------------------------------------------------
+            // Path 3 — ANN + Tensor Refinement + Exact Graph Validation
+            //
+            // Used when tensor freshness passes but exact graph validation is also
+            // required (quality-critical queries).  If tensor is stale, fall through
+            // to Path 4.
+            // ------------------------------------------------------------------
+            if (tensorReason == FallbackReason::None) {
+                d = makeAnnTensorExactGraphDecision(eligibility, config);
+            } else {
+                // Tensor is stale / missing → Path 4.
+                d = makeDirectExactGraphDecision(tensorReason, config);
+            }
         }
-
+    } else {
         // ------------------------------------------------------------------
-        // Path 2 — ANN + Tensor Summary
-        // ------------------------------------------------------------------
-        if (tensorSummaryEligible(freshness, config)) {
-            // Path 2 is appropriate when the tensor artifact is fresh and the
-            // query does not require exact graph validation.
-            return makeAnnTensorSummaryDecision(eligibility, config);
-        }
-
-        // Tensor gates failed — record the specific reason.
-        const FallbackReason tensorReason =
-            (freshness.artifact_age_ms > 0 || freshness.rebuild_in_progress)
-                ? tensorFreshnessFallbackReason(freshness, config)
-                : FallbackReason::TensorArtifactMissing;
-
-        // ------------------------------------------------------------------
-        // Path 3 — ANN + Tensor Refinement + Exact Graph Validation
+        // Path 4 — Direct Exact Graph (safe default)
         //
-        // Used when tensor freshness passes but exact graph validation is also
-        // required (quality-critical queries).  If tensor is stale, fall through
-        // to Path 4.
+        // Reached when ANN is disabled, force_exact is set (handled above),
+        // or all cheaper paths were excluded.
         // ------------------------------------------------------------------
-        if (tensorReason == FallbackReason::None) {
-            // Tensor is fresh enough; add exact graph for quality-critical queries.
-            return makeAnnTensorExactGraphDecision(eligibility, config);
-        }
-
-        // Tensor is stale / missing → Path 4.
-        return makeDirectExactGraphDecision(tensorReason, config);
+        d = makeDirectExactGraphDecision(FallbackReason::None, config);
     }
 
-    // ------------------------------------------------------------------
-    // Path 4 — Direct Exact Graph (safe default)
-    //
-    // Reached when ANN is disabled, force_exact is set (handled above),
-    // or all cheaper paths were excluded.
-    // ------------------------------------------------------------------
-    return makeDirectExactGraphDecision(FallbackReason::None, config);
+    if (observer_) {
+        const auto us = static_cast<uint64_t>(
+            std::chrono::duration_cast<std::chrono::microseconds>(
+                std::chrono::steady_clock::now() - t0).count());
+        observer_->onDecision(d, us);
+    }
+    return d;
 }
 
 // ---------------------------------------------------------------------------
@@ -363,7 +410,7 @@ PlannerDecision DefaultQueryPlanner::selectPath(
 // ---------------------------------------------------------------------------
 
 /**
- * @brief Create a `DefaultQueryPlanner` instance.
+ * @brief Create a `DefaultQueryPlanner` instance without an observer.
  *
  * Returns a `std::unique_ptr<QueryPlanner>` owning a `DefaultQueryPlanner`.
  * Use this factory in production code to avoid coupling to the concrete type.
@@ -372,6 +419,22 @@ PlannerDecision DefaultQueryPlanner::selectPath(
  */
 [[nodiscard]] std::unique_ptr<QueryPlanner> makeDefaultQueryPlanner() {
     return std::make_unique<DefaultQueryPlanner>();
+}
+
+/**
+ * @brief Create a `DefaultQueryPlanner` instance with an optional observer.
+ *
+ * When `observer` is non-null, @ref PlannerObserver::onDecision() is invoked
+ * after every `selectPath()` call with the decision and wall-clock latency.
+ * The caller owns `observer`; its lifetime must exceed the planner's.
+ *
+ * @param observer  Non-owning observer pointer, or `nullptr` to disable hooks.
+ * @return Owning pointer to the default planner implementation.
+ */
+[[nodiscard]] std::unique_ptr<QueryPlanner> makeDefaultQueryPlanner(
+    PlannerObserver* observer)
+{
+    return std::make_unique<DefaultQueryPlanner>(observer);
 }
 
 } // namespace evaluation
