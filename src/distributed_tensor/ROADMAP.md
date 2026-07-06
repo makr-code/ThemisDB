@@ -32,8 +32,8 @@ manifest schema wiring and advisory-only artifact policy documentation.
 
 #### Phase A — Exact-First Infrastructure (Q3 2026, start)
 - [ ] tensor delta log schema (Target: Q3 2026)
-- [ ] manifest schema committed with advisory-only artifact policy documented (Target: Q3 2026)
-- [ ] Prometheus freshness metrics wired (`tensor_freshness_age_seconds`, `tensor_delta_log_entries_total`) (Target: Q3 2026)
+- [x] manifest schema committed with advisory-only artifact policy documented (Target: Q3 2026)
+- [x] Prometheus freshness metrics wired (`tensor_freshness_age_seconds`, `tensor_delta_log_entries_total`) (Target: Q3 2026)
 - [ ] snapshot-based rebuild worker (Target: Q3 2026)
 - [ ] exact graph fallback guarantee documented and tested (Target: Q3 2026)
 
@@ -74,7 +74,7 @@ manifest schema wiring and advisory-only artifact policy documentation.
 - [x] EPIC 3 contract ownership mapped and documented
 - [x] tensor-update rollout track staged (Phases A–D) in `ai_working/HYBRID_RETRIEVAL_ROLLOUT_PLAN.md`
 - [ ] manifest schema (ArtifactManifest fields + ManifestStore API) frozen for active line (Target: Q3 2026)
-- [ ] advisory-only artifact policy documented with invariant: tensor artifacts never replace graph-verified results (Target: Q3 2026)
+- [x] advisory-only artifact policy documented with invariant: tensor artifacts never replace graph-verified results (Target: Q3 2026)
 
 ### Phase 2: Core Implementation
 - [ ] scaffold translation units to be added with the implementation PR
