@@ -360,9 +360,10 @@ Phase 6 extends the gap scanning suite from 13 to 18 scanners, targeting advance
 ## Implementation Roadmap
 
 ### Sprint 1 (Week 1-2)
-- [ ] Implement P6-1 ABI Safety Scanner (320 LOC)
-- [ ] Implement P6-4 Build System Scanner (280 LOC)
-- [ ] Estimated gap increase: +500–800 gaps
+- [x] Implement P6-1 ABI Safety Scanner (320 LOC) — Done 2026-07-06
+- [x] Implement P6-4 Build System Scanner (280 LOC) — Done 2026-07-06
+- [x] Integrate P6-1 + P6-4 into gap_scanner_v3.py orchestrator
+- Estimated gap increase: +500–800 gaps
 
 ### Sprint 2 (Week 3-4)
 - [ ] Implement P6-2 Const Correctness Scanner (380 LOC)

@@ -1600,18 +1600,18 @@ Dettmers et al. 2023 (NF4); Zhang et al. 2023 (AdaLoRA); Bigoni et al. 2016 (com
 
 **Detailed Design:** [PHASE_1_4_IMPROVEMENTS.md](ai_working/PHASE_1_4_IMPROVEMENTS.md)
 
-### Phase 6 Extended Scanners (Q3-Q4 2026) — 🟡 PLANNED
+### Phase 6 Extended Scanners (Q3-Q4 2026) — 🟠 IN PROGRESS
 
 **Objective:** Implement 5 new advanced scanners (8 weeks + 1 integration, ~1,480 LOC, 48–55 detection patterns)
 
-| ID | Scanner | Purpose | Patterns | LOC | Complexity | Priority | Timeline |
-|----|---------|---------|----------|-----|-----------|----------|----------|
-| P6-1 | ABI Safety & Memory Layout | CWE-400/401 | 8–10 | 320 | HIGH | 🟠 High | Week 1-2 |
-| P6-2 | Const Correctness & API Design | CWE-398 | 12–15 | 380 | HIGH | 🟠 High | Week 3-4 |
-| P6-3 | Template Meta-Programming | CWE-398 | 10–12 | 350 | MEDIUM | 🟡 Medium | Week 5-6 |
-| P6-4 | Build System Hardening | Build safety | 6–8 | 280 | MEDIUM | 🟡 Medium | Week 1-2 |
-| P6-5 | Ownership & Lifetime Semantics | CWE-457/416/119 | 14–18 | 370 | CRITICAL | 🔴 Critical | Week 7-8 |
-| — | **Phase 6 Total** | — | **48–55** | **~1,480** | — | — | **Week 1-9** |
+| ID | Scanner | Purpose | Patterns | LOC | Complexity | Priority | Timeline | Status |
+|----|---------|---------|----------|-----|-----------|----------|----------|--------|
+| P6-1 | ABI Safety & Memory Layout | CWE-400/401 | 8–10 | 320 | HIGH | 🟠 High | Week 1-2 | ✅ Done 2026-07-06 |
+| P6-2 | Const Correctness & API Design | CWE-398 | 12–15 | 380 | HIGH | 🟠 High | Week 3-4 | ⬜ Next |
+| P6-3 | Template Meta-Programming | CWE-398 | 10–12 | 350 | MEDIUM | 🟡 Medium | Week 5-6 | ⬜ Planned |
+| P6-4 | Build System Hardening | Build safety | 6–8 | 280 | MEDIUM | 🟡 Medium | Week 1-2 | ✅ Done 2026-07-06 |
+| P6-5 | Ownership & Lifetime Semantics | CWE-457/416/119 | 14–18 | 370 | CRITICAL | 🔴 Critical | Week 7-8 | ⬜ Planned |
+| — | **Phase 6 Total** | — | **48–55** | **~1,480** | — | — | **Week 1-9** | |
 
 **Expected Results:**
 - Phase 1-6 Projection: 187,390–188,390 → **193,390–198,390 gaps** (+6,000–10,000)
@@ -1648,7 +1648,7 @@ Dettmers et al. 2023 (NF4); Zhang et al. 2023 (AdaLoRA); Bigoni et al. 2016 (com
 | Milestone | Target Date | Criteria |
 |-----------|------------|----------|
 | Phase 1-4 Enhancements Complete | 2026-06-30 | 12 patterns implemented, +2,200–3,200 gaps detected, GitHub issues updated |
-| Phase 6 Sprint 1-2 Complete (P6-1, P6-4) | 2026-07-31 | ABI Safety + Build System scanners ready, ~600 LOC integrated |
+| Phase 6 Sprint 1-2 Complete (P6-1, P6-4) | 2026-07-31 | ✅ **DONE 2026-07-06** — ABI Safety + Build System scanners live (~600 LOC, integrated into gap_scanner_v3.py) |
 | Phase 6 Sprint 3-4 Complete (P6-2, P6-3) | 2026-08-31 | Const Correctness + Template scanners ready, ~730 LOC integrated |
 | Phase 6 Sprint 5-6 Complete (P6-5) | 2026-09-15 | Ownership & Lifetime scanner ready, ~370 LOC integrated |
 | Phase 1-6 Full Pipeline Live | 2026-09-30 | All 18 scanners active, ~165,000–185,000 gaps identified |
