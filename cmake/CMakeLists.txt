@@ -10,6 +10,21 @@ endif()
 # WINDOWS COMPILER VALIDATION FIX (PRIORITY 0 - Before all else)
 # ============================================================================
 # MSVC compiler ABI detection tests create deep TryCompile-* directories
+
+# Resolve license file robustly from variable + cache + environment.
+# Presets set cache variables; this avoids false-empty checks in edition gates.
+set(_themis_license_file_resolved "${THEMIS_LICENSE_FILE}")
+get_property(_themis_license_file_from_cache CACHE THEMIS_LICENSE_FILE PROPERTY VALUE)
+if((NOT _themis_license_file_resolved OR _themis_license_file_resolved STREQUAL "")
+   AND _themis_license_file_from_cache
+   AND NOT _themis_license_file_from_cache STREQUAL "")
+    set(_themis_license_file_resolved "${_themis_license_file_from_cache}")
+endif()
+if((NOT _themis_license_file_resolved OR _themis_license_file_resolved STREQUAL "")
+   AND DEFINED ENV{THEMIS_LICENSE_FILE}
+   AND NOT "$ENV{THEMIS_LICENSE_FILE}" STREQUAL "")
+    set(_themis_license_file_resolved "$ENV{THEMIS_LICENSE_FILE}")
+endif()
 # that can exceed Windows MAX_PATH in nested ExternalProject contexts.
 # Solution: Pre-validate compiler to skip these expensive tests in ALL sub-processes
 # MUST be set as CACHE FORCE before any project() or sub-include that triggers compiler checks
@@ -946,7 +961,7 @@ if(THEMIS_EDITION STREQUAL "ENTERPRISE")
     
     if(CMAKE_BUILD_TYPE STREQUAL "Release")
         # Release builds: License is MANDATORY
-        if(NOT THEMIS_LICENSE_FILE OR THEMIS_LICENSE_FILE STREQUAL "")
+        if(NOT _themis_license_file_resolved OR _themis_license_file_resolved STREQUAL "")
             message(FATAL_ERROR 
                 "ENTERPRISE Edition Release builds require an embedded license file.\n"
                 "Usage: cmake -B build -S . \\\n"
@@ -966,7 +981,7 @@ endif()
 
 # HYPERSCALER Edition: License ALWAYS MANDATORY (no exceptions)
 if(THEMIS_EDITION STREQUAL "HYPERSCALER")
-    if(NOT THEMIS_LICENSE_FILE OR THEMIS_LICENSE_FILE STREQUAL "")
+    if(NOT _themis_license_file_resolved OR _themis_license_file_resolved STREQUAL "")
         message(FATAL_ERROR 
             "HYPERSCALER Edition requires an embedded license file (mandatory for all builds).\n"
             "This edition is only available with volume licensing.\n"

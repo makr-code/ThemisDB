@@ -37,6 +37,9 @@
       },
       "cacheVariables": {
         "VCPKG_TARGET_TRIPLET": "x64-windows",
+        "THEMIS_MSVC_ENV_INIT_MODE": "AUTO",
+        "CMAKE_TRY_COMPILE_TARGET_TYPE": "STATIC_LIBRARY",
+        "Z_VCPKG_OPENSSL_USE_SINGLE_CONFIG": "1",
         "THEMIS_ENABLE_GPU": "ON",
         "THEMIS_ENABLE_HTTP_SERVER": "ON"
       }
@@ -64,13 +67,67 @@
       "cacheVariables": { "CMAKE_BUILD_TYPE": "Release", "THEMIS_EDITION": "COMMUNITY" }
     },
     {
+      "name": "windows-release-minimal",
+      "displayName": "Windows x64: Release Minimal (vcpkg required)",
+      "description": "Troubleshooting preset for Windows: disables optional heavy/network features and pins try-compile/runtime settings.",
+      "inherits": "windows-base",
+      "condition": { "type": "equals", "lhs": "${hostSystemName}", "rhs": "Windows" },
+      "binaryDir": "${sourceDir}/build-msvc-windows-release-minimal",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "CMAKE_TRY_COMPILE_CONFIGURATION": "Release",
+        "CMAKE_MSVC_RUNTIME_LIBRARY": "MultiThreadedDLL",
+        "THEMIS_MSVC_ENV_INIT_MODE": "AUTO",
+        "THEMIS_EDITION": "COMMUNITY",
+        "THEMIS_ENABLE_GPU": "OFF",
+        "THEMIS_ENABLE_LLM": "OFF",
+        "THEMIS_ENABLE_CUDA": "OFF",
+        "THEMIS_ENABLE_HTTP3": "OFF",
+        "THEMIS_ENABLE_GRPC": "OFF",
+        "THEMIS_ENABLE_MQTT": "OFF",
+        "THEMIS_ENABLE_MCP": "OFF",
+        "THEMIS_ENABLE_POSTGRES_WIRE": "OFF",
+        "THEMIS_BUILD_BENCHMARKS": "OFF"
+      }
+    },
+    {
+      "name": "windows-release-community-qa",
+      "displayName": "Windows x64: Community QA (CTest + Benchmarks)",
+      "description": "Community release QA profile with unit/integration tests and benchmarks enabled.",
+      "inherits": "windows-release",
+      "condition": { "type": "equals", "lhs": "${hostSystemName}", "rhs": "Windows" },
+      "binaryDir": "${sourceDir}/build-msvc-windows-community-qa",
+      "cacheVariables": {
+        "CMAKE_TRY_COMPILE_CONFIGURATION": "Release",
+        "CMAKE_MSVC_RUNTIME_LIBRARY": "MultiThreadedDLL",
+        "THEMIS_MSVC_ENV_INIT_MODE": "AUTO",
+        "THEMIS_EDITION": "COMMUNITY",
+        "THEMIS_BUILD_TESTS": "ON",
+        "THEMIS_BUILD_BENCHMARKS": "ON"
+      }
+    },
+    {
+      "name": "windows-release-community-qa-minimal",
+      "displayName": "Windows x64: Community QA Minimal (CTest + Benchmarks)",
+      "description": "Troubleshooting QA profile: tests and benchmarks enabled, heavy optional features disabled.",
+      "inherits": "windows-release-minimal",
+      "condition": { "type": "equals", "lhs": "${hostSystemName}", "rhs": "Windows" },
+      "binaryDir": "${sourceDir}/build-msvc-windows-community-qa-minimal",
+      "cacheVariables": {
+        "THEMIS_MSVC_ENV_INIT_MODE": "AUTO",
+        "THEMIS_EDITION": "COMMUNITY",
+        "THEMIS_BUILD_TESTS": "ON",
+        "THEMIS_BUILD_BENCHMARKS": "ON"
+      }
+    },
+    {
       "name": "windows-debug",
       "displayName": "Windows x64: Debug (vcpkg required)",
       "description": "Development debug build for Windows. Requires: Windows 10/11, MSVC 2022+, Ninja, vcpkg. See SETUP.md for setup instructions.",
       "inherits": "windows-base",
       "condition": { "type": "equals", "lhs": "${hostSystemName}", "rhs": "Windows" },
       "binaryDir": "${sourceDir}/build-msvc-windows-debug",
-      "cacheVariables": { "CMAKE_BUILD_TYPE": "Debug", "THEMIS_EDITION": "COMMUNITY" }
+      "cacheVariables": { "CMAKE_BUILD_TYPE": "Debug", "THEMIS_EDITION": "COMMUNITY", "THEMIS_MSVC_ENV_INIT_MODE": "AUTO" }
     },
     {
       "name": "linux-release",
@@ -110,12 +167,18 @@
     ,
     {
       "name": "hyperscaler-debug-windows",
-     "displayName": "Hyperscaler Debug (Windows) (vcpkg required)",
-     "description": "Hyperscaler debug build for Windows with benchmarks enabled. Requires: Windows 10/11, MSVC 2022+, Ninja, vcpkg. See SETUP.md for setup instructions.",
+     "displayName": "Hyperscaler Debug (Windows) — Requires License",
+     "description": "Hyperscaler debug build for Windows with benchmarks enabled. NOTE: HYPERSCALER Edition requires mandatory license for all builds (no Debug exception). Requires: Windows 10/11, MSVC 2022+, Ninja, vcpkg, and THEMIS_LICENSE_FILE. Usage: cmake --preset hyperscaler-debug-windows -DTHEMIS_LICENSE_FILE=/path/to/hyperscaler-license.json. See docs/de/deployment/LICENSE_REQUIREMENTS.md for details.",
      "inherits": "windows-base",
      "condition": { "type": "equals", "lhs": "${hostSystemName}", "rhs": "Windows" },
      "binaryDir": "${sourceDir}/build-hyperscaler-windows-debug",
-     "cacheVariables": { "CMAKE_BUILD_TYPE": "Debug", "THEMIS_EDITION": "HYPERSCALER", "THEMIS_BUILD_BENCHMARKS": "ON", "THEMIS_BUILD_TESTS": "ON" }
+     "cacheVariables": {
+       "CMAKE_BUILD_TYPE": "Debug",
+       "THEMIS_EDITION": "HYPERSCALER",
+       "THEMIS_BUILD_BENCHMARKS": "ON",
+       "THEMIS_BUILD_TESTS": "ON",
+       "THEMIS_MSVC_ENV_INIT_MODE": "AUTO"
+     }
     },
     {
       "name": "hyperscaler-debug-linux",
@@ -129,6 +192,9 @@
   ],
   "buildPresets": [
     { "name": "windows-release", "configurePreset": "windows-release", "jobs": 16 },
+    { "name": "windows-release-minimal", "configurePreset": "windows-release-minimal", "jobs": 16 },
+    { "name": "windows-release-community-qa", "configurePreset": "windows-release-community-qa", "jobs": 16 },
+    { "name": "windows-release-community-qa-minimal", "configurePreset": "windows-release-community-qa-minimal", "jobs": 16 },
     { "name": "windows-debug", "configurePreset": "windows-debug", "jobs": 4 },
     { "name": "hyperscaler-debug-windows", "configurePreset": "hyperscaler-debug-windows", "jobs": 16 },
     { "name": "linux-release", "configurePreset": "linux-release" },
@@ -138,12 +204,18 @@
   ],
   "testPresets": [
     { "name": "windows-release", "configurePreset": "windows-release" },
+    { "name": "windows-release-minimal", "configurePreset": "windows-release-minimal" },
+    { "name": "windows-release-community-qa", "configurePreset": "windows-release-community-qa" },
+    { "name": "windows-release-community-qa-minimal", "configurePreset": "windows-release-community-qa-minimal" },
     { "name": "hyperscaler-debug-windows", "configurePreset": "hyperscaler-debug-windows" },
     { "name": "linux-release", "configurePreset": "linux-release" },
     { "name": "community-release", "configurePreset": "community-release" }
   ],
   "workflowPresets": [
     { "name": "windows-release", "steps": [ { "type": "configure", "name": "windows-release" }, { "type": "build", "name": "windows-release" }, { "type": "test", "name": "windows-release" } ] },
+    { "name": "windows-release-minimal", "steps": [ { "type": "configure", "name": "windows-release-minimal" }, { "type": "build", "name": "windows-release-minimal" }, { "type": "test", "name": "windows-release-minimal" } ] },
+    { "name": "windows-release-community-qa", "steps": [ { "type": "configure", "name": "windows-release-community-qa" }, { "type": "build", "name": "windows-release-community-qa" }, { "type": "test", "name": "windows-release-community-qa" } ] },
+    { "name": "windows-release-community-qa-minimal", "steps": [ { "type": "configure", "name": "windows-release-community-qa-minimal" }, { "type": "build", "name": "windows-release-community-qa-minimal" }, { "type": "test", "name": "windows-release-community-qa-minimal" } ] },
     { "name": "hyperscaler-debug-windows", "steps": [ { "type": "configure", "name": "hyperscaler-debug-windows" }, { "type": "build", "name": "hyperscaler-debug-windows" }, { "type": "test", "name": "hyperscaler-debug-windows" } ] },
     { "name": "linux-release", "steps": [ { "type": "configure", "name": "linux-release" }, { "type": "build", "name": "linux-release" }, { "type": "test", "name": "linux-release" } ] },
     { "name": "community-release", "steps": [ { "type": "configure", "name": "community-release" }, { "type": "build", "name": "community-release" }, { "type": "test", "name": "community-release" } ] }
