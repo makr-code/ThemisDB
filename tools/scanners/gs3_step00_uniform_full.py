@@ -50,6 +50,7 @@ from scanners.gs3_step03_security_military_hardening import MilitaryHardeningSca
 from scanners.gs3_step04_quality_audit_logging import AuditLoggingScanImproved as AuditLoggingScan
 from scanners.gs3_step04_design_deprecated_apis import DeprecatedAPIsScan
 from scanners.gs3_step04_design_determinism import DeterminismScannerImproved as DeterminismScan
+from scanners.gs3_step04_design_const_correctness import ConstCorrectnessApiScan
 from scanners.gs3_step04_design_gpu_memory import GPUMemorySafetyScan
 from scanners.gs3_step04_design_llm_ai_safety import LLMAISafetyScan
 from scanners.gs3_step04_design_observability import ObservabilityScannerImproved as ObservabilityScan
@@ -183,6 +184,7 @@ class UniformFullScanner(BaseGapScanner):
         phase7_10_scanners = [
             ("audit_logging", AuditLoggingScan(str(self.source_path))),
             ("deprecated_apis", DeprecatedAPIsScan(str(self.source_path))),
+            ("const_correctness", ConstCorrectnessApiScan(str(self.source_path))),
             ("performance_patterns", PerformanceAntiPatternsScan(str(self.source_path))),
             ("gpu_memory", GPUMemorySafetyScan(str(self.source_path))),
             ("query_correctness", QueryCorrectnessScan(str(self.source_path))),
