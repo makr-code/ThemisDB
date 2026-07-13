@@ -48,12 +48,9 @@ protected:
         for (int i = 0; i < count; ++i) {
             std::string key = "adapter:model:v1:" + std::to_string(i);
             TensorTrainCore core;
-            core.order = 3;
-            core.shape = {4, 8, 4};
-            core.ranks = {1, 2, 2, 1};
             core.cores.resize(3);
-            
-            adapter_repo_->store("tenant1", "domain1", key, core);
+
+            (void)adapter_repo_->store("tenant1", "domain1", key, core);
             fingerprint_graph_->addAdapter(key, core, "tenant1", "domain1");
         }
     }
@@ -169,7 +166,7 @@ BENCHMARK_F(TensorPipelineFixture, AdapterRepositoryStore)(benchmark::State& sta
     for (auto _ : state) {
         std::string key = "store_adapter:" + std::to_string(counter++);
         TensorTrainCore core;
-        adapter_repo_->store("tenant1", "domain1", key, core);
+        (void)adapter_repo_->store("tenant1", "domain1", key, core);
         benchmark::DoNotOptimize(key);
     }
 }
@@ -224,115 +221,115 @@ BENCHMARK_F(TensorPipelineFixture, FederatedShardSummarization_10Shards)(benchma
 // BENCH-006: Compression Strategy Performance
 // ============================================================================
 
-BENCHMARK(CompressionStrategy_TTSVDDecomposition) {
-    auto strategy = std::make_shared<CompressionStrategy>();
-    TensorTrain train;
-    train.order = 3;
-    train.shape = {64, 64, 64};
-    train.ranks = {1, 4, 4, 1};
+static void BM_CompressionStrategy_TTSVDDecomposition(benchmark::State& state) {
+    TTDecompositionStrategy strategy;
+    storage::TTTrain train;
     train.cores.resize(3);
-    
+
     CompressionConfig config;
     config.algorithm = CompressionAlgorithm::TT_SVD;
     config.target_rank = 2;
-    config.tolerance = 1e-6;
-    
-    for (auto _ : benchmark::State_) {
-        auto result = strategy->compress(train, config);
-        benchmark::DoNotOptimize(result);
-    }
-}
+    config.tt_epsilon = 1e-6f;
 
-BENCHMARK(CompressionStrategy_Quantization) {
-    auto strategy = std::make_shared<CompressionStrategy>();
-    TensorTrain train;
-    train.order = 4;
-    train.shape = {32, 32, 32, 32};
-    train.ranks = {1, 2, 2, 2, 1};
-    train.cores.resize(4);
-    
-    CompressionConfig config;
-    config.algorithm = CompressionAlgorithm::QUANTIZATION;
-    config.bit_width = 8;
-    
-    for (auto _ : benchmark::State_) {
-        auto result = strategy->compress(train, config);
+    for (auto _ : state) {
+        auto result = strategy.compressTTTrain(train, config);
         benchmark::DoNotOptimize(result);
     }
 }
+BENCHMARK(BM_CompressionStrategy_TTSVDDecomposition)->Unit(benchmark::kMicrosecond);
+
+static void BM_CompressionStrategy_Quantization(benchmark::State& state) {
+    QuantizationStrategy strategy(8);
+    storage::TTTrain train;
+    train.cores.resize(4);
+
+    CompressionConfig config;
+    config.quantization_bits = 8;
+
+    for (auto _ : state) {
+        auto result = strategy.compressTTTrain(train, config);
+        benchmark::DoNotOptimize(result);
+    }
+}
+BENCHMARK(BM_CompressionStrategy_Quantization)->Unit(benchmark::kMicrosecond);
 
 // ============================================================================
 // BENCH-007: Routing Strategy Selection
 // ============================================================================
 
-BENCHMARK(RoutingStrategy_QualityBased) {
-    auto strategy = std::make_shared<QualityBasedRoutingStrategy>();
-    
-    std::vector<SimilarityResult> candidates;
-    for (int i = 0; i < 100; ++i) {
-        candidates.push_back({
-            .adapter_key = "adapter:" + std::to_string(i),
-            .score = 0.5f + (i * 0.004f),
-            .metadata = {}
-        });
-    }
-    
-    RoutingContext ctx;
-    ctx.tenant_id = "tenant1";
-    ctx.top_k = 10;
-    
-    for (auto _ : benchmark::State_) {
-        auto routes = strategy->route(candidates, ctx);
-        benchmark::DoNotOptimize(routes);
-    }
-}
+static void BM_RoutingStrategy_QualityBased(benchmark::State& state) {
+    QualityBasedRouting strategy;
 
-BENCHMARK(RoutingStrategy_ShardAware) {
-    auto strategy = std::make_shared<ShardAwareRoutingStrategy>();
-    
-    std::vector<SimilarityResult> candidates;
+    std::vector<BaseTensorSummary> summaries;
+    summaries.reserve(100);
     for (int i = 0; i < 100; ++i) {
-        candidates.push_back({
-            .adapter_key = "shard:" + std::to_string(i % 5) + ":adapter:" + 
-                          std::to_string(i),
-            .score = 0.5f,
-            .metadata = {}
-        });
+        BaseTensorSummary s;
+        s.id = "adapter:" + std::to_string(i);
+        s.similarity_score = 0.5f + static_cast<float>(i) * 0.004f;
+        summaries.push_back(std::move(s));
     }
-    
-    RoutingContext ctx;
-    ctx.tenant_id = "tenant1";
-    ctx.top_k = 10;
-    ctx.shard_aware = true;
-    
-    for (auto _ : benchmark::State_) {
-        auto routes = strategy->route(candidates, ctx);
-        benchmark::DoNotOptimize(routes);
+
+    index::AnnQueryContext ctx;
+    ctx.scope_id = "domain1";
+    ctx.recall_target = 0.95;
+
+    for (auto _ : state) {
+        auto decision = strategy.route(summaries, summaries.size(), 1.0f, ctx);
+        benchmark::DoNotOptimize(decision);
     }
 }
+BENCHMARK(BM_RoutingStrategy_QualityBased)->Unit(benchmark::kMicrosecond);
+
+static void BM_RoutingStrategy_ShardAware(benchmark::State& state) {
+    ShardAwareRouting strategy;
+
+    std::vector<BaseTensorSummary> summaries;
+    summaries.reserve(100);
+    for (int i = 0; i < 100; ++i) {
+        BaseTensorSummary s;
+        s.id = "shard:" + std::to_string(i % 5) + ":adapter:" + std::to_string(i);
+        s.similarity_score = 0.5f;
+        summaries.push_back(std::move(s));
+    }
+
+    index::AnnQueryContext ctx;
+    ctx.shard_aware = true;
+    ctx.recall_target = 0.95;
+
+    for (auto _ : state) {
+        auto decision = strategy.route(summaries, summaries.size(), 1.0f, ctx);
+        benchmark::DoNotOptimize(decision);
+    }
+}
+BENCHMARK(BM_RoutingStrategy_ShardAware)->Unit(benchmark::kMicrosecond);
 
 // ============================================================================
 // BENCH-008: Redundancy Detection
 // ============================================================================
 
-BENCHMARK(RedundancyDetection_SimilarityBased) {
-    auto detector = std::make_shared<SimilarityBasedRedundancyDetector>();
-    
-    std::vector<TensorTrainCore> batch;
+static void BM_RedundancyDetection_SimilarityBased(benchmark::State& state) {
+    SimilarityBasedRedundancyDetector detector;
+
+    std::vector<BaseTensorSummary> summaries;
+    summaries.reserve(50);
     for (int i = 0; i < 50; ++i) {
-        TensorTrainCore core;
-        core.order = 3;
-        core.shape = {16, 16, 16};
-        core.ranks = {1, 2, 2, 1};
-        core.cores.resize(3);
-        batch.push_back(core);
+        BaseTensorSummary s;
+        s.id = "adapter:" + std::to_string(i);
+        s.similarity_score = 0.5f + static_cast<float>(i) * 0.01f;
+        summaries.push_back(std::move(s));
     }
-    
-    for (auto _ : benchmark::State_) {
-        auto redundant_pairs = detector->detectRedundancy(batch);
-        benchmark::DoNotOptimize(redundant_pairs);
+    std::vector<const BaseTensorSummary*> ptrs;
+    ptrs.reserve(summaries.size());
+    for (const auto& s : summaries) {
+        ptrs.push_back(&s);
+    }
+
+    for (auto _ : state) {
+        auto metrics = detector.detect(ptrs, 0.9f);
+        benchmark::DoNotOptimize(metrics);
     }
 }
+BENCHMARK(BM_RedundancyDetection_SimilarityBased)->Unit(benchmark::kMicrosecond);
 
 }  // namespace themis::tensor::bench
 

@@ -12,8 +12,8 @@
 - [~] Schichtbezogene Benchmark-Matrix (ANN/Tensor/Graph) mit evidenzbasierten CPU-SIMD-vs-GPU-Szenarien, Break-Even-Schwellenwerten und Dynamic-Tensor-Update-Track (Issue: #5466, Target: 2026-Q3)
   - [x] Benchmark-Matrix-Dokument erstellt: `docs/benchmarks/CPU_SIMD_GPU_DISPATCH_BENCHMARK_MATRIX.md`
   - [x] Szenario-Katalog erstellt: `docs/benchmarks/CPU_SIMD_GPU_BENCHMARK_SCENARIO_CATALOG.md`
-  - [~] Benchmark-Binaries implementieren: `bench_ann_cpu_gpu_dispatch` ✅, `bench_tensor_cpu_gpu_dispatch`, `bench_graph_cpu_gpu_dispatch`, `bench_tensor_update_dispatch`, `bench_tensor_commit_overhead`, `bench_cross_cutting` (Target: 2026-Q3)
-  - [~] CTest-Smoke-Targets für neue Binaries registrieren: `smoke_bench_ann_cpu_gpu_dispatch` ✅, weitere Targets offen (Target: 2026-Q3)
+  - [~] Benchmark-Binaries implementieren: `bench_ann_cpu_gpu_dispatch` ✅, `bench_tensor_cpu_gpu_dispatch` ✅, `bench_graph_cpu_gpu_dispatch`, `bench_tensor_update_dispatch`, `bench_tensor_commit_overhead`, `bench_cross_cutting` (Target: 2026-Q3)
+  - [~] CTest-Smoke-Targets für neue Binaries registrieren: `smoke_bench_ann_cpu_gpu_dispatch` ✅, `smoke_bench_tensor_cpu_gpu_dispatch` ✅, weitere Targets offen (Target: 2026-Q3)
   - [ ] Hardware-Runs auf GPU-Runner für Break-Even-Validierung (Target: 2026-Q3)
   - [ ] Performance-Baselines in `benchmarks/baselines/` eintragen (Target: 2026-Q3)
 

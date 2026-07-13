@@ -135,7 +135,7 @@ alongside `batch_size` for throughput mode.
 
 ## 4. Benchmark Matrix — Tensor Mid-Layer
 
-**Binary:** `bench_tensor_cpu_gpu_dispatch` *(planned)*  
+**Binary:** `bench_tensor_cpu_gpu_dispatch` *(implemented — Phase 1: TEN-S1..S4, TEN-G1..G4, TEN-M1..M2)*  
 **Existing reference:** `benchmarks/bench_tensor_integration_baseline.cpp`,
 `benchmarks/bench_tensor_fingerprint.cpp`
 
@@ -379,7 +379,7 @@ Existing binaries are referenced; new binaries are marked *(planned)*.
 | `bench_graph_traversal` | `benchmarks/bench_graph_traversal.cpp` | ✅ Existing | GRP-F1..F3 (CPU only) |
 | `bench_graph_query_optimizer` | `benchmarks/bench_graph_query_optimizer.cpp` | ✅ Existing | GRP-N1..N3 (CPU only) |
 | `bench_ann_cpu_gpu_dispatch` | `benchmarks/bench_ann_cpu_gpu_dispatch.cpp` | ✅ Existing | ANN-S1..S5 (phase 1: scalar/SIMD/mixed-path/HNSW), ANN-B1..B4 (initial batch and k sweeps) |
-| `bench_tensor_cpu_gpu_dispatch` | `benchmarks/bench_tensor_cpu_gpu_dispatch.cpp` | *(planned)* | TEN-S1..S4, TEN-G1..G4, TEN-M1..M5 |
+| `bench_tensor_cpu_gpu_dispatch` | `benchmarks/bench_tensor_cpu_gpu_dispatch.cpp` | ✅ Phase 1 | TEN-S1..S4, TEN-G1..G4, TEN-M1..M2 (TEN-M3..M5 planned) |
 | `bench_graph_cpu_gpu_dispatch` | `benchmarks/bench_graph_cpu_gpu_dispatch.cpp` | *(planned)* | GRP-G1..G4, GRP-F1..F3, GRP-N1..N3, GRP-X1..X3 |
 | `bench_tensor_update_dispatch` | `benchmarks/bench_tensor_update_dispatch.cpp` | *(planned)* | UPD-W1..W5, UPD-BE1..BE5 |
 | `bench_tensor_commit_overhead` | `benchmarks/bench_tensor_commit_overhead.cpp` | *(planned)* | UPD-C1..C4 |
