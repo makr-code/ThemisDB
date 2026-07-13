@@ -25,7 +25,6 @@ from scanners.gs3_step01_ai_llm_prompt_injection import LlmPromptInjectionScanne
 from scanners.gs3_step01_ai_header_drift import HeaderDriftScanner
 from scanners.gs3_step01_core_error_handling import ErrorHandlingScanner
 from scanners.gs3_step01_core_memory_safety import MemorySafetyScannerImproved as MemorySafetyScanner
-from scanners.gs3_step01_core_raii import RAIIGapScanner as ModernRAIIScanner
 from scanners.gs3_step01_core_thread_safety import ThreadSafetyScannerImproved as ThreadSafetyScanner
 from scanners.gs3_step01_core_concurrency import ConcurrencyGapScanner
 from scanners.gs3_step01_core_container import ContainerGapScanner
@@ -119,7 +118,6 @@ class UniformFullScanner(BaseGapScanner):
             ("phase1_memory_safety", MemorySafetyScanner()),
             ("phase1_error_handling", ErrorHandlingScanner()),
             ("phase1_thread_safety", ThreadSafetyScanner()),
-            ("phase1_raii", ModernRAIIScanner()),
         ]
 
         for phase_key, scanner in modern_phase1:
