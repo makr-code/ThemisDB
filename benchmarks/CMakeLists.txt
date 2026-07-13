@@ -1842,6 +1842,48 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_cuda_vs_cpu.cpp")
     endif()
 endif()
 
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_ann_cpu_gpu_dispatch.cpp")
+    message(STATUS "Adding ANN CPU/SIMD/GPU-dispatch benchmarks")
+
+    add_executable(bench_ann_cpu_gpu_dispatch
+        bench_ann_cpu_gpu_dispatch.cpp
+    )
+
+    target_link_libraries(bench_ann_cpu_gpu_dispatch PRIVATE
+        ${BENCHMARK_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(bench_ann_cpu_gpu_dispatch PRIVATE
+        THEMIS_BENCHMARK_BUILD=1
+    )
+
+    if(THEMIS_ENABLE_CUDA)
+        target_compile_definitions(bench_ann_cpu_gpu_dispatch PRIVATE
+            THEMIS_ENABLE_CUDA=1
+        )
+    endif()
+
+    themis_apply_benchmark_release_flags(bench_ann_cpu_gpu_dispatch)
+
+    install(TARGETS bench_ann_cpu_gpu_dispatch
+        RUNTIME DESTINATION bin/benchmarks
+        COMPONENT benchmarks
+    )
+
+    add_test(
+        NAME smoke_bench_ann_cpu_gpu_dispatch
+        COMMAND $<TARGET_FILE:bench_ann_cpu_gpu_dispatch>
+                --benchmark_filter=^BM_Smoke_ANN_.*
+                --benchmark_min_time=0.01
+                --benchmark_repetitions=1
+    )
+    set_tests_properties(smoke_bench_ann_cpu_gpu_dispatch PROPERTIES TIMEOUT 30)
+
+    message(STATUS "  ANN dispatch: scalar exact top-k, CPU SIMD batchKnnSearch, GPUQueryAccelerator mixed path, HNSW frontdoor")
+endif()
+
 # ============================================================================
 # DI Overhead and Logging Throughput Benchmarks (Issue #1420)
 # Measures ConcernsContext creation cost, NoOpLogger/SpdlogLoggerAdapter

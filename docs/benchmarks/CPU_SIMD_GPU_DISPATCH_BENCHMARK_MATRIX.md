@@ -89,7 +89,7 @@ the pattern established in `benchmarks/bench_cuda_vs_cpu.cpp`.
 ## 3. Benchmark Matrix — ANN Frontdoor
 
 **Binary:** `bench_ann_cpu_gpu_dispatch`  
-**Source:** `benchmarks/bench_ann_cpu_gpu_dispatch.cpp` *(planned)*  
+**Source:** `benchmarks/bench_ann_cpu_gpu_dispatch.cpp`  
 **Existing reference:** `benchmarks/bench_cuda_vs_cpu.cpp`, `benchmarks/bench_acceleration_dispatch.cpp`
 
 ### 3.1 HNSW CPU vs GPU-Assisted Vector Search
@@ -378,7 +378,7 @@ Existing binaries are referenced; new binaries are marked *(planned)*.
 | `bench_tensor_integration_baseline` | `benchmarks/bench_tensor_integration_baseline.cpp` | ✅ Existing | TEN-S1..S4 (partial) |
 | `bench_graph_traversal` | `benchmarks/bench_graph_traversal.cpp` | ✅ Existing | GRP-F1..F3 (CPU only) |
 | `bench_graph_query_optimizer` | `benchmarks/bench_graph_query_optimizer.cpp` | ✅ Existing | GRP-N1..N3 (CPU only) |
-| `bench_ann_cpu_gpu_dispatch` | `benchmarks/bench_ann_cpu_gpu_dispatch.cpp` | *(planned)* | ANN-S1..S5, ANN-B1..B4, ANN-K1..K2, ANN-Q1..Q3 |
+| `bench_ann_cpu_gpu_dispatch` | `benchmarks/bench_ann_cpu_gpu_dispatch.cpp` | ✅ Existing | ANN-S1..S5 (phase 1: scalar/SIMD/mixed-path/HNSW), ANN-B1..B4 (initial batch and k sweeps) |
 | `bench_tensor_cpu_gpu_dispatch` | `benchmarks/bench_tensor_cpu_gpu_dispatch.cpp` | *(planned)* | TEN-S1..S4, TEN-G1..G4, TEN-M1..M5 |
 | `bench_graph_cpu_gpu_dispatch` | `benchmarks/bench_graph_cpu_gpu_dispatch.cpp` | *(planned)* | GRP-G1..G4, GRP-F1..F3, GRP-N1..N3, GRP-X1..X3 |
 | `bench_tensor_update_dispatch` | `benchmarks/bench_tensor_update_dispatch.cpp` | *(planned)* | UPD-W1..W5, UPD-BE1..BE5 |
@@ -402,7 +402,7 @@ Each planned benchmark binary requires a CTest smoke target that:
 
 | CTest Target | Binary | Smoke Filter | Timeout |
 |---|---|---|---|
-| `smoke_bench_ann_cpu_gpu_dispatch` | `bench_ann_cpu_gpu_dispatch` | `BM_Smoke_.*` | 30 s |
+| `smoke_bench_ann_cpu_gpu_dispatch` | `bench_ann_cpu_gpu_dispatch` | `BM_Smoke_ANN_.*` | 30 s |
 | `smoke_bench_tensor_cpu_gpu_dispatch` | `bench_tensor_cpu_gpu_dispatch` | `BM_Smoke_.*` | 30 s |
 | `smoke_bench_graph_cpu_gpu_dispatch` | `bench_graph_cpu_gpu_dispatch` | `BM_Smoke_.*` | 30 s |
 | `smoke_bench_tensor_update_dispatch` | `bench_tensor_update_dispatch` | `BM_Smoke_.*` | 30 s |
@@ -492,7 +492,7 @@ Based on preliminary estimates; final classification requires hardware validatio
 | Gap ID | Description | Owner | Target |
 |---|---|---|---|
 | `GAP-1` | Actual hardware run to validate break-even thresholds | Acceleration team | Q3 2026 |
-| `GAP-2` | `bench_ann_cpu_gpu_dispatch.cpp` implementation | ANN team | Q3 2026 |
+| `GAP-2` | Extend `bench_ann_cpu_gpu_dispatch.cpp` with quantised artifact and recall-quality scenarios | ANN team | Q3 2026 |
 | `GAP-3` | `bench_tensor_cpu_gpu_dispatch.cpp` implementation | Tensor team | Q3 2026 |
 | `GAP-4` | `bench_graph_cpu_gpu_dispatch.cpp` implementation | Graph team | Q3 2026 |
 | `GAP-5` | `bench_tensor_update_dispatch.cpp` implementation | Tensor team | Q3 2026 |

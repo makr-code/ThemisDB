@@ -15,6 +15,7 @@
 #include <cassert>
 #include <cmath>
 #include <limits>
+#include <mutex>
 #include <numeric>
 #include <shared_mutex>
 #include <utility>
