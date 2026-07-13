@@ -1,13 +1,13 @@
 # Distributed Tensor Module Documentation
 
-<!-- Status: Phase 2 Complete | EPIC 5428 Core Implementation | validated: 2026-07-06 -->
+<!-- Status: Phase 3 Complete | EPIC 5428 Runtime Safety Gates | validated: 2026-07-13 -->
 
 ## Purpose
 
 `src/distributed_tensor` implements EPIC 5428 Phase 2 (Core Implementation), delivering portable tensor artifacts,
 manifest semantics, shard placement, integrity verification, and recovery planning for ThemisDB's distributed sharding fabric.
 
-## Implementation Status (Phase 2 Complete)
+## Implementation Status (Phase 3 Complete)
 
 | Sub-issue | Contract | Source | Status | Test | Lines |
 |-----------|----------|--------|--------|------|-------|
@@ -19,7 +19,8 @@ manifest semantics, shard placement, integrity verification, and recovery planni
 | 3.6 Distributed retrieval | ✅ distributed_planner.h | ✅ distributed_planner.cc | Complete | Pending | 430 |
 | 3.7 Tensor infrastructure | ✅ tensor_infrastructure.h | ✅ tensor_infrastructure.cc | Complete | Pending | 440 |
 
-**Total:** ~3,200 LOC of production-ready C++17 code with comprehensive documentation
+**Total:** ~3,200 LOC of production-ready C++17 code with comprehensive documentation,
+active community-build integration, and a focused Phase 3 regression suite.
 
 ## Current Delivery State
 
@@ -30,8 +31,11 @@ manifest semantics, shard placement, integrity verification, and recovery planni
   - Modern C++17 with RAII, move semantics, const-correctness
   - noexcept exception safety guarantees
   - CMakeLists.txt configured for static library build
-- 🔄 Phase 3: Error handling & edge cases (Target: Q4 2026)
-- 🔄 Phase 4: Distributed test suite (Target: Q4 2026)
+- ✅ **Phase 3: Error handling & edge cases COMPLETE**
+- Fail-closed integrity checks for partial receipts and invalid manifests
+- Recovery planning now blocks unsafe paths and only allows degraded reads explicitly
+- Placement and retrieval planners expose hard-failure vs degraded-mode decisions
+- 🔄 Phase 4: Distributed test suite expansion (Target: Q4 2026)
 - 🔄 Phase 5: Performance & hardening (Target: Q4 2026)
 - 🔄 Phase 6: Acceptance documentation (Target: Q1 2027)
 - 🔄 Phase 7: Production integration (Target: Q1 2027)
@@ -40,8 +44,8 @@ manifest semantics, shard placement, integrity verification, and recovery planni
 
 - [x] Phase 1: artifact and infrastructure contracts documented
 - [x] **Phase 2: Core implementation with all 7 components**
-- [ ] Phase 3: failure handling for placement/integrity/recovery paths
-- [ ] Phase 4: distributed contract tests and fault-injection scenarios
+- [x] Phase 3: failure handling for placement/integrity/recovery paths
+- [~] Phase 4: distributed contract tests and fault-injection scenarios
 - [ ] Phase 5: scale/performance hardening for multi-node environments
 - [ ] Phase 6: acceptance documentation tied to recovery/integrity evidence
 - [ ] Phase 7: integration with production retrieval/evaluation pipelines
@@ -85,19 +89,21 @@ manifest semantics, shard placement, integrity verification, and recovery planni
 
 ## Module Boundaries
 
-In scope (Phase 2 Complete):
+In scope (Phase 3 Complete):
 - Portable artifact taxonomy and manifest contracts
 - Placement, integrity, and recovery interfaces and default implementations
 - Infrastructure interfaces for node health and stripe transport
+- Runtime failure gating for placement, integrity, recovery, and retrieval flows
 
 Out of scope (Phases 3-7):
-- Advanced failure handling and degraded-mode semantics
-- Distributed test suite and fault injection scenarios
+- Broad distributed fault-injection suites and all-component contract coverage
 - Performance optimization and hardening
 
 ## Build Integration
 
 - Static library: `themis_distributed_tensor`
+- Community build graph integration via `cmake/CMakeLists.txt`
+- Focused CTest target: `test_phase3_failure_semantics_epic3_distributed_tensor_FocusedTests`
 - C++17 standard compliance
 - Full Doxygen documentation included
 - RAII resource management and move semantics throughout

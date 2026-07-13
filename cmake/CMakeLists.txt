@@ -5152,7 +5152,8 @@ if(THEMIS_BUILD_ENTERPRISE_PLUGINS)
 
     # Distributed Tensor Artifacts module (EPIC 5428 Phase 3, 2026-07-13)
     # -------------------------------------------------------------------------
-    if(EXISTS "${THEMIS_ROOT_DIR}/src/distributed_tensor/CMakeLists.txt")
+    if(EXISTS "${THEMIS_ROOT_DIR}/src/distributed_tensor/CMakeLists.txt" AND
+       NOT TARGET themis_distributed_tensor)
         add_subdirectory(${THEMIS_ROOT_DIR}/src/distributed_tensor
                          ${CMAKE_CURRENT_BINARY_DIR}/src/distributed_tensor)
     endif()
@@ -5162,6 +5163,14 @@ if(THEMIS_BUILD_ENTERPRISE_PLUGINS)
         add_subdirectory(${THEMIS_ROOT_DIR}/plugins
                          ${CMAKE_CURRENT_BINARY_DIR}/plugins)
     endif()
+endif()
+
+# Distributed Tensor Artifacts module (EPIC 5428) is community-visible and
+# must be available outside enterprise-plugin builds as well.
+if(EXISTS "${THEMIS_ROOT_DIR}/src/distributed_tensor/CMakeLists.txt" AND
+   NOT TARGET themis_distributed_tensor)
+    add_subdirectory(${THEMIS_ROOT_DIR}/src/distributed_tensor
+                     ${CMAKE_CURRENT_BINARY_DIR}/src/distributed_tensor)
 endif()
 
 # Enterprise Modules (new modular DLL architecture)
