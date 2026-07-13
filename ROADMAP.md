@@ -1648,9 +1648,9 @@ Dettmers et al. 2023 (NF4); Zhang et al. 2023 (AdaLoRA); Bigoni et al. 2016 (com
 | Milestone | Target Date | Criteria |
 |-----------|------------|----------|
 | Phase 1-4 Enhancements Complete | 2026-06-30 | 12 patterns implemented, +2,200–3,200 gaps detected, GitHub issues updated |
-| Phase 6 Sprint 1-2 Complete (P6-1, P6-4) | 2026-07-31 | ABI Safety + Build System scanners ready, ~600 LOC integrated |
-| Phase 6 Sprint 3-4 Complete (P6-2, P6-3) | 2026-08-31 | Const Correctness + Template scanners ready, ~730 LOC integrated |
-| Phase 6 Sprint 5-6 Complete (P6-5) | 2026-09-15 | Ownership & Lifetime scanner ready, ~370 LOC integrated |
+| Phase 6 Sprint 1-2 Complete (P6-1, P6-4) | ✅ 2026-07-06 | ABI Safety + Build System scanners ready, ~600 LOC integrated |
+| Phase 6 Sprint 3-4 Complete (P6-2, P6-3) | ✅ 2026-07-13 | Const Correctness (~331 LOC) + Template Meta (~370 LOC) scanners ready, 36 tests |
+| Phase 6 Sprint 5-6 Complete (P6-5) | ✅ 2026-07-13 | Ownership & Lifetime scanner (~370 LOC) ready, 128 gaps found, 36 tests |
 | Phase 1-6 Full Pipeline Live | 2026-09-30 | All 18 scanners active, ~165,000–185,000 gaps identified |
 | Tier 1 Module Hardening 25% Reduction | 2026-11-30 | 20,653 gap fixes merged, v1.5.0–v1.6.0 releases include hardening PRs |
 | Phase 1-6 Completion & Gap Triage | 2026-12-31 | All phases complete, executive summary + long-term maintenance roadmap finalized |
