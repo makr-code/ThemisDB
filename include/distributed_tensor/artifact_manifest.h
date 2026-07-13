@@ -151,6 +151,22 @@ class ArtifactManifest {
   /// Set the total artifact size.
   void set_total_size_bytes(uint64_t size) noexcept { total_size_bytes_ = size; }
 
+  /// Return the current lifecycle stage tracked by the manifest.
+  ///
+  /// The lifecycle stage is used by distributed retrieval and recovery
+  /// components to decide whether reads may proceed normally, in degraded
+  /// mode, or must be blocked.
+  ArtifactLifecycleStage lifecycle_stage() const noexcept {
+    return lifecycle_stage_;
+  }
+
+  /// Set the current lifecycle stage tracked by the manifest.
+  ///
+  /// @param stage Lifecycle stage to record for planner and recovery checks.
+  void set_lifecycle_stage(ArtifactLifecycleStage stage) noexcept {
+    lifecycle_stage_ = stage;
+  }
+
   // Shard placement management.
 
   /// Add a shard placement.
@@ -273,7 +289,7 @@ class ArtifactManifest {
   /// Check if manifest is complete and valid.
   ///
   /// @return true if manifest has all required metadata, false otherwise.
-  bool is_complete() const noexcept;
+  [[nodiscard]] bool is_complete() const noexcept;
 
  protected:
   /// Artifact identifier.
@@ -293,6 +309,9 @@ class ArtifactManifest {
 
   /// Total artifact size in bytes.
   uint64_t total_size_bytes_ = 0;
+
+  /// Lifecycle stage tracked for retrieval/readiness decisions.
+  ArtifactLifecycleStage lifecycle_stage_ = ArtifactLifecycleStage::STAGING;
 
   /// Shard placement metadata.
   std::vector<ShardPlacement> shard_placements_;

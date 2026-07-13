@@ -80,6 +80,13 @@ IntegrityVerificationReceipt
 DefaultIntegrityVerificationEngine::compute_verification(
     const ArtifactManifest& manifest) const noexcept {
   IntegrityVerificationReceipt receipt(manifest.artifact_id(), algorithm_);
+  receipt.set_verified_at(get_iso8601_timestamp());
+
+  if (!manifest.is_complete()) {
+    receipt.mark_failed(
+        "Manifest is incomplete; refusing to generate an integrity receipt.");
+    return receipt;
+  }
 
   // Collect shard hashes.
   std::vector<std::pair<std::string, std::string>> shard_hashes;
@@ -88,6 +95,17 @@ DefaultIntegrityVerificationEngine::compute_verification(
       shard_hashes.emplace_back(shard.shard_id, shard.shard_content_hash);
       receipt.add_shard_hash(shard.shard_id, shard.shard_content_hash);
     }
+  }
+
+  if (shard_hashes.size() != manifest.shard_placements().size()) {
+    receipt.mark_failed(
+        "At least one shard is missing a content hash; receipt coverage is partial.");
+    return receipt;
+  }
+
+  if (shard_hashes.empty()) {
+    receipt.mark_failed("No shard hashes are available for verification.");
+    return receipt;
   }
 
   // Build Merkle tree.
@@ -105,7 +123,7 @@ DefaultIntegrityVerificationEngine::compute_verification(
   }
 
   receipt.set_merkle_root_hash(compute_hash(root_input));
-  receipt.set_verified_at(get_iso8601_timestamp());
+  receipt.mark_verified();
 
   return receipt;
 }
@@ -113,14 +131,27 @@ DefaultIntegrityVerificationEngine::compute_verification(
 bool DefaultIntegrityVerificationEngine::verify_integrity(
     const ArtifactManifest& manifest,
     const IntegrityVerificationReceipt& receipt) const noexcept {
-  if (manifest.artifact_id() != receipt.artifact_id()) {
+  if (manifest.artifact_id() != receipt.artifact_id() || !receipt.is_verified() ||
+      !receipt.verification_error().empty()) {
     return false;
   }
 
-  // Verify each shard hash.
-  for (const auto& shard : manifest.shard_placements()) {
-    auto expected_hash = receipt.get_shard_hash(shard.shard_id);
-    if (!expected_hash || *expected_hash != shard.shard_content_hash) {
+  auto expected_receipt = compute_verification(manifest);
+  if (!expected_receipt.is_verified()) {
+    return false;
+  }
+
+  if (expected_receipt.merkle_root_hash() != receipt.merkle_root_hash()) {
+    return false;
+  }
+
+  if (expected_receipt.shard_hashes().size() != receipt.shard_hashes().size()) {
+    return false;
+  }
+
+  for (const auto& [shard_id, shard_hash] : expected_receipt.shard_hashes()) {
+    auto provided_hash = receipt.get_shard_hash(shard_id);
+    if (!provided_hash || *provided_hash != shard_hash) {
       return false;
     }
   }
@@ -131,6 +162,10 @@ bool DefaultIntegrityVerificationEngine::verify_integrity(
 bool DefaultIntegrityVerificationEngine::verify_shard(
     const std::string& shard_data,
     const std::string& expected_hash) const noexcept {
+  if (expected_hash.empty()) {
+    return false;
+  }
+
   std::string computed_hash = compute_hash(shard_data);
   return computed_hash == expected_hash;
 }

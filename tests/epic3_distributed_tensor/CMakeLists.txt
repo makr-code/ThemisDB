@@ -1,17 +1,37 @@
-# EPIC 3 Distributed Tensor contract tests — placeholder only.
-# Test source files (*.cc) are out of scope for this PR and will be added separately.
+file(GLOB EPIC3_DISTRIBUTED_TENSOR_TEST_SOURCES
+    "${CMAKE_CURRENT_SOURCE_DIR}/test_*.cpp"
+)
 
-# Test sources will be listed here with the implementation PR:
-# set(EPIC3_DISTRIBUTED_TENSOR_TESTS ...)
+foreach(_src IN LISTS EPIC3_DISTRIBUTED_TENSOR_TEST_SOURCES)
+    get_filename_component(_stem "${_src}" NAME_WE)
+    set(_target "module_epic3_distributed_tensor_${_stem}_focused")
+    set(_ctest "${_stem}_epic3_distributed_tensor_FocusedTests")
 
-# Wired when GTest and the distributed_tensor scaffold sources are available.
-# Uncomment and adapt the block below once the parent CMakeLists adds
-# the distributed_tensor library target (epic3_distributed_tensor_lib).
-#
-# foreach(test_src IN LISTS EPIC3_DISTRIBUTED_TENSOR_TESTS)
-#     get_filename_component(test_name ${test_src} NAME_WE)
-#     add_executable(${test_name} ${test_src})
-#     target_link_libraries(${test_name} PRIVATE epic3_distributed_tensor_lib GTest::gtest_main)
-#     add_test(NAME ${test_name} COMMAND ${test_name})
-# endforeach()
+    if(TARGET ${_target})
+        continue()
+    endif()
 
+    add_executable(${_target} "${_src}")
+    target_include_directories(${_target} PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+    target_link_libraries(${_target} PRIVATE
+        ${TEST_LIBS}
+        themis_distributed_tensor
+        Threads::Threads
+    )
+    if(TARGET themis_base)
+        target_link_libraries(${_target} PRIVATE themis_base)
+    endif()
+    target_compile_definitions(${_target} PRIVATE THEMIS_TEST_BUILD=1)
+
+    themis_register_module_focused_test(
+        MODULE epic3_distributed_tensor
+        NAME ${_ctest}
+        TARGET ${_target}
+        TIER unit
+        TIMEOUT 120
+        LABELS epic3 distributed_tensor
+    )
+endforeach()

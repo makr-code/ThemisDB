@@ -46,6 +46,7 @@ ArtifactManifest::ArtifactManifest(const std::string& artifact_id,
       content_hash_(""),
       manifest_hash_(""),
       total_size_bytes_(0),
+      lifecycle_stage_(ArtifactLifecycleStage::STAGING),
       recovery_strategy_("replication"),
       freshness_timestamp_(get_iso8601_timestamp()),
       provenance_origin_(""),
@@ -57,8 +58,9 @@ void ArtifactManifest::compute_manifest_hash() noexcept {
   std::ostringstream oss;
   oss << artifact_id_ << "|" << static_cast<int>(artifact_class_) << "|"
       << version_ << "|" << content_hash_ << "|" << total_size_bytes_ << "|"
-      << recovery_strategy_ << "|" << provenance_origin_ << "|"
-      << package_lineage_id_ << "|" << parent_artifact_id_;
+      << static_cast<int>(lifecycle_stage_) << "|" << recovery_strategy_ << "|"
+      << provenance_origin_ << "|" << package_lineage_id_ << "|"
+      << parent_artifact_id_;
 
   // For each shard placement, include shard_id and node_id.
   for (const auto& shard : shard_placements_) {
@@ -111,12 +113,32 @@ bool ArtifactManifest::is_complete() const noexcept {
     return false;
   }
 
+  if (lifecycle_stage_ == ArtifactLifecycleStage::DELETED) {
+    return false;
+  }
+
   if (recovery_strategy_.empty()) {
     return false;
   }
 
+  if (total_size_bytes_ == 0) {
+    return false;
+  }
+
+  for (const auto& shard : shard_placements_) {
+    if (shard.shard_id.empty() || shard.node_id.empty() ||
+        shard.shard_size_bytes == 0) {
+      return false;
+    }
+  }
+
   // Primary artifacts require content hash.
   if (artifact_class_ == ArtifactClass::PRIMARY && content_hash_.empty()) {
+    return false;
+  }
+
+  if (artifact_class_ == ArtifactClass::DERIVED &&
+      parent_artifact_id_.empty() && !reconstruction_instruction_) {
     return false;
   }
 

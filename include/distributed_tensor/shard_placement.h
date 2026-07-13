@@ -110,6 +110,15 @@ struct PlacementPlan {
   /// Reason for placement decisions (human-readable description).
   std::string placement_rationale;
 
+  /// If false, the requested placement violates hard constraints and must not run.
+  bool satisfies_hard_constraints = true;
+
+  /// If true, the plan is usable only with degraded confidence/coverage.
+  bool is_degraded = false;
+
+  /// Human-readable diagnostics for placement callers and tests.
+  std::vector<std::string> placement_warnings;
+
   /// Timestamp when plan was computed (ISO 8601).
   std::string computed_at;
 };

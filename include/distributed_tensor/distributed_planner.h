@@ -87,6 +87,15 @@ struct DistributedRetrievalPlan {
   /// Network bandwidth estimate in MB/s.
   float estimated_bandwidth_mbps = 100.0f;
 
+  /// If false, retrieval must not execute because a hard safety gate failed.
+  bool can_execute = true;
+
+  /// If true, retrieval may execute with reduced guarantees or availability.
+  bool degraded_mode = false;
+
+  /// Human-readable execution rationale or blocking reason.
+  std::string execution_rationale;
+
   /// Custom retrieval parameters.
   std::unordered_map<std::string, std::string> custom_parameters;
 };

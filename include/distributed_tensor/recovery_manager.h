@@ -150,6 +150,15 @@ struct RecoveryPlan {
   /// If true, can proceed with degraded mode during recovery.
   bool allow_degraded_mode = true;
 
+  /// If false, recovery must be blocked because no safe recovery path exists.
+  bool is_recoverable = true;
+
+  /// Failure classification explaining why recovery was blocked.
+  std::optional<RecoveryFailureMode> blocking_failure_mode;
+
+  /// Human-readable blocking reason for audit and diagnostics.
+  std::string blocking_reason;
+
   /// Custom recovery parameters.
   std::unordered_map<std::string, std::string> custom_parameters;
 };

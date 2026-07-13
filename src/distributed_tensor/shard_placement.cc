@@ -36,9 +36,21 @@ PlacementPlan DefaultShardPlacementStrategy::compute_placement(
   plan.placement_rationale =
       "Default round-robin placement with capacity awareness";
 
+  if (artifact_id.empty() || num_shards == 0 || shard_size_bytes == 0) {
+    plan.confidence_score = 0.0f;
+    plan.satisfies_hard_constraints = false;
+    plan.placement_rationale = "Placement input is invalid.";
+    plan.placement_warnings.push_back(
+        "artifact_id, num_shards, and shard_size_bytes must all be non-zero.");
+    return plan;
+  }
+
   if (available_nodes.empty()) {
     plan.confidence_score = 0.0f;
+    plan.satisfies_hard_constraints = false;
     plan.placement_rationale = "No available nodes for placement";
+    plan.placement_warnings.push_back(
+        "Placement was blocked because the cluster advertised zero candidate nodes.");
     return plan;
   }
 
@@ -51,11 +63,16 @@ PlacementPlan DefaultShardPlacementStrategy::compute_placement(
   // Check if total capacity is sufficient.
   uint64_t total_required = static_cast<uint64_t>(num_shards) * shard_size_bytes;
   if (total_required > total_capacity) {
-    plan.confidence_score = 0.5f;
+    plan.confidence_score = 0.0f;
+    plan.satisfies_hard_constraints = false;
+    plan.is_degraded = true;
     plan.placement_rationale = "Insufficient total cluster capacity";
-  } else {
-    plan.confidence_score = 0.9f;
+    plan.placement_warnings.push_back(
+        "Requested shard footprint exceeds total available capacity.");
+    return plan;
   }
+
+  plan.confidence_score = 0.9f;
 
   // Distribute shards in round-robin fashion, respecting node constraints.
   uint32_t next_node_idx = 0;
@@ -68,10 +85,13 @@ PlacementPlan DefaultShardPlacementStrategy::compute_placement(
   }
 
   if (valid_nodes.empty()) {
-    // Fallback to all nodes if no valid nodes found.
-    for (const auto& node : available_nodes) {
-      valid_nodes.push_back(node.node_id);
-    }
+    plan.confidence_score = 0.0f;
+    plan.satisfies_hard_constraints = false;
+    plan.placement_rationale =
+        "No nodes satisfy the requested placement constraints.";
+    plan.placement_warnings.push_back(
+        "Constraint evaluation removed every candidate node; placement is blocked fail-closed.");
+    return plan;
   }
 
   for (uint32_t i = 0; i < num_shards; ++i) {
@@ -100,6 +120,7 @@ PlacementPlan DefaultShardPlacementStrategy::compute_placement(
   plan.estimated_cost = plan.shard_placements.size() *
                         static_cast<uint32_t>(
                             shard_size_bytes / (1024 * 1024)); // Cost in MB
+  plan.satisfies_hard_constraints = true;
 
   return plan;
 }
@@ -111,9 +132,14 @@ bool DefaultShardPlacementStrategy::validate_placement(
     return false;
   }
 
+  if (!plan.satisfies_hard_constraints) {
+    return false;
+  }
+
   // Validate each shard placement.
   for (const auto& shard : plan.shard_placements) {
-    if (shard.shard_id.empty() || shard.node_id.empty()) {
+    if (shard.shard_id.empty() || shard.node_id.empty() ||
+        shard.shard_size_bytes == 0) {
       return false;
     }
   }
@@ -121,10 +147,14 @@ bool DefaultShardPlacementStrategy::validate_placement(
   // For cross-zone replication, verify shards are on different zones.
   if (constraints == PlacementConstraint::CROSS_ZONE_REPLICATION &&
       plan.shard_placements.size() > 1) {
-    // Note: This is a simplified check. In production, we'd need to
-    // map node_id -> zone and verify they differ.
-    // For now, assume placement is valid if we have multiple shards.
-    return true;
+    std::vector<std::string> node_ids;
+    node_ids.reserve(plan.shard_placements.size());
+    for (const auto& shard : plan.shard_placements) {
+      node_ids.push_back(shard.node_id);
+    }
+
+    std::sort(node_ids.begin(), node_ids.end());
+    return std::adjacent_find(node_ids.begin(), node_ids.end()) == node_ids.end();
   }
 
   return true;
@@ -139,6 +169,12 @@ PlacementPlan DefaultShardPlacementStrategy::optimize_placement(
   PlacementPlan optimized_plan = current_plan;
   optimized_plan.placement_rationale =
       "Load-balanced placement with latency optimization";
+  if (available_nodes.empty()) {
+    optimized_plan.satisfies_hard_constraints = false;
+    optimized_plan.is_degraded = true;
+    optimized_plan.placement_warnings.push_back(
+        "Optimization skipped because no healthy nodes were available.");
+  }
   return optimized_plan;
 }
 

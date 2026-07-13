@@ -6,6 +6,7 @@
 #include <algorithm>
 #include <chrono>
 #include <iomanip>
+#include <set>
 #include <sstream>
 
 namespace themis {
@@ -40,22 +41,105 @@ RecoveryPlan DefaultRecoveryManager::create_recovery_plan(
     std::optional<RecoveryStrategy> preferred_strategy) const noexcept {
   RecoveryPlan plan;
   plan.artifact_id = manifest.artifact_id();
-  plan.shards_to_recover = failed_shard_ids;
+  std::set<std::string> unique_failed_shards(failed_shard_ids.begin(),
+                                             failed_shard_ids.end());
+  plan.shards_to_recover.assign(unique_failed_shards.begin(),
+                                unique_failed_shards.end());
+
+  if (!manifest.is_complete()) {
+    plan.is_recoverable = false;
+    plan.allow_degraded_mode = false;
+    plan.blocking_failure_mode = RecoveryFailureMode::RECOVERY_ERROR;
+    plan.blocking_reason =
+        "Manifest is incomplete; recovery cannot be planned safely.";
+    plan.recovery_strategy = RecoveryStrategy::NONE;
+    return plan;
+  }
+
+  if (plan.shards_to_recover.empty()) {
+    plan.is_recoverable = false;
+    plan.allow_degraded_mode = false;
+    plan.blocking_failure_mode = RecoveryFailureMode::RECOVERY_ERROR;
+    plan.blocking_reason = "No failed shard identifiers were provided.";
+    plan.recovery_strategy = RecoveryStrategy::NONE;
+    return plan;
+  }
+
+  for (const auto& shard_id : plan.shards_to_recover) {
+    if (!manifest.get_shard_placement(shard_id)) {
+      plan.is_recoverable = false;
+      plan.allow_degraded_mode = false;
+      plan.blocking_failure_mode = RecoveryFailureMode::RECOVERY_ERROR;
+      plan.blocking_reason =
+          "Recovery plan references at least one shard that is absent from the manifest.";
+      plan.recovery_strategy = RecoveryStrategy::NONE;
+      return plan;
+    }
+  }
+
+  const auto total_shards = manifest.num_shards();
+  const auto failed_shard_count = plan.shards_to_recover.size();
+  const auto healthy_shard_count =
+      total_shards > failed_shard_count ? total_shards - failed_shard_count : 0U;
 
   // Select recovery strategy.
   if (preferred_strategy) {
     plan.recovery_strategy = *preferred_strategy;
   } else {
-    plan.recovery_strategy = select_recovery_strategy(manifest, failed_shard_ids);
+    plan.recovery_strategy =
+        select_recovery_strategy(manifest, plan.shards_to_recover);
   }
 
   // Estimate recovery time (1 shard = ~100ms in this simplified model).
-  plan.estimated_total_recovery_time_ms =
-      failed_shard_ids.size() * 100;
+  plan.estimated_total_recovery_time_ms = failed_shard_count * 100;
 
   // Set default priority and degraded mode allowance.
-  plan.priority_level = 50;
-  plan.allow_degraded_mode = true;
+  plan.priority_level = manifest.artifact_class() == ArtifactClass::PRIMARY ? 90 : 50;
+  plan.allow_degraded_mode =
+      manifest.artifact_class() != ArtifactClass::PRIMARY &&
+      healthy_shard_count > 0;
+  plan.custom_parameters["healthy_shard_count"] =
+      std::to_string(healthy_shard_count);
+  plan.custom_parameters["failed_shard_count"] =
+      std::to_string(failed_shard_count);
+  plan.custom_parameters["lifecycle_stage"] =
+      std::to_string(static_cast<int>(manifest.lifecycle_stage()));
+
+  if (manifest.artifact_class() == ArtifactClass::EPHEMERAL) {
+    plan.is_recoverable = false;
+    plan.allow_degraded_mode = false;
+    plan.recovery_strategy = RecoveryStrategy::NONE;
+    plan.blocking_failure_mode = RecoveryFailureMode::PERMANENT_LOSS;
+    plan.blocking_reason =
+        "Ephemeral artifacts are not recoverable once their shards are lost.";
+    return plan;
+  }
+
+  if (healthy_shard_count == 0 &&
+      plan.recovery_strategy == RecoveryStrategy::REPLICATION) {
+    plan.is_recoverable = false;
+    plan.allow_degraded_mode = false;
+    plan.blocking_failure_mode = RecoveryFailureMode::INSUFFICIENT_REDUNDANCY;
+    plan.blocking_reason =
+        "Replication recovery requires at least one healthy shard copy.";
+    return plan;
+  }
+
+  if (manifest.artifact_class() == ArtifactClass::DERIVED &&
+      plan.recovery_strategy == RecoveryStrategy::REBUILD_FROM_PARENT &&
+      manifest.parent_artifact_id().empty()) {
+    plan.is_recoverable = false;
+    plan.allow_degraded_mode = false;
+    plan.blocking_failure_mode = RecoveryFailureMode::RECOVERY_ERROR;
+    plan.blocking_reason =
+        "Derived artifact recovery requires a parent artifact identifier.";
+    return plan;
+  }
+
+  if (manifest.lifecycle_stage() == ArtifactLifecycleStage::DEPRECATED ||
+      manifest.lifecycle_stage() == ArtifactLifecycleStage::DELETED) {
+    plan.allow_degraded_mode = false;
+  }
 
   return plan;
 }
@@ -76,6 +160,7 @@ std::string DefaultRecoveryManager::submit_recovery_job(
   job.estimated_completion_ms = 100; // Default: 100ms.
   job.max_retries = 3;
   job.created_at = get_iso8601_timestamp();
+  job.progress_percent = 0;
 
   recovery_jobs_[job_id] = job;
   return job_id;
@@ -142,6 +227,9 @@ bool DefaultRecoveryManager::retry_recovery_job(
   it->second.retry_count++;
   it->second.started_at = "";
   it->second.completed_at = "";
+  it->second.error_message.clear();
+  it->second.failure_mode.reset();
+  it->second.progress_percent = 0;
 
   return true;
 }
@@ -155,6 +243,10 @@ RecoveryStrategy DefaultRecoveryManager::select_recovery_strategy(
   // 3. For erasure-coded artifacts: use ERASURE_CODING.
   // 4. Default: REPLICATION.
 
+  if (failed_shard_ids.empty()) {
+    return RecoveryStrategy::NONE;
+  }
+
   const auto& recovery_strategy = manifest.recovery_strategy();
 
   if (recovery_strategy == "erasure_coding") {
@@ -163,6 +255,8 @@ RecoveryStrategy DefaultRecoveryManager::select_recovery_strategy(
     return RecoveryStrategy::REPLICATION;
   } else if (manifest.artifact_class() == ArtifactClass::DERIVED) {
     return RecoveryStrategy::REBUILD_FROM_PARENT;
+  } else if (manifest.artifact_class() == ArtifactClass::EPHEMERAL) {
+    return RecoveryStrategy::NONE;
   }
 
   return RecoveryStrategy::REPLICATION;

@@ -11,14 +11,44 @@
 namespace themis {
 namespace distributed_tensor {
 
-// Helper: Format current timestamp as ISO 8601 string.
-static std::string get_iso8601_timestamp() noexcept {
-  auto now = std::chrono::system_clock::now();
-  auto time = std::chrono::system_clock::to_time_t(now);
-  std::ostringstream oss;
-  oss << std::put_time(std::gmtime(&time), "%Y-%m-%dT%H:%M:%SZ");
-  return oss.str();
+namespace {
+
+bool lifecycle_satisfies_requirement(ArtifactLifecycleStage actual_stage,
+                                     ArtifactLifecycleStage required_stage) noexcept {
+  switch (required_stage) {
+    case ArtifactLifecycleStage::STAGING:
+      return actual_stage == ArtifactLifecycleStage::STAGING;
+    case ArtifactLifecycleStage::ACTIVE:
+      return actual_stage == ArtifactLifecycleStage::ACTIVE;
+    case ArtifactLifecycleStage::STALE:
+      return actual_stage == ArtifactLifecycleStage::ACTIVE ||
+             actual_stage == ArtifactLifecycleStage::STALE;
+    case ArtifactLifecycleStage::RECOVERING:
+      return actual_stage == ArtifactLifecycleStage::ACTIVE ||
+             actual_stage == ArtifactLifecycleStage::STALE ||
+             actual_stage == ArtifactLifecycleStage::RECOVERING;
+    case ArtifactLifecycleStage::DEPRECATED:
+      return actual_stage == ArtifactLifecycleStage::DEPRECATED;
+    case ArtifactLifecycleStage::DELETED:
+      return actual_stage == ArtifactLifecycleStage::DELETED;
+  }
+
+  return false;
 }
+
+bool dependencies_allow_degraded_reads(
+    const std::vector<TensorDependency>& dependencies) noexcept {
+  for (const auto& dependency : dependencies) {
+    if (!dependency.is_required || dependency.allow_approximation ||
+        dependency.max_staleness_seconds > 0) {
+      return true;
+    }
+  }
+
+  return dependencies.empty();
+}
+
+}  // namespace
 
 // DefaultDistributedTensorPlanner implementation.
 
@@ -30,13 +60,73 @@ DefaultDistributedTensorPlanner::plan_tensor_retrieval(
   DistributedRetrievalPlan plan;
   plan.artifact_id = manifest.artifact_id();
   plan.retrieval_location = preferred_location;
+  plan.parallel_retrieval = true;
+  plan.max_parallel_streams = 4;
+  plan.execution_rationale = "Ready for distributed retrieval.";
+
+  if (!manifest.is_complete()) {
+    plan.can_execute = false;
+    plan.parallel_retrieval = false;
+    plan.max_parallel_streams = 0;
+    plan.execution_rationale =
+        "Manifest is incomplete; retrieval is blocked until placement and metadata are valid.";
+    return plan;
+  }
+
+  if (manifest.integrity_receipt() && !manifest.integrity_receipt()->is_valid) {
+    plan.can_execute = false;
+    plan.parallel_retrieval = false;
+    plan.max_parallel_streams = 0;
+    plan.execution_rationale =
+        "Integrity receipt is invalid; retrieval is blocked fail-closed.";
+    return plan;
+  }
 
   // Select retrieval strategy based on artifact and dependencies.
   plan.retrieval_strategy = select_retrieval_strategy(manifest, dependencies);
 
+  ArtifactLifecycleStage required_stage = ArtifactLifecycleStage::ACTIVE;
+  for (const auto& dependency : dependencies) {
+    if (static_cast<int>(dependency.required_lifecycle_stage) >
+        static_cast<int>(required_stage)) {
+      required_stage = dependency.required_lifecycle_stage;
+    }
+  }
+
+  const auto actual_stage = manifest.lifecycle_stage();
+  if (!lifecycle_satisfies_requirement(actual_stage, required_stage)) {
+    const bool allow_degraded_reads = dependencies_allow_degraded_reads(dependencies);
+    if (allow_degraded_reads &&
+        (actual_stage == ArtifactLifecycleStage::STALE ||
+         actual_stage == ArtifactLifecycleStage::RECOVERING)) {
+      plan.degraded_mode = true;
+      plan.parallel_retrieval = actual_stage != ArtifactLifecycleStage::RECOVERING;
+      plan.max_parallel_streams =
+          actual_stage == ArtifactLifecycleStage::RECOVERING ? 1 : 2;
+      plan.execution_rationale =
+          "Retrieval proceeds in degraded mode because the artifact is stale or recovering.";
+    } else {
+      plan.can_execute = false;
+      plan.parallel_retrieval = false;
+      plan.max_parallel_streams = 0;
+      plan.execution_rationale =
+          "Artifact lifecycle stage does not satisfy dependency requirements.";
+      return plan;
+    }
+  }
+
   // Collect all shard IDs to retrieve.
   for (const auto& shard : manifest.shard_placements()) {
     plan.shard_ids_to_retrieve.push_back(shard.shard_id);
+  }
+
+  if (plan.shard_ids_to_retrieve.empty()) {
+    plan.can_execute = false;
+    plan.parallel_retrieval = false;
+    plan.max_parallel_streams = 0;
+    plan.execution_rationale =
+        "Manifest does not contain any retrievable shards.";
+    return plan;
   }
 
   // Estimate retrieval time.
@@ -44,10 +134,6 @@ DefaultDistributedTensorPlanner::plan_tensor_retrieval(
       calculate_retrieval_time(manifest.total_size_bytes(),
                                plan.estimated_bandwidth_mbps,
                                plan.max_parallel_streams);
-
-  // Set retrieval parameters.
-  plan.parallel_retrieval = true;
-  plan.max_parallel_streams = 4;
 
   return plan;
 }
@@ -63,6 +149,11 @@ DistributedRetrievalPlan DefaultDistributedTensorPlanner::optimize_retrieval_pla
     optimized_plan.max_parallel_streams = 2;
   }
 
+  if (optimized_plan.degraded_mode) {
+    optimized_plan.max_parallel_streams =
+        std::min<uint32_t>(optimized_plan.max_parallel_streams, 2);
+  }
+
   // Recalculate estimated time with optimized parameters.
   // (In this simplified model, we don't have access to data size,
   // so we'll use the original estimate as a baseline.)
@@ -73,22 +164,15 @@ DistributedRetrievalPlan DefaultDistributedTensorPlanner::optimize_retrieval_pla
 bool DefaultDistributedTensorPlanner::is_tensor_available(
     const ArtifactManifest& manifest,
     ArtifactLifecycleStage required_stage) const noexcept {
-  // A tensor is available if:
-  // 1. Manifest is complete.
-  // 2. Has at least one shard placement.
-  // 3. Lifecycle stage matches requirement.
-
-  if (!manifest.is_complete()) {
+  if (!manifest.is_complete() || manifest.num_shards() == 0) {
     return false;
   }
 
-  if (manifest.num_shards() == 0) {
+  if (manifest.integrity_receipt() && !manifest.integrity_receipt()->is_valid) {
     return false;
   }
 
-  // For simplicity, assume ACTIVE and STALE are both available.
-  // In production, would check lifecycle stage more carefully.
-  return manifest.shard_placements()[0].shard_id.length() > 0;
+  return lifecycle_satisfies_requirement(manifest.lifecycle_stage(), required_stage);
 }
 
 uint64_t DefaultDistributedTensorPlanner::estimate_retrieval_cost(

@@ -2,13 +2,13 @@
 # Phase 2 Core Implementation: Artifact classes, manifests, placement, integrity, recovery, planning, infrastructure
 
 set(DISTRIBUTED_TENSOR_PUBLIC_HEADERS
-    ${CMAKE_CURRENT_SOURCE_DIR}/../distributed_tensor/tensor_artifact_classes.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/../distributed_tensor/artifact_manifest.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/../distributed_tensor/shard_placement.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/../distributed_tensor/integrity_verification.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/../distributed_tensor/recovery_manager.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/../distributed_tensor/distributed_planner.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/../distributed_tensor/tensor_infrastructure.h
+    ${CMAKE_SOURCE_DIR}/include/distributed_tensor/tensor_artifact_classes.h
+    ${CMAKE_SOURCE_DIR}/include/distributed_tensor/artifact_manifest.h
+    ${CMAKE_SOURCE_DIR}/include/distributed_tensor/shard_placement.h
+    ${CMAKE_SOURCE_DIR}/include/distributed_tensor/integrity_verification.h
+    ${CMAKE_SOURCE_DIR}/include/distributed_tensor/recovery_manager.h
+    ${CMAKE_SOURCE_DIR}/include/distributed_tensor/distributed_planner.h
+    ${CMAKE_SOURCE_DIR}/include/distributed_tensor/tensor_infrastructure.h
 )
 
 set(DISTRIBUTED_TENSOR_SOURCES
@@ -24,7 +24,8 @@ set(DISTRIBUTED_TENSOR_SOURCES
 add_library(themis_distributed_tensor STATIC ${DISTRIBUTED_TENSOR_SOURCES})
 target_include_directories(themis_distributed_tensor 
     PUBLIC 
-        ${CMAKE_CURRENT_SOURCE_DIR}/..
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
 )
 
 # Link against core dependencies

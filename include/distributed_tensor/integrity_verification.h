@@ -147,6 +147,14 @@ class IntegrityVerificationReceipt {
   /// Mark the receipt as verified (all hashes match).
   void mark_verified() noexcept { is_verified_ = true; }
 
+  /// Mark the receipt as failed.
+  ///
+  /// @param error Human-readable explanation of the blocking verification issue.
+  void mark_failed(std::string error) noexcept {
+    is_verified_ = false;
+    verification_error_ = std::move(error);
+  }
+
   /// Query if receipt is verified.
   bool is_verified() const noexcept { return is_verified_; }
 
@@ -156,6 +164,11 @@ class IntegrityVerificationReceipt {
   /// Set the verification timestamp.
   void set_verified_at(const std::string& timestamp) noexcept {
     verified_at_ = timestamp;
+  }
+
+  /// Return the blocking verification error, if any.
+  const std::string& verification_error() const noexcept {
+    return verification_error_;
   }
 
  private:
@@ -179,6 +192,9 @@ class IntegrityVerificationReceipt {
 
   /// Timestamp of verification.
   std::string verified_at_;
+
+  /// Blocking verification error for incomplete or invalid receipts.
+  std::string verification_error_;
 };
 
 /// Integrity verification engine.
