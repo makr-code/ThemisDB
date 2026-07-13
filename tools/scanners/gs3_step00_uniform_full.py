@@ -55,6 +55,8 @@ from scanners.gs3_step04_design_llm_ai_safety import LLMAISafetyScan
 from scanners.gs3_step04_design_observability import ObservabilityScannerImproved as ObservabilityScan
 from scanners.gs3_step04_design_performance_patterns import PerformanceAntiPatternsScanImproved as PerformanceAntiPatternsScan
 from scanners.gs3_step04_design_query_correctness import QueryCorrectnessScan
+from scanners.gs3_step04_design_const_correctness import ConstCorrectnessApiDesignScan
+from scanners.gs3_step04_design_template_meta import TemplateMetaProgrammingScan
 from scanners.gs3_step04_design_distributed_consistency import DistributedConsistencyScanImproved as DistributedConsistencyScan
 from scanners.gs3_step04_design_architecture import ThemisArchitectureRulesScan
 from scanners.gs3_step04_design_bridge_interface import ThemisBridgeInterfaceRulesScan
@@ -184,6 +186,8 @@ class UniformFullScanner(BaseGapScanner):
             ("audit_logging", AuditLoggingScan(str(self.source_path))),
             ("deprecated_apis", DeprecatedAPIsScan(str(self.source_path))),
             ("performance_patterns", PerformanceAntiPatternsScan(str(self.source_path))),
+            ("const_correctness", ConstCorrectnessApiDesignScan(str(self.source_path))),
+            ("template_meta_programming", TemplateMetaProgrammingScan(str(self.source_path))),
             ("gpu_memory", GPUMemorySafetyScan(str(self.source_path))),
             ("query_correctness", QueryCorrectnessScan(str(self.source_path))),
             ("distributed_consistency", DistributedConsistencyScan(str(self.source_path))),
