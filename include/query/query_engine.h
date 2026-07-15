@@ -834,11 +834,21 @@ private:
     std::function<bool(const std::string&, const std::string&)> collection_access_checker_;
     std::string collection_access_caller_id_;  ///< Caller identity forwarded to access checker
 
+    struct AuditConfigSnapshot {
+        ::themis::utils::AuditLogger* audit_logger;
+        std::chrono::milliseconds query_timeout_ms;
+    };
+
     // ── Concurrency protection (Q4) ─────────────────────────────────────────
     /// Guards runtime-configurable fields (audit_logger_, stats_collector_,
     /// collection_access_checker_, collection_access_caller_id_,
     /// query_timeout_ms_, lock_timeout_ms_) against concurrent set/get races.
     mutable std::mutex config_mutex_;
+
+    [[nodiscard]] AuditConfigSnapshot snapshotAuditConfig() const noexcept {
+        std::lock_guard<std::mutex> lk(config_mutex_);
+        return AuditConfigSnapshot{audit_logger_, query_timeout_ms_};
+    }
 
     /// Per-query advisory timeout: how long a tg.wait() phase may take before
     /// a structured timeout audit event is emitted.  Default: 30 s.
@@ -949,6 +959,5 @@ struct QueryEngine::EvaluationContext {
 
 } // namespace query
 } // namespace themis
-
 
 

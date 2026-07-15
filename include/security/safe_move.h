@@ -20,6 +20,9 @@
 #ifndef THEMIS_SECURITY_SAFE_MOVE_H_
 #define THEMIS_SECURITY_SAFE_MOVE_H_
 
+#include <cstdint>
+#include <string>
+#include <vector>
 #include <memory>
 #include <type_traits>
 #include <utility>

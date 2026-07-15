@@ -20,6 +20,7 @@
 
 #include "importers/schema_inference.h"
 #include <algorithm>
+#include <cctype>
 #include <cmath>
 #include <regex>
 #include <set>

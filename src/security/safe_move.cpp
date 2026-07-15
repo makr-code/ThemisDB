@@ -11,8 +11,11 @@
 
 #include "include/security/safe_move.h"
 
+#include <cstdint>
 #include <iostream>
 #include <sstream>
+#include <string>
+#include <vector>
 
 namespace themis::security {
 

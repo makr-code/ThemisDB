@@ -79,7 +79,7 @@ TEST_F(MoveValidatorTest, ValidateUniquePtr) {
   EXPECT_NO_THROW(
     MoveValidator<std::unique_ptr<int>>::validatePostMove(ptr)
   );
-  EXPECT_NULL(ptr);
+  EXPECT_EQ(ptr, nullptr);
   EXPECT_EQ(*moved_ptr, 42);
 }
 
@@ -90,7 +90,7 @@ TEST_F(MoveValidatorTest, ValidateSharedPtr) {
   EXPECT_NO_THROW(
     MoveValidator<std::shared_ptr<int>>::validatePostMove(ptr)
   );
-  EXPECT_NULL(ptr);
+  EXPECT_EQ(ptr, nullptr);
   EXPECT_EQ(*moved_ptr, 42);
 }
 
@@ -121,7 +121,7 @@ class MoveGuardTest : public ::testing::Test {
 TEST_F(MoveGuardTest, GuardCreation) {
   GuardedObject obj(42);
   MoveGuard<GuardedObject> guard(&obj);
-  EXPECT_FALSE(guard.checkNotMovedFrom());
+  EXPECT_TRUE(guard.checkNotMovedFrom());
   EXPECT_EQ(guard.get()->value, 42);
 }
 
@@ -151,7 +151,7 @@ TEST_F(MoveGuardTest, GuardMoveConstruction) {
   MoveGuard<GuardedObject> guard2(std::move(guard1));
   
   // guard1 should now be empty
-  EXPECT_NULL(guard1.get());
+  EXPECT_EQ(guard1.get(), nullptr);
   // guard2 should have the object
   EXPECT_EQ(guard2.get()->value, 42);
 }
@@ -165,7 +165,7 @@ TEST_F(MoveGuardTest, GuardMoveAssignment) {
   guard1 = std::move(guard2);
   
   EXPECT_EQ(guard1.get()->value, 99);
-  EXPECT_NULL(guard2.get());
+  EXPECT_EQ(guard2.get(), nullptr);
 }
 
 TEST_F(MoveGuardTest, NullPointerAssertion) {
@@ -445,11 +445,10 @@ TEST_F(MoveValidatorSpecializationTest, UniquePtrSpecialization) {
   );
 
   auto moved_ptr = std::move(ptr);
-  EXPECT_THROW(
-    MoveValidator<std::unique_ptr<int>>::validatePostMove(ptr),
-    MoveSourceNotCleared  // ptr is not null in shared semantics - update test
+  EXPECT_NO_THROW(
+    MoveValidator<std::unique_ptr<int>>::validatePostMove(ptr)
   );
-  EXPECT_NULL(ptr);
+  EXPECT_EQ(ptr, nullptr);
 }
 
 TEST_F(MoveValidatorSpecializationTest, SharedPtrSpecialization) {
@@ -459,11 +458,10 @@ TEST_F(MoveValidatorSpecializationTest, SharedPtrSpecialization) {
   );
 
   auto moved_ptr = std::move(ptr);
-  EXPECT_THROW(
-    MoveValidator<std::shared_ptr<std::string>>::validatePostMove(ptr),
-    MoveSourceNotCleared  // ptr is not null - update test
+  EXPECT_NO_THROW(
+    MoveValidator<std::shared_ptr<std::string>>::validatePostMove(ptr)
   );
-  EXPECT_NULL(ptr);
+  EXPECT_EQ(ptr, nullptr);
 }
 
 } // namespace themis::security::test

@@ -692,14 +692,15 @@ QueryEngine::executeAndKeys(const ConjunctiveQuery& q) const {
 	
 	// Timeout enforcement: tbbWaitWithTimeout replaces bare tg.wait() (Q1/REL-50)
 	{
+		const auto audit_config = snapshotAuditConfig();
 		const auto start_time = std::chrono::high_resolution_clock::now();
-		tbbWaitWithTimeout(tg, audit_logger_, query_timeout_ms_, "and_keys_scan");
+		tbbWaitWithTimeout(tg, audit_config.audit_logger, audit_config.query_timeout_ms, "and_keys_scan");
 		const auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(
 			std::chrono::high_resolution_clock::now() - start_time);
 
 		// Structured audit event for this phase (Q2)
-		if (audit_logger_) {
-			audit_logger_->logEvent({
+		if (audit_config.audit_logger) {
+			audit_config.audit_logger->logEvent({
 				{"event",           "query_execution_phase"},
 				{"phase",           "and_keys_scan"},
 				{"predicate_count", static_cast<int64_t>(q.predicates.size())},
@@ -933,13 +934,14 @@ QueryEngine::executeAndEntities(const ConjunctiveQuery& q) const {
 	
 		// Timeout enforcement via helper (Q1/REL-50)
 		{
+			const auto audit_config = snapshotAuditConfig();
 			const auto entity_load_start = std::chrono::high_resolution_clock::now();
-			tbbWaitWithTimeout(tg, audit_logger_, query_timeout_ms_, "entity_loading");
+			tbbWaitWithTimeout(tg, audit_config.audit_logger, audit_config.query_timeout_ms, "entity_loading");
 			const auto entity_load_elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(
 				std::chrono::high_resolution_clock::now() - entity_load_start);
 
-			if (audit_logger_) {
-				audit_logger_->logEvent({
+			if (audit_config.audit_logger) {
+				audit_config.audit_logger->logEvent({
 					{"event",                    "query_execution_phase"},
 					{"phase",                    "entity_loading"},
 					{"batch_count",              static_cast<int64_t>(batches.size())},
@@ -1061,13 +1063,14 @@ QueryEngine::executeOrKeys(const DisjunctiveQuery& q) const {
 	
 	// Timeout enforcement via helper (Q1/REL-50)
 	{
+		const auto audit_config = snapshotAuditConfig();
 		const auto or_query_start = std::chrono::high_resolution_clock::now();
-		tbbWaitWithTimeout(tg, audit_logger_, query_timeout_ms_, "or_disjuncts");
+		tbbWaitWithTimeout(tg, audit_config.audit_logger, audit_config.query_timeout_ms, "or_disjuncts");
 		const auto or_query_elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(
 			std::chrono::high_resolution_clock::now() - or_query_start);
 
-		if (audit_logger_) {
-			audit_logger_->logEvent({
+		if (audit_config.audit_logger) {
+			audit_config.audit_logger->logEvent({
 				{"event",          "query_execution_phase"},
 				{"phase",          "or_disjuncts"},
 				{"disjunct_count", static_cast<int64_t>(q.disjuncts.size())},
@@ -1138,7 +1141,10 @@ QueryEngine::executeOrKeysWithFallback(const DisjunctiveQuery& q, bool optimize)
 		});
 	}
 	// Timeout enforcement via helper (Q1/REL-50)
-	tbbWaitWithTimeout(tg, audit_logger_, query_timeout_ms_, "or_fallback_disjuncts");
+	{
+		const auto audit_config = snapshotAuditConfig();
+		tbbWaitWithTimeout(tg, audit_config.audit_logger, audit_config.query_timeout_ms, "or_fallback_disjuncts");
+	}
 
 	if (!errors.empty()) {
 		std::sort(errors.begin(), errors.end());
@@ -1210,13 +1216,14 @@ QueryEngine::executeOrEntitiesWithFallback(const DisjunctiveQuery& q, bool optim
 	
 		// Timeout enforcement via helper (Q1/REL-50)
 		{
+			const auto audit_config = snapshotAuditConfig();
 			const auto or_entity_load_start = std::chrono::high_resolution_clock::now();
-			tbbWaitWithTimeout(tg, audit_logger_, query_timeout_ms_, "or_entity_loading");
+			tbbWaitWithTimeout(tg, audit_config.audit_logger, audit_config.query_timeout_ms, "or_entity_loading");
 			const auto or_entity_load_elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(
 				std::chrono::high_resolution_clock::now() - or_entity_load_start);
 
-			if (audit_logger_) {
-				audit_logger_->logEvent({
+			if (audit_config.audit_logger) {
+				audit_config.audit_logger->logEvent({
 					{"event",                    "query_execution_phase"},
 					{"phase",                    "or_entity_loading"},
 					{"batch_count",              static_cast<int64_t>(batches.size())},
@@ -1293,13 +1300,14 @@ QueryEngine::executeOrEntities(const DisjunctiveQuery& q) const {
 	
 		// Timeout enforcement via helper (Q1/REL-50)
 		{
+			const auto audit_config = snapshotAuditConfig();
 			const auto final_or_entity_start = std::chrono::high_resolution_clock::now();
-			tbbWaitWithTimeout(tg, audit_logger_, query_timeout_ms_, "final_or_entity_loading");
+			tbbWaitWithTimeout(tg, audit_config.audit_logger, audit_config.query_timeout_ms, "final_or_entity_loading");
 			const auto final_or_entity_elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(
 				std::chrono::high_resolution_clock::now() - final_or_entity_start);
 
-			if (audit_logger_) {
-				audit_logger_->logEvent({
+			if (audit_config.audit_logger) {
+				audit_config.audit_logger->logEvent({
 					{"event",                    "query_execution_phase"},
 					{"phase",                    "final_or_entity_loading"},
 					{"batch_count",              static_cast<int64_t>(batches.size())},
@@ -1446,7 +1454,10 @@ QueryEngine::executeAndEntitiesSequential(const std::string& table,
 			});
 		}
 			// Timeout enforcement via helper (Q1/REL-50)
-			tbbWaitWithTimeout(tg, audit_logger_, query_timeout_ms_, "sequential_entity_loading");
+			{
+				const auto audit_config = snapshotAuditConfig();
+				tbbWaitWithTimeout(tg, audit_config.audit_logger, audit_config.query_timeout_ms, "sequential_entity_loading");
+			}
 
 		logSortedDeserializeFailures(failed_deserialize_pks, "executeAndEntitiesSequential");
 
@@ -2573,7 +2584,10 @@ std::vector<std::string> QueryEngine::fullScanAndFilter_(const ConjunctiveQuery&
 			});
 		}
 			// Timeout enforcement via helper (Q1/REL-50): morsel-driven full scan
-			tbbWaitWithTimeout(tg, audit_logger_, query_timeout_ms_, "fullscan_parallel_morsels");
+			{
+				const auto audit_config = snapshotAuditConfig();
+				tbbWaitWithTimeout(tg, audit_config.audit_logger, audit_config.query_timeout_ms, "fullscan_parallel_morsels");
+			}
 
 		// Merge per-morsel results into the output vector.
 		for (auto& bucket : morsel_results) {
@@ -3879,7 +3893,10 @@ QueryEngine::executeRecursivePathQuery(const RecursivePathQuery& q) const {
 				});
 			}
 				// Timeout enforcement via helper (Q1/REL-50): graph spatial filter
-				tbbWaitWithTimeout(tg3, audit_logger_, query_timeout_ms_, "graph_spatial_filter");
+				{
+					const auto audit_config = snapshotAuditConfig();
+					tbbWaitWithTimeout(tg3, audit_config.audit_logger, audit_config.query_timeout_ms, "graph_spatial_filter");
+				}
 			for (auto& b : buckets) {
 				filteredNodes.insert(filteredNodes.end(), std::make_move_iterator(b.begin()), std::make_move_iterator(b.end()));
 			}
@@ -4540,7 +4557,10 @@ QueryEngine::executeVectorGeoQuery(const VectorGeoQuery& q) const {
 				});
 			}
 				// Timeout enforcement via helper (Q1/REL-50): vector-geo spatial filter
-				tbbWaitWithTimeout(tg, audit_logger_, query_timeout_ms_, "vector_geo_spatial_filter");
+				{
+					const auto audit_config = snapshotAuditConfig();
+					tbbWaitWithTimeout(tg, audit_config.audit_logger, audit_config.query_timeout_ms, "vector_geo_spatial_filter");
+				}
 			for (auto& b : buckets) {
 				results.insert(results.end(), std::make_move_iterator(b.begin()), std::make_move_iterator(b.end()));
 			}
@@ -4745,7 +4765,10 @@ QueryEngine::executeVectorGeoQuery(const VectorGeoQuery& q) const {
 		});
 	}
 		// Timeout enforcement via helper (Q1/REL-50): brute-force vector search
-		tbbWaitWithTimeout(tg2, audit_logger_, query_timeout_ms_, "bruteforce_vector_search");
+		{
+			const auto audit_config = snapshotAuditConfig();
+			tbbWaitWithTimeout(tg2, audit_config.audit_logger, audit_config.query_timeout_ms, "bruteforce_vector_search");
+		}
 	for (auto& b : buckets) {
 		vectorResults.insert(vectorResults.end(), std::make_move_iterator(b.begin()), std::make_move_iterator(b.end()));
 	}
@@ -5086,5 +5109,4 @@ query::QueryPlanNode QueryEngine::buildExplainPlan(const ConjunctiveQuery& q) co
 
 } // namespace query
 } // namespace themis
-
 

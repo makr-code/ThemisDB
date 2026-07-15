@@ -404,9 +404,12 @@ nlohmann::json QueryFederation::execute(const std::string& query) {    total_que
         
     } catch (const std::exception& e) {
         // Q2: Audit — cross-cluster query failure
-        spdlog::error("[audit] {{\"event\":\"federation_failure\","
-                      "\"reason\":\"{}\",\"affected_clusters\":{}}}",
-                      e.what(), total_queries_.load());
+        const nlohmann::json audit_event = {
+            {"event", "federation_failure"},
+            {"reason", e.what()},
+            {"affected_clusters", total_queries_.load()}
+        };
+        spdlog::error("[audit] {}", audit_event.dump());
         spdlog::error("Federated query execution failed: {}", e.what());
         throw;
     }
@@ -1204,4 +1207,3 @@ uint64_t QueryFederation::estimateCollectionSize([[maybe_unused]] const std::str
 }
 
 } // namespace themis::query
-
