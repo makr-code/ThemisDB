@@ -37,6 +37,7 @@ All transaction headers are present and `#pragma once` guarded. `ITransactionMan
 - [x] `transaction_auditor.h` / `transaction_batcher.h` / `transaction_semantic_advisor.h`
 - [x] `branch_manager.h` — named branch lifecycle
 - [x] `merge_engine.h` — MVCC merge resolution
+- [x] `transaction_coordinator.h` — `ITransactionCoordinator` unified Strategy-pattern interface for 2PC, 3PC, SAGA, Percolator, Calvin (Issue #5374)
 
 ---
 
