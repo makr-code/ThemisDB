@@ -404,7 +404,7 @@ HardwareProfileRegistry::HardwareProfileRegistry()
 
 HardwareProfileRegistry::HardwareProfileRegistry(std::vector<HardwareProfile> profiles)
     : profiles_(std::move(profiles)) {
-    if (!profiles_.empty()) {
+    if (!profiles_.empty() && validateHardwareProfile(profiles_.front()).ok()) {
         active_profile_ = profiles_.front().id;
     }
 }
@@ -462,6 +462,7 @@ bool HardwareProfileRegistry::activate(std::string_view profile_name, std::strin
 HardwareProfileValidationResult HardwareProfileRegistry::validate() const {
     HardwareProfileValidationResult result;
     std::set<std::string> names;
+    std::set<DeploymentProfileId> ids;
 
     for (const auto& profile : profiles_) {
         const auto profile_validation = validateHardwareProfile(profile);
@@ -469,6 +470,9 @@ HardwareProfileValidationResult HardwareProfileRegistry::validate() const {
         result.warnings.insert(result.warnings.end(), profile_validation.warnings.begin(), profile_validation.warnings.end());
         if (!names.insert(profile.canonical_name).second) {
             result.errors.push_back("duplicate profile name registered: " + profile.canonical_name);
+        }
+        if (!ids.insert(profile.id).second) {
+            result.errors.push_back("duplicate profile id registered: " + toString(profile.id));
         }
     }
 

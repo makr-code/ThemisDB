@@ -206,4 +206,33 @@ TEST(HardwareProfile, TransitionAllowsWarmRebalanceIntoFederatedProfile) {
     EXPECT_TRUE(result.ok());
 }
 
+TEST(HardwareProfile, ValidateDetectsDuplicateProfileId) {
+    // Build a registry with two profiles sharing the same DeploymentProfileId
+    // but different canonical names — validate() must surface a duplicate-id error.
+    auto registry = HardwareProfileRegistry::withBuiltIns();
+    const auto* dev = registry.find(DeploymentProfileId::Development);
+    ASSERT_NE(dev, nullptr);
+
+    HardwareProfile dup = *dev;
+    dup.canonical_name = "development_alias";
+
+    HardwareProfileRegistry custom({*dev, dup});
+    const auto result = custom.validate();
+
+    EXPECT_FALSE(result.ok());
+    const bool has_duplicate_id_error = std::any_of(
+        result.errors.begin(), result.errors.end(),
+        [](const std::string& e) {
+            return e.find("duplicate profile id") != std::string::npos;
+        }
+    );
+    EXPECT_TRUE(has_duplicate_id_error);
+}
+
+TEST(HardwareProfile, ConstructorWithInvalidFirstProfileLeavesNullActiveProfile) {
+    // An invalid first profile must not become the active profile after construction.
+    HardwareProfileRegistry registry({makeInvalidProfile()});
+    EXPECT_EQ(registry.activeProfile(), nullptr);
+}
+
 } // namespace

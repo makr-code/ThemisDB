@@ -229,7 +229,7 @@ public:
      */
     [[nodiscard]] bool activate(std::string_view profile_name, std::string* error = nullptr);
 
-    /// @brief Validate every registered profile and surface duplicate-name issues.
+    /// @brief Validate every registered profile and surface duplicate-name or duplicate-id issues.
     [[nodiscard]] HardwareProfileValidationResult validate() const;
 
     /**
