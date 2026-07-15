@@ -114,6 +114,8 @@ def evaluate_platform_expression(expression: str | None, platform_tags: set[str]
 
     def parse_unary() -> bool:
         nonlocal index
+        if index >= len(tokens):
+            raise ValueError(f"Unexpected end of platform expression: {expression!r}")
         token = tokens[index]
         if token == "!":
             index += 1
