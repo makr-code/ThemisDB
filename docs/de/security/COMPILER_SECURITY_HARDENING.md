@@ -15,7 +15,7 @@ Diese schützen gegen häufige Klassen von Schwachstellen:
 | Kategorie | Schutz |
 |---|---|
 | Stack-Buffer-Overflow | `-fstack-protector-strong` / `/GS` |
-| Heap/Buffer-Overflow | `-D_FORTIFY_SOURCE=2` / `/sdl` |
+| Heap/Buffer-Overflow | `-D_FORTIFY_SOURCE=3` / `/sdl` |
 | Stack-Heap-Collision | `-fstack-clash-protection` (wenn unterstützt) |
 | Code-Injektion / ROP | PIE + ASLR (`-fPIE/-pie`, `/DYNAMICBASE`) |
 | Return-Oriented Programming | RELRO (`-Wl,-z,relro,-z,now`) |
@@ -27,22 +27,38 @@ Diese schützen gegen häufige Klassen von Schwachstellen:
 
 ## Aktivierte Flags nach Plattform
 
-### Linux / macOS (GCC ≥ 8, Clang ≥ 11) – Release-Build
+### Linux (GCC ≥ 8, Clang ≥ 11) – Release-Build
 
 | Flag | Typ | Beschreibung |
 |---|---|---|
 | `-fstack-protector-strong` | Compile | Stack-Canary für Funktionen mit Puffern und Zeigern |
-| `-D_FORTIFY_SOURCE=2` | Macro | Bounds-checked libc-Wrapper (benötigt `-O1+`) |
+| `-D_FORTIFY_SOURCE=3` | Macro | Bounds-checked libc-Wrapper (benötigt `-O1+`; Level 3 seit GCC 12 / glibc 2.35) |
 | `-fstack-clash-protection` | Compile | Verhindert Stack-Heap-Kollisions-Angriffe (optional, wenn unterstützt) |
 | `-fPIE` | Compile | Position Independent Executable – kompilieren |
 | `-pie` | Link | Position Independent Executable – linken (ASLR-Aktivierung) |
-| `-Wl,-z,relro` | Link | Read-only Relocations nach Startup (RELRO) |
-| `-Wl,-z,now` | Link | Full RELRO: sofortige PLT-Auflösung |
-| `-Wl,-z,noexecstack` | Link | Stack nicht ausführbar markieren |
+| `-Wl,-z,relro` | Link | Read-only Relocations nach Startup (RELRO) – **nur Linux** |
+| `-Wl,-z,now` | Link | Full RELRO: sofortige PLT-Auflösung – **nur Linux** |
+| `-Wl,-z,noexecstack` | Link | Stack nicht ausführbar markieren – **nur Linux** |
 
 > **Hinweis:** `-fstack-protector-strong` und PIE sind **Pflichtflags**.
 > Sind sie nicht verfügbar, bricht der Build mit FATAL_ERROR ab.
 > `-fstack-clash-protection` und die RELRO-Flags sind Best-Effort (Warnung).
+> Die RELRO-Linker-Flags (`-Wl,-z,relro`, `-Wl,-z,now`, `-Wl,-z,noexecstack`) sind
+> **ausschließlich auf Linux** aktiv – macOS (`ld64`) unterstützt ELF-RELRO nicht.
+
+### macOS (Clang ≥ 11) – Release-Build
+
+| Flag | Typ | Beschreibung |
+|---|---|---|
+| `-fstack-protector-strong` | Compile | Stack-Canary für Funktionen mit Puffern und Zeigern |
+| `-D_FORTIFY_SOURCE=3` | Macro | Bounds-checked libc-Wrapper (benötigt `-O1+`) |
+| `-fstack-clash-protection` | Compile | Verhindert Stack-Heap-Kollisions-Angriffe (wenn unterstützt) |
+| `-fPIE` | Compile | Position Independent Executable – kompilieren |
+| `-pie` | Link | Position Independent Executable – linken (ASLR-Aktivierung) |
+
+> **Hinweis:** RELRO-Linker-Flags sind auf macOS nicht verfügbar. `ld64` unterstützt
+> keine ELF-spezifischen `-z`-Flags. ASLR und Stack-Schutz werden durch das macOS-
+> Betriebssystem und `ld64` nativ bereitgestellt.
 
 ### Windows (MSVC ≥ VS 2019 / cl.exe) – Release-Build
 
@@ -70,14 +86,14 @@ Die Hardening-Flags werden automatisch für `Release`-Builds aktiviert.
 In der CMake-Ausgabe erscheinen entsprechende Statusmeldungen, z. B.:
 
 ```
--- Security Hardening (GCC/Clang): -fstack-protector-strong -D_FORTIFY_SOURCE=2 -fPIE/-pie -fstack-clash-protection  [Release]
+-- Security Hardening (GCC/Clang): -fstack-protector-strong -D_FORTIFY_SOURCE=3 -fPIE/-pie -fstack-clash-protection  [Release]
 --   Linker:  Full RELRO (-z relro -z now -z noexecstack)
 ```
 
 ### Debug-Builds
 
 In `Debug`-Builds werden **keine** Hardening-Flags aktiviert, da:
-- `-D_FORTIFY_SOURCE=2` einen Optimierungsgrad ≥ `-O1` erfordert
+- `-D_FORTIFY_SOURCE=3` einen Optimierungsgrad ≥ `-O1` erfordert
 - der zusätzliche Overhead den Debug-Zyklus verlangsamt
 
 Stattdessen stehen ASAN/LSAN/UBSan für Debug-Sicherheit zur Verfügung:

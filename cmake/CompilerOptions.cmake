@@ -364,12 +364,13 @@ else()
     endif()
 
     # ── GCC/Clang Security Hardening (Release builds) ────────────────────────
-    # Applied only in Release mode because _FORTIFY_SOURCE=2 requires -O1 or
-    # higher and because we do not want to penalise debug-cycle performance.
+    # Flags are applied via generator expressions so both single-config
+    # (Ninja, Makefiles) and multi-config (Ninja Multi-Config, Xcode) generators
+    # work correctly.  _FORTIFY_SOURCE=3 requires -O1+; Release already adds -O3.
     #
     # For documentation of every flag and platform policy see:
     #   docs/de/security/COMPILER_SECURITY_HARDENING.md
-    if(NOT THEMIS_DISABLE_SECURITY_HARDENING AND CMAKE_BUILD_TYPE STREQUAL "Release")
+    if(NOT THEMIS_DISABLE_SECURITY_HARDENING)
         include(CheckCXXCompilerFlag)
         include(CheckLinkerFlag)
 
@@ -386,26 +387,14 @@ else()
             endif()
         endmacro()
 
+        # Probe capabilities unconditionally so checks work for all generator types.
         # Stack-Protector: guard against stack-buffer overflows (GCC 4.9+, Clang 3.7+)
         themis_require_compile_flag(-fstack-protector-strong)
-        add_compile_options(-fstack-protector-strong)
-
-        # FORTIFY_SOURCE=2: replace unsafe libc calls with bounds-checked variants.
-        # Requires optimisation (-O1+); Release already adds -O3.
-        add_compile_definitions(_FORTIFY_SOURCE=2)
 
         # Stack-Clash Protection: guard against stack–heap collision (GCC 8+, Clang 11+)
         check_cxx_compiler_flag(-fstack-clash-protection _THEMIS_HAVE_STACK_CLASH)
-        if(_THEMIS_HAVE_STACK_CLASH)
-            add_compile_options(-fstack-clash-protection)
-        endif()
 
-        # PIE (Position Independent Executable): required for kernel ASLR.
-        # CMAKE_POSITION_INDEPENDENT_CODE applies -fPIC for shared libs and
-        # -fPIE for executables; CMake adds the -pie linker flag for exe targets.
-        set(CMAKE_POSITION_INDEPENDENT_CODE TRUE)
-
-        # Linux full RELRO + non-executable stack (linker flags)
+        # Linux full RELRO: probe linker flags at configure time (unconditional)
         if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
             set(_themis_relro_flags "-Wl,-z,relro" "-Wl,-z,now" "-Wl,-z,noexecstack")
             set(_themis_relro_ok TRUE)
@@ -419,13 +408,40 @@ else()
                     set(_themis_relro_ok FALSE)
                 endif()
             endforeach()
-            if(_themis_relro_ok)
-                add_link_options(-Wl,-z,relro -Wl,-z,now -Wl,-z,noexecstack)
-                message(STATUS "  Linker:  Full RELRO (-z relro -z now -z noexecstack)")
-            endif()
         endif()
 
-        set(_themis_hardening_flags "-fstack-protector-strong -D_FORTIFY_SOURCE=2 -fPIE/-pie")
+        # Apply compile flags via generator expressions (Release config only).
+        # -U_FORTIFY_SOURCE before -D_FORTIFY_SOURCE=3 ensures our level takes
+        # precedence even on distributions that inject _FORTIFY_SOURCE via the
+        # compiler spec (GCC 12+, Ubuntu 22.04+, RHEL 9+) and avoids a duplicate-
+        # define diagnostic under -Werror.  Level 3 supersedes level 2 and is
+        # available since GCC 12 / glibc 2.35.
+        add_compile_options(
+            $<$<CONFIG:Release>:-fstack-protector-strong>
+            $<$<CONFIG:Release>:-U_FORTIFY_SOURCE>
+            $<$<CONFIG:Release>:-D_FORTIFY_SOURCE=3>
+        )
+        if(_THEMIS_HAVE_STACK_CLASH)
+            add_compile_options($<$<CONFIG:Release>:-fstack-clash-protection>)
+        endif()
+
+        # PIE (Position Independent Executable): required for kernel ASLR.
+        # CMAKE_POSITION_INDEPENDENT_CODE applies -fPIC for shared libs and
+        # -fPIE for executables; CMake adds the -pie linker flag for exe targets.
+        set(CMAKE_POSITION_INDEPENDENT_CODE TRUE)
+
+        # Linux full RELRO + non-executable stack (linker flags, Release config only).
+        # macOS uses ld64 which does not support ELF-style -z flags; RELRO is Linux-only.
+        if(CMAKE_SYSTEM_NAME STREQUAL "Linux" AND _themis_relro_ok)
+            add_link_options(
+                $<$<CONFIG:Release>:-Wl,-z,relro>
+                $<$<CONFIG:Release>:-Wl,-z,now>
+                $<$<CONFIG:Release>:-Wl,-z,noexecstack>
+            )
+            message(STATUS "  Linker:  Full RELRO (-z relro -z now -z noexecstack)")
+        endif()
+
+        set(_themis_hardening_flags "-fstack-protector-strong -D_FORTIFY_SOURCE=3 -fPIE/-pie")
         if(_THEMIS_HAVE_STACK_CLASH)
             string(APPEND _themis_hardening_flags " -fstack-clash-protection")
         endif()

@@ -2659,10 +2659,12 @@ No additional configuration is required for standard presets.
 
 | Platform | Compile flags | Linker flags |
 |---|---|---|
-| Linux/macOS (GCC/Clang) | `-fstack-protector-strong` `-D_FORTIFY_SOURCE=2` `-fPIE` `-fstack-clash-protection`* | `-pie` `-Wl,-z,relro` `-Wl,-z,now` `-Wl,-z,noexecstack` |
+| Linux (GCC/Clang) | `-fstack-protector-strong` `-D_FORTIFY_SOURCE=3` `-fPIE` `-fstack-clash-protection`* | `-pie` `-Wl,-z,relro` `-Wl,-z,now` `-Wl,-z,noexecstack` |
+| macOS (Clang) | `-fstack-protector-strong` `-D_FORTIFY_SOURCE=3` `-fPIE` `-fstack-clash-protection`* | `-pie` |
 | Windows (MSVC) | `/GS` `/sdl` `/guard:cf` | `/GUARD:CF` `/NXCOMPAT` `/DYNAMICBASE` |
 
 \* `-fstack-clash-protection` is applied when supported by the compiler (GCC ≥ 8, Clang ≥ 11).
+† RELRO linker flags (`-Wl,-z,relro/-z,now/-z,noexecstack`) are **Linux-only**; macOS `ld64` does not support ELF-style `-z` flags. ASLR and stack protection are provided natively by the macOS OS and `ld64`.
 
 **Build command (hardening on by default):**
 ```bash
