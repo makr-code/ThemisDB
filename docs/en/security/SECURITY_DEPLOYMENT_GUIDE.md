@@ -2682,6 +2682,21 @@ checksec --file=build-linux-release/themisdb_server
 **Important:** Disabling hardening (`-DTHEMIS_DISABLE_SECURITY_HARDENING=ON`) is a
 security policy violation (SEC-CC-4) and must not be used in production builds.
 
+**Sanitizer presets (development/CI use only, not for production):**
+
+| Preset | Purpose |
+|---|---|
+| `community-asan` | AddressSanitizer: detect heap/stack overflows, use-after-free |
+| `community-ubsan` | UBSan: detect signed overflow, misaligned access, null-deref |
+| `linux-asan` / `linux-ubsan` | Same as above but with vcpkg dependency resolution |
+
+```bash
+# Example: run tests under AddressSanitizer
+cmake --preset community-asan
+cmake --build --preset community-asan --parallel $(nproc)
+ASAN_OPTIONS=detect_leaks=1 ctest --preset community-asan --output-on-failure
+```
+
 For the complete flag reference, compiler version requirements, and policy for new
 platforms see [`docs/de/security/COMPILER_SECURITY_HARDENING.md`](../../de/security/COMPILER_SECURITY_HARDENING.md).
 

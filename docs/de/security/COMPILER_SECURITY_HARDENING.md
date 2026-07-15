@@ -96,11 +96,8 @@ In `Debug`-Builds werden **keine** Hardening-Flags aktiviert, da:
 - `-D_FORTIFY_SOURCE=3` einen Optimierungsgrad ≥ `-O1` erfordert
 - der zusätzliche Overhead den Debug-Zyklus verlangsamt
 
-Stattdessen stehen ASAN/LSAN/UBSan für Debug-Sicherheit zur Verfügung:
-
-```bash
-cmake --preset community-debug -DTHEMIS_ENABLE_ASAN=ON
-```
+Stattdessen stehen dedizierte Sanitizer-Presets für Debug-Sicherheit zur Verfügung
+(siehe Abschnitt [Sanitizer-Presets](#sanitizer-presets-sec-cc-4-ergänzung) unten).
 
 ### Hardening deaktivieren (NICHT für Produktion)
 
@@ -134,7 +131,101 @@ THEMIS_DISABLE_SECURITY_HARDENING=ON (not recommended for production). SEC-CC-4.
 
 ---
 
-## Verifikation der aktiven Flags
+## Sanitizer-Presets (SEC-CC-4-Ergänzung)
+
+Sanitizer sind **keine** Produktions-Hardening-Flags, sondern Entwicklungs- und
+CI-Werkzeuge zur Erkennung von Speichersicherheits- und Undefined-Behavior-Fehlern
+**bevor** sie im Produktionsbetrieb auftreten.
+
+> ℹ️ **Hinweis:** Die Release-Hardening-Flags (Stack-Protector, FORTIFY_SOURCE, PIE,
+> RELRO) und Sanitizer schließen sich **gegenseitig aus** — `THEMIS_DISABLE_SECURITY_HARDENING`
+> wird in den Sanitizer-Presets automatisch auf `ON` gesetzt, da FORTIFY_SOURCE=3
+> und Address-Sanitizer zusammen nicht kompatibel sind.
+
+### Verfügbare Sanitizer-Presets
+
+| Preset | Sanitizer | Ziel | Erkennt |
+|---|---|---|---|
+| `community-asan` | AddressSanitizer | Debug, system packages | Heap/Stack Buffer Overflow, Use-After-Free, Use-After-Return |
+| `community-ubsan` | UndefinedBehaviorSanitizer | Debug, system packages | Signed Overflow, Misaligned Access, NULL-Deref, Invalid Enum |
+| `linux-asan` | AddressSanitizer | Debug, vcpkg | wie `community-asan` |
+| `linux-ubsan` | UndefinedBehaviorSanitizer | Debug, vcpkg | wie `community-ubsan` |
+
+### Verwendung
+
+#### AddressSanitizer (ASan) — Speichersicherheit
+
+```bash
+# Konfigurieren (system packages, kein vcpkg erforderlich)
+cmake --preset community-asan
+
+# Bauen
+cmake --build --preset community-asan --parallel 8
+
+# Tests ausführen
+ctest --preset community-asan --output-on-failure
+```
+
+Beim Auftreten eines Fehlers gibt ASan einen vollständigen Stack-Trace aus, z. B.:
+
+```
+==12345==ERROR: AddressSanitizer: heap-use-after-free on address 0x...
+READ of size 8 at 0x... thread T0
+    #0 0x... in themis::auth::SessionManager::validate ...
+    ...
+```
+
+#### UndefinedBehaviorSanitizer (UBSan) — Undefined Behavior
+
+```bash
+cmake --preset community-ubsan
+cmake --build --preset community-ubsan --parallel 8
+ctest --preset community-ubsan --output-on-failure
+```
+
+Beim Auftreten eines Fehlers gibt UBSan eine präzise Diagnose aus, z. B.:
+
+```
+src/auth/jwt_validator.cpp:42:18: runtime error: signed integer overflow:
+  2147483647 + 1 cannot be represented in type 'int'
+```
+
+#### LSAN (LeakSanitizer) — Speicherlecks
+
+LeakSanitizer kann als eigenständiges Preset oder kombiniert mit ASan verwendet werden:
+
+```bash
+# Kombiniert mit ASan (LSAN ist standardmäßig in ASan integriert):
+cmake --preset community-asan
+# Nur LSAN aktivieren (leichter als ASan):
+cmake --preset community-release -DTHEMIS_ENABLE_LSAN=ON -DTHEMIS_DISABLE_SECURITY_HARDENING=ON
+```
+
+### Anforderungen
+
+| Sanitizer | Compiler | Mindestversion | Systempaket (Ubuntu/Debian) |
+|---|---|---|---|
+| ASan | GCC | 8.0+ | `libasan6` / `libasan8` |
+| ASan | Clang | 7.0+ | `clang` (enthält ASan) |
+| UBSan | GCC | 8.0+ | _(in GCC enthalten)_ |
+| UBSan | Clang | 7.0+ | _(in Clang enthalten)_ |
+| LSAN | GCC | 8.0+ | `liblsan0` |
+
+### CI-Integration
+
+Die Sanitizer-Presets sind in den GitHub Actions CI-Workflow
+`.github/workflows/cmake-multi-platform.yml` als optionaler Sanitizer-Job
+eingebunden (Trigger: `workflow_dispatch` oder Push auf `develop`).
+
+```bash
+# Manuelle Ausführung via GitHub CLI:
+gh workflow run cmake-multi-platform.yml -f sanitizer=asan
+gh workflow run cmake-multi-platform.yml -f sanitizer=ubsan
+```
+
+---
+
+
 
 ### Linux/macOS
 
