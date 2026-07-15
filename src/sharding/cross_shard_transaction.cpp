@@ -1589,6 +1589,28 @@ bool CrossShardTransactionCoordinator::execute2PC(CrossShardTransaction& txn) {
 }
 
 bool CrossShardTransactionCoordinator::execute3PC(CrossShardTransaction& txn) {
+    const auto failClosedAbortAllParticipants = [this, &txn](const char* abort_reason) {
+        txn.state = TransactionState::ABORTING;
+        for (auto& [shard_id, participant] : txn.participants) {
+            const bool aborted = sendAbort(shard_id, txn.transaction_id);
+            participant.aborted = aborted;
+            if (!aborted) {
+                spdlog::error("execute3PC [{}]: fail-closed abort RPC failed for shard {}",
+                              txn.transaction_id, shard_id);
+            }
+        }
+
+        if (transaction_wal_) {
+            try {
+                transaction_wal_->logAbort(txn.transaction_id, std::string(abort_reason));
+                operations_since_snapshot_++;
+            } catch (const std::exception& e) {
+                spdlog::error("execute3PC [{}]: failed to log fail-closed ABORT to WAL: {}",
+                              txn.transaction_id, e.what());
+            }
+        }
+    };
+
     // Snapshot the PreCommit callback under the lock so the lock is not held
     // during the (potentially blocking) RPC fan-out.
     PreCommitRpcFn precommit_cb;
@@ -1614,25 +1636,7 @@ bool CrossShardTransactionCoordinator::execute3PC(CrossShardTransaction& txn) {
     if (!precommit_cb) {
         spdlog::error("execute3PC [{}]: missing PreCommit RPC callback; failing closed",
                       txn.transaction_id);
-        txn.state = TransactionState::ABORTING;
-        for (auto& [shard_id, participant] : txn.participants) {
-            const bool aborted = sendAbort(shard_id, txn.transaction_id);
-            participant.aborted = aborted;
-            if (!aborted) {
-                spdlog::error("execute3PC [{}]: fail-closed abort RPC failed for shard {}",
-                              txn.transaction_id, shard_id);
-            }
-        }
-
-        if (transaction_wal_) {
-            try {
-                transaction_wal_->logAbort(txn.transaction_id, "precommit_callback_missing");
-                operations_since_snapshot_++;
-            } catch (const std::exception& e) {
-                spdlog::error("execute3PC [{}]: failed to log fail-closed ABORT to WAL: {}",
-                              txn.transaction_id, e.what());
-            }
-        }
+        failClosedAbortAllParticipants("precommit_callback_missing");
         return false;
     }
 
@@ -1719,9 +1723,23 @@ bool CrossShardTransactionCoordinator::execute3PC(CrossShardTransaction& txn) {
                     std::lock_guard<std::mutex> def_lk(deferred_mutex_);
                     deferred_precommits_[txn.transaction_id] = failed_shards;
                 }
-                
-                // Schedule async retry via callback (non-blocking)
-                deferred_precommit_callback_(txn.transaction_id, failed_shards);
+
+                // Schedule async retry via callback (non-blocking).
+                // Contract: callback must not throw. Any exception is treated as
+                // fatal orchestration failure and triggers fail-closed handling.
+                try {
+                    deferred_precommit_callback_(txn.transaction_id, failed_shards);
+                } catch (const std::exception& ex) {
+                    spdlog::error("execute3PC [{}]: deferred PreCommit callback threw: {} - failing closed",
+                                  txn.transaction_id, ex.what());
+                    failClosedAbortAllParticipants("deferred_precommit_callback_threw");
+                    return false;
+                } catch (...) {
+                    spdlog::error("execute3PC [{}]: deferred PreCommit callback threw unknown exception - failing closed",
+                                  txn.transaction_id);
+                    failClosedAbortAllParticipants("deferred_precommit_callback_unknown_exception");
+                    return false;
+                }
                 
                 // Continue to Phase 3 with successful shards
                 // Transaction will be in a "PRE_COMMIT_PENDING" state

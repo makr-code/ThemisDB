@@ -564,13 +564,18 @@ public:
 
     /**
      * @brief Set callback for deferred PreCommit retry (3PC non-blocking mode).
-     * 
-     * When set, failed PreCommit operations will not immediately abort the
-     * transaction. Instead, they will be retried asynchronously via this
-     * callback. This enables non-blocking 3PC behavior for Converged Storage-Inference.
-     * 
-     * @param fn  Callable that will be invoked with the transaction ID and list of
-     *            shards that failed PreCommit, for async retry.
+     *
+     * When set, failed PreCommit operations do not immediately abort the
+     * transaction. Instead, execute3PC() hands the failed shard list to this
+     * callback for deferred retry orchestration.
+     *
+     * **Exception safety / contract**:
+     * - The callback must not throw.
+     * - If it throws, execute3PC() treats this as a fatal orchestration failure
+     *   and fails closed (abort path) instead of silently downgrading behavior.
+     *
+     * @param fn  Callable @c void(txn_id, failed_shards) that schedules retry
+     *            handling for failed PreCommit participants; must not throw.
      */
     void setDeferredPreCommitCallback(DeferredPreCommitFn fn);
 
