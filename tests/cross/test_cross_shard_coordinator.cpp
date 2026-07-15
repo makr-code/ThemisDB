@@ -1240,8 +1240,9 @@ TEST(CrossShard3PCCallbackContractTest, ThrowingDeferredCallbackFailsClosed) {
 
     CrossShardTransactionCoordinator coordinator(cfg, consensus);
     ASSERT_TRUE(coordinator.initialize());
-    ASSERT_TRUE(coordinator.start());
 
+    // Set callbacks before start() so the retry thread is spawned by start()
+    // when it checks deferred_precommit_callback_ under callbacks_mutex_.
     coordinator.setPreCommitCallback(
         [](const std::string& shard_id, const std::string&) -> bool {
             return shard_id == "shard-A";
@@ -1250,6 +1251,8 @@ TEST(CrossShard3PCCallbackContractTest, ThrowingDeferredCallbackFailsClosed) {
         [](const std::string&, const std::vector<std::string>&) {
             throw std::runtime_error("deferred callback failure");
         });
+
+    ASSERT_TRUE(coordinator.start());
 
     const std::string txn_id = "txn-3pc-throwing-deferred";
     ASSERT_TRUE(coordinator.beginTransaction(
