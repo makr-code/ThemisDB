@@ -119,6 +119,7 @@ file(GLOB_RECURSE ALL_TEST_SOURCES
 # Module-local tests under tests/<module> are built via dedicated module
 # CMakeLists; exclude all subdirectory tests from the monolithic aggregate.
 list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*[/\\]tests[/\\][^/\\]+[/\\]test_.*\\.cpp$")
+list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*[/\\]tests[/\\]legacy[/\\].*[/\\]test_.*\\.cpp$")
 
 # Additional GoogleTest sources that intentionally use a non-test_*.cpp naming scheme.
 list(APPEND ALL_TEST_SOURCES
