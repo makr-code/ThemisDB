@@ -54,16 +54,21 @@ if(Git_FOUND OR GIT_FOUND)
         OUTPUT_STRIP_TRAILING_WHITESPACE
     )
 
+    # Use %ct (Unix epoch integer) instead of %cI (ISO 8601 with local timezone offset).
+    # %cI preserves the committer's stored TZ offset (e.g. +05:30), producing a byte string
+    # that differs from the SOURCE_DATE_EPOCH path's "Z"-format for the same instant.
+    # By capturing the raw epoch we can re-format through string(TIMESTAMP) below, which
+    # guarantees a consistent UTC Z-format regardless of committer timezone or git version.
     execute_process(
-        COMMAND "${GIT_EXECUTABLE}" log -1 --format=%cI
+        COMMAND "${GIT_EXECUTABLE}" log -1 --format=%ct
         WORKING_DIRECTORY "${_THEMIS_BUILDINFO_ROOT}"
-        OUTPUT_VARIABLE  _THEMIS_GIT_COMMIT_TIMESTAMP
+        OUTPUT_VARIABLE  _THEMIS_GIT_COMMIT_EPOCH
         ERROR_QUIET
         OUTPUT_STRIP_TRAILING_WHITESPACE
     )
 else()
     set(_THEMIS_GIT_SHA "")
-    set(_THEMIS_GIT_COMMIT_TIMESTAMP "")
+    set(_THEMIS_GIT_COMMIT_EPOCH "")
 endif()
 
 if("${_THEMIS_GIT_SHA}" STREQUAL "")
@@ -91,8 +96,14 @@ if(NOT "${_THEMIS_SOURCE_DATE_EPOCH}" STREQUAL "")
 
     string(TIMESTAMP THEMIS_BUILD_TIMESTAMP "%Y-%m-%dT%H:%M:%SZ" UTC)
     set(_THEMIS_BUILD_TIMESTAMP_SOURCE "SOURCE_DATE_EPOCH=${_THEMIS_SOURCE_DATE_EPOCH}")
-elseif(NOT "${_THEMIS_GIT_COMMIT_TIMESTAMP}" STREQUAL "")
-    set(THEMIS_BUILD_TIMESTAMP "${_THEMIS_GIT_COMMIT_TIMESTAMP}")
+elseif(NOT "${_THEMIS_GIT_COMMIT_EPOCH}" STREQUAL "")
+    # Temporarily expose the git commit epoch as SOURCE_DATE_EPOCH so that
+    # string(TIMESTAMP) produces the same UTC Z-format as the explicit
+    # SOURCE_DATE_EPOCH path above.  This keeps the signing manifest byte-identical
+    # across contributors irrespective of their git version or commit timezone.
+    set(ENV{SOURCE_DATE_EPOCH} "${_THEMIS_GIT_COMMIT_EPOCH}")
+    string(TIMESTAMP THEMIS_BUILD_TIMESTAMP "%Y-%m-%dT%H:%M:%SZ" UTC)
+    unset(ENV{SOURCE_DATE_EPOCH})
     set(_THEMIS_BUILD_TIMESTAMP_SOURCE "git-commit-date")
 elseif(THEMIS_REQUIRE_REPRODUCIBLE_BUILD)
     message(FATAL_ERROR

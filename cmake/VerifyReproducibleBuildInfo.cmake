@@ -16,11 +16,20 @@ include("]=] "${_THEMIS_REPO_ROOT}/cmake/BuildInfo.cmake" [=[")
 ]=])
 
 function(_run_configure build_dir epoch require_repro expect_success)
+    # Optional 5th argument: path to a fake GIT_EXECUTABLE to simulate a no-git
+    # environment.  The fake path must not exist so that execute_process() fails
+    # silently (ERROR_QUIET), leaving _THEMIS_GIT_COMMIT_EPOCH empty.
+    set(_extra_args "")
+    if(ARGC GREATER 4 AND NOT "${ARGV4}" STREQUAL "")
+        list(APPEND _extra_args "-DGIT_EXECUTABLE=${ARGV4}")
+    endif()
+
     set(_command
         "${CMAKE_COMMAND}"
         -S "${OUTPUT_DIR}/src"
         -B "${build_dir}"
-        "-DTHEMIS_REQUIRE_REPRODUCIBLE_BUILD=${require_repro}")
+        "-DTHEMIS_REQUIRE_REPRODUCIBLE_BUILD=${require_repro}"
+        ${_extra_args})
 
     if(NOT "${epoch}" STREQUAL "")
         execute_process(
@@ -54,23 +63,29 @@ endfunction()
 set(_same_epoch_a "${OUTPUT_DIR}/same-epoch-a")
 set(_same_epoch_b "${OUTPUT_DIR}/same-epoch-b")
 set(_different_epoch "${OUTPUT_DIR}/different-epoch")
-set(_strict_missing_source_date_epoch "${OUTPUT_DIR}/strict-missing-source-date-epoch")
+# Strict mode must succeed when git is available: git commit epoch is used as fallback.
+set(_strict_with_git_fallback "${OUTPUT_DIR}/strict-with-git-fallback")
+# Strict mode must fail when neither SOURCE_DATE_EPOCH nor a working git is available.
+set(_strict_no_git_no_epoch "${OUTPUT_DIR}/strict-no-git-no-epoch")
 set(_invalid_source_date_epoch "${OUTPUT_DIR}/invalid-source-date-epoch")
 
 _run_configure("${_same_epoch_a}" "1700000000" ON TRUE)
 _run_configure("${_same_epoch_b}" "1700000000" ON TRUE)
 _run_configure("${_different_epoch}" "1700000100" ON TRUE)
-_run_configure("${_strict_missing_source_date_epoch}" "" ON TRUE)
+_run_configure("${_strict_with_git_fallback}" "" ON TRUE)
+_run_configure("${_strict_no_git_no_epoch}" "" ON FALSE "/nonexistent/git_themisdb_probe")
 _run_configure("${_invalid_source_date_epoch}" "not-a-timestamp" ON FALSE)
 
 set(_header_same_epoch_a "${_same_epoch_a}/include/updates/build_info.h")
 set(_header_same_epoch_b "${_same_epoch_b}/include/updates/build_info.h")
 set(_header_different_epoch "${_different_epoch}/include/updates/build_info.h")
+set(_header_strict_with_git_fallback "${_strict_with_git_fallback}/include/updates/build_info.h")
 
 foreach(_header IN ITEMS
         "${_header_same_epoch_a}"
         "${_header_same_epoch_b}"
-        "${_header_different_epoch}")
+        "${_header_different_epoch}"
+        "${_header_strict_with_git_fallback}")
     if(NOT EXISTS "${_header}")
         message(FATAL_ERROR "Expected generated header missing: ${_header}")
     endif()
