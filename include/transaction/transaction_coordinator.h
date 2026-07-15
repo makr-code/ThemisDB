@@ -34,7 +34,6 @@
 #pragma once
 
 #include "transaction/isolation_level.h"
-#include "transaction/recoverable_two_phase_coordinator.h"
 
 #include <chrono>
 #include <cstddef>
@@ -43,6 +42,46 @@
 #include <vector>
 
 namespace themis::transaction {
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Protocol-agnostic transaction lifecycle state
+// ─────────────────────────────────────────────────────────────────────────────
+
+/**
+ * @brief Canonical protocol-agnostic lifecycle state for any transaction.
+ *
+ * Used as the return type of ITransactionCoordinator::getState() so that
+ * recovery managers and monitoring tools can inspect transaction state
+ * uniformly across all commit protocols (2PC, 3PC, SAGA, Percolator, Calvin).
+ *
+ * Mapping guidance for protocol implementors:
+ * | Internal protocol state      | TxnLifecycleState  |
+ * |------------------------------|--------------------|
+ * | Not yet started / pre-begin  | UNKNOWN            |
+ * | Begin recorded, no prepare   | ACTIVE             |
+ * | Prepare vote in flight       | PREPARING          |
+ * | All votes collected (commit) | PREPARED           |
+ * | Commit decision durable      | COMMITTING         |
+ * | Abort decision durable       | ABORTING           |
+ * | Terminal (commit or abort)   | COMPLETED          |
+ * | Recovery cannot proceed      | FAILED             |
+ * | Not known to coordinator     | UNKNOWN            |
+ *
+ * Single-round protocols (SAGA, Percolator, Calvin) SHOULD use ACTIVE for the
+ * in-flight state and COMPLETED for the terminal state, skipping PREPARING /
+ * PREPARED / COMMITTING / ABORTING unless their internal model maps naturally
+ * to those states.
+ */
+enum class TxnLifecycleState {
+    ACTIVE,      ///< Transaction begun; prepare phase not yet started.
+    PREPARING,   ///< Prepare phase is in progress; votes being collected.
+    PREPARED,    ///< All participant votes collected; no durable final decision yet.
+    COMMITTING,  ///< Durable COMMIT decision written; applying to participants.
+    ABORTING,    ///< Durable ABORT decision written; compensation in progress.
+    COMPLETED,   ///< Terminal: commit or abort fully applied across all participants.
+    FAILED,      ///< Terminal: coordinator cannot make further progress automatically.
+    UNKNOWN      ///< This coordinator has no record of the given transaction ID.
+};
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Commit protocol identifier
@@ -299,7 +338,7 @@ public:
      *                already active; Fail(INTERNAL_ERROR, …) on WAL failure.
      */
     [[nodiscard]] virtual TxnCoordinatorResult begin(
-        const std::string&           txn_id,
+       std::string_view             txn_id,
         const TxnCoordinatorOptions& opts = {}
     ) = 0;
 
@@ -329,7 +368,7 @@ public:
      *                @p txn_id is not known.
      */
     [[nodiscard]] virtual TxnCoordinatorResult prepare(
-        const std::string& txn_id
+       std::string_view txn_id
     ) = 0;
 
     /**
@@ -362,7 +401,7 @@ public:
      *                not known.
      */
     [[nodiscard]] virtual TxnCoordinatorResult commit(
-        const std::string& txn_id
+       std::string_view txn_id
     ) = 0;
 
     /**
@@ -393,7 +432,7 @@ public:
      *                Fail(UNKNOWN_TRANSACTION, …) if @p txn_id is not known.
      */
     [[nodiscard]] virtual TxnCoordinatorResult abort(
-        const std::string& txn_id
+       std::string_view txn_id
     ) = 0;
 
     // ─── State query ──────────────────────────────────────────────────────
@@ -401,25 +440,17 @@ public:
     /**
      * @brief Query the current lifecycle state of a transaction.
      *
-     * The returned state uses the canonical RecoverableTwoPhaseState enum so
-     * that recovery managers can inspect state uniformly across protocols.
-     * SAGA and single-round protocols map their internal states to the
-     * canonical values as follows:
-     *
-     * | Internal state | Canonical state          |
-     * |----------------|--------------------------|
-     * | Not started    | ACTIVE                   |
-     * | In progress    | ACTIVE (or PREPARING)    |
-     * | Commit applied | COMPLETED                |
-     * | Abort applied  | COMPLETED                |
-     * | Partial/stuck  | PREPARED or FAILED       |
+     * Returns a protocol-agnostic TxnLifecycleState so that recovery managers
+     * can inspect transaction state uniformly across all commit protocols.
+     * Implementations SHOULD map their internal state to the canonical values
+     * defined in TxnLifecycleState; see that enum for the mapping guidance.
      *
      * @param txn_id  Transaction to query.
-     * @return        Canonical state, or RecoverableTwoPhaseState::UNKNOWN
+     * @return        Canonical lifecycle state, or TxnLifecycleState::UNKNOWN
      *                when @p txn_id is not known to this coordinator.
      */
-    [[nodiscard]] virtual RecoverableTwoPhaseState getState(
-        const std::string& txn_id
+    [[nodiscard]] virtual TxnLifecycleState getState(
+        std::string_view txn_id
     ) const = 0;
 
     // ─── WAL / Recovery ───────────────────────────────────────────────────

@@ -127,6 +127,12 @@ for (const auto& d : coord->getInDoubtTransactions()) {
 
 ## 4. Lifecycle State Machine
 
+States use the `TxnLifecycleState` enum defined in `transaction_coordinator.h`.
+Single-round protocols (SAGA, Percolator, Calvin) use `ACTIVE` for the in-flight
+state and `COMPLETED` for the terminal state; the intermediate states
+(`PREPARING`, `PREPARED`, `COMMITTING`, `ABORTING`) are only used by voting
+protocols (2PC, 3PC).
+
 ```
                begin()
   [NONE] ──────────────────► [ACTIVE]
@@ -253,20 +259,20 @@ public:
     }
 
     themis::transaction::TxnCoordinatorResult begin(
-        const std::string&, const themis::transaction::TxnCoordinatorOptions&) override {
+        std::string_view, const themis::transaction::TxnCoordinatorOptions&) override {
         return themis::transaction::TxnCoordinatorResult::OK();
     }
-    themis::transaction::TxnCoordinatorResult prepare(const std::string&) override {
+    themis::transaction::TxnCoordinatorResult prepare(std::string_view) override {
         return themis::transaction::TxnCoordinatorResult::OK();
     }
-    themis::transaction::TxnCoordinatorResult commit(const std::string&) override {
+    themis::transaction::TxnCoordinatorResult commit(std::string_view) override {
         return themis::transaction::TxnCoordinatorResult::OK();
     }
-    themis::transaction::TxnCoordinatorResult abort(const std::string&) override {
+    themis::transaction::TxnCoordinatorResult abort(std::string_view) override {
         return themis::transaction::TxnCoordinatorResult::OK();
     }
-    themis::transaction::RecoverableTwoPhaseState getState(const std::string&) const override {
-        return themis::transaction::RecoverableTwoPhaseState::UNKNOWN;
+    themis::transaction::TxnLifecycleState getState(std::string_view) const override {
+        return themis::transaction::TxnLifecycleState::UNKNOWN;
     }
     std::size_t recoverInDoubt() override { return 0; }
     std::vector<themis::transaction::InDoubtTxnDescriptor> getInDoubtTransactions() const override {

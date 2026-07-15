@@ -1,5 +1,5 @@
 /*
- * ThemisDB | File: test_itransaction_coordinator.cpp | Version: 0.0.1
+ * ThemisDB | File: test_itransaction_coordinator.cpp | Version: 0.0.2
  * Coverage: ITransactionCoordinator interface contract tests
  * Status: Production Ready
  */
@@ -7,7 +7,7 @@
 // Tests for the ITransactionCoordinator interface (Issue #5374).
 //
 // This file verifies:
-//   ITC-1   CommitProtocol enum has the five required values
+//   ITC-1   CommitProtocol enum values are all distinct
 //   ITC-2   CoordinatorCapabilities defaults are all false
 //   ITC-3   TxnCoordinatorResult::OK() is success, operator bool() is true
 //   ITC-4   TxnCoordinatorResult::Fail() carries code and message
@@ -46,6 +46,8 @@
 //   ITC-37  ITransactionCoordinator is pure-virtual (no concrete state)
 //   ITC-38  protocolName() returns stable, non-empty string
 //   ITC-39  protocolType() matches protocolName() for all built-in protocols
+//   ITC-40  2PC: commit() before prepare() returns INVALID_STATE
+//   ITC-41  getInDoubtTransactions: commit_decided = true for COMMITTING state
 
 #include "transaction/transaction_coordinator.h"
 
@@ -72,13 +74,17 @@ using namespace std::string_literals;
  *
  * This mock represents a configurable 2PC coordinator for most tests;
  * its protocol flags can be overridden to simulate other protocols.
+ *
+ * @note Not thread-safe — designed for single-threaded unit tests only.
+ *       The ITransactionCoordinator interface requires thread safety;
+ *       production implementations must add synchronisation.
  */
 class StatefulMockCoordinator : public ITransactionCoordinator {
 public:
     /// Construction-time configuration.
     struct Config {
         CommitProtocol     protocol         = CommitProtocol::TWO_PHASE_COMMIT;
-        std::string_view   name             = "2PC-mock";
+        std::string        name             = "2PC-mock";  ///< Owned string — no lifetime hazard.
         CoordinatorCapabilities caps{
             /* supports_prepare_phase  */ true,
             /* supports_pre_commit     */ false,
@@ -110,7 +116,7 @@ public:
     // ─── Lifecycle ────────────────────────────────────────────────────────
 
     TxnCoordinatorResult begin(
-        const std::string& txn_id,
+        std::string_view txn_id,
         const TxnCoordinatorOptions& opts
     ) override {
         if (txn_id.empty()) {
@@ -118,68 +124,79 @@ public:
                 TxnCoordinatorResult::ErrorCode::INVALID_STATE,
                 "txn_id must not be empty");
         }
-        if (states_.count(txn_id)) {
+        const std::string key{txn_id};
+        if (states_.count(key)) {
             return TxnCoordinatorResult::Fail(
                 TxnCoordinatorResult::ErrorCode::INVALID_STATE,
-                "duplicate txn_id: " + txn_id);
+                "duplicate txn_id: " + key);
         }
-        states_[txn_id] = RecoverableTwoPhaseState::ACTIVE;
-        options_[txn_id] = opts;
+        states_[key] = TxnLifecycleState::ACTIVE;
+        options_[key] = opts;
         return TxnCoordinatorResult::OK();
     }
 
-    TxnCoordinatorResult prepare(const std::string& txn_id) override {
-        if (!states_.count(txn_id)) {
+    TxnCoordinatorResult prepare(std::string_view txn_id) override {
+        const std::string key{txn_id};
+        if (!states_.count(key)) {
             return TxnCoordinatorResult::Fail(
                 TxnCoordinatorResult::ErrorCode::UNKNOWN_TRANSACTION,
-                "unknown txn: " + txn_id);
+                "unknown txn: " + key);
         }
-        // Non-voting protocols: no-op
+        // Non-voting protocols: no-op — state must not advance.
         if (!cfg_.caps.supports_prepare_phase) {
             return TxnCoordinatorResult::OK();
         }
         if (cfg_.prepare_returns_abort) {
-            states_[txn_id] = RecoverableTwoPhaseState::ABORTING;
+            states_[key] = TxnLifecycleState::ABORTING;
             return TxnCoordinatorResult::Fail(
                 TxnCoordinatorResult::ErrorCode::PARTICIPANT_ABORT,
                 "participant voted ABORT");
         }
-        states_[txn_id] = RecoverableTwoPhaseState::PREPARED;
+        states_[key] = TxnLifecycleState::PREPARED;
         return TxnCoordinatorResult::OK();
     }
 
-    TxnCoordinatorResult commit(const std::string& txn_id) override {
-        if (!states_.count(txn_id)) {
+    TxnCoordinatorResult commit(std::string_view txn_id) override {
+        const std::string key{txn_id};
+        if (!states_.count(key)) {
             return TxnCoordinatorResult::Fail(
                 TxnCoordinatorResult::ErrorCode::UNKNOWN_TRANSACTION,
-                "unknown txn: " + txn_id);
+                "unknown txn: " + key);
         }
-        states_[txn_id] = RecoverableTwoPhaseState::COMPLETED;
+        // Enforce state precondition for voting protocols.
+        if (cfg_.caps.supports_prepare_phase &&
+            states_[key] != TxnLifecycleState::PREPARED) {
+            return TxnCoordinatorResult::Fail(
+                TxnCoordinatorResult::ErrorCode::INVALID_STATE,
+                "voting protocol: commit() requires PREPARED state");
+        }
+        states_[key] = TxnLifecycleState::COMPLETED;
         return TxnCoordinatorResult::OK();
     }
 
-    TxnCoordinatorResult abort(const std::string& txn_id) override {
-        if (!states_.count(txn_id)) {
+    TxnCoordinatorResult abort(std::string_view txn_id) override {
+        const std::string key{txn_id};
+        if (!states_.count(key)) {
             return TxnCoordinatorResult::Fail(
                 TxnCoordinatorResult::ErrorCode::UNKNOWN_TRANSACTION,
-                "unknown txn: " + txn_id);
+                "unknown txn: " + key);
         }
-        auto& s = states_[txn_id];
-        if (s == RecoverableTwoPhaseState::COMPLETED) {
+        auto& s = states_[key];
+        if (s == TxnLifecycleState::COMPLETED) {
             return TxnCoordinatorResult::Fail(
                 TxnCoordinatorResult::ErrorCode::INVALID_STATE,
                 "txn already completed");
         }
-        s = RecoverableTwoPhaseState::COMPLETED;
+        s = TxnLifecycleState::COMPLETED;
         return TxnCoordinatorResult::OK();
     }
 
     // ─── State query ──────────────────────────────────────────────────────
 
-    RecoverableTwoPhaseState getState(const std::string& txn_id) const override {
-        auto it = states_.find(txn_id);
+    TxnLifecycleState getState(std::string_view txn_id) const override {
+        auto it = states_.find(std::string{txn_id});
         if (it == states_.end()) {
-            return RecoverableTwoPhaseState::UNKNOWN;
+            return TxnLifecycleState::UNKNOWN;
         }
         return it->second;
     }
@@ -189,9 +206,9 @@ public:
     std::size_t recoverInDoubt() override {
         std::size_t resolved = 0;
         for (auto& [id, state] : states_) {
-            if (state == RecoverableTwoPhaseState::PREPARED ||
-                state == RecoverableTwoPhaseState::PREPARING) {
-                state = RecoverableTwoPhaseState::COMPLETED;
+            if (state == TxnLifecycleState::PREPARED ||
+                state == TxnLifecycleState::PREPARING) {
+                state = TxnLifecycleState::COMPLETED;
                 ++resolved;
             }
         }
@@ -201,47 +218,54 @@ public:
     std::vector<InDoubtTxnDescriptor> getInDoubtTransactions() const override {
         std::vector<InDoubtTxnDescriptor> result;
         for (const auto& [id, state] : states_) {
-            if (state != RecoverableTwoPhaseState::COMPLETED &&
-                state != RecoverableTwoPhaseState::FAILED) {
-                InDoubtTxnDescriptor desc;
-                desc.txn_id          = id;
-                desc.prepare_logged  = (state == RecoverableTwoPhaseState::PREPARED);
-                desc.commit_decided  = false;
-                result.push_back(std::move(desc));
+            if (state == TxnLifecycleState::COMPLETED ||
+                state == TxnLifecycleState::FAILED) {
+                continue;
             }
+            InDoubtTxnDescriptor desc;
+            desc.txn_id         = id;
+            desc.prepare_logged = (state == TxnLifecycleState::PREPARED ||
+                                   state == TxnLifecycleState::COMMITTING ||
+                                   state == TxnLifecycleState::ABORTING);
+            desc.commit_decided = (state == TxnLifecycleState::COMMITTING);
+            result.push_back(std::move(desc));
         }
         return result;
     }
 
     // ─── Test helpers ─────────────────────────────────────────────────────
 
-    const TxnCoordinatorOptions& storedOptions(const std::string& txn_id) const {
-        return options_.at(txn_id);
+    const TxnCoordinatorOptions& storedOptions(std::string_view txn_id) const {
+        return options_.at(std::string{txn_id});
     }
 
-    /// Inject an in-doubt transaction directly (simulates coordinator restart).
-    void injectPreparedTxn(const std::string& txn_id) {
-        states_[txn_id] = RecoverableTwoPhaseState::PREPARED;
+    /// Inject an in-doubt transaction directly (simulates coordinator restart after prepare).
+    void injectPreparedTxn(std::string_view txn_id) {
+        states_[std::string{txn_id}] = TxnLifecycleState::PREPARED;
+    }
+
+    /// Inject a transaction in COMMITTING state (durable commit decision written).
+    void injectCommittingTxn(std::string_view txn_id) {
+        states_[std::string{txn_id}] = TxnLifecycleState::COMMITTING;
     }
 
 private:
-    Config                                             cfg_;
-    std::unordered_map<std::string, RecoverableTwoPhaseState> states_;
+    Config                                                    cfg_;
+    std::unordered_map<std::string, TxnLifecycleState>        states_;
     std::unordered_map<std::string, TxnCoordinatorOptions>    options_;
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
-// ITC-1: CommitProtocol enum values
+// ITC-1: CommitProtocol enum values are all distinct
 // ─────────────────────────────────────────────────────────────────────────────
 
 TEST(ITransactionCoordinator, ITC01_CommitProtocolEnumValues) {
-    EXPECT_EQ(static_cast<int>(CommitProtocol::TWO_PHASE_COMMIT),
-              static_cast<int>(CommitProtocol::TWO_PHASE_COMMIT));
     EXPECT_NE(CommitProtocol::TWO_PHASE_COMMIT,   CommitProtocol::THREE_PHASE_COMMIT);
     EXPECT_NE(CommitProtocol::THREE_PHASE_COMMIT, CommitProtocol::SAGA);
     EXPECT_NE(CommitProtocol::SAGA,               CommitProtocol::PERCOLATOR);
     EXPECT_NE(CommitProtocol::PERCOLATOR,         CommitProtocol::CALVIN);
     EXPECT_NE(CommitProtocol::CALVIN,             CommitProtocol::CUSTOM);
+    EXPECT_NE(CommitProtocol::TWO_PHASE_COMMIT,   CommitProtocol::CUSTOM);
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -317,15 +341,15 @@ TEST(ITransactionCoordinator, ITC08_TwoPCCommitLifecycle) {
 
     auto r1 = coord.begin("txn-1");
     EXPECT_TRUE(r1) << r1.message;
-    EXPECT_EQ(coord.getState("txn-1"), RecoverableTwoPhaseState::ACTIVE);
+    EXPECT_EQ(coord.getState("txn-1"), TxnLifecycleState::ACTIVE);
 
     auto r2 = coord.prepare("txn-1");
     EXPECT_TRUE(r2) << r2.message;
-    EXPECT_EQ(coord.getState("txn-1"), RecoverableTwoPhaseState::PREPARED);
+    EXPECT_EQ(coord.getState("txn-1"), TxnLifecycleState::PREPARED);
 
     auto r3 = coord.commit("txn-1");
     EXPECT_TRUE(r3) << r3.message;
-    EXPECT_EQ(coord.getState("txn-1"), RecoverableTwoPhaseState::COMPLETED);
+    EXPECT_EQ(coord.getState("txn-1"), TxnLifecycleState::COMPLETED);
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -340,7 +364,7 @@ TEST(ITransactionCoordinator, ITC09_TwoPCAbortLifecycle) {
 
     auto r = coord.abort("txn-2");
     EXPECT_TRUE(r) << r.message;
-    EXPECT_EQ(coord.getState("txn-2"), RecoverableTwoPhaseState::COMPLETED);
+    EXPECT_EQ(coord.getState("txn-2"), TxnLifecycleState::COMPLETED);
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -376,7 +400,7 @@ TEST(ITransactionCoordinator, ITC11_SagaPrepareIsNoOp) {
     auto r = coord.prepare("saga-1");
     EXPECT_TRUE(r) << "SAGA prepare() must be a no-op returning OK";
     // State must not move to PREPARED for SAGA
-    EXPECT_EQ(coord.getState("saga-1"), RecoverableTwoPhaseState::ACTIVE);
+    EXPECT_EQ(coord.getState("saga-1"), TxnLifecycleState::ACTIVE);
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -426,7 +450,7 @@ TEST(ITransactionCoordinator, ITC13_CalvinCapabilities) {
 
 TEST(ITransactionCoordinator, ITC14_GetStateUnknown) {
     StatefulMockCoordinator coord;
-    EXPECT_EQ(coord.getState("no-such-txn"), RecoverableTwoPhaseState::UNKNOWN);
+    EXPECT_EQ(coord.getState("no-such-txn"), TxnLifecycleState::UNKNOWN);
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -668,14 +692,14 @@ TEST(ITransactionCoordinator, ITC31_RecoverInDoubtCount) {
 TEST(ITransactionCoordinator, ITC32_GetStateActive) {
     StatefulMockCoordinator coord;
     ASSERT_TRUE(coord.begin("state-1"));
-    EXPECT_EQ(coord.getState("state-1"), RecoverableTwoPhaseState::ACTIVE);
+    EXPECT_EQ(coord.getState("state-1"), TxnLifecycleState::ACTIVE);
 }
 
 TEST(ITransactionCoordinator, ITC33_GetStatePrepared) {
     StatefulMockCoordinator coord;
     ASSERT_TRUE(coord.begin("state-2"));
     ASSERT_TRUE(coord.prepare("state-2"));
-    EXPECT_EQ(coord.getState("state-2"), RecoverableTwoPhaseState::PREPARED);
+    EXPECT_EQ(coord.getState("state-2"), TxnLifecycleState::PREPARED);
 }
 
 TEST(ITransactionCoordinator, ITC34_GetStateCompletedAfterCommit) {
@@ -683,14 +707,14 @@ TEST(ITransactionCoordinator, ITC34_GetStateCompletedAfterCommit) {
     ASSERT_TRUE(coord.begin("state-3"));
     ASSERT_TRUE(coord.prepare("state-3"));
     ASSERT_TRUE(coord.commit("state-3"));
-    EXPECT_EQ(coord.getState("state-3"), RecoverableTwoPhaseState::COMPLETED);
+    EXPECT_EQ(coord.getState("state-3"), TxnLifecycleState::COMPLETED);
 }
 
 TEST(ITransactionCoordinator, ITC35_GetStateCompletedAfterAbort) {
     StatefulMockCoordinator coord;
     ASSERT_TRUE(coord.begin("state-4"));
     ASSERT_TRUE(coord.abort("state-4"));
-    EXPECT_EQ(coord.getState("state-4"), RecoverableTwoPhaseState::COMPLETED);
+    EXPECT_EQ(coord.getState("state-4"), TxnLifecycleState::COMPLETED);
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -747,4 +771,48 @@ TEST(ITransactionCoordinator, ITC39_ProtocolTypeMatchesName) {
         EXPECT_EQ(coord.protocolType(), c.protocol);
         EXPECT_EQ(coord.protocolName(), c.expected_name);
     }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// ITC-40: 2PC commit() before prepare() returns INVALID_STATE
+// ─────────────────────────────────────────────────────────────────────────────
+
+TEST(ITransactionCoordinator, ITC40_TwoPCCommitBeforePrepareInvalidState) {
+    StatefulMockCoordinator coord; // default is 2PC (supports_prepare_phase = true)
+
+    ASSERT_TRUE(coord.begin("early-commit"));
+    // State is ACTIVE; commit() without prior prepare() must be rejected.
+    auto r = coord.commit("early-commit");
+    EXPECT_FALSE(r);
+    EXPECT_EQ(r.code, TxnCoordinatorResult::ErrorCode::INVALID_STATE)
+        << "2PC commit() before prepare() must return INVALID_STATE; msg: " << r.message;
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// ITC-41: getInDoubtTransactions() sets commit_decided = true for COMMITTING txns
+// ─────────────────────────────────────────────────────────────────────────────
+
+TEST(ITransactionCoordinator, ITC41_CommitDecidedTrueForCommitting) {
+    StatefulMockCoordinator coord;
+    coord.injectPreparedTxn("indoubt-prepared");   // prepare_logged=true, commit_decided=false
+    coord.injectCommittingTxn("indoubt-committing"); // prepare_logged=true, commit_decided=true
+
+    auto descs = coord.getInDoubtTransactions();
+    ASSERT_EQ(descs.size(), 2u);
+
+    bool found_prepared   = false;
+    bool found_committing = false;
+    for (const auto& d : descs) {
+        if (d.txn_id == "indoubt-prepared") {
+            EXPECT_TRUE(d.prepare_logged);
+            EXPECT_FALSE(d.commit_decided) << "PREPARED: commit_decided must be false";
+            found_prepared = true;
+        } else if (d.txn_id == "indoubt-committing") {
+            EXPECT_TRUE(d.prepare_logged);
+            EXPECT_TRUE(d.commit_decided) << "COMMITTING: commit_decided must be true";
+            found_committing = true;
+        }
+    }
+    EXPECT_TRUE(found_prepared)   << "Expected descriptor for indoubt-prepared";
+    EXPECT_TRUE(found_committing) << "Expected descriptor for indoubt-committing";
 }
