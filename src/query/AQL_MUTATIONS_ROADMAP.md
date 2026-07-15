@@ -124,11 +124,11 @@ Result Summary (affected_count, inserted_ids, errors)
 #### 1.1 Tokenizer Enhancement
 
 **Tasks:**
-- [ ] Add mutation keywords to TokenType enum (Target: Q3 Week 1)
+- [x] Add mutation keywords to TokenType enum (Target: Q3 Week 1)
   - INSERT, UPDATE, DELETE, REMOVE, REPLACE, UPSERT
   - INTO, SET, WHERE, VALUES, ON (conflict resolution)
   
-- [ ] Update Tokenizer::readIdentifierOrKeyword() (Target: Q3 Week 1)
+- [x] Update Tokenizer::readIdentifierOrKeyword() (Target: Q3 Week 1)
   - Recognize "insert", "update", "delete", "remove", "replace", "upsert" as keywords
   - Add "into", "set", "values", "on" as contextual keywords
 
@@ -144,7 +144,7 @@ INSERT INTO users VALUES {name: "Alice", age: 30}
 #### 1.2 AST Node Definitions
 
 **Tasks:**
-- [ ] Define MutationNode base structure in aql_parser.h (Target: Q3 Week 1)
+- [x] Define MutationNode base structure in aql_parser.h (Target: Q3 Week 1)
   ```cpp
   struct MutationNode : public ASTNode {
       virtual ~MutationNode() = default;
@@ -153,7 +153,7 @@ INSERT INTO users VALUES {name: "Alice", age: 30}
   };
   ```
 
-- [ ] Define specific mutation node types (Target: Q3 Week 1-2)
+- [x] Define specific mutation node types (Target: Q3 Week 1-2)
   - `InsertNode`: collection, documents[], return_new (bool)
   - `UpdateNode`: collection, filter, update_spec, return_new/old, limit (optional)
   - `RemoveNode`: collection, filter, return_removed (bool), limit (optional)
@@ -181,29 +181,29 @@ INSERT INTO users VALUES {name: "Alice", age: 30}
 #### 1.3 Parser Methods
 
 **Tasks:**
-- [ ] Add Query::parseMutation() entry point (Target: Q3 Week 2)
+- [x] Add Query::parseMutation() entry point (Target: Q3 Week 2)
   - Detect leading mutation keyword (INSERT/UPDATE/etc.)
   - Route to appropriate parseXxx() method
 
-- [ ] Implement parseInsert() (Target: Q3 Week 2)
+- [x] Implement parseInsert() (Target: Q3 Week 2)
   - Syntax: `INSERT INTO collection VALUES {...} | doc_expr [RETURN NEW|OLD]`
   - Validate collection name
   - Parse document values (object literals or expressions)
 
-- [ ] Implement parseUpdate() (Target: Q3 Week 2)
+- [x] Implement parseUpdate() (Target: Q3 Week 2)
   - Syntax: `UPDATE collection SET key = value [, ...] WHERE filter [LIMIT count] [RETURN NEW|OLD]`
   - Parse SET clauses (field assignments)
   - Parse WHERE predicate
 
-- [ ] Implement parseRemove() (Target: Q3 Week 2)
+- [x] Implement parseRemove() (Target: Q3 Week 2)
   - Syntax: `REMOVE doc_expr | FOR var IN collection FILTER... REMOVE var [RETURN removed] [LIMIT count]`
   - Support both expression-based and query-based removal
 
-- [ ] Implement parseReplace() (Target: Q3 Week 2)
+- [x] Implement parseReplace() (Target: Q3 Week 2)
   - Syntax: `REPLACE collection WITH {...} [RETURN NEW|OLD]`
   - Fully replace document matching key
 
-- [ ] Implement parseUpsert() (Target: Q3 Week 2)
+- [x] Implement parseUpsert() (Target: Q3 Week 2)
   - Syntax: `UPSERT {_key: value} INSERT {...} UPDATE {...} [RETURN NEW|OLD]`
   - Conditional insert-or-update semantics
 
@@ -212,7 +212,7 @@ INSERT INTO users VALUES {name: "Alice", age: 30}
 #### 1.4 Parser Integration Tests
 
 **Tasks:**
-- [ ] Create test_aql_mutations_parser.cpp (Target: Q3 Week 2)
+- [x] Create test_aql_mutations_parser.cpp (50 tests) (Target: Q3 Week 2)
   - Test parsing of each mutation type
   - Validate AST structure
   - Test error cases (invalid syntax, malformed predicates)
@@ -245,7 +245,7 @@ TEST(AQLMutationParser, ParseInsertBasic) {
 #### 2.1 Safety Validator Enhancement
 
 **Tasks:**
-- [ ] Add `enforce_mutations_allowed` flag to AqlSafetyValidator (Target: Q3 Week 2)
+- [x] Add ValidationMode::AllowMutations to AqlSafetyValidator (Target: Q3 Week 2)
   - If false: current behavior (block all mutations)
   - If true: allow mutations, but still check for injection patterns
 

@@ -49,7 +49,14 @@ enum class ASTNodeType {
     LetNode,            // LET variable = expression
     CollectNode,        // COLLECT ... AGGREGATE ... (Phase 2)
     WithNode,           // WITH cteName AS subquery (Phase 3)
-    
+
+    // Mutation Nodes (EPIC-004 Phase 1)
+    Insert,             // INSERT {doc} INTO collection
+    Update,             // UPDATE collection SET / UPDATE {search} WITH {update} IN collection
+    Remove,             // REMOVE {doc} IN collection / DELETE FROM collection WHERE ...
+    Replace,            // REPLACE {search} WITH {replacement} IN collection
+    Upsert,             // UPSERT {search} INSERT {doc} UPDATE {upd} IN collection
+
     // Expressions
     BinaryOp,           // ==, !=, >, <, >=, <=, AND, OR, +, -, *, /
     UnaryOp,            // NOT, -, +
@@ -286,6 +293,168 @@ struct AllExpr : Expression {
             {"array", arrayExpr ? arrayExpr->toJSON() : nlohmann::json()},
             {"condition", condition ? condition->toJSON() : nlohmann::json()}
         };
+    }
+};
+
+// ============================================================================
+// Mutation AST Nodes (EPIC-004 Phase 1)
+// ============================================================================
+
+/**
+ * @brief Abstract base for all DML mutation AST nodes.
+ *
+ * Returned by AQLParser::parseMutation(). Each concrete subtype carries the
+ * collection name, parsed operand expressions, and optional RETURN clause
+ * flags.  No execution logic lives here — Phase 1 is parser-only.
+ */
+struct MutationNode {
+    virtual ~MutationNode() = default;
+
+    /// @brief ASTNodeType discriminator for safe downcasting.
+    virtual ASTNodeType getType() const = 0;
+
+    /// @brief Serialise the node to a JSON representation for debugging/testing.
+    virtual nlohmann::json toJSON() const = 0;
+};
+
+/**
+ * @brief SET clause for UPDATE statements: `field = expression`.
+ */
+struct SetClause {
+    std::string field;                         ///< Target field path (may contain dots)
+    std::shared_ptr<Expression> value;         ///< Right-hand side expression
+
+    nlohmann::json toJSON() const {
+        return {{"field", field},
+                {"value", value ? value->toJSON() : nlohmann::json()}};
+    }
+};
+
+/**
+ * @brief AST node for INSERT mutations.
+ *
+ * Covers both AQL-native (`INSERT doc INTO collection`) and SQL-style
+ * (`INSERT INTO collection VALUES {doc1}, {doc2}`).
+ */
+struct InsertNode : MutationNode {
+    std::string collection;                                ///< Target collection
+    std::vector<std::shared_ptr<Expression>> documents;   ///< One or more document expressions
+    bool return_new = false;                               ///< RETURN NEW requested
+
+    ASTNodeType getType() const override { return ASTNodeType::Insert; }
+    nlohmann::json toJSON() const override {
+        nlohmann::json docs = nlohmann::json::array();
+        for (const auto& d : documents) docs.push_back(d ? d->toJSON() : nlohmann::json());
+        return {{"type", "INSERT"},
+                {"collection", collection},
+                {"documents", docs},
+                {"return_new", return_new}};
+    }
+};
+
+/**
+ * @brief AST node for UPDATE mutations.
+ *
+ * Covers both SQL-style (`UPDATE collection SET k=v WHERE cond`) and
+ * AQL-native (`UPDATE {search} WITH {update} IN collection`).
+ */
+struct UpdateNode : MutationNode {
+    std::string collection;                    ///< Target collection
+    std::shared_ptr<Expression> filter;        ///< WHERE / FILTER condition (may be nullptr)
+    std::vector<SetClause> set_clauses;        ///< SET k=v pairs (SQL-style)
+    std::shared_ptr<Expression> search_expr;  ///< AQL-native search expression
+    std::shared_ptr<Expression> update_expr;  ///< AQL-native WITH expression
+    bool return_new = false;                   ///< RETURN NEW
+    bool return_old = false;                   ///< RETURN OLD
+    std::optional<int64_t> limit;              ///< Optional LIMIT count
+
+    ASTNodeType getType() const override { return ASTNodeType::Update; }
+    nlohmann::json toJSON() const override {
+        nlohmann::json j{{"type", "UPDATE"}, {"collection", collection}};
+        if (filter) j["filter"] = filter->toJSON();
+        if (!set_clauses.empty()) {
+            nlohmann::json sc = nlohmann::json::array();
+            for (const auto& c : set_clauses) sc.push_back(c.toJSON());
+            j["set_clauses"] = sc;
+        }
+        if (search_expr) j["search_expr"] = search_expr->toJSON();
+        if (update_expr)  j["update_expr"]  = update_expr->toJSON();
+        j["return_new"] = return_new;
+        j["return_old"] = return_old;
+        if (limit.has_value()) j["limit"] = *limit;
+        return j;
+    }
+};
+
+/**
+ * @brief AST node for REMOVE / DELETE mutations.
+ *
+ * Covers `REMOVE doc IN collection` (AQL-native) and
+ * `DELETE FROM collection WHERE condition` (SQL-style).
+ */
+struct RemoveNode : MutationNode {
+    std::string collection;                    ///< Target collection
+    std::shared_ptr<Expression> filter;        ///< WHERE / FILTER condition (may be nullptr)
+    std::shared_ptr<Expression> doc_expr;      ///< AQL-native document expression
+    bool return_removed = false;               ///< RETURN OLD (removed document)
+    std::optional<int64_t> limit;              ///< Optional LIMIT count
+
+    ASTNodeType getType() const override { return ASTNodeType::Remove; }
+    nlohmann::json toJSON() const override {
+        nlohmann::json j{{"type", "REMOVE"}, {"collection", collection}};
+        if (filter)   j["filter"]   = filter->toJSON();
+        if (doc_expr) j["doc_expr"] = doc_expr->toJSON();
+        j["return_removed"] = return_removed;
+        if (limit.has_value()) j["limit"] = *limit;
+        return j;
+    }
+};
+
+/**
+ * @brief AST node for REPLACE mutations.
+ *
+ * Syntax: `REPLACE search_doc WITH replacement IN collection [RETURN NEW|OLD]`.
+ */
+struct ReplaceNode : MutationNode {
+    std::string collection;                    ///< Target collection
+    std::shared_ptr<Expression> search_expr;  ///< Search expression
+    std::shared_ptr<Expression> replacement;   ///< Replacement document expression
+    bool return_new = false;                   ///< RETURN NEW
+    bool return_old = false;                   ///< RETURN OLD
+
+    ASTNodeType getType() const override { return ASTNodeType::Replace; }
+    nlohmann::json toJSON() const override {
+        nlohmann::json j{{"type", "REPLACE"}, {"collection", collection}};
+        if (search_expr)  j["search_expr"]  = search_expr->toJSON();
+        if (replacement)   j["replacement"]   = replacement->toJSON();
+        j["return_new"] = return_new;
+        j["return_old"] = return_old;
+        return j;
+    }
+};
+
+/**
+ * @brief AST node for UPSERT mutations.
+ *
+ * Syntax: `UPSERT search_doc INSERT insert_doc UPDATE update_doc IN collection [RETURN NEW|OLD]`.
+ */
+struct UpsertNode : MutationNode {
+    std::string collection;                    ///< Target collection
+    std::shared_ptr<Expression> search_expr;  ///< Search / match expression
+    std::shared_ptr<Expression> insert_doc;   ///< Document to insert when no match
+    std::shared_ptr<Expression> update_doc;   ///< Update expression when match found
+    bool return_new = false;                   ///< RETURN NEW
+    bool return_old = false;                   ///< RETURN OLD
+
+    ASTNodeType getType() const override { return ASTNodeType::Upsert; }
+    nlohmann::json toJSON() const override {
+        nlohmann::json j{{"type", "UPSERT"}, {"collection", collection}};
+        if (search_expr) j["search_expr"] = search_expr->toJSON();
+        if (insert_doc)  j["insert_doc"]  = insert_doc->toJSON();
+        if (update_doc)  j["update_doc"]  = update_doc->toJSON();
+        j["return_new"] = return_new;
+        j["return_old"] = return_old;
+        return j;
     }
 };
 
@@ -774,6 +943,46 @@ public:
      * @return       Parsed ContinuousQueryDDL node, or an Error.
      */
     [[nodiscard]] Result<ContinuousQueryDDL> parseDDL(const std::string& input);
+
+    /**
+     * @brief Parse a DML mutation statement into a MutationNode AST.
+     *
+     * Recognises the following surface syntax (case-insensitive keywords):
+     *
+     *   AQL-native INSERT:
+     *     INSERT doc_expr INTO collection [RETURN NEW]
+     *
+     *   SQL-style INSERT:
+     *     INSERT INTO collection VALUES {doc1}[, {doc2}...] [RETURN NEW]
+     *
+     *   SQL-style UPDATE:
+     *     UPDATE collection SET field=value [, ...] [WHERE condition]
+     *        [LIMIT n] [RETURN NEW|OLD]
+     *
+     *   AQL-native UPDATE:
+     *     UPDATE search_expr WITH update_expr IN collection [RETURN NEW|OLD]
+     *
+     *   REMOVE (AQL-native):
+     *     REMOVE doc_expr IN collection [RETURN OLD]
+     *
+     *   DELETE (SQL-style alias for REMOVE):
+     *     DELETE FROM collection [WHERE condition] [LIMIT n] [RETURN OLD]
+     *
+     *   REPLACE:
+     *     REPLACE search_expr WITH replacement IN collection [RETURN NEW|OLD]
+     *
+     *   UPSERT:
+     *     UPSERT search_expr INSERT insert_doc UPDATE update_doc IN collection
+     *       [RETURN NEW|OLD]
+     *
+     * @note Phase 1 is parser-only — the returned node carries no execution logic.
+     *       Validation that the collection exists or that fields are type-correct
+     *       belongs to the executor layer (Phase 3+).
+     *
+     * @param input  The DML statement string (case-insensitive keywords).
+     * @return       Parsed MutationNode, or a parse error.
+     */
+    [[nodiscard]] Result<std::shared_ptr<MutationNode>> parseMutation(const std::string& input);
 
 private:
     // Helper methods (implemented in aql_parser.cpp)

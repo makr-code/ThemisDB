@@ -503,7 +503,7 @@ Audit method:
 
 | Feature | Duration | Roadmap | Status | Remarks |
 |---------|----------|---------|--------|---------|
-| **Mutations (INSERT/UPDATE/DELETE/REPLACE/REMOVE/UPSERT)** | 12–15 weeks | [src/query/AQL_MUTATIONS_ROADMAP.md](src/query/AQL_MUTATIONS_ROADMAP.md) | 📋 Ready | 5-phase plan: Parser → Safety → Executor → Transactions → Testing |
+| **Mutations (INSERT/UPDATE/DELETE/REPLACE/REMOVE/UPSERT)** | 12–15 weeks | [src/query/AQL_MUTATIONS_ROADMAP.md](src/query/AQL_MUTATIONS_ROADMAP.md) | 🟡 Phase 1 Complete | Phase 1 (Parser + AST + Tokenizer + Safety) done 2026-07-15; Phases 2-5 pending |
 | **DDL (CREATE/DROP/ALTER COLLECTION/INDEX/VIEW)** | 4–6 weeks | [Pending] | 🔵 Planned | Team B assignment; depends on Phase 1 Mutations parser |
 | **Geospatial (ST_* parser integration)** | 2–3 weeks | [Pending] | 🔵 Planned | 70% existing functions; focus on parser integration (**-2 weeks vs. original estimate**) |
 | **FTS (Full-text search enhancement)** | 2–3 weeks | [Pending] | 🔵 Planned | Team C assignment; parallel with Geospatial |
@@ -543,8 +543,8 @@ Audit method:
   - [ ] Mark `docs/de/aql/AQL_COMPLETE_LANGUAGE_SCOPE.md` as v1.3.1 proposal
   - [ ] Add v2.0.0 disclaimers to `docs/de/aql/aql_syntax.md` (Geospatial LET-only for v1.x)
   - [ ] Create `docs/de/aql/AQL_2_0_0_ROADMAP_INDEX.md` linking to implementation roadmaps
-- [ ] Feature Branches:
-  - [ ] `feature/aql-mutations-phase1` (Tokenizer + AST)
+- [x] Feature Branches:
+  - [x] `feature/aql-mutations-phase1` (Tokenizer + AST) — **Delivered 2026-07-15**: 11 DML tokens, MutationNode hierarchy (InsertNode/UpdateNode/RemoveNode/ReplaceNode/UpsertNode), AQLParser::parseMutation(), AqlSafetyValidator::ValidationMode, 50+ tests
   - [ ] `feature/aql-geospatial-parser` (Parser integration)
   - [ ] `feature/aql-fts-enhancement` (Query optimizer)
 

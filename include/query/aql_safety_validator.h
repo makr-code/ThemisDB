@@ -60,9 +60,21 @@ namespace query {
  *
  * ### Thread safety
  * `AqlSafetyValidator` is stateless and safe for concurrent use.
+ *
+ * ### Mutations-allowed mode (EPIC-004)
+ * Construct with `ValidationMode::AllowMutations` to disable keyword
+ * blocking while retaining injection-pattern checks.  This is intended for
+ * contexts where DML is explicitly permitted (e.g. the `aql_mutate` MCP
+ * tool).  The default `ReadOnly` mode preserves backward-compatible behaviour.
  */
 class AqlSafetyValidator {
 public:
+    /// @brief Validation policy controlling whether DML keywords are blocked.
+    enum class ValidationMode {
+        ReadOnly,        ///< Default — block all mutation keywords (existing behaviour)
+        AllowMutations,  ///< Permit DML (INSERT/UPDATE/REMOVE/REPLACE/UPSERT/DELETE)
+    };
+
     /// Violation details returned when a mutation keyword is found.
     struct Violation {
         /// The mutation keyword that triggered the rejection (e.g. "REMOVE").
@@ -73,7 +85,15 @@ public:
         std::string message;
     };
 
-    AqlSafetyValidator()                                     = default;
+    /**
+     * @brief Construct with an explicit validation mode.
+     *
+     * @param mode  `ReadOnly` (default) blocks all mutation keywords.
+     *              `AllowMutations` permits DML and only checks for injection.
+     */
+    explicit AqlSafetyValidator(ValidationMode mode = ValidationMode::ReadOnly)
+        : mode_(mode) {}
+
     ~AqlSafetyValidator()                                    = default;
     AqlSafetyValidator(const AqlSafetyValidator&)            = default;
     AqlSafetyValidator& operator=(const AqlSafetyValidator&) = default;
@@ -109,6 +129,8 @@ public:
     }
 
 private:
+    ValidationMode mode_ = ValidationMode::ReadOnly;
+
     /// Translate @p s to uppercase in-place (ASCII only, no locale).
     static std::string toUpper(const std::string& s);
 

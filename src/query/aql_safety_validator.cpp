@@ -86,6 +86,13 @@ std::size_t AqlSafetyValidator::findKeyword(const std::string& haystack,
 
 std::optional<AqlSafetyValidator::Violation>
 AqlSafetyValidator::validate(const std::string& aql_query) const {
+    // When mutations are explicitly allowed, skip the keyword-blocking scan.
+    // Injection-pattern checks (malformed tokens, embedded NULs) that are added
+    // in future phases should still run here regardless of mode.
+    if (mode_ == ValidationMode::AllowMutations) {
+        return std::nullopt;
+    }
+
     const std::string upper = toUpper(aql_query);
 
     // --- Single-keyword scan ------------------------------------------------
