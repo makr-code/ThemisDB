@@ -753,6 +753,8 @@ class TestPhase7to10Integration(unittest.TestCase):
             result = s.scan_files([md_file])
             self.assertIsInstance(result, list,
                                   f"{Scanner.__name__} must return list for .md input")
+            self.assertEqual(result, [],
+                             f"{Scanner.__name__} must produce no gaps for .md input")
 
     def test_each_scanner_instantiates_with_default_root(self):
         """Instantiation with default repo_root='.' must not raise."""

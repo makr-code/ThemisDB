@@ -34,7 +34,9 @@
 #include "tensor/tensor_summary_types.h"
 #include "index/ann_frontdoor.h"
 
+#include <algorithm>
 #include <memory>
+#include <unordered_set>
 #include <vector>
 
 namespace themis {
@@ -171,10 +173,13 @@ TEST_F(FederatedTensorSummariesTest, FS_04_ShardMetadataInFederated) {
     FederatedTensorSummary federated = mid_layer_->summarizeFederatedShards(context);
     
     // Verify: Each shard summary is marked as federated
-    EXPECT_GE(federated.shard_summaries.size(), 0);
+    EXPECT_EQ(federated.shard_summaries.size(), context.shard_scope_ids.size());
     for (const auto& summary : federated.shard_summaries) {
         EXPECT_TRUE(summary.federated);
-        EXPECT_GE(summary.participating_shards, 1);
+        EXPECT_EQ(summary.participating_shards, context.shard_scope_ids.size());
+        EXPECT_TRUE(std::find(context.shard_scope_ids.begin(),
+                              context.shard_scope_ids.end(),
+                              summary.scope_key) != context.shard_scope_ids.end());
     }
 }
 
@@ -206,36 +211,47 @@ TEST_F(FederatedTensorSummariesTest, FS_05_SummaryFirstRoutingContext) {
 // ============================================================================
 
 TEST_F(FederatedTensorSummariesTest, FS_06_MergingShardResults) {
-    // Setup: Create multiple shard summaries with overlapping adapters
-    std::vector<TensorLayerSummary> shard_summaries;
-    
-    // Shard 1: adapters A, B, C
-    TensorLayerSummary s1;
-    s1.scope_key = "shard_0";
-    s1.layer_kind = TensorLayerKind::ShardSummary;
-    s1.similar_adapters.push_back(SimilarityResult{"adapter_a", 0.9f, "shard_0"});
-    s1.similar_adapters.push_back(SimilarityResult{"adapter_b", 0.8f, "shard_0"});
-    s1.similar_adapters.push_back(SimilarityResult{"adapter_c", 0.7f, "shard_0"});
-    shard_summaries.push_back(s1);
-    
-    // Shard 2: adapters A, B, D (some overlap)
-    TensorLayerSummary s2;
-    s2.scope_key = "shard_1";
-    s2.layer_kind = TensorLayerKind::ShardSummary;
-    s2.similar_adapters.push_back(SimilarityResult{"adapter_a", 0.85f, "shard_1"});
-    s2.similar_adapters.push_back(SimilarityResult{"adapter_b", 0.75f, "shard_1"});
-    s2.similar_adapters.push_back(SimilarityResult{"adapter_d", 0.6f, "shard_1"});
-    shard_summaries.push_back(s2);
-    
-    // Verify: The merge function should deduplicate
-    // Note: mergeSimilarityResults is a private method, so we test through
-    // the public FederatedTensorSummary interface
-    std::vector<TensorLayerContext> contexts;
-    for (const auto& s : shard_summaries) {
-        TensorLayerContext ctx;
-        ctx.top_k = 10;
-        contexts.push_back(ctx);
+    // Setup: Force shard summaries to return overlapping candidates through production path
+    struct ExactSimilarityReset {
+        ~ExactSimilarityReset() { AdapterRepository::clearExactSimilarityFn(); }
+    } exact_similarity_reset;
+
+    AdapterRepository::setExactSimilarityFn(
+        [](const std::string&, std::size_t k, const std::shared_ptr<storage::ITensorStorageBackend>&)
+            -> std::vector<SimilarityResult> {
+            std::vector<SimilarityResult> results{
+                SimilarityResult{"adapter_a", "research", "model_a", 0.92f},
+                SimilarityResult{"adapter_b", "research", "model_b", 0.85f},
+                SimilarityResult{"adapter_c", "research", "model_c", 0.81f},
+                SimilarityResult{"adapter_d", "research", "model_d", 0.73f},
+            };
+            if (results.size() > k) {
+                results.resize(k);
+            }
+            return results;
+        });
+
+    TensorLayerContext context;
+    context.tenant_id = "tenant1";
+    context.domain = "research";
+    context.base_model_id = "model_a";
+    context.shard_scope_ids = {"shard_0", "shard_1"};
+    context.shard_aware = true;
+    context.top_k = 3;
+
+    // Execute: federated summary + merge through TensorMidLayer
+    FederatedTensorSummary federated = mid_layer_->summarizeFederatedShards(context);
+
+    // Verify: shard-level summaries exist and merged output is deduplicated + top-k bounded
+    EXPECT_EQ(federated.shard_summaries.size(), context.shard_scope_ids.size());
+    EXPECT_EQ(federated.merged_similar_adapters.size(), context.top_k);
+    std::unordered_set<std::string> unique_adapter_keys;
+    for (const auto& candidate : federated.merged_similar_adapters) {
+        unique_adapter_keys.insert(candidate.adapter_key);
     }
+    EXPECT_EQ(unique_adapter_keys.size(), federated.merged_similar_adapters.size());
+    EXPECT_GE(federated.merged_similar_adapters[0].score, federated.merged_similar_adapters[1].score);
+    EXPECT_GE(federated.merged_similar_adapters[1].score, federated.merged_similar_adapters[2].score);
 }
 
 // ============================================================================
@@ -339,7 +355,26 @@ TEST_F(FederatedTensorSummariesTest, FS_11_AggregatedCandidateCounts) {
     context.base_model_id = "m1";
     context.shard_scope_ids = {"s1", "s2", "s3"};
     context.shard_aware = true;
-    context.top_k = 5;
+    context.top_k = 4;
+
+    struct ExactSimilarityReset {
+        ~ExactSimilarityReset() { AdapterRepository::clearExactSimilarityFn(); }
+    } exact_similarity_reset;
+    AdapterRepository::setExactSimilarityFn(
+        [](const std::string&, std::size_t k, const std::shared_ptr<storage::ITensorStorageBackend>&)
+            -> std::vector<SimilarityResult> {
+            std::vector<SimilarityResult> results{
+                SimilarityResult{"adapter_a", "d1", "m1", 0.94f},
+                SimilarityResult{"adapter_b", "d1", "m2", 0.89f},
+                SimilarityResult{"adapter_c", "d1", "m3", 0.83f},
+                SimilarityResult{"adapter_d", "d1", "m4", 0.79f},
+                SimilarityResult{"adapter_e", "d1", "m5", 0.70f},
+            };
+            if (results.size() > k) {
+                results.resize(k);
+            }
+            return results;
+        });
     
     // Execute: Get federated summary
     FederatedTensorSummary federated = mid_layer_->summarizeFederatedShards(context);
@@ -353,8 +388,10 @@ TEST_F(FederatedTensorSummariesTest, FS_11_AggregatedCandidateCounts) {
         total_candidates += s.candidate_count;
     }
     
-    // At minimum, we should have some candidates
-    EXPECT_GE(federated.merged_similar_adapters.size(), 0);
+    // Validate aggregation and top-k contract
+    EXPECT_EQ(total_candidates, context.top_k * context.shard_scope_ids.size());
+    EXPECT_LE(federated.merged_similar_adapters.size(), context.top_k);
+    EXPECT_LE(federated.merged_similar_adapters.size(), total_candidates);
 }
 
 // ============================================================================

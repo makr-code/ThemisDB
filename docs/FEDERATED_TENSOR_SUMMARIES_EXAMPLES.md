@@ -204,6 +204,10 @@ private:
             if (s.shard_healthy) healthy_count++;
         }
         
+        if (federated.shard_summaries.empty()) {
+            return 0.0f;
+        }
+
         float shard_health_score = healthy_count / federated.shard_summaries.size();
         float result_diversity = 
             std::min(1.0f, federated.merged_similar_adapters.size() / 20.0f);
