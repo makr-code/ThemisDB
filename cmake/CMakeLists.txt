@@ -5150,6 +5150,14 @@ if(THEMIS_BUILD_ENTERPRISE_PLUGINS)
                          ${CMAKE_CURRENT_BINARY_DIR}/src/tensor)
     endif()
 
+    # EPIC 2 Evaluation module — benchmark_matrix and evaluation contracts
+    # Issue #5438: EPIC 2.2 benchmark matrix implementation
+    # -------------------------------------------------------------------------
+    if(EXISTS "${THEMIS_ROOT_DIR}/src/evaluation/CMakeLists.txt")
+        add_subdirectory(${THEMIS_ROOT_DIR}/src/evaluation
+                         ${CMAKE_CURRENT_BINARY_DIR}/src/evaluation)
+    endif()
+
     # Non-compiled plugin manifests / legacy orchestration: plugins/
     if(EXISTS "${THEMIS_ROOT_DIR}/plugins/CMakeLists.txt")
         add_subdirectory(${THEMIS_ROOT_DIR}/plugins

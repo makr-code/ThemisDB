@@ -1,17 +1,39 @@
-# EPIC 2 Evaluation contract tests — placeholder only.
-# Test source files (*.cc) are out of scope for this PR and will be added separately.
+# EPIC 2 Evaluation contract tests.
+# Issue #5438: benchmark_matrix_test (EPIC 2.2) implemented.
 
-# Test sources will be listed here with the implementation PR:
-# set(EPIC2_EVALUATION_TESTS ...)
+# ============================================================================
+# benchmark_matrix_test
+# ============================================================================
 
-# Wired when GTest and the evaluation scaffold sources are available.
-# Uncomment and adapt the block below once the parent CMakeLists adds
-# the evaluation library target (epic2_evaluation_lib).
-#
-# foreach(test_src IN LISTS EPIC2_EVALUATION_TESTS)
-#     get_filename_component(test_name ${test_src} NAME_WE)
-#     add_executable(${test_name} ${test_src})
-#     target_link_libraries(${test_name} PRIVATE epic2_evaluation_lib GTest::gtest_main)
-#     add_test(NAME ${test_name} COMMAND ${test_name})
-# endforeach()
+if(NOT TARGET benchmark_matrix_test)
+    find_package(GTest QUIET)
+    if(GTest_FOUND AND TARGET themis_evaluation)
+        add_executable(benchmark_matrix_test
+            benchmark_matrix_test.cc
+        )
+
+        target_include_directories(benchmark_matrix_test PRIVATE
+            ${CMAKE_CURRENT_SOURCE_DIR}/../../src/evaluation/include
+        )
+
+        target_link_libraries(benchmark_matrix_test PRIVATE
+            themis_evaluation
+            GTest::gtest_main
+        )
+
+        target_compile_features(benchmark_matrix_test PRIVATE cxx_std_17)
+
+        add_test(
+            NAME benchmark_matrix_test
+            COMMAND benchmark_matrix_test
+        )
+
+        install(TARGETS benchmark_matrix_test
+            RUNTIME DESTINATION bin/tests
+            COMPONENT tests
+        )
+    else()
+        message(STATUS "benchmark_matrix_test: GTest or themis_evaluation not available – skipped")
+    endif()
+endif()
 
