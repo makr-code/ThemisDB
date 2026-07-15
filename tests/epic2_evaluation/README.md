@@ -1,8 +1,8 @@
 # EPIC 2 evaluation tests
 
-<!-- Status: current | planning scaffold | validated: 2026-06-01 -->
+<!-- Status: current | partial implementation | validated: 2026-07-15 -->
 
-## Planned test files
+## Test files
 
 - `hardware_profile_test.cc`
 - `benchmark_matrix_test.cc`
@@ -24,8 +24,10 @@
 
 ## Installation
 
-This directory is a documentation-first scaffold. No additional build step is required until the planned files move into implementation.
+`hardware_profile_test.cc` is active and wired through the local `CMakeLists.txt`.
+The remaining planned files stay deferred until their matching EPIC 2 surfaces exist.
 
 ## Usage
 
-Use this README together with the matching epic document and local `CMakeLists.txt` placeholder to create issues, review file ownership, and stage implementation work without enabling production targets yet.
+Use this README together with the matching epic document and local `CMakeLists.txt`
+to review the active hardware-profile coverage and stage the remaining EPIC 2 tests.
