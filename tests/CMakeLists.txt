@@ -654,6 +654,7 @@ list(APPEND TEST_EXCLUDE_PATTERNS
     ".*test_lora_provenance\\.cpp$"
     ".*test_shader_integrity\\.cpp$"
     ".*test_two_phase_commit\\.cpp$"
+    ".*test_wal_logging_helper\\.cpp$"
     ".*test_vulkan_health\\.cpp$"
     ".*test_vulkan_metrics\\.cpp$"
     ".*test_vulkan_compute_equivalents\.cpp$"

@@ -35,6 +35,7 @@
 #include "sharding/shard_rpc_client_adapter.h"
 #include "sharding/metrics_registry.h"
 #include "sharding/prometheus_metrics.h"
+#include "sharding/wal_logging_helper.h"
 #include "transaction/two_phase_commit_wal_recovery.h"
 #include "utils/logger.h"
 #include <chrono>
@@ -640,27 +641,11 @@ void TwoPhaseCommitCoordinator::logToWAL(
     const std::string&    txn_id,
     const nlohmann::json& data
 ) {
-    if (!wal_) return;
-
-    try {
-        WALEntry entry;
-        entry.type           = type;
-        entry.transaction_id = txn_id;
-        entry.timestamp      = static_cast<uint64_t>(
-            std::chrono::duration_cast<std::chrono::milliseconds>(
-                std::chrono::system_clock::now().time_since_epoch()
-            ).count()
-        );
-        entry.data = data;
-
-        wal_->append(entry);
-        if (config_.sync_wal_writes) {
-            wal_->flush();
-        }
-    } catch (const std::exception& e) {
-        THEMIS_ERROR("2PC coordinator [{}] WAL write failed for txn {}: {}",
-                     coordinator_id_, txn_id, e.what());
-    }
+    WALLoggingHelper::appendEntry(
+        wal_.get(), type, txn_id, data,
+        config_.sync_wal_writes,
+        "coordinator", coordinator_id_
+    );
 }
 
 } // namespace themis::sharding
