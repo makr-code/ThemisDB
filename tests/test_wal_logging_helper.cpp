@@ -14,6 +14,8 @@
 //   WLH-08  appendEntry() does not throw when WALManager::flush throws
 //   WLH-09  buildEntry() data field is stored unchanged
 //   WLH-10  Multiple sequential appendEntry() calls each produce a distinct LSN
+//   WLH-11  appendEntryWithResult() returns assigned LSN on success
+//   WLH-12  appendEntryWithResult() returns nullopt when WAL is disabled
 
 #include <gtest/gtest.h>
 #include "sharding/wal_logging_helper.h"
@@ -138,6 +140,28 @@ TEST(WALLoggingHelperTest, AppendEntryWritesToWAL) {
     EXPECT_GT(last.timestamp, 0u);
 }
 
+TEST(WALLoggingHelperTest, AppendEntryWithResultReturnsAssignedLSN) {
+    TmpWALDir dir;
+    auto wal = makeTmpWAL(dir.str());
+
+    const auto result = WALLoggingHelper::appendEntryWithResult(
+        wal.get(),
+        WALEntryType::COMMIT_TX,
+        "txn-lsn-11",
+        {{"phase", "complete"}},
+        /*sync=*/true,
+        "participant",
+        "shard-lsn"
+    );
+
+    ASSERT_TRUE(result.has_value());
+
+    auto persisted = wal->read(result.value());
+    ASSERT_TRUE(persisted.has_value());
+    EXPECT_EQ(persisted->transaction_id, "txn-lsn-11");
+    EXPECT_EQ(persisted->type, WALEntryType::COMMIT_TX);
+}
+
 // ─────────────────────────────────────────────────────────────────────────────
 // WLH-09 – buildEntry() data field is stored unchanged for complex payloads
 // ─────────────────────────────────────────────────────────────────────────────
@@ -195,6 +219,20 @@ TEST(WALLoggingHelperTest, AppendEntryNoThrowWithSyncFalse) {
             "coord-2"
         )
     );
+}
+
+TEST(WALLoggingHelperTest, AppendEntryWithResultNullWalReturnsNullopt) {
+    const auto result = WALLoggingHelper::appendEntryWithResult(
+        nullptr,
+        WALEntryType::ABORT_TX,
+        "txn-nullopt-12",
+        {{"reason", "disabled"}},
+        /*sync=*/true,
+        "coordinator",
+        "coord-null"
+    );
+
+    EXPECT_FALSE(result.has_value());
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
