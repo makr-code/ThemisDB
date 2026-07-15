@@ -158,6 +158,7 @@ include(cmake/deprecated_checks.cmake OPTIONAL)
 
 # 3. Platform detection (OS, CPU, triplet)
 include(cmake/platforms/PlatformDetection.cmake)
+include(cmake/validation/CrossCompileValidation.cmake)
 
 # 4. Architecture optimizations (AVX2, NEON, etc.)
 include(cmake/platforms/ArchitectureOptimizations.cmake)

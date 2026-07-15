@@ -92,3 +92,60 @@ jobs:
       # Execute tests defined by the CMake configuration. Note that --build-config is needed because the default Windows generator is a multi-config generator (Visual Studio generator).
       # See https://cmake.org/cmake/help/latest/manual/ctest.1.html for more detail
       run: ctest --build-config ${{ matrix.build_type }}
+
+  cross-toolchain-triplet-validation:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: x64-linux
+            system_name: Linux
+            system_processor: x86_64
+            toolchain_file: cmake/platforms/Toolchains/amd64-linux-gnu.cmake
+            vcpkg_target_triplet: x64-linux
+            cmake_sysroot: ""
+          - name: arm64-linux
+            system_name: Linux
+            system_processor: aarch64
+            toolchain_file: cmake/platforms/Toolchains/arm64-linux-gnu.cmake
+            vcpkg_target_triplet: arm64-linux
+            cmake_sysroot: /tmp/themisdb-sysroots/arm64
+          - name: armv7-linux
+            system_name: Linux
+            system_processor: armv7l
+            toolchain_file: cmake/platforms/Toolchains/armv7-linux-gnueabihf.cmake
+            vcpkg_target_triplet: arm-linux
+            cmake_sysroot: /tmp/themisdb-sysroots/armv7
+          - name: x64-windows
+            system_name: Windows
+            system_processor: x86_64
+            toolchain_file: cmake/platforms/Toolchains/windows-msvc.cmake
+            vcpkg_target_triplet: x64-windows
+            cmake_sysroot: ""
+          - name: x64-mingw-static
+            system_name: Windows
+            system_processor: x86_64
+            toolchain_file: cmake/platforms/Toolchains/x86_64-w64-mingw32.cmake
+            vcpkg_target_triplet: x64-mingw-static
+            cmake_sysroot: ""
+    name: Validate ${{ matrix.name }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Prepare synthetic sysroot
+        shell: bash
+        run: |
+          if [ -n "${{ matrix.cmake_sysroot }}" ]; then
+            mkdir -p "${{ matrix.cmake_sysroot }}"
+          fi
+      - name: Validate toolchain/triplet consistency
+        shell: bash
+        run: |
+          cmake \
+            -DCMAKE_CROSSCOMPILING=TRUE \
+            -DCMAKE_SYSTEM_NAME="${{ matrix.system_name }}" \
+            -DCMAKE_SYSTEM_PROCESSOR="${{ matrix.system_processor }}" \
+            -DCMAKE_TOOLCHAIN_FILE="${{ github.workspace }}/${{ matrix.toolchain_file }}" \
+            -DVCPKG_TARGET_TRIPLET="${{ matrix.vcpkg_target_triplet }}" \
+            -DCMAKE_SYSROOT="${{ matrix.cmake_sysroot }}" \
+            -P "${{ github.workspace }}/cmake/validation/CrossCompileValidation.cmake"
