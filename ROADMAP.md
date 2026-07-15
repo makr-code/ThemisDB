@@ -545,7 +545,7 @@ Audit method:
   - [ ] Create `docs/de/aql/AQL_2_0_0_ROADMAP_INDEX.md` linking to implementation roadmaps
 - [x] Feature Branches:
   - [x] `feature/aql-mutations-phase1` (Tokenizer + AST) — **Delivered 2026-07-15**: 11 DML tokens, MutationNode hierarchy (InsertNode/UpdateNode/RemoveNode/ReplaceNode/UpsertNode), AQLParser::parseMutation(), AqlSafetyValidator::ValidationMode, 50+ tests
-  - [ ] `feature/aql-geospatial-parser` (Parser integration)
+  - [x] `feature/aql-mutations-phase2-3` (Safety + Semantic Validation + Translation + Executor) — **Delivered 2026-07-15**: validateMutationSafety(), AqlMutationValidator, AqlMutationTranslator, MutationExecutionPlan, MutationExecutor + StorageContext abstraction, 118 tests (51 validation + 35 translator + 32 executor)
   - [ ] `feature/aql-fts-enhancement` (Query optimizer)
 
 ---

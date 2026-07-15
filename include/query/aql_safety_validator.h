@@ -116,6 +116,26 @@ public:
     }
 
     /**
+     * @brief Validate mutation safety even when AllowMutations mode is active.
+     *
+     * Checks injection patterns and unsafe unbounded-update/delete patterns
+     * that are dangerous regardless of whether mutations are permitted:
+     * - Embedded NUL characters (`\\0`) — classic injection vector
+     * - Multi-statement injection patterns (`;  DROP `, `; DELETE `, `; UPDATE `)
+     * - UPDATE or REMOVE without any FILTER/WHERE — could affect entire collection
+     * - Suspiciously large LIMIT values > 100000 that could indicate bulk-delete attacks
+     *
+     * This is called from validate() when mode is AllowMutations so that injection
+     * protection is never fully disabled.
+     *
+     * @param aql_query  Raw AQL query string to inspect.
+     * @return A @c Violation describing the first concern found, or
+     *         @c std::nullopt if no safety issue is detected.
+     */
+    [[nodiscard]] std::optional<Violation> validateMutationSafety(
+        const std::string& aql_query) const;
+
+    /**
      * @brief Convenience wrapper: returns true when @p aql_query is safe
      *        (contains no mutation keywords).
      */

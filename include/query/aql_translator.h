@@ -20,6 +20,7 @@
 #pragma once
 
 #include "aql_parser.h"
+#include "query/mutation_execution_plan.h"
 #include "query_engine.h"
 #include <memory>
 #include <string>
@@ -283,6 +284,69 @@ private:
         TranslationResult& result,
         std::vector<TranslationResult::CTEExecution> ctes
     );
+};
+
+} // namespace themis
+
+// ============================================================================
+// AqlMutationTranslator — EPIC-004 Phase 3
+// ============================================================================
+
+namespace themis {
+
+/**
+ * @brief Translates a parsed MutationNode AST into a MutationExecutionPlan.
+ *
+ * This class is the Phase 3 translation layer.  It accepts a validated
+ * @c MutationNode produced by @c AQLParser::parseMutation() and converts it
+ * into an ordered sequence of @c MutationStep objects (a
+ * @c MutationExecutionPlan) ready for @c MutationExecutor::execute().
+ *
+ * The translator does **not** execute the plan — that is exclusively the
+ * responsibility of @c MutationExecutor.
+ *
+ * ### Thread safety
+ * Stateless — all methods are @c const.  Safe for concurrent use without
+ * external synchronisation.
+ */
+class AqlMutationTranslator {
+public:
+    AqlMutationTranslator()  = default;
+    ~AqlMutationTranslator() = default;
+
+    /**
+     * @brief Translate a MutationNode to a MutationExecutionPlan.
+     *
+     * If @p node is @c nullptr an error plan is returned with an empty
+     * collection name and a single @c ValidatePredicate step carrying an
+     * error description.
+     *
+     * @param node  Validated MutationNode shared pointer (may be nullptr).
+     * @return MutationExecutionPlan ready for MutationExecutor.
+     */
+    [[nodiscard]] query::MutationExecutionPlan translate(
+        const std::shared_ptr<query::MutationNode>& node) const;
+
+private:
+    /// @brief Build execution plan for an INSERT node.
+    [[nodiscard]] query::MutationExecutionPlan translateInsert(
+        const query::InsertNode& n) const;
+
+    /// @brief Build execution plan for an UPDATE node.
+    [[nodiscard]] query::MutationExecutionPlan translateUpdate(
+        const query::UpdateNode& n) const;
+
+    /// @brief Build execution plan for a REMOVE node.
+    [[nodiscard]] query::MutationExecutionPlan translateRemove(
+        const query::RemoveNode& n) const;
+
+    /// @brief Build execution plan for a REPLACE node.
+    [[nodiscard]] query::MutationExecutionPlan translateReplace(
+        const query::ReplaceNode& n) const;
+
+    /// @brief Build execution plan for an UPSERT node.
+    [[nodiscard]] query::MutationExecutionPlan translateUpsert(
+        const query::UpsertNode& n) const;
 };
 
 } // namespace themis
