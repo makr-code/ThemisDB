@@ -1589,6 +1589,28 @@ bool CrossShardTransactionCoordinator::execute2PC(CrossShardTransaction& txn) {
 }
 
 bool CrossShardTransactionCoordinator::execute3PC(CrossShardTransaction& txn) {
+    const auto failClosedAbortAllParticipants = [this, &txn](const char* abort_reason) {
+        txn.state = TransactionState::ABORTING;
+        for (auto& [shard_id, participant] : txn.participants) {
+            const bool aborted = sendAbort(shard_id, txn.transaction_id);
+            participant.aborted = aborted;
+            if (!aborted) {
+                spdlog::error("execute3PC [{}]: fail-closed abort RPC failed for shard {}",
+                              txn.transaction_id, shard_id);
+            }
+        }
+
+        if (transaction_wal_) {
+            try {
+                transaction_wal_->logAbort(txn.transaction_id, std::string(abort_reason));
+                operations_since_snapshot_++;
+            } catch (const std::exception& e) {
+                spdlog::error("execute3PC [{}]: failed to log fail-closed ABORT to WAL: {}",
+                              txn.transaction_id, e.what());
+            }
+        }
+    };
+
     // Snapshot the PreCommit callback under the lock so the lock is not held
     // during the (potentially blocking) RPC fan-out.
     PreCommitRpcFn precommit_cb;
@@ -1614,25 +1636,7 @@ bool CrossShardTransactionCoordinator::execute3PC(CrossShardTransaction& txn) {
     if (!precommit_cb) {
         spdlog::error("execute3PC [{}]: missing PreCommit RPC callback; failing closed",
                       txn.transaction_id);
-        txn.state = TransactionState::ABORTING;
-        for (auto& [shard_id, participant] : txn.participants) {
-            const bool aborted = sendAbort(shard_id, txn.transaction_id);
-            participant.aborted = aborted;
-            if (!aborted) {
-                spdlog::error("execute3PC [{}]: fail-closed abort RPC failed for shard {}",
-                              txn.transaction_id, shard_id);
-            }
-        }
-
-        if (transaction_wal_) {
-            try {
-                transaction_wal_->logAbort(txn.transaction_id, "precommit_callback_missing");
-                operations_since_snapshot_++;
-            } catch (const std::exception& e) {
-                spdlog::error("execute3PC [{}]: failed to log fail-closed ABORT to WAL: {}",
-                              txn.transaction_id, e.what());
-            }
-        }
+        failClosedAbortAllParticipants("precommit_callback_missing");
         return false;
     }
 
@@ -1706,33 +1710,66 @@ bool CrossShardTransactionCoordinator::execute3PC(CrossShardTransaction& txn) {
             }
         }
 
-        // Non-blocking mode: If deferred callback is set, schedule retry instead of aborting
+        // Non-blocking mode: snapshot the deferred callback under the lock, then
+        // release before invoking it — mirroring the precommit_cb snapshot pattern
+        // above so callbacks_mutex_ is never held while failClosedAbortAllParticipants
+        // calls sendAbort (which acquires transactions_mutex_).  Holding both locks
+        // simultaneously in this order would invert the lock order established in
+        // prepare(), which takes transactions_mutex_ before callbacks_mutex_.
+        DeferredPreCommitFn deferred_cb;
         {
             std::lock_guard<std::mutex> lk(callbacks_mutex_);
-            if (deferred_precommit_callback_ && !failed_shards.empty()) {
-                spdlog::warn("3PC Phase 2 (PreCommit) partial failure for transaction {}: "
-                           "{} failed shards, scheduling deferred retry",
-                           txn.transaction_id, failed_shards.size());
-                
-                // Store deferred PreCommit for retry tracking
+            deferred_cb = deferred_precommit_callback_;
+        }
+
+        if (deferred_cb && !failed_shards.empty()) {
+            spdlog::warn("3PC Phase 2 (PreCommit) partial failure for transaction {}: "
+                       "{} failed shards, scheduling deferred retry",
+                       txn.transaction_id, failed_shards.size());
+
+            // Store deferred PreCommit for retry tracking before invoking the
+            // callback so a concurrent retry thread can observe the entry.
+            {
+                std::lock_guard<std::mutex> def_lk(deferred_mutex_);
+                deferred_precommits_[txn.transaction_id] = failed_shards;
+            }
+
+            // Schedule async retry via callback (non-blocking).
+            // Contract: callback must not throw. Any exception is treated as
+            // fatal orchestration failure and triggers fail-closed handling.
+            try {
+                deferred_cb(txn.transaction_id, failed_shards);
+            } catch (const std::exception& ex) {
+                spdlog::error("execute3PC [{}]: deferred PreCommit callback threw: {} - failing closed",
+                              txn.transaction_id, ex.what());
+                // Remove the stale entry so the retry thread cannot re-attempt
+                // a transaction that has already been decided-abort.
                 {
                     std::lock_guard<std::mutex> def_lk(deferred_mutex_);
-                    deferred_precommits_[txn.transaction_id] = failed_shards;
+                    deferred_precommits_.erase(txn.transaction_id);
                 }
-                
-                // Schedule async retry via callback (non-blocking)
-                deferred_precommit_callback_(txn.transaction_id, failed_shards);
-                
-                // Continue to Phase 3 with successful shards
-                // Transaction will be in a "PRE_COMMIT_PENDING" state
-                txn.state = TransactionState::COMMITTING;
-                spdlog::info("3PC Phase 2 (PreCommit) scheduled deferred retry for transaction {}",
-                           txn.transaction_id);
-                
-                // Only proceed with shards that successfully pre-committed
-                // This allows partial progress in Converged Storage-Inference scenarios
-                return true;  // Non-blocking: continue with available shards
+                failClosedAbortAllParticipants("deferred_precommit_callback_threw");
+                return false;
+            } catch (...) {
+                spdlog::error("execute3PC [{}]: deferred PreCommit callback threw unknown exception - failing closed",
+                              txn.transaction_id);
+                {
+                    std::lock_guard<std::mutex> def_lk(deferred_mutex_);
+                    deferred_precommits_.erase(txn.transaction_id);
+                }
+                failClosedAbortAllParticipants("deferred_precommit_callback_unknown_exception");
+                return false;
             }
+
+            // Continue to Phase 3 with successful shards
+            // Transaction will be in a "PRE_COMMIT_PENDING" state
+            txn.state = TransactionState::COMMITTING;
+            spdlog::info("3PC Phase 2 (PreCommit) scheduled deferred retry for transaction {}",
+                       txn.transaction_id);
+
+            // Only proceed with shards that successfully pre-committed
+            // This allows partial progress in Converged Storage-Inference scenarios
+            return true;  // Non-blocking: continue with available shards
         }
 
         // Fallback: Traditional fail-closed behavior when no deferred callback
