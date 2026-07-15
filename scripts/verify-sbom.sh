@@ -67,8 +67,7 @@ if unregistered:
     print(f"[verify-sbom] WARNING: {len(unregistered)} unregistered component(s):")
     for u in unregistered:
         print(f"  - {u}")
-    # Non-fatal warning for transitive deps; callers can choose to fail
-    sys.exit(0)
+    sys.exit(1)
 else:
     print(f"[verify-sbom] All {len(components)} SBOM components verified against vcpkg.json")
     sys.exit(0)

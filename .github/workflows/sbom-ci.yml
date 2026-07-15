@@ -7,18 +7,21 @@ name: Supply Chain — SBOM Generation & Signing
 on:
   push:
     branches:
-      - main
+      - develop
+      - community
     tags:
       - 'v*.*.*'
   pull_request:
     branches:
-      - main
+      - community
       - develop
     paths:
       - 'vcpkg.json'
       - 'CMakeLists.txt'
       - 'Dockerfile'
       - '.github/workflows/sbom-ci.yml'
+      - 'scripts/verify-sbom.sh'
+      - 'scripts/verify-vcpkg-baseline-signature.sh'
   release:
     types: [published]
   schedule:
@@ -53,6 +56,11 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Verify vcpkg baseline commit signature
+        run: |
+          chmod +x scripts/verify-vcpkg-baseline-signature.sh
+          scripts/verify-vcpkg-baseline-signature.sh vcpkg.json sbom-vcpkg-baseline-verification.json
+
       # ── Install syft ──────────────────────────────────────────────────────
       - name: Install syft
         uses: anchore/sbom-action/download-syft@v0
@@ -76,12 +84,8 @@ jobs:
       # ── Verify SBOM against vcpkg.json ────────────────────────────────────
       - name: Verify SBOM against vcpkg.json
         run: |
-          chmod +x scripts/verify-sbom.sh 2>/dev/null || true
-          if [ -f scripts/verify-sbom.sh ]; then
-            bash scripts/verify-sbom.sh sbom-source.cyclonedx.json
-          else
-            echo "verify-sbom.sh not found — skipping dependency cross-check"
-          fi
+          chmod +x scripts/verify-sbom.sh
+          bash scripts/verify-sbom.sh sbom-source.cyclonedx.json
 
       # ── Trivy scan with SBOM output ───────────────────────────────────────
       - name: Run Trivy vulnerability scan
@@ -105,6 +109,17 @@ jobs:
             --output-certificate sbom-source.cyclonedx.json.pem \
             sbom-source.cyclonedx.json
 
+      - name: Generate SBOM checksums
+        run: |
+          sha256sum \
+            sbom-source.cyclonedx.json \
+            sbom-source.spdx.json \
+            sbom-trivy.cyclonedx.json \
+            sbom-vcpkg-baseline-verification.json > sbom-source.SHA256SUMS
+
+      - name: Verify SBOM checksums
+        run: sha256sum -c sbom-source.SHA256SUMS
+
       # ── Upload artifacts ──────────────────────────────────────────────────
       - name: Upload SBOM artifacts
         uses: actions/upload-artifact@v4
@@ -114,6 +129,8 @@ jobs:
             sbom-source.cyclonedx.json
             sbom-source.spdx.json
             sbom-trivy.cyclonedx.json
+            sbom-vcpkg-baseline-verification.json
+            sbom-source.SHA256SUMS
             sbom-source.cyclonedx.json.sig
             sbom-source.cyclonedx.json.pem
           retention-days: 365
@@ -126,4 +143,6 @@ jobs:
           files: |
             sbom-source.cyclonedx.json
             sbom-source.spdx.json
+            sbom-vcpkg-baseline-verification.json
+            sbom-source.SHA256SUMS
             sbom-source.cyclonedx.json.sig
