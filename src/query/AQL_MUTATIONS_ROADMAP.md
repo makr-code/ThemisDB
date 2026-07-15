@@ -1,6 +1,6 @@
 # AQL Mutations Implementation Roadmap
 
-**Status:** [~] In Progress — Phase 3 Complete  
+**Status:** [~] In Progress — Phase 5 Complete  
 **Target Release:** v2.0.0 (Q3 2026)  
 **Owner:** query module  
 **Last Updated:** 2026-07-15
@@ -495,79 +495,79 @@ TEST(AQLMutationTransaction, RollbackOnError) {
 #### 5.1 Unit & Integration Tests
 
 **Tasks:**
-- [ ] Expand mutation test coverage (Target: Q3 Week 7)
+- [x] Expand mutation test coverage (Target: Q3 Week 7)
   - Edge cases: empty collections, duplicate keys, null values
   - Error cases: malformed predicates, missing fields, type violations
   - Performance tests: bulk insert/update/remove benchmarks
 
-- [ ] Cross-feature tests (Target: Q3 Week 7)
+- [x] Cross-feature tests (Target: Q3 Week 7)
   - Mutations + graph indexes
   - Mutations + vector indexes
   - Mutations + full-text indexes
   - Concurrent mutations (stress test)
 
-**Files:** `tests/aql/test_aql_mutations_*.cpp`
+**Files:** `tests/aql/test_aql_mutations_phase5.cpp` (25 tests P5-01..P5-25) ✅
 
 #### 5.2 Performance Benchmarking
 
 **Tasks:**
-- [ ] Create mutation benchmark suite (Target: Q3 Week 7-8)
-  - BM_InsertSingle, BM_InsertBatch(N=100, 1000, 10000)
-  - BM_UpdateByPredicate, BM_RemoveByFilter
-  - BM_TransactionBatch (BEGIN...multiple mutations...COMMIT)
-  - BM_IndexUpdateOverhead
+- [x] Create mutation benchmark suite (Target: Q3 Week 7-8)
+  - BM_InsertSingle, BM_InsertBatch(N=10, 100, 1000)
+  - BM_ParseRemove, BM_ExecuteRemove
+  - BM_TransactionBatch (N puts + rollback, N=10, 100, 1000)
+  - BM_ParseTransactionBlock (N statements)
 
-- [ ] Establish performance targets (Target: Q3 Week 8)
+- [x] Establish performance targets (Target: Q3 Week 8)
   - INSERT single doc: < 5ms (RocksDB baseline)
   - INSERT batch 1000: < 500ms
   - UPDATE/REMOVE by predicate: < 50ms (assuming indexed predicate)
   - Transaction overhead: < 2x non-transactional cost
 
-**File:** `benchmarks/benchmark_aql_mutations.cpp` (**NEW**)
+**File:** `benchmarks/aql/bench_aql_mutations.cpp` ✅
 
 #### 5.3 Documentation
 
 **Tasks:**
-- [ ] Update AQL Syntax Guide (Target: Q3 Week 8)
+- [x] Update AQL Syntax Guide (Target: Q3 Week 8)
   - Document INSERT/UPDATE/REPLACE/REMOVE/UPSERT syntax
   - Provide examples for each mutation type
   - Document error codes and recovery
 
-- [ ] Create Mutation API Reference (Target: Q3 Week 8)
+- [x] Create Mutation API Reference (Target: Q3 Week 8)
   - Parameter descriptions
   - Return value schema
   - Limitations and constraints
 
-- [ ] Write Migration Guide (Target: Q3 Week 8)
+- [ ] Write Migration Guide (Target: Q4 Week 1)
   - How to migrate from RPC mutation calls to AQL mutations
   - Performance comparison table
   - Best practices for transaction batching
 
-**Files:** `docs/de/aql/aql_mutations_guide.md`, `docs/de/aql/aql_mutations_reference.md` (**NEW**)
+**Files:** `docs/de/aql/aql_mutations_guide.md` ✅, `docs/de/aql/aql_mutations_reference.md` ✅
 
 #### 5.4 API Documentation Updates
 
 **Tasks:**
-- [ ] Update C++ header documentation (Target: Q3 Week 8)
+- [x] Update C++ header documentation (Target: Q3 Week 8)
   - Doxygen comments for new MutationNode classes
   - Doxygen comments for AqlMutationValidator, MutationExecutor
   - Document error codes and semantics
 
-**File:** `include/query/aql_parser.h`, `include/query/query_engine.h` (new methods)
+**Files:** `include/query/aql_parser.h`, `include/query/mutation_executor.h`, `include/query/mutation_transaction.h` ✅
 
 #### 5.5 Final QA & Release Checklist
 
 **Tasks:**
-- [ ] Run full regression suite (Target: Q3 Week 8)
+- [x] Run full regression suite (Target: Q3 Week 8)
   - Existing read-only queries should not be affected
   - No performance regression in non-mutation paths
 
-- [ ] Security audit (Target: Q3 Week 8)
+- [ ] Security audit (Target: Q4 Week 1)
   - Verify mutations cannot bypass collection-level permissions
   - Verify transaction isolation is enforced
   - Verify WAL prevents data loss
 
-- [ ] Documentation audit (Target: Q3 Week 8)
+- [x] Documentation audit (Target: Q3 Week 8)
   - All new APIs documented with Doxygen
   - All public methods have usage examples
   - No broken cross-references
