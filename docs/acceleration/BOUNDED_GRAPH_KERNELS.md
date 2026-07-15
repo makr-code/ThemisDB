@@ -694,12 +694,12 @@ All GPU acceleration maintains these invariants:
 - [x] Graph operations are explicitly classified (A/B/C)
 - [x] Acceleration scope is bounded and non-ambiguous
 - [x] Graph Truth semantics remain exact and governance-safe
-- [ ] Guidance can be consumed by graph, planner, and benchmark work
-- [ ] Code patterns and interface expectations documented
-- [ ] Benchmark hooks created for validation
+- [x] Guidance can be consumed by graph, planner, and benchmark work
+- [x] Code patterns and interface expectations documented
+- [x] Benchmark hooks created for validation
 
 ---
 
-*Last Updated: 2026-06-25*  
-*Status: ✅ Architecture Review Approved*  
+*Last Updated: 2026-07-15*  
+*Status: ✅ Issue #5469 acceptance criteria complete*  
 *Next: Implementation Phase 1 (Category A hardening)*
