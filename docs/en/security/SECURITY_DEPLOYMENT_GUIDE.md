@@ -2650,6 +2650,41 @@ echo ""
 echo "=== Operating system hardening complete ==="
 ```
 
+### Compiler Security Hardening (SEC-CC-4)
+
+ThemisDB automatically enables compiler and linker hardening flags for all **Release builds**.
+No additional configuration is required for standard presets.
+
+**Active flags per platform:**
+
+| Platform | Compile flags | Linker flags |
+|---|---|---|
+| Linux/macOS (GCC/Clang) | `-fstack-protector-strong` `-D_FORTIFY_SOURCE=2` `-fPIE` `-fstack-clash-protection`* | `-pie` `-Wl,-z,relro` `-Wl,-z,now` `-Wl,-z,noexecstack` |
+| Windows (MSVC) | `/GS` `/sdl` `/guard:cf` | `/GUARD:CF` `/NXCOMPAT` `/DYNAMICBASE` |
+
+\* `-fstack-clash-protection` is applied when supported by the compiler (GCC ≥ 8, Clang ≥ 11).
+
+**Build command (hardening on by default):**
+```bash
+cmake --preset community-release
+cmake --build --preset community-release
+```
+
+**Verify hardening on Linux:**
+```bash
+# Requires checksec tool
+checksec --file=build-linux-release/themisdb_server
+# Expected: Full RELRO, Canary found, NX enabled, PIE enabled
+```
+
+**Important:** Disabling hardening (`-DTHEMIS_DISABLE_SECURITY_HARDENING=ON`) is a
+security policy violation (SEC-CC-4) and must not be used in production builds.
+
+For the complete flag reference, compiler version requirements, and policy for new
+platforms see [`docs/de/security/COMPILER_SECURITY_HARDENING.md`](../../de/security/COMPILER_SECURITY_HARDENING.md).
+
+---
+
 ### Application Hardening
 
 **ThemisDB Security Configuration:**

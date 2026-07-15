@@ -6,6 +6,34 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
 # ════════════════════════════════════════════════════════════════════════════
+# SECURITY HARDENING OPTION (SEC-CC-4)
+# ════════════════════════════════════════════════════════════════════════════
+# Compiler/linker security hardening flags are ON by default for all Release
+# builds (both MSVC and GCC/Clang).  They protect against memory-safety
+# attacks, code injection, and exploitation primitives.
+#
+# Disable ONLY if a specific target environment does not support the flags.
+# Disabling this in production is a security policy violation (SEC-CC-4).
+#
+# See docs/de/security/COMPILER_SECURITY_HARDENING.md for the full flag list.
+# ════════════════════════════════════════════════════════════════════════════
+option(THEMIS_DISABLE_SECURITY_HARDENING
+    "Disable compiler security hardening flags. NOT recommended for production builds. SEC-CC-4."
+    OFF)
+
+if(THEMIS_DISABLE_SECURITY_HARDENING)
+    message(WARNING
+        "\n========================================================================\n"
+        "SECURITY WARNING: THEMIS_DISABLE_SECURITY_HARDENING=ON\n"
+        "Compiler security hardening is DISABLED for this build.\n"
+        "This configuration is NOT suitable for production deployments.\n"
+        "Disabled protections: stack-protector, FORTIFY_SOURCE, PIE/ASLR,\n"
+        "                      RELRO, CFG/Control-Flow-Guard.\n"
+        "SEC-CC-4 requirement violation — do NOT deploy to production.\n"
+        "========================================================================\n")
+endif()
+
+# ════════════════════════════════════════════════════════════════════════════
 # CRITICAL MSVC SETUP - Must come FIRST before any other compiler setup!
 # ════════════════════════════════════════════════════════════════════════════
 if(MSVC)
@@ -241,7 +269,30 @@ if(MSVC)
     if(THEMIS_STRICT_BUILD)
         add_compile_options(/WX)
     endif()
-    
+
+    # ── MSVC Security Hardening (Release builds) ──────────────────────────────
+    # Applied via generator expressions so multi-config generators work correctly.
+    #   /GS       – Buffer Security Check (stack canaries)
+    #   /sdl      – Additional SDL checks (promotes several warnings to errors)
+    #   /guard:cf – Control Flow Guard (CFG) compile-time instrumentation
+    # Linker:
+    #   /GUARD:CF  – CFG enforcement at link time
+    #   /NXCOMPAT  – Data Execution Prevention (DEP / NX bit)
+    #   /DYNAMICBASE – Address Space Layout Randomization (ASLR)
+    if(NOT THEMIS_DISABLE_SECURITY_HARDENING)
+        add_compile_options(
+            $<$<CONFIG:Release>:/GS>
+            $<$<CONFIG:Release>:/sdl>
+            $<$<CONFIG:Release>:/guard:cf>
+        )
+        add_link_options(
+            $<$<CONFIG:Release>:/GUARD:CF>
+            $<$<CONFIG:Release>:/NXCOMPAT>
+            $<$<CONFIG:Release>:/DYNAMICBASE>
+        )
+        message(STATUS "Security Hardening (MSVC): /GS /sdl /guard:cf | /GUARD:CF /NXCOMPAT /DYNAMICBASE  [Release]")
+    endif()
+
 else()
     # GCC/Clang compiler options
     add_compile_options(
@@ -310,6 +361,76 @@ else()
         add_compile_options(-fsanitize=undefined -fno-omit-frame-pointer)
         add_link_options(-fsanitize=undefined)
         message(STATUS "UndefinedBehaviorSanitizer enabled for alignment checking")
+    endif()
+
+    # ── GCC/Clang Security Hardening (Release builds) ────────────────────────
+    # Applied only in Release mode because _FORTIFY_SOURCE=2 requires -O1 or
+    # higher and because we do not want to penalise debug-cycle performance.
+    #
+    # For documentation of every flag and platform policy see:
+    #   docs/de/security/COMPILER_SECURITY_HARDENING.md
+    if(NOT THEMIS_DISABLE_SECURITY_HARDENING AND CMAKE_BUILD_TYPE STREQUAL "Release")
+        include(CheckCXXCompilerFlag)
+        include(CheckLinkerFlag)
+
+        # ── Helper: abort if a required compile flag is not supported ──────
+        macro(themis_require_compile_flag _flag)
+            string(MAKE_C_IDENTIFIER "THEMIS_CXX_FLAG${_flag}" _var)
+            check_cxx_compiler_flag("${_flag}" ${_var})
+            if(NOT ${_var})
+                message(FATAL_ERROR
+                    "Security hardening compile flag '${_flag}' is not supported by "
+                    "${CMAKE_CXX_COMPILER_ID} ${CMAKE_CXX_COMPILER_VERSION}. "
+                    "Upgrade your compiler or set THEMIS_DISABLE_SECURITY_HARDENING=ON "
+                    "(not recommended for production). SEC-CC-4.")
+            endif()
+        endmacro()
+
+        # Stack-Protector: guard against stack-buffer overflows (GCC 4.9+, Clang 3.7+)
+        themis_require_compile_flag(-fstack-protector-strong)
+        add_compile_options(-fstack-protector-strong)
+
+        # FORTIFY_SOURCE=2: replace unsafe libc calls with bounds-checked variants.
+        # Requires optimisation (-O1+); Release already adds -O3.
+        add_compile_definitions(_FORTIFY_SOURCE=2)
+
+        # Stack-Clash Protection: guard against stack–heap collision (GCC 8+, Clang 11+)
+        check_cxx_compiler_flag(-fstack-clash-protection _THEMIS_HAVE_STACK_CLASH)
+        if(_THEMIS_HAVE_STACK_CLASH)
+            add_compile_options(-fstack-clash-protection)
+        endif()
+
+        # PIE (Position Independent Executable): required for kernel ASLR.
+        # CMAKE_POSITION_INDEPENDENT_CODE applies -fPIC for shared libs and
+        # -fPIE for executables; CMake adds the -pie linker flag for exe targets.
+        set(CMAKE_POSITION_INDEPENDENT_CODE TRUE)
+
+        # Linux full RELRO + non-executable stack (linker flags)
+        if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
+            set(_themis_relro_flags "-Wl,-z,relro" "-Wl,-z,now" "-Wl,-z,noexecstack")
+            set(_themis_relro_ok TRUE)
+            foreach(_lf IN LISTS _themis_relro_flags)
+                string(MAKE_C_IDENTIFIER "THEMIS_LD${_lf}" _lv)
+                check_linker_flag(CXX "${_lf}" ${_lv})
+                if(NOT ${_lv})
+                    message(WARNING
+                        "Security linker flag '${_lf}' not supported; "
+                        "Full RELRO will be unavailable. SEC-CC-4.")
+                    set(_themis_relro_ok FALSE)
+                endif()
+            endforeach()
+            if(_themis_relro_ok)
+                add_link_options(-Wl,-z,relro -Wl,-z,now -Wl,-z,noexecstack)
+                message(STATUS "  Linker:  Full RELRO (-z relro -z now -z noexecstack)")
+            endif()
+        endif()
+
+        set(_themis_hardening_flags "-fstack-protector-strong -D_FORTIFY_SOURCE=2 -fPIE/-pie")
+        if(_THEMIS_HAVE_STACK_CLASH)
+            string(APPEND _themis_hardening_flags " -fstack-clash-protection")
+        endif()
+        message(STATUS "Security Hardening (GCC/Clang): ${_themis_hardening_flags}  [Release]")
+        unset(_themis_hardening_flags)
     endif()
 endif()
 
