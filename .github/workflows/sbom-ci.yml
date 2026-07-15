@@ -30,7 +30,7 @@ on:
   workflow_dispatch: {}
 
 concurrency:
-  group: sbom-${{ github.ref }}
+  group: sbom-${{ github.ref }}-${{ github.event_name }}
   cancel-in-progress: true
 
 permissions:
@@ -89,7 +89,7 @@ jobs:
 
       # ── Trivy scan with SBOM output ───────────────────────────────────────
       - name: Run Trivy vulnerability scan
-        uses: aquasecurity/trivy-action@master
+        uses: aquasecurity/trivy-action@0.28.0
         with:
           scan-type: 'fs'
           scan-ref: '.'

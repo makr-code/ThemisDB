@@ -43,12 +43,20 @@ echo "[verify-vcpkg-baseline] builtin-baseline: ${BASELINE}"
 RESPONSE_JSON="$(mktemp)"
 trap 'rm -f "${RESPONSE_JSON}"' EXIT
 
-if [[ -n "${VCPKG_BASELINE_VERIFICATION_RESPONSE:-}" ]]; then
+if [[ "${CI:-}" != "true" && -n "${VCPKG_BASELINE_VERIFICATION_RESPONSE:-}" ]]; then
+    # Test-only override: allowed only outside CI to support local integration tests.
+    # Production and CI runs always use the live GitHub API.
     cp "${VCPKG_BASELINE_VERIFICATION_RESPONSE}" "${RESPONSE_JSON}"
 else
-    curl -fsSL \
-        -H "Accept: application/vnd.github+json" \
-        -H "X-GitHub-Api-Version: 2022-11-28" \
+    CURL_ARGS=(-fsSL
+        -H "Accept: application/vnd.github+json"
+        -H "X-GitHub-Api-Version: 2022-11-28"
+    )
+    # Authenticated requests get 10 000 req/hr vs 60 req/hr for anonymous calls.
+    if [[ -n "${GITHUB_TOKEN:-}" ]]; then
+        CURL_ARGS+=(-H "Authorization: Bearer ${GITHUB_TOKEN}")
+    fi
+    curl "${CURL_ARGS[@]}" \
         "https://api.github.com/repos/microsoft/vcpkg/commits/${BASELINE}" \
         > "${RESPONSE_JSON}"
 fi
