@@ -689,8 +689,15 @@ start coverage/html/index.html     # Windows
 **Automated Checks:**
 - ✅ Runs on every PR that changes dependencies
 - 📊 Monthly audit on the first of each month
-- 🔍 Scans `vcpkg.json`, `package.json`, and other dependency files
-- 💬 Posts results as PR comment with detailed violations
+- 🔍 Scans direct and transitive `vcpkg.json` dependencies against `.license-policy.json`
+- 📦 Publishes `license-summary.md` and `vcpkg-license-sbom.json` as workflow artifacts
+- 🚫 Must stay green before a PR can be approved and merged
+
+**Local verification:**
+
+```bash
+cmake --build build --target license-compliance
+```
 
 **Documentation:**
 - [Full License Compliance Process](docs/de/compliance/license-compliance.md) (German)
@@ -1782,4 +1789,3 @@ self.read_file(filepath: str) -> str
 
 ---
 Zuletzt geprueft (Root-Sync): 2026-06-21
-
