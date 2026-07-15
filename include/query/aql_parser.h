@@ -834,6 +834,33 @@ enum class AqlTransactionAction {
     Rollback  ///< ROLLBACK – discard all statements
 };
 
+// ============================================================================
+// AqlStatement — Phase 4: mixed query/mutation transaction entry
+// ============================================================================
+
+/**
+ * @brief A single statement within a transaction block.
+ *
+ * Phase 4 extends transaction blocks to accept both read queries (FOR/WITH)
+ * and DML mutations (INSERT/UPDATE/DELETE/REMOVE/REPLACE/UPSERT) in any order.
+ * AqlStatement carries exactly one of these two variants, identified by @c kind.
+ */
+struct AqlStatement {
+    /// @brief The kind of statement held by this entry.
+    enum class Kind {
+        Query,    ///< A read query (FOR / WITH), held in @c query.
+        Mutation, ///< A DML mutation (INSERT / UPDATE / …), held in @c mutation.
+    };
+
+    Kind kind = Kind::Query;
+    std::shared_ptr<Query>        query;    ///< Set when kind == Kind::Query.
+    std::shared_ptr<MutationNode> mutation; ///< Set when kind == Kind::Mutation.
+};
+
+// ============================================================================
+// AqlTransactionBlock
+// ============================================================================
+
 /// A parsed multi-statement AQL transaction block.
 /// Syntax:
 ///   BEGIN
@@ -841,18 +868,42 @@ enum class AqlTransactionAction {
 ///     <AQL statement 2> ...
 ///   COMMIT | ROLLBACK
 struct AqlTransactionBlock {
-    std::vector<std::shared_ptr<Query>> statements; ///< Individual AQL queries in order
+    /// Legacy: read-only query statements (backward compatible with pre-Phase-4 callers).
+    std::vector<std::shared_ptr<Query>> statements;
+
+    /// Phase 4: ordered sequence of read queries and/or DML mutations.
+    ///
+    /// When non-empty this vector is authoritative and @c statements is not
+    /// populated.  Callers that handle only read queries should fall back to
+    /// @c statements when @c ordered_statements is empty.
+    std::vector<AqlStatement> ordered_statements;
+
     AqlTransactionAction action = AqlTransactionAction::Commit;
 
     nlohmann::json toJSON() const {
         nlohmann::json j;
         j["type"] = "transaction_block";
         j["action"] = (action == AqlTransactionAction::Commit) ? "COMMIT" : "ROLLBACK";
-        nlohmann::json stmts = nlohmann::json::array();
-        for (const auto& stmt : statements) {
-            stmts.push_back(stmt ? stmt->toJSON() : nlohmann::json());
+
+        if (!ordered_statements.empty()) {
+            nlohmann::json stmts = nlohmann::json::array();
+            for (const auto& s : ordered_statements) {
+                if (s.kind == AqlStatement::Kind::Mutation && s.mutation) {
+                    stmts.push_back(s.mutation->toJSON());
+                } else if (s.query) {
+                    stmts.push_back(s.query->toJSON());
+                } else {
+                    stmts.push_back(nlohmann::json());
+                }
+            }
+            j["statements"] = stmts;
+        } else {
+            nlohmann::json stmts = nlohmann::json::array();
+            for (const auto& stmt : statements) {
+                stmts.push_back(stmt ? stmt->toJSON() : nlohmann::json());
+            }
+            j["statements"] = stmts;
         }
-        j["statements"] = stmts;
         return j;
     }
 };

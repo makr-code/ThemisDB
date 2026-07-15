@@ -28,6 +28,7 @@
 #include "query/query_resource_limits.h"
 #include "query/query_canceller.h"
 #include "query/sql_parser.h"
+#include "query/mutation_executor.h"
 #include "query_engine.h"
 #include "utils/expected.h"
 
@@ -120,7 +121,26 @@ Result<std::string> explainAqlDot(const std::string& aql, query::QueryEngine& en
 /// @c {"type":"rollback","statements":N} is returned.
 ///
 /// On parse or execution failure the function returns an Err.
+///
+/// @param aql     Multi-statement AQL block string.
+/// @param engine  QueryEngine used to execute read queries.
 Result<nlohmann::json> executeMultiStatementAql(const std::string& aql, query::QueryEngine& engine);
+
+/// Execute a multi-statement AQL transaction block with DML mutation support.
+///
+/// Phase 4 overload: identical to the two-argument form but also supports
+/// INSERT/UPDATE/DELETE/REMOVE/REPLACE/UPSERT statements inside the block.
+/// Mutations are executed atomically — if any statement fails, all mutations
+/// that have already been applied are rolled back via the undo log maintained
+/// in @p storage.
+///
+/// @param aql      Multi-statement AQL block string.
+/// @param engine   QueryEngine used to execute read queries.
+/// @param storage  StorageContext used to execute DML mutations.  Mutations
+///                 in the block are silently skipped when @p storage is null.
+Result<nlohmann::json> executeMultiStatementAql(const std::string&                            aql,
+                                                 query::QueryEngine&                            engine,
+                                                 query::MutationExecutor::StorageContext*       storage);
 
 // ── Row-level security (RLS) wrappers ────────────────────────────────────────
 //

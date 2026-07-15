@@ -1637,13 +1637,19 @@ Result<AqlTransactionBlock> AQLParser::parseTransactionBlock(const std::string& 
         AqlTransactionBlock block;
 
         // Walk through the token stream slicing out individual statements.
-        // Each statement starts at FOR (or WITH) and ends just before the
-        // next top-level separator (';') or FOR/WITH/COMMIT/ROLLBACK/END_OF_FILE.
+        // Each statement starts at FOR, WITH, or a DML keyword (INSERT/UPDATE/
+        // DELETE/REMOVE/REPLACE/UPSERT) and ends just before the next
+        // top-level separator (';') or statement-start/COMMIT/ROLLBACK/EOF.
         size_t start = 1; // skip BEGIN token
         const size_t n = tokens.size();
 
-        auto isStatementStart = [](TokenType t) {
-            return t == TokenType::FOR || t == TokenType::WITH;
+        auto isMutationStart = [](TokenType t) {
+            return t == TokenType::INSERT  || t == TokenType::UPDATE ||
+                   t == TokenType::DELETE  || t == TokenType::REMOVE ||
+                   t == TokenType::REPLACE || t == TokenType::UPSERT;
+        };
+        auto isStatementStart = [&isMutationStart](TokenType t) {
+            return t == TokenType::FOR || t == TokenType::WITH || isMutationStart(t);
         };
         auto isTerminator = [](TokenType t) {
             return t == TokenType::COMMIT || t == TokenType::ROLLBACK || t == TokenType::END_OF_FILE;
@@ -1665,12 +1671,13 @@ Result<AqlTransactionBlock> AQLParser::parseTransactionBlock(const std::string& 
                 return Err<AqlTransactionBlock>(
                     errors::ErrorCode::ERR_QUERY_INVALID_SYNTAX,
                     fmt::format(
-                        "Expected FOR or WITH at line {}, column {} inside transaction block",
+                        "Expected FOR, WITH, or DML keyword at line {}, column {} inside transaction block",
                         tokens[start].line, tokens[start].column)
                 );
             }
 
-            const bool startsWithClause = (tokens[start].type == TokenType::WITH);
+            const bool isMutationStmt = isMutationStart(tokens[start].type);
+            const bool startsWithClause = (!isMutationStmt && tokens[start].type == TokenType::WITH);
             bool consumedTopLevelForAfterWith = false;
 
             // Find the end of this statement, tracking nesting depth so that
@@ -1707,16 +1714,38 @@ Result<AqlTransactionBlock> AQLParser::parseTransactionBlock(const std::string& 
             sub.emplace_back(TokenType::END_OF_FILE, "", 0, 0);
 
             Parser subParser(std::move(sub));
-            auto stmtResult = subParser.parse();
-            if (!stmtResult) {
-                return Err<AqlTransactionBlock>(
-                    stmtResult.error().code(),
-                    fmt::format("Error in statement {} of transaction block: {}",
-                                block.statements.size() + 1,
-                                stmtResult.error().message())
-                );
+
+            if (isMutationStmt) {
+                // Phase 4: DML statement — parse as a MutationNode.
+                auto mutResult = subParser.parseMutation();
+                if (!mutResult) {
+                    return Err<AqlTransactionBlock>(
+                        mutResult.error().code(),
+                        fmt::format("Error in mutation statement {} of transaction block: {}",
+                                    block.ordered_statements.size() + 1,
+                                    mutResult.error().message())
+                    );
+                }
+                AqlStatement s;
+                s.kind     = AqlStatement::Kind::Mutation;
+                s.mutation = std::move(*mutResult);
+                block.ordered_statements.push_back(std::move(s));
+            } else {
+                auto stmtResult = subParser.parse();
+                if (!stmtResult) {
+                    return Err<AqlTransactionBlock>(
+                        stmtResult.error().code(),
+                        fmt::format("Error in statement {} of transaction block: {}",
+                                    block.ordered_statements.size() + block.statements.size() + 1,
+                                    stmtResult.error().message())
+                    );
+                }
+                AqlStatement s;
+                s.kind  = AqlStatement::Kind::Query;
+                s.query = *stmtResult;
+                block.ordered_statements.push_back(std::move(s));
+                block.statements.push_back(std::move(*stmtResult));
             }
-            block.statements.push_back(std::move(*stmtResult));
             start = end;
 
             // Consume one separator here; additional separators are consumed

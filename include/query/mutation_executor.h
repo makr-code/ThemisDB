@@ -1,15 +1,16 @@
 /**
  * @file mutation_executor.h
  * @brief MutationExecutor — executes MutationExecutionPlans against storage.
- * @version 1.0.0
+ * @version 1.1.0
  * @note Maturity: 🟢 PRODUCTION-READY
- * @note Status: Phase 3 implementation (EPIC-004)
+ * @note Status: Phase 4 implementation (EPIC-004) — StorageContext::get() added for rollback support.
  */
 
 #pragma once
 
 #include "query/mutation_execution_plan.h"
 #include <nlohmann/json.hpp>
+#include <optional>
 #include <string>
 #include <string_view>
 
@@ -98,6 +99,25 @@ public:
          */
         virtual bool writeWAL(std::string_view        collection,
                                const nlohmann::json&  entry) = 0;
+
+        /**
+         * @brief Read the current value of a document by key.
+         *
+         * Used by MutationTransactionContext to capture pre-mutation state for
+         * rollback.  The default implementation returns std::nullopt, which
+         * means rollback can undo freshly-inserted documents (by deleting them)
+         * but cannot restore original values of overwritten or deleted documents.
+         *
+         * Production RocksDB implementations should override this method.
+         *
+         * @param collection  Collection to read from.
+         * @param key         Document key.
+         * @return Serialised document value if the key exists, std::nullopt otherwise.
+         */
+        virtual std::optional<std::string> get(std::string_view /*collection*/,
+                                               std::string_view /*key*/) {
+            return std::nullopt;
+        }
     };
 
     // -----------------------------------------------------------------------
