@@ -248,6 +248,35 @@ cmake --build build
 
 See [docs/de/legal/ATTRIBUTIONS.md](docs/de/legal/ATTRIBUTIONS.md) for third-party dependency information.
 
+### Cross-Compile Toolchain/Triplet Validation
+
+When configuring cross builds, ThemisDB now validates the full tuple at CMake
+configure time:
+
+- `CMAKE_CROSSCOMPILING=TRUE` requires `CMAKE_TOOLCHAIN_FILE`.
+- `VCPKG_TARGET_TRIPLET` must be consistent with the target
+  `CMAKE_SYSTEM_PROCESSOR` and `CMAKE_SYSTEM_NAME`.
+- For Linux ARM cross targets (`arm64`, `armv7`), `CMAKE_SYSROOT` is required
+  and must point to an existing path.
+
+Supported toolchain examples:
+
+- `cmake/platforms/Toolchains/amd64-linux-gnu.cmake` → `x64-linux`
+- `cmake/platforms/Toolchains/arm64-linux-gnu.cmake` → `arm64-linux`
+- `cmake/platforms/Toolchains/armv7-linux-gnueabihf.cmake` → `arm-linux`
+- `cmake/platforms/Toolchains/windows-msvc.cmake` → `x64-windows`
+- `cmake/platforms/Toolchains/x86_64-w64-mingw32.cmake` → `x64-mingw-static`
+
+Example (ARM64 Linux cross compile):
+
+```bash
+cmake -S . -B build-arm64 \
+  -DCMAKE_CROSSCOMPILING=TRUE \
+  -DCMAKE_TOOLCHAIN_FILE=cmake/platforms/Toolchains/arm64-linux-gnu.cmake \
+  -DVCPKG_TARGET_TRIPLET=arm64-linux \
+  -DCMAKE_SYSROOT=/usr/aarch64-linux-gnu
+```
+
 **Running tests under Windows / WSL (developer tips)**
 
 - If you build under WSL the default build output used by repository helper scripts is `build-wsl/` (e.g. `build-wsl/themis_tests` and `build-wsl/themis_server`). Helper scripts (such as `.tools/vault_dev_run.ps1`) rely on this layout.
@@ -1782,4 +1811,3 @@ self.read_file(filepath: str) -> str
 
 ---
 Zuletzt geprueft (Root-Sync): 2026-06-21
-
