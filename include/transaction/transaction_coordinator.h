@@ -150,7 +150,11 @@ struct TxnCoordinatorResult {
         INVALID_STATE,         ///< Operation is not permitted in the current lifecycle state.
         PARTICIPANT_ABORT,     ///< One or more participants voted ABORT during prepare.
         TIMEOUT,               ///< Operation exceeded its deadline.
-        RECOVERY_NEEDED,       ///< Transaction is in-doubt; coordinator restart required.
+        RECOVERY_NEEDED,       ///< Transaction is in-doubt; automatic resolution not possible.
+                               ///  Returned by getState()-adjacent operations when the coordinator
+                               ///  detects a durably prepared transaction but cannot resolve it
+                               ///  without a WAL-replay step (e.g. WAL unavailable at query time).
+                               ///  Callers SHOULD trigger recoverInDoubt() and then retry.
         INTERNAL_ERROR         ///< Coordinator-internal failure (WAL write failed, etc.).
     };
 
@@ -301,6 +305,11 @@ public:
 
     /**
      * @brief Return a human-readable protocol name suitable for logging.
+     *
+     * @note This string is for display and diagnostic purposes only.  Callers
+     *       that need to branch on the protocol family MUST use protocolType()
+     *       instead of comparing this string, as the canonical spelling is
+     *       not normatively fixed across implementations.
      *
      * @return Stable, null-terminated ASCII string (e.g. @c "2PC", @c "3PC",
      *         @c "SAGA", @c "Percolator", @c "Calvin").  The pointed-to
