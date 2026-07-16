@@ -240,8 +240,7 @@ endif()
 if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_sharding_phase5_lora_distribution.cpp")
     message(STATUS "Adding Sharding: Phase 5 LoRA Artifact Distribution tests (#5418)")
     add_executable(test_sharding_phase5_lora_distribution
-        test_sharding_phase5_lora_distribution.cpp
-        ${THEMIS_ROOT_DIR}/src/sharding/lora_artifact_distribution.cpp)
+        test_sharding_phase5_lora_distribution.cpp)
     target_include_directories(test_sharding_phase5_lora_distribution PRIVATE
         ${THEMIS_ROOT_DIR}/include
         ${THEMIS_ROOT_DIR}/src)

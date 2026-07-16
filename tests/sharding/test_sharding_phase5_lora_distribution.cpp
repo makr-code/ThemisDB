@@ -232,9 +232,10 @@ TEST_F(P5MerkleProofTest, L14_GenerateProofForExistingArtifact) {
     std::vector<LoRAPackageRef> batch = {
         makeRef("ada-1"), makeRef("ada-2"), makeRef("ada-3")
     };
-    auto proof = engine_->generateProof(batch, "ada-1");
+    auto proof = engine_->generateProof(batch, "ada-1", "1.0.0");
     ASSERT_TRUE(proof.has_value());
     EXPECT_EQ(proof->adapter_id, "ada-1");
+    EXPECT_EQ(proof->version, "1.0.0");
     EXPECT_EQ(proof->merkle_root.size(), 64u);
     EXPECT_EQ(proof->leaf_hash.size(), 64u);
     EXPECT_EQ(proof->batch_size, 3u);
@@ -242,7 +243,7 @@ TEST_F(P5MerkleProofTest, L14_GenerateProofForExistingArtifact) {
 
 TEST_F(P5MerkleProofTest, L15_GenerateProofMissingAdapterReturnsNullopt) {
     std::vector<LoRAPackageRef> batch = {makeRef("ada-1"), makeRef("ada-2")};
-    EXPECT_FALSE(engine_->generateProof(batch, "ada-nonexistent").has_value());
+    EXPECT_FALSE(engine_->generateProof(batch, "ada-nonexistent", "1.0.0").has_value());
 }
 
 TEST_F(P5MerkleProofTest, L16_VerifyProofRoundTrip) {
@@ -251,7 +252,7 @@ TEST_F(P5MerkleProofTest, L16_VerifyProofRoundTrip) {
         batch.push_back(makeRef("ada-" + std::to_string(i)));
     }
     for (int i = 0; i < 5; ++i) {
-        auto proof = engine_->generateProof(batch, "ada-" + std::to_string(i));
+        auto proof = engine_->generateProof(batch, "ada-" + std::to_string(i), "1.0.0");
         ASSERT_TRUE(proof.has_value()) << "proof missing for ada-" << i;
         EXPECT_TRUE(engine_->verifyProof(*proof))
             << "verification failed for ada-" << i;
@@ -465,7 +466,7 @@ TEST(P5EndToEndTest, L25_FullArtifactReceiptChain) {
     }
 
     // ── 8. Merkle proof verification for one artifact in batch ──────────────
-    auto proof = engine->generateProof(batch, "legal-v1");
+    auto proof = engine->generateProof(batch, "legal-v1", "1.0.0");
     ASSERT_TRUE(proof.has_value());
     EXPECT_TRUE(engine->verifyProof(*proof));
     EXPECT_EQ(proof->merkle_root, batch_root);

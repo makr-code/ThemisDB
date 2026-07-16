@@ -240,6 +240,10 @@ struct ShardDistributionSnapshot {
  * Proof path format: each element is a pair
  *   { "hash": "<64-hex>", "position": "left"|"right" }
  * indicating whether the sibling is to the left or right of the current node.
+ *
+ * Leaf identity is (adapter_id, version) — both fields are required to
+ * unambiguously locate a leaf when multiple versions of the same adapter
+ * appear in one batch.
  */
 struct ArtifactMerkleProof {
     /// Merkle root of the batch this proof belongs to.
@@ -250,6 +254,10 @@ struct ArtifactMerkleProof {
 
     /// Adapter identifier this proof covers.
     std::string adapter_id;
+
+    /// Version of the adapter this proof covers (together with adapter_id
+    /// forms the unique leaf key).
+    std::string version;
 
     /// Ordered proof path from leaf to root (exclusive of root).
     /// Each entry: { "hash": "<hex>", "position": "left"|"right" }
@@ -262,7 +270,8 @@ struct ArtifactMerkleProof {
     [[nodiscard]] bool isValid() const noexcept {
         return merkle_root.size() == 64
             && leaf_hash.size() == 64
-            && !adapter_id.empty();
+            && !adapter_id.empty()
+            && !version.empty();
     }
 
     [[nodiscard]] nlohmann::json toJson() const {
@@ -270,6 +279,7 @@ struct ArtifactMerkleProof {
             {"merkle_root", merkle_root},
             {"leaf_hash",   leaf_hash},
             {"adapter_id",  adapter_id},
+            {"version",     version},
             {"proof_path",  proof_path},
             {"batch_size",  batch_size}
         };
@@ -320,12 +330,15 @@ public:
      * @param event_id         Target event.
      * @param new_status       The new distribution status.
      * @param target_signature Optional signature provided by the target shard.
+     * @param error_message    Human-readable error message (persisted when
+     *                         @p new_status is Failed; ignored otherwise).
      * @return true if the receipt was found and updated; false otherwise.
      */
     [[nodiscard]] virtual bool updateReceiptStatus(
         const DistributionEventId& event_id,
         ArtifactDistributionStatus new_status,
-        const std::string& target_signature = {}) = 0;
+        const std::string& target_signature = {},
+        const std::string& error_message = {}) = 0;
 
     /**
      * @brief List all receipts for a given target shard, optionally filtered by status.
@@ -406,13 +419,20 @@ public:
     /**
      * @brief Generate a membership proof for a specific artifact within a batch.
      *
+     * Leaves are identified by the composite key (adapter_id, version) to
+     * unambiguously locate the correct leaf when multiple versions of the same
+     * adapter appear in a batch.
+     *
      * @param artifacts   The complete batch used to build the tree.
-     * @param adapter_id  Identifier of the artifact to prove.
-     * @return Populated proof struct, or nullopt if adapter_id is not in the batch.
+     * @param adapter_id  Adapter identifier of the artifact to prove.
+     * @param version     Version string of the artifact to prove.
+     * @return Populated proof struct, or nullopt if (adapter_id, version) is
+     *         not in the batch.
      */
     [[nodiscard]] virtual std::optional<ArtifactMerkleProof> generateProof(
         const std::vector<LoRAPackageRef>& artifacts,
-        const std::string& adapter_id) const = 0;
+        const std::string& adapter_id,
+        const std::string& version) const = 0;
 
     /**
      * @brief Verify that a proof correctly links leaf_hash to merkle_root.
@@ -549,15 +569,18 @@ public:
      * @brief Generate a Merkle proof for an artifact within a named batch.
      *
      * The batch is identified by the @c batch_merkle_root stored on each receipt.
-     * All confirmed receipts sharing that root are treated as the batch leaves.
+     * Only confirmed receipts sharing that root are treated as the batch leaves.
      *
      * @param batch_merkle_root Merkle root identifying the batch.
-     * @param adapter_id        Artifact to generate a proof for.
+     * @param adapter_id        Adapter identifier of the artifact to prove.
+     * @param version           Version of the artifact to prove (together with
+     *                          adapter_id forms the unique leaf key).
      * @return Proof struct, or nullopt if the artifact is not in the batch.
      */
     [[nodiscard]] virtual std::optional<ArtifactMerkleProof> generateBatchProof(
         const std::string& batch_merkle_root,
-        const std::string& adapter_id) const = 0;
+        const std::string& adapter_id,
+        const std::string& version) const = 0;
 
     /**
      * @brief Capture a point-in-time snapshot of distribution state for a shard.

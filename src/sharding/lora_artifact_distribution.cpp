@@ -6,8 +6,7 @@
  * @brief Concrete implementations for Phase 5 LoRA artifact distribution.
  *
  * Provides:
- *   - portableSha256Hex()      — portable 64-hex hash function (same algorithm
- *                                 as blockchain_integrity module)
+ *   - portableSha256Hex()      — OpenSSL EVP SHA-256 hex digest helper
  *   - InMemoryAdapterDistributionStore — thread-safe in-memory receipt/snapshot store
  *   - DefaultMerkleProofEngine — SHA-256 Merkle tree builder and proof verifier
  *   - DefaultLoRADistributionManager — orchestrates distribution, receipts, snapshots
@@ -21,6 +20,7 @@
 #include <iomanip>
 #include <mutex>
 #include <optional>
+#include <openssl/evp.h>
 #include <random>
 #include <shared_mutex>
 #include <sstream>
@@ -37,21 +37,36 @@ namespace {
 // ─────────────────────────────────────────────────────────────────────────────
 
 /**
- * @brief Produce a 64-char lowercase hex pseudo-hash from @p input.
+ * @brief Compute a deterministic, cross-platform SHA-256 hex digest of @p input.
  *
- * Uses std::hash (not cryptographic) as a portable fallback consistent with
- * the blockchain_integrity module.  Production builds may substitute an
- * OpenSSL SHA-256 implementation behind this same signature.
+ * Uses OpenSSL's EVP interface for a real SHA-256 computation, guaranteeing
+ * stable, cryptographically-sound output across all platforms and builds.
+ * Returns a 64-character lowercase hex string.
+ *
+ * @throws std::runtime_error if the OpenSSL context cannot be allocated.
  */
 [[nodiscard]] static std::string portableSha256Hex(const std::string& input) {
-    std::size_t h1 = std::hash<std::string>{}(input);
-    std::size_t h2 = std::hash<std::string>{}(input + "_salt");
+    EVP_MD_CTX* ctx = EVP_MD_CTX_new();
+    if (!ctx) {
+        throw std::runtime_error("portableSha256Hex: EVP_MD_CTX_new failed");
+    }
+    if (EVP_DigestInit_ex(ctx, EVP_sha256(), nullptr) != 1
+        || EVP_DigestUpdate(ctx, input.data(), input.size()) != 1) {
+        EVP_MD_CTX_free(ctx);
+        throw std::runtime_error("portableSha256Hex: EVP_Digest init/update failed");
+    }
+    unsigned char hash[EVP_MAX_MD_SIZE];
+    unsigned int hash_len = 0;
+    if (EVP_DigestFinal_ex(ctx, hash, &hash_len) != 1) {
+        EVP_MD_CTX_free(ctx);
+        throw std::runtime_error("portableSha256Hex: EVP_DigestFinal_ex failed");
+    }
+    EVP_MD_CTX_free(ctx);
     std::ostringstream hex;
-    hex << std::hex
-        << std::setw(16) << std::setfill('0') << h1
-        << std::setw(16) << std::setfill('0') << h2
-        << std::setw(16) << std::setfill('0') << (h1 ^ (h2 << 32u))
-        << std::setw(16) << std::setfill('0') << (h2 ^ (h1 << 16u));
+    for (unsigned int i = 0; i < hash_len; ++i) {
+        hex << std::hex << std::setw(2) << std::setfill('0')
+            << static_cast<int>(hash[i]);
+    }
     return hex.str(); // 64 hex chars
 }
 
@@ -117,7 +132,8 @@ public:
     [[nodiscard]] bool updateReceiptStatus(
         const DistributionEventId& event_id,
         ArtifactDistributionStatus new_status,
-        const std::string& target_signature) override {
+        const std::string& target_signature = {},
+        const std::string& error_message = {}) override {
         std::unique_lock lock(mu_);
         auto it = receipts_.find(event_id);
         if (it == receipts_.end()) {
@@ -129,6 +145,9 @@ public:
         }
         if (!target_signature.empty()) {
             it->second.target_signature = target_signature;
+        }
+        if (!error_message.empty()) {
+            it->second.error_message = error_message;
         }
         return true;
     }
@@ -236,14 +255,15 @@ public:
 
     [[nodiscard]] std::optional<ArtifactMerkleProof> generateProof(
         const std::vector<LoRAPackageRef>& artifacts,
-        const std::string& adapter_id) const override {
+        const std::string& adapter_id,
+        const std::string& version) const override {
         if (artifacts.empty()) return std::nullopt;
         auto sorted = sortedArtifacts(artifacts);
 
-        // Find leaf index
+        // Find leaf index by composite key (adapter_id, version)
         size_t leaf_idx = sorted.size(); // sentinel
         for (size_t i = 0; i < sorted.size(); ++i) {
-            if (sorted[i].adapter_id == adapter_id) {
+            if (sorted[i].adapter_id == adapter_id && sorted[i].version == version) {
                 leaf_idx = i;
                 break;
             }
@@ -291,6 +311,7 @@ public:
         proof.merkle_root = layer[0];
         proof.leaf_hash   = the_leaf_hash;
         proof.adapter_id  = adapter_id;
+        proof.version     = version;
         proof.proof_path  = std::move(proof_path);
         proof.batch_size  = static_cast<uint64_t>(sorted.size());
         return proof;
@@ -301,12 +322,14 @@ public:
         std::string current = proof.leaf_hash;
         for (const auto& step : proof.proof_path) {
             if (!step.contains("hash") || !step.contains("position")) return false;
-            const std::string sibling = step["hash"].get<std::string>();
+            const std::string sibling  = step["hash"].get<std::string>();
             const std::string position = step["position"].get<std::string>();
             if (position == "right") {
                 current = combineHashes(current, sibling);
-            } else {
+            } else if (position == "left") {
                 current = combineHashes(sibling, current);
+            } else {
+                return false; // reject malformed position strings
             }
         }
         return current == proof.merkle_root;
@@ -438,9 +461,13 @@ public:
     [[nodiscard]] bool confirmReceipt(
         const DistributionEventId& event_id,
         const std::string& target_signature) override {
-        // First transition to InTransit if Pending, then to Confirmed
         auto receipt = store_->getReceipt(event_id);
         if (!receipt.has_value()) return false;
+        // Only Pending or InTransit receipts may be confirmed.
+        if (receipt->status != ArtifactDistributionStatus::Pending
+            && receipt->status != ArtifactDistributionStatus::InTransit) {
+            return false;
+        }
         if (receipt->status == ArtifactDistributionStatus::Pending) {
             store_->updateReceiptStatus(event_id, ArtifactDistributionStatus::InTransit);
         }
@@ -455,23 +482,11 @@ public:
         const std::string& error_message) override {
         auto receipt = store_->getReceipt(event_id);
         if (!receipt.has_value()) return false;
-        // Record error_message via a targeted update; updateReceiptStatus only
-        // handles status + signature, so we store a fresh receipt copy.
-        bool ok = store_->updateReceiptStatus(event_id, ArtifactDistributionStatus::Failed);
-        if (ok && !error_message.empty()) {
-            // Retrieve updated receipt and re-store with error message set.
-            auto updated = store_->getReceipt(event_id);
-            if (updated.has_value()) {
-                // The store is idempotent on event_id, so we manipulate a copy.
-                // Since the interface only exposes updateReceiptStatus for status
-                // changes, we model the error_message via target_signature field
-                // reuse is inappropriate; instead we accept that the
-                // error_message is surfaced through a separate call in tests
-                // until the store exposes a richer update method.
-                (void)error_message; // logged at the caller level
-            }
-        }
-        return ok;
+        return store_->updateReceiptStatus(
+            event_id,
+            ArtifactDistributionStatus::Failed,
+            /*target_signature=*/{},
+            error_message);
     }
 
     [[nodiscard]] std::optional<DistributionEventId> recoverDistribution(
@@ -517,16 +532,16 @@ public:
 
     [[nodiscard]] std::optional<ArtifactMerkleProof> generateBatchProof(
         const std::string& batch_merkle_root,
-        const std::string& adapter_id) const override {
-        // Collect all artifacts sharing this batch_merkle_root
-        // We gather from all known target shards (no shard filter here).
-        // For simplicity, scan all stored receipts for matching root.
+        const std::string& adapter_id,
+        const std::string& version) const override {
+        // Collect unique artifacts from confirmed receipts sharing this batch_merkle_root.
         // NOTE: In production, an index on batch_merkle_root would replace this scan.
         std::vector<LoRAPackageRef> batch_artifacts;
         std::unordered_set<std::string> seen;
 
         for (const auto& shard_id : knownShardIds()) {
-            auto receipts = store_->listReceiptsForShard(shard_id, std::nullopt);
+            auto receipts = store_->listReceiptsForShard(
+                shard_id, ArtifactDistributionStatus::Confirmed);
             for (const auto& r : receipts) {
                 if (r.batch_merkle_root != batch_merkle_root) continue;
                 const std::string key = r.artifact_ref.adapter_id + "@" + r.artifact_ref.version;
@@ -536,13 +551,20 @@ public:
             }
         }
         if (batch_artifacts.empty()) return std::nullopt;
-        return proof_engine_->generateProof(batch_artifacts, adapter_id);
+        return proof_engine_->generateProof(batch_artifacts, adapter_id, version);
     }
 
     [[nodiscard]] ShardDistributionSnapshot takeDistributionSnapshot(
         const DistributionShardId& shard_id) override {
         auto confirmed = store_->listReceiptsForShard(
             shard_id, ArtifactDistributionStatus::Confirmed);
+
+        // Canonical ordering by event_id ensures snapshot roots are comparable
+        // across different store implementations and call orderings.
+        std::sort(confirmed.begin(), confirmed.end(),
+            [](const AdapterDistributionReceipt& a, const AdapterDistributionReceipt& b) {
+                return a.event_id < b.event_id;
+            });
 
         std::vector<DistributionEventId> event_ids;
         std::vector<std::string> receipt_hashes;
@@ -551,7 +573,7 @@ public:
             receipt_hashes.push_back(r.receipt_hash);
         }
 
-        // Build Merkle root over receipt hashes
+        // Build Merkle root over canonically ordered receipt hashes
         std::string receipts_root;
         if (!receipt_hashes.empty()) {
             std::vector<std::string> layer = receipt_hashes;
