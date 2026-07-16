@@ -400,6 +400,45 @@ else()
     message(STATUS "AQL Validation Performance tests not found at ${CMAKE_CURRENT_LIST_DIR}/test_aql_validation_performance.cpp")
 endif()
 
+# Phase 4 Block 1 — Query Hardening tests (Issue #5184)
+if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_phase4_query_hardening.cpp")
+    message(STATUS "Adding Phase 4 Block 1: Query Module Hardening tests (Issue #5184)")
+
+    add_executable(test_phase4_query_hardening_focused
+        test_phase4_query_hardening.cpp
+    )
+
+    target_include_directories(test_phase4_query_hardening_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_phase4_query_hardening_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        nlohmann_json::nlohmann_json
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_phase4_query_hardening_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    themis_register_module_focused_test(
+        MODULE query
+        NAME Phase4QueryHardeningTests
+        TARGET test_phase4_query_hardening_focused
+        TIER unit
+        TIMEOUT 120
+        LABELS phase4 timeout concurrency prealloc federation audit hardening
+    )
+
+    message(STATUS "  Phase4 Hardening: timeout enforcement, federation audit, container pre-alloc, concurrency safety")
+else()
+    message(STATUS "Phase 4 Block 1 hardening tests not found at ${CMAKE_CURRENT_LIST_DIR}/test_phase4_query_hardening.cpp")
+endif()
+
 # AUTOGEN PREFIX BLOCK: query
 file(GLOB QUERY_AUTOGEN_PREFIX_TEST_SOURCES
     "${CMAKE_CURRENT_SOURCE_DIR}/test_query_*.cpp"

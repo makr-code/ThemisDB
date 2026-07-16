@@ -6,7 +6,8 @@
 
 `src/distributed_tensor` is the EPIC 3 surface for portable tensor artifacts,
 manifest semantics, shard placement, integrity verification, and recovery planning.
-The module currently provides contract-first scaffolding aligned to the seven-phase rule.
+The module is mostly contract-first scaffold, with EPIC 3.4 integrity verification
+now carrying an active Phase-2 implementation baseline.
 
 ## Development-Plan Alignment (EPIC 3)
 
@@ -25,14 +26,14 @@ The module currently provides contract-first scaffolding aligned to the seven-ph
 ## Current Delivery State
 
 - Wave A complete: architecture and sub-issue planning docs available in `docs/EPIC3_*.md`.
-- Wave B partial: module structure (`README.md`, `include/README.md`, `src/README.md`, `CMakeLists.txt`) is in place. Header and source files (`*.h`, `*.cc`) are out of scope for this PR and will be added in a dedicated implementation PR.
+- Wave B partial: module structure (`README.md`, `include/README.md`, `src/README.md`, `CMakeLists.txt`) is in place. EPIC 3.4 now includes implemented integrity primitives; remaining EPIC 3 files still wait for dedicated implementation PRs.
 - Wave C pending: distributed correctness tests/benchmarks remain for
   `tests/epic3_distributed_tensor/` and `benchmarks/epic3_distributed_tensor/`.
 
 ## Seven-Phase Gate (module view)
 
 - [x] Phase 1: artifact and infrastructure contracts documented
-- [ ] Phase 2: file-level skeleton surfaces created (deferred to implementation PR)
+- [~] Phase 2: integrity verification surface implemented; remaining EPIC 3 files still scaffolded
 - [ ] Phase 3: failure handling for placement/integrity/recovery paths
 - [ ] Phase 4: distributed contract tests and fault-injection scenarios
 - [ ] Phase 5: scale/performance hardening for multi-node environments

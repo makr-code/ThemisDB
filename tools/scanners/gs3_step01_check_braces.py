@@ -136,7 +136,7 @@ class BracesCheckScanner(BaseGapScanner):
             # Skip control flow constructs - they have their own brace scopes
             control_keywords = ['if', 'else', 'for', 'while', 'do', 'switch', 'case', 'default',
                                'try', 'catch', 'return', 'break', 'continue', 'goto']
-            if any(f'\b{kw}\b' in clean_line for kw in control_keywords):
+            if any(re.search(rf'\b{re.escape(kw)}\b', clean_line) for kw in control_keywords):
                 # For control flow, don't track scope entries
                 if '}' in clean_line and scope_stack:
                     # Try to match closing braces with our tracked scopes
