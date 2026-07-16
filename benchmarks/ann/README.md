@@ -39,3 +39,14 @@ cmake --build --preset nightly-bench-sweep
 - Bereichsplanung: [`../ROADMAP.md`](../ROADMAP.md)
 - Erweiterungen: [`../FUTURE_ENHANCEMENTS.md`](../FUTURE_ENHANCEMENTS.md)
 - Strategischer Layer-Kontext: [`../../FUTURE_PLAN.md`](../../FUTURE_PLAN.md)
+
+## CPU SIMD vs GPU Dispatch
+
+The benchmark matrix for CPU SIMD vs GPU dispatch in ANN, Tensor, and Graph paths is defined in:
+
+- [`docs/benchmarks/CPU_SIMD_GPU_DISPATCH_BENCHMARK_MATRIX.md`](../../docs/benchmarks/CPU_SIMD_GPU_DISPATCH_BENCHMARK_MATRIX.md) — Full benchmark matrix (ANN-S1..K2, break-even thresholds, binary plan, CTest smoke coverage)
+- [`docs/benchmarks/CPU_SIMD_GPU_BENCHMARK_SCENARIO_CATALOG.md`](../../docs/benchmarks/CPU_SIMD_GPU_BENCHMARK_SCENARIO_CATALOG.md) — Per-scenario detail with parameters, metrics, and acceptance gates
+
+ANN-specific scenarios are identified by prefix `ANN-` in both documents.
+The benchmark binary for GPU-extended ANN benchmarks is `bench_ann_cpu_gpu_dispatch`
+(see matrix §10 Benchmark Binary Plan).

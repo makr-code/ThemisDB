@@ -21,6 +21,7 @@
 // Distributed graph query execution across shards.
 
 #include "graph/distributed_graph.h"
+#include "observability/metrics_collector.h"
 
 #include <algorithm>
 #include <chrono>
@@ -36,6 +37,17 @@
 
 namespace themis {
 namespace graph {
+
+namespace {
+
+void recordExactTraversalError(std::string_view operation, std::string_view reason) {
+    observability::MetricsCollector::getInstance().addCounter(
+        "graph_exact_traversal_errors_total", 1,
+        {{"operation", std::string(operation)},
+         {"reason", std::string(reason)}});
+}
+
+} // namespace
 
 // ─────────────────────────────────────────────────────────────────────────────
 // LocalShardGraphExecutor
@@ -204,6 +216,7 @@ DistributedGraphManager::shortestPath(std::string_view start_vertex, std::string
                                       const GraphQueryOptimizer::QueryConstraints &constraints) {
     auto shards = healthyShards();
     if (shards.empty()) {
+        recordExactTraversalError("shortest_path", "no_healthy_shards");
         return Err<GraphIndexManager::PathResult>(errors::ErrorCode::ERR_QUERY_EXECUTION_FAILED,
                                                   "No healthy shards available for distributed shortest path query");
     }
@@ -231,6 +244,9 @@ DistributedGraphManager::shortestPath(std::string_view start_vertex, std::string
                 if (res && !res->path.empty()) {
                     return res;
                 }
+                if (!res) {
+                    recordExactTraversalError("shortest_path", "single_shard_execution_failed");
+                }
                 // Fall through to global search if the shard failed.
                 break;
             }
@@ -256,6 +272,9 @@ DistributedGraphManager::shortestPath(std::string_view start_vertex, std::string
     for (auto &f : futures) {
         auto res = f.get();
         if (!res || res->path.empty()) {
+            if (!res) {
+                recordExactTraversalError("shortest_path", "shard_execution_failed");
+            }
             continue; // this shard has no path
         }
         if (res->totalCost < best.totalCost) {
@@ -282,6 +301,7 @@ DistributedGraphManager::kHopNeighbors(std::string_view start_vertex, int k,
                                        const GraphQueryOptimizer::QueryConstraints &constraints) {
     auto shards = healthyShards();
     if (shards.empty()) {
+        recordExactTraversalError("k_hop_neighbors", "no_healthy_shards");
         return Err<std::vector<std::string>>(errors::ErrorCode::ERR_QUERY_EXECUTION_FAILED,
                                              "No healthy shards available for distributed k-hop neighbors query");
     }
@@ -308,6 +328,7 @@ DistributedGraphManager::kHopNeighbors(std::string_view start_vertex, int k,
     for (auto &f : futures) {
         auto res = f.get();
         if (!res) {
+            recordExactTraversalError("k_hop_neighbors", "shard_execution_failed");
             spdlog::debug("distributed_graph: k-hop BFS shard returned error, skipping");
             continue;
         }

@@ -473,10 +473,10 @@ def process_file(path: Path, cfg: Config) -> Tuple[List[str], List[Change]]:
                     new_block = convert_to_doxygen_format(comment_text, func, func.indent)
                     # Remove the existing comment lines
                     lines[start_line:end_line + 1] = []
-                    # Insert the new Doxygen block before the function
-                    lines[func.start_line:func.start_line] = new_block
+                    # Insert the new Doxygen block at the original comment location
+                    lines[start_line:start_line] = new_block
                     changes.append(Change(
-                        file=str(path), line=func.start_line + 1, action="convert",
+                        file=str(path), line=start_line + 1, action="convert",
                         reason="converted existing comment to doxygen", function=func.name
                     ))
                     continue  # Skip the normal insertion below
