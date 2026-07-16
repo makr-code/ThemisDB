@@ -12,6 +12,7 @@
  *   - KernelRegistry::lookupGeoWithFallback()
  *   - KernelRegistry::registeredBackends()
  *   - KernelRegistry::validate()
+ *   - ValidationReport::allComplete()
  *   - ValidationReport::summary()
  *   - BackendRegistry::validateKernels()
  *   - BackendRegistry::getKernelRegistry()
@@ -53,26 +54,67 @@ const char* backendTypeName(BackendType t) noexcept {
 } // anonymous namespace
 
 // ---------------------------------------------------------------------------
+// ValidationReport::allComplete()
+// ---------------------------------------------------------------------------
+
+bool ValidationReport::allComplete() const {
+    if (entries.empty()) return true;
+    for (const auto& entry : entries) {
+        if (entry.hasANN && !entry.annComplete)       return false;
+        if (entry.hasGeo && !entry.geoComplete)       return false;
+        if (entry.hasMatrix && !entry.matrixComplete) return false;
+    }
+    return true;
+}
+
+// ---------------------------------------------------------------------------
 // ValidationReport::summary()
 // ---------------------------------------------------------------------------
 
 std::string ValidationReport::summary() const {
     std::ostringstream oss;
-    for (const auto& e : entries) {
-        oss << backendTypeName(e.backend) << "  ";
-        if (e.hasANN)    oss << "ANN="    << (e.annComplete    ? "\u2713" : "\u2717") << " ";
-        if (e.hasGeo)    oss << "Geo="    << (e.geoComplete    ? "\u2713" : "\u2717") << " ";
-        if (e.hasMatrix) oss << "Matrix=" << (e.matrixComplete ? "\u2713" : "\u2717") << " ";
-        if (!e.missingSlots.empty()) {
-            oss << "[";
-            for (size_t i = 0; i < e.missingSlots.size(); ++i) {
+
+    if (entries.empty()) {
+        oss << "No backends registered.\n";
+        return oss.str();
+    }
+
+    for (const auto& entry : entries) {
+        oss << backendTypeName(entry.backend) << ": ";
+
+        if (!entry.hasANN && !entry.hasGeo && !entry.hasMatrix) {
+            oss << "no kernels\n";
+            continue;
+        }
+
+        std::vector<std::string> statuses;
+        if (entry.hasANN) {
+            statuses.push_back(entry.annComplete ? "ANN✓" : "ANN✗");
+        }
+        if (entry.hasGeo) {
+            statuses.push_back(entry.geoComplete ? "Geo✓" : "Geo✗");
+        }
+        if (entry.hasMatrix) {
+            statuses.push_back(entry.matrixComplete ? "Matrix✓" : "Matrix✗");
+        }
+
+        for (size_t i = 0; i < statuses.size(); ++i) {
+            if (i > 0) oss << " | ";
+            oss << statuses[i];
+        }
+
+        if (!entry.missingSlots.empty()) {
+            oss << " [Missing: ";
+            for (size_t i = 0; i < entry.missingSlots.size(); ++i) {
                 if (i > 0) oss << ", ";
-                oss << e.missingSlots[i];
+                oss << entry.missingSlots[i];
             }
             oss << "]";
         }
+
         oss << "\n";
     }
+
     return oss.str();
 }
 
@@ -178,69 +220,10 @@ ValidationReport KernelRegistry::validate() const {
             cov.matrixComplete = ok;
         }
 
-// ---------------------------------------------------------------------------
-// ValidationReport::allComplete()
-// ---------------------------------------------------------------------------
-
-bool ValidationReport::allComplete() const {
-    if (entries.empty()) return true;
-    for (const auto& entry : entries) {
-        if (entry.hasANN && !entry.annComplete)       return false;
-        if (entry.hasGeo && !entry.geoComplete)       return false;
-        if (entry.hasMatrix && !entry.matrixComplete) return false;
-    }
-    return true;
-}
-
-// ---------------------------------------------------------------------------
-// ValidationReport::summary()
-// ---------------------------------------------------------------------------
-
-std::string ValidationReport::summary() const {
-    std::ostringstream oss;
-
-    if (entries.empty()) {
-        oss << "No backends registered.\n";
-        return oss.str();
+        report.entries.push_back(cov);
     }
 
-    for (const auto& entry : entries) {
-        oss << backendTypeName(entry.backend) << ": ";
-
-        if (!entry.hasANN && !entry.hasGeo && !entry.hasMatrix) {
-            oss << "no kernels\n";
-            continue;
-        }
-
-        std::vector<std::string> statuses;
-        if (entry.hasANN) {
-            statuses.push_back(entry.annComplete ? "ANN✓" : "ANN✗");
-        }
-        if (entry.hasGeo) {
-            statuses.push_back(entry.geoComplete ? "Geo✓" : "Geo✗");
-        }
-        if (entry.hasMatrix) {
-            statuses.push_back(entry.matrixComplete ? "Matrix✓" : "Matrix✗");
-        }
-
-        for (size_t i = 0; i < statuses.size(); ++i) {
-            if (i > 0) oss << " | ";
-            oss << statuses[i];
-        }
-
-        if (!entry.missingSlots.empty()) {
-            oss << " [Missing: ";
-            for (size_t i = 0; i < entry.missingSlots.size(); ++i) {
-                if (i > 0) oss << ", ";
-                oss << entry.missingSlots[i];
-            }
-            oss << "]";
-        }
-
-        oss << "\n";
-    }
-
-    return oss.str();
+    return report;
 }
 
 // ---------------------------------------------------------------------------

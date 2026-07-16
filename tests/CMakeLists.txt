@@ -12,10 +12,27 @@ message(STATUS "Configuring ThemisDB test suite")
 # Per team policy: suppress warnings for test builds only.
 # Core/library targets keep their warning policy unchanged.
 if(MSVC)
-    # Avoid adding a second /W flag if one is already present in the
-    # global CMake flags (e.g. /W4 set by the project). Only add /W0 per
-    # test target when no /W flag is present to prevent cl D9025 warnings.
-    if(CMAKE_CXX_FLAGS MATCHES "/W[0-4]" OR CMAKE_C_FLAGS MATCHES "/W[0-4]")
+    # Avoid adding a second /W flag if one is already present in inherited
+    # compile options (e.g. project-wide /W4 via add_compile_options) or in
+    # global flags. Only add /W0 per test target when no /W flag is present
+    # to prevent cl D9025 warnings.
+    get_directory_property(_themis_test_dir_compile_options COMPILE_OPTIONS)
+    set(_themis_test_msvc_flag_sources
+        "${CMAKE_CXX_FLAGS}"
+        "${CMAKE_C_FLAGS}"
+        "${CMAKE_CXX_FLAGS_DEBUG}"
+        "${CMAKE_C_FLAGS_DEBUG}"
+        "${CMAKE_CXX_FLAGS_RELEASE}"
+        "${CMAKE_C_FLAGS_RELEASE}"
+        "${CMAKE_CXX_FLAGS_RELWITHDEBINFO}"
+        "${CMAKE_C_FLAGS_RELWITHDEBINFO}"
+        "${CMAKE_CXX_FLAGS_MINSIZEREL}"
+        "${CMAKE_C_FLAGS_MINSIZEREL}"
+        "${_themis_test_dir_compile_options}"
+    )
+    string(REPLACE ";" " " _themis_test_msvc_flag_blob "${_themis_test_msvc_flag_sources}")
+
+    if(_themis_test_msvc_flag_blob MATCHES "(^|[ \\t])(/W[0-4]|/Wall)($|[ \\t])")
         set(_THEMIS_TESTS_SUPPRESS_WARNINGS_MVC_ALREADY_SET ON)
         message(STATUS "MSVC: global warning level already set; not forcing /W0 for tests")
     else()

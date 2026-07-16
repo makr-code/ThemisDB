@@ -28,7 +28,8 @@ foreach(_src IN LISTS GPU_MODULE_TEST_SOURCES)
 
     # Suppress compiler warnings for test targets (per-target to avoid
     # cl D9025: '/W4' overwritten by '/W0' when global flags conflict).
-    if(DEFINED _THEMIS_TESTS_SUPPRESS_WARNINGS_MVC)
+    if(DEFINED _THEMIS_TESTS_SUPPRESS_WARNINGS_MVC AND
+       NOT DEFINED _THEMIS_TESTS_SUPPRESS_WARNINGS_MVC_ALREADY_SET)
         target_compile_options(${_target} PRIVATE /W0)
     elseif(DEFINED _THEMIS_TESTS_SUPPRESS_WARNINGS_UNIX)
         target_compile_options(${_target} PRIVATE -w)
