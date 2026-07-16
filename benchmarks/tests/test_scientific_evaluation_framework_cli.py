@@ -53,6 +53,7 @@ def _base_payload() -> dict:
             {
                 "id": "cli-p95-latency",
                 "subsystem": "query",
+                "wave6_track": "B6-A",
                 "hypothesis": {
                     "h0": "No improvement.",
                     "h1": "Treatment lowers p95 latency.",
@@ -125,6 +126,7 @@ class ScientificEvaluationFrameworkCLITests(unittest.TestCase):
             report = json.loads(output_path.read_text(encoding="utf-8"))
             self.assertEqual(report["summary"]["gate_violations"], 0)
             self.assertEqual(report["summary"]["signifikant_positiv"], 1)
+            self.assertIn("B6-A", report["summary"]["wave6_tracks"])
 
     def test_tickets_output_written_on_regression(self):
         """Regressive treatment → tickets JSON contains one entry."""

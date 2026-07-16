@@ -22,6 +22,7 @@
 - Historische Report-Aggregation (rolling windows: 7/30/90 Tage) in separatem Aggregator ergänzen.
 - Performance-Budget-Policies pro Subsystem zentral in versionierter Konfigurationsdatei verwalten.
 - Ticket-Dispatcher an echte Tracker-Schnittstelle (GitHub Issues/Jira) anbinden, ohne Core-Auswertung zu koppeln.
+- Wave-6-Suite (`ci_wave6_release_candidate_experiments.json`) um zusätzliche Degradation-Profile erweitern (Netzwerklatenz + partielle Ausfälle + Ressourcenkappung).
 
 ### Test Strategy
 - Unit-Tests für neue Statistikpfade (Bootstrap/Permutation) mit deterministischen Seeds.
@@ -31,6 +32,7 @@
 ### Performance Targets
 - Statistische Auswertung für 10 Experimente mit je 2×1000 Samples in <= 120s auf Standard-CI-Runner.
 - Deterministische Reproduzierbarkeit: Delta der Kernmetriken zwischen Wiederholungen <= 1e-9 bei identischem Seed/Input.
+- Wave-6-Final-Gates: `summary.wave6_gate_violations == 0` für release-kritische RC-Runs.
 
 ### Security / Reliability
 - Strikte Validierung aller numerischen Inputs (NaN/Inf, negative Größen, fehlende Pflichtfelder).
