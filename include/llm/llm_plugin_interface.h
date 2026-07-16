@@ -78,6 +78,19 @@ struct LLMCapabilities {
  */
 struct ModelInfo {
     virtual ~ModelInfo() = default;
+
+    /// @brief Move constructor — transfers all fields; source is left in a valid empty state.
+    /// @note Move semantics: all string/primitive members transferred; source cleared by std::string move.
+    ModelInfo(ModelInfo&&) noexcept = default;
+
+    /// @brief Move assignment operator.
+    /// @note Move semantics: all string/primitive members transferred.
+    ModelInfo& operator=(ModelInfo&&) noexcept = default;
+
+    ModelInfo(const ModelInfo&) = default;
+    ModelInfo& operator=(const ModelInfo&) = default;
+    ModelInfo() = default;
+
     std::string name;              // e.g., "mistral-7b-instruct"
     std::string path;              // Path to model file
     std::string format;            // e.g., "gguf", "safetensors"
@@ -103,6 +116,19 @@ struct ModelInfo {
  */
 struct LoRAInfo {
     virtual ~LoRAInfo() = default;
+
+    /// @brief Move constructor — transfers all fields; source left valid-empty.
+    /// @note Move semantics: std::string move clears source strings; primitives copied.
+    LoRAInfo(LoRAInfo&&) noexcept = default;
+
+    /// @brief Move assignment operator.
+    /// @note Move semantics: all members transferred, source left valid-empty.
+    LoRAInfo& operator=(LoRAInfo&&) noexcept = default;
+
+    LoRAInfo(const LoRAInfo&) = default;
+    LoRAInfo& operator=(const LoRAInfo&) = default;
+    LoRAInfo() = default;
+
     std::string id;                // Unique identifier
     std::string name;              // Human-readable name
     std::string path;              // Path to LoRA weights
@@ -198,6 +224,19 @@ struct InferenceRequest {
  */
 struct InferenceResponse {
     virtual ~InferenceResponse() = default;
+
+    /// @brief Move constructor — transfers all members including containers and optional fields.
+    /// @note Move semantics: std::vector/std::string members moved; source left valid-empty.
+    InferenceResponse(InferenceResponse&&) noexcept = default;
+
+    /// @brief Move assignment operator.
+    /// @note Move semantics: all members transferred; source left in a valid empty state.
+    InferenceResponse& operator=(InferenceResponse&&) noexcept = default;
+
+    InferenceResponse(const InferenceResponse&) = default;
+    InferenceResponse& operator=(const InferenceResponse&) = default;
+    InferenceResponse() = default;
+
     std::string request_id;      // Mirrors request id if provided
     std::string text;              // Generated text
     std::string model_id;          // Model identifier used
@@ -247,6 +286,19 @@ struct InferenceResponse {
  */
 struct RAGContext {
     virtual ~RAGContext() = default;
+
+    /// @brief Move constructor — transfers query, collection, documents, and all parameters.
+    /// @note Move semantics: std::string/std::vector members moved; source left valid-empty.
+    RAGContext(RAGContext&&) noexcept = default;
+
+    /// @brief Move assignment operator.
+    /// @note Move semantics: all members transferred; source left in a valid empty state.
+    RAGContext& operator=(RAGContext&&) noexcept = default;
+
+    RAGContext(const RAGContext&) = default;
+    RAGContext& operator=(const RAGContext&) = default;
+    RAGContext() = default;
+
     std::string query;             // User query
     std::string collection_name;
     int top_k = 0;
@@ -279,11 +331,27 @@ struct RAGContext {
 class ILLMPlugin {
 public:
     virtual ~ILLMPlugin() = default;
-    
+
+    /// @brief Move constructor for polymorphic LLM plugin base.
+    /// @note Move semantics: abstract base carries no data; subclasses must call this.
+    ILLMPlugin(ILLMPlugin&&) noexcept = default;
+
+    /// @brief Move assignment operator for polymorphic LLM plugin base.
+    /// @note Move semantics: abstract base carries no data; subclasses must call this.
+    ILLMPlugin& operator=(ILLMPlugin&&) noexcept = default;
+
+    ILLMPlugin(const ILLMPlugin&) = delete;
+    ILLMPlugin& operator=(const ILLMPlugin&) = delete;
+
+protected:
+    ILLMPlugin() = default;
+
+public:
+
     // ═══════════════════════════════════════════════════════════
     // Model Management
     // ═══════════════════════════════════════════════════════════
-    
+
     /**
      * @brief Load a model
      * @param model_path Path to model file
@@ -529,8 +597,19 @@ class LLMPluginAdapter : public plugins::IThemisPlugin {
 public:
     explicit LLMPluginAdapter(std::unique_ptr<ILLMPlugin> llm_plugin)
         : llm_plugin_(std::move(llm_plugin)) {}
-    
+
     ~LLMPluginAdapter() override = default;
+
+    /// @brief Move constructor — transfers unique_ptr ownership; source becomes a null-plugin adapter.
+    /// @note Move semantics: std::unique_ptr move transfers sole ownership; source llm_plugin_ becomes nullptr.
+    LLMPluginAdapter(LLMPluginAdapter&&) noexcept = default;
+
+    /// @brief Move assignment operator — transfers unique_ptr ownership.
+    /// @note Move semantics: replaces current plugin with source; source becomes nullptr.
+    LLMPluginAdapter& operator=(LLMPluginAdapter&&) noexcept = default;
+
+    LLMPluginAdapter(const LLMPluginAdapter&) = delete;
+    LLMPluginAdapter& operator=(const LLMPluginAdapter&) = delete;
     
     // IThemisPlugin interface implementation
     const char* getName() const override { return "LLM Plugin"; }

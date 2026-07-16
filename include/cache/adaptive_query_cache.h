@@ -715,7 +715,7 @@ private:
     
     // L3: RocksDB persistent cache
     std::shared_ptr<RocksDBWrapper> l3_db_;
-    mutable std::mutex l3_mutex_;
+    mutable std::timed_mutex l3_mutex_;
 
     // Phase 4: Predictive pre-fetcher (Markov-chain query sequence model)
     std::unique_ptr<cache::PredictivePrefetcher> prefetcher_;

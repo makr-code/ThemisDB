@@ -479,3 +479,94 @@ TEST_F(MyIntegrationTest, DebugExample) {
 - [Google Test Primer](https://google.github.io/googletest/primer.html)
 - [Integration Testing Best Practices](https://martinfowler.com/bliki/IntegrationTest.html)
 - ThemisDB Test Coverage Report: `tests/TEST_COVERAGE_REPORT.md`
+
+---
+
+## Wave 2 Cross-Module Test Conventions (2026-07)
+
+### Goals
+
+Wave 2 adds cross-module tests that span *multiple* pipeline stages using shared
+infrastructure.  The invariant is: data written by one stage must be visible to
+the next through the same `InMemoryPipelineStorage` / `MockPipelineIndex`
+instances — no reset or copy in between.
+
+### New Fixture: `DeterministicIntegrationFixture`
+
+For all Wave 2 cross-module tests, inherit from `DeterministicIntegrationFixture`
+instead of `IntegrationTestFixture`.  This base class provides:
+
+- `data_gen` — `SeededTestDataGenerator` (seed = `kCanonicalSeed` = 42) for
+  reproducible document/vector data.
+- `storage`, `index`, `auth`, `audit`, `llm` — pre-wired shared mock instances.
+
+```cpp
+class MyCrossModuleTest : public DeterministicIntegrationFixture {
+protected:
+    void SetUp() override {
+        DeterministicIntegrationFixture::SetUp();
+        // valid_token_ / facades wired here
+    }
+};
+```
+
+### New Helper: `SeededTestDataGenerator`
+
+Use `SeededTestDataGenerator` (subclass of `TestDataGenerator`) whenever test
+assertions depend on specific generated values:
+
+```cpp
+SeededTestDataGenerator gen;                        // seed = 42
+auto docs = gen.GenerateDocumentBatch(5, "x",       // 5 docs, prefix="x"
+                                     {"foo","bar"});// terms attached to each
+// docs[0]["id"] == "x_0", docs[1]["id"] == "x_1", ...
+```
+
+The `kCanonicalSeed` constant is defined in `test_data_generator.h`.
+
+### New Helper: `MockRetryScheduler`
+
+`MockRetryScheduler` (defined in `test_fixture.h`) provides deterministic,
+synchronous retry logic for recovery tests.  No `sleep()` calls; every attempt
+is recorded for inspection:
+
+```cpp
+MockRetryScheduler scheduler(/*failures_before_success=*/2);
+const bool ok = scheduler.Execute(
+    [&]() { return TryWrite(key, value); },
+    /*max_attempts=*/5,
+    "write_key");
+EXPECT_TRUE(ok);
+EXPECT_EQ(scheduler.TotalAttempts(), 3U); // 2 failures + 1 success
+```
+
+### Wave 2 Test ID Registry
+
+| File | IDs | Labels | Scope |
+|---|---|---|---|
+| `pipeline/cross_module_ingest_index_query_test.cpp` | CMX-01..CMX-06 | `cross_module;wave2;ingest;query` | Ingest→Index→Query composed flow |
+| `pipeline/cross_module_recovery_pipeline_test.cpp` | REC-01..REC-07 | `cross_module;wave2;recovery` | Negative paths: retry, rollback, partial failure |
+
+### Run Wave 2 Tests
+
+```bash
+# All Wave 2 cross-module tests
+ctest -L cross_module --output-on-failure
+
+# Ingest→Query composed flow only
+ctest -R cross_module_ingest_index_query_test --output-on-failure
+
+# Recovery paths only
+ctest -R cross_module_recovery_pipeline_test --output-on-failure
+```
+
+### Wave 2 Acceptance Rules
+
+1. **No "no-crash" tests** — every test must assert a concrete observable outcome
+   (storage state, index entry, CDC event, query result, audit record).
+2. **Negative paths are mandatory** — each happy-path test group must have a
+   corresponding failure/recovery scenario.
+3. **Deterministic data** — use `SeededTestDataGenerator` or fixed-id documents
+   so baseline assertions are stable across CI runs.
+4. **Shared infrastructure** — cross-module tests must use the *same* storage and
+   index instances for both write and read stages; no intermediate reset.

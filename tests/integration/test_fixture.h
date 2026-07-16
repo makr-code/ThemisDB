@@ -1,9 +1,12 @@
 /*
- * ThemisDB | File: test_fixture.h | Version: 0.0.48
+ * ThemisDB | File: test_fixture.h | Version: 0.0.49
  * Maturity: 🟢 PRODUCTION-READY | Score: 88/100
- * Gap Summary: total=9; TODO=1, Stub=2, Unimpl=0, Mock=5, Sim=1, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
  * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
+ *
+ * Wave 2 additions (2026-07):
+ * - `MockRetryScheduler` — deterministic in-process retry helper for recovery tests.
+ * - `DeterministicIntegrationFixture` — extends `IntegrationTestFixture` with
+ *   a `SeededTestDataGenerator` and cross-module pre-wired pipeline helpers.
  */
 
 /**
@@ -12,6 +15,8 @@
  */
 
 #pragma once
+
+#include "test_data_generator.h"
 
 #include <gtest/gtest.h>
 #include <chrono>
@@ -303,6 +308,102 @@ protected:
 
 protected:
     std::filesystem::path temp_dir_;
+};
+
+/**
+ * @brief Deterministic in-process retry scheduler for Wave 2 recovery tests.
+ *
+ * `MockRetryScheduler` records every attempt, supports a configurable failure
+ * count before succeeding, and is entirely synchronous — no sleep() calls — so
+ * recovery tests remain fast and reproducible.
+ *
+ * Activation: test-only; injected by recovery pipeline helpers.
+ */
+class MockRetryScheduler {
+public:
+    /**
+     * @brief Construct with a fixed number of failures before success.
+     *
+     * @param failures_before_success  How many times the operation should fail
+     *                                 before `Execute` returns `true`.
+     *                                 0 means the first call succeeds.
+     */
+    explicit MockRetryScheduler(size_t failures_before_success = 0)
+        : failures_remaining_(failures_before_success) {}
+
+    /**
+     * @brief Execute @p op with retry logic.
+     *
+     * Calls @p op until it returns `true` or @p max_attempts is exhausted.
+     * Each call is recorded in `AttemptLog()`.
+     *
+     * @param op           Operation to retry; returns `true` on success.
+     * @param max_attempts Maximum total attempts (including the first).
+     * @param label        Descriptive label stored in the attempt log.
+     * @return `true` if @p op succeeded within @p max_attempts, `false` otherwise.
+     */
+    [[nodiscard]] bool Execute(const std::function<bool()>& op,
+                               size_t max_attempts,
+                               const std::string& label = "op") {
+        for (size_t attempt = 0; attempt < max_attempts; ++attempt) {
+            attempt_log_.push_back(label + "#" + std::to_string(attempt));
+            if (failures_remaining_ > 0) {
+                --failures_remaining_;
+                continue;
+            }
+            if (op()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /// @brief Returns all attempt labels recorded since construction.
+    [[nodiscard]] const std::vector<std::string>& AttemptLog() const {
+        return attempt_log_;
+    }
+
+    /// @brief Total number of Execute() call records.
+    [[nodiscard]] size_t TotalAttempts() const {
+        return attempt_log_.size();
+    }
+
+private:
+    size_t failures_remaining_;
+    std::vector<std::string> attempt_log_;
+};
+
+/**
+ * @brief Wave 2 fixture base: deterministic data generation + pre-wired mocks.
+ *
+ * Extends `IntegrationTestFixture` with:
+ * - `data_gen` — `SeededTestDataGenerator` seeded with `kCanonicalSeed` for
+ *   reproducible cross-module test data.
+ * - Ready-made `storage`, `index`, `auth`, `audit`, `llm` mock instances so
+ *   cross-module test cases need no manual construction boilerplate.
+ *
+ * All Wave 2 cross-module test suites should inherit from this class.
+ */
+class DeterministicIntegrationFixture : public IntegrationTestFixture {
+protected:
+    void SetUp() override {
+        IntegrationTestFixture::SetUp();
+        // data_gen is a SeededTestDataGenerator that exposes the extended
+        // Wave 2 API (GenerateDocumentBatch, GenerateVectorBatch) directly.
+        data_gen = std::make_unique<SeededTestDataGenerator>();
+        storage  = CreateInMemoryStorage();
+        index    = CreateMockIndex();
+        auth     = CreateMockAuth();
+        audit    = CreateAuditLog();
+        llm      = CreateMockLlmBackend();
+    }
+
+    std::unique_ptr<SeededTestDataGenerator>    data_gen;
+    std::shared_ptr<InMemoryPipelineStorage>    storage;
+    std::shared_ptr<MockPipelineIndex>          index;
+    std::shared_ptr<MockPipelineAuth>           auth;
+    std::shared_ptr<PipelineAuditLog>           audit;
+    std::shared_ptr<MockPipelineLlmBackend>     llm;
 };
 
 } // namespace test
