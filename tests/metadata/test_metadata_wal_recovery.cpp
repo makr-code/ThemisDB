@@ -223,20 +223,7 @@ TEST_F(MetadataWALTest, MetadataShardWithPersistence) {
         return false;
     }, std::chrono::seconds(5));
 
-    // Verify WAL directory has entries
-    EXPECT_TRUE(std::filesystem::exists(wal_dir));
-    
-    // Check if any WAL files were created
-    int file_count = 0;
-    if (std::filesystem::exists(wal_dir)) {
-        for (const auto& entry : std::filesystem::directory_iterator(wal_dir)) {
-            if (entry.is_regular_file()) {
-                file_count++;
-            }
-        }
-    }
-    EXPECT_GT(file_count, 0) << "WAL files should be created";
-    (void)wal_files_visible; // assertion already encoded in file_count check above
+    ASSERT_TRUE(wal_files_visible) << "WAL files should appear within 5 s";
     
     shard->stop();
 }

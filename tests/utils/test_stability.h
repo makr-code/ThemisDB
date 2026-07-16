@@ -100,7 +100,8 @@ inline void wait_for_clock_advance_ms() {
  * @param predicate  Callable returning bool; must be side-effect-free in
  *                   terms of test state (can be called multiple times).
  * @param timeout    Maximum time to wait.  A value of zero means a single
- *                   evaluation with no waiting.
+ *                   evaluation with no waiting — the predicate is called
+ *                   exactly once and the result is returned immediately.
  * @return true  if @p predicate returned true before the deadline.
  * @return false if the deadline elapsed without the predicate becoming true.
  */
@@ -109,13 +110,11 @@ inline bool poll_until(
     std::chrono::steady_clock::duration timeout = std::chrono::seconds(5))
 {
     const auto deadline = std::chrono::steady_clock::now() + timeout;
-    do {
+    while (true) {
         if (predicate()) return true;
+        if (std::chrono::steady_clock::now() >= deadline) return false;
         std::this_thread::yield();
-    } while (std::chrono::steady_clock::now() < deadline);
-
-    // One final check after deadline to avoid off-by-one races at the boundary.
-    return predicate();
+    }
 }
 
 } // namespace test
