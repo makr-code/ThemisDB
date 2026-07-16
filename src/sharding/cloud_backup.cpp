@@ -1156,27 +1156,3 @@ void setGCSExistsFn(GCSExistsFn fn) {
 
 } // namespace sharding
 } // namespace themis
-
-// Provide test-friendly stubs for cloud SDK initializers when SDKs are not linked.
-namespace themis {
-namespace sharding {
-
-bool initializeS3Provider(const std::string & /*region*/, const std::string & /*bucket*/, const std::string & /*endpoint*/) {
-    // Default build: AWS SDK not linked. Tests should inject callbacks instead.
-    return false;
-}
-
-bool initializeAzureProvider(const std::string & /*account_name*/, const std::string & /*container*/, const std::string & /*connection_string*/) {
-    return false;
-}
-
-bool initializeGCSProvider(const std::string & /*project_id*/, const std::string & /*bucket*/, const std::string & /*credentials_file*/) {
-    return false;
-}
-
-bool isS3ProviderAvailable() { return false; }
-bool isAzureProviderAvailable() { return false; }
-bool isGCSProviderAvailable() { return false; }
-
-} // namespace sharding
-} // namespace themis
