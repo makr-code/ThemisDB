@@ -10,6 +10,8 @@ on:
       - hyperscaler
       - military
     paths:
+      - 'src/**'
+      - 'include/**'
       - 'tests/integration/**'
       - 'tests/CMakeLists.txt'
       - 'tests/integration/CMakeLists.txt'

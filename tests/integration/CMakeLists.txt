@@ -185,7 +185,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/pipeline/rag_ai_pipeline_test.cpp")
         pipeline/rag_ai_pipeline_test.cpp
     )
     set_tests_properties(rag_ai_pipeline_test PROPERTIES
-        LABELS "integration;pipeline_integration;pipeline;rag;release_critical;degradation"
+        LABELS "integration;pipeline_integration;pipeline;rag;release_critical;degradation;deterministic"
     )
 endif()
 
