@@ -9,6 +9,9 @@ Production-grade security stack with transport/auth/access-control, encryption/k
 
 ## In Progress
 - [~] Security hardening wave for cryptographic assurance, policy enforcement consistency, and operational resilience (Target: Q3 2026)
+  - [x] Compiler/linker security hardening flags: stack-protector, FORTIFY_SOURCE=3, PIE/ASLR, RELRO, CFG (SEC-CC-4) (Target: Q3 2026)
+  - [x] CMake presets for ASAN/UBSAN sanitizer builds: community-asan, community-ubsan, linux-asan, linux-ubsan (SEC-CC-4) (Target: Q3 2026)
+  - [x] CI sanitizer jobs (ASan + UBSan) in cmake-multi-platform.yml (Target: Q3 2026)
   - [ ] Complete remaining verification for high-assurance crypto/runtime configurations (Target: Q3 2026)
   - [ ] Tighten failure-path behavior and observability for access-control and key-management surfaces (Target: Q3 2026)
 

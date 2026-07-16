@@ -34,7 +34,10 @@ remain pending.
 ## Implementation Phases
 
 ### Phase 1: Design / API Contract
-- [x] EPIC 3 contract ownership mapped and documented
+- [x] EPIC 3.1 (Artifact Classes) contract ownership mapped and documented
+- [x] EPIC 3.2 (Manifest Schema) contract ownership mapped and documented
+- [x] EPIC 3.3 (Shard Placement) contract ownership mapped and documented
+- [x] EPIC 3.4 (Integrity Model) contract ownership mapped and documented
 
 ### Phase 2: Core Implementation
 - [x] production translation units and public headers implemented
@@ -42,13 +45,19 @@ remain pending.
 
 ### Phase 3: Error Handling and Edge Cases
 - [x] runtime distributed failure semantics implemented and verified
+- [x] corruption and tampering detection implemented
+- [x] partial-receipt and stale-receipt edge case handling implemented
+- [x] recovery coordination hooks implemented (EPIC 3.5 integration ready)
 
 ### Phase 4: Tests
 - [x] focused Phase 3 regression suite implemented in `tests/epic3_distributed_tensor/`
 - [x] broaden contract and fault-path coverage across all EPIC 3 components — `test_phase4_contract_coverage.cpp` (58 tests, sub-issues 3.1–3.7)
+- [x] integrity verification unit and benchmark sources added for follow-on coverage expansion
 
 ### Phase 5: Performance and Hardening
-- [ ] benchmark suite implemented in `benchmarks/epic3_distributed_tensor/`
+- [x] benchmark suite implemented in `tests/epic3_distributed_tensor/integrity_verification_bench.cc`
+- [ ] performance optimization with hardware acceleration (SHA-NI, AVX-512)
+- [ ] alignment with graph provenance performance targets
 
 ### Phase 6: Documentation and Acceptance
 - [x] core distributed tensor docs aligned to source-verifiable implementation state

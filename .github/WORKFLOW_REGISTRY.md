@@ -43,6 +43,8 @@ Quarantaene, nicht einen inoffiziellen Reservepool fuer schnelle Reaktivierung.
   — Enger PR-Gate fuer Vollstaendigkeit akzeptierter High-Finding-Exceptions im PR-Text anhand des High-Exception-Records
 - `.github/workflows/08-quality_doxygen-coverage-gate.yml`
   — Doxygen XML Coverage Gate fuer PRs (Threshold zentral in `.github/ci-scope-config.yaml` unter `quality_gates.docs_coverage_threshold`, Default 90%)
+- `.github/workflows/license-compliance.yml`
+  — Compliance-Gate fuer vcpkg-Lizenz-Whitelist mit Release-Artefakten `license-summary.md` und `vcpkg-license-sbom.json`
 - `.github/workflows/security-dast-ci.yml`
   — OWASP-ZAP-basierter DAST-Sicherheitscheck fuer API-Pfade
 - `.github/workflows/sbom-ci.yml`
@@ -85,6 +87,6 @@ pwsh -NoProfile -File ./scripts/test-github-actions-local.ps1 -Mode all
 ```
 
 ## Stand
-- Aktive Workflows im Verzeichnis `.github/workflows/`: 19
+- Aktive Workflows im Verzeichnis `.github/workflows/`: 20
 - Deaktivierte Workflows in `.github/no_workflows/`: 23
 - Strategie: Lean + harte Triggergrenzen + Quarantaene fuer uebertriggernde CI

@@ -1,5 +1,5 @@
 # EPIC 3 — Distributed Tensor Artifacts
-# Phase 2 Core Implementation: Artifact classes, manifests, placement, integrity, recovery, planning, infrastructure
+# Active implementation target for the distributed tensor module.
 
 set(DISTRIBUTED_TENSOR_PUBLIC_HEADERS
     ${CMAKE_SOURCE_DIR}/include/distributed_tensor/tensor_artifact_classes.h
@@ -22,29 +22,25 @@ set(DISTRIBUTED_TENSOR_SOURCES
 )
 
 add_library(themis_distributed_tensor STATIC ${DISTRIBUTED_TENSOR_SOURCES})
-target_include_directories(themis_distributed_tensor 
-    PUBLIC 
+target_include_directories(themis_distributed_tensor
+    PUBLIC
         ${CMAKE_SOURCE_DIR}/include
         ${CMAKE_SOURCE_DIR}/src
 )
 
-# Link against core dependencies
 target_link_libraries(themis_distributed_tensor
     PRIVATE
         themis_base
 )
 
-# Enable C++17 features
 target_compile_features(themis_distributed_tensor PRIVATE cxx_std_17)
 
-# Set compilation flags for optimizations and warnings
 if(MSVC)
     target_compile_options(themis_distributed_tensor PRIVATE /W4 /WX)
 else()
     target_compile_options(themis_distributed_tensor PRIVATE -Wall -Wextra -Wpedantic)
 endif()
 
-# Install public headers
 install(FILES ${DISTRIBUTED_TENSOR_PUBLIC_HEADERS}
     DESTINATION include/distributed_tensor
 )

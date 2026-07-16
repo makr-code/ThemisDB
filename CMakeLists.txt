@@ -158,6 +158,7 @@ include(cmake/deprecated_checks.cmake OPTIONAL)
 
 # 3. Platform detection (OS, CPU, triplet)
 include(cmake/platforms/PlatformDetection.cmake)
+include(cmake/validation/CrossCompileValidation.cmake)
 
 # 4. Architecture optimizations (AVX2, NEON, etc.)
 include(cmake/platforms/ArchitectureOptimizations.cmake)
@@ -220,6 +221,21 @@ endif()
 
 # Testing - handled in cmake/CMakeLists.txt via add_subdirectory(tests)
 # (Moved to cmake/CMakeLists.txt to be closer to target definitions)
+
+find_package(Python3 COMPONENTS Interpreter QUIET)
+if(Python3_Interpreter_FOUND)
+    add_custom_target(license-compliance
+        COMMAND ${CMAKE_COMMAND} -E make_directory "${CMAKE_BINARY_DIR}/license-compliance"
+        COMMAND "${Python3_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/scripts/check_vcpkg_licenses.py"
+                --manifest "${CMAKE_CURRENT_SOURCE_DIR}/vcpkg.json"
+                --policy "${CMAKE_CURRENT_SOURCE_DIR}/.license-policy.json"
+                --output-dir "${CMAKE_BINARY_DIR}/license-compliance"
+        WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+        COMMENT "Checking vcpkg dependency licenses against .license-policy.json"
+    )
+else()
+    message(STATUS "Python3 interpreter not found; license-compliance target is unavailable")
+endif()
 
 # ============================================================================
 # PERFORMANCE MEASUREMENT FEATURE FLAGS

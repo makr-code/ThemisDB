@@ -11,7 +11,7 @@ ThemisDB implementiert einen automatisierten Lizenz-Compliance-Prozess, um siche
 Der Lizenz-Compliance-Workflow (`.github/workflows/license-compliance.yml`) wird automatisch ausgeführt bei:
 
 - **Pull Requests**: Prüft alle Änderungen an Abhängigkeiten
-- **Push auf Hauptbranches**: Validiert Lizenz-Compliance im main/develop Branch
+- **Push auf permanente Branches**: Validiert Lizenz-Compliance auf `develop`, `community`, `enterprise`, `hyperscaler`, `military` und `minimal`
 - **Monatlicher Audit**: Automatische Prüfung am ersten Tag jedes Monats
 - **Manuelle Auslösung**: Kann jederzeit über GitHub Actions UI gestartet werden
 
@@ -76,9 +76,9 @@ Diese Lizenzen sind mit **Warnung** akzeptiert, wenn dynamic linking verwendet w
 
 ### 3. Unbekannte Lizenzen (Unknown) ❓
 
-Lizenzen, die nicht in der Policy definiert sind, erfordern eine manuelle Überprüfung.
+Lizenzen, die nicht in der Policy definiert sind, gelten als nicht whitelisted und erfordern eine manuelle Überprüfung.
 
-**Aktion**: Warnung wird angezeigt, manuelle Review erforderlich.
+**Aktion**: Pull Request wird blockiert, bis eine Freigabe oder ein erlaubter Ersatz vorliegt.
 
 ## Workflow-Integration
 
@@ -86,25 +86,25 @@ Lizenzen, die nicht in der Policy definiert sind, erfordern eine manuelle Überp
 
 Bei jedem Pull Request wird automatisch:
 
-1. **Lizenz-Scan durchgeführt**: Alle Abhängigkeiten werden auf ihre Lizenzen geprüft
-2. **Policy-Validierung**: Lizenzen werden gegen die definierte Policy geprüft
-3. **PR-Kommentar**: Ergebnis wird als Kommentar im PR angezeigt
-4. **Status-Check**: PR-Status wird auf "failed" gesetzt bei Verletzungen
+1. **Lizenz-Scan durchgeführt**: Alle in `vcpkg.json` deklarierten direkten und transitiven Pakete werden auf ihre Lizenzen geprüft
+2. **Policy-Validierung**: SPDX-Lizenz-Ausdrücke werden gegen `.license-policy.json` ausgewertet
+3. **Lizenz-SBOM erzeugt**: `vcpkg-license-sbom.json` und `license-summary.md` werden als Artefakte abgelegt
+4. **Status-Check**: PR-Status wird auf "failed" gesetzt bei blockierten oder nicht whitelisted Lizenzen
 
-### Beispiel PR-Kommentar
+### Beispiel Workflow-Summary
 
 ```markdown
 ## 📋 License Compliance Check
 
 ### ✅ Check Passed
 
-All dependencies comply with the license policy.
+Alle Abhängigkeiten entsprechen der Lizenz-Policy.
 
 **Summary:**
-- 🔴 Violations: 0
+- 🔴 Blocked: 0
 - 🟡 Warnings: 1
 
-[View detailed report in workflow summary](...)
+[Lizenz-SBOM und Summary als Artefakte herunterladen](...)
 ```
 
 ### Blockierung von PRs bei Verletzungen
@@ -112,9 +112,9 @@ All dependencies comply with the license policy.
 Wenn eine Lizenz-Verletzung erkannt wird:
 
 1. ❌ Der PR-Check schlägt fehl
-2. 📝 Ein detaillierter Bericht wird als PR-Kommentar hinzugefügt
-3. 🚫 Der PR kann nicht gemerged werden
-4. 📋 Die Workflow-Zusammenfassung zeigt Details zu den Verletzungen
+2. 📝 `license-summary.md` zeigt problematische Pakete, SPDX-Ausdrücke und Policy-Entscheidungen
+3. 🚫 Der PR darf nicht gemerged werden, bis der Status-Check wieder grün ist
+4. 📋 `vcpkg-license-sbom.json` dokumentiert die vollständige Paketliste für Audit und Release
 
 ## Prozess bei Lizenz-Verletzungen
 
@@ -170,7 +170,7 @@ Führen Sie jederzeit einen manuellen Audit durch:
 
 ```bash
 # Via GitHub Actions UI
-# 1. Gehen Sie zu Actions → License Compliance
+# 1. Gehen Sie zu Actions → Compliance — License Policy Gate
 # 2. Klicken Sie auf "Run workflow"
 # 3. Wählen Sie den Branch
 # 4. Klicken Sie auf "Run workflow"
@@ -180,9 +180,8 @@ Führen Sie jederzeit einen manuellen Audit durch:
 
 Alle Audit-Berichte werden als Artefakte gespeichert:
 
-- `license-report.txt` - Zusammenfassung
-- `vcpkg-licenses.json` - vcpkg Abhängigkeiten
-- `npm-licenses.json` - npm Abhängigkeiten (falls vorhanden)
+- `license-summary.md` - Review- und Audit-Zusammenfassung
+- `vcpkg-license-sbom.json` - Lizenz-SBOM für direkte und transitive vcpkg-Abhängigkeiten
 
 **Aufbewahrungsdauer**: 90 Tage
 
@@ -220,7 +219,7 @@ Der Lizenz-Compliance-Workflow arbeitet mit dem SBOM-Workflow zusammen:
 
 - SBOM enthält Lizenz-Informationen für alle Abhängigkeiten
 - Wird bei jedem Release generiert
-- Siehe `.github/workflows/sbom.yml`
+- Siehe `.github/workflows/sbom-ci.yml`
 
 ### Security Scanning
 
@@ -234,9 +233,9 @@ Der Security-Scan-Workflow (`.github/workflows/security-scan.yml`) enthält eine
 
 Bei Code Reviews:
 
-1. Prüfen Sie den Lizenz-Check-Status
-2. Überprüfen Sie neue Abhängigkeiten manuell
-3. Stellen Sie Fragen bei Unklarheiten
+1. Prüfen Sie den Status von `Compliance — License Policy Gate`
+2. Laden Sie bei Bedarf `license-summary.md` oder `vcpkg-license-sbom.json` aus dem Workflow herunter
+3. Überprüfen Sie Warnungen und Ausnahmen manuell
 4. Dokumentieren Sie Lizenz-Entscheidungen im PR
 
 ## Compliance-Standards
