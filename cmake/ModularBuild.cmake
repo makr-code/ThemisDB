@@ -4,9 +4,8 @@
 
 cmake_minimum_required(VERSION 3.20)
 
-# Build mode option - default to modular build for current branch
-# Note: keep version guard below to prevent enabling on older releases
-option(THEMIS_BUILD_MODULAR "Build as modular libraries instead of monolithic core (v1.4.0+ feature)" ON)
+# Build mode option - defaults to legacy monolithic build until v1.4.0 is released
+option(THEMIS_BUILD_MODULAR "Build as modular libraries instead of monolithic core (v1.4.0+ feature)" OFF)
 
 # Version check - only allow modular build after v1.4.0
 if(THEMIS_BUILD_MODULAR)
@@ -676,7 +675,6 @@ set(THEMIS_QUERY_SOURCES
     # Arrow Flight RPC support for remote analytics (Issue #1472)
     ../src/analytics/arrow_flight.cpp
     
-    
     # AQL handlers (non-LLM)
     $<$<NOT:$<BOOL:${THEMIS_MODULE_LLM}>>:../src/aql/aql_query_builder.cpp>
     $<$<NOT:$<BOOL:${THEMIS_MODULE_LLM}>>:../src/aql/aql_query_validator.cpp>
@@ -719,7 +717,6 @@ set(THEMIS_QUERY_SOURCES
     ../src/importers/mongo_importer.cpp
     ../src/importers/sqlite_importer.cpp
     ../src/importers/flatfile_importer.cpp
-    ../src/importers/huggingface_ingest_plugin.cpp
     ../src/importers/schema_validator.cpp
     ../src/importers/kafka_importer.cpp
     ../src/importers/oracle_importer.cpp
@@ -1020,8 +1017,6 @@ set(THEMIS_SHARDING_SOURCES
     ../src/sharding/paxos_state_persistence.cpp
     ../src/sharding/dual_consensus_orchestrator.cpp
     ../src/sharding/cross_shard_transaction.cpp
-    ../src/sharding/cross_shard_fk_validator.cpp
-    ../src/sharding/cross_shard_ssi_manager.cpp
     ../src/sharding/transaction_wal.cpp
     ../src/sharding/transaction_snapshot.cpp
 
@@ -1489,27 +1484,6 @@ set(THEMIS_CONTENT_SOURCES
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/projects/project_template.cpp>
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/projects/project_versioning.cpp>
 )
-
-## Avoid Unity aggregation for a small list of very large/complex source files
-# which historically produced oversized Unity objects on MSVC (LNK1248).
-# Add heavy sources here to compile them outside of Unity batches.
-set(THEMIS_UNITY_SKIP_SOURCES
-    ../src/server/http_server.cpp
-    ../src/query/query_engine.cpp
-    ../src/query/functions/function_registry.cpp
-    ../src/index/inverted_index.cpp
-    ../src/index/graph_index.cpp
-    ../src/index/product_quantizer.cpp
-)
-
-foreach(_themis_skip_src IN LISTS THEMIS_UNITY_SKIP_SOURCES)
-    # Resolve to absolute path relative to this CMake file
-    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/${_themis_skip_src}")
-        get_filename_component(_themis_skip_abs "${CMAKE_CURRENT_SOURCE_DIR}/${_themis_skip_src}" ABSOLUTE)
-        set_source_files_properties(${_themis_skip_abs} PROPERTIES SKIP_UNITY_BUILD_INCLUSION ON)
-        message(STATUS "Marked to skip Unity inclusion: ${_themis_skip_abs}")
-    endif()
-endforeach()
 
 set(THEMIS_TIMESERIES_SOURCES
     # Time-series storage
@@ -2251,37 +2225,7 @@ function(themis_build_modular)
         # Ensure proto files are generated before compiling sharding sources
         if(TARGET themis_shard_proto)
             add_dependencies(themis_sharding themis_shard_proto)
-            # Ensure Abseil package is found before referencing component targets
-            if(NOT TARGET absl::abseil_dll)
-                find_package(absl CONFIG REQUIRED)
-            endif()
-            # Link proto and gRPC explicitly so transitive Abseil/Protobuf deps
-            # are available when building the sharding DLL on MSVC.
-            target_link_libraries(themis_sharding PRIVATE themis_shard_proto protobuf::libprotobuf gRPC::grpc++ absl::abseil_dll)
-            # On MSVC add explicit vcpkg abseil import libs to ensure all
-            # absl internal components referenced by generated protobuf
-            # code are pulled into the final DLL. This complements the
-            # imported CMake target and avoids unresolved externals from
-            # granular absl component libs in vcpkg.
-            if(MSVC)
-                # Link the Abseil aggregate plus specific components that
-                # provide logging and hashing internals required by the
-                # generated proto code. Keeping the list small reduces
-                # coupling while ensuring unresolved externals are satisfied.
-                target_link_libraries(themis_sharding PRIVATE
-                    absl::abseil_dll
-                    absl::absl_log
-                    absl::hash
-                    absl::raw_logging_internal
-                    absl::strings
-                    protobuf::libprotobuf
-                    protobuf::libupb
-                    # Fallback: if the abseil imported target does not yield
-                    # the import library on the link line for some generator
-                    # layouts, add the vcpkg-installed import-lib explicitly.
-                    "${CMAKE_SOURCE_DIR}/vcpkg_installed/x64-windows/lib/abseil_dll.lib"
-                )
-            endif()
+            target_link_libraries(themis_sharding PRIVATE themis_shard_proto)
             # Add include directory for generated proto headers
             target_include_directories(themis_sharding PRIVATE ${CMAKE_BINARY_DIR}/proto_generated)
             if(MSVC)
@@ -2299,45 +2243,6 @@ function(themis_build_modular)
             if(TARGET OpenCL::OpenCL)
                 target_link_libraries(themis_sharding PUBLIC OpenCL::OpenCL)
             endif()
-        endif()
-        
-        # Cloud SDK integration (optional)
-        if(THEMIS_WITH_S3_SDK)
-            find_package(AWSSDK CONFIG QUIET COMPONENTS s3)
-            if(AWSSDK_FOUND)
-                target_compile_definitions(themis_sharding PRIVATE THEMIS_WITH_S3_SDK)
-                target_link_libraries(themis_sharding PRIVATE AWS::s3)
-                message(STATUS "S3 cloud provider enabled (AWS SDK)")
-            else()
-                message(WARNING "THEMIS_WITH_S3_SDK requested but AWS SDK not found - S3 provider will be unavailable")
-            endif()
-        endif()
-        
-        if(THEMIS_WITH_AZURE_SDK)
-            find_package(azure-storage-blobs-cpp CONFIG QUIET)
-            if(azure-storage-blobs-cpp_FOUND)
-                target_compile_definitions(themis_sharding PRIVATE THEMIS_WITH_AZURE_SDK)
-                target_link_libraries(themis_sharding PRIVATE Azure::Storage::Blobs)
-                message(STATUS "Azure Blob Storage provider enabled (Azure SDK)")
-            else()
-                message(WARNING "THEMIS_WITH_AZURE_SDK requested but Azure SDK not found - Azure provider will be unavailable")
-            endif()
-        endif()
-        
-        if(THEMIS_WITH_GCS_SDK)
-            find_package(google-cloud-cpp CONFIG QUIET COMPONENTS storage)
-            if(google-cloud-cpp_FOUND)
-                target_compile_definitions(themis_sharding PRIVATE THEMIS_WITH_GCS_SDK)
-                target_link_libraries(themis_sharding PRIVATE google-cloud-cpp::storage)
-                message(STATUS "Google Cloud Storage provider enabled (GCS SDK)")
-            else()
-                message(WARNING "THEMIS_WITH_GCS_SDK requested but Google Cloud SDK not found - GCS provider will be unavailable")
-            endif()
-        endif()
-        
-        # Add cloud SDK integration source if any provider is enabled
-        if(THEMIS_WITH_S3_SDK OR THEMIS_WITH_AZURE_SDK OR THEMIS_WITH_GCS_SDK)
-            target_sources(themis_sharding PRIVATE ../src/sharding/cloud_sdk_integration.cpp)
         endif()
     endif()
     

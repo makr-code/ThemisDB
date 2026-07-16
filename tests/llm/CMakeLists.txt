@@ -4,6 +4,11 @@ file(GLOB LLM_MODULE_TEST_SOURCES
     "${CMAKE_CURRENT_SOURCE_DIR}/test_*.cpp"
 )
 
+set(_llm_test_thread_lib)
+if(NOT MSVC)
+    set(_llm_test_thread_lib Threads::Threads)
+endif()
+
 foreach(_src IN LISTS LLM_MODULE_TEST_SOURCES)
     get_filename_component(_stem "${_src}" NAME_WE)
     set(_target "module_llm_${_stem}_focused")
@@ -48,11 +53,6 @@ foreach(_src IN LISTS LLM_MODULE_TEST_SOURCES)
             ${THEMIS_ROOT_DIR}/src/llm/llm_deployment_plugin.cpp
         )
     endif()
-    if(_stem STREQUAL "test_llm_vision_encoder" OR _stem STREQUAL "test_llm_vision_integration")
-        target_sources(${_target} PRIVATE
-            ${THEMIS_ROOT_DIR}/src/llm/vision_config.cpp
-        )
-    endif()
     if(_stem STREQUAL "test_mcp_orchestrator_bridge")
         target_sources(${_target} PRIVATE
             ${THEMIS_ROOT_DIR}/src/llm/mode_spec_loader.cpp
@@ -67,7 +67,7 @@ foreach(_src IN LISTS LLM_MODULE_TEST_SOURCES)
         ${TEST_LIBS}
         themis_core
         spdlog::spdlog
-        Threads::Threads
+        ${_llm_test_thread_lib}
     )
     target_compile_definitions(${_target} PRIVATE THEMIS_TEST_BUILD=1)
 
@@ -122,11 +122,6 @@ foreach(_src IN LISTS LLM_AUTOGEN_PREFIX_TEST_SOURCES)
             ${THEMIS_ROOT_DIR}/src/llm/llm_deployment_plugin.cpp
         )
     endif()
-    if(_stem STREQUAL "test_llm_vision_encoder" OR _stem STREQUAL "test_llm_vision_integration")
-        target_sources(${_target} PRIVATE
-            ${THEMIS_ROOT_DIR}/src/llm/vision_config.cpp
-        )
-    endif()
     if(_stem STREQUAL "test_llm_mcp_orchestrator_bridge")
         target_sources(${_target} PRIVATE
             ${THEMIS_ROOT_DIR}/src/llm/mode_spec_loader.cpp
@@ -141,7 +136,7 @@ foreach(_src IN LISTS LLM_AUTOGEN_PREFIX_TEST_SOURCES)
         ${TEST_LIBS}
         themis_core
         spdlog::spdlog
-        Threads::Threads
+        ${_llm_test_thread_lib}
     )
     target_compile_definitions(${_target} PRIVATE THEMIS_TEST_BUILD=1)
 
