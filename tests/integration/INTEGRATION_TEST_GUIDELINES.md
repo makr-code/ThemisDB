@@ -58,7 +58,10 @@ tests/integration/
   - Security: `SEC-01..SEC-06`
   - Analytics/Export: `AEP-01..AEP-03`
   - Application Profile E2E: `APP-01..APP-13`
+  - Wave 3-A Full-Function Critical Flows: `FFW-01..FFW-08`
+  - Wave 3-B Data/State Integrity & Recovery: `DIR-01..DIR-08`
 - **CTest Label**: `pipeline_integration`
+- **Wave 3 Label**: `wave3` (used with `ctest -L wave3` to run only W3 tests)
 - **Expectation**: Pipeline tests must run offline with deterministic mocks (no GPU, no external LLM service, no Kafka dependency).
 
 ### Shared Pipeline Test Helpers
