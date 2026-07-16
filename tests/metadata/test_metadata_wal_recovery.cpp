@@ -17,6 +17,8 @@
 #include <filesystem>
 #include <thread>
 
+#include "utils/test_stability.h"
+
 using namespace themisdb::sharding;
 
 class MetadataWALTest : public ::testing::Test {
@@ -208,21 +210,20 @@ TEST_F(MetadataWALTest, MetadataShardWithPersistence) {
     EXPECT_TRUE(shard->put(MetadataPartitionKey::SCHEMA, "table2", {{"name", "t2"}}));
     EXPECT_TRUE(shard->put(MetadataPartitionKey::INDEX, "index1", {{"name", "i1"}}));
     
-    // Wait a bit for WAL writes
-    std::this_thread::sleep_for(std::chrono::milliseconds(100));
-    
-    // Verify WAL directory has entries
-    std::string wal_dir = test_dir_ + "/wal";
-    EXPECT_TRUE(std::filesystem::exists(wal_dir));
-    
-    // Check if any WAL files were created
-    int file_count = 0;
-    for (const auto& entry : std::filesystem::directory_iterator(wal_dir)) {
-        if (entry.is_regular_file()) {
-            file_count++;
+    // WALManager defaults to sync_on_write=true: each put() flushes to disk
+    // synchronously before returning, so no sleep is needed here.
+    // Poll with deadline to confirm files exist (guards against unexpected
+    // async-flush configurations in future).
+    const std::string wal_dir = test_dir_ + "/wal";
+    const bool wal_files_visible = themis::test::poll_until([&] {
+        if (!std::filesystem::exists(wal_dir)) return false;
+        for (const auto& entry : std::filesystem::directory_iterator(wal_dir)) {
+            if (entry.is_regular_file()) return true;
         }
-    }
-    EXPECT_GT(file_count, 0) << "WAL files should be created";
+        return false;
+    }, std::chrono::seconds(5));
+
+    ASSERT_TRUE(wal_files_visible) << "WAL files should appear within 5 s";
     
     shard->stop();
 }
@@ -250,8 +251,8 @@ TEST_F(MetadataWALTest, RecoveryFromWAL) {
         
         // Force snapshot creation
         shard->createPeriodicSnapshot();
-        
-        std::this_thread::sleep_for(std::chrono::milliseconds(100));
+        // createPeriodicSnapshot() is synchronous (holds storage_mutex_ and
+        // writes the snapshot file before returning), so no sleep is needed.
         shard->stop();
     }
     
@@ -303,7 +304,10 @@ TEST_F(MetadataWALTest, SnapshotCleanup) {
     
     // Create 5 snapshots
     for (int i = 1; i <= 5; ++i) {
-        std::this_thread::sleep_for(std::chrono::milliseconds(10));  // Ensure unique IDs
+        // Spin until the system_clock millisecond advances so that each
+        // snapshot receives a unique timestamp-based ID.  This replaces a
+        // blind sleep_for(10ms) which was a timing race on loaded CI agents.
+        themis::test::wait_for_clock_advance_ms();
         
         auto snapshot_id = snapshot_mgr.createSnapshot(
             "test_shard_0",
@@ -399,7 +403,9 @@ TEST_F(MetadataWALTest, DeleteOperationsInRecovery) {
         // Delete one
         shard->remove(MetadataPartitionKey::SCHEMA, "table2");
         
-        std::this_thread::sleep_for(std::chrono::milliseconds(100));
+        // put() and remove() both call logPut/logDelete which use WALManager
+        // with sync_on_write=true by default — writes are flushed synchronously.
+        // No sleep is needed before stop().
         shard->stop();
     }
     

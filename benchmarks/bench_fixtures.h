@@ -62,6 +62,25 @@ namespace themis {
 namespace bench {
 
 // ---------------------------------------------------------------------------
+// Measurement-hygiene constants
+// ---------------------------------------------------------------------------
+
+/**
+ * @brief Canonical RNG seed for all ThemisDB benchmarks.
+ *
+ * All benchmarks MUST use this seed (or a clearly documented derivative) so
+ * that measurements are reproducible across runs and comparable across
+ * benchmark targets.  Never seed from std::random_device or from timestamps
+ * inside benchmark bodies.
+ *
+ * Usage:
+ * @code
+ *   std::mt19937 rng{themis::bench::kCanonicalRngSeed};
+ * @endcode
+ */
+static constexpr uint64_t kCanonicalRngSeed = 42;
+
+// ---------------------------------------------------------------------------
 // RandomGenerator – thread-local PRNG utilities
 // ---------------------------------------------------------------------------
 
@@ -69,11 +88,12 @@ namespace bench {
  * @brief Thread-local random number generator for benchmark bodies.
  *
  * All distributions are seeded deterministically from a per-thread seed so
- * benchmark results are reproducible.
+ * benchmark results are reproducible.  Use kCanonicalRngSeed as the default
+ * seed unless there is an explicit, documented reason to use a different value.
  */
 class RandomGenerator {
 public:
-    explicit RandomGenerator(uint64_t seed = 42)
+    explicit RandomGenerator(uint64_t seed = kCanonicalRngSeed)
         : rng_(static_cast<std::mt19937_64::result_type>(seed))
     {}
 

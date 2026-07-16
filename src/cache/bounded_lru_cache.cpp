@@ -25,6 +25,8 @@
 
 #include <mutex>
 
+#include "utils/logger.h"
+
 namespace themis {
 namespace cache {
 
@@ -90,6 +92,24 @@ std::optional<nlohmann::json> BoundedLRUCache::get(const std::string &key) {
 }
 
 void BoundedLRUCache::put(const std::string &key, nlohmann::json value, uint32_t ttl_seconds) {
+    // C4: AI/LLM safety — validate entry size and TTL before acquiring the lock.
+    // Serialise once here; the string is used as a size proxy (not stored).
+    {
+        const std::string serialized = value.dump();
+        if (serialized.size() > config_.max_entry_size_bytes) {
+            THEMIS_WARN("{{\"event\":\"entry_size_exceeded\",\"operation\":\"bounded_lru_put\","
+                        "\"size_bytes\":{},\"max_bytes\":{}}}",
+                        serialized.size(), config_.max_entry_size_bytes);
+            return; // INVALID_ARGUMENT: entry too large
+        }
+    }
+    if (ttl_seconds > 0 && ttl_seconds > config_.max_ttl_seconds) {
+        THEMIS_WARN("{{\"event\":\"invalid_ttl\",\"operation\":\"bounded_lru_put\","
+                    "\"ttl_seconds\":{},\"max_ttl_seconds\":{}}}",
+                    ttl_seconds, config_.max_ttl_seconds);
+        return; // INVALID_ARGUMENT: TTL exceeds cap
+    }
+
     const auto ttl = (ttl_seconds > 0) ? std::chrono::seconds(ttl_seconds) : config_.ttl;
 
     std::unique_lock<std::shared_mutex> lock(mutex_);

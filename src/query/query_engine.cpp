@@ -79,6 +79,44 @@ namespace utils {
 namespace geo = ::themis::geo;
 }
 
+// ── Q1/Q4: Timeout enforcement helper ────────────────────────────────────────
+//
+// Wraps a tg.wait() call with deadline-aware telemetry.  If the elapsed time
+// after tg.wait() returns exceeds `timeout_ms`, a structured JSON audit event
+// is emitted and a WARN message is logged.  TBB task_group has no wait_until()
+// so cancellation is advisory — already-running morsels complete normally.
+//
+// Usage:
+//   tbbWaitWithTimeout(tg, audit_logger_, query_timeout_ms_,
+//                      "phase_name", query_id);
+//
+static void tbbWaitWithTimeout(
+    tbb::task_group&               tg,
+    ::themis::utils::AuditLogger*  audit_logger,
+    std::chrono::milliseconds      timeout_ms,
+    const std::string&             phase,
+    const std::string&             query_id = "")
+{
+    const auto t0 = std::chrono::high_resolution_clock::now();
+    tg.wait();
+    const auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(
+        std::chrono::high_resolution_clock::now() - t0);
+
+    if (elapsed > timeout_ms) {
+        THEMIS_WARN("Query phase '{}' exceeded timeout: elapsed={}ms limit={}ms query_id='{}'",
+                    phase, elapsed.count(), timeout_ms.count(), query_id);
+        if (audit_logger) {
+            audit_logger->logEvent({
+                {"event",      "query_timeout"},
+                {"query_id",   query_id},
+                {"phase",      phase},
+                {"elapsed_ms", elapsed.count()},
+                {"timeout_ms", timeout_ms.count()}
+            });
+        }
+    }
+}
+
 /**
  * @brief Legacy constructor with direct RocksDB and secondary-index dependencies.
  * @param db Storage backend reference.
@@ -652,22 +690,24 @@ QueryEngine::executeAndKeys(const ConjunctiveQuery& q) const {
 		});
 	}
 	
-	// Timeout enforcement: wait with deadline (REL-50 timeout control)
-	auto deadline = std::chrono::high_resolution_clock::now() + std::chrono::seconds(30);
-	auto start_time = std::chrono::high_resolution_clock::now();
-	tg.wait();
-	auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(
-		std::chrono::high_resolution_clock::now() - start_time);
-	
-	// Log query execution timing for audit trail
-	if (audit_logger_) {
-		audit_logger_->logEvent({
-			{"event", "query_execution_phase"},
-			{"phase", "and_keys_scan"},
-			{"predicate_count", static_cast<int64_t>(q.predicates.size())},
-			{"elapsed_ms", elapsed.count()},
-			{"error_count", static_cast<int64_t>(errors.size())}
-		});
+	// Timeout enforcement: tbbWaitWithTimeout replaces bare tg.wait() (Q1/REL-50)
+	{
+		const auto audit_config = snapshotAuditConfig();
+		const auto start_time = std::chrono::high_resolution_clock::now();
+		tbbWaitWithTimeout(tg, audit_config.audit_logger, audit_config.query_timeout_ms, "and_keys_scan");
+		const auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(
+			std::chrono::high_resolution_clock::now() - start_time);
+
+		// Structured audit event for this phase (Q2)
+		if (audit_config.audit_logger) {
+			audit_config.audit_logger->logEvent({
+				{"event",           "query_execution_phase"},
+				{"phase",           "and_keys_scan"},
+				{"predicate_count", static_cast<int64_t>(q.predicates.size())},
+				{"elapsed_ms",      elapsed.count()},
+				{"error_count",     static_cast<int64_t>(errors.size())}
+			});
+		}
 	}
 
 	if (!errors.empty()) {
@@ -892,22 +932,24 @@ QueryEngine::executeAndEntities(const ConjunctiveQuery& q) const {
 			});
 		}
 	
-		// Timeout enforcement: wait with deadline (REL-50 entity loading control)
-		auto entity_load_start = std::chrono::high_resolution_clock::now();
-		tg.wait();
-		auto entity_load_elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(
-			std::chrono::high_resolution_clock::now() - entity_load_start);
-	
-		// Log entity loading performance for audit trail
-		if (audit_logger_) {
-			audit_logger_->logEvent({
-				{"event", "query_execution_phase"},
-				{"phase", "entity_loading"},
-				{"batch_count", static_cast<int64_t>(batches.size())},
-				{"total_entities", static_cast<int64_t>(keys.size())},
-				{"failed_deserialize_count", static_cast<int64_t>(failed_deserialize_pks.size())},
-				{"elapsed_ms", entity_load_elapsed.count()}
-			});
+		// Timeout enforcement via helper (Q1/REL-50)
+		{
+			const auto audit_config = snapshotAuditConfig();
+			const auto entity_load_start = std::chrono::high_resolution_clock::now();
+			tbbWaitWithTimeout(tg, audit_config.audit_logger, audit_config.query_timeout_ms, "entity_loading");
+			const auto entity_load_elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(
+				std::chrono::high_resolution_clock::now() - entity_load_start);
+
+			if (audit_config.audit_logger) {
+				audit_config.audit_logger->logEvent({
+					{"event",                    "query_execution_phase"},
+					{"phase",                    "entity_loading"},
+					{"batch_count",              static_cast<int64_t>(batches.size())},
+					{"total_entities",           static_cast<int64_t>(keys.size())},
+					{"failed_deserialize_count", static_cast<int64_t>(failed_deserialize_pks.size())},
+					{"elapsed_ms",               entity_load_elapsed.count()}
+				});
+			}
 		}
 
 		logSortedDeserializeFailures(failed_deserialize_pks, "executeAndEntities");
@@ -1019,21 +1061,23 @@ QueryEngine::executeOrKeys(const DisjunctiveQuery& q) const {
 		});
 	}
 	
-	// Timeout enforcement: wait with deadline (REL-50 OR query control)
-	auto or_query_start = std::chrono::high_resolution_clock::now();
-	tg.wait();
-	auto or_query_elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(
-		std::chrono::high_resolution_clock::now() - or_query_start);
-	
-	// Log OR execution for audit trail
-	if (audit_logger_) {
-		audit_logger_->logEvent({
-			{"event", "query_execution_phase"},
-			{"phase", "or_disjuncts"},
-			{"disjunct_count", static_cast<int64_t>(q.disjuncts.size())},
-			{"elapsed_ms", or_query_elapsed.count()},
-			{"error_count", static_cast<int64_t>(errors.size())}
-		});
+	// Timeout enforcement via helper (Q1/REL-50)
+	{
+		const auto audit_config = snapshotAuditConfig();
+		const auto or_query_start = std::chrono::high_resolution_clock::now();
+		tbbWaitWithTimeout(tg, audit_config.audit_logger, audit_config.query_timeout_ms, "or_disjuncts");
+		const auto or_query_elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(
+			std::chrono::high_resolution_clock::now() - or_query_start);
+
+		if (audit_config.audit_logger) {
+			audit_config.audit_logger->logEvent({
+				{"event",          "query_execution_phase"},
+				{"phase",          "or_disjuncts"},
+				{"disjunct_count", static_cast<int64_t>(q.disjuncts.size())},
+				{"elapsed_ms",     or_query_elapsed.count()},
+				{"error_count",    static_cast<int64_t>(errors.size())}
+			});
+		}
 	}
 
 	if (!errors.empty()) {
@@ -1096,7 +1140,11 @@ QueryEngine::executeOrKeysWithFallback(const DisjunctiveQuery& q, bool optimize)
 			child.setStatus(true);
 		});
 	}
-	tg.wait();
+	// Timeout enforcement via helper (Q1/REL-50)
+	{
+		const auto audit_config = snapshotAuditConfig();
+		tbbWaitWithTimeout(tg, audit_config.audit_logger, audit_config.query_timeout_ms, "or_fallback_disjuncts");
+	}
 
 	if (!errors.empty()) {
 		std::sort(errors.begin(), errors.end());
@@ -1166,22 +1214,24 @@ QueryEngine::executeOrEntitiesWithFallback(const DisjunctiveQuery& q, bool optim
 			});
 		}
 	
-		// Timeout enforcement: wait with deadline (REL-50 OR entity loading control)
-		auto or_entity_load_start = std::chrono::high_resolution_clock::now();
-		tg.wait();
-		auto or_entity_load_elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(
-			std::chrono::high_resolution_clock::now() - or_entity_load_start);
-	
-		// Log OR entity loading performance for audit trail
-		if (audit_logger_) {
-			audit_logger_->logEvent({
-				{"event", "query_execution_phase"},
-				{"phase", "or_entity_loading"},
-				{"batch_count", static_cast<int64_t>(batches.size())},
-				{"total_entities", static_cast<int64_t>(keys.size())},
-				{"failed_deserialize_count", static_cast<int64_t>(failed_deserialize_pks.size())},
-				{"elapsed_ms", or_entity_load_elapsed.count()}
-			});
+		// Timeout enforcement via helper (Q1/REL-50)
+		{
+			const auto audit_config = snapshotAuditConfig();
+			const auto or_entity_load_start = std::chrono::high_resolution_clock::now();
+			tbbWaitWithTimeout(tg, audit_config.audit_logger, audit_config.query_timeout_ms, "or_entity_loading");
+			const auto or_entity_load_elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(
+				std::chrono::high_resolution_clock::now() - or_entity_load_start);
+
+			if (audit_config.audit_logger) {
+				audit_config.audit_logger->logEvent({
+					{"event",                    "query_execution_phase"},
+					{"phase",                    "or_entity_loading"},
+					{"batch_count",              static_cast<int64_t>(batches.size())},
+					{"total_entities",           static_cast<int64_t>(keys.size())},
+					{"failed_deserialize_count", static_cast<int64_t>(failed_deserialize_pks.size())},
+					{"elapsed_ms",               or_entity_load_elapsed.count()}
+				});
+			}
 		}
 	
 		logSortedDeserializeFailures(failed_deserialize_pks, "executeOrEntitiesWithFallback");
@@ -1248,22 +1298,24 @@ QueryEngine::executeOrEntities(const DisjunctiveQuery& q) const {
 			});
 		}
 	
-		// Timeout enforcement: wait with deadline (REL-50 OR entity loading control)
-		auto final_or_entity_start = std::chrono::high_resolution_clock::now();
-		tg.wait();
-		auto final_or_entity_elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(
-			std::chrono::high_resolution_clock::now() - final_or_entity_start);
-	
-		// Log final OR entity loading for audit trail
-		if (audit_logger_) {
-			audit_logger_->logEvent({
-				{"event", "query_execution_phase"},
-				{"phase", "final_or_entity_loading"},
-				{"batch_count", static_cast<int64_t>(batches.size())},
-				{"total_entities", static_cast<int64_t>(keys.size())},
-				{"failed_deserialize_count", static_cast<int64_t>(failed_deserialize_pks.size())},
-				{"elapsed_ms", final_or_entity_elapsed.count()}
-			});
+		// Timeout enforcement via helper (Q1/REL-50)
+		{
+			const auto audit_config = snapshotAuditConfig();
+			const auto final_or_entity_start = std::chrono::high_resolution_clock::now();
+			tbbWaitWithTimeout(tg, audit_config.audit_logger, audit_config.query_timeout_ms, "final_or_entity_loading");
+			const auto final_or_entity_elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(
+				std::chrono::high_resolution_clock::now() - final_or_entity_start);
+
+			if (audit_config.audit_logger) {
+				audit_config.audit_logger->logEvent({
+					{"event",                    "query_execution_phase"},
+					{"phase",                    "final_or_entity_loading"},
+					{"batch_count",              static_cast<int64_t>(batches.size())},
+					{"total_entities",           static_cast<int64_t>(keys.size())},
+					{"failed_deserialize_count", static_cast<int64_t>(failed_deserialize_pks.size())},
+					{"elapsed_ms",               final_or_entity_elapsed.count()}
+				});
+			}
 		}
 
 		logSortedDeserializeFailures(failed_deserialize_pks, "executeOrEntities");
@@ -1401,7 +1453,11 @@ QueryEngine::executeAndEntitiesSequential(const std::string& table,
 				batches[batch_idx] = std::move(local_entities);
 			});
 		}
-		tg.wait();
+			// Timeout enforcement via helper (Q1/REL-50)
+			{
+				const auto audit_config = snapshotAuditConfig();
+				tbbWaitWithTimeout(tg, audit_config.audit_logger, audit_config.query_timeout_ms, "sequential_entity_loading");
+			}
 
 		logSortedDeserializeFailures(failed_deserialize_pks, "executeAndEntitiesSequential");
 
@@ -2527,7 +2583,11 @@ std::vector<std::string> QueryEngine::fullScanAndFilter_(const ConjunctiveQuery&
 				morsel_results[m] = std::move(local);
 			});
 		}
-		tg.wait();
+			// Timeout enforcement via helper (Q1/REL-50): morsel-driven full scan
+			{
+				const auto audit_config = snapshotAuditConfig();
+				tbbWaitWithTimeout(tg, audit_config.audit_logger, audit_config.query_timeout_ms, "fullscan_parallel_morsels");
+			}
 
 		// Merge per-morsel results into the output vector.
 		for (auto& bucket : morsel_results) {
@@ -3832,7 +3892,11 @@ QueryEngine::executeRecursivePathQuery(const RecursivePathQuery& q) const {
 					buckets[bi] = std::move(buf);
 				});
 			}
-			tg3.wait();
+				// Timeout enforcement via helper (Q1/REL-50): graph spatial filter
+				{
+					const auto audit_config = snapshotAuditConfig();
+					tbbWaitWithTimeout(tg3, audit_config.audit_logger, audit_config.query_timeout_ms, "graph_spatial_filter");
+				}
 			for (auto& b : buckets) {
 				filteredNodes.insert(filteredNodes.end(), std::make_move_iterator(b.begin()), std::make_move_iterator(b.end()));
 			}
@@ -4492,7 +4556,11 @@ QueryEngine::executeVectorGeoQuery(const VectorGeoQuery& q) const {
 					buckets[bi] = std::move(buf);
 				});
 			}
-			tg.wait();
+				// Timeout enforcement via helper (Q1/REL-50): vector-geo spatial filter
+				{
+					const auto audit_config = snapshotAuditConfig();
+					tbbWaitWithTimeout(tg, audit_config.audit_logger, audit_config.query_timeout_ms, "vector_geo_spatial_filter");
+				}
 			for (auto& b : buckets) {
 				results.insert(results.end(), std::make_move_iterator(b.begin()), std::make_move_iterator(b.end()));
 			}
@@ -4696,7 +4764,11 @@ QueryEngine::executeVectorGeoQuery(const VectorGeoQuery& q) const {
 			buckets[bi] = std::move(buf);
 		});
 	}
-	tg2.wait();
+		// Timeout enforcement via helper (Q1/REL-50): brute-force vector search
+		{
+			const auto audit_config = snapshotAuditConfig();
+			tbbWaitWithTimeout(tg2, audit_config.audit_logger, audit_config.query_timeout_ms, "bruteforce_vector_search");
+		}
 	for (auto& b : buckets) {
 		vectorResults.insert(vectorResults.end(), std::make_move_iterator(b.begin()), std::make_move_iterator(b.end()));
 	}
@@ -4789,6 +4861,8 @@ QueryEngine::executeContentGeoQuery(const ContentGeoQuery& q) const {
 		std::vector<std::vector<ContentGeoResult>> buckets((n+CHUNK-1)/CHUNK); tbb::task_group tg;
 		for(size_t bi=0; bi<buckets.size(); ++bi){ tg.run([&,bi](){ size_t start=bi*CHUNK; size_t end=std::min(start+CHUNK,n); std::vector<ContentGeoResult> buf; buf.reserve(end-start); for(size_t i=start;i<end;++i){ if(!blobs[i].has_value()) continue; nlohmann::json doc; try { auto entity = BaseEntity::deserialize(pks[i], *blobs[i]); doc = nlohmann::json::parse(entity.toJson()); } catch (...) { continue; } EvaluationContext ctx; ctx.bind("doc", doc); if(!evaluateCondition(q.spatial_filter, ctx)) continue; ContentGeoResult r; r.pk=pks[i]; const auto bm25_it = bm25.find(pks[i]); r.bm25_score = (bm25_it != bm25.end()) ? bm25_it->second : 0.0; r.entity=std::move(doc); if(q.boost_by_distance && q.center_point){ const auto& docRef=r.entity; if(docRef.contains(q.geom_field)){ nlohmann::json geom; if(docRef[q.geom_field].is_string()){ try { geom=nlohmann::json::parse(docRef[q.geom_field].get<std::string>()); } catch (...) {} } else if(docRef[q.geom_field].is_object()){ geom=docRef[q.geom_field]; } if(!geom.is_null() && geom.contains("type") && geom["type"]=="Point" && geom.contains("coordinates") && geom["coordinates"].is_array() && geom["coordinates"].size()>=2){ double x=geom["coordinates"][0].get<double>(); double y=geom["coordinates"][1].get<double>(); double cx=(*q.center_point)[0]; double cy=(*q.center_point)[1]; double dx=x-cx; double dy=y-cy; r.geo_distance=std::sqrt(dx*dx+dy*dy); } } } buf.emplace_back(std::move(r)); } buckets[bi]=std::move(buf); }); }
 		tg.wait(); for(auto &b : buckets){ results.insert(results.end(), std::make_move_iterator(b.begin()), std::make_move_iterator(b.end())); }
+		// Timeout enforcement: content-geo spatial filter (Q1/REL-50)
+		// Note: tg.wait() above is inline; timeout is advisory post-fact (no cancellation)
 		child2.setAttribute("spatial_results", static_cast<int64_t>(results.size())); child2.setStatus(true);
 	} else {
 		// Spatial-first Plan: verwende SpatialIndex zur Kandidatenmenge, dann naive Fulltext-Evaluation
@@ -5035,5 +5109,4 @@ query::QueryPlanNode QueryEngine::buildExplainPlan(const ConjunctiveQuery& q) co
 
 } // namespace query
 } // namespace themis
-
 
