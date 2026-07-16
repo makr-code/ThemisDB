@@ -27,8 +27,6 @@
 #include <stdexcept>
 #include <yaml-cpp/yaml.h>
 
-#include "security/safe_regex.h"
-
 namespace themis {
 namespace content {
 
@@ -140,25 +138,11 @@ AbuseDetectionResult TextAbuseDetector::detect(
     result.detector_type = detectorType();
 
     for (const auto& pattern : patterns_) {
-        try {
-            // REMEDIATION: SafeRegex wrapper to prevent ReDoS on user-provided content
-            // Validate content before pattern matching to prevent timeout attacks
-            if (!themis::security::SafeRegex::validate_input(content_data, 1024 * 1024)) {  // 1MB max for content
-                result.action = AbuseAction::FLAG;
-                result.reason = "Content too large for abuse detection";
-                return result;
-            }
-            
-            themis::security::SafeRegex safe_re(2);  // 2 second timeout
-            if (safe_re.search(pattern.name, content_data, std::chrono::seconds(2))) {
-                result.action       = pattern.action;
-                result.pattern_name = pattern.name;
-                result.reason       = "Content matched abuse pattern '" + pattern.name + "'";
-                return result;
-            }
-        } catch (const std::runtime_error &e) {
-            // Pattern validation error - log and continue
-            continue;
+        if (std::regex_search(content_data, pattern.compiled)) {
+            result.action       = pattern.action;
+            result.pattern_name = pattern.name;
+            result.reason       = "Content matched abuse pattern '" + pattern.name + "'";
+            return result;
         }
     }
 
@@ -223,14 +207,6 @@ std::unique_ptr<TextAbuseDetector> TextAbuseDetector::loadFromYAML(
             Pattern p;
             p.name     = name;
             p.action   = action;
-            
-            // REMEDIATION: SafeRegex validation on pattern compilation from YAML
-            // Validate loaded patterns for ReDoS vulnerabilities before compilation
-            if (!themis::security::SafeRegex::is_pattern_safe(regex_str)) {
-                error += "Skipping pattern '" + name + "': potentially unsafe regex pattern detected; ";
-                continue;
-            }
-            
             p.compiled = std::regex(regex_str, flags);
             patterns.push_back(std::move(p));
         } catch (const std::regex_error& re) {

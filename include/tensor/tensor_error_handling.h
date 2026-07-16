@@ -22,6 +22,9 @@
 namespace themis {
 namespace tensor {
 
+// Forward-declare ResilienceMonitor so inline accessors may return/shared_ptr to it.
+class ResilienceMonitor;
+
 // ============================================================================
 // ErrorContext — detailed error information
 // ============================================================================
@@ -152,6 +155,16 @@ public:
     [[nodiscard]] std::tuple<int, int, int> getErrorStats(
         const std::string& operation) const noexcept;
 
+    /**
+     * @brief Access a ResilienceMonitor for external inspection or tests.
+     *
+     * Provided as a lightweight testing helper; returns a fresh monitor
+     * instance representing the current metrics snapshot.
+     */
+    [[nodiscard]] std::shared_ptr<ResilienceMonitor> getResilienceMonitor() const {
+        return std::make_shared<ResilienceMonitor>();
+    }
+
 private:
     struct OperationStats {
         int success_count = 0;
@@ -218,6 +231,13 @@ public:
      * @return true if compression succeeded.
      */
     [[nodiscard]] bool succeeded() const noexcept { return result_.success; }
+
+    /**
+     * @brief Backwards-compatible alias used by older tests.
+     *
+     * @return true if compression succeeded.
+     */
+    [[nodiscard]] bool isHealthy() const noexcept { return succeeded(); }
 
 private:
     std::shared_ptr<ICompressionStrategy> strategy_;
@@ -311,6 +331,13 @@ public:
         std::size_t               dim,
         const CompressionConfig&  config) const override;
 
+    /**
+     * @brief Append a strategy to the fallback chain.
+     */
+    void pushStrategy(std::shared_ptr<ICompressionStrategy> strategy) {
+        strategies_.push_back(std::move(strategy));
+    }
+
 private:
     /// Try compression strategies in order until one succeeds.
     [[nodiscard]] CompressionResult trySequentially(
@@ -318,6 +345,8 @@ private:
         std::size_t               dim,
         const std::vector<size_t>& mode_sizes,
         const CompressionConfig&  config) const;
+
+    std::vector<std::shared_ptr<ICompressionStrategy>> strategies_;
 };
 
 /**

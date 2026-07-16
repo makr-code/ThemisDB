@@ -36,8 +36,6 @@
 #include <sstream>
 #include <thread>
 
-#include "security/safe_regex.h"
-
 #include "cache/cache_replication.h"
 #include "cache/eviction_policy.h"
 #include "observability/metrics_collector.h"
@@ -913,16 +911,6 @@ size_t AdaptiveQueryCache::invalidate(const std::string &pattern) {
         THEMIS_WARN("Cache invalidate: pattern too long ({} chars), rejecting to prevent ReDoS", pattern.size());
         return 0;
     }
-    
-    // REMEDIATION: SafeRegex wrapper to prevent ReDoS (Gap 1&2)
-    // Validate pattern safety and input length before regex operations
-    if (!themis::security::SafeRegex::is_pattern_safe(pattern)) {
-        THEMIS_WARN("Cache invalidate: potentially unsafe regex pattern detected: '{}'", pattern);
-        return 0;
-    }
-    
-    themis::security::SafeRegex safe_re(2);  // 2 second timeout for cache operations
-    
     std::regex re;
     try {
         re = std::regex(pattern, std::regex::ECMAScript | std::regex::optimize);
@@ -935,16 +923,11 @@ size_t AdaptiveQueryCache::invalidate(const std::string &pattern) {
     {
         std::scoped_lock<std::shared_mutex, std::mutex> lock(l1_mutex_, l1_eviction_mutex_);
         for (auto it = l1_cache_.begin(); it != l1_cache_.end();) {
-            try {
-                if (safe_re.search(pattern, it->first, std::chrono::seconds(1))) {
-                    l1_eviction_strategy_->onRemove(it->first);
-                    it = l1_cache_.erase(it);
-                    count++;
-                } else {
-                    ++it;
-                }
-            } catch (const std::runtime_error &e) {
-                THEMIS_WARN("Cache invalidate L1: regex search error: {}", e.what());
+            if (std::regex_search(it->first, re)) {
+                l1_eviction_strategy_->onRemove(it->first);
+                it = l1_cache_.erase(it);
+                count++;
+            } else {
                 ++it;
             }
         }
@@ -954,16 +937,11 @@ size_t AdaptiveQueryCache::invalidate(const std::string &pattern) {
     {
         std::lock_guard<std::mutex> lock(l2_mutex_);
         for (auto it = l2_cache_.begin(); it != l2_cache_.end();) {
-            try {
-                if (safe_re.search(pattern, it->first, std::chrono::seconds(1))) {
-                    l2_eviction_strategy_->onRemove(it->first);
-                    it = l2_cache_.erase(it);
-                    count++;
-                } else {
-                    ++it;
-                }
-            } catch (const std::runtime_error &e) {
-                THEMIS_WARN("Cache invalidate L2: regex search error: {}", e.what());
+            if (std::regex_search(it->first, re)) {
+                l2_eviction_strategy_->onRemove(it->first);
+                it = l2_cache_.erase(it);
+                count++;
+            } else {
                 ++it;
             }
         }
@@ -984,12 +962,8 @@ size_t AdaptiveQueryCache::invalidate(const std::string &pattern) {
                 l3_db_->scanPrefix(QUERY_CACHE_PREFIX, [&](std::string_view key, std::string_view) {
                     // Extract fingerprint from key (remove prefix)
                     std::string fingerprint(key.substr(QUERY_CACHE_PREFIX_LEN));
-                    try {
-                        if (safe_re.search(pattern, fingerprint, std::chrono::seconds(1))) {
-                            keys_to_delete.emplace_back(key);
-                        }
-                    } catch (const std::runtime_error &e) {
-                        THEMIS_WARN("Cache invalidate L3: regex search error: {}", e.what());
+                    if (std::regex_search(fingerprint, re)) {
+                        keys_to_delete.emplace_back(key);
                     }
                     return true; // Continue iteration
                 });
@@ -2345,33 +2319,19 @@ void AdaptiveQueryCache::applyReplicatedInvalidation(const cache::ReplicationMes
         return;
     }
 
-    // REMEDIATION: SafeRegex wrapper to prevent ReDoS (Gaps 3&4)
-    // Validate pattern safety before compilation
-    if (!themis::security::SafeRegex::is_pattern_safe(pattern)) {
-        THEMIS_WARN("CacheReplication: potentially unsafe regex pattern detected: '{}'", pattern);
-        return;
-    }
-    
-    themis::security::SafeRegex safe_re(2);  // 2 second timeout for cache operations
-
     try {
         std::regex re(pattern);
 
         {
             std::unique_lock<std::shared_mutex> lock(l1_mutex_);
             for (auto it = l1_cache_.begin(); it != l1_cache_.end();) {
-                try {
-                    if (safe_re.search(pattern, it->first, std::chrono::seconds(1))) {
-                        {
-                            std::lock_guard<std::mutex> evict_lock(l1_eviction_mutex_);
-                            l1_eviction_strategy_->onRemove(it->first);
-                        }
-                        it = l1_cache_.erase(it);
-                    } else {
-                        ++it;
+                if (std::regex_search(it->first, re)) {
+                    {
+                        std::lock_guard<std::mutex> evict_lock(l1_eviction_mutex_);
+                        l1_eviction_strategy_->onRemove(it->first);
                     }
-                } catch (const std::runtime_error &e) {
-                    THEMIS_WARN("CacheReplication L1: regex search error: {}", e.what());
+                    it = l1_cache_.erase(it);
+                } else {
                     ++it;
                 }
             }
@@ -2380,15 +2340,10 @@ void AdaptiveQueryCache::applyReplicatedInvalidation(const cache::ReplicationMes
         {
             std::lock_guard<std::mutex> lock(l2_mutex_);
             for (auto it = l2_cache_.begin(); it != l2_cache_.end();) {
-                try {
-                    if (safe_re.search(pattern, it->first, std::chrono::seconds(1))) {
-                        l2_eviction_strategy_->onRemove(it->first);
-                        it = l2_cache_.erase(it);
-                    } else {
-                        ++it;
-                    }
-                } catch (const std::runtime_error &e) {
-                    THEMIS_WARN("CacheReplication L2: regex search error: {}", e.what());
+                if (std::regex_search(it->first, re)) {
+                    l2_eviction_strategy_->onRemove(it->first);
+                    it = l2_cache_.erase(it);
+                } else {
                     ++it;
                 }
             }

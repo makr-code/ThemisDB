@@ -37,7 +37,6 @@
 #include <zlib.h>
 
 #include "auth/auth_error.h"
-#include "security/xxe_safe_xml_parser.h"
 #include "utils/audit_logger.h"
 #include "utils/logger.h"
 
@@ -788,18 +787,14 @@ SAMLClaims SAMLAuthenticator::processResponseImpl(const std::string &saml_respon
     const std::string xml_str(reinterpret_cast<const char *>(raw_bytes.data()), raw_bytes.size());
 
     // ----------------------------------------------------------------
-    // Step 2: Parse XML with XXE Protection (Sprint 5 QW-7a)
-    // ================================================================
-    // QW-7a: SAML authenticator XXE hardening
-    // Uses XXE-safe XML parser to prevent external entity injection attacks
-    // Protects against: file:// disclosure, SSRF, billion laughs DoS
-    // ================================================================
-    auto xxe_result = security::parseXmlSafe(xml_str, "SAML Response");
-    if (!xxe_result.success) {
+    // Step 2: Parse XML
+    // ----------------------------------------------------------------
+    pugi::xml_document doc;
+    auto parse_result = doc.load_string(xml_str.c_str());
+    if (!parse_result) {
         THROW_AUTH_ERROR(AuthErrorCode::SAML_INVALID_RESPONSE, "Invalid SAML response",
-                         std::string("XML parse error: ") + xxe_result.error_message);
+                         std::string("XML parse error: ") + parse_result.description());
     }
-    pugi::xml_document& doc = xxe_result.document;
 
     pugi::xml_node response_node = doc.first_child();
     if (!response_node) {
@@ -864,13 +859,11 @@ SAMLClaims SAMLAuthenticator::processResponseImpl(const std::string &saml_respon
 
     if (encrypted_assertion_node) {
         const std::string decrypted_xml = decryptAssertion(encrypted_assertion_node);
-        // Parse decrypted assertion with XXE Protection (Sprint 5 QW-7a)
-        auto xxe_result_dec = security::parseXmlSafe(decrypted_xml, "Decrypted SAML Assertion");
-        if (!xxe_result_dec.success) {
+        auto dec_parse                  = decrypted_assertion_doc.load_string(decrypted_xml.c_str());
+        if (!dec_parse) {
             THROW_AUTH_ERROR(AuthErrorCode::SAML_DECRYPTION_FAILED, "Assertion decryption failed",
-                             std::string("Decrypted assertion is not valid XML: ") + xxe_result_dec.error_message);
+                             std::string("Decrypted assertion is not valid XML: ") + dec_parse.description());
         }
-        decrypted_assertion_doc = std::move(xxe_result_dec.document);
         assertion_node = decrypted_assertion_doc.document_element();
         if (!assertion_node) {
             THROW_AUTH_ERROR(AuthErrorCode::SAML_DECRYPTION_FAILED, "Assertion decryption failed",

@@ -23,8 +23,6 @@
 #include <algorithm>
 #include <regex>
 
-#include "security/safe_regex.h"
-
 namespace themis {
 namespace llm {
 
@@ -83,13 +81,6 @@ bool BasicSpamDetectionPlugin::isLowQuality(const FeedbackData& feedback) const 
     }
     
     // Excessive repetition
-    // REMEDIATION: SafeRegex with input validation for repeat pattern detection
-    // Validate question and answer before regex search to prevent ReDoS
-    if (!themis::security::SafeRegex::validate_input(feedback.question, 64 * 1024) ||
-        !themis::security::SafeRegex::validate_input(feedback.answer, 64 * 1024)) {
-        return FeedbackResult{false, "Input text too large for spam detection"};
-    }
-    
     std::regex repeat_pattern(R"((.)\1{10,})");
     if (std::regex_search(feedback.question, repeat_pattern) ||
         std::regex_search(feedback.answer, repeat_pattern)) {

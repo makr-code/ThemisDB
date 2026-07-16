@@ -20,8 +20,6 @@
 #include <stdexcept>
 #include <regex>
 
-#include "security/safe_regex.h"
-
 namespace themis {
 namespace llm {
 
@@ -53,7 +51,9 @@ std::string stripQuotes(const std::string& s) {
     return s;
 }
 
-/// Case-insensitive string comparison.
+/**
+ * @brief Case-insensitive string comparison.
+ */
 bool iequal(const std::string& a, const std::string& b) {
     if (a.size() != b.size()) return false;
     return std::equal(a.begin(), a.end(), b.begin(),
@@ -767,12 +767,6 @@ AQLTrainParser::StatementType AQLTrainParser::detectStatementType(
 std::shared_ptr<TrainAdapterStmt> AQLTrainParser::parseTrainAdapter(
     const std::string& aql
 ) {
-    // REMEDIATION: SafeRegex input validation to prevent ReDoS
-    // Validate AQL input length before regex operations
-    if (!themis::security::SafeRegex::validate_input(aql, 64 * 1024)) {  // 64KB max AQL
-        throw std::invalid_argument("AQLTrainParser: AQL input exceeds maximum allowed length");
-    }
-    
     auto stmt = std::make_shared<TrainAdapterStmt>();
 
     // ── adapter_id ──────────────────────────────────────────────────────────
@@ -845,11 +839,6 @@ std::shared_ptr<TrainAdapterStmt> AQLTrainParser::parseTrainAdapter(
 std::shared_ptr<DeployAdapterStmt> AQLTrainParser::parseDeployAdapter(
     const std::string& aql
 ) {
-    // REMEDIATION: SafeRegex input validation to prevent ReDoS
-    if (!themis::security::SafeRegex::validate_input(aql, 64 * 1024)) {  // 64KB max AQL
-        throw std::invalid_argument("AQLTrainParser: AQL input exceeds maximum allowed length");
-    }
-    
     auto stmt = std::make_shared<DeployAdapterStmt>();
 
     // DEPLOY ADAPTER <id> TO SHARD '<shard>' ...
@@ -902,11 +891,6 @@ std::shared_ptr<DeployAdapterStmt> AQLTrainParser::parseDeployAdapter(
 std::shared_ptr<VerifyAdapterStmt> AQLTrainParser::parseVerifyAdapter(
     const std::string& aql
 ) {
-    // REMEDIATION: SafeRegex input validation to prevent ReDoS
-    if (!themis::security::SafeRegex::validate_input(aql, 64 * 1024)) {  // 64KB max AQL
-        throw std::invalid_argument("AQLTrainParser: AQL input exceeds maximum allowed length");
-    }
-    
     auto stmt = std::make_shared<VerifyAdapterStmt>();
 
     {

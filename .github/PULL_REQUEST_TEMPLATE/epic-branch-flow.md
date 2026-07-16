@@ -1,91 +1,65 @@
-# Epic Branch Flow — Pull Request
+---
+name: Epic Branch Flow PR
+about: Use for PRs that either merge feature work into an EPIC branch or integrate an EPIC branch into develop.
+title: "[EPIC #<id>] <short summary>"
+labels: ""
+assignees: ""
+---
 
-<!-- Use this template for all PRs targeting an EPIC branch (e.g. epic/gap-wave1-5475). -->
-<!-- Standard feature PRs should use the default pull_request_template.md instead.      -->
+# EPIC Branch Flow Pull Request
 
-## Description
+## EPIC Context
 
-<!-- Describe the changes in this PR and how they contribute to the epic. -->
+- EPIC issue: <!-- e.g. #5518 -->
+- Sub-issue(s): <!-- e.g. #5467, #5468 -->
+- Flow type:
+  - [ ] Feature branch -> EPIC branch
+  - [ ] EPIC branch -> develop
 
-## Linked Epic & Issues
+## Branch Routing (Required)
 
-<!-- Mandatory: Reference the parent epic and any sub-issues addressed by this PR. -->
-- **Epic:** <!-- e.g. #5475 epic/gap-wave1-5475 -->
-- **Sub-issues:** <!-- e.g. Closes #5482, Relates to #5483 -->
+- Source branch: <!-- e.g. feature/5518-planner-freshness -->
+- Target branch: <!-- e.g. epic/hybrid-boundaries-5518 or develop -->
+- [ ] Target matches EPIC governance in the parent EPIC issue
+- [ ] No direct feature -> develop merge
 
-## Type of Change
+## Change Summary
 
-- [ ] Bug fix (`fix/5475-<kurzname>`)
-- [ ] Feature implementation (`feature/5475-<kurzname>`)
-- [ ] Infra / CI / Documentation (`chore/5475-<kurzname>`)
-- [ ] Refactoring (non-breaking)
-- [ ] Other:
+<!-- Describe what changed and why in the EPIC context -->
 
-## Merge Order (Mandatory)
+## Linked Issues
 
-> PRs within an epic **must** follow the two-step merge order:
->
-> 1. Feature/fix/chore branch → EPIC branch (this PR)
-> 2. Periodic integration PR: EPIC branch → `develop`
->
-> **Direct merges from feature branches to `develop` are prohibited** for this epic scope.
+<!-- Required: include EPIC and sub-issues -->
+- Closes/Fixes/Refs: 
 
-- [ ] This PR targets the EPIC branch, **not** `develop` directly.
-- [ ] I have confirmed the epic integration PR cadence with the maintainer.
+## Risk and Rollback
 
-## Epic PR Checklist (Mandatory)
+- Risk level:
+  - [ ] Low
+  - [ ] Medium
+  - [ ] High
+- Rollback plan:
 
-- [ ] Issue reference in PR title or description (`#<epic>` + sub-issue number)
-- [ ] Build/test evidence attached (commands + outcomes)
-- [ ] Risk and rollback note documented below
-- [ ] No direct merge from this branch to `develop`
+## Validation Evidence
 
-## Build & Test Evidence
+- [ ] Build passed
+- [ ] Relevant focused tests passed
+- [ ] Integration checks passed (if EPIC -> develop)
+- [ ] Scanner/quality gates reviewed for changed scope
 
-<!-- Attach or paste build and test results relevant to this PR. -->
+### Commands / Artifacts
 
-```
-# Example:
-# cmake --build --preset windows-release --parallel 16
-# ctest --preset windows-release --output-on-failure -j 1 --timeout 60
-```
+<!-- Paste exact commands and key output paths -->
 
-- Build result:
-- Test result:
-- Scanner delta (baseline vs. current):
+## EPIC Acceptance Impact
 
-## Risk & Rollback Note
+- [ ] Moves one or more EPIC acceptance criteria forward
+- [ ] EPIC issue checklist/status updated if needed
+- [ ] Follow-up items captured (if any)
 
-<!-- Describe any risks introduced by this PR and how to revert if needed. -->
+## Final Checklist
 
-- **Risk:**
-- **Rollback:** <!-- e.g. revert commit SHA, feature flag, or re-apply previous artifact -->
-
-## AI-Generated Code (if applicable)
-
-<!-- Tool reference: see `.github/instructions/cpp-language-service-tools.instructions.md` -->
-
-- [ ] Symbol references checked with `GetSymbolReferences_CppTools`
-- [ ] No raw pointers or `new`/`delete` without explicit review justification
-- [ ] RAII and exception-safety verified for new/changed paths
-- [ ] No unnecessary AI-generated abstractions introduced
-- [ ] Performance metrics reviewed if a hot path is affected
-
-## Gap Scanner Gates
-
-- [ ] No new `critical` findings in categories: `security`, `input_validation`, `query_correctness`, `distributed_consistency`, `concurrency`, `memory`
-- [ ] No new `high` findings in the same categories (or explicitly approved with rationale)
-- [ ] Gap Scanner delta report attached (baseline vs. current), not only totals
-
-## Security & Quality Gates
-
-- [ ] IntelliSense/Compiler: no new errors in changed files
-- [ ] clang-tidy / cppcheck: no new high-risk findings in changed files
-- [ ] No new warnings introduced
-- [ ] Documentation updated for any changed public C++ API (Doxygen comments)
-- [ ] CHANGELOG.md updated under `[Unreleased]` (if user-visible behavior changes)
-
-## Residual Risks & Follow-ups
-
-- Risk:
-- Follow-up action / tracking issue:
+- [ ] Branch naming follows EPIC convention
+- [ ] PR description references EPIC and sub-issues
+- [ ] No unresolved Critical/High findings without explicit maintainer acceptance
+- [ ] Documentation updated where behavior/contracts changed

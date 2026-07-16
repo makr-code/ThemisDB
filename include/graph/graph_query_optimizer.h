@@ -560,63 +560,32 @@ public:
 
     /**
      * Execute optimized BFS traversal
-     *
-     * @param start_vertex Starting vertex ID
-     * @param max_depth    Maximum traversal depth
-     * @param constraints  Query constraints (timeouts, forbidden vertices, etc.)
-     * @param stats        Optional execution statistics output
-     * @return Visited vertices in BFS order
-     *
-     * @note **Move Semantics**: The returned std::vector<std::string> is moved
-     *       (not copied) to the caller via RVO. The caller owns the vector and
-     *       its contents. RVO optimization ensures zero-copy behavior; typical
-     *       compiler with -O2+ will elide all copying.
      */
-    [[nodiscard]] Result<std::vector<std::string>> executeBFS(
-       std::string_view start_vertex,
-       int max_depth,
-       const QueryConstraints& constraints = {},
-       ExecutionStats* stats = nullptr
+    Result<std::vector<std::string>> executeBFS(
+        std::string_view start_vertex,
+        int max_depth,
+        const QueryConstraints& constraints,
+        ExecutionStats* stats = nullptr
     );
 
     /**
      * Execute optimized DFS traversal
-     *
-     * @param start_vertex Starting vertex ID
-     * @param max_depth    Maximum traversal depth
-     * @param constraints  Query constraints (timeouts, forbidden vertices, etc.)
-     * @param stats        Optional execution statistics output
-     * @return Visited vertices in DFS order
-     *
-     * @note **Move Semantics**: The returned std::vector<std::string> is moved
-     *       (not copied) to the caller via RVO. Caller owns the vector.
-     *       Compiler with standard optimizations (-O2+) eliminates all copies.
      */
-    [[nodiscard]] Result<std::vector<std::string>> executeDFS(
-       std::string_view start_vertex,
-       int max_depth,
-       const QueryConstraints& constraints = {},
-       ExecutionStats* stats = nullptr
+    Result<std::vector<std::string>> executeDFS(
+        std::string_view start_vertex,
+        int max_depth,
+        const QueryConstraints& constraints,
+        ExecutionStats* stats = nullptr
     );
 
     /**
      * Execute optimized Dijkstra shortest path
-     *
-     * @param start_vertex Start vertex ID
-     * @param target_vertex End vertex ID
-     * @param constraints Query constraints
-     * @param stats Optional execution statistics output
-     * @return PathResult containing path and cost
-     *
-     * @note **Move Semantics**: The returned PathResult is moved to the caller
-     *       via RVO. The internal path vector is efficiently moved without copies.
-     *       Caller may forward via std::move downstream without cost.
      */
-    [[nodiscard]] Result<GraphIndexManager::PathResult> executeDijkstra(
-       std::string_view start_vertex,
-       std::string_view target_vertex,
-       const QueryConstraints& constraints = {},
-       ExecutionStats* stats = nullptr
+    Result<GraphIndexManager::PathResult> executeDijkstra(
+        std::string_view start_vertex,
+        std::string_view target_vertex,
+        const QueryConstraints& constraints,
+        ExecutionStats* stats = nullptr
     );
 
     /**
@@ -918,20 +887,6 @@ public:
      * Clear plan cache
      */
     void clearPlanCache();
-
-    /**
-     * @brief Broadcast cache invalidation across distributed shards (QW-026).
-     *
-     * Invalidates cached query results in all participating shards when a
-     * mutation occurs. This ensures cache coherency in distributed scenarios
-     * where multiple shards maintain independent caches.
-     *
-     * @param affected_vertices Optional list of vertex IDs whose caches should be
-     *                          invalidated. If empty, all caches are invalidated.
-     * @return OK on success; ERR_QUERY_EXECUTION_FAILED if invalidation fails.
-     */
-    [[nodiscard]] Result<void> broadcastInvalidation(
-        const std::vector<std::string>& affected_vertices = {});
 
     /**
      * Get execution statistics history
@@ -1281,14 +1236,7 @@ public:
     );
 
 private:
-    /**
-     * @brief Pointer to optional analytics instance for algorithm reuse.
-     * 
-     * @note **Ownership**: This is a non-owning raw pointer (not owned by this
-     *       optimizer). The GraphAnalytics instance must outlive this optimizer.
-     *       RAII compliance: caller is responsible for lifetime management of
-     *       the pointed-to object.
-     */
+    // Pointer to an optional analytics instance for algorithm reuse (not owned).
     GraphAnalytics* analytics_ = nullptr;
     GraphIndexManager& graph_manager_;
     GraphStatistics statistics_;
@@ -1297,68 +1245,31 @@ private:
     // -----------------------------------------------------------------------
     // Plan cache with LRU eviction and TTL expiry
     // -----------------------------------------------------------------------
-    // SAFETY INVARIANTS:
-    // 1. plan_cache_lru_ is a list of keys in access order (front=MRU, back=LRU).
-    // 2. plan_cache_ stores iterators to elements in plan_cache_lru_.
-    // 3. Iterator validity is GUARANTEED because:
-    //    - splice() operations preserve iterator validity (standard C++ guarantee)
-    //    - Only erase() operations on the same iterator invalidate it, which is
-    //      always accompanied by removal from plan_cache_
-    //    - push_front/pop_back don't invalidate other iterators
-    // 4. DEFENSIVE RULE: Never modify plan_cache_lru_ outside of planCacheInsert
-    //    and planCacheLookup. Violating this breaks iterator invariants.
-    // 5. Thread safety: External synchronization required (held by caller).
 
-    /// @struct PlanCacheEntry
-    /// @brief A single cache entry containing the cached plan and insertion timestamp.
-    /// @invariant Lifetime is managed by RAII; safe to copy and move.
+    /// A single cache entry: the cached plan plus its insertion timestamp.
     struct PlanCacheEntry {
         OptimizationPlan plan;
         std::chrono::steady_clock::time_point inserted_at;
     };
 
-    /// @brief Maximum number of cache entries (0 = unlimited).
-    /// @invariant Non-negative; enforced in planCacheInsert.
+    /// Maximum number of cache entries (0 = unlimited).
     size_t plan_cache_max_size_ = 0;
 
-    /// @brief Per-entry TTL; entries older than this are expired (zero = no expiry).
-    /// @invariant Non-negative; checked in planCacheLookup before expiry.
+    /// Per-entry TTL; entries older than this are expired (zero = no expiry).
     std::chrono::milliseconds plan_cache_ttl_{0};
 
-    /// @brief LRU access-order list: front = most recently used, back = LRU victim.
-    /// @invariant Elements are keys corresponding to entries in plan_cache_.
-    /// @invariant size() == plan_cache_.size() (except during transient eviction).
+    /// LRU access-order list: front = most recently used, back = LRU victim.
     std::list<std::string> plan_cache_lru_;
 
-    /// @brief Plan cache: key → (entry, iterator into lru list).
-    /// @invariant Every iterator points to a valid element in plan_cache_lru_.
-    /// @invariant Insertion order reflected by list traversal (front to back = MRU to LRU).
-    /// @note ITERATOR SAFETY: Stored iterators remain valid across splice(), but become
-    ///       invalid only when their target element is erased. Since we only erase
-    ///       target elements when removing from the map, invariants are preserved.
+    /// Plan cache: key → (entry, iterator into lru list).
     std::unordered_map<std::string,
                        std::pair<PlanCacheEntry, std::list<std::string>::iterator>>
         plan_cache_;
 
-    /// @brief Insert or update a plan in the cache, enforcing LRU size limit.
-    /// @param key Query signature or cache key.
-    /// @param plan The optimization plan to cache.
-    /// @invariant On return: plan_cache_.size() <= plan_cache_max_size_ (if max_size > 0).
-    /// @invariant On return: plan_cache_lru_.size() == plan_cache_.size().
-    /// @throw None (strong exception guarantee where possible).
-    /// @note ITERATOR INVARIANT: All stored iterators remain valid after this call.
-    ///       New entries inserted at front (MRU). Evictions remove back (LRU).
+    /// Insert or update a plan in the cache, enforcing LRU size limit.
     void planCacheInsert(const std::string& key, const OptimizationPlan& plan);
 
-    /// @brief Look up a plan in the cache. Returns nullptr when not found or expired.
-    /// @param key Query signature or cache key.
-    /// @return Pointer to cached OptimizationPlan if found and valid, nullptr otherwise.
-    /// @invariant Returned pointer valid only until next call to planCacheInsert or
-    ///            planCacheLookup (not thread-safe; external synchronization required).
-    /// @invariant On TTL expiry, entry is automatically evicted and iterator cleaned up.
-    /// @throw None (strong exception guarantee).
-    /// @note ITERATOR INVARIANT: Expired entries are erased safely; iterators to
-    ///       other entries remain valid (list::erase doesn't invalidate other iterators).
+    /// Look up a plan in the cache.  Returns nullptr when not found or expired.
     const OptimizationPlan* planCacheLookup(const std::string& key);
     
     // Execution history for adaptive optimization

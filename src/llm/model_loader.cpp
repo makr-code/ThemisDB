@@ -9,15 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: model_loader.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 99/100 | Lines: 989
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=28, H=14, M=4, L=0
- * PR History (last 5): #998 C++ Audit: Eliminate raw me... (2026-03-11) | #751 Phase 4 Error Handling: Sto... (2026-03-11) | #712 [Error Handling] Phase 4: F... (2026-03-11) | #552 Add LLM/LoRA system trackin... (2026-03-11) | #380 [TASK] Error Code Migration... (2026-03-11)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 #include "llm/model_loader.h"
 #include "llm/gguf_loader.h"
 #include "utils/checksum_utils.h"

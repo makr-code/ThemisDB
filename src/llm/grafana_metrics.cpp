@@ -9,15 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: grafana_metrics.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 87/100 | Lines: 1567
- * Gap Summary: total=8; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=5, Debt=0, C=5, H=70, M=6, L=0
- * PR History (last 5): #3036 [llm] Unified metrics dashb... (2026-03-12) | #1295 Remove legacy query_parser.... (2026-03-11) | #689 Stabilize Extended Context ... (2026-03-11) | #215 Implement P1 LLM Inference ... (2026-03-11) | #214 Integrate Prometheus metric... (2026-03-11)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 #include "llm/grafana_metrics.h"
 #include <httplib.h>
 #include <spdlog/spdlog.h>

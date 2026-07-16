@@ -62,22 +62,11 @@ if(THEMIS_ENABLE_LEGAL_TRAINING)
         # Automated Quality & Diversity data selection pipeline
         ../src/training/lora_data_selection.cpp
 
-        # Dataset snapshot manifest and split management for reproducible training data governance
-        ../src/training/dataset_snapshot_manifest.cpp
-        ../src/training/eligibility_policy_engine.cpp
-        ../src/training/dataset_split_manager.cpp
-
         # LoRA checkpoint manager with SHA-256 integrity validation (Phase 3)
         ../src/training/lora_checkpoint_manager.cpp
 
         # Training sample provenance and lineage tracker (Phase 3)
         ../src/training/provenance_tracker.cpp
-        
-        # Phase 1: Training Core Hardening (Epic: LoRA/AdaLoRA Pipeline)
-        ../src/training/training_audit_log.cpp
-        ../src/training/determinism_validator.cpp
-        ../src/training/training_state_checkpoint.cpp
-        ../src/training/integrity_validator.cpp
 
         # Multi-modality legal document parser (Phase 3)
         ../src/training/modality_parser.cpp

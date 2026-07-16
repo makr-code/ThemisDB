@@ -418,11 +418,11 @@ http::response<http::string_body> TimeSeriesApiHandler::handleAggregatesGet(
             auto real_aggregates = aggregates_fn_();
             aggregate_names.insert(real_aggregates.begin(), real_aggregates.end());
             span.setAttribute("aggregates.source", "real_provider");
-        } else if (agg_manager_) {
-            // Fall back to ContinuousAggregateManager for real registered aggregates
-            auto real_aggregates = agg_manager_->listAggregates();
+        } else if (agg_engine_) {
+            // Fall back to ContinuousAggMaterializationEngine for real registered aggregates
+            auto real_aggregates = agg_engine_->listAggregates();
             aggregate_names.insert(real_aggregates.begin(), real_aggregates.end());
-            span.setAttribute("aggregates.source", "agg_manager");
+            span.setAttribute("aggregates.source", "agg_engine");
         } else {
             // Ultimate fallback: built-in defaults
             aggregate_names = {"min", "max", "avg", "sum", "count"};
@@ -487,7 +487,7 @@ http::response<http::string_body> TimeSeriesApiHandler::handleRetentionGet(
         } else if (retentionPoliciesFn_) {
             // Also check legacy provider
             auto legacy_policies = retentionPoliciesFn_();
-            policies = nlohmann::json::array(legacy_policies.begin(), legacy_policies.end());
+            policies = nlohmann::json(legacy_policies);
             span.setAttribute("policies.source", "legacy_provider");
         } else {
             // Fall back to storage-based config

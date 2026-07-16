@@ -11,6 +11,12 @@ set(THEMIS_AUTO_BOOTSTRAP_DEPS OFF CACHE BOOL "Automatically bootstrap missing t
 # Must be set unconditionally (before MSVC is defined by project())
 set(CMAKE_PROJECT_INCLUDE "${CMAKE_CURRENT_SOURCE_DIR}/cmake/msvc_includes_fix.cmake")
 
+# Initialize selected Visual Studio developer environment (optional)
+# This runs VsDevCmd.bat and applies LIB/INCLUDE/LIBPATH/WindowsSdkDir/VCToolsInstallDir
+# into the CMake process so compiler detection and configure steps use the selected
+# MSVC toolset without external wrapper scripts. Control via -DTHEMIS_MSVC_SELECTION=vs2022
+include(cmake/DetectVsDevCmd.cmake OPTIONAL)
+
 # Read VERSION first (before project())
 if(NOT EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/VERSION")
     message(FATAL_ERROR "VERSION file not found at ${CMAKE_CURRENT_SOURCE_DIR}/VERSION")
@@ -152,6 +158,7 @@ include(cmake/deprecated_checks.cmake OPTIONAL)
 
 # 3. Platform detection (OS, CPU, triplet)
 include(cmake/platforms/PlatformDetection.cmake)
+include(cmake/validation/CrossCompileValidation.cmake)
 
 # 4. Architecture optimizations (AVX2, NEON, etc.)
 include(cmake/platforms/ArchitectureOptimizations.cmake)
@@ -214,6 +221,21 @@ endif()
 
 # Testing - handled in cmake/CMakeLists.txt via add_subdirectory(tests)
 # (Moved to cmake/CMakeLists.txt to be closer to target definitions)
+
+find_package(Python3 COMPONENTS Interpreter QUIET)
+if(Python3_Interpreter_FOUND)
+    add_custom_target(license-compliance
+        COMMAND ${CMAKE_COMMAND} -E make_directory "${CMAKE_BINARY_DIR}/license-compliance"
+        COMMAND "${Python3_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/scripts/check_vcpkg_licenses.py"
+                --manifest "${CMAKE_CURRENT_SOURCE_DIR}/vcpkg.json"
+                --policy "${CMAKE_CURRENT_SOURCE_DIR}/.license-policy.json"
+                --output-dir "${CMAKE_BINARY_DIR}/license-compliance"
+        WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+        COMMENT "Checking vcpkg dependency licenses against .license-policy.json"
+    )
+else()
+    message(STATUS "Python3 interpreter not found; license-compliance target is unavailable")
+endif()
 
 # ============================================================================
 # PERFORMANCE MEASUREMENT FEATURE FLAGS

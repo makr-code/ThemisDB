@@ -23,7 +23,6 @@
 extern "C" {
 #include <whisper.h>
 #include <stdexcept>
-#include "security/safe_format.h"
 }
 #endif
 
@@ -1142,7 +1141,9 @@ std::string STTProcessor::formatTimestamp(int64_t ms) {
     int seconds = static_cast<int>((ms % 60000) / 1000);
     int millis  = static_cast<int>(ms % 1000);
 
-    return themis::security::SafeFormat::format_safe("{:02d}:{:02d}:{:02d}.{:03d}", hours, minutes, seconds, millis);
+    char buffer[32];
+    snprintf(buffer, sizeof(buffer), "%02d:%02d:%02d.%03d", hours, minutes, seconds, millis);
+    return std::string(buffer);
 }
 
 // Plugin entry point

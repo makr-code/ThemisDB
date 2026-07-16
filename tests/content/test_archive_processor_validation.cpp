@@ -17,6 +17,10 @@
 #include <filesystem>
 #include <fstream>
 #include <cstring>
+#include <chrono>
+#include <thread>
+#include <sstream>
+#include <random>
 
 namespace themis {
 namespace content {
@@ -240,34 +244,35 @@ TEST_F(ArchiveProcessorValidationTest, RejectEncryptedArchive) {
 // ============================================================================
 
 TEST_F(ArchiveProcessorValidationTest, CleanupTempDirectory) {
-    // Create a temporary directory
-    auto temp_path = fs::temp_directory_path() / "themis_test_XXXXXX";
-    std::string temp_str = temp_path.string();
-    
-    // Replace XXXXXX with actual temp name
-    char temp_template[] = "/tmp/themis_test_XXXXXX";
-    int fd = mkstemp(temp_template);
-    if (fd >= 0) {
-        close(fd);
-        fs::remove(temp_template);
+    // Create a temporary directory using a timestamp+thread-id based name for portability
+    auto now = std::chrono::steady_clock::now().time_since_epoch().count();
+    auto tid_hash = std::hash<std::thread::id>{}(std::this_thread::get_id());
+    std::ostringstream namebuf;
+    namebuf << "themis_test_" << now << "_" << tid_hash;
+    fs::path tmpdir = fs::temp_directory_path() / namebuf.str();
+    // In the unlikely event the name exists, append a random number
+    std::mt19937_64 rng(static_cast<uint64_t>(now) ^ static_cast<uint64_t>(tid_hash));
+    int attempts = 0;
+    while (fs::exists(tmpdir) && attempts < 10) {
+        namebuf << "_" << (rng() & 0xffff);
+        tmpdir = fs::temp_directory_path() / namebuf.str();
+        ++attempts;
     }
-    
-    // Create directory
-    fs::create_directories(temp_template);
-    
+    fs::create_directories(tmpdir);
+
     // Create some files
-    std::ofstream f1(std::string(temp_template) + "/file1.txt");
+    std::ofstream f1((tmpdir / "file1.txt").string());
     f1 << "test";
     f1.close();
-    
+
     // Verify it exists
-    EXPECT_TRUE(fs::exists(temp_template));
-    
+    EXPECT_TRUE(fs::exists(tmpdir));
+
     // Clean up (this would call the real cleanup in production)
-    ArchiveProcessor::cleanupTempDirectory(temp_template);
-    
+    ArchiveProcessor::cleanupTempDirectory(tmpdir.string());
+
     // Verify cleanup
-    EXPECT_FALSE(fs::exists(temp_template));
+    EXPECT_FALSE(fs::exists(tmpdir));
 }
 
 // ============================================================================

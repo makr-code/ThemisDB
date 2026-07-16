@@ -708,19 +708,9 @@ std::vector<uint8_t> TimestampAuthority::sendTSPRequest(
         if (!config_.ca_cert_path.empty())
             curl_easy_setopt(curl.get(), CURLOPT_CAINFO, config_.ca_cert_path.c_str());
 
-        // SSL/TLS verification: enabled by default (TSAConfig::verify_tsa_cert = true).
-        // CURLOPT_SSL_VERIFYPEER=1L: libcurl verifies the TSA server's certificate chain
-        //   against the CA bundle — prevents substitution of a rogue TSA certificate.
-        // CURLOPT_SSL_VERIFYHOST=2L: libcurl verifies the TSA server hostname matches the
-        //   certificate CN/SANs — prevents certificate mismatch attacks.
-        // Disabling either is forbidden in production deployments; TSAConfig::verify_tsa_cert
-        // must only be set to false in isolated test environments (no legally-binding timestamps).
         if (!config_.verify_tsa_cert) {
             curl_easy_setopt(curl.get(), CURLOPT_SSL_VERIFYPEER, 0L);
             curl_easy_setopt(curl.get(), CURLOPT_SSL_VERIFYHOST, 0L);
-        } else {
-            curl_easy_setopt(curl.get(), CURLOPT_SSL_VERIFYPEER, 1L);
-            curl_easy_setopt(curl.get(), CURLOPT_SSL_VERIFYHOST, 2L);
         }
 
         CURLcode res = curl_easy_perform(curl.get());

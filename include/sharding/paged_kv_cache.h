@@ -430,30 +430,6 @@ public:
      */
     void clearRequestCache(int64_t request_id);
     
-    // ========================================================================
-    // QW-026: Cross-shard cache consistency
-    // ========================================================================
-    
-    /**
-     * @brief Set callback for broadcasting cache invalidation to replicas
-     * Called on write/delete to invalidate cache entries across all shards
-     * 
-     * @param broadcast_fn Function to call with invalidation message
-     */
-    using InvalidationBroadcaster = std::function<void(
-        const std::string& cache_key,
-        uint32_t block_id,
-        const std::string& operation  // "write" or "delete"
-    )>;
-    
-    void setInvalidationBroadcaster(InvalidationBroadcaster broadcaster);
-    
-    /**
-     * @brief Broadcast cache invalidation to all replicas after write operation
-     * @param block_id Block that was modified
-     */
-    void broadcastWriteInvalidation(uint32_t block_id);
-    
 private:
     // ========================================================================
     // Internal Types
@@ -489,7 +465,6 @@ private:
     BlockAllocator block_allocator_;
     BlockDeallocator block_deallocator_;
     EvictionCallback eviction_callback_;
-    InvalidationBroadcaster invalidation_broadcaster_;  // QW-026: Cross-shard cache invalidation
     
     // Memory tracking
     size_t current_memory_usage_ = 0;

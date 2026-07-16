@@ -265,10 +265,10 @@ std::optional<InferenceResponse> LLMResponseCache::get(const std::string& prompt
                             metrics_collector_->recordCacheHit(cache_name_);
                         }
                         
-                        THEMIS_DEBUG("Cache hit: similarity={:.4f}, prompt='{}' matched to '{}'",
+                        THEMIS_DEBUG("Cache hit: similarity={:.4f}, prompt_length={} matched to prompt_length={}",
                                     similarity,
-                                    prompt.substr(0, 50), 
-                                    entry.prompt.substr(0, 50));
+                                    prompt.length(), 
+                                    entry.prompt.length());
                         
                         return entry.response;
                     } else {
@@ -368,7 +368,7 @@ std::optional<InferenceResponse> LLMResponseCache::get(const std::string& prompt
         metrics_collector_->recordCacheMiss(cache_name_);
     }
     
-    THEMIS_DEBUG("Cache miss for prompt: '{}'", prompt.substr(0, 50));
+    THEMIS_DEBUG("Cache miss for prompt (length: {})", prompt.length());
     return std::nullopt;
 }
 

@@ -9,15 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: model_downloader.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 597
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=2, H=10, M=4, L=0
- * PR History (last 5): #1101 feat: Add LLM deployment pl... (2026-03-11) | #1230 Add CLI tool for LLM model ... (2026-03-11)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 // ModelDownloader implementation with progress tracking and checksum verification
 // Supports Ollama API and direct HTTP/HTTPS downloads
 

@@ -627,7 +627,7 @@ private:
             spdlog::error("  For production, configure one of:");
             spdlog::error("    1. HSM (use_hsm_for_encryption=true, hsm_library_path=...)");
             spdlog::error("    2. Vault (use_vault_for_encryption=true, vault_addr=https://...)");
-            spdlog::error("    3. PKI (use_pki_for_encryption=true, pki_cert_path=..., pki_private_key_path=...)");
+            spdlog::error("    3. PKI (use_pki_for_encryption=true, pki_cert_path=<path>, pki_private_key_path=<path>)");
             throw std::runtime_error(
                 "Production environment requires HSM, Vault, or PKI key provider. "
                 "Set THEMIS_ENVIRONMENT=development to use MockKeyProvider."

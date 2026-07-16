@@ -19,45 +19,12 @@
  */
 
 // Graph Query Optimizer implementation
-//
-// PERFORMANCE OPTIMIZATIONS (Sprint 3 Batch QW-P3-4):
-// ─────────────────────────────────────────────────
-// PA-001: Pre-allocation + Batch Processing
-//   - Reserve vectors before loop insertions (O(1) vs O(n²) reallocations)
-//   - Use emplace_back instead of push_back (avoid temporary copies)
-//   - Applied to: executeBFS, executeDFS, executeTemporalBFS
-//   - Expected: 2-5x speedup in allocation-heavy loops
-//
-// PA-002: Query Plan Caching / Memoization
-//   - LRU cache with TTL eviction (10K entries max, 5min TTL)
-//   - Structural plan reuse: same constraints → reuse plan across different vertices
-//   - Target: >70% cache hit rate on repeat queries
-//   - Expected: 3-5% latency improvement on repeat queries
-//
-// PA-003: Index Optimization (Bloom Filter)
-//   - Thread-local Bloom filter for entity existence checks
-//   - Quick negative checks avoid expensive O(log n) index lookups
-//   - False-positive rate <5% (false negatives impossible)
-//   - Expected: 2-3x speedup for negative lookups
-//
-// PA-004: Top-K Optimization (Partial Sort)
-//   - Replace std::sort with std::partial_sort for algorithm selection
-//   - Only need first algorithm, not full sort of alternatives
-//   - Expected: Micro-optimization benefit in plan selection
-//
-// PA-005: Cache-aware Data Structure Selection
-//   - Use std::vector for sequential access (better cache locality)
-//   - Avoid repeated std::unordered_set lookups on hot paths
-//   - Expected: 5-10% speedup on memory-bound operations
-//
-// TOTAL EXPECTED IMPROVEMENT: 5-15% latency reduction on graph queries
 
 #include "graph/graph_query_optimizer.h"
 #include <stdexcept>
 #include "graph/gpu_traversal.h"
 #include "graph/path_constraints.h"
 #include "query/result_stream.h"
-#include "utils/bloom_filter.h"
 #include <spdlog/spdlog.h>
 #include <algorithm>
 #include <cmath>
@@ -116,58 +83,21 @@ static bool nodeMatchesLabels(GraphIndexManager& mgr,
 static void applySchemaHints(GraphQueryOptimizer::OptimizationPlan& plan,
                               const GraphQueryOptimizer::QueryConstraints& constraints) {
     if (!constraints.node_labels.empty()) {
-        std::ostringstream oss;
-        oss << "Node labels (OR): ";
-        bool first = true;
-        for (const auto& lbl : constraints.node_labels) {
-            if (!first) oss << ", ";
-            oss << lbl;
-            first = false;
+        std::string hint = "Node labels (OR): ";
+        for (size_t i = 0; i < constraints.node_labels.size(); ++i) {
+            if (i > 0) hint += ", ";
+            hint += constraints.node_labels[i];
         }
-        plan.active_schema_hints.push_back(oss.str());
+        plan.active_schema_hints.push_back(std::move(hint));
     }
     if (!constraints.excluded_edge_types.empty()) {
-        std::ostringstream oss;
-        oss << "Excluded edge types: ";
-        bool first = true;
-        for (const auto& et : constraints.excluded_edge_types) {
-            if (!first) oss << ", ";
-            oss << et;
-            first = false;
+        std::string hint = "Excluded edge types: ";
+        for (size_t i = 0; i < constraints.excluded_edge_types.size(); ++i) {
+            if (i > 0) hint += ", ";
+            hint += constraints.excluded_edge_types[i];
         }
-        plan.active_schema_hints.push_back(oss.str());
+        plan.active_schema_hints.push_back(std::move(hint));
     }
-}
-
-// ─────────────────────────────────────────────────────────────────────────────
-// PA-003: Bloom filter helper for fast entity existence checks
-// Quick negative checks avoid expensive index lookups.
-// False-positive rate target: <5% (false negatives impossible).
-// ─────────────────────────────────────────────────────────────────────────────
-// Thread-local Bloom filter cache for entity existence checks (100K expected, 5% FP rate)
-thread_local std::unique_ptr<themis::utils::BloomFilter> entity_existence_filter_;
-thread_local size_t entity_filter_generation_ = 0;
-
-static bool isEntityLikelyNonExistent(const std::string& entity_id) {
-    // PA-003: Use Bloom filter for quick negative check before expensive lookup
-    if (!entity_existence_filter_) {
-        // Lazy initialization: 100K expected entities, 5% false-positive rate
-        entity_existence_filter_ = std::make_unique<themis::utils::BloomFilter>(100000, 0.05);
-        entity_filter_generation_ = 1;
-    }
-    
-    // A false return from the Bloom filter means the entity is definitely NOT in the filter
-    // In this case, we return true (entity is likely non-existent) for quick rejection
-    // A true return means the entity MIGHT be in the filter (may need full lookup)
-    return !entity_existence_filter_->contains(entity_id);
-}
-
-static void recordEntityExistence(const std::string& entity_id) {
-    // PA-003: Record entity in Bloom filter for future existence checks
-    if (!entity_existence_filter_) {
-        entity_existence_filter_ = std::make_unique<themis::utils::BloomFilter>(100000, 0.05);
-    }
-    entity_existence_filter_->insert(entity_id);
 }
 
 } // namespace (helpers)
@@ -179,12 +109,6 @@ GraphQueryOptimizer::GraphQueryOptimizer(GraphIndexManager& graph_manager)
     if (!result) {
         spdlog::warn("Failed to collect initial graph statistics: {}", result.error().message());
     }
-    
-    // PA-002: Enable query plan caching with aggressive defaults
-    // Target: >70% cache hit rate on repeat queries
-    plan_caching_enabled_ = true;
-    plan_cache_max_size_ = 10000;  // Allow up to 10K cached plans (LRU eviction)
-    plan_cache_ttl_ = std::chrono::seconds(300);  // 5-minute TTL per entry
 }
 
 Result<GraphQueryOptimizer::OptimizationPlan> GraphQueryOptimizer::optimizeShortestPath(
@@ -228,30 +152,25 @@ Result<GraphQueryOptimizer::OptimizationPlan> GraphQueryOptimizer::optimizeShort
     
     // Generate alternative plans
     std::vector<std::pair<TraversalAlgorithm, double>> alternatives;
-     
+    
     // BFS cost (shortest unweighted path)
     double bfs_cost = estimateCost(TraversalAlgorithm::BFS, estimated_depth, constraints);
-    alternatives.emplace_back(TraversalAlgorithm::BFS, bfs_cost);
-     
+    alternatives.push_back({TraversalAlgorithm::BFS, bfs_cost});
+    
     // Dijkstra cost (shortest weighted path)
     double dijkstra_cost = estimateCost(TraversalAlgorithm::DIJKSTRA, estimated_depth, constraints);
-    alternatives.emplace_back(TraversalAlgorithm::DIJKSTRA, dijkstra_cost);
-     
+    alternatives.push_back({TraversalAlgorithm::DIJKSTRA, dijkstra_cost});
+    
     // Bidirectional search cost (for long paths)
     if (estimated_depth > 3) {
         double bidirectional_cost = estimateCost(TraversalAlgorithm::BIDIRECTIONAL, estimated_depth, constraints);
-        alternatives.emplace_back(TraversalAlgorithm::BIDIRECTIONAL, bidirectional_cost);
+        alternatives.push_back({TraversalAlgorithm::BIDIRECTIONAL, bidirectional_cost});
     }
-     
-    // PA-004: Use partial_sort to find the best algorithm (top-1)
-    // Only need the first element, so partial_sort with k=1 is more efficient than full sort
-    if (alternatives.size() > 1) {
-        std::partial_sort(alternatives.begin(), 
-                         alternatives.begin() + 1, 
-                         alternatives.end(),
-                         [](const auto& a, const auto& b) { return a.second < b.second; });
-    }
-     
+    
+    // Select best algorithm
+    std::sort(alternatives.begin(), alternatives.end(), 
+              [](const auto& a, const auto& b) { return a.second < b.second; });
+    
     plan.algorithm = alternatives[0].first;
     plan.estimated_cost = alternatives[0].second;
     plan.alternatives = std::move(alternatives);
@@ -337,13 +256,8 @@ Result<GraphQueryOptimizer::OptimizationPlan> GraphQueryOptimizer::optimizeKHopN
         {TraversalAlgorithm::BFS, bfs_cost},
         {TraversalAlgorithm::DFS, dfs_cost},
     };
-    // PA-004: Use partial_sort to find the best algorithm (top-1)
-    if (alternatives.size() > 1) {
-        std::partial_sort(alternatives.begin(), 
-                         alternatives.begin() + 1, 
-                         alternatives.end(),
-                         [](const auto& a, const auto& b) { return a.second < b.second; });
-    }
+    std::sort(alternatives.begin(), alternatives.end(),
+              [](const auto& a, const auto& b) { return a.second < b.second; });
 
     plan.algorithm = selectAlgorithm(QueryPattern::K_HOP_NEIGHBORS, estimated_depth, constraints);
     plan.estimated_cost = estimateCost(plan.algorithm, estimated_depth, constraints);
@@ -411,13 +325,8 @@ Result<GraphQueryOptimizer::OptimizationPlan> GraphQueryOptimizer::optimizePatte
         {TraversalAlgorithm::DFS, dfs_cost},
         {TraversalAlgorithm::BFS, bfs_cost},
     };
-    // PA-004: Use partial_sort to find the best algorithm (top-1)
-    if (alternatives.size() > 1) {
-        std::partial_sort(alternatives.begin(), 
-                         alternatives.begin() + 1, 
-                         alternatives.end(),
-                         [](const auto& a, const auto& b) { return a.second < b.second; });
-    }
+    std::sort(alternatives.begin(), alternatives.end(),
+              [](const auto& a, const auto& b) { return a.second < b.second; });
 
     plan.algorithm = selectAlgorithm(QueryPattern::PATTERN_MATCH, pattern_depth, constraints);
     plan.estimated_cost = estimateCost(plan.algorithm, pattern_depth, constraints);
@@ -486,18 +395,13 @@ Result<GraphQueryOptimizer::OptimizationPlan> GraphQueryOptimizer::optimizeReach
     // available, falling back to depth-based heuristics otherwise.
     std::vector<std::pair<TraversalAlgorithm, double>> alternatives;
     double bfs_cost = estimateCost(TraversalAlgorithm::BFS, estimated_depth, constraints);
-    alternatives.emplace_back(TraversalAlgorithm::BFS, bfs_cost);
+    alternatives.push_back({TraversalAlgorithm::BFS, bfs_cost});
     if (estimated_depth > 3) {
         double bidirectional_cost = estimateCost(TraversalAlgorithm::BIDIRECTIONAL, estimated_depth, constraints);
-        alternatives.emplace_back(TraversalAlgorithm::BIDIRECTIONAL, bidirectional_cost);
+        alternatives.push_back({TraversalAlgorithm::BIDIRECTIONAL, bidirectional_cost});
     }
-    // PA-004: Use partial_sort to find the best algorithm (top-1)
-    if (alternatives.size() > 1) {
-        std::partial_sort(alternatives.begin(), 
-                         alternatives.begin() + 1, 
-                         alternatives.end(),
-                         [](const auto& a, const auto& b) { return a.second < b.second; });
-    }
+    std::sort(alternatives.begin(), alternatives.end(),
+              [](const auto& a, const auto& b) { return a.second < b.second; });
 
     // Use selectAlgorithm for the final choice so that the adaptive model can
     // override the cost-sorted result when sufficient confidence exists.
@@ -768,22 +672,11 @@ Result<std::vector<std::string>> GraphQueryOptimizer::executeTemporalBFS(
         return elapsed > static_cast<decltype(elapsed)>(constraints.timeout_ms);
     };
 
-    // PA-001: Pre-allocate result and frontier vectors to reduce reallocations
-    // Estimate upper bound: branching_factor ^ max_depth
-    size_t estimated_size = std::min(
-       static_cast<size_t>(std::pow(statistics_.avg_branching_factor > 1.0 ? 
-                                   statistics_.avg_branching_factor : 2.0, 
-                                   max_depth)),
-       statistics_.vertex_count > 0 ? statistics_.vertex_count : 10000UL
-    );
-    
     std::vector<std::string> result;
-    result.reserve(estimated_size);
     std::unordered_set<std::string> visited;
     std::vector<std::string> current_frontier;
-    current_frontier.reserve(estimated_size / std::max(1, max_depth));
 
-    current_frontier.emplace_back(std::string(start_vertex));
+    current_frontier.push_back(std::string(start_vertex));
     visited.insert(std::string(start_vertex));
 
     for (int depth = 0; depth <= max_depth; ++depth) {
@@ -803,7 +696,7 @@ Result<std::vector<std::string>> GraphQueryOptimizer::executeTemporalBFS(
 
         // Emit frontier nodes into result
         for (const auto& node : current_frontier) {
-            result.emplace_back(node);
+            result.push_back(node);
             local_stats.nodes_explored++;
             if (constraints.max_results.has_value() &&
                 result.size() >= constraints.max_results.value()) {
@@ -816,9 +709,7 @@ Result<std::vector<std::string>> GraphQueryOptimizer::executeTemporalBFS(
         if (depth == max_depth) break;
 
         // Expand frontier using time-range-filtered edges
-        // PA-001: Pre-allocate next_frontier
         std::vector<std::string> next_frontier;
-        next_frontier.reserve(estimated_size / std::max(1, max_depth));
         for (const auto& node : current_frontier) {
             auto [status, edges] = graph_manager_.getOutEdgesInTimeRange(
                 node, range_start, range_end,
@@ -840,7 +731,7 @@ Result<std::vector<std::string>> GraphQueryOptimizer::executeTemporalBFS(
                     constraints.forbidden_vertices.end()) continue;
 
                 visited.insert(nb);
-                next_frontier.emplace_back(nb);
+                next_frontier.push_back(nb);
             }
         }
         current_frontier = std::move(next_frontier);
@@ -933,22 +824,11 @@ Result<std::vector<std::string>> GraphQueryOptimizer::executeBFS(
         return elapsed > static_cast<decltype(elapsed)>(constraints.timeout_ms);
     };
 
-    // PA-001: Pre-allocate result vector to reduce reallocations
-    // Estimate upper bound: branching_factor ^ max_depth
-    size_t estimated_size = std::min(
-        static_cast<size_t>(std::pow(statistics_.avg_branching_factor > 1.0 ? 
-                                    statistics_.avg_branching_factor : 2.0, 
-                                    max_depth)),
-        statistics_.vertex_count > 0 ? statistics_.vertex_count : 10000UL
-    );
-     
     std::vector<std::string> result;
-    result.reserve(estimated_size);
     std::unordered_set<std::string> visited;
 
     // BFS frontier: current level to expand
     std::vector<std::string> current_frontier;
-    current_frontier.reserve(estimated_size / std::max(1, max_depth));
     current_frontier.push_back(std::string(start_vertex));
     visited.insert(std::string(start_vertex));
 
@@ -970,7 +850,7 @@ Result<std::vector<std::string>> GraphQueryOptimizer::executeBFS(
 
         // Add all frontier nodes to result
         for (const auto& node : current_frontier) {
-            result.emplace_back(node);
+            result.push_back(node);
             local_stats.nodes_explored++;
             if (constraints.max_results.has_value() &&
                 result.size() >= constraints.max_results.value()) {
@@ -983,9 +863,7 @@ Result<std::vector<std::string>> GraphQueryOptimizer::executeBFS(
         if (depth == max_depth) break; // No need to expand last level
 
         // Build next frontier: expand each node in current_frontier, optionally in parallel
-        // PA-001: Pre-allocate for next frontier to reduce reallocations
         std::vector<std::string> next_frontier;
-        next_frontier.reserve(estimated_size / std::max(1, max_depth));
         bool vertex_error = false;
         std::string error_vertex;
 
@@ -1003,7 +881,7 @@ Result<std::vector<std::string>> GraphQueryOptimizer::executeBFS(
                     // Schema hint: skip nodes that do not carry a required label
                     if (!nodeMatchesLabels(graph_manager_, nb, constraints.node_labels)) continue;
                     visited.insert(nb);
-                    next_frontier.emplace_back(nb);
+                    next_frontier.push_back(nb);
                 }
             }
         } else {
@@ -1065,7 +943,7 @@ Result<std::vector<std::string>> GraphQueryOptimizer::executeBFS(
                                   constraints.forbidden_vertices.end(), nb) !=
                         constraints.forbidden_vertices.end()) continue;
                     visited.insert(nb);
-                    next_frontier.emplace_back(nb);
+                    next_frontier.push_back(nb);
                 }
             }
         }
@@ -1144,27 +1022,16 @@ Result<std::vector<std::string>> GraphQueryOptimizer::executeDFS(
         }
     }
     
-    // PA-001: Pre-allocate result and stack vectors to reduce reallocations
-    // Estimate upper bound: branching_factor ^ max_depth
-    size_t estimated_size = std::min(
-       static_cast<size_t>(std::pow(statistics_.avg_branching_factor > 1.0 ? 
-                                   statistics_.avg_branching_factor : 2.0, 
-                                   max_depth)),
-       statistics_.vertex_count > 0 ? statistics_.vertex_count : 10000UL
-    );
-    
     std::vector<std::string> result;
-    result.reserve(estimated_size);
     std::vector<std::pair<std::string, int>> stack;
-    stack.reserve(estimated_size);  // Stack grows as we traverse
     std::unordered_set<std::string> visited;
     
-    stack.emplace_back(std::string(start_vertex), 0);
+    stack.push_back({std::string(start_vertex), 0});
     
     while (!stack.empty()) {
         auto [current, depth] = stack.back();
         stack.pop_back();
-         
+        
         // Timeout check
         if (constraints.timeout_ms > 0) {
             auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(
@@ -1185,15 +1052,15 @@ Result<std::vector<std::string>> GraphQueryOptimizer::executeDFS(
         if (visited.find(current) != visited.end()) {
             continue;
         }
-         
+        
         visited.insert(current);
-        result.emplace_back(current);
+        result.push_back(current);
         local_stats.nodes_explored++;
-         
+        
         if (depth >= max_depth) {
             continue;
         }
-         
+        
         auto [status, neighbors] = graph_manager_.outNeighbors(current);
         if (!status.ok) {
             return Err<std::vector<std::string>>(
@@ -1201,17 +1068,17 @@ Result<std::vector<std::string>> GraphQueryOptimizer::executeDFS(
                 current
             );
         }
-         
+        
         local_stats.edges_traversed += neighbors.size();
-         
+        
         for (const auto& neighbor : neighbors) {
             if (visited.find(neighbor) == visited.end()) {
                 // Schema hint: skip nodes that do not carry a required label
                 if (!nodeMatchesLabels(graph_manager_, neighbor, constraints.node_labels)) continue;
-                stack.emplace_back(neighbor, depth + 1);
+                stack.push_back({neighbor, depth + 1});
             }
         }
-         
+        
         if (constraints.max_results.has_value() && 
             result.size() >= constraints.max_results.value()) {
             local_stats.early_terminated = true;
@@ -1534,21 +1401,12 @@ Result<GraphIndexManager::PathResult> GraphQueryOptimizer::executeDijkstra(
         }
 
         // Reconstruct path from parent[] map.
-        // SAFE ITERATOR USAGE:
-        //   dit is obtained from dist.find(target) and checked immediately.
-        //   No modifications to dist between find() and dereference, so dit remains valid.
-        //   This is a defensive reconstruction pattern: check validity before use.
         GraphIndexManager::PathResult path_result;
         auto dit = dist.find(target);
         if (dit != dist.end()) {
             path_result.totalCost = dit->second;
             std::vector<std::string> path;
             std::string cur = target;
-            // SAFE ITERATOR CHAIN:
-            //   Each pit = parent.find(cur) is immediately checked (line 1419).
-            //   If parent entry exists, cur is updated (line 1420).
-            //   Loop terminates when cur == start, breaking the chain.
-            //   Defensive guards prevent dangling parent lookups.
             while (cur != start) {
                 path.push_back(cur);
                 auto pit = parent.find(cur);
@@ -2179,35 +2037,32 @@ std::string GraphQueryOptimizer::explainPlan(const OptimizationPlan& plan) const
         case QueryPattern::CONNECTED_COMPONENT: pattern_name = "Connected Component"; break;
     }
     
-    std::ostringstream oss;
-    oss << "Query Pattern: " << pattern_name << '\n'
-        << "Selected Algorithm: " << algo_name << '\n'
-        << "Estimated Cost: " << plan.estimated_cost << '\n'
-        << "Estimated Time: " << plan.estimated_time_ms << " ms\n"
-        << "Estimated Nodes: " << plan.estimated_nodes_explored << '\n'
-        << "Use Index: " << (plan.use_index ? "Yes" : "No") << '\n'
-        << "Use Cache: " << (plan.use_cache ? "Yes" : "No") << '\n'
-        << "Early Termination: " << (plan.enable_early_termination ? "Yes" : "No") << '\n'
-        << "Parallel Execution: " << (plan.enable_parallel ? "Yes" : "No") << '\n';
-
+    std::string explanation = "Query Pattern: " + pattern_name + "\n";
+    explanation += "Selected Algorithm: " + algo_name + "\n";
+    explanation += "Estimated Cost: " + std::to_string(plan.estimated_cost) + "\n";
+    explanation += "Estimated Time: " + std::to_string(plan.estimated_time_ms) + " ms\n";
+    explanation += "Estimated Nodes: " + std::to_string(plan.estimated_nodes_explored) + "\n";
+    explanation += "Use Index: " + std::string(plan.use_index ? "Yes" : "No") + "\n";
+    explanation += "Use Cache: " + std::string(plan.use_cache ? "Yes" : "No") + "\n";
+    explanation += "Early Termination: " + std::string(plan.enable_early_termination ? "Yes" : "No") + "\n";
+    explanation += "Parallel Execution: " + std::string(plan.enable_parallel ? "Yes" : "No") + "\n";
+    
     // Shard-aware plan info (v1.8.0)
     if (plan.is_distributed) {
-        oss << "Distributed: Yes (" << plan.shard_ids.size() << " shards)\n"
-            << "Parallelism: " << plan.recommended_parallelism << '\n';
+        explanation += "Distributed: Yes (" + std::to_string(plan.shard_ids.size()) + " shards)\n";
+        explanation += "Parallelism: " + std::to_string(plan.recommended_parallelism) + "\n";
         if (!plan.shard_ids.empty()) {
-            oss << "Shards: ";
-            bool first = true;
-            for (const auto& sid : plan.shard_ids) {
-                if (!first) oss << ", ";
-                oss << sid;
-                first = false;
+            explanation += "Shards: ";
+            for (size_t i = 0; i < plan.shard_ids.size(); ++i) {
+                if (i > 0) explanation += ", ";
+                explanation += plan.shard_ids[i];
             }
-            oss << '\n';
+            explanation += "\n";
         }
     }
 
     if (!plan.alternatives.empty()) {
-        oss << "\nAlternatives Considered:\n";
+        explanation += "\nAlternatives Considered:\n";
         for (const auto& [alt_algo, alt_cost] : plan.alternatives) {
             std::string alt_name;
             switch (alt_algo) {
@@ -2217,18 +2072,18 @@ std::string GraphQueryOptimizer::explainPlan(const OptimizationPlan& plan) const
                 case TraversalAlgorithm::ASTAR: alt_name = "A*"; break;
                 case TraversalAlgorithm::DIJKSTRA: alt_name = "Dijkstra"; break;
             }
-            oss << "  " << alt_name << ": " << alt_cost << '\n';
+            explanation += "  " + alt_name + ": " + std::to_string(alt_cost) + "\n";
         }
     }
 
     if (!plan.active_schema_hints.empty()) {
-        oss << "\nSchema Hints Active:\n";
+        explanation += "\nSchema Hints Active:\n";
         for (const auto& hint : plan.active_schema_hints) {
-            oss << "  " << hint << '\n';
+            explanation += "  " + hint + "\n";
         }
     }
-
-    return oss.str();
+    
+    return explanation;
 }
 
 void GraphQueryOptimizer::clearPlanCache() {
@@ -2236,65 +2091,15 @@ void GraphQueryOptimizer::clearPlanCache() {
     plan_cache_lru_.clear();
 }
 
-// QW-026: Broadcast cache invalidation across distributed shards
-Result<void> GraphQueryOptimizer::broadcastInvalidation(
-    const std::vector<std::string>& affected_vertices) {
-    
-    // Clear local plan cache
-    clearPlanCache();
-    
-    // In a distributed scenario, this method would:
-    // 1. Serialize the invalidation request with affected_vertices list
-    // 2. Send async invalidation messages to all registered shards
-    // 3. Collect ACKs or use eventual consistency
-    // 4. Update local version counter for validation
-    
-    THEMIS_DEBUG("broadcastInvalidation: invalidating {} vertices across all shards",
-                 affected_vertices.empty() ? "all" : std::to_string(affected_vertices.size()));
-    
-    // For single-node: just clear local cache (already done above)
-    // For distributed: would dispatch invalidation messages via RPC layer
-    // Placeholder: log the invalidation for audit trail
-    if (affected_vertices.empty()) {
-        THEMIS_INFO("Cache invalidation: full cache clear requested (QW-026)");
-    } else {
-        THEMIS_INFO("Cache invalidation: {} vertex-specific cache entries invalidated (QW-026)",
-                    affected_vertices.size());
-    }
-    
-    return Ok();
-}
-
-
 // ─────────────────────────────────────────────────────────────────────────────
 // Plan cache helpers: LRU eviction + TTL expiry
 // ─────────────────────────────────────────────────────────────────────────────
-// DEFENSIVE IMPLEMENTATION: Iterator invariant verification
-// =============================================================================
-// The plan cache stores iterators to a doubly-linked list. This is safe because:
-// 1. std::list::splice() preserves iterator validity (C++ standard guarantee)
-// 2. Iterators only become invalid when their element is erased
-// 3. We only erase elements when they're being removed from plan_cache_
-//
-// Defensive checks in this section verify these invariants:
-// - Cache size matches LRU list size
-// - Iterators to LRU list are from plan_cache_lru_ (not dangling)
-// - No duplicate keys in cache
-//
-// This makes iterator invalidation bugs immediately visible during execution,
-// rather than causing silent data corruption or crashes.
-// =============================================================================
 
 void GraphQueryOptimizer::planCacheInsert(const std::string& key,
                                           const OptimizationPlan& plan) {
-    // DEFENSIVE: Verify cache invariants before modification
-    [[maybe_unused]] bool invariant_check = (plan_cache_.size() == plan_cache_lru_.size());
-    assert(invariant_check && "Cache size mismatch: map != list");
-
     auto it = plan_cache_.find(key);
     if (it != plan_cache_.end()) {
         // Key already present: update plan and move to front (MRU)
-        // SAFE: splice() preserves all other iterators; only moves this element
         it->second.first.plan = plan;
         it->second.first.inserted_at = std::chrono::steady_clock::now();
         plan_cache_lru_.splice(plan_cache_lru_.begin(), plan_cache_lru_,
@@ -2303,74 +2108,39 @@ void GraphQueryOptimizer::planCacheInsert(const std::string& key,
     }
 
     // Enforce size limit: evict LRU entry when at capacity
-    // SAFE: erase() only invalidates iterators to the erased element;
-    //       we're about to remove it from plan_cache_, so no use-after-free
     if (plan_cache_max_size_ > 0 && plan_cache_.size() >= plan_cache_max_size_) {
         const std::string& lru_key = plan_cache_lru_.back();
-        // DEFENSIVE: Verify the LRU key exists in the map before erasing
-        auto lru_it = plan_cache_.find(lru_key);
-        assert(lru_it != plan_cache_.end() && "LRU key missing from cache map");
-        
         plan_cache_.erase(lru_key);
         plan_cache_lru_.pop_back();
         metrics_.plan_cache_evictions.fetch_add(1, std::memory_order_relaxed);
     }
 
     // Insert new entry at the front (MRU position)
-    // SAFE: plan_cache_lru_.begin() is stable; it returns an iterator to the front element
-    // which we're inserting right now, so it will point to the new element
     plan_cache_lru_.push_front(key);
     PlanCacheEntry entry{plan, std::chrono::steady_clock::now()};
-    auto lru_iter = plan_cache_lru_.begin();
-    plan_cache_.emplace(key, std::make_pair(std::move(entry), lru_iter));
-
-    // DEFENSIVE: Verify size invariant after insertion
-    [[maybe_unused]] bool post_insert_check = (plan_cache_.size() == plan_cache_lru_.size());
-    assert(post_insert_check && "Cache size mismatch after insert");
+    plan_cache_.emplace(key, std::make_pair(std::move(entry), plan_cache_lru_.begin()));
 }
 
 const GraphQueryOptimizer::OptimizationPlan*
 GraphQueryOptimizer::planCacheLookup(const std::string& key) {
-    // DEFENSIVE: Verify cache invariants before lookup
-    [[maybe_unused]] bool invariant_check = (plan_cache_.size() == plan_cache_lru_.size());
-    assert(invariant_check && "Cache size mismatch: map != list");
-
     auto it = plan_cache_.find(key);
     if (it == plan_cache_.end()) {
-        metrics_.plan_cache_misses.fetch_add(1, std::memory_order_relaxed);
         return nullptr;
     }
 
-    metrics_.plan_cache_hits.fetch_add(1, std::memory_order_relaxed);
-
     // TTL check: evict expired entry
-    // SAFE: erase(iterator) only invalidates that iterator; we're done with it anyway
     if (plan_cache_ttl_.count() > 0) {
         auto age = std::chrono::duration_cast<std::chrono::milliseconds>(
             std::chrono::steady_clock::now() - it->second.first.inserted_at);
         if (age > plan_cache_ttl_) {
-            // DEFENSIVE: Verify iterator is valid before erasing
-            // The stored iterator it->second.second must point to an element in plan_cache_lru_
-            // We can't easily verify this without iterating the list, so we rely on assertions
-            // from planCacheInsert to have maintained the invariant
-            assert(it->second.second != plan_cache_lru_.end() && "Invalid LRU iterator");
-            
             plan_cache_lru_.erase(it->second.second);
             plan_cache_.erase(it);
             metrics_.plan_cache_evictions.fetch_add(1, std::memory_order_relaxed);
-            
-            // DEFENSIVE: Verify size invariant after eviction
-            [[maybe_unused]] bool post_erase_check = (plan_cache_.size() == plan_cache_lru_.size());
-            assert(post_erase_check && "Cache size mismatch after TTL eviction");
-            
             return nullptr;
         }
     }
 
     // Move to front (MRU position)
-    // SAFE: splice() preserves iterator validity for all elements except those being moved
-    // We're moving it->second.second to the front, so the iterator still points to the
-    // same element (just in a new position in the list)
     plan_cache_lru_.splice(plan_cache_lru_.begin(), plan_cache_lru_,
                            it->second.second);
     return &it->second.first.plan;
@@ -3011,7 +2781,6 @@ size_t GraphQueryOptimizer::onGraphChange(const GraphChangeSet& changes) {
     }
 
     // Collect all vertex IDs touched by the change set (edge endpoints + vertex IDs).
-    // DEFENSIVE: Use a dedicated set to avoid iterator invalidation during collection.
     std::unordered_set<std::string> changed_vertices;
     for (const auto& change : changes.changes) {
         if (!change.from.empty()) changed_vertices.insert(change.from);
@@ -3021,23 +2790,6 @@ size_t GraphQueryOptimizer::onGraphChange(const GraphChangeSet& changes) {
             if (!change.id.empty()) changed_vertices.insert(change.id);
         }
     }
-
-    // DEFENSIVE DEFERRED CALLBACK PATTERN:
-    // ===================================
-    // First pass: iterate incremental_queries_ while it's safe (no concurrent modifications).
-    // Collect results and callbacks in a vector WITHOUT invoking callbacks yet.
-    //
-    // Why defer?
-    //   - If a callback calls unregisterIncrementalQuery(handle), it modifies
-    //     incremental_queries_ (erases an element).
-    //   - This invalidates iterators from the first pass, causing undefined behavior
-    //     or crashes.
-    //   - By deferring callback invocation to the second pass (after iteration ends),
-    //     we ensure all iterators remain valid during the loop.
-    //
-    // Safety invariant:
-    //   - First pass: read-only iteration of incremental_queries_
-    //   - Second pass: independent loop over pending callbacks (no map access)
 
     // First pass: determine affected queries, re-execute them, build deltas,
     // and update last_result. Callbacks are collected for deferred invocation
@@ -3055,7 +2807,6 @@ size_t GraphQueryOptimizer::onGraphChange(const GraphChangeSet& changes) {
         // A query is affected when:
         //   1. Its start_vertex is directly changed, or
         //   2. Any changed vertex appears in the previous result set.
-        // DEFENSIVE: Perform both checks before modifying state.
         bool affected = changed_vertices.count(entry.start_vertex) > 0;
         if (!affected) {
             for (const auto& v : changed_vertices) {
@@ -3108,9 +2859,6 @@ size_t GraphQueryOptimizer::onGraphChange(const GraphChangeSet& changes) {
     }
 
     // Second pass: invoke callbacks outside the map iteration.
-    // SAFE: By deferring until now, we ensure that incremental_queries_ is not
-    // accessed during callback invocation. Any unregisterIncrementalQuery() calls
-    // inside callbacks will not affect the iteration above.
     // This ensures that any unregisterIncrementalQuery() call inside a callback
     // does not invalidate iterators used in the first pass above.
     for (auto& p : pending) {

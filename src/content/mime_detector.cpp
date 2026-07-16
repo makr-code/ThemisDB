@@ -28,7 +28,6 @@
 #include <filesystem>
 #include <fstream>
 #include <stdexcept>
-#include "security/safe_format.h"
 
 namespace themis {
 namespace content {
@@ -331,7 +330,9 @@ std::string MimeDetector::computeDeterministicHash() const {
         std::string hex;
         hex.reserve(sig.signature.size() * 2);
         for (auto b : sig.signature) {
-            hex += themis::security::SafeFormat::format_safe("{:02x}", static_cast<unsigned int>(b));
+            char tmp[3];
+            snprintf(tmp, sizeof(tmp), "%02x", static_cast<unsigned int>(b));
+            hex += tmp;
         }
         std::string wildcards;
         if (!sig.wildcard_positions.empty()) {
@@ -369,12 +370,12 @@ std::string MimeDetector::computeDeterministicHash() const {
     // SHA256
     unsigned char digest[SHA256_DIGEST_LENGTH];
     SHA256(reinterpret_cast<const unsigned char*>(buffer.data()), buffer.size(), digest);
-    std::string hex_out;
-    hex_out.reserve(SHA256_DIGEST_LENGTH * 2);
+    char hex_out[SHA256_DIGEST_LENGTH * 2 + 1];
     for (int i = 0; i < SHA256_DIGEST_LENGTH; ++i) {
-        hex_out += themis::security::SafeFormat::format_safe("{:02x}", static_cast<unsigned int>(digest[i]));
+        snprintf(&hex_out[i * 2], 3, "%02x", static_cast<unsigned int>(digest[i]));
     }
-    return hex_out;
+    hex_out[SHA256_DIGEST_LENGTH * 2] = '\0';
+    return std::string(hex_out);
 }
 
 std::string MimeDetector::detect(std::string_view filename, 

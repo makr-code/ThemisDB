@@ -137,7 +137,7 @@ RoutingDecision LoRARouter::routeQuery(
     if (config_.enable_decision_cache) {
         auto cached = getCachedDecision(query);
         if (cached) {
-            spdlog::debug("Cache hit for query: {}", query.substr(0, 50));
+            spdlog::debug("Cache hit for query (length: {})", query.length());
             auto decision = *cached;
             auto end_time = std::chrono::high_resolution_clock::now();
             decision.routing_latency_ms = std::chrono::duration_cast<std::chrono::milliseconds>(

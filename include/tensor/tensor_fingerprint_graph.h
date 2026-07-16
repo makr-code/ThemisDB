@@ -12,6 +12,7 @@
 #pragma once
 
 #include "storage/tensor_train_decomposer.h"
+#include "tensor/tensor_compat.h"
 
 #include <cstddef>
 #include <cstdint>
@@ -107,6 +108,15 @@ public:
                     const std::string&        domain,
                     const std::string&        base_model_id,
                     const std::string&        tenant_id = "default");
+
+    // Backwards-compatible overload accepting legacy test wrapper.
+    bool addAdapter(const std::string&        adapter_key,
+                    const TensorTrainCore&    core,
+                    const std::string&        domain,
+                    const std::string&        base_model_id,
+                    const std::string&        tenant_id = "default") {
+        return addAdapter(adapter_key, static_cast<const storage::TTTrain&>(core), domain, base_model_id, tenant_id);
+    }
 
     /**
      * @brief Remove an adapter's fingerprint from the graph.

@@ -35,7 +35,6 @@
 // Binary protocol for high-performance native client communication
 
 #include "network/wire_protocol_server.h"
-#include "security/safe_format.h"
 #include <stdexcept>
 #include "network/wire_bootstrap_validation.h"
 #include "network/wire_protocol_helpers.h"
@@ -146,9 +145,10 @@ std::string anonymizePeerForLog(std::string_view value) {
     if (value.empty()) {
         return "peer#unknown";
     }
-    std::string buffer = themis::security::SafeFormat::format_safe("peer#{:016x}",
+    char buffer[32];
+    std::snprintf(buffer, sizeof(buffer), "peer#%016llx",
                   static_cast<unsigned long long>(fnv1a64(value)));
-    return buffer;
+    return std::string(buffer);
 }
 
 bool hasControlCharacters(std::string_view value) {
@@ -1355,7 +1355,8 @@ void WireProtocolServer::Session::handleMessage() {
             break;
         default: {
             // Format opcode as hexadecimal
-            std::string hex_opcode = themis::security::SafeFormat::format_safe("0x{:02X}", opcode);
+            char hex_opcode[8];
+            std::snprintf(hex_opcode, sizeof(hex_opcode), "0x%02X", opcode);
             sendError(0x0002, std::string("Unknown OpCode: ") + hex_opcode);
             break;
         }
@@ -2499,10 +2500,11 @@ void WireProtocolServer::Session::handleQuery() {
                 static constexpr int64_t kCursorTtlMs = 300'000; // 5 minute TTL
                 auto now_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
                     std::chrono::system_clock::now().time_since_epoch()).count();
-                std::string cursor_str = themis::security::SafeFormat::format_safe("cursor-{}-{}",
+                char buf[64];
+                std::snprintf(buf, sizeof(buf), "cursor-%llu-%llu",
                               static_cast<unsigned long long>(session_id_),
                               static_cast<unsigned long long>(now_ms));
-                cursor_id = cursor_str;
+                cursor_id = buf;
 
                 WireProtocolServer::CursorEntry entry;
                 entry.results = result_json;

@@ -971,7 +971,6 @@ set(THEMIS_SHARDING_SOURCES
     ../src/sharding/distributed_coordinator.cpp
     ../src/transaction/global_transaction_manager.cpp
     ../src/search/distributed_hybrid_search.cpp
-    ../src/search/layered_retrieval_orchestrator.cpp
     ../src/sharding/shard_resource_manager.cpp
     ../src/sharding/locality_aware_router.cpp
     ../src/sharding/adaptive_shard_router.cpp
@@ -1021,6 +1020,8 @@ set(THEMIS_SHARDING_SOURCES
     ../src/sharding/paxos_state_persistence.cpp
     ../src/sharding/dual_consensus_orchestrator.cpp
     ../src/sharding/cross_shard_transaction.cpp
+    ../src/sharding/cross_shard_fk_validator.cpp
+    ../src/sharding/cross_shard_ssi_manager.cpp
     ../src/sharding/transaction_wal.cpp
     ../src/sharding/transaction_snapshot.cpp
 
@@ -1224,10 +1225,6 @@ set(THEMIS_LLM_SOURCES
     ../src/llm/lora_framework/model_compatibility.cpp
     ../src/llm/lora_framework/resource_profiler.cpp
     ../src/llm/lora_framework/training_service_registry.cpp
-    # Automatic retraining with feedback integration (issue #5447)
-    ../src/llm/lora_framework/telemetry_feedback_adapter.cpp
-    ../src/llm/lora_framework/adaptive_retraining_controller.cpp
-    ../src/llm/lora_framework/adapter_version_manager.cpp
     ../src/llm/byzantine_detector.cpp
     ../src/security/vram_secure_clear.cpp
     # GPU memory management and security
@@ -1262,18 +1259,10 @@ set(THEMIS_LLM_SOURCES
     ../src/rag/prompt_templates.cpp
     ../src/rag/response_parser.cpp
     ../src/training/lora_data_selection.cpp
-    ../src/training/dataset_snapshot_manifest.cpp
-    ../src/training/eligibility_policy_engine.cpp
-    ../src/training/dataset_split_manager.cpp
     ../src/training/multi_task_lora.cpp
     ../src/training/incremental_lora_trainer.cpp
     ../src/training/lora_checkpoint_manager.cpp
     ../src/training/adapter_serving.cpp
-    # Phase 1: Training Core Hardening (Epic: LoRA/AdaLoRA Pipeline)
-    ../src/training/training_audit_log.cpp
-    ../src/training/determinism_validator.cpp
-    ../src/training/training_state_checkpoint.cpp
-    ../src/training/integrity_validator.cpp
     ../src/rag/faithfulness_evaluator.cpp
     ../src/rag/relevance_evaluator.cpp
     ../src/rag/completeness_evaluator.cpp
@@ -2262,7 +2251,37 @@ function(themis_build_modular)
         # Ensure proto files are generated before compiling sharding sources
         if(TARGET themis_shard_proto)
             add_dependencies(themis_sharding themis_shard_proto)
-            target_link_libraries(themis_sharding PRIVATE themis_shard_proto)
+            # Ensure Abseil package is found before referencing component targets
+            if(NOT TARGET absl::abseil_dll)
+                find_package(absl CONFIG REQUIRED)
+            endif()
+            # Link proto and gRPC explicitly so transitive Abseil/Protobuf deps
+            # are available when building the sharding DLL on MSVC.
+            target_link_libraries(themis_sharding PRIVATE themis_shard_proto protobuf::libprotobuf gRPC::grpc++ absl::abseil_dll)
+            # On MSVC add explicit vcpkg abseil import libs to ensure all
+            # absl internal components referenced by generated protobuf
+            # code are pulled into the final DLL. This complements the
+            # imported CMake target and avoids unresolved externals from
+            # granular absl component libs in vcpkg.
+            if(MSVC)
+                # Link the Abseil aggregate plus specific components that
+                # provide logging and hashing internals required by the
+                # generated proto code. Keeping the list small reduces
+                # coupling while ensuring unresolved externals are satisfied.
+                target_link_libraries(themis_sharding PRIVATE
+                    absl::abseil_dll
+                    absl::absl_log
+                    absl::hash
+                    absl::raw_logging_internal
+                    absl::strings
+                    protobuf::libprotobuf
+                    protobuf::libupb
+                    # Fallback: if the abseil imported target does not yield
+                    # the import library on the link line for some generator
+                    # layouts, add the vcpkg-installed import-lib explicitly.
+                    "${CMAKE_SOURCE_DIR}/vcpkg_installed/x64-windows/lib/abseil_dll.lib"
+                )
+            endif()
             # Add include directory for generated proto headers
             target_include_directories(themis_sharding PRIVATE ${CMAKE_BINARY_DIR}/proto_generated)
             if(MSVC)

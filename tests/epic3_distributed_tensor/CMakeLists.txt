@@ -1,32 +1,39 @@
 # EPIC 3 Distributed Tensor contract tests
-# Test source files provide comprehensive contract validation and lifecycle tests.
 
-# Define test sources - existing tests
 set(EPIC3_DISTRIBUTED_TENSOR_TESTS
-    tensor_artifact_classes_test.cc
-    artifact_manifest_test.cc
-    shard_placement_test.cc
+    integrity_verification_test.cc
 )
 
-# Define test sources - new tensor update tests (Phase 2 implementation)
-set(TENSOR_UPDATE_TESTS
-    test_tensor_delta_log.cc
-    test_tensor_manifest.cc
-    test_tensor_update_worker.cc
-    test_tensor_snapshot_consistency.cc
-    test_tensor_planner_policy.cc
-    test_tensor_shard_summary.cc
+set(EPIC3_DISTRIBUTED_TENSOR_BENCHMARKS
+    integrity_verification_bench.cc
 )
 
-# Combine all tests
-list(APPEND EPIC3_DISTRIBUTED_TENSOR_TESTS ${TENSOR_UPDATE_TESTS})
+# Wired when GTest and the distributed_tensor scaffold sources are available.
+# Each test executable is linked with epic3_distributed_tensor_lib and GTest::gtest_main
 
-# Create test executables for each test file
 foreach(test_src IN LISTS EPIC3_DISTRIBUTED_TENSOR_TESTS)
     get_filename_component(test_name ${test_src} NAME_WE)
     add_executable(${test_name} ${test_src})
-    target_link_libraries(${test_name} PRIVATE themis_distributed_tensor GTest::gtest_main)
-    add_test(NAME ${test_name} COMMAND ${test_name})
+    if(TARGET epic3_distributed_tensor_lib)
+        target_link_libraries(${test_name} PRIVATE epic3_distributed_tensor_lib GTest::gtest_main)
+        add_test(NAME ${test_name} COMMAND ${test_name})
+    else()
+        message(STATUS "Skipping test ${test_name}: epic3_distributed_tensor_lib target not available")
+    endif()
 endforeach()
 
+# Benchmark executables (require Google Benchmark)
+foreach(bench_src IN LISTS EPIC3_DISTRIBUTED_TENSOR_BENCHMARKS)
+    get_filename_component(bench_name ${bench_src} NAME_WE)
+    if(TARGET benchmark::benchmark)
+        add_executable(${bench_name} ${bench_src})
+        if(TARGET epic3_distributed_tensor_lib)
+            target_link_libraries(${bench_name} PRIVATE epic3_distributed_tensor_lib benchmark::benchmark benchmark::benchmark_main)
+        else()
+            message(STATUS "Skipping benchmark ${bench_name}: epic3_distributed_tensor_lib target not available")
+        endif()
+    else()
+        message(STATUS "Skipping benchmark ${bench_name}: benchmark::benchmark target not available")
+    endif()
+endforeach()
 

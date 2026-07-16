@@ -51,12 +51,6 @@ FaissGPUVectorBackend::~FaissGPUVectorBackend() {
     shutdown();
 }
 
-// IndexDeleter dispatches delete through faiss::Index's virtual destructor,
-// which is correct for all concrete FAISS GPU/CPU subtype pointers.
-void FaissGPUVectorBackend::IndexDeleter::operator()(faiss::Index* p) const noexcept {
-    delete p;
-}
-
 void FaissGPUVectorBackend::setError(AccelerationErrorCode code,
                                       const std::string& msg,
                                       const std::string& hint) const {
@@ -131,7 +125,7 @@ bool FaissGPUVectorBackend::initialize() {
 
 void FaissGPUVectorBackend::shutdown() {
     if (initialized_) {
-        index_.reset();
+        destroyIndex();
         gpuResources_.reset();
         initialized_ = false;
     }
@@ -152,7 +146,7 @@ bool FaissGPUVectorBackend::initializeIndex(const Config& config) {
     config_ = config;
 
     try {
-        index_.reset();
+        destroyIndex();
         index_ = createIndex(config.indexType, config.dimension);
         currentIndexType_ = config.indexType;
 
@@ -172,70 +166,107 @@ bool FaissGPUVectorBackend::initializeIndex(const Config& config) {
     }
 }
 
-std::unique_ptr<faiss::Index, FaissGPUVectorBackend::IndexDeleter>
-FaissGPUVectorBackend::createIndex(IndexType type, int dimension) {
+void* FaissGPUVectorBackend::createIndex(IndexType type, int dimension) {
     faiss::gpu::GpuIndexFlatConfig flatConfig;
     flatConfig.device = config_.deviceId;
-
+    
     switch (type) {
         case IndexType::FLAT_L2: {
             auto* idx = new faiss::gpu::GpuIndexFlatL2(
-                gpuResources_.get(), dimension, flatConfig);
-            return {idx, IndexDeleter{}};
+                gpuResources_.get(),
+                dimension,
+                flatConfig
+            );
+            return static_cast<void*>(idx);
         }
-
+        
         case IndexType::FLAT_IP: {
             auto* idx = new faiss::gpu::GpuIndexFlatIP(
-                gpuResources_.get(), dimension, flatConfig);
-            return {idx, IndexDeleter{}};
+                gpuResources_.get(),
+                dimension,
+                flatConfig
+            );
+            return static_cast<void*>(idx);
         }
-
+        
         case IndexType::IVF_FLAT: {
-            // Wrap quantizer in unique_ptr for exception-safe construction.
-            // GpuIndexIVFFlat takes ownership of the quantizer on success.
-            auto quantizer = std::unique_ptr<faiss::gpu::GpuIndexFlatL2>(
-                new faiss::gpu::GpuIndexFlatL2(gpuResources_.get(), dimension, flatConfig));
-            faiss::gpu::GpuIndexIVFFlatConfig ivfConfig;
-            ivfConfig.device = config_.deviceId;
-            auto* idx = new faiss::gpu::GpuIndexIVFFlat(
-                gpuResources_.get(), dimension, config_.nlist,
-                quantizer.get(), faiss::METRIC_L2, ivfConfig);
+            // Create quantizer on GPU — wrapped to ensure cleanup on exception
+            auto* quantizer = new faiss::gpu::GpuIndexFlatL2(
+                gpuResources_.get(),
+                dimension,
+                flatConfig
+            );
+            faiss::gpu::GpuIndexIVFFlat* idx = nullptr;
+            try {
+                faiss::gpu::GpuIndexIVFFlatConfig ivfConfig;
+                ivfConfig.device = config_.deviceId;
+                idx = new faiss::gpu::GpuIndexIVFFlat(
+                    gpuResources_.get(),
+                    dimension,
+                    config_.nlist,
+                    quantizer,
+                    faiss::METRIC_L2,
+                    ivfConfig
+                );
+            } catch (...) {
+                delete quantizer;
+                throw;
+            }
             idx->nprobe = config_.nprobe;
-            quantizer.release();  // ownership transferred to IVF index
-            return {idx, IndexDeleter{}};
+            return static_cast<void*>(idx);
         }
-
+        
         case IndexType::IVF_PQ: {
-            // Wrap quantizer in unique_ptr for exception-safe construction.
-            // GpuIndexIVFPQ takes ownership of the quantizer on success.
-            auto quantizer = std::unique_ptr<faiss::gpu::GpuIndexFlatL2>(
-                new faiss::gpu::GpuIndexFlatL2(gpuResources_.get(), dimension, flatConfig));
-            faiss::gpu::GpuIndexIVFPQConfig ivfpqConfig;
-            ivfpqConfig.device = config_.deviceId;
-            auto* idx = new faiss::gpu::GpuIndexIVFPQ(
-                gpuResources_.get(), dimension, config_.nlist,
-                config_.m, config_.nbits, faiss::METRIC_L2, ivfpqConfig);
+            // Create quantizer on GPU — wrapped to ensure cleanup on exception
+            auto* quantizer = new faiss::gpu::GpuIndexFlatL2(
+                gpuResources_.get(),
+                dimension,
+                flatConfig
+            );
+            faiss::gpu::GpuIndexIVFPQ* idx = nullptr;
+            try {
+                faiss::gpu::GpuIndexIVFPQConfig ivfpqConfig;
+                ivfpqConfig.device = config_.deviceId;
+                idx = new faiss::gpu::GpuIndexIVFPQ(
+                    gpuResources_.get(),
+                    dimension,
+                    config_.nlist,
+                    config_.m,
+                    config_.nbits,
+                    faiss::METRIC_L2,
+                    ivfpqConfig
+                );
+            } catch (...) {
+                delete quantizer;
+                throw;
+            }
             idx->nprobe = config_.nprobe;
-            quantizer.release();  // ownership transferred to IVF-PQ index
-            return {idx, IndexDeleter{}};
+            return static_cast<void*>(idx);
         }
 
         case IndexType::IVF_SQ8: {
             // 8-bit scalar quantizer — better recall than PQ at equivalent memory
             faiss::gpu::GpuIndexIVFScalarQuantizerConfig sqConfig;
             sqConfig.device = config_.deviceId;
+
             auto* idx = new faiss::gpu::GpuIndexIVFScalarQuantizer(
-                gpuResources_.get(), dimension, config_.nlist,
-                faiss::ScalarQuantizer::QT_8bit, faiss::METRIC_L2,
-                /*encodeResidual=*/true, sqConfig);
+                gpuResources_.get(),
+                dimension,
+                config_.nlist,
+                faiss::ScalarQuantizer::QT_8bit,
+                faiss::METRIC_L2,
+                /*encodeResidual=*/true,
+                sqConfig
+            );
             idx->nprobe = config_.nprobe;
-            return {idx, IndexDeleter{}};
+            return static_cast<void*>(idx);
         }
 
         case IndexType::HNSW_FLAT: {
             // CPU-side FAISS HNSW — no GPU resources required at query time.
+            // hnswM controls the number of connections per node.
             auto* idx = new faiss::IndexHNSWFlat(dimension, config_.hnswM);
-            return {idx, IndexDeleter{}};
+            return static_cast<void*>(idx);
         }
 
         default:
@@ -243,8 +274,39 @@ FaissGPUVectorBackend::createIndex(IndexType type, int dimension) {
                      "createIndex: unknown IndexType value " +
                      std::to_string(static_cast<int>(type)),
                      "Use one of FLAT_L2, FLAT_IP, IVF_FLAT, IVF_PQ, IVF_SQ8, HNSW_FLAT");
-            return {nullptr, IndexDeleter{}};
+            return nullptr;
     }
+}
+
+void FaissGPUVectorBackend::destroyIndex() {
+    if (!index_) return;
+
+    switch (currentIndexType_) {
+        case IndexType::FLAT_L2:
+            delete static_cast<faiss::gpu::GpuIndexFlatL2*>(index_);
+            break;
+        case IndexType::FLAT_IP:
+            delete static_cast<faiss::gpu::GpuIndexFlatIP*>(index_);
+            break;
+        case IndexType::IVF_FLAT:
+            delete static_cast<faiss::gpu::GpuIndexIVFFlat*>(index_);
+            break;
+        case IndexType::IVF_PQ:
+            delete static_cast<faiss::gpu::GpuIndexIVFPQ*>(index_);
+            break;
+        case IndexType::IVF_SQ8:
+            delete static_cast<faiss::gpu::GpuIndexIVFScalarQuantizer*>(index_);
+            break;
+        case IndexType::HNSW_FLAT:
+            delete static_cast<faiss::IndexHNSWFlat*>(index_);
+            break;
+        default:
+            // Unknown type — release via base faiss::Index destructor to avoid leak
+            delete static_cast<faiss::Index*>(index_);
+            break;
+    }
+
+    index_ = nullptr;
 }
 
 bool FaissGPUVectorBackend::trainIndex(const float* vectors, size_t numVectors) {
@@ -270,15 +332,15 @@ bool FaissGPUVectorBackend::trainIndex(const float* vectors, size_t numVectors) 
                 return true;
 
             case IndexType::IVF_FLAT:
-                idx = static_cast<faiss::gpu::GpuIndexIVFFlat*>(index_.get());
+                idx = static_cast<faiss::gpu::GpuIndexIVFFlat*>(index_);
                 break;
 
             case IndexType::IVF_PQ:
-                idx = static_cast<faiss::gpu::GpuIndexIVFPQ*>(index_.get());
+                idx = static_cast<faiss::gpu::GpuIndexIVFPQ*>(index_);
                 break;
 
             case IndexType::IVF_SQ8:
-                idx = static_cast<faiss::gpu::GpuIndexIVFScalarQuantizer*>(index_.get());
+                idx = static_cast<faiss::gpu::GpuIndexIVFScalarQuantizer*>(index_);
                 break;
 
             default:
@@ -319,22 +381,22 @@ bool FaissGPUVectorBackend::addVectors(const float* vectors, size_t numVectors) 
 
         switch (currentIndexType_) {
             case IndexType::FLAT_L2:
-                idx = static_cast<faiss::gpu::GpuIndexFlatL2*>(index_.get());
+                idx = static_cast<faiss::gpu::GpuIndexFlatL2*>(index_);
                 break;
             case IndexType::FLAT_IP:
-                idx = static_cast<faiss::gpu::GpuIndexFlatIP*>(index_.get());
+                idx = static_cast<faiss::gpu::GpuIndexFlatIP*>(index_);
                 break;
             case IndexType::IVF_FLAT:
-                idx = static_cast<faiss::gpu::GpuIndexIVFFlat*>(index_.get());
+                idx = static_cast<faiss::gpu::GpuIndexIVFFlat*>(index_);
                 break;
             case IndexType::IVF_PQ:
-                idx = static_cast<faiss::gpu::GpuIndexIVFPQ*>(index_.get());
+                idx = static_cast<faiss::gpu::GpuIndexIVFPQ*>(index_);
                 break;
             case IndexType::IVF_SQ8:
-                idx = static_cast<faiss::gpu::GpuIndexIVFScalarQuantizer*>(index_.get());
+                idx = static_cast<faiss::gpu::GpuIndexIVFScalarQuantizer*>(index_);
                 break;
             case IndexType::HNSW_FLAT:
-                idx = static_cast<faiss::IndexHNSWFlat*>(index_.get());
+                idx = static_cast<faiss::IndexHNSWFlat*>(index_);
                 break;
             default:
                 setError(AccelerationErrorCode::InvalidInputShape,
@@ -383,22 +445,22 @@ std::vector<std::vector<std::pair<uint32_t, float>>> FaissGPUVectorBackend::sear
 
         switch (currentIndexType_) {
             case IndexType::FLAT_L2:
-                idx = static_cast<faiss::gpu::GpuIndexFlatL2*>(index_.get());
+                idx = static_cast<faiss::gpu::GpuIndexFlatL2*>(index_);
                 break;
             case IndexType::FLAT_IP:
-                idx = static_cast<faiss::gpu::GpuIndexFlatIP*>(index_.get());
+                idx = static_cast<faiss::gpu::GpuIndexFlatIP*>(index_);
                 break;
             case IndexType::IVF_FLAT:
-                idx = static_cast<faiss::gpu::GpuIndexIVFFlat*>(index_.get());
+                idx = static_cast<faiss::gpu::GpuIndexIVFFlat*>(index_);
                 break;
             case IndexType::IVF_PQ:
-                idx = static_cast<faiss::gpu::GpuIndexIVFPQ*>(index_.get());
+                idx = static_cast<faiss::gpu::GpuIndexIVFPQ*>(index_);
                 break;
             case IndexType::IVF_SQ8:
-                idx = static_cast<faiss::gpu::GpuIndexIVFScalarQuantizer*>(index_.get());
+                idx = static_cast<faiss::gpu::GpuIndexIVFScalarQuantizer*>(index_);
                 break;
             case IndexType::HNSW_FLAT:
-                idx = static_cast<faiss::IndexHNSWFlat*>(index_.get());
+                idx = static_cast<faiss::IndexHNSWFlat*>(index_);
                 break;
             default:
                 setError(AccelerationErrorCode::InvalidInputShape,
@@ -468,15 +530,15 @@ std::vector<float> FaissGPUVectorBackend::computeDistances(
     tempConfig.dimension = static_cast<int>(dim);
     tempConfig.deviceId = config_.deviceId;
 
-    auto tempIndex = createIndex(tempConfig.indexType, static_cast<int>(dim));
+    void* tempIndex = createIndex(tempConfig.indexType, static_cast<int>(dim));
     if (!tempIndex) {
         return {};
     }
 
     try {
         faiss::Index* idx = useL2
-            ? static_cast<faiss::Index*>(static_cast<faiss::gpu::GpuIndexFlatL2*>(tempIndex.get()))
-            : static_cast<faiss::Index*>(static_cast<faiss::gpu::GpuIndexFlatIP*>(tempIndex.get()));
+            ? static_cast<faiss::Index*>(static_cast<faiss::gpu::GpuIndexFlatL2*>(tempIndex))
+            : static_cast<faiss::Index*>(static_cast<faiss::gpu::GpuIndexFlatIP*>(tempIndex));
 
         // Add vectors to temporary index
         idx->add(static_cast<faiss::idx_t>(numVectors), vectors);
@@ -489,13 +551,24 @@ std::vector<float> FaissGPUVectorBackend::computeDistances(
                     static_cast<faiss::idx_t>(numVectors),
                     distances.data(), labels.data());
 
-        // tempIndex released automatically by unique_ptr at scope exit
+        // Cleanup
+        if (useL2) {
+            delete static_cast<faiss::gpu::GpuIndexFlatL2*>(tempIndex);
+        } else {
+            delete static_cast<faiss::gpu::GpuIndexFlatIP*>(tempIndex);
+        }
+
         return distances;
 
     } catch (const std::exception& e) {
         setError(AccelerationErrorCode::KernelExecutionFailed,
                  std::string("computeDistances failed: ") + e.what());
-        // tempIndex released automatically by unique_ptr at scope exit
+        if (useL2) {
+            delete static_cast<faiss::gpu::GpuIndexFlatL2*>(tempIndex);
+        } else {
+            delete static_cast<faiss::gpu::GpuIndexFlatIP*>(tempIndex);
+        }
+        
         return {};
     }
 }
@@ -521,15 +594,15 @@ std::vector<std::vector<std::pair<uint32_t, float>>> FaissGPUVectorBackend::batc
     tempConfig.dimension = static_cast<int>(dim);
     tempConfig.deviceId = config_.deviceId;
 
-    auto tempIndex = createIndex(tempConfig.indexType, static_cast<int>(dim));
+    void* tempIndex = createIndex(tempConfig.indexType, static_cast<int>(dim));
     if (!tempIndex) {
         return {};
     }
 
     try {
         faiss::Index* idx = useL2
-            ? static_cast<faiss::Index*>(static_cast<faiss::gpu::GpuIndexFlatL2*>(tempIndex.get()))
-            : static_cast<faiss::Index*>(static_cast<faiss::gpu::GpuIndexFlatIP*>(tempIndex.get()));
+            ? static_cast<faiss::Index*>(static_cast<faiss::gpu::GpuIndexFlatL2*>(tempIndex))
+            : static_cast<faiss::Index*>(static_cast<faiss::gpu::GpuIndexFlatIP*>(tempIndex));
 
         // Add vectors to temporary index
         idx->add(static_cast<faiss::idx_t>(numVectors), vectors);
@@ -561,13 +634,26 @@ std::vector<std::vector<std::pair<uint32_t, float>>> FaissGPUVectorBackend::batc
             }
         }
 
-        // tempIndex released automatically by unique_ptr at scope exit
+        // Cleanup
+        if (useL2) {
+            delete static_cast<faiss::gpu::GpuIndexFlatL2*>(tempIndex);
+        } else {
+            delete static_cast<faiss::gpu::GpuIndexFlatIP*>(tempIndex);
+        }
+
         return results;
 
     } catch (const std::exception& e) {
         setError(AccelerationErrorCode::KernelExecutionFailed,
                  std::string("batchKnnSearch failed: ") + e.what());
-        // tempIndex released automatically by unique_ptr at scope exit
+
+        // Cleanup on error
+        if (useL2) {
+            delete static_cast<faiss::gpu::GpuIndexFlatL2*>(tempIndex);
+        } else {
+            delete static_cast<faiss::gpu::GpuIndexFlatIP*>(tempIndex);
+        }
+
         return {};
     }
 }
@@ -604,33 +690,33 @@ bool FaissGPUVectorBackend::saveIndex(const std::string& filepath) {
 
         switch (currentIndexType_) {
             case IndexType::FLAT_L2: {
-                auto* gpuIdx = static_cast<faiss::gpu::GpuIndexFlatL2*>(index_.get());
+                auto* gpuIdx = static_cast<faiss::gpu::GpuIndexFlatL2*>(index_);
                 cpuIndex = faiss::gpu::index_gpu_to_cpu(gpuIdx);
                 break;
             }
             case IndexType::FLAT_IP: {
-                auto* gpuIdx = static_cast<faiss::gpu::GpuIndexFlatIP*>(index_.get());
+                auto* gpuIdx = static_cast<faiss::gpu::GpuIndexFlatIP*>(index_);
                 cpuIndex = faiss::gpu::index_gpu_to_cpu(gpuIdx);
                 break;
             }
             case IndexType::IVF_FLAT: {
-                auto* gpuIdx = static_cast<faiss::gpu::GpuIndexIVFFlat*>(index_.get());
+                auto* gpuIdx = static_cast<faiss::gpu::GpuIndexIVFFlat*>(index_);
                 cpuIndex = faiss::gpu::index_gpu_to_cpu(gpuIdx);
                 break;
             }
             case IndexType::IVF_PQ: {
-                auto* gpuIdx = static_cast<faiss::gpu::GpuIndexIVFPQ*>(index_.get());
+                auto* gpuIdx = static_cast<faiss::gpu::GpuIndexIVFPQ*>(index_);
                 cpuIndex = faiss::gpu::index_gpu_to_cpu(gpuIdx);
                 break;
             }
             case IndexType::IVF_SQ8: {
-                auto* gpuIdx = static_cast<faiss::gpu::GpuIndexIVFScalarQuantizer*>(index_.get());
+                auto* gpuIdx = static_cast<faiss::gpu::GpuIndexIVFScalarQuantizer*>(index_);
                 cpuIndex = faiss::gpu::index_gpu_to_cpu(gpuIdx);
                 break;
             }
             case IndexType::HNSW_FLAT:
                 // HNSW_FLAT is already CPU-side; write directly without GPU transfer.
-                faiss::write_index(static_cast<faiss::IndexHNSWFlat*>(index_.get()),
+                faiss::write_index(static_cast<faiss::IndexHNSWFlat*>(index_),
                                    filepath.c_str());
                 std::cout << "Index saved to: " << safeFilepath << std::endl;
                 return true;
@@ -690,7 +776,7 @@ bool FaissGPUVectorBackend::loadIndex(const std::string& filepath) {
             return false;
         }
 
-        index_.reset();  // release existing index before loading new one
+        destroyIndex();
 
         faiss::gpu::GpuClonerOptions options;
         options.useFloat16 = false;
@@ -710,8 +796,7 @@ bool FaissGPUVectorBackend::loadIndex(const std::string& filepath) {
             return false;
         }
 
-        // Wrap in smart pointer; IndexDeleter::operator() uses virtual dispatch (delete p).
-        index_.reset(static_cast<faiss::Index*>(gpuIndex));
+        index_ = static_cast<void*>(gpuIndex);
         config_.dimension = gpuIndex->d;
 
         std::cout << "Index loaded from: " << safeFilepath << std::endl;
@@ -740,22 +825,22 @@ FaissGPUVectorBackend::IndexStats FaissGPUVectorBackend::getIndexStats() const {
 
         switch (currentIndexType_) {
             case IndexType::FLAT_L2:
-                idx = static_cast<faiss::gpu::GpuIndexFlatL2*>(index_.get());
+                idx = static_cast<faiss::gpu::GpuIndexFlatL2*>(index_);
                 break;
             case IndexType::FLAT_IP:
-                idx = static_cast<faiss::gpu::GpuIndexFlatIP*>(index_.get());
+                idx = static_cast<faiss::gpu::GpuIndexFlatIP*>(index_);
                 break;
             case IndexType::IVF_FLAT:
-                idx = static_cast<faiss::gpu::GpuIndexIVFFlat*>(index_.get());
+                idx = static_cast<faiss::gpu::GpuIndexIVFFlat*>(index_);
                 break;
             case IndexType::IVF_PQ:
-                idx = static_cast<faiss::gpu::GpuIndexIVFPQ*>(index_.get());
+                idx = static_cast<faiss::gpu::GpuIndexIVFPQ*>(index_);
                 break;
             case IndexType::IVF_SQ8:
-                idx = static_cast<faiss::gpu::GpuIndexIVFScalarQuantizer*>(index_.get());
+                idx = static_cast<faiss::gpu::GpuIndexIVFScalarQuantizer*>(index_);
                 break;
             case IndexType::HNSW_FLAT:
-                idx = static_cast<faiss::IndexHNSWFlat*>(index_.get());
+                idx = static_cast<faiss::IndexHNSWFlat*>(index_);
                 break;
             default:
                 return stats;
@@ -788,22 +873,22 @@ void FaissGPUVectorBackend::resetIndex() {
 
         switch (currentIndexType_) {
             case IndexType::FLAT_L2:
-                idx = static_cast<faiss::gpu::GpuIndexFlatL2*>(index_.get());
+                idx = static_cast<faiss::gpu::GpuIndexFlatL2*>(index_);
                 break;
             case IndexType::FLAT_IP:
-                idx = static_cast<faiss::gpu::GpuIndexFlatIP*>(index_.get());
+                idx = static_cast<faiss::gpu::GpuIndexFlatIP*>(index_);
                 break;
             case IndexType::IVF_FLAT:
-                idx = static_cast<faiss::gpu::GpuIndexIVFFlat*>(index_.get());
+                idx = static_cast<faiss::gpu::GpuIndexIVFFlat*>(index_);
                 break;
             case IndexType::IVF_PQ:
-                idx = static_cast<faiss::gpu::GpuIndexIVFPQ*>(index_.get());
+                idx = static_cast<faiss::gpu::GpuIndexIVFPQ*>(index_);
                 break;
             case IndexType::IVF_SQ8:
-                idx = static_cast<faiss::gpu::GpuIndexIVFScalarQuantizer*>(index_.get());
+                idx = static_cast<faiss::gpu::GpuIndexIVFScalarQuantizer*>(index_);
                 break;
             case IndexType::HNSW_FLAT:
-                idx = static_cast<faiss::IndexHNSWFlat*>(index_.get());
+                idx = static_cast<faiss::IndexHNSWFlat*>(index_);
                 break;
             default:
                 setError(AccelerationErrorCode::InvalidInputShape,

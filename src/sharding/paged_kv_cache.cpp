@@ -415,15 +415,6 @@ bool PagedKVCache::writeBlock(
     spdlog::debug("PagedKVCache: Wrote {} tokens to block {} at offset {}",
                  token_count, block_id, token_offset);
     
-    // QW-026: Broadcast cache invalidation to replicas after write
-    // Unlock before broadcasting to avoid potential deadlocks
-    {
-        // Manually release lock before broadcast
-        lock.unlock();
-        broadcastWriteInvalidation(block_id);
-        lock.lock();
-    }
-    
     return true;
 }
 
@@ -627,42 +618,6 @@ void PagedKVCache::setBlockDeallocator(BlockDeallocator deallocator) {
 void PagedKVCache::setEvictionCallback(EvictionCallback callback) {
     std::lock_guard<std::mutex> lock(mutex_);
     eviction_callback_ = std::move(callback);
-}
-
-// ============================================================================
-// QW-026: Cross-shard cache consistency - Broadcast invalidation
-// ============================================================================
-
-void PagedKVCache::setInvalidationBroadcaster(InvalidationBroadcaster broadcaster) {
-    std::lock_guard<std::mutex> lock(mutex_);
-    invalidation_broadcaster_ = std::move(broadcaster);
-}
-
-void PagedKVCache::broadcastWriteInvalidation(uint32_t block_id) {
-    /// @brief Broadcast cache invalidation to all replicas after write operation
-    /// On write/delete operations, notify all secondary shards to invalidate
-    /// their cached copies to maintain cross-shard consistency
-    
-    std::lock_guard<std::mutex> lock(mutex_);
-    
-    auto block_it = blocks_.find(block_id);
-    if (block_it == blocks_.end()) {
-        spdlog::warn("PagedKVCache: Block {} not found for invalidation broadcast", block_id);
-        return;
-    }
-    
-    // Broadcast invalidation if broadcaster is set
-    if (invalidation_broadcaster_) {
-        try {
-            std::string cache_key = "block:" + std::to_string(block_id) + 
-                                   ":req:" + std::to_string(block_it->second.request_id);
-            invalidation_broadcaster_(cache_key, block_id, "write");
-            spdlog::debug("PagedKVCache: Broadcasted write invalidation for block {}", block_id);
-        } catch (const std::exception& e) {
-            spdlog::warn("PagedKVCache: Failed to broadcast invalidation for block {}: {}", 
-                        block_id, e.what());
-        }
-    }
 }
 
 // ============================================================================

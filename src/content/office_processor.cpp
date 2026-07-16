@@ -38,7 +38,6 @@
 #ifdef THEMIS_ENABLE_OFFICE
 #include <pugixml.hpp>
 #include <zip.h>
-#include "security/xxe_safe_xml_parser.h"
 #define OFFICE_LIBRARY_AVAILABLE 1
 #else
 #define OFFICE_LIBRARY_AVAILABLE 0
@@ -269,14 +268,14 @@ ExtractionResult OfficeProcessor::extractDOCX(const std::string &blob) {
         result.metadata["modified_date"] = metadata.modified_date;
         result.metadata["application"]   = metadata.application;
 
-        // Parse XML and extract text with XXE Protection (Sprint 5 QW-7b)
-        // QW-7b: Office module XXE defense
-        auto xxe_result = security::parseXmlSafe(document_xml, "Office document.xml");
-        if (!xxe_result.success) {
-            result.error_message = "Failed to parse document.xml: " + xxe_result.error_message;
+        // Parse XML and extract text
+        pugi::xml_document doc;
+        pugi::xml_parse_result parse_result = doc.load_string(document_xml.c_str());
+
+        if (!parse_result) {
+            result.error_message = "Failed to parse document.xml: " + std::string(parse_result.description());
             return result;
         }
-        pugi::xml_document& doc = xxe_result.document;
 
         // Extract paragraphs
         std::vector<std::string> paragraphs;
@@ -338,12 +337,12 @@ ExtractionResult OfficeProcessor::extractXLSX(const std::string &blob) {
         // Read shared strings
         std::string shared_strings_xml = readZipEntry(blob, "xl/sharedStrings.xml");
 
-        // Parse shared strings (QW-7b: XXE-hardened)
+        // Parse shared strings
         std::vector<std::string> shared_strings;
         if (!shared_strings_xml.empty()) {
-            auto ss_result = security::parseXmlSafe(shared_strings_xml, "Excel sharedStrings.xml");
-            if (ss_result.success) {
-                for (auto si : ss_result.document.select_nodes("//si")) {
+            pugi::xml_document ss_doc;
+            if (ss_doc.load_string(shared_strings_xml.c_str())) {
+                for (auto si : ss_doc.select_nodes("//si")) {
                     std::string text;
                     for (auto t : si.node().select_nodes(".//t")) {
                         text += t.node().child_value();
@@ -360,13 +359,13 @@ ExtractionResult OfficeProcessor::extractXLSX(const std::string &blob) {
         result.metadata["created_date"]  = metadata.created_date;
         result.metadata["modified_date"] = metadata.modified_date;
 
-        // Read workbook.xml to get sheet names (QW-7b: XXE-hardened)
+        // Read workbook.xml to get sheet names
         std::string workbook_xml = readZipEntry(blob, "xl/workbook.xml");
         std::vector<std::string> sheet_names;
         if (!workbook_xml.empty()) {
-            auto wb_result = security::parseXmlSafe(workbook_xml, "Excel workbook.xml");
-            if (wb_result.success) {
-                for (auto sheet : wb_result.document.select_nodes("//sheet")) {
+            pugi::xml_document wb_doc;
+            if (wb_doc.load_string(workbook_xml.c_str())) {
+                for (auto sheet : wb_doc.select_nodes("//sheet")) {
                     const char *name = sheet.node().attribute("name").value();
                     if (name) {
                         sheet_names.push_back(name);
@@ -378,16 +377,16 @@ ExtractionResult OfficeProcessor::extractXLSX(const std::string &blob) {
         result.metadata["sheet_count"] = sheet_names.size();
         result.metadata["sheet_names"] = sheet_names;
 
-        // Read first sheet (QW-7b: XXE-hardened)
+        // Read first sheet
         std::string sheet1_xml = readZipEntry(blob, "xl/worksheets/sheet1.xml");
         std::ostringstream all_text;
         int row_count  = 0;
         int cell_count = 0;
 
         if (!sheet1_xml.empty()) {
-            auto sheet_result = security::parseXmlSafe(sheet1_xml, "Excel sheet1.xml");
-            if (sheet_result.success) {
-                for (auto row : sheet_result.document.select_nodes("//row")) {
+            pugi::xml_document sheet_doc;
+            if (sheet_doc.load_string(sheet1_xml.c_str())) {
+                for (auto row : sheet_doc.select_nodes("//row")) {
                     row_count++;
                     std::vector<std::string> row_values;
 
@@ -492,15 +491,15 @@ ExtractionResult OfficeProcessor::extractPPTX(const std::string &blob) {
                 continue;
             }
 
-            auto slide_result = security::parseXmlSafe(slide_xml, "PowerPoint " + slide_path);
-            if (!slide_result.success) {
+            pugi::xml_document slide_doc;
+            if (!slide_doc.load_string(slide_xml.c_str())) {
                 continue;
             }
 
             all_text << "--- Slide " << slide_num << " ---\n";
 
             // Extract text from a:t elements
-            for (auto t : slide_result.document.select_nodes("//a:t")) {
+            for (auto t : slide_doc.select_nodes("//a:t")) {
                 all_text << t.node().child_value() << " ";
             }
 
@@ -508,7 +507,7 @@ ExtractionResult OfficeProcessor::extractPPTX(const std::string &blob) {
             slide_num++;
         }
 
-        // Extract speaker notes if requested (QW-7b: XXE-hardened)
+        // Extract speaker notes if requested
         if (config_.extract_speaker_notes) {
             for (size_t i = 1; i <= slides.size(); ++i) {
                 std::string notes_path = "ppt/notesSlides/notesSlide" + std::to_string(i) + ".xml";
@@ -518,13 +517,13 @@ ExtractionResult OfficeProcessor::extractPPTX(const std::string &blob) {
                     continue;
                 }
 
-                auto notes_result = security::parseXmlSafe(notes_xml, "PowerPoint " + notes_path);
-                if (!notes_result.success) {
+                pugi::xml_document notes_doc;
+                if (!notes_doc.load_string(notes_xml.c_str())) {
                     continue;
                 }
 
                 all_text << "--- Notes for Slide " << i << " ---\n";
-                for (auto t : notes_result.document.select_nodes("//a:t")) {
+                for (auto t : notes_doc.select_nodes("//a:t")) {
                     all_text << t.node().child_value() << " ";
                 }
                 all_text << "\n\n";
@@ -580,17 +579,17 @@ ExtractionResult OfficeProcessor::extractODF(const std::string &blob, OfficeDocu
             return result;
         }
 
-        // Parse and extract text (QW-7b: XXE-hardened)
-        auto doc_result = security::parseXmlSafe(content_xml, "ODF content.xml");
-        if (!doc_result.success) {
-            result.error_message = "Failed to parse content.xml: " + doc_result.error_message;
+        // Parse and extract text
+        pugi::xml_document doc;
+        if (!doc.load_string(content_xml.c_str())) {
+            result.error_message = "Failed to parse content.xml";
             return result;
         }
 
         std::ostringstream all_text;
 
         // Extract text from text:p and text:h elements
-        for (auto node : doc_result.document.select_nodes("//text:p | //text:h")) {
+        for (auto node : doc.select_nodes("//text:p | //text:h")) {
             std::string para_text;
             for (auto child : node.node().children()) {
                 if (child.type() == pugi::node_pcdata) {
@@ -669,20 +668,20 @@ std::string OfficeProcessor::readZipEntry(const std::string &zip_blob, const std
 OfficeMetadata OfficeProcessor::extractOOXMLMetadata(const std::string &zip_blob) {
     OfficeMetadata metadata;
 
-    // Read docProps/core.xml (QW-7b: XXE-hardened)
+    // Read docProps/core.xml
     std::string core_xml = readZipEntry(zip_blob, "docProps/core.xml");
     if (core_xml.empty()) {
         return metadata;
     }
 
-    auto doc_result = security::parseXmlSafe(core_xml, "OOXML docProps/core.xml");
-    if (!doc_result.success) {
+    pugi::xml_document doc;
+    if (!doc.load_string(core_xml.c_str())) {
         return metadata;
     }
 
     // Extract properties
-    auto get_text = [&doc_result](const char *xpath) -> std::string {
-        auto node = doc_result.document.select_node(xpath);
+    auto get_text = [&doc](const char *xpath) -> std::string {
+        auto node = doc.select_node(xpath);
         return node ? node.node().child_value() : "";
     };
 
@@ -694,12 +693,12 @@ OfficeMetadata OfficeProcessor::extractOOXMLMetadata(const std::string &zip_blob
     metadata.created_date     = get_text("//dcterms:created");
     metadata.modified_date    = get_text("//dcterms:modified");
 
-    // Read docProps/app.xml for application info (QW-7b: XXE-hardened)
+    // Read docProps/app.xml for application info
     std::string app_xml = readZipEntry(zip_blob, "docProps/app.xml");
     if (!app_xml.empty()) {
-        auto app_result = security::parseXmlSafe(app_xml, "OOXML docProps/app.xml");
-        if (app_result.success) {
-            auto app_node = app_result.document.select_node("//Application");
+        pugi::xml_document app_doc;
+        if (app_doc.load_string(app_xml.c_str())) {
+            auto app_node = app_doc.select_node("//Application");
             if (app_node) {
                 metadata.application = app_node.node().child_value();
             }

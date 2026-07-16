@@ -15,6 +15,17 @@ foreach(_src IN LISTS LLM_MODULE_TEST_SOURCES)
         ${THEMIS_ROOT_DIR}/src
         ${THEMIS_ROOT_DIR}/tests
     )
+    # When building modularly the llama_cpp plugin may not be linked into
+    # `themis_core`. Ensure focused LLM tests have the plugin implementation
+    # available by compiling the plugin sources directly into the test target.
+    if(THEMIS_BUILD_MODULAR)
+        target_sources(${_target} PRIVATE
+            ${THEMIS_ROOT_DIR}/src/llama_cpp/llama_cpp_plugin.cpp
+            ${THEMIS_ROOT_DIR}/src/llama_cpp/llama_cpp_registrar.cpp
+            # RAG assembler provides context assembly used by LlamaCppPlugin::generateRAG()
+            ${THEMIS_ROOT_DIR}/src/rag/rag_context_assembler.cpp
+        )
+    endif()
     if(_stem STREQUAL "test_ai_orchestrator")
         target_sources(${_target} PRIVATE
             ${THEMIS_ROOT_DIR}/src/llm/ai_orchestrator.cpp
