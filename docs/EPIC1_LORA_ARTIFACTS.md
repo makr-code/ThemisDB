@@ -16,7 +16,7 @@ LoRAPackage and PortableAdapterProduct artifact model for adapter lifecycle mana
 
 - `src/retrieval/include/lora_package.h` — LoRAPackage + PortableAdapterProduct + LoRAManifestStore API
 - `src/retrieval/src/lora_package.cc` — Implementation (serialization, integrity, store CRUD)
-- `tests/epic1_retrieval/lora_package_test.cc` — 37 GTest cases
+- `tests/epic1_retrieval/lora_package_test.cc` — 55 GTest cases
 - `benchmarks/epic1_retrieval/lora_loading_bench.cc` — Google Benchmark suite (12 scenarios)
 
 ## Artifact Classes
@@ -64,7 +64,7 @@ Thread-safe in-memory manifest registry:
 - [x] Malformed import entries are skipped gracefully
 
 ### Phase 4: Tests
-- [x] 37 GTest cases in `tests/epic1_retrieval/lora_package_test.cc`
+- [x] 55 GTest cases in `tests/epic1_retrieval/lora_package_test.cc`
 - [x] Coverage: serialization, status lifecycle, integrity hash, signature verifier, CRUD, bulk export/import, lifecycle integration
 
 ### Phase 5: Performance and hardening

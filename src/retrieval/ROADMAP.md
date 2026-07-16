@@ -8,7 +8,7 @@
 
 Phase 3 (Issue #5416) delivered: LoRAPackage and PortableAdapterProduct artifact
 classes, serialization APIs, integrity helpers, and LoRAManifestStore implemented.
-37 GTest cases and a Google Benchmark suite are in place.
+55 GTest cases and a Google Benchmark suite are in place.
 
 ## In Progress
 
@@ -43,7 +43,7 @@ classes, serialization APIs, integrity helpers, and LoRAManifestStore implemente
 - [x] Architecture allow-list enforced in `supportsArchitecture` (case-insensitive)
 
 ### Phase 4: Tests
-- [x] 37 GTest cases in `tests/epic1_retrieval/lora_package_test.cc`
+- [x] 55 GTest cases in `tests/epic1_retrieval/lora_package_test.cc`
 - [x] Coverage: serialization round-trips, lifecycle status, integrity hash, signature
       verifier callback, CRUD operations, bulk export/import, lifecycle integration test
 

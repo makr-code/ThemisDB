@@ -48,6 +48,7 @@
 
 #pragma once
 
+#include <cstdint>
 #include <string>
 #include <vector>
 #include <optional>
@@ -205,8 +206,12 @@ struct ArtifactIntegrity {
     /**
      * @brief True when the signature has been verified against the public key.
      *
-     * This field is **not** persisted — it is set at runtime by the
-     * LoRAManifestStore::verifyIntegrity* methods.
+     * This field is **not** persisted and is **not** updated automatically by
+     * the store.  Callers that want to cache the verification result must set
+     * this field themselves after calling
+     * `LoRAManifestStore::verifyPackageIntegrity()` /
+     * `LoRAManifestStore::verifyProductIntegrity()`, which return the result
+     * as a `bool` but do not mutate the stored artifact.
      */
     bool signature_verified = false;
 
@@ -334,7 +339,7 @@ struct LoRAPackage {
     /**
      * @brief Check whether the given architecture is supported by this package.
      *
-     * @param arch Architecture string (case-insensitive substring match)
+     * @param arch Architecture string (case-insensitive exact match)
      * @return true if `supported_architectures` is empty OR contains `arch`
      */
     [[nodiscard]] bool supportsArchitecture(const std::string& arch) const;
@@ -543,7 +548,7 @@ namespace IntegrityHelper {
  *
  * Provides CRUD operations and integrity-verification helpers for both artifact
  * classes.  The store is thread-safe; all public methods are protected by an
- * internal shared mutex.
+ * internal mutex.
  *
  * ### Persistence
  * The store does not directly perform I/O.  Callers must serialise / restore

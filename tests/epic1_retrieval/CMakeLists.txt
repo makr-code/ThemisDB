@@ -1,5 +1,10 @@
 # EPIC 1 Retrieval tests — lora_package_test.cc
 
+# Guard: only build when the retrieval library target is available.
+if(NOT TARGET themis_retrieval)
+    return()
+endif()
+
 set(EPIC1_RETRIEVAL_TESTS
     lora_package_test.cc
 )

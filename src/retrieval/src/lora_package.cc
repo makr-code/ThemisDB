@@ -8,6 +8,8 @@
 
 #include <algorithm>
 #include <array>
+#include <cctype>
+#include <cstdint>
 #include <cstring>
 #include <sstream>
 #include <stdexcept>
@@ -620,8 +622,13 @@ bool LoRAManifestStore::verifyProductIntegrity(
 
 json LoRAManifestStore::exportPackages() const {
     std::lock_guard<std::mutex> lk(mutex_);
+    // Collect keys and sort for stable, deterministic output order.
+    std::vector<std::string> keys;
+    keys.reserve(packages_.size());
+    for (const auto& kv : packages_) keys.push_back(kv.first);
+    std::sort(keys.begin(), keys.end());
     json arr = json::array();
-    for (const auto& kv : packages_) arr.push_back(kv.second.to_json());
+    for (const auto& k : keys) arr.push_back(packages_.at(k).to_json());
     return arr;
 }
 
@@ -643,8 +650,13 @@ size_t LoRAManifestStore::importPackages(const json& j) {
 
 json LoRAManifestStore::exportProducts() const {
     std::lock_guard<std::mutex> lk(mutex_);
+    // Collect keys and sort for stable, deterministic output order.
+    std::vector<std::string> keys;
+    keys.reserve(products_.size());
+    for (const auto& kv : products_) keys.push_back(kv.first);
+    std::sort(keys.begin(), keys.end());
     json arr = json::array();
-    for (const auto& kv : products_) arr.push_back(kv.second.to_json());
+    for (const auto& k : keys) arr.push_back(products_.at(k).to_json());
     return arr;
 }
 
