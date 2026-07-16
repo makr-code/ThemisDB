@@ -46,6 +46,28 @@
 namespace themis::transaction {
 
 // ============================================================================
+// Sprint 8 Phase 1: Use-After-Move Safety (GAP A-1)
+// ============================================================================
+// Helper structure to capture transaction state before move operations
+// Ensures transaction metadata remains accessible even after async pipeline moves
+struct TransactionStateSnapshot {
+    std::string txn_id;
+    DistributedTxnState state;
+    std::vector<std::string> participants;
+    std::chrono::system_clock::time_point created_at;
+    std::chrono::system_clock::time_point timeout;
+    std::string error_detail;
+    
+    explicit TransactionStateSnapshot(const DistributedTransaction& txn)
+        : txn_id(txn.txn_id)
+        , state(txn.state)
+        , participants(txn.participants)
+        , created_at(txn.created_at)
+        , timeout(txn.timeout)
+        , error_detail(txn.error_detail) {}
+};
+
+// ============================================================================
 // RPC phase-2 bridge (stub #279)
 // ============================================================================
 
@@ -311,6 +333,9 @@ DistributedTransactionManager::beginDistributed(
 
     {
         std::lock_guard<std::mutex> lock(mutex_);
+        // Sprint 8 Phase 1 (GAP A-1): Transaction ID (txn_id) is captured BEFORE move.
+        // This ensures all subsequent operations use the copied txn_id, not the moved object.
+        // Pattern: Move object, access by ID; never access moved object.
         transactions_.emplace(txn_id, std::move(rec));
     }
 

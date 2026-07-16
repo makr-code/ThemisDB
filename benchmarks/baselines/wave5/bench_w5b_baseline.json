@@ -1,0 +1,100 @@
+{
+  "_comment": "Wave 5 / B5-B — Degradation Baselines",
+  "_doc": "Baseline for degradation/failure benchmarks. These benchmarks are diagnostic — no hard gates. Used for tracking throughput-cliff regressions over time.",
+  "version": "5.0.0",
+  "wave": "w5b",
+  "branch": "develop",
+  "commit": "initial-wave5-baseline",
+  "timestamp": "2026-07-16T14:00:00Z",
+  "context": {
+    "build_type": "Release",
+    "preset": "windows-release / linux-release",
+    "warmup": "per-benchmark warmup corpus (kW5BWarmup=150)",
+    "seed": 42,
+    "note": "Placeholder baseline — replace with real measurements from the target CI runner"
+  },
+  "benchmarks": {
+    "BM_W5B_ReadLatencyInjection/0": {
+      "real_time": 7.2,
+      "cpu_time": 7.0,
+      "iterations": 2000,
+      "items_per_second": 138889,
+      "note": "No injection — baseline read path"
+    },
+    "BM_W5B_ReadLatencyInjection/50": {
+      "real_time": 57.8,
+      "cpu_time": 9.1,
+      "iterations": 2000,
+      "items_per_second": 17301,
+      "note": "50 µs injection — throughput cliff visible"
+    },
+    "BM_W5B_ReadLatencyInjection/100": {
+      "real_time": 108.5,
+      "cpu_time": 9.3,
+      "iterations": 2000,
+      "items_per_second": 9217,
+      "note": "100 µs injection"
+    },
+    "BM_W5B_ReadLatencyInjection/500": {
+      "real_time": 508.2,
+      "cpu_time": 9.5,
+      "iterations": 2000,
+      "items_per_second": 1968,
+      "note": "500 µs injection — heavy degradation"
+    },
+    "BM_W5B_WriteFlood_Throughput/1": {
+      "real_time": 11.5,
+      "cpu_time": 11.2,
+      "iterations": 5000,
+      "items_per_second": 86956
+    },
+    "BM_W5B_WriteFlood_Throughput/2": {
+      "real_time": 13.8,
+      "cpu_time": 13.4,
+      "iterations": 5000,
+      "items_per_second": 72464
+    },
+    "BM_W5B_WriteFlood_Throughput/4": {
+      "real_time": 17.2,
+      "cpu_time": 16.8,
+      "iterations": 5000,
+      "items_per_second": 58139
+    },
+    "BM_W5B_IndexRebuild_Cost/500": {
+      "real_time": 48.5,
+      "cpu_time": 47.1,
+      "iterations": 3,
+      "items_per_second": 10309
+    },
+    "BM_W5B_IndexRebuild_Cost/1000": {
+      "real_time": 95.0,
+      "cpu_time": 92.5,
+      "iterations": 3,
+      "items_per_second": 10526
+    },
+    "BM_W5B_IndexRebuild_Cost/2000": {
+      "real_time": 190.0,
+      "cpu_time": 185.0,
+      "iterations": 3,
+      "items_per_second": 10526
+    },
+    "BM_W5B_MixedContention_80_20/threads:2": {
+      "real_time": 14.1,
+      "cpu_time": 13.8,
+      "iterations": 10000,
+      "items_per_second": 70922
+    },
+    "BM_W5B_MixedContention_80_20/threads:4": {
+      "real_time": 19.2,
+      "cpu_time": 18.7,
+      "iterations": 10000,
+      "items_per_second": 52083
+    },
+    "BM_W5B_MixedContention_80_20/threads:8": {
+      "real_time": 28.5,
+      "cpu_time": 27.8,
+      "iterations": 10000,
+      "items_per_second": 35088
+    }
+  }
+}

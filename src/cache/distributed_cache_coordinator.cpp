@@ -543,6 +543,39 @@ bool RedisCacheCoordinator::ensurePublisherConnected() {
 }
 
 bool RedisCacheCoordinator::redisPublish(const std::string &channel, const std::string &payload) {
+    // C2: Double-checked locking — fast path when publisher is already connected.
+    // coordinator_ready_ is checked with acquire semantics before the mutex.
+    // A relaxed re-check under the lock is sufficient because the mutex provides
+    // the necessary ordering barrier for the initialisation payload.
+    if (!coordinator_ready_.load(std::memory_order_acquire)) {
+        std::unique_lock<std::mutex> lk(pub_mutex_);
+        if (!coordinator_ready_.load(std::memory_order_relaxed)) {
+            // Expensive path: establish/re-establish publisher connection.
+            if (!ensurePublisherConnected()) {
+                return false;
+            }
+            coordinator_ready_.store(true, std::memory_order_release);
+        }
+        // Fall through — we hold pub_mutex_ and the connection is ready.
+        const std::string cmd = buildRespCommand({"PUBLISH", channel, payload});
+        if (!sendAll(pub_fd_, cmd)) {
+            THEMIS_WARN("RedisCacheCoordinator: PUBLISH send failed; will reconnect");
+            closeSocket(pub_fd_);
+            pub_ok_ = false;
+            coordinator_ready_.store(false, std::memory_order_release);
+            return false;
+        }
+        std::string reply;
+        if (!readLine(pub_fd_, reply)) {
+            closeSocket(pub_fd_);
+            pub_ok_ = false;
+            coordinator_ready_.store(false, std::memory_order_release);
+            return false;
+        }
+        return !reply.empty() && reply[0] != '-';
+    }
+
+    // Fast path: publisher already connected; still need the lock for I/O.
     std::lock_guard<std::mutex> lk(pub_mutex_);
 
     if (!ensurePublisherConnected()) {
@@ -555,6 +588,7 @@ bool RedisCacheCoordinator::redisPublish(const std::string &channel, const std::
         THEMIS_WARN("RedisCacheCoordinator: PUBLISH send failed; will reconnect");
         closeSocket(pub_fd_);
         pub_ok_ = false;
+        coordinator_ready_.store(false, std::memory_order_release);
         return false;
     }
 
@@ -563,6 +597,7 @@ bool RedisCacheCoordinator::redisPublish(const std::string &channel, const std::
     if (!readLine(pub_fd_, reply)) {
         closeSocket(pub_fd_);
         pub_ok_ = false;
+        coordinator_ready_.store(false, std::memory_order_release);
         return false;
     }
 

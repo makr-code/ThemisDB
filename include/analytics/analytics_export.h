@@ -84,7 +84,21 @@ class IAnalyticsExporter {
 public:
     virtual ~IAnalyticsExporter() = default;
 
-    /**
+    /// @brief Move constructor for polymorphic analytics exporter base.
+    /// @note Move semantics: abstract base carries no data members; derived classes must delegate here.
+    IAnalyticsExporter(IAnalyticsExporter&&) noexcept = default;
+
+    /// @brief Move assignment operator for polymorphic analytics exporter base.
+    /// @note Move semantics: no-op on data-less abstract base; derived classes extend this.
+    IAnalyticsExporter& operator=(IAnalyticsExporter&&) noexcept = default;
+
+    IAnalyticsExporter(const IAnalyticsExporter&) = delete;
+    IAnalyticsExporter& operator=(const IAnalyticsExporter&) = delete;
+
+protected:
+    IAnalyticsExporter() = default;
+
+public:
      * @brief Export a RecordBatch to file
      * @param batch The record batch to export
      * @param output_path Output file path
