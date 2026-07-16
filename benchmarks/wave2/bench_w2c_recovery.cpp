@@ -40,10 +40,13 @@
 
 #include <benchmark/benchmark.h>
 
+#include <algorithm>
 #include <chrono>
+#include <cmath>
 #include <filesystem>
 #include <memory>
 #include <random>
+#include <stdexcept>
 #include <string>
 #include <vector>
 
@@ -249,11 +252,8 @@ static void BM_W2C_ReopenLatency_NoWAL(benchmark::State& state) {
 
     std::unique_ptr<RocksDBWrapper> db;
     for (auto _ : state) {
-        state.PauseTiming();
+        // Timed: full close + reopen round-trip
         if (db) { db->close(); db.reset(); }
-        state.ResumeTiming();
-
-        // Timed: reopen
         db = openDb(dbPath, /*wal=*/false);
         benchmark::DoNotOptimize(db.get());
     }

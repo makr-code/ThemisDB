@@ -38,10 +38,13 @@
 #include <benchmark/benchmark.h>
 
 #include <algorithm>
+#include <atomic>
 #include <chrono>
+#include <cmath>
 #include <filesystem>
 #include <memory>
 #include <random>
+#include <stdexcept>
 #include <string>
 #include <vector>
 
@@ -116,7 +119,8 @@ public:
     static constexpr char const* kTable      = "w2a_kv";
     static constexpr char const* kCol        = "category";
 
-    void SetUp(::benchmark::State& /*state*/) override {
+    void SetUp(::benchmark::State& state) override {
+        if (state.thread_index() != 0) return;
         dbPath_ = uniqueDbPath("sec");
         db_     = openBenchDb(dbPath_);
         idx_    = std::make_unique<SecondaryIndexManager>(*db_);
@@ -136,7 +140,8 @@ public:
         nextId_.store(kWarmupRows, std::memory_order_relaxed);
     }
 
-    void TearDown(::benchmark::State& /*state*/) override {
+    void TearDown(::benchmark::State& state) override {
+        if (state.thread_index() != 0) return;
         idx_.reset();
         db_->close();
         db_.reset();

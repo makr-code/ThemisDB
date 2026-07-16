@@ -22,8 +22,6 @@
  * - Setup populates a warm dataset outside the timed loop.
  * - `state.SetItemsProcessed` and `benchmark::Counter::kIsRate` expose
  *   throughput in items/s directly comparable across scenarios.
- * - P99 is approximated via per-iteration timing using `PauseTiming/ResumeTiming`
- *   where wall-clock tail latency is critical.
  *
  * Run (Release build):
  * @code
@@ -33,7 +31,8 @@
  *
  * Interpretation
  * --------------
- * - `ops_per_sec`: aggregate operations per second across all threads.
+ * - `ops_per_sec`: per-thread operations per second (uses `kAvgThreads`).
+ *   To derive the total aggregate, multiply by the thread count.
  * - Linear scaling in `ops_per_sec` vs. thread count indicates low contention.
  * - Sub-linear scaling indicates lock contention; compare disjoint vs.
  *   overlapping scenarios to isolate the hotspot.
@@ -41,12 +40,15 @@
 
 #include <benchmark/benchmark.h>
 
+#include <algorithm>
 #include <atomic>
 #include <chrono>
+#include <cmath>
 #include <filesystem>
 #include <memory>
 #include <mutex>
 #include <random>
+#include <stdexcept>
 #include <string>
 #include <thread>
 #include <vector>
@@ -115,7 +117,8 @@ class W2B_KvWriteFixture : public benchmark::Fixture {
 public:
     static constexpr int kWarmupKeys = 5'000;
 
-    void SetUp(::benchmark::State& /*state*/) override {
+    void SetUp(::benchmark::State& state) override {
+        if (state.thread_index() != 0) return;
         dbPath_ = uniqueDbPath("kv");
         db_     = openBenchDb(dbPath_);
         // Pre-populate warm data
@@ -125,7 +128,8 @@ public:
         nextId_.store(kWarmupKeys, std::memory_order_relaxed);
     }
 
-    void TearDown(::benchmark::State& /*state*/) override {
+    void TearDown(::benchmark::State& state) override {
+        if (state.thread_index() != 0) return;
         db_->close();
         db_.reset();
         fs::remove_all(dbPath_);
@@ -179,8 +183,8 @@ BENCHMARK_REGISTER_F(W2B_KvWriteFixture, ConcurrentWrites_Disjoint)
 /**
  * @brief B2-B Scenario 2: All threads write to a small shared key domain.
  *
- * Forces maximum write contention.  The contention overhead is
- * `Disjoint_throughput / Overlapping_throughput − 1`.
+ * Forces maximum write contention.  The fractional contention overhead is
+ * `1 − (overlapping_throughput / disjoint_throughput)`.
  */
 BENCHMARK_DEFINE_F(W2B_KvWriteFixture, ConcurrentWrites_Overlapping)(benchmark::State& state) {
     std::mt19937 rng(static_cast<uint32_t>(state.thread_index() + 1));
@@ -262,7 +266,8 @@ public:
     static constexpr int kWarmupVectors = 2'000;
     static constexpr int kTopK          = 10;
 
-    void SetUp(::benchmark::State& /*state*/) override {
+    void SetUp(::benchmark::State& state) override {
+        if (state.thread_index() != 0) return;
         dbPath_ = uniqueDbPath("vec");
         db_     = openBenchDb(dbPath_);
         vix_    = std::make_unique<VectorIndexManager>(*db_);
@@ -282,7 +287,8 @@ public:
         nextId_.store(kWarmupVectors, std::memory_order_relaxed);
     }
 
-    void TearDown(::benchmark::State& /*state*/) override {
+    void TearDown(::benchmark::State& state) override {
+        if (state.thread_index() != 0) return;
         vix_.reset();
         db_->close();
         db_.reset();
