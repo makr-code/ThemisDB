@@ -347,6 +347,43 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/pipeline/w5b_failure_injection_recovery_t
 endif()
 
 # ============================================================================
+# Wave 7 — Final Sign-off, Recovery/Resilience, Endurance/Stability
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/pipeline/w7a_final_journey_signoff_test.cpp")
+    add_integration_test(
+        w7a_final_journey_signoff_test
+        pipeline/w7a_final_journey_signoff_test.cpp
+    )
+    set_tests_properties(w7a_final_journey_signoff_test PROPERTIES
+        LABELS "integration;pipeline_integration;pipeline;wave7;w7a;release_critical;final_signoff"
+        TIMEOUT 300
+    )
+endif()
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/pipeline/w7b_recovery_resilience_test.cpp")
+    add_integration_test(
+        w7b_recovery_resilience_test
+        pipeline/w7b_recovery_resilience_test.cpp
+    )
+    set_tests_properties(w7b_recovery_resilience_test PROPERTIES
+        LABELS "integration;pipeline_integration;pipeline;wave7;w7b;release_critical;recovery_resilience"
+        TIMEOUT 300
+    )
+endif()
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/pipeline/w7c_endurance_stability_test.cpp")
+    add_integration_test(
+        w7c_endurance_stability_test
+        pipeline/w7c_endurance_stability_test.cpp
+    )
+    set_tests_properties(w7c_endurance_stability_test PROPERTIES
+        LABELS "integration;pipeline_integration;pipeline;wave7;w7c;endurance;stability_cert"
+        TIMEOUT 600
+    )
+endif()
+
+# ============================================================================
 # Existing Integration Test (keep original)
 # ============================================================================
 
