@@ -1,0 +1,1284 @@
+[0/2] Re-checking globbed directories...
+[1/9140] Performing build step for 'vulkan-shaders-gen'
+ninja: no work to do.
+[2/9140] Performing install step for 'vulkan-shaders-gen'
+-- Up-to-date: C:/Projects/ThemisDB/build-msvc-windows-release/Release/./vulkan-shaders-gen.exe
+[3/9140] Completed 'vulkan-shaders-gen'
+[4/9140] Building CXX object cmake\tests\CMakeFiles\test_columnar_cache_focused.dir\__\src\storage\columnar_cache.cpp.obj
+[5/9140] Building CXX object cmake\CMakeFiles\themisctl.dir\__\tools\themisctl.cpp.obj
+[6/9140] Building CXX object cmake\tests\CMakeFiles\test_stream_protocol_extended_focused.dir\stream\test_stream_protocol_extended.cpp.obj
+[7/9140] Building CXX object cmake\tests\CMakeFiles\test_replication_crdt_types.dir\replication\test_replication_crdt_types.cpp.obj
+[8/9140] Building CXX object cmake\tests\CMakeFiles\test_distributed_trainer_guard.dir\distributed\test_distributed_trainer_guard.cpp.obj
+[9/9140] Building CXX object cmake\tests\CMakeFiles\test_columnar_cache_focused.dir\columnar\test_columnar_cache.cpp.obj
+[10/9140] Building CXX object cmake\tests\CMakeFiles\test_distributed_trainer_guard.dir\__\src\llm\lora_framework\distributed_trainer.cpp.obj
+[11/9140] Building CXX object cmake\tests\plugin\CMakeFiles\themis_plugin_runtime_test_plugin.dir\runtime_test_plugin.cpp.obj
+[12/9140] Building CXX object cmake\CMakeFiles\themis_transaction.dir\Unity\unity_0_cxx.cxx.obj
+[13/9140] Building CXX object cmake\CMakeFiles\themis_llm.dir\Unity\unity_8_cxx.cxx.obj
+[14/9140] Building CXX object cmake\tests\CMakeFiles\test_grpc_web_proxy_bridge.dir\grpc\test_grpc_web_proxy_bridge.cpp.obj
+[15/9140] Building CXX object cmake\tests\CMakeFiles\test_grpc_web_proxy_bridge.dir\__\src\server\grpc_web_proxy_handler.cpp.obj
+[16/9140] Building CXX object cmake\tests\CMakeFiles\test_grpc_web_proxy_handler.dir\__\src\server\grpc_web_proxy_handler.cpp.obj
+[17/9140] Building CXX object cmake\tests\CMakeFiles\test_grpc_web_proxy_handler.dir\grpc\test_grpc_web_proxy_handler.cpp.obj
+[18/9140] Building CXX object cmake\tests\CMakeFiles\test_stream_protocol_extended_focused.dir\__\src\sharding\stream_protocol.cpp.obj
+C:\Projects\ThemisDB\src\sharding\stream_protocol.cpp(741): warning C4834: Rckgabewert der Funktion mit [[nodiscard]]-Attribut wird verworfen
+C:\Projects\ThemisDB\src\sharding\stream_protocol.cpp(744): warning C4834: Rckgabewert der Funktion mit [[nodiscard]]-Attribut wird verworfen
+C:\Projects\ThemisDB\src\sharding\stream_protocol.cpp(1019): warning C4834: Rckgabewert der Funktion mit [[nodiscard]]-Attribut wird verworfen
+C:\Projects\ThemisDB\src\sharding\stream_protocol.cpp(1136): warning C4834: Rckgabewert der Funktion mit [[nodiscard]]-Attribut wird verworfen
+[19/9140] Building CXX object cmake\tests\CMakeFiles\test_multi_shard_transactions_focused.dir\multi\test_multi_shard_transactions.cpp.obj
+[20/9140] Building CXX object cmake\CMakeFiles\themis_ingestion.dir\Unity\unity_1_cxx.cxx.obj
+[21/9140] Building CXX object cmake\CMakeFiles\themis_llm.dir\Unity\unity_5_cxx.cxx.obj
+[22/9140] Building CXX object cmake\CMakeFiles\themis_content.dir\Unity\unity_2_cxx.cxx.obj
+[23/9140] Building CXX object cmake\CMakeFiles\themis_llm.dir\Unity\unity_7_cxx.cxx.obj
+[24/9140] Building CXX object cmake\CMakeFiles\themis_llm.dir\Unity\unity_3_cxx.cxx.obj
+[25/9140] Building CXX object cmake\tests\CMakeFiles\test_learned_index.dir\index\test_learned_index.cpp.obj
+[26/9140] Generating RocksDB importer C++ code...
+
+INFO:DocsRocksDBGenerator:
+============================================================
+INFO:DocsRocksDBGenerator:============================================================
+ThemisDB Documentation RocksDB Generator
+INFO:DocsRocksDBGenerator:ThemisDB Documentation RocksDB Generator
+============================================================
+INFO:DocsRocksDBGenerator:============================================================
+Input file not found at data/docs_database.json, using fallback C:\Projects\ThemisDB\build-msvc-windows-release\data\docs_database.json
+WARNING:DocsRocksDBGenerator:Input file not found at data/docs_database.json, using fallback C:\Projects\ThemisDB\build-msvc-windows-release\data\docs_database.json
+
+Step 1: Using JSON file: C:\Projects\ThemisDB\build-msvc-windows-release\data\docs_database.json
+INFO:DocsRocksDBGenerator:
+Step 1: Using JSON file: C:\Projects\ThemisDB\build-msvc-windows-release\data\docs_database.json
+
+Step 2: Loading JSON data...
+INFO:DocsRocksDBGenerator:
+Step 2: Loading JSON data...
+
+Step 3: Generating RocksDB import tools...
+INFO:DocsRocksDBGenerator:
+Step 3: Generating RocksDB import tools...
+
+[OK] C++ importer generated: C:\Projects\ThemisDB\build-msvc-windows-release\data\import_docs_rocksdb.cpp
+INFO:DocsRocksDBGenerator:
+[OK] C++ importer generated: C:\Projects\ThemisDB\build-msvc-windows-release\data\import_docs_rocksdb.cpp
+
+To compile and run:
+INFO:DocsRocksDBGenerator:
+To compile and run:
+  g++ -std=c++17 C:\Projects\ThemisDB\build-msvc-windows-release\data\import_docs_rocksdb.cpp -o import_docs_rocksdb -lrocksdb -lpthread
+INFO:DocsRocksDBGenerator:  g++ -std=c++17 C:\Projects\ThemisDB\build-msvc-windows-release\data\import_docs_rocksdb.cpp -o import_docs_rocksdb -lrocksdb -lpthread
+  ./import_docs_rocksdb C:\Projects\ThemisDB\build-msvc-windows-release\data\docs_database.json C:/Projects/ThemisDB/build-msvc-windows-release/data/docs.db
+INFO:DocsRocksDBGenerator:  ./import_docs_rocksdb C:\Projects\ThemisDB\build-msvc-windows-release\data\docs_database.json C:/Projects/ThemisDB/build-msvc-windows-release/data/docs.db
+
+============================================================
+INFO:DocsRocksDBGenerator:
+============================================================
+RocksDB import tools generated successfully!
+INFO:DocsRocksDBGenerator:RocksDB import tools generated successfully!
+============================================================
+INFO:DocsRocksDBGenerator:============================================================
+[27/9140] Building CXX object cmake\CMakeFiles\themis_ingestion.dir\Unity\unity_0_cxx.cxx.obj
+[28/9140] Building CXX object cmake\CMakeFiles\themis_llm.dir\Unity\unity_1_cxx.cxx.obj
+C:/Projects/ThemisDB/src/llm/paged_block_manager.cpp(47): warning C4267: "=": Konvertierung von "size_t" nach "int", Datenverlust mglich
+[29/9140] Building CXX object cmake\CMakeFiles\themis_content.dir\Unity\unity_0_cxx.cxx.obj
+[30/9140] Building CXX object cmake\tests\CMakeFiles\test_tiered_index_migration.dir\index\test_tiered_index_migration.cpp.obj
+[31/9140] Building CXX object cmake\tests\CMakeFiles\test_tiered_index_migration.dir\__\src\index\tiered_index_manager.cpp.obj
+[32/9140] Building CXX object cmake\CMakeFiles\themis_llm.dir\Unity\unity_2_cxx.cxx.obj
+[33/9140] Building CXX object cmake\CMakeFiles\themis_content.dir\Unity\unity_1_cxx.cxx.obj
+[34/9140] Building CXX object cmake\tests\CMakeFiles\test_hnsw_recall_integration.dir\index\test_hnsw_recall_integration.cpp.obj
+[35/9140] Building CXX object cmake\tests\CMakeFiles\test_expert_system_focused.dir\__\src\analytics\knowledge_base.cpp.obj
+[36/9140] Building CXX object cmake\tests\CMakeFiles\test_streaming_window_focused.dir\analytics\test_streaming_window.cpp.obj
+[37/9140] Building CXX object cmake\tests\CMakeFiles\test_expert_system_focused.dir\__\src\analytics\model_serving.cpp.obj
+[38/9140] Building CXX object cmake\CMakeFiles\themis_llm.dir\Unity\unity_6_cxx.cxx.obj
+[39/9140] Building CXX object cmake\CMakeFiles\themis_llm.dir\Unity\unity_0_cxx.cxx.obj
+[40/9140] Building CXX object cmake\CMakeFiles\themis_llm.dir\Unity\unity_4_cxx.cxx.obj
+C:/Projects/ThemisDB/src/llm/grammar.cpp(33): warning C4273: "llama_model_get_vocab": Inkonsistente DLL-Bindung.
+C:\Projects\ThemisDB\llama.cpp\src\..\include\llama.h(534): note: siehe vorherige Definition von "llama_model_get_vocab"
+[41/9140] Building CXX object cmake\tests\CMakeFiles\test_expert_system_focused.dir\analytics\test_expert_system_engine.cpp.obj
+[42/9140] Building CXX object cmake\tests\CMakeFiles\test_expert_system_focused.dir\__\src\analytics\expert_system_engine.cpp.obj
+[43/9140] Building CXX object cmake\tests\CMakeFiles\test_expert_system_focused.dir\__\src\analytics\automl.cpp.obj
+[44/9140] Building CXX object cmake\tests\CMakeFiles\test_anomaly_detection_focused.dir\analytics\test_anomaly_detection.cpp.obj
+[45/9140] Building CXX object cmake\tests\CMakeFiles\test_anomaly_detection_focused.dir\__\src\analytics\anomaly_detection.cpp.obj
+[46/9140] Building CXX object cmake\tests\CMakeFiles\test_llm_process_analyzer_focused.dir\__\src\analytics\llm_process_analyzer.cpp.obj
+[47/9140] Building CXX object cmake\tests\CMakeFiles\test_automl_focused.dir\__\src\analytics\automl.cpp.obj
+[48/9140] Building CXX object cmake\tests\CMakeFiles\test_llm_process_analyzer_focused.dir\analytics\test_llm_process_analyzer.cpp.obj
+[49/9140] Building CXX object cmake\tests\CMakeFiles\test_automl_focused.dir\__\src\analytics\anomaly_detection.cpp.obj
+[50/9140] Building CXX object cmake\tests\CMakeFiles\test_automl_focused.dir\analytics\test_automl.cpp.obj
+[51/9140] Building CXX object cmake\tests\CMakeFiles\test_forecasting_focused.dir\analytics\test_forecasting.cpp.obj
+[52/9140] Building CXX object cmake\tests\CMakeFiles\test_forecasting_sarima_prophet_focused.dir\analytics\test_forecasting_sarima_prophet.cpp.obj
+[53/9140] Building CXX object cmake\tests\CMakeFiles\test_forecasting_sarima_prophet_focused.dir\__\src\analytics\forecasting.cpp.obj
+[54/9140] Building CXX object cmake\tests\CMakeFiles\test_forecasting_focused.dir\__\src\analytics\forecasting.cpp.obj
+[55/9140] Building CXX object cmake\tests\CMakeFiles\test_automl_onnx_focused.dir\__\src\analytics\automl.cpp.obj
+[56/9140] Building CXX object cmake\tests\CMakeFiles\test_automl_onnx_focused.dir\analytics\test_automl_onnx.cpp.obj
+[57/9140] Building CXX object cmake\tests\CMakeFiles\test_automl_onnx_focused.dir\__\src\analytics\anomaly_detection.cpp.obj
+[58/9140] Building CXX object cmake\tests\CMakeFiles\test_columnar_execution_focused.dir\analytics\test_columnar_execution.cpp.obj
+[59/9140] Building CXX object cmake\tests\CMakeFiles\test_streaming_join_focused.dir\analytics\test_streaming_join.cpp.obj
+[60/9140] Building CXX object cmake\tests\CMakeFiles\test_columnar_execution_focused.dir\__\src\analytics\columnar_execution.cpp.obj
+[61/9140] Building CXX object cmake\tests\CMakeFiles\test_streaming_join_focused.dir\__\src\analytics\streaming_join.cpp.obj
+[62/9140] Building CXX object cmake\tests\CMakeFiles\test_streaming_window_focused.dir\__\src\analytics\streaming_window.cpp.obj
+[63/9140] Building CXX object cmake\tests\CMakeFiles\test_streaming_join_focused.dir\__\src\analytics\columnar_execution.cpp.obj
+[64/9140] Building CXX object cmake\tests\CMakeFiles\test_jit_aggregation_focused.dir\analytics\test_jit_aggregation.cpp.obj
+[65/9140] Building CXX object cmake\tests\CMakeFiles\test_jit_aggregation_focused.dir\__\src\analytics\jit_aggregation.cpp.obj
+[66/9140] Building CXX object cmake\tests\CMakeFiles\test_ml_serving_focused.dir\__\src\analytics\anomaly_detection.cpp.obj
+[67/9140] Building CXX object cmake\tests\CMakeFiles\test_ml_serving_focused.dir\analytics\test_ml_serving.cpp.obj
+[68/9140] Building CXX object cmake\tests\CMakeFiles\test_jit_aggregation_focused.dir\__\src\analytics\columnar_execution.cpp.obj
+[69/9140] Building CXX object cmake\tests\CMakeFiles\test_model_serving_focused.dir\analytics\test_model_serving.cpp.obj
+[70/9140] Building CXX object cmake\tests\CMakeFiles\test_model_serving_focused.dir\__\src\analytics\model_serving.cpp.obj
+[71/9140] Building CXX object cmake\tests\CMakeFiles\test_model_serving_focused.dir\__\src\analytics\automl.cpp.obj
+[72/9140] Building CXX object cmake\tests\CMakeFiles\test_model_serving_focused.dir\__\src\analytics\anomaly_detection.cpp.obj
+[73/9140] Building CXX object cmake\tests\CMakeFiles\test_ml_serving_focused.dir\__\src\analytics\ml_serving.cpp.obj
+[74/9140] Building CXX object cmake\tests\CMakeFiles\test_arrow_flight_focused.dir\__\src\analytics\arrow_export.cpp.obj
+[75/9140] Building CXX object cmake\tests\CMakeFiles\test_arrow_flight_focused.dir\analytics\test_arrow_flight.cpp.obj
+[76/9140] Building CXX object cmake\tests\CMakeFiles\test_arrow_flight_focused.dir\__\src\analytics\arrow_flight.cpp.obj
+[77/9140] Building CXX object CMakeFiles\import_docs_rocksdb.dir\data\import_docs_rocksdb.cpp.obj
+[78/9140] Building CXX object cmake\tests\CMakeFiles\test_process_pattern_matcher_focused.dir\analytics\test_process_pattern_matcher.cpp.obj
+[79/9140] Building CXX object cmake\tests\CMakeFiles\test_process_pattern_matcher_focused.dir\__\src\analytics\process_pattern_matcher.cpp.obj
+[80/9140] Building CXX object cmake\tests\CMakeFiles\test_arrow_export_focused.dir\__\src\analytics\arrow_export.cpp.obj
+[81/9140] Building CXX object cmake\tests\CMakeFiles\test_cep_engine_focused.dir\analytics\test_cep_engine.cpp.obj
+[82/9140] Building CXX object cmake\tests\CMakeFiles\test_ontology_manager_focused.dir\graph\test_ontology_manager.cpp.obj
+[83/9140] Building CXX object cmake\tests\CMakeFiles\test_arrow_export_focused.dir\analytics\test_arrow_export.cpp.obj
+[84/9140] Building CXX object cmake\tests\CMakeFiles\test_kg_retriever_reasoning_focused.dir\rag\test_knowledge_graph_retriever_reasoning.cpp.obj
+[85/9140] Building CXX object cmake\tests\CMakeFiles\test_lora_enhanced_retriever_focused.dir\rag\test_lora_enhanced_retriever.cpp.obj
+[86/9140] Building CXX object cmake\tests\CMakeFiles\test_kg_retriever_reasoning_focused.dir\__\src\rag\knowledge_graph_retriever.cpp.obj
+[87/9140] Building CXX object cmake\tests\CMakeFiles\test_arrow_export_focused.dir\__\src\analytics\analytics_export.cpp.obj
+[88/9140] Building CXX object cmake\tests\CMakeFiles\test_wikipedia_ingestion_plugin.dir\importer\test_wikipedia_ingestion_plugin.cpp.obj
+[89/9140] Building CXX object cmake\tests\CMakeFiles\test_importer_plugin_api.dir\importer\test_importer_plugin_api.cpp.obj
+[90/9140] Building CXX object cmake\tests\CMakeFiles\test_wikipedia_ingestion_plugin.dir\__\src\importers\wikipedia_plugin.cpp.obj
+[91/9140] Building CXX object cmake\tests\CMakeFiles\test_wikipedia_ingestion_plugin.dir\__\src\importers\wikipedia_dump_reader.cpp.obj
+[92/9140] Building CXX object cmake\tests\CMakeFiles\test_wikipedia_ingestion_plugin.dir\__\src\importers\wikipedia_pipeline.cpp.obj
+[93/9140] Building CXX object cmake\tests\CMakeFiles\test_wikipedia_ingestion_plugin.dir\__\src\importers\wikipedia_xml_parser.cpp.obj
+[94/9140] Building CXX object cmake\tests\CMakeFiles\test_wikipedia_ingestion_plugin.dir\__\src\importers\wikipedia_project_graph.cpp.obj
+[95/9140] Building CXX object cmake\tests\CMakeFiles\test_wikipedia_ingestion_plugin.dir\__\src\importers\wikipedia_transform.cpp.obj
+[96/9140] Building CXX object cmake\tests\CMakeFiles\test_wikipedia_ingestion_plugin.dir\__\src\importers\wikipedia_project_vector.cpp.obj
+[97/9140] Building CXX object cmake\tests\CMakeFiles\test_wikipedia_ingestion_plugin.dir\__\src\importers\wikipedia_project_timeseries.cpp.obj
+[98/9140] Building CXX object cmake\tests\CMakeFiles\test_wikipedia_ingestion_plugin.dir\__\src\importers\wikipedia_project_process.cpp.obj
+[99/9140] Building CXX object cmake\tests\CMakeFiles\test_wikipedia_ingestion_plugin.dir\__\src\importers\wikipedia_checkpoint.cpp.obj
+[100/9140] Building CXX object cmake\tests\CMakeFiles\test_wikipedia_ingestion_plugin.dir\__\src\importers\wikipedia_validator.cpp.obj
+[101/9140] Building CXX object cmake\tests\CMakeFiles\test_wikipedia_ingestion_plugin.dir\__\src\plugins\plugin_registry.cpp.obj
+[102/9140] Building CXX object cmake\tests\CMakeFiles\test_importer_interfaces.dir\importer\test_importer_interfaces.cpp.obj
+[103/9140] Building CXX object cmake\tests\CMakeFiles\test_schema_validator_importer_focused.dir\schema\test_schema_validator.cpp.obj
+[104/9140] Building CXX object cmake\tests\CMakeFiles\test_importer_conflict_resolver_focused.dir\importer\test_importer_conflict_resolver.cpp.obj
+[105/9140] Building CXX object cmake\tests\CMakeFiles\test_flatfile_importer_focused.dir\flatfile\test_flatfile_importer.cpp.obj
+[106/9140] Building CXX object cmake\tests\CMakeFiles\test_importer_async_api_focused.dir\importer\test_importer_async_api.cpp.obj
+[107/9140] Building CXX object cmake\tests\CMakeFiles\test_mysql_importer_registry.dir\mysql\test_mysql_importer_registry.cpp.obj
+[108/9140] Building CXX object cmake\tests\CMakeFiles\test_mysql_importer_registry.dir\__\src\importers\mysql_importer.cpp.obj
+[109/9140] Building CXX object cmake\tests\CMakeFiles\test_mysql_importer_registry.dir\mysql_importer_registry_logger_stub.cpp.obj
+[110/9140] Building CXX object cmake\tests\CMakeFiles\test_mysql_importer_focused.dir\mysql\test_mysql_importer.cpp.obj
+[111/9140] Building CXX object cmake\tests\CMakeFiles\test_mongo_importer_focused.dir\mongo\test_mongo_importer.cpp.obj
+[112/9140] Building CXX object cmake\tests\CMakeFiles\test_kafka_importer_focused.dir\kafka_importer_logger_stub.cpp.obj
+[113/9140] Building CXX object cmake\tests\CMakeFiles\test_sqlite_importer_focused.dir\sqlite\test_sqlite_importer.cpp.obj
+[114/9140] Building CXX object cmake\tests\CMakeFiles\test_kafka_importer_focused.dir\kafka\test_kafka_importer.cpp.obj
+[115/9140] Building CXX object cmake\tests\CMakeFiles\test_kafka_importer_focused.dir\__\src\importers\kafka_importer.cpp.obj
+[116/9140] Building CXX object cmake\tests\CMakeFiles\test_s3_importer_focused.dir\s3\test_s3_importer.cpp.obj
+[117/9140] Building CXX object cmake\tests\CMakeFiles\test_mdm_entity_matching_focused.dir\entity\test_entity_matching.cpp.obj
+[118/9140] Building CXX object cmake\tests\CMakeFiles\test_mdm_entity_matching_focused.dir\entity\test_entity_linking.cpp.obj
+[119/9140] Building CXX object cmake\tests\CMakeFiles\test_oracle_importer_focused.dir\oracle\test_oracle_importer.cpp.obj
+[120/9140] Building CXX object cmake\tests\CMakeFiles\test_mdm_entity_matching_focused.dir\__\src\importers\deterministic_matcher.cpp.obj
+[121/9140] Building CXX object cmake\tests\CMakeFiles\test_mdm_entity_matching_focused.dir\canonical\test_canonical_resolver.cpp.obj
+[122/9140] Building CXX object cmake\tests\CMakeFiles\test_mdm_entity_matching_focused.dir\__\src\importers\entity_linker.cpp.obj
+[123/9140] Building CXX object cmake\tests\CMakeFiles\test_mdm_entity_matching_focused.dir\__\src\importers\canonical_resolver.cpp.obj
+[124/9140] Building CXX object cmake\tests\CMakeFiles\test_mdm_engine_focused.dir\__\src\importers\deterministic_matcher.cpp.obj
+[125/9140] Building CXX object cmake\tests\CMakeFiles\test_mdm_engine_focused.dir\mdm\test_mdm_engine.cpp.obj
+[126/9140] Building CXX object cmake\tests\CMakeFiles\test_mdm_engine_focused.dir\mdm\test_mdm_integration.cpp.obj
+[127/9140] Building CXX object cmake\tests\CMakeFiles\test_mdm_engine_focused.dir\__\src\importers\entity_linker.cpp.obj
+[128/9140] Building CXX object cmake\tests\CMakeFiles\test_mdm_engine_focused.dir\__\src\importers\canonical_resolver.cpp.obj
+[129/9140] Building CXX object cmake\tests\CMakeFiles\test_mdm_engine_focused.dir\__\src\importers\mdm_audit_trail.cpp.obj
+[130/9140] Building CXX object cmake\tests\CMakeFiles\test_mdm_engine_focused.dir\__\src\importers\mdm_metrics.cpp.obj
+[131/9140] Building CXX object cmake\tests\CMakeFiles\test_mdm_engine_focused.dir\__\src\importers\mdm_engine.cpp.obj
+[132/9140] Building CXX object cmake\tests\CMakeFiles\test_process_pattern_matcher_focused.dir\__\src\analytics\process_mining.cpp.obj
+[133/9140] Building CXX object cmake\tests\CMakeFiles\test_postgres_importer_mdm_focused.dir\__\src\importers\deterministic_matcher.cpp.obj
+[134/9140] Building CXX object cmake\tests\CMakeFiles\test_postgres_importer_mdm_focused.dir\postgres\test_postgres_importer_mdm.cpp.obj
+[135/9140] Building CXX object cmake\tests\CMakeFiles\test_postgres_importer_mdm_focused.dir\__\src\importers\canonical_resolver.cpp.obj
+[136/9140] Building CXX object cmake\tests\CMakeFiles\test_postgres_importer_mdm_focused.dir\__\src\importers\entity_linker.cpp.obj
+[137/9140] Building CXX object cmake\tests\CMakeFiles\test_postgres_importer_mdm_focused.dir\__\src\importers\mdm_engine.cpp.obj
+[138/9140] Building CXX object cmake\tests\CMakeFiles\test_postgres_importer_mdm_focused.dir\__\src\importers\mdm_audit_trail.cpp.obj
+[139/9140] Building CXX object cmake\tests\CMakeFiles\test_postgres_importer_mdm_focused.dir\__\src\importers\mdm_metrics.cpp.obj
+[140/9140] Building CXX object cmake\tests\CMakeFiles\test_postgres_importer_mdm_focused.dir\__\src\importers\postgres_importer_mdm.cpp.obj
+[141/9140] Building CXX object cmake\tests\CMakeFiles\test_postgres_importer_mdm_focused.dir\__\src\importers\conflict_resolver.cpp.obj
+[142/9140] Building CXX object cmake\tests\CMakeFiles\test_ontology_manager_focused.dir\__\src\graph\ontology_manager.cpp.obj
+[143/9140] Building CXX object cmake\tests\CMakeFiles\test_postgres_importer_mdm_focused.dir\__\src\importers\postgres_importer.cpp.obj
+[144/9140] Building CXX object cmake\tests\CMakeFiles\test_content_metrics_focused.dir\content\test_content_metrics.cpp.obj
+[145/9140] Building CXX object cmake\tests\CMakeFiles\test_content_language_detector_focused.dir\content\test_content_language_detector.cpp.obj
+[146/9140] Building CXX object cmake\tests\CMakeFiles\test_content_audio_processor_focused.dir\content\test_content_audio_processor.cpp.obj
+[147/9140] Building CXX object cmake\tests\CMakeFiles\test_content_processor_chain_focused.dir\content\test_content_processor_chain.cpp.obj
+[148/9140] Building CXX object cmake\tests\CMakeFiles\test_config_path_resolver_focused.dir\__\src\config\config_path_resolver.cpp.obj
+[149/9140] Building CXX object cmake\tests\CMakeFiles\test_content_con007_con012_remediations_focused.dir\content\test_content_con007_con012_remediations.cpp.obj
+[150/9140] Building CXX object cmake\tests\CMakeFiles\test_config_path_resolver_focused.dir\__\src\config\config_audit_log.cpp.obj
+[151/9140] Building CXX object cmake\tests\CMakeFiles\test_config_path_resolver_focused.dir\config\test_config_path_resolver.cpp.obj
+[152/9140] Building CXX object cmake\tests\CMakeFiles\test_config_path_resolver_focused.dir\__\src\config\config_metrics_exporter.cpp.obj
+[153/9140] Building CXX object cmake\tests\CMakeFiles\test_config_path_resolver_focused.dir\__\src\config\config_file_watcher.cpp.obj
+[154/9140] Building CXX object cmake\tests\CMakeFiles\test_config_path_resolver_focused.dir\__\src\config\config_encrypted_store.cpp.obj
+[155/9140] Building CXX object cmake\tests\CMakeFiles\test_config_file_watcher_focused.dir\__\src\config\config_audit_log.cpp.obj
+[156/9140] Building CXX object cmake\tests\CMakeFiles\test_config_file_watcher_focused.dir\__\src\config\config_metrics_exporter.cpp.obj
+[157/9140] Building CXX object cmake\tests\CMakeFiles\test_config_file_watcher_focused.dir\config\test_config_file_watcher.cpp.obj
+[158/9140] Building CXX object cmake\tests\CMakeFiles\test_config_file_watcher_focused.dir\__\src\config\config_path_resolver.cpp.obj
+[159/9140] Building CXX object cmake\tests\CMakeFiles\test_config_file_watcher_focused.dir\__\src\config\config_encrypted_store.cpp.obj
+[160/9140] Building CXX object cmake\tests\CMakeFiles\test_config_schema_validator_focused.dir\__\src\config\config_path_resolver.cpp.obj
+[161/9140] Building CXX object cmake\tests\CMakeFiles\test_config_schema_validator_focused.dir\__\src\config\config_metrics_exporter.cpp.obj
+[162/9140] Building CXX object cmake\tests\CMakeFiles\test_config_file_watcher_focused.dir\__\src\config\config_file_watcher.cpp.obj
+[163/9140] Building CXX object cmake\tests\CMakeFiles\test_config_schema_validator_focused.dir\config\test_config_schema_validator.cpp.obj
+[164/9140] Building CXX object cmake\tests\CMakeFiles\test_config_schema_validator_focused.dir\__\src\config\config_audit_log.cpp.obj
+[165/9140] Building CXX object cmake\tests\CMakeFiles\test_config_schema_validator_focused.dir\__\src\config\config_encrypted_store.cpp.obj
+[166/9140] Building CXX object cmake\tests\CMakeFiles\test_config_schema_validator_focused.dir\__\src\config\config_file_watcher.cpp.obj
+[167/9140] Building CXX object cmake\tests\CMakeFiles\test_config_migration_scanner_focused.dir\config\test_config_migration_scanner.cpp.obj
+[168/9140] Building CXX object cmake\tests\CMakeFiles\test_config_migration_scanner_focused.dir\__\src\config\config_metrics_exporter.cpp.obj
+[169/9140] Building CXX object cmake\tests\CMakeFiles\test_config_migration_scanner_focused.dir\__\src\config\config_path_resolver.cpp.obj
+[170/9140] Building CXX object cmake\tests\CMakeFiles\test_config_migration_scanner_focused.dir\__\src\config\config_audit_log.cpp.obj
+[171/9140] Building CXX object cmake\tests\CMakeFiles\test_kg_retriever_reasoning_focused.dir\__\src\graph\knowledge_graph_reasoner.cpp.obj
+[172/9140] Building CXX object cmake\tests\CMakeFiles\test_config_migration_scanner_focused.dir\__\src\config\config_encrypted_store.cpp.obj
+[173/9140] Building CXX object cmake\tests\CMakeFiles\test_config_migration_scanner_focused.dir\__\src\config\config_file_watcher.cpp.obj
+[174/9140] Building CXX object cmake\tests\CMakeFiles\test_config_coverage_focused.dir\config\test_config_coverage.cpp.obj
+[175/9140] Building CXX object cmake\tests\CMakeFiles\test_config_coverage_focused.dir\__\src\config\config_path_resolver.cpp.obj
+[176/9140] Building CXX object cmake\tests\CMakeFiles\test_config_coverage_focused.dir\__\src\config\config_metrics_exporter.cpp.obj
+[177/9140] Linking CXX shared library bin_out\themis_storage.dll
+[178/9140] Building CXX object cmake\tests\CMakeFiles\test_config_coverage_focused.dir\__\src\config\config_audit_log.cpp.obj
+[179/9140] Building CXX object cmake\tests\CMakeFiles\test_config_coverage_focused.dir\__\src\config\config_encrypted_store.cpp.obj
+[180/9140] Building CXX object cmake\tests\CMakeFiles\test_config_metrics_scrape_focused.dir\config\test_config_metrics_scrape.cpp.obj
+[181/9140] Building CXX object cmake\tests\CMakeFiles\test_config_metrics_scrape_focused.dir\__\src\config\config_path_resolver.cpp.obj
+[182/9140] Building CXX object cmake\tests\CMakeFiles\test_config_coverage_focused.dir\__\src\config\config_file_watcher.cpp.obj
+[183/9140] Building CXX object cmake\tests\CMakeFiles\test_config_metrics_scrape_focused.dir\__\src\config\config_metrics_exporter.cpp.obj
+[184/9140] Building CXX object cmake\tests\CMakeFiles\test_config_metrics_scrape_focused.dir\__\src\config\config_audit_log.cpp.obj
+[185/9140] Building CXX object cmake\tests\CMakeFiles\test_config_metrics_scrape_focused.dir\__\src\config\config_encrypted_store.cpp.obj
+[186/9140] Building CXX object cmake\tests\CMakeFiles\test_cep_engine_focused.dir\__\src\analytics\cep_engine.cpp.obj
+[187/9140] Building CXX object cmake\tests\CMakeFiles\test_config_encrypted_store_focused.dir\config\test_config_encrypted_store.cpp.obj
+[188/9140] Building CXX object cmake\tests\CMakeFiles\test_config_metrics_scrape_focused.dir\__\src\config\config_file_watcher.cpp.obj
+[189/9140] Building CXX object cmake\tests\CMakeFiles\test_path_mapping_metadata_focused.dir\path\test_path_mapping_metadata.cpp.obj
+[190/9140] Building CXX object cmake\tests\CMakeFiles\test_config_encrypted_store_focused.dir\__\src\config\config_encrypted_store.cpp.obj
+[191/9140] Building CXX object cmake\tests\CMakeFiles\test_path_mapping_metadata_focused.dir\__\src\config\config_metrics_exporter.cpp.obj
+[192/9140] Building CXX object cmake\tests\CMakeFiles\test_path_mapping_metadata_focused.dir\__\src\config\config_path_resolver.cpp.obj
+[193/9140] Building CXX object cmake\tests\CMakeFiles\test_path_mapping_metadata_focused.dir\__\src\config\config_audit_log.cpp.obj
+[194/9140] Building CXX object cmake\tests\CMakeFiles\test_config_path_resolver_focused.dir\__\src\config\config_schema_validator.cpp.obj
+[195/9140] Building CXX object cmake\tests\CMakeFiles\test_path_mapping_metadata_focused.dir\__\src\config\config_encrypted_store.cpp.obj
+[196/9140] Building CXX object cmake\tests\CMakeFiles\test_content_policy_ocr_focused.dir\content\test_content_policy.cpp.obj
+[197/9140] Building CXX object cmake\tests\CMakeFiles\test_kernel_bypass_focused.dir\kernel\test_kernel_bypass.cpp.obj
+[198/9140] Building CXX object cmake\tests\CMakeFiles\test_path_mapping_metadata_focused.dir\__\src\config\config_file_watcher.cpp.obj
+[199/9140] Building CXX object cmake\tests\CMakeFiles\test_accurate_token_count_estimation.dir\accurate\test_accurate_token_count_estimation.cpp.obj
+[200/9140] Building CXX object cmake\tests\CMakeFiles\test_per_operation_circuit_breakers.dir\per\test_per_operation_circuit_breakers.cpp.obj
+[201/9140] Building CXX object cmake\tests\CMakeFiles\test_cache_interfaces.dir\cache\test_cache_interfaces.cpp.obj
+[202/9140] Building CXX object cmake\tests\CMakeFiles\test_cache_phase6_interfaces.dir\cache\test_cache_phase6_interfaces.cpp.obj
+[203/9140] Building CXX object cmake\tests\CMakeFiles\test_lookup_decoder_focused.dir\lookup\test_lookup_decoder.cpp.obj
+[204/9140] Building CXX object cmake\tests\CMakeFiles\test_llm_timeout_cancellation.dir\llm\test_llm_timeout_cancellation.cpp.obj
+[205/9140] Building CXX object cmake\tests\CMakeFiles\test_config_file_watcher_focused.dir\__\src\config\config_schema_validator.cpp.obj
+[206/9140] Building CXX object cmake\tests\CMakeFiles\test_root_cause_analyzer_focused.dir\root\test_root_cause_analyzer.cpp.obj
+[207/9140] Building CXX object cmake\tests\CMakeFiles\test_grpc_plugin_lifecycle_focused.dir\__\src\rpc_grpc\grpc_plugin.cpp.obj
+[208/9140] Building CXX object cmake\tests\CMakeFiles\test_grpc_observability_focused.dir\grpc\test_grpc_observability.cpp.obj
+[209/9140] Building CXX object cmake\tests\CMakeFiles\test_grpc_observability_focused.dir\__\src\rpc_grpc\grpc_plugin.cpp.obj
+[210/9140] Building CXX object cmake\tests\CMakeFiles\test_root_cause_analyzer_focused.dir\__\src\observability\root_cause_analyzer.cpp.obj
+[211/9140] Building CXX object cmake\tests\CMakeFiles\test_root_cause_analyzer_focused.dir\__\src\observability\performance_analyzer.cpp.obj
+[212/9140] Building CXX object cmake\tests\CMakeFiles\test_config_schema_validator_focused.dir\__\src\config\config_schema_validator.cpp.obj
+[213/9140] Building CXX object cmake\tests\CMakeFiles\test_grpc_plugin_lifecycle_focused.dir\grpc\test_grpc_plugin_lifecycle.cpp.obj
+[214/9140] Building CXX object cmake\tests\CMakeFiles\test_root_cause_analyzer_focused.dir\__\src\observability\query_profiler.cpp.obj
+[215/9140] Building CXX object cmake\tests\CMakeFiles\test_content_security_focused.dir\content\test_content_security.cpp.obj
+[216/9140] Building CXX object cmake\tests\CMakeFiles\test_config_migration_scanner_focused.dir\__\src\config\config_schema_validator.cpp.obj
+[217/9140] Building CXX object cmake\tests\CMakeFiles\test_tenant_metrics_namespace_focused.dir\tenant\test_tenant_metrics_namespace.cpp.obj
+[218/9140] Building CXX object cmake\tests\CMakeFiles\test_root_cause_analyzer_focused.dir\__\src\observability\storage_profiler.cpp.obj
+[219/9140] Building CXX object cmake\tests\CMakeFiles\test_tenant_metrics_namespace_focused.dir\__\src\observability\tenant_metrics_namespace.cpp.obj
+[220/9140] Building CXX object cmake\tests\CMakeFiles\test_log_search_engine_focused.dir\__\src\observability\log_search_engine.cpp.obj
+[221/9140] Building CXX object cmake\tests\CMakeFiles\test_log_search_engine_focused.dir\log\test_log_search_engine.cpp.obj
+[222/9140] Building CXX object cmake\tests\CMakeFiles\test_lora_adapter_focused.dir\training\test_training_lora_adapter.cpp.obj
+[223/9140] Building CXX object cmake\tests\CMakeFiles\test_log_search_engine_focused.dir\__\src\observability\log_aggregator.cpp.obj
+[224/9140] Building CXX object cmake\tests\CMakeFiles\test_lora_adapter_focused.dir\__\src\training\lora_adapter.cpp.obj
+[225/9140] Building CXX object cmake\tests\CMakeFiles\test_ada_lora_adapter_focused.dir\__\src\training\ada_lora_adapter.cpp.obj
+[226/9140] Building CXX object cmake\tests\CMakeFiles\test_ada_lora_adapter_focused.dir\ada\test_ada_lora_adapter.cpp.obj
+[227/9140] Building CXX object cmake\tests\CMakeFiles\test_lora_adapter_merger_focused.dir\__\src\training\lora_adapter_merger.cpp.obj
+[228/9140] Building CXX object cmake\tests\CMakeFiles\test_kernel_bypass_focused.dir\__\src\network\kernel_bypass.cpp.obj
+[229/9140] Building CXX object cmake\tests\CMakeFiles\test_lora_adapter_merger_focused.dir\lora\test_lora_adapter_merger.cpp.obj
+[230/9140] Building CXX object cmake\tests\CMakeFiles\test_lora_adapter_merger_focused.dir\__\src\training\lora_adapter.cpp.obj
+[231/9140] Building CXX object cmake\tests\CMakeFiles\test_config_coverage_focused.dir\__\src\config\config_schema_validator.cpp.obj
+[232/9140] Building CXX object cmake\tests\CMakeFiles\test_chaos_framework_focused.dir\chaos\test_chaos_framework.cpp.obj
+[233/9140] Building CXX object cmake\tests\CMakeFiles\test_chaos_stress_focused.dir\chaos\test_chaos_stress.cpp.obj
+[234/9140] Building CXX object cmake\tests\CMakeFiles\test_chaos_framework_focused.dir\__\src\chaos\chaos_framework.cpp.obj
+[235/9140] Building CXX object cmake\tests\CMakeFiles\test_chaos_stress_focused.dir\__\src\chaos\chaos_framework.cpp.obj
+[236/9140] Building CXX object cmake\tests\CMakeFiles\test_config_metrics_scrape_focused.dir\__\src\config\config_schema_validator.cpp.obj
+[237/9140] Building CXX object cmake\tests\CMakeFiles\test_temporal_retention_manager_focused.dir\temporal\test_retention_manager.cpp.obj
+[238/9140] Building CXX object cmake\tests\CMakeFiles\test_temporal_retention_manager_focused.dir\__\src\temporal\system_versioned_table.cpp.obj
+[239/9140] Building CXX object cmake\tests\CMakeFiles\test_temporal_retention_manager_focused.dir\__\src\temporal\retention_manager.cpp.obj
+[240/9140] Building CXX object cmake\tests\CMakeFiles\test_bi_temporal_focused.dir\temporal\test_bi_temporal.cpp.obj
+[241/9140] Building CXX object cmake\tests\CMakeFiles\test_temporal_cold_store_focused.dir\temporal\test_temporal_cold_store.cpp.obj
+[242/9140] Building CXX object cmake\tests\CMakeFiles\test_bi_temporal_focused.dir\__\src\temporal\bi_temporal.cpp.obj
+[243/9140] Building CXX object cmake\tests\CMakeFiles\test_bidi_stream_adapter.dir\bidi\test_bidi_stream_adapter.cpp.obj
+[244/9140] Building CXX object cmake\tests\CMakeFiles\test_temporal_cold_store_focused.dir\__\src\temporal\temporal_cold_store.cpp.obj
+[245/9140] Building CXX object cmake\tests\CMakeFiles\test_temporal_tier_manager_focused.dir\temporal\test_temporal_tier_manager.cpp.obj
+[246/9140] Building CXX object cmake\tests\CMakeFiles\test_temporal_tier_manager_focused.dir\__\src\temporal\temporal_tier_manager.cpp.obj
+[247/9140] Building CXX object cmake\tests\CMakeFiles\test_temporal_tier_manager_focused.dir\__\src\temporal\temporal_cold_store.cpp.obj
+[248/9140] Building CXX object cmake\tests\CMakeFiles\test_temporal_v18_v19_focused.dir\temporal\test_temporal_v18_v19.cpp.obj
+[249/9140] Building CXX object cmake\tests\CMakeFiles\test_temporal_v18_v19_focused.dir\__\src\temporal\temporal_cdc.cpp.obj
+[250/9140] Building CXX object cmake\tests\CMakeFiles\test_temporal_v18_v19_focused.dir\__\src\temporal\system_versioned_table.cpp.obj
+[251/9140] Building CXX object cmake\tests\CMakeFiles\test_temporal_v18_v19_focused.dir\__\src\temporal\bi_temporal.cpp.obj
+[252/9140] Building CXX object cmake\tests\CMakeFiles\test_temporal_v18_v19_focused.dir\__\src\temporal\snapshot_manager.cpp.obj
+[253/9140] Building CXX object cmake\tests\CMakeFiles\test_temporal_query_engine_focused.dir\__\src\temporal\temporal_query_engine.cpp.obj
+[254/9140] Building CXX object cmake\tests\CMakeFiles\test_adaptive_join_strategies_focused.dir\adaptive\test_adaptive_join_strategies.cpp.obj
+[255/9140] Building CXX object cmake\tests\CMakeFiles\test_temporal_query_engine_focused.dir\temporal\test_temporal_query_engine.cpp.obj
+[256/9140] Building CXX object cmake\tests\CMakeFiles\test_temporal_query_engine_focused.dir\__\src\temporal\system_versioned_table.cpp.obj
+[257/9140] Building CXX object cmake\tests\CMakeFiles\test_temporal_query_engine_focused.dir\__\src\temporal\bi_temporal.cpp.obj
+[258/9140] Building CXX object cmake\tests\CMakeFiles\test_temporal_query_engine_focused.dir\__\src\temporal\temporal_index.cpp.obj
+[259/9140] Building CXX object cmake\tests\CMakeFiles\test_adaptive_join_strategies_focused.dir\__\src\query\adaptive_join.cpp.obj
+[260/9140] Building CXX object cmake\tests\CMakeFiles\test_adaptive_query_compilation_focused.dir\adaptive\test_adaptive_query_compilation.cpp.obj
+[261/9140] Building CXX object cmake\tests\CMakeFiles\test_adaptive_query_compilation_focused.dir\__\src\performance\adaptive_query_compiler.cpp.obj
+[262/9140] Building CXX object cmake\tests\CMakeFiles\test_performance_hardware_accelerator.dir\performance\test_performance_hardware_accelerator.cpp.obj
+[263/9140] Building CXX object cmake\tests\CMakeFiles\test_performance_hardware_accelerator.dir\__\src\performance\hardware_accelerator.cpp.obj
+[264/9140] Building CXX object cmake\tests\CMakeFiles\test_numa_memory_manager_focused.dir\__\src\performance\numa_memory_manager.cpp.obj
+[265/9140] Building CXX object cmake\tests\CMakeFiles\test_intelligent_prefetcher_focused.dir\__\src\performance\intelligent_prefetcher.cpp.obj
+[266/9140] Building CXX object cmake\tests\CMakeFiles\test_intelligent_prefetcher_focused.dir\intelligent\test_intelligent_prefetcher.cpp.obj
+[267/9140] Building CXX object cmake\tests\CMakeFiles\test_numa_memory_manager_focused.dir\numa\test_numa_memory_manager.cpp.obj
+[268/9140] Building CXX object cmake\tests\CMakeFiles\test_advanced_cache_manager_focused.dir\__\src\performance\advanced_cache_manager.cpp.obj
+[269/9140] Building CXX object cmake\tests\CMakeFiles\test_advanced_cache_manager_focused.dir\advanced\test_advanced_cache_manager.cpp.obj
+[270/9140] Building CXX object cmake\tests\CMakeFiles\test_workload_adaptive_optimizer_focused.dir\__\src\performance\workload_adaptive_optimizer.cpp.obj
+[271/9140] Building CXX object cmake\tests\CMakeFiles\test_workload_adaptive_optimizer_focused.dir\workload\test_workload_adaptive_optimizer.cpp.obj
+[272/9140] Building CXX object cmake\tests\CMakeFiles\test_ozg_service_registry_focused.dir\ozg\test_ozg_service_registry.cpp.obj
+[273/9140] Building CXX object cmake\tests\CMakeFiles\test_xoev_importer_focused.dir\xoev\test_xoev_importer.cpp.obj
+[274/9140] Building CXX object cmake\tests\CMakeFiles\test_path_mapping_metadata_focused.dir\__\src\config\config_schema_validator.cpp.obj
+[275/9140] Building CXX object cmake\tests\CMakeFiles\test_themisctl_focused.dir\themisctl\test_themisctl.cpp.obj
+[276/9140] Building CXX object cmake\tests\CMakeFiles\test_xdomea_connector_focused.dir\xdomea\test_xdomea_connector.cpp.obj
+[277/9140] Building CXX object cmake\tests\CMakeFiles\test_whisper_plugin.dir\__\src\whisper\audio_chunk_reader.cpp.obj
+[278/9140] Building CXX object cmake\tests\CMakeFiles\test_cross_module_german_egov_focused.dir\cross\test_cross_module_german_egov.cpp.obj
+[279/9140] Building CXX object cmake\tests\CMakeFiles\test_eid_authenticator_focused.dir\eid\test_eid_authenticator.cpp.obj
+[280/9140] Building CXX object cmake\tests\CMakeFiles\test_whisper_plugin.dir\__\src\whisper\whisper_config.cpp.obj
+[281/9140] Building CXX object cmake\tests\CMakeFiles\test_sd_plugin.dir\__\src\stable_diffusion\sd_prompt_sanitizer.cpp.obj
+[282/9140] Building CXX object cmake\tests\CMakeFiles\test_whisper_plugin.dir\__\src\whisper\whisper_transcriber.cpp.obj
+[283/9140] Building CXX object cmake\tests\CMakeFiles\test_whisper_plugin.dir\__\src\whisper\tests\test_whisper_plugin.cpp.obj
+[284/9140] Building CXX object cmake\tests\CMakeFiles\test_whisper_plugin.dir\__\src\whisper\whisper_plugin.cpp.obj
+C:\Projects\ThemisDB\src\whisper\whisper_plugin.cpp(48): warning C4101: "ex": Unreferenzierte lokale Variable
+[285/9140] Building CXX object cmake\tests\CMakeFiles\test_sd_plugin.dir\__\src\stable_diffusion\tests\test_sd_plugin.cpp.obj
+[286/9140] Building CXX object cmake\tests\CMakeFiles\test_connector_mode_api.dir\connector\test_connector_mode_api.cpp.obj
+[287/9140] Building CXX object cmake\tests\CMakeFiles\test_sd_plugin.dir\__\src\stable_diffusion\sd_config.cpp.obj
+[288/9140] Building CXX object cmake\tests\CMakeFiles\test_sd_plugin.dir\__\src\stable_diffusion\sd_plugin.cpp.obj
+[289/9140] Building CXX object cmake\tests\CMakeFiles\test_llama_cpp_plugin.dir\__\src\rag\rag_context_assembler.cpp.obj
+[290/9140] Building CXX object cmake\tests\CMakeFiles\test_context_window_budget_focused.dir\context\test_context_window_budget.cpp.obj
+[291/9140] Building CXX object cmake\tests\CMakeFiles\test_llama_cpp_plugin.dir\__\src\content\tts_processor.cpp.obj
+[292/9140] Building CXX object cmake\tests\CMakeFiles\test_rag_context_assembler_focused.dir\rag\test_rag_context_assembler.cpp.obj
+[293/9140] Building CXX object cmake\tests\CMakeFiles\test_rag_context_assembler_focused.dir\__\src\rag\rag_context_assembler.cpp.obj
+[294/9140] Building CXX object cmake\tests\CMakeFiles\test_multi_step_rag_focused.dir\multi\test_multi_step_rag.cpp.obj
+[295/9140] Building CXX object cmake\tests\CMakeFiles\test_multi_step_rag_focused.dir\__\src\rag\multi_step_rag.cpp.obj
+[296/9140] Building CXX object cmake\tests\CMakeFiles\test_multi_step_rag_focused.dir\__\src\rag\rag_context_assembler.cpp.obj
+[297/9140] Building CXX object cmake\tests\CMakeFiles\test_rag_multi_hop_reasoner_focused.dir\rag\test_rag_multi_hop_reasoner.cpp.obj
+[298/9140] Building CXX object cmake\tests\CMakeFiles\test_rag_multi_hop_reasoner_focused.dir\__\src\rag\multi_hop_reasoner.cpp.obj
+[299/9140] Building CXX object cmake\tests\CMakeFiles\test_rag_adaptive_retrieval_focused.dir\rag\test_rag_adaptive_retrieval.cpp.obj
+[300/9140] Building CXX object cmake\tests\CMakeFiles\test_concurrent_write_controller_focused.dir\__\src\storage\concurrent_write_controller.cpp.obj
+[301/9140] Building CXX object cmake\tests\CMakeFiles\test_rag_adaptive_retrieval_focused.dir\__\src\rag\adaptive_retrieval.cpp.obj
+[302/9140] Building CXX object cmake\tests\CMakeFiles\test_concurrent_write_controller_focused.dir\concurrent\test_concurrent_write_controller.cpp.obj
+[303/9140] Building CXX object cmake\tests\CMakeFiles\test_federated_distillation_coordinator_focused.dir\federated\test_federated_distillation_coordinator.cpp.obj
+[304/9140] Building CXX object cmake\tests\CMakeFiles\test_federated_distillation_coordinator_focused.dir\__\src\distributed_knowledge\federated_distillation_coordinator.cpp.obj
+[305/9140] Building CXX object cmake\tests\CMakeFiles\test_vector_index_backend_focused.dir\vector\test_vector_index_comprehensive.cpp.obj
+[306/9140] Linking CXX shared library bin_out\themis_security.dll
+[307/9140] Building CXX object cmake\tests\CMakeFiles\test_vector_index_backend_focused.dir\__\src\storage\vector_index_backend.cpp.obj
+[308/9140] Building CXX object cmake\tests\CMakeFiles\test_simd_columnar_filter_focused.dir\__\src\storage\simd_filter.cpp.obj
+[309/9140] Building CXX object cmake\tests\CMakeFiles\test_encrypted_blob_backend_focused.dir\__\src\storage\encrypted_blob_backend.cpp.obj
+[310/9140] Building CXX object cmake\tests\CMakeFiles\test_storage_parquet_exporter_focused.dir\__\src\storage\storage_parquet_exporter.cpp.obj
+[311/9140] Building CXX object cmake\tests\CMakeFiles\test_llama_cpp_plugin.dir\__\src\content\stt_processor.cpp.obj
+[312/9140] Building CXX object cmake\tests\CMakeFiles\test_encrypted_blob_backend_focused.dir\encrypted\test_encrypted_blob_backend.cpp.obj
+[313/9140] Building CXX object cmake\tests\CMakeFiles\test_inference_engine_enhanced_focused.dir\inference\test_inference_engine_enhanced.cpp.obj
+[314/9140] Building CXX object cmake\tests\CMakeFiles\test_simd_columnar_filter_focused.dir\simd\test_simd_columnar_filter.cpp.obj
+[315/9140] Building CXX object cmake\tests\CMakeFiles\test_llm_raid_integration_focused.dir\__\src\sharding\consistent_hash.cpp.obj
+[316/9140] Building CXX object cmake\tests\CMakeFiles\test_llm_raid_integration_focused.dir\__\src\sharding\shard_router.cpp.obj
+[317/9140] Building CXX object cmake\tests\CMakeFiles\test_simd_columnar_filter_focused.dir\__\src\storage\columnar_format.cpp.obj
+[318/9140] Building CXX object cmake\tests\CMakeFiles\test_llm_raid_integration_focused.dir\__\src\sharding\shard_topology.cpp.obj
+[319/9140] Building CXX object cmake\tests\CMakeFiles\test_llm_raid_integration_focused.dir\__\src\sharding\urn_resolver.cpp.obj
+[320/9140] Building CXX object cmake\tests\CMakeFiles\test_llm_raid_integration_focused.dir\__\src\sharding\sharding_manager_edition.cpp.obj
+[321/9140] Building CXX object cmake\tests\CMakeFiles\test_storage_parquet_exporter_focused.dir\storage\test_storage_parquet_exporter.cpp.obj
+[322/9140] Building CXX object cmake\tests\CMakeFiles\test_llm_raid_integration_focused.dir\__\src\sharding\circuit_breaker.cpp.obj
+[323/9140] Building CXX object cmake\tests\CMakeFiles\test_storage_parquet_exporter_focused.dir\__\src\storage\columnar_format.cpp.obj
+[324/9140] Building CXX object cmake\tests\CMakeFiles\test_llm_raid_integration_focused.dir\__\src\sharding\signed_request.cpp.obj
+[325/9140] Building CXX object cmake\tests\CMakeFiles\test_llm_raid_integration_focused.dir\__\src\sharding\mtls_connection_pool.cpp.obj
+[326/9140] Building CXX object cmake\tests\CMakeFiles\test_llm_raid_integration_focused.dir\__\src\sharding\operational_metrics.cpp.obj
+[327/9140] Building CXX object cmake\tests\CMakeFiles\test_llama_cpp_plugin.dir\__\src\llama_cpp\llama_cpp_registrar.cpp.obj
+[328/9140] Building CXX object cmake\tests\CMakeFiles\test_llm_raid_integration_focused.dir\__\src\llm\speculative_decoder.cpp.obj
+[329/9140] Building CXX object cmake\tests\CMakeFiles\test_document_store_focused.dir\document\test_document_store.cpp.obj
+[330/9140] Building CXX object cmake\tests\CMakeFiles\test_llama_cpp_plugin.dir\__\src\llama_cpp\llama_cpp_plugin.cpp.obj
+[331/9140] Building CXX object cmake\tests\CMakeFiles\test_llm_raid_integration_focused.dir\__\src\content\tts_processor.cpp.obj
+[332/9140] Building CXX object cmake\tests\CMakeFiles\test_speculative_decoder_real_logits_focused.dir\__\src\llm\speculative_decoder.cpp.obj
+[333/9140] Building CXX object cmake\tests\CMakeFiles\test_speculative_draft_fn_bridge_focused.dir\__\src\llm\speculative_decoder.cpp.obj
+[334/9140] Building CXX object cmake\tests\CMakeFiles\test_speculative_decoder_real_logits_focused.dir\speculative\test_speculative_decoder_real_logits.cpp.obj
+[335/9140] Building CXX object cmake\tests\CMakeFiles\test_speculative_draft_fn_bridge_focused.dir\__\src\llm\llm_prefix_cache.cpp.obj
+[336/9140] Building CXX object cmake\tests\CMakeFiles\test_speculative_draft_fn_bridge_focused.dir\__\src\llm\lookup_decoder.cpp.obj
+[337/9140] Building CXX object cmake\tests\CMakeFiles\test_speculative_draft_fn_bridge_focused.dir\__\src\llm\kv_prefix_transfer_manager.cpp.obj
+[338/9140] Building CXX object cmake\tests\CMakeFiles\test_speculative_draft_fn_bridge_focused.dir\__\src\llm\continuous_batch_scheduler.cpp.obj
+[339/9140] Building CXX object cmake\tests\CMakeFiles\test_speculative_draft_fn_bridge_focused.dir\__\src\content\tts_processor.cpp.obj
+[340/9140] Building CXX object cmake\tests\CMakeFiles\test_whisper_stub_transcribe_bridge_focused.dir\__\src\whisper\audio_chunk_reader.cpp.obj
+[341/9140] Building CXX object cmake\tests\CMakeFiles\test_whisper_stub_transcribe_bridge_focused.dir\__\src\whisper\whisper_plugin.cpp.obj
+C:\Projects\ThemisDB\src\whisper\whisper_plugin.cpp(48): warning C4101: "ex": Unreferenzierte lokale Variable
+[342/9140] Building CXX object cmake\tests\CMakeFiles\test_whisper_stub_transcribe_bridge_focused.dir\whisper\test_whisper_stub_transcribe_bridge.cpp.obj
+[343/9140] Building CXX object cmake\tests\CMakeFiles\test_whisper_stub_transcribe_bridge_focused.dir\__\src\whisper\whisper_config.cpp.obj
+[344/9140] Building CXX object cmake\tests\CMakeFiles\test_llama_cpp_plugin.dir\__\src\llama_cpp\tests\test_llama_cpp_plugin.cpp.obj
+[345/9140] Building CXX object cmake\tests\CMakeFiles\test_ai_snapshot_cleanup.dir\security\test_ai_snapshot_cleanup.cpp.obj
+[346/9140] Building CXX object cmake\tests\CMakeFiles\test_ai_snapshot_cleanup.dir\__\src\security\ai_snapshot_cleanup.cpp.obj
+[347/9140] Building CXX object cmake\tests\CMakeFiles\test_ai_safety_chaos.dir\security\ai_safety\test_ai_safety_chaos.cpp.obj
+[348/9140] Building CXX object cmake\tests\CMakeFiles\test_ai_safety_chaos.dir\__\src\security\ai_operation_guard.cpp.obj
+[349/9140] Building CXX object cmake\tests\CMakeFiles\test_ai_safety_chaos.dir\__\src\security\ai_snapshot_cleanup.cpp.obj
+[350/9140] Building CXX object cmake\tests\CMakeFiles\test_ai_safety_chaos.dir\__\src\security\intent_classifier.cpp.obj
+[351/9140] Building CXX object cmake\tests\CMakeFiles\test_ai_safety_chaos.dir\__\src\query\aql_safety_validator.cpp.obj
+[352/9140] Building CXX object cmake\tests\CMakeFiles\test_temporal_snapshot_manager.dir\temporal\test_snapshot_manager.cpp.obj
+[353/9140] Building CXX object cmake\tests\CMakeFiles\test_temporal_snapshot_manager.dir\__\src\temporal\system_versioned_table.cpp.obj
+[354/9140] Building CXX object cmake\tests\CMakeFiles\test_temporal_snapshot_manager.dir\__\src\temporal\snapshot_manager.cpp.obj
+[355/9140] Building CXX object cmake\tests\CMakeFiles\test_interval_tree_index.dir\temporal\test_interval_tree_index.cpp.obj
+[356/9140] Building CXX object cmake\tests\CMakeFiles\test_llm_raid_routing_focused.dir\llm\test_llm_raid_routing.cpp.obj
+[357/9140] Linking CXX shared library bin_out\themis_timeseries.dll
+[358/9140] Building CXX object cmake\tests\CMakeFiles\test_interval_tree_index.dir\__\src\temporal\interval_tree_index.cpp.obj
+[359/9140] Building CXX object cmake\tests\CMakeFiles\test_temporal_compressor.dir\__\src\temporal\system_versioned_table.cpp.obj
+[360/9140] Building CXX object cmake\tests\CMakeFiles\test_temporal_compressor.dir\__\src\temporal\temporal_compressor.cpp.obj
+[361/9140] Building CXX object cmake\tests\CMakeFiles\test_temporal_compressor.dir\temporal\test_temporal_compressor.cpp.obj
+[362/9140] Building CXX object cmake\tests\CMakeFiles\test_temporal_cdc.dir\temporal\test_temporal_cdc.cpp.obj
+[363/9140] Building CXX object cmake\tests\CMakeFiles\test_temporal_cdc.dir\__\src\temporal\temporal_cdc.cpp.obj
+[364/9140] Building CXX object cmake\tests\CMakeFiles\test_temporal_migrator.dir\temporal\test_temporal_migrator.cpp.obj
+[365/9140] Building CXX object cmake\tests\CMakeFiles\test_temporal_migrator.dir\__\src\temporal\temporal_migrator.cpp.obj
+[366/9140] Building CXX object cmake\tests\CMakeFiles\test_temporal_migrator.dir\__\src\temporal\system_versioned_table.cpp.obj
+[367/9140] Building CXX object cmake\tests\CMakeFiles\test_retention_manager.dir\temporal\test_retention_manager.cpp.obj
+[368/9140] Building CXX object cmake\tests\CMakeFiles\test_retention_manager.dir\__\src\temporal\retention_manager.cpp.obj
+[369/9140] Building CXX object cmake\tests\CMakeFiles\test_retention_manager.dir\__\src\temporal\system_versioned_table.cpp.obj
+[370/9140] Building CXX object cmake\tests\CMakeFiles\test_temporal_conflict_resolver.dir\temporal\test_temporal_conflict_resolver.cpp.obj
+[371/9140] Building CXX object cmake\tests\CMakeFiles\test_temporal_conflict_resolver.dir\__\src\temporal\temporal_conflict_resolver.cpp.obj
+[372/9140] Building CXX object cmake\tests\CMakeFiles\test_temporal_aggregator.dir\temporal\test_temporal_aggregator.cpp.obj
+[373/9140] Building CXX object cmake\tests\CMakeFiles\test_llm_raid_integration_focused.dir\__\src\sharding\adaptive_shard_router.cpp.obj
+[374/9140] Building CXX object cmake\tests\CMakeFiles\test_temporal_aggregator.dir\__\src\temporal\temporal_aggregator.cpp.obj
+[375/9140] Building CXX object cmake\tests\CMakeFiles\test_temporal_aggregator.dir\__\src\temporal\system_versioned_table.cpp.obj
+[376/9140] Building CXX object cmake\tests\CMakeFiles\test_temporal_query_engine.dir\__\src\temporal\temporal_query_engine.cpp.obj
+[377/9140] Building CXX object cmake\tests\CMakeFiles\test_temporal_query_engine.dir\temporal\test_temporal_query_engine.cpp.obj
+[378/9140] Building CXX object cmake\tests\CMakeFiles\test_temporal_query_engine.dir\__\src\temporal\bi_temporal.cpp.obj
+[379/9140] Building CXX object cmake\tests\CMakeFiles\test_temporal_query_engine.dir\__\src\temporal\system_versioned_table.cpp.obj
+[380/9140] Building CXX object cmake\tests\metadata\CMakeFiles\test_metadata_security_provider_focused.dir\test_metadata_security_provider.cpp.obj
+[381/9140] Building CXX object cmake\tests\CMakeFiles\test_temporal_query_engine.dir\__\src\temporal\temporal_index.cpp.obj
+[382/9140] Building CXX object cmake\tests\metadata\CMakeFiles\test_metadata_change_listener_focused.dir\test_metadata_change_listener.cpp.obj
+[383/9140] Building CXX object cmake\tests\CMakeFiles\test_vulkan_compile_glsl_bridge_focused.dir\vulkan\test_vulkan_compile_glsl_bridge.cpp.obj
+[384/9140] Building CXX object cmake\tests\metadata\CMakeFiles\test_metadata_export_policy_focused.dir\test_metadata_export_policy.cpp.obj
+[385/9140] Building CXX object cmake\tests\metadata\CMakeFiles\test_metadata_encryption_provider_focused.dir\test_metadata_encryption_provider.cpp.obj
+[386/9140] Linking CXX shared library bin_out\themis_transaction.dll
+[387/9140] Building CXX object cmake\tests\CMakeFiles\test_llm_raid_integration_focused.dir\__\src\content\stt_processor.cpp.obj
+[388/9140] Building CXX object cmake\tests\metadata\CMakeFiles\test_schema_diff_focused.dir\test_schema_diff.cpp.obj
+[389/9140] Building CXX object cmake\tests\sharding\CMakeFiles\test_sharding_chaos_focused.dir\__\test_sharding_chaos.cpp.obj
+[390/9140] Building CXX object cmake\tests\sharding\CMakeFiles\test_epoch_fencing_focused.dir\__\test_epoch_fencing.cpp.obj
+[391/9140] Building CXX object cmake\tests\sharding\CMakeFiles\test_epoch_fencing_focused.dir\__\__\src\sharding\epoch_fencing.cpp.obj
+[392/9140] Building CXX object cmake\tests\transaction\CMakeFiles\test_transaction_auditor_focused.dir\test_transaction_auditor.cpp.obj
+[393/9140] Building CXX object cmake\tests\transaction\CMakeFiles\test_transaction_auditor_focused.dir\__\__\src\transaction\transaction_auditor.cpp.obj
+[394/9140] Building CXX object cmake\tests\transaction\CMakeFiles\test_transaction_batcher_focused.dir\test_transaction_batcher.cpp.obj
+[395/9140] Building CXX object cmake\tests\transaction\CMakeFiles\test_transaction_batcher_focused.dir\__\__\src\transaction\transaction_batcher.cpp.obj
+[396/9140] Building CXX object cmake\src\transaction\saga_plugin\CMakeFiles\saga_orchestrator_plugin.dir\__\saga_orchestrator.cpp.obj
+[397/9140] Building CXX object cmake\src\transaction\saga_plugin\CMakeFiles\saga_orchestrator_plugin.dir\saga_orchestrator_plugin.cpp.obj
+[398/9140] Building CXX object cmake\tests\CMakeFiles\test_speculative_draft_fn_bridge_focused.dir\__\src\content\stt_processor.cpp.obj
+[399/9140] Building CXX object cmake\tests\CMakeFiles\test_vulkan_compile_glsl_bridge_focused.dir\__\src\acceleration\graphics_backends.cpp.obj
+[400/9140] Linking CXX shared library bin_out\themis_plugin_runtime_test_plugin.dll
+[401/9140] Building CXX object cmake\tests\CMakeFiles\test_llm_raid_integration_focused.dir\llm\test_llm_raid_integration.cpp.obj
+[402/9140] Linking CXX executable bin_out\test_replication_crdt_types.exe
+[403/9140] Linking CXX executable bin_out\themisctl.exe
+[404/9140] Linking CXX executable bin_out\test_grpc_web_proxy_bridge.exe
+[405/9140] Linking CXX executable bin_out\test_distributed_trainer_guard.exe
+[406/9140] Linking CXX executable bin_out\test_multi_shard_transactions_focused.exe
+[407/9140] Linking CXX executable bin_out\test_stream_protocol_extended_focused.exe
+[408/9140] Linking CXX executable bin_out\test_columnar_cache_focused.exe
+[409/9140] Linking CXX executable bin_out\test_grpc_web_proxy_handler.exe
+[410/9140] Linking CXX executable bin_out\test_learned_index.exe
+[411/9140] Building CXX object cmake\tests\CMakeFiles\test_speculative_draft_fn_bridge_focused.dir\speculative\test_speculative_draft_fn_bridge.cpp.obj
+[412/9140] Linking CXX executable bin_out\test_tiered_index_migration.exe
+[413/9140] Linking CXX executable bin_out\test_hnsw_recall_integration.exe
+[414/9140] Linking CXX executable bin_out\test_anomaly_detection_focused.exe
+[415/9140] Linking CXX executable bin_out\test_streaming_window_focused.exe
+[416/9140] Building CXX object cmake\tests\CMakeFiles\test_llm_raid_integration_focused.dir\__\src\utils\tracing.cpp.obj
+[417/9140] Linking CXX executable bin_out\test_expert_system_focused.exe
+[418/9140] Linking CXX executable bin_out\test_forecasting_sarima_prophet_focused.exe
+[419/9140] Linking CXX executable bin_out\test_llm_process_analyzer_focused.exe
+[420/9140] Linking CXX executable bin_out\test_forecasting_focused.exe
+[421/9140] Linking CXX executable bin_out\test_automl_focused.exe
+[422/9140] Linking CXX executable bin_out\test_automl_onnx_focused.exe
+[423/9140] Linking CXX executable bin_out\test_columnar_execution_focused.exe
+[424/9140] Linking CXX executable bin_out\test_streaming_join_focused.exe
+[425/9140] Linking CXX executable bin_out\test_model_serving_focused.exe
+[426/9140] Linking CXX executable bin_out\test_ontology_manager_focused.exe
+[427/9140] Linking CXX executable bin_out\test_cep_engine_focused.exe
+[428/9140] Linking CXX executable bin_out\test_jit_aggregation_focused.exe
+[429/9140] Linking CXX executable bin_out\test_importer_plugin_api.exe
+[430/9140] Building CXX object cmake\tests\CMakeFiles\test_speculative_draft_fn_bridge_focused.dir\__\src\llm\inference_engine_enhanced.cpp.obj
+[431/9140] Linking CXX shared library bin_out\themis_geo.dll
+[432/9140] Linking CXX executable bin_out\test_ml_serving_focused.exe
+[433/9140] Linking CXX executable bin_out\test_process_pattern_matcher_focused.exe
+[434/9140] Linking CXX executable bin_out\test_importer_interfaces.exe
+[435/9140] Linking CXX executable bin_out\test_wikipedia_ingestion_plugin.exe
+[436/9140] Linking CXX executable bin_out\test_importer_async_api_focused.exe
+[437/9140] Linking CXX executable bin_out\test_flatfile_importer_focused.exe
+[438/9140] Linking CXX executable bin_out\test_schema_validator_importer_focused.exe
+[439/9140] Linking CXX executable bin_out\test_arrow_export_focused.exe
+[440/9140] Linking CXX executable bin_out\test_importer_conflict_resolver_focused.exe
+[441/9140] Linking CXX executable bin_out\test_arrow_flight_focused.exe
+[442/9140] Linking CXX executable bin_out\test_kg_retriever_reasoning_focused.exe
+[443/9140] Linking CXX executable bin_out\test_mysql_importer_focused.exe
+[444/9140] Linking CXX executable bin_out\test_mongo_importer_focused.exe
+[445/9140] Linking CXX executable bin_out\test_sqlite_importer_focused.exe
+[446/9140] Linking CXX executable bin_out\test_mysql_importer_registry.exe
+[447/9140] Linking CXX executable bin_out\test_mdm_engine_focused.exe
+[448/9140] Linking CXX executable bin_out\test_s3_importer_focused.exe
+[449/9140] Linking CXX executable bin_out\test_mdm_entity_matching_focused.exe
+[450/9140] Linking CXX executable bin_out\test_oracle_importer_focused.exe
+[451/9140] Linking CXX executable bin_out\test_config_file_watcher_focused.exe
+[452/9140] Linking CXX executable bin\import_docs_rocksdb.exe
+[453/9140] Linking CXX executable bin_out\test_config_schema_validator_focused.exe
+[454/9140] Linking CXX executable bin_out\test_config_migration_scanner_focused.exe
+[455/9140] Linking CXX executable bin_out\test_config_path_resolver_focused.exe
+[456/9140] Linking CXX executable bin_out\test_postgres_importer_mdm_focused.exe
+[457/9140] Linking CXX executable bin_out\test_kafka_importer_focused.exe
+[458/9140] Linking CXX executable bin_out\test_config_coverage_focused.exe
+[459/9140] Linking CXX executable bin_out\test_cache_interfaces.exe
+[460/9140] Linking CXX executable bin_out\test_config_encrypted_store_focused.exe
+[461/9140] Linking CXX executable bin_out\test_path_mapping_metadata_focused.exe
+[462/9140] Linking CXX executable bin_out\test_config_metrics_scrape_focused.exe
+[463/9140] Linking CXX executable bin_out\test_cache_phase6_interfaces.exe
+[464/9140] Linking CXX executable bin_out\test_kernel_bypass_focused.exe
+[465/9140] Linking CXX static library lib\themis_query.lib
+[466/9140] Linking CXX executable bin_out\test_lora_adapter_merger_focused.exe
+[467/9140] Linking CXX executable bin_out\test_tenant_metrics_namespace_focused.exe
+[468/9140] Linking CXX executable bin_out\test_ada_lora_adapter_focused.exe
+[469/9140] Linking CXX executable bin_out\test_temporal_retention_manager_focused.exe
+[470/9140] Linking CXX executable bin_out\test_log_search_engine_focused.exe
+[471/9140] Linking CXX executable bin_out\test_bidi_stream_adapter.exe
+[472/9140] Linking CXX executable bin_out\test_chaos_stress_focused.exe
+[473/9140] Linking CXX executable bin_out\test_lora_adapter_focused.exe
+[474/9140] Linking CXX executable bin_out\test_root_cause_analyzer_focused.exe
+[475/9140] Linking CXX executable bin_out\test_chaos_framework_focused.exe
+[476/9140] Linking CXX executable bin_out\test_bi_temporal_focused.exe
+[477/9140] Linking CXX executable bin_out\test_temporal_cold_store_focused.exe
+[478/9140] Linking CXX executable bin_out\test_temporal_tier_manager_focused.exe
+[479/9140] Linking CXX executable bin_out\test_numa_memory_manager_focused.exe
+[480/9140] Linking CXX executable bin_out\test_temporal_query_engine_focused.exe
+[481/9140] Linking CXX executable bin_out\test_performance_hardware_accelerator.exe
+[482/9140] Linking CXX executable bin_out\test_intelligent_prefetcher_focused.exe
+[483/9140] Linking CXX executable bin_out\test_temporal_v18_v19_focused.exe
+[484/9140] Linking CXX executable bin_out\test_adaptive_join_strategies_focused.exe
+[485/9140] Linking CXX executable bin_out\test_themisctl_focused.exe
+[486/9140] Linking CXX executable bin_out\test_advanced_cache_manager_focused.exe
+[487/9140] Linking CXX executable bin_out\test_workload_adaptive_optimizer_focused.exe
+[488/9140] Linking CXX executable bin_out\test_adaptive_query_compilation_focused.exe
+[489/9140] Linking CXX shared library bin_out\themis_graph.dll
+[490/9140] Linking CXX shared library bin_out\themis_sharding.dll
+[491/9140] Linking CXX executable bin_out\test_ozg_service_registry_focused.exe
+[492/9140] Linking CXX executable bin_out\test_context_window_budget_focused.exe
+[493/9140] Linking CXX executable bin_out\test_eid_authenticator_focused.exe
+[494/9140] Linking CXX executable bin_out\test_cross_module_german_egov_focused.exe
+[495/9140] Linking CXX executable bin_out\test_document_store_focused.exe
+[496/9140] Linking CXX executable bin_out\test_xoev_importer_focused.exe
+[497/9140] Linking CXX executable bin_out\test_connector_mode_api.exe
+[498/9140] Linking CXX executable bin_out\test_sd_plugin.exe
+[499/9140] Linking CXX executable bin_out\test_xdomea_connector_focused.exe
+[500/9140] Linking CXX executable bin_out\test_whisper_plugin.exe
+[501/9140] Linking CXX executable bin_out\test_rag_context_assembler_focused.exe
+[502/9140] Linking CXX executable bin_out\test_multi_step_rag_focused.exe
+[503/9140] Linking CXX executable bin_out\test_rag_adaptive_retrieval_focused.exe
+[504/9140] Linking CXX executable bin_out\test_rag_multi_hop_reasoner_focused.exe
+[505/9140] Linking CXX executable bin_out\test_simd_columnar_filter_focused.exe
+[506/9140] Linking CXX executable bin_out\test_concurrent_write_controller_focused.exe
+[507/9140] Linking CXX executable bin_out\test_whisper_stub_transcribe_bridge_focused.exe
+[508/9140] Linking CXX executable bin_out\test_federated_distillation_coordinator_focused.exe
+[509/9140] Linking CXX executable bin_out\test_storage_parquet_exporter_focused.exe
+[510/9140] Linking CXX executable bin_out\test_encrypted_blob_backend_focused.exe
+[511/9140] Linking CXX executable bin_out\test_speculative_decoder_real_logits_focused.exe
+[512/9140] Linking CXX executable bin_out\test_ai_snapshot_cleanup.exe
+[513/9140] Linking CXX executable bin_out\test_vector_index_backend_focused.exe
+[514/9140] Linking CXX executable bin_out\test_vulkan_compile_glsl_bridge_focused.exe
+[515/9140] Linking CXX executable bin_out\test_ai_safety_chaos.exe
+[516/9140] Linking CXX static library lib\themis_llm.lib
+[517/9140] Linking CXX executable bin_out\test_llm_raid_routing_focused.exe
+[518/9140] Linking CXX executable bin_out\test_temporal_snapshot_manager.exe
+[519/9140] Linking CXX executable bin_out\test_metadata_security_provider_focused.exe
+[520/9140] Linking CXX executable bin_out\test_metadata_change_listener_focused.exe
+[521/9140] Linking CXX executable bin_out\test_metadata_export_policy_focused.exe
+[522/9140] Linking CXX executable bin_out\test_interval_tree_index.exe
+[523/9140] Linking CXX executable bin_out\test_retention_manager.exe
+[524/9140] Linking CXX executable bin_out\test_temporal_conflict_resolver.exe
+[525/9140] Linking CXX executable bin_out\test_temporal_query_engine.exe
+[526/9140] Linking CXX executable bin_out\test_temporal_compressor.exe
+[527/9140] Linking CXX executable bin_out\test_temporal_cdc.exe
+[528/9140] Linking CXX executable bin_out\test_temporal_aggregator.exe
+[529/9140] Linking CXX executable bin_out\test_temporal_migrator.exe
+[530/9140] Linking CXX executable bin_out\test_metadata_encryption_provider_focused.exe
+[531/9140] Linking CXX executable bin_out\test_schema_diff_focused.exe
+[532/9140] Linking CXX executable bin_out\test_sharding_chaos_focused.exe
+[533/9140] Linking CXX executable bin_out\test_transaction_batcher_focused.exe
+[534/9140] Linking CXX executable bin_out\test_epoch_fencing_focused.exe
+[535/9140] Linking CXX shared library bin_out\saga_orchestrator_plugin.dll
+[536/9140] Linking CXX executable bin_out\test_transaction_auditor_focused.exe
+[537/9140] Linking CXX shared library bin_out\themis_ingestion.dll
+[538/9140] Linking CXX executable bin_out\test_llm_raid_integration_focused.exe
+[539/9140] Linking CXX executable bin_out\test_speculative_draft_fn_bridge_focused.exe
+[540/9140] Linking CXX shared library bin_out\themis_content.dll
+[541/9140] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\api_auth_config.cpp.obj
+[542/9140] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\api_security_audit.cpp.obj
+[543/9140] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\saml_auth_provider.cpp.obj
+[544/9140] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\error_api_handler.cpp.obj
+[545/9140] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\session_api_handler.cpp.obj
+[546/9140] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\request_validation_middleware.cpp.obj
+[547/9140] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\opa_adapter.cpp.obj
+[548/9140] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\oauth2_provider.cpp.obj
+[549/9140] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\scheduler\event_trigger.cpp.obj
+[550/9140] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\scheduler\external_scheduler_adapter.cpp.obj
+[551/9140] Linking CXX executable bin_out\test_grpc_observability_focused.exe
+[552/9140] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\task_scheduler_api_handler.cpp.obj
+[553/9140] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\scheduler\distributed_task_coordinator.cpp.obj
+[554/9140] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\scheduler\hybrid_retention_manager.cpp.obj
+[555/9140] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\transaction_api_handler.cpp.obj
+[556/9140] Linking CXX executable bin_out\test_grpc_plugin_lifecycle_focused.exe
+[557/9140] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\distributed_txn_api_handler.cpp.obj
+[558/9140] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\chunked_response_writer.cpp.obj
+[559/9140] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\serverless_function_api_handler.cpp.obj
+[560/9140] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\udf_api_handler.cpp.obj
+[561/9140] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\scheduler\task_anomaly_detector.cpp.obj
+[562/9140] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\scheduler\task_audit_event.cpp.obj
+[563/9140] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\async_job_api_handler.cpp.obj
+[564/9140] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\http_type_adapter.cpp.obj
+[565/9140] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\scheduler\task_audit_manager.cpp.obj
+[566/9140] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\health_error_service.cpp.obj
+[567/9140] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\scheduler\task_result_store.cpp.obj
+[568/9140] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\scheduler\task_scheduler.cpp.obj
+[569/9140] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\branch_api_handler.cpp.obj
+[570/9140] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\merge_api_handler.cpp.obj
+[571/9140] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\diff_api_handler.cpp.obj
+[572/9140] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\api_key_mgmt_handler.cpp.obj
+[573/9140] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\storage\pitr_manager.cpp.obj
+[574/9140] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\snapshot_api_handler.cpp.obj
+[575/9140] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\rope_api_handler.cpp.obj
+[576/9140] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\mvcc_api_handler.cpp.obj
+[577/9140] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\pitr_api_handler.cpp.obj
+[578/9140] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\maintenance\maintenance_schedule_store.cpp.obj
+[579/9140] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\cdc\cdc_admin.cpp.obj
+[580/9140] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\maintenance\maintenance_registry.cpp.obj
+[581/9140] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\maintenance_api_handler.cpp.obj
+[582/9140] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\maintenance\database_maintenance_orchestrator.cpp.obj
+[583/9140] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\cache_admin_api_handler.cpp.obj
+[584/9140] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\geo_topology_api_handler.cpp.obj
+[585/9140] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\bpmn_api_handler.cpp.obj
+[586/9140] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\replication_topology_api_handler.cpp.obj
+[587/9140] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\feedback_api_handler.cpp.obj
+[588/9140] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\admin_api_handler.cpp.obj
+[589/9140] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\cache_api_handler.cpp.obj
+[590/9140] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\openapi_route_registry.cpp.obj
+[591/9140] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\spatial_api_handler.cpp.obj
+[592/9140] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\vector_api_handler.cpp.obj
+[593/9140] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\audit_api_handler.cpp.obj
+[594/9140] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\pki_api_handler.cpp.obj
+[595/9140] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\saga_api_handler.cpp.obj
+[596/9140] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\policy_api_handler.cpp.obj
+[597/9140] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\prompt_api_handler.cpp.obj
+[598/9140] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\graph_api_handler.cpp.obj
+[599/9140] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\pii_api_handler.cpp.obj
+[600/9140] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\index_api_handler.cpp.obj
+[601/9140] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\changefeed_api_handler.cpp.obj
+[602/9140] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\query_api_handler.cpp.obj
+[603/9140] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\retention_api_handler.cpp.obj
+[604/9140] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\wal_api_handler.cpp.obj
+[605/9140] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\entity_api_handler.cpp.obj
+[606/9140] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\timeseries_api_handler.cpp.obj
+[607/9140] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\content_api_handler.cpp.obj
+[608/9140] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\classification_api_handler.cpp.obj
+[609/9140] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\keys_api_handler.cpp.obj
+[610/9140] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\security\query_masking_policy.cpp.obj
+[611/9140] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\rate_limiter_v2.cpp.obj
+[612/9140] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\load_shedder.cpp.obj
+[613/9140] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\adaptive_rate_limiter.cpp.obj
+[614/9140] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\rate_limiter.cpp.obj
+[615/9140] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\cost_based_rate_limiter.cpp.obj
+[616/9140] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\rate_limiting_middleware.cpp.obj
+[617/9140] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\api_version.cpp.obj
+[618/9140] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\ranger_adapter.cpp.obj
+[619/9140] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\reports_api_handler.cpp.obj
+[620/9140] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\response_transformer.cpp.obj
+[621/9140] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\auth\auth_rate_limiter.cpp.obj
+[622/9140] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\schema_api_handler.cpp.obj
+[623/9140] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\tenant_manager.cpp.obj
+[624/9140] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\smart_routing.cpp.obj
+[625/9140] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\wal_grpc_service.cpp.obj
+[626/9140] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\sharding_metrics_handler.cpp.obj
+[627/9140] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\api_gateway.cpp.obj
+[628/9140] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\import_wizard_builder.cpp.obj
+[629/9140] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\request_coalescing.cpp.obj
+[630/9140] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\pitr_grpc_service.cpp.obj
+[631/9140] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\shard_repair_api_handler.cpp.obj
+[632/9140] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\continuous_query_api_handler.cpp.obj
+[633/9140] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\import_api_handler.cpp.obj
+[634/9140] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\distributed_gateway.cpp.obj
+[635/9140] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\update_api_handler.cpp.obj
+[636/9140] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\hot_reload_api_handler.cpp.obj
+[637/9140] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\cdn_cache_middleware.cpp.obj
+[638/9140] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\profiling_api_handler.cpp.obj
+[639/9140] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\themis_core_grpc_service.cpp.obj
+[640/9140] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\prompt_engineering_grpc_service.cpp.obj
+[641/9140] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\ethics_api_handler.cpp.obj
+[642/9140] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\api\grpc_server.cpp.obj
+[643/9140] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\grpc_web_proxy_handler.cpp.obj
+[644/9140] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\wasm_handler_registry.cpp.obj
+[645/9140] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\buffer_api_handler.cpp.obj
+[646/9140] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\policy_versioning_api_handler.cpp.obj
+[647/9140] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\policy_validation_api_handler.cpp.obj
+[648/9140] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\policy_manager_api_handler.cpp.obj
+[649/9140] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\compliance_reporting_api_handler.cpp.obj
+[650/9140] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\policy_template_api_handler.cpp.obj
+[651/9140] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\prompt_engineering_api_handler.cpp.obj
+[652/9140] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\graphql_api_handler.cpp.obj
+[653/9140] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\review_scheduling_api_handler.cpp.obj
+[654/9140] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\network\qos_manager.cpp.obj
+[655/9140] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\network\raft_load_balancer.cpp.obj
+[656/9140] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\network\wire_protocol_helpers.cpp.obj
+[657/9140] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\network\wire_protocol_performance.cpp.obj
+[658/9140] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\network\connection_compression.cpp.obj
+[659/9140] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\network\wire_protocol_zero_copy.cpp.obj
+[660/9140] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\network\grpc_transport.cpp.obj
+[661/9140] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\network\wire_protocol_batch.cpp.obj
+[662/9140] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\network\io_uring_batcher.cpp.obj
+[663/9140] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\workload_fingerprint_engine.cpp.obj
+[664/9140] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\network\adaptive_circuit_breaker.cpp.obj
+[665/9140] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\hsm_provider_global.cpp.obj
+[666/9140] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\network\geo_topology_router.cpp.obj
+[667/9140] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\network\wire_protocol_server.cpp.obj
+[668/9140] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\network\kernel_bypass.cpp.obj
+[669/9140] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\network\socket_timeout_manager.cpp.obj
+[670/9140] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\network\wire_protocol_connection_pool.cpp.obj
+[671/9140] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\network\wire_protocol_v2.cpp.obj
+[672/9140] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\themis\wire_protocol_server.cpp.obj
+[673/9140] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\observability\ebpf_tracer.cpp.obj
+[674/9140] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\observability\provenance_store.cpp.obj
+C:\Projects\ThemisDB\src\observability\provenance_store.cpp(137): warning C4101: "e": Unreferenzierte lokale Variable
+[675/9140] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\observability\distributed_flame_graph.cpp.obj
+[676/9140] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\api\themisdb_grpc_service.cpp.obj
+[677/9140] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\observability\slo_reporter.cpp.obj
+[678/9140] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\observability\continuous_profiler.cpp.obj
+[679/9140] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\observability\metric_anomaly_detector.cpp.obj
+[680/9140] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\observability\query_profiler.cpp.obj
+[681/9140] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\observability\ml_anomaly_detector.cpp.obj
+[682/9140] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\observability\storage_profiler.cpp.obj
+[683/9140] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\observability\performance_analyzer.cpp.obj
+[684/9140] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\observability\log_aggregator.cpp.obj
+[685/9140] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\network\udp_fast_path.cpp.obj
+[686/9140] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\observability\tracer.cpp.obj
+[687/9140] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\observability\root_cause_analyzer.cpp.obj
+[688/9140] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\observability\log_search_engine.cpp.obj
+[689/9140] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\observability\tenant_metrics_namespace.cpp.obj
+[690/9140] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\observability\metrics_stream_server.cpp.obj
+[691/9140] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\observability\metric_aggregator.cpp.obj
+[692/9140] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\observability\advanced_metrics.cpp.obj
+[693/9140] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\observability\alertmanager.cpp.obj
+[694/9140] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\rpc\rpc_service_impl.cpp.obj
+[695/9140] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\observability\opentelemetry_tracer.cpp.obj
+[696/9140] Building CXX object cmake\CMakeFiles\themis_network.dir\__\proto_generated\themis_wire_v1.pb.cc.obj
+[697/9140] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\observability\alerting_engine.cpp.obj
+[698/9140] Building CXX object cmake\CMakeFiles\config_migration_scanner.dir\__\tools\config_migration_scanner.cpp.obj
+[699/9140] Building CXX object cmake\CMakeFiles\themis_network.dir\__\proto_generated\themisdb.pb.cc.obj
+[700/9140] Building CXX object cmake\CMakeFiles\themis-model.dir\__\tools\themis_model_cli.cpp.obj
+[701/9140] Building CXX object cmake\CMakeFiles\themis-export.dir\__\tools\export_cli.cpp.obj
+[702/9140] Building CXX object cmake\tests\CMakeFiles\test_raft_configuration.dir\__\src\sharding\raft_configuration.cpp.obj
+[703/9140] Building CXX object cmake\tests\CMakeFiles\test_consensus_module.dir\consensus\test_consensus_module.cpp.obj
+[704/9140] Building CXX object cmake\tests\CMakeFiles\test_raft_configuration.dir\raft\test_raft_configuration.cpp.obj
+[705/9140] Building CXX object cmake\tests\CMakeFiles\test_raft_consensus_adapter.dir\raft\test_raft_consensus_adapter.cpp.obj
+[706/9140] Building CXX object cmake\CMakeFiles\themis_network.dir\__\proto_generated\themisdb.grpc.pb.cc.obj
+[707/9140] Building CXX object cmake\tests\CMakeFiles\test_grpc_channel_pool.dir\grpc\test_grpc_channel_pool.cpp.obj
+[708/9140] Building CXX object cmake\tests\CMakeFiles\test_hnsw_parameter_tuner.dir\hnsw\test_hnsw_parameter_tuner.cpp.obj
+[709/9140] Building CXX object cmake\tests\CMakeFiles\test_batch_operation_manager.dir\batch\test_batch_operation_manager.cpp.obj
+[710/9140] Building CXX object cmake\tests\CMakeFiles\test_themis_wire_protocol_server_focused.dir\test_themis_wire_protocol_server.cpp.obj
+[711/9140] Building CXX object cmake\tests\CMakeFiles\test_api_grpc_server.dir\__\src\api\grpc_server.cpp.obj
+[712/9140] Building CXX object cmake\tests\CMakeFiles\test_api_grpc_server.dir\api\test_api_grpc_server.cpp.obj
+[713/9140] Building CXX object cmake\tests\CMakeFiles\test_enhanced_query_cache.dir\enhanced\test_enhanced_query_cache.cpp.obj
+[714/9140] Building CXX object cmake\tests\CMakeFiles\test_cache_warmup.dir\cache\test_cache_warmup.cpp.obj
+[715/9140] Building CXX object cmake\tests\CMakeFiles\test_cache_replication.dir\cache\test_cache_replication.cpp.obj
+[716/9140] Building CXX object cmake\tests\CMakeFiles\test_llm_w1s06_exception_boundaries.dir\llm\test_llm_w1s06_exception_boundaries.cpp.obj
+C:\Projects\ThemisDB\tests\llm\test_llm_w1s06_exception_boundaries.cpp(151): warning C4834: Rckgabewert der Funktion mit [[nodiscard]]-Attribut wird verworfen
+[717/9140] Building CXX object cmake\tests\CMakeFiles\test_cache_replication.dir\__\src\cache\cache_replication_coordinator.cpp.obj
+[718/9140] Building CXX object cmake\tests\CMakeFiles\test_cache_replication_coordinator.dir\cache\test_cache_replication_coordinator.cpp.obj
+[719/9140] Building CXX object cmake\tests\CMakeFiles\test_cache_replication_coordinator.dir\__\src\cache\cache_replication_coordinator.cpp.obj
+[720/9140] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\buffer_binary_protocol.cpp.obj
+[721/9140] Building CXX object cmake\tests\CMakeFiles\test_distributed_cache_coordinator.dir\distributed\test_distributed_cache_coordinator.cpp.obj
+[722/9140] Building CXX object cmake\tests\CMakeFiles\test_cache_replication_coordinator.dir\__\src\cache\grpc_remote_cache_peer.cpp.obj
+[723/9140] Building CXX object cmake\tests\CMakeFiles\test_multi_region_active_active.dir\multi\test_multi_region_active_active.cpp.obj
+[724/9140] Building CXX object cmake\tests\CMakeFiles\test_geo_replication_consistency.dir\geo\test_geo_replication_consistency.cpp.obj
+[725/9140] Building CXX object cmake\tests\CMakeFiles\test_multi_tier_replication_focused.dir\replication\test_replication_ha.cpp.obj
+[726/9140] Building CXX object cmake\tests\CMakeFiles\test_replication_ha.dir\replication\test_replication_ha.cpp.obj
+[727/9140] Building CXX object cmake\tests\CMakeFiles\test_replication_new_features_focused.dir\replication\test_replication_new_features.cpp.obj
+[728/9140] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\export_api_handler.cpp.obj
+[729/9140] Building CXX object cmake\tests\CMakeFiles\test_replication_new_features.dir\replication\test_replication_new_features.cpp.obj
+[730/9140] Building CXX object cmake\CMakeFiles\themis_demo_encryption.dir\__\src\demo_encryption.cpp.obj
+[731/9140] Building CXX object cmake\tests\CMakeFiles\test_logical_replication.dir\logical\test_logical_replication.cpp.obj
+[732/9140] Building CXX object cmake\tests\CMakeFiles\test_replication_raft_v2.dir\replication\test_replication_raft_v2.cpp.obj
+[733/9140] Building CXX object cmake\tests\CMakeFiles\test_index_maintenance.dir\index\test_index_maintenance.cpp.obj
+[734/9140] Building CXX object cmake\tests\CMakeFiles\test_hnsw_incremental_reindex.dir\hnsw\test_hnsw_incremental_reindex.cpp.obj
+[735/9140] Building CXX object cmake\CMakeFiles\themis_demo.dir\__\src\main.cpp.obj
+[736/9140] Building CXX object cmake\tests\CMakeFiles\test_sse_connection_manager.dir\sse\test_sse_connection_manager.cpp.obj
+[737/9140] Building CXX object cmake\tests\CMakeFiles\test_graphql.dir\graphql\test_graphql.cpp.obj
+[738/9140] Building CXX object cmake\tests\CMakeFiles\test_otlp_exporter.dir\otlp\test_otlp_exporter.cpp.obj
+[739/9140] Building CXX object cmake\tests\CMakeFiles\test_changefeed_sse_writer.dir\changefeed\test_changefeed_sse_writer.cpp.obj
+[740/9140] Building CXX object cmake\tests\CMakeFiles\test_tracing_middleware.dir\tracing\test_tracing_middleware.cpp.obj
+[741/9140] Building CXX object cmake\tests\CMakeFiles\test_rpc_geo_query.dir\rpc\test_rpc_geo_query.cpp.obj
+[742/9140] Building CXX object cmake\tests\CMakeFiles\test_themisdb_grpc_service.dir\themisdb\test_themisdb_grpc_service.cpp.obj
+C:\Projects\ThemisDB\build-msvc-windows-release\proto_generated\themisdb.pb.h(8055): warning C4267: "return": Konvertierung von "size_t" nach "int", Datenverlust mglich
+C:\Projects\ThemisDB\build-msvc-windows-release\proto_generated\themisdb.pb.h(10883): warning C4267: "return": Konvertierung von "size_t" nach "int", Datenverlust mglich
+C:\Projects\ThemisDB\build-msvc-windows-release\proto_generated\themisdb.pb.h(13997): warning C4267: "return": Konvertierung von "size_t" nach "int", Datenverlust mglich
+[743/9140] Building CXX object cmake\tests\CMakeFiles\test_graphql_performance.dir\graphql\test_graphql_performance.cpp.obj
+[744/9140] Building CXX object cmake\tests\CMakeFiles\test_aql_graphql_integration.dir\aql\test_aql_graphql_integration.cpp.obj
+[745/9140] Building CXX object cmake\tests\CMakeFiles\test_cache_admin_api_handler.dir\cache\test_cache_admin_api_handler.cpp.obj
+[746/9140] Building CXX object cmake\tests\CMakeFiles\test_replication_topology_api_handler.dir\__\src\server\replication_topology_api_handler.cpp.obj
+[747/9140] Building CXX object cmake\tests\CMakeFiles\test_themisdb_grpc_service.dir\__\src\api\themisdb_grpc_service.cpp.obj
+[748/9140] Building CXX object cmake\tests\CMakeFiles\test_serverless_function_api_handler.dir\serverless\test_serverless_function_api_handler.cpp.obj
+[749/9140] Building CXX object cmake\tests\CMakeFiles\test_replication_topology_api_handler.dir\replication\test_replication_topology_api_handler.cpp.obj
+[750/9140] Building CXX object cmake\tests\CMakeFiles\test_serverless_function_api_handler.dir\__\src\server\serverless_function_api_handler.cpp.obj
+[751/9140] Building CXX object cmake\tests\CMakeFiles\test_graphql_limits.dir\graphql\test_graphql_limits.cpp.obj
+[752/9140] Building CXX object cmake\tests\CMakeFiles\test_themis_wire_protocol_server_focused.dir\__\src\themis\wire_protocol_server.cpp.obj
+[753/9140] Building CXX object cmake\tests\CMakeFiles\test_rpc_batch_operations.dir\rpc\test_rpc_batch_operations.cpp.obj
+[754/9140] Building CXX object cmake\tests\CMakeFiles\test_wasm_handler_registry.dir\__\src\base\wasm_plugin_sandbox.cpp.obj
+[755/9140] Building CXX object cmake\tests\CMakeFiles\test_wasm_handler_registry.dir\wasm\test_wasm_handler_registry.cpp.obj
+[756/9140] Building CXX object cmake\tests\CMakeFiles\test_wasm_handler_registry.dir\__\src\base\module_sandbox.cpp.obj
+[757/9140] Building CXX object cmake\tests\CMakeFiles\test_wasm_handler_registry.dir\__\src\server\wasm_handler_registry.cpp.obj
+[758/9140] Building CXX object cmake\tests\CMakeFiles\test_graphql_p1_features.dir\graphql\test_graphql_p1_features.cpp.obj
+[759/9140] Building CXX object cmake\tests\CMakeFiles\test_graphql_multimodel.dir\graphql\test_graphql_multimodel.cpp.obj
+[760/9140] Building CXX object cmake\tests\CMakeFiles\test_api_interfaces.dir\api\test_api_interfaces.cpp.obj
+[761/9140] Building CXX object cmake\tests\CMakeFiles\test_graphql_error_masking.dir\graphql\test_graphql_error_masking.cpp.obj
+[762/9140] Building CXX object cmake\tests\CMakeFiles\test_service_mesh_api_handler.dir\service\test_service_mesh_api_handler.cpp.obj
+[763/9140] Building CXX object cmake\tests\CMakeFiles\test_service_mesh_api_handler.dir\__\src\server\service_mesh_api_handler.cpp.obj
+[764/9140] Building CXX object cmake\tests\CMakeFiles\test_graphql_cache_security.dir\graphql\test_graphql_cache_security.cpp.obj
+[765/9140] Building CXX object cmake\tests\CMakeFiles\test_udf_api_handler.dir\__\src\query\functions\udf_registry.cpp.obj
+[766/9140] Building CXX object cmake\CMakeFiles\themis_server.dir\__\src\main_server.cpp.obj
+[767/9140] Building CXX object cmake\tests\CMakeFiles\test_prompt_engineering_api_handler.dir\prompt\test_prompt_engineering_api_handler.cpp.obj
+[768/9140] Building CXX object cmake\tests\CMakeFiles\test_inverted_index.dir\inverted\test_inverted_index.cpp.obj
+[769/9140] Building CXX object cmake\tests\CMakeFiles\test_inverted_index.dir\__\src\index\inverted_index.cpp.obj
+[770/9140] Building CXX object cmake\tests\CMakeFiles\test_feedback_api_handler.dir\__\src\server\feedback_api_handler.cpp.obj
+[771/9140] Building CXX object cmake\tests\CMakeFiles\test_profiling_api_handler.dir\__\src\server\profiling_api_handler.cpp.obj
+[772/9140] Building CXX object cmake\tests\CMakeFiles\test_prompt_engineering_api_handler.dir\__\src\server\prompt_engineering_api_handler.cpp.obj
+[773/9140] Building CXX object cmake\tests\CMakeFiles\test_udf_api_handler.dir\__\src\server\udf_api_handler.cpp.obj
+[774/9140] Building CXX object cmake\tests\CMakeFiles\test_feedback_api_handler.dir\feedback\test_feedback_api_handler.cpp.obj
+[775/9140] Building CXX object cmake\tests\CMakeFiles\test_inverted_index.dir\__\src\query\functions\fulltext_functions.cpp.obj
+[776/9140] Building CXX object cmake\tests\CMakeFiles\test_hot_reload_api_handler.dir\hot\test_hot_reload_api_handler.cpp.obj
+[777/9140] Building CXX object cmake\tests\CMakeFiles\test_profiling_api_handler.dir\profiling\test_profiling_api_handler.cpp.obj
+[778/9140] Building CXX object cmake\tests\CMakeFiles\test_hot_reload_api_handler.dir\__\src\server\hot_reload_api_handler.cpp.obj
+[779/9140] Building CXX object cmake\tests\CMakeFiles\test_index_manager_di.dir\__\src\index\index_compression.cpp.obj
+[780/9140] Building CXX object cmake\tests\CMakeFiles\test_index_manager_di.dir\index\test_index_manager_di.cpp.obj
+[781/9140] Building CXX object cmake\tests\CMakeFiles\test_vector_index_comprehensive.dir\__\src\storage\vector_index_backend.cpp.obj
+[782/9140] Building CXX object cmake\tests\CMakeFiles\test_vector_index_comprehensive.dir\vector\test_vector_index_comprehensive.cpp.obj
+[783/9140] Building CXX object cmake\tests\CMakeFiles\test_udf_api_handler.dir\udf\test_udf_api_handler.cpp.obj
+[784/9140] Building CXX object cmake\tests\CMakeFiles\test_index_manager_di.dir\__\src\index\index_manager.cpp.obj
+[785/9140] Building CXX object cmake\tests\CMakeFiles\test_rocksdb_wrapper_comprehensive.dir\rocksdb\test_rocksdb_wrapper_comprehensive.cpp.obj
+[786/9140] Building CXX object cmake\tests\CMakeFiles\test_fulltext_phrase_fuzzy.dir\fulltext\test_fulltext_phrase_fuzzy.cpp.obj
+[787/9140] Building CXX object cmake\tests\CMakeFiles\test_vector_compression_lossless.dir\vector\test_vector_compression_lossless.cpp.obj
+[788/9140] Building CXX object cmake\tests\CMakeFiles\test_transaction_retry.dir\transaction\test_transaction_retry.cpp.obj
+[789/9140] Building CXX object cmake\tests\CMakeFiles\test_pitr_manager_comprehensive.dir\pitr\test_pitr_manager_comprehensive.cpp.obj
+[790/9140] Building CXX object cmake\tests\CMakeFiles\test_index_manager_di.dir\__\src\index\secondary_index.cpp.obj
+[791/9140] Building CXX object cmake\tests\CMakeFiles\test_index_manager_di.dir\__\src\index\vector_index.cpp.obj
+[792/9140] Building CXX object cmake\tests\CMakeFiles\test_transaction_bulk.dir\transaction\test_transaction_bulk.cpp.obj
+[793/9140] Building CXX object cmake\tests\CMakeFiles\test_index_manager_di.dir\__\src\index\graph_index.cpp.obj
+[794/9140] Building CXX object cmake\tests\CMakeFiles\test_transaction_isolation.dir\db\test_transaction_isolation.cpp.obj
+[795/9140] Building CXX object cmake\tests\CMakeFiles\test_transaction_manager_comprehensive.dir\transaction\test_transaction_manager_comprehensive.cpp.obj
+[796/9140] Building CXX object cmake\tests\CMakeFiles\test_savepoints.dir\savepoints\test_savepoints.cpp.obj
+[797/9140] Building CXX object cmake\tests\CMakeFiles\test_transaction_occ.dir\transaction\test_transaction_occ.cpp.obj
+[798/9140] Building CXX object cmake\tests\CMakeFiles\test_tenant_transaction_namespace.dir\tenant\test_tenant_transaction_namespace.cpp.obj
+[799/9140] Building CXX object cmake\tests\CMakeFiles\test_saga_concurrent_execution.dir\saga\test_saga_concurrent_execution.cpp.obj
+[800/9140] Building CXX object cmake\tests\CMakeFiles\test_transaction_timeout.dir\transaction\test_transaction_timeout.cpp.obj
+[801/9140] Building CXX object cmake\tests\CMakeFiles\test_saga_concurrent_execution.dir\__\src\transaction\saga.cpp.obj
+[802/9140] Building CXX object cmake\tests\CMakeFiles\test_transaction_ssi.dir\transaction\test_transaction_ssi.cpp.obj
+[803/9140] Building CXX object cmake\tests\CMakeFiles\test_saga_operation.dir\__\src\transaction\saga.cpp.obj
+[804/9140] Building CXX object cmake\tests\CMakeFiles\test_sampled_logger_focused.dir\sampled\test_sampled_logger.cpp.obj
+[805/9140] Building CXX object cmake\tests\CMakeFiles\test_saga_orchestrator_focused.dir\saga\test_saga_orchestrator.cpp.obj
+[806/9140] Building CXX object cmake\tests\CMakeFiles\test_saga_operation.dir\saga\test_saga_operation.cpp.obj
+[807/9140] Building CXX object cmake\tests\CMakeFiles\test_distributed_saga.dir\distributed\test_distributed_saga.cpp.obj
+[808/9140] Building CXX object cmake\tests\CMakeFiles\test_pii_stream_scanner_focused.dir\pii\test_pii_stream_scanner.cpp.obj
+[809/9140] Building CXX object cmake\tests\CMakeFiles\test_saga_orchestrator_focused.dir\__\src\transaction\saga_orchestrator.cpp.obj
+[810/9140] Building CXX object cmake\tests\CMakeFiles\test_distributed_saga.dir\__\src\transaction\distributed_saga.cpp.obj
+[811/9140] Building CXX object cmake\tests\CMakeFiles\test_postgres_transactions_focused.dir\postgres\test_postgres_transactions.cpp.obj
+[812/9140] Building CXX object cmake\tests\CMakeFiles\test_sharding_transaction_wal_focused.dir\sharding\test_sharding_transaction_wal.cpp.obj
+[813/9140] Building CXX object cmake\tests\CMakeFiles\test_sharding_transaction_wal_focused.dir\__\src\sharding\transaction_wal.cpp.obj
+[814/9140] Building CXX object cmake\tests\CMakeFiles\test_hash_chain_audit_focused.dir\hash\test_hash_chain_audit.cpp.obj
+[815/9140] Building CXX object cmake\tests\CMakeFiles\test_saga_compactor_focused.dir\saga\test_saga_compactor.cpp.obj
+[816/9140] Building CXX object cmake\tests\CMakeFiles\test_distributed_transactions_focused.dir\distributed\test_distributed_transactions.cpp.obj
+[817/9140] Building CXX object cmake\tests\CMakeFiles\test_saga_logger_focused.dir\saga\test_saga_logger.cpp.obj
+[818/9140] Building CXX object cmake\tests\CMakeFiles\test_utilities_comprehensive.dir\utilities\test_utilities_comprehensive.cpp.obj
+[819/9140] Building CXX object cmake\tests\CMakeFiles\test_logger_production.dir\logger\test_logger_production.cpp.obj
+[820/9140] Building CXX object cmake\tests\CMakeFiles\test_sampling_strategy.dir\sampling\test_sampling_strategy.cpp.obj
+[821/9140] Building CXX object cmake\tests\CMakeFiles\test_tracing_production.dir\tracing\test_tracing_production.cpp.obj
+[822/9140] Building CXX object cmake\tests\CMakeFiles\test_db_transaction_isolation_focused.dir\db\test_transaction_isolation.cpp.obj
+[823/9140] Building CXX object cmake\tests\CMakeFiles\test_otel_tracer_adapter.dir\otel\test_otel_tracer_adapter.cpp.obj
+[824/9140] Building CXX object cmake\tests\CMakeFiles\test_distributed_tracing.dir\distributed\test_distributed_tracing.cpp.obj
+[825/9140] Building CXX object cmake\tests\CMakeFiles\test_otel_propagation.dir\otel\test_otel_propagation.cpp.obj
+[826/9140] Building CXX object cmake\tests\CMakeFiles\test_jaeger_tracer_adapter.dir\jaeger\test_jaeger_tracer_adapter.cpp.obj
+[827/9140] Building CXX object cmake\tests\CMakeFiles\test_zipkin_tracer_adapter.dir\zipkin\test_zipkin_tracer_adapter.cpp.obj
+[828/9140] Building CXX object cmake\tests\CMakeFiles\test_percolator_coordinator_focused.dir\cross\test_cross_shard_coordinator.cpp.obj
+[829/9140] Building CXX object cmake\tests\CMakeFiles\test_structured_log_correlation.dir\structured\test_structured_log_correlation.cpp.obj
+[830/9140] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\http_server.cpp.obj
+[831/9140] Building CXX object cmake\tests\CMakeFiles\test_aql_multi_statement_transaction_focused.dir\aql\test_aql_multi_statement_transaction.cpp.obj
+[832/9140] Building CXX object cmake\tests\CMakeFiles\test_audit_logger_production.dir\audit\test_audit_logger_production.cpp.obj
+[833/9140] Building CXX object cmake\tests\CMakeFiles\test_otel_api_tracing.dir\otel\test_otel_api_tracing.cpp.obj
+[834/9140] Building CXX object cmake\tests\CMakeFiles\test_governance_policy_hot_reload.dir\governance\test_governance_policy_hot_reload.cpp.obj
+[835/9140] Building CXX object cmake\tests\CMakeFiles\test_governance_policy_simulation.dir\governance\test_governance_policy_simulation.cpp.obj
+[836/9140] Building CXX object cmake\tests\CMakeFiles\test_agentic_rag_budget_focused.dir\agentic\test_agentic_rag_budget.cpp.obj
+[837/9140] Building CXX object cmake\tests\CMakeFiles\test_agentic_rag_relay_focused.dir\agentic\test_agentic_rag_relay.cpp.obj
+[838/9140] Building CXX object cmake\tests\CMakeFiles\test_governance_opa_adapter.dir\governance\test_governance_opa_adapter.cpp.obj
+[839/9140] Building CXX object cmake\tests\CMakeFiles\test_governance_review_scheduler.dir\governance\test_governance_review_scheduler.cpp.obj
+[840/9140] Building CXX object cmake\tests\CMakeFiles\test_agentic_rag_budget_focused.dir\__\src\rag\agentic_rag.cpp.obj
+[841/9140] Building CXX object cmake\tests\CMakeFiles\test_governance_compliance_time_window.dir\governance\test_governance_compliance_time_window.cpp.obj
+[842/9140] Building CXX object cmake\tests\CMakeFiles\test_agentic_rag_relay_focused.dir\__\src\rag\agentic_rag.cpp.obj
+[843/9140] Building CXX object cmake\tests\CMakeFiles\test_prompt_injection_pattern_registry_focused.dir\__\src\security\prompt_injection_pattern_registry.cpp.obj
+[844/9140] Building CXX object cmake\tests\CMakeFiles\test_inline_training_governance_focused.dir\inline\test_inline_training_governance.cpp.obj
+[845/9140] Building CXX object cmake\tests\CMakeFiles\test_llm_query_rewriter_validator_focused.dir\llm\test_llm_query_rewriter_validator.cpp.obj
+[846/9140] Building CXX object cmake\tests\CMakeFiles\test_llm_query_rewriter_validator_focused.dir\__\src\search\llm_query_rewriter.cpp.obj
+[847/9140] Building CXX object cmake\tests\CMakeFiles\test_model_governance_focused.dir\model\test_model_governance.cpp.obj
+[848/9140] Building CXX object cmake\tests\CMakeFiles\test_agentic_rag_relay_focused.dir\__\src\rag\delegate_evaluator.cpp.obj
+[849/9140] Building CXX object cmake\tests\CMakeFiles\test_agentic_rag_relay_focused.dir\__\src\document\round_trip_editor.cpp.obj
+[850/9140] Building CXX object cmake\tests\CMakeFiles\test_llm_judge_is_mock_focused.dir\llm\test_llm_judge_is_mock.cpp.obj
+[851/9140] Building CXX object cmake\tests\CMakeFiles\test_prompt_injection_pattern_registry_focused.dir\__\src\rag\prompt_injection_detector.cpp.obj
+[852/9140] Building CXX object cmake\tests\CMakeFiles\test_huggingface_connector_governance_focused.dir\huggingface\test_huggingface_connector_governance.cpp.obj
+[853/9140] Building CXX object cmake\tests\CMakeFiles\test_stub_remediation_297_298_280_302.dir\stub\test_stub_remediation_297_298_280_302.cpp.obj
+[854/9140] Building CXX object cmake\tests\CMakeFiles\test_prompt_injection_pattern_registry_focused.dir\prompt\test_prompt_injection_pattern_registry.cpp.obj
+[855/9140] Building CXX object cmake\tests\CMakeFiles\test_export_api_handler_focused.dir\__\src\exporters\pii_detector.cpp.obj
+[856/9140] Building CXX object cmake\tests\CMakeFiles\test_huggingface_connector_governance_focused.dir\__\src\ingestion\huggingface_connector.cpp.obj
+[857/9140] Building CXX object cmake\tests\CMakeFiles\test_llm_aql_embedding_bridge_focused.dir\llm\test_llm_aql_embedding_bridge.cpp.obj
+[858/9140] Building CXX object cmake\tests\CMakeFiles\test_prompt_injection_pattern_registry_focused.dir\__\src\prompt_engineering\prompt_injection_detector.cpp.obj
+[859/9140] Building CXX object cmake\tests\CMakeFiles\test_compliance_security_governance_focused.dir\compliance\test_compliance_security_governance.cpp.obj
+[860/9140] Building CXX object cmake\tests\CMakeFiles\test_export_api_handler_focused.dir\__\src\exporters\format_template.cpp.obj
+[861/9140] Building CXX object cmake\tests\CMakeFiles\test_export_api_handler_focused.dir\__\src\exporters\exporter_metrics.cpp.obj
+[862/9140] Building CXX object cmake\tests\CMakeFiles\test_export_api_handler_focused.dir\__\src\exporters\stream_writer.cpp.obj
+[863/9140] Building CXX object cmake\tests\CMakeFiles\test_export_api_handler_focused.dir\__\src\exporters\aql_predicate_filter.cpp.obj
+[864/9140] Building CXX object cmake\tests\CMakeFiles\test_ccpa_rules_focused.dir\ccpa\test_ccpa_rules.cpp.obj
+[865/9140] Building CXX object cmake\tests\CMakeFiles\test_export_api_handler_focused.dir\__\src\exporters\jsonl_llm_exporter.cpp.obj
+[866/9140] Building CXX object cmake\tests\CMakeFiles\test_pci_dss_rules_focused.dir\pci\test_pci_dss_rules.cpp.obj
+[867/9140] Building CXX object cmake\tests\CMakeFiles\test_data_lineage_focused.dir\data\test_data_lineage.cpp.obj
+[868/9140] Building CXX object cmake\tests\CMakeFiles\test_cross_tenant_policy_inheritance_focused.dir\cross\test_cross_tenant_policy_inheritance.cpp.obj
+[869/9140] Building CXX object cmake\tests\CMakeFiles\test_soc2_controls_focused.dir\soc2\test_soc2_controls.cpp.obj
+[870/9140] Building CXX object cmake\tests\CMakeFiles\test_compliance_reporting_focused.dir\compliance\test_compliance_reporting.cpp.obj
+[871/9140] Building CXX object cmake\tests\CMakeFiles\test_policy_review_focused.dir\policy\test_policy_review.cpp.obj
+[872/9140] Building CXX object cmake\tests\CMakeFiles\test_policy_template_focused.dir\policy\test_policy_template.cpp.obj
+[873/9140] Building CXX object cmake\tests\CMakeFiles\test_data_masker_focused.dir\data\test_data_masker.cpp.obj
+[874/9140] Building CXX object cmake\tests\CMakeFiles\test_export_api_handler_focused.dir\export\test_export_api_handler.cpp.obj
+[875/9140] Building CXX object cmake\tests\CMakeFiles\test_task_scheduler_auth_context_focused.dir\task\test_task_scheduler_auth_context.cpp.obj
+[876/9140] Building CXX object cmake\tests\CMakeFiles\test_task_scheduler_dynamic_scaling_focused.dir\task\test_task_scheduler_dynamic_scaling.cpp.obj
+[877/9140] Building CXX object cmake\tests\CMakeFiles\test_export_api_handler_focused.dir\__\src\server\export_api_handler.cpp.obj
+[878/9140] Building CXX object cmake\tests\CMakeFiles\test_graph_index_comprehensive.dir\graph\test_graph_index_comprehensive.cpp.obj
+[879/9140] Building CXX object cmake\tests\CMakeFiles\test_task_scheduler_triggers_focused.dir\task\test_task_scheduler_triggers.cpp.obj
+[880/9140] Building CXX object cmake\tests\CMakeFiles\test_distributed_task_coordinator_focused.dir\distributed\test_distributed_task_coordinator.cpp.obj
+[881/9140] Building CXX object cmake\tests\CMakeFiles\test_task_result_store_focused.dir\task\test_task_result_store.cpp.obj
+[882/9140] Building CXX object cmake\tests\CMakeFiles\test_scheduler_integration_focused.dir\scheduler\test_scheduler_integration.cpp.obj
+[883/9140] Building CXX object cmake\tests\CMakeFiles\test_task_scheduler_focused.dir\task\test_task_scheduler.cpp.obj
+[884/9140] Building CXX object cmake\tests\CMakeFiles\test_external_scheduler_adapter_focused.dir\external\test_external_scheduler_adapter.cpp.obj
+[885/9140] Building CXX object cmake\tests\CMakeFiles\test_task_scheduler_siem_integration_focused.dir\task\test_task_scheduler_siem_integration.cpp.obj
+[886/9140] Building CXX object cmake\tests\CMakeFiles\test_lek_manager_lifecycle.dir\lek\test_lek_manager_lifecycle.cpp.obj
+[887/9140] Building CXX object cmake\tests\CMakeFiles\test_task_audit_focused.dir\task\test_task_audit.cpp.obj
+[888/9140] Building CXX object cmake\tests\CMakeFiles\test_policy_versioning_focused.dir\policy\test_policy_versioning.cpp.obj
+[889/9140] Building CXX object cmake\tests\CMakeFiles\test_self_awareness_production.dir\self\test_self_awareness_production.cpp.obj
+[890/9140] Building CXX object cmake\tests\CMakeFiles\test_distributed_analytics_focused.dir\__\src\gpu\graph_cache.cpp.obj
+[891/9140] Building CXX object cmake\tests\CMakeFiles\test_distributed_analytics_focused.dir\__\src\gpu\query_accelerator.cpp.obj
+[892/9140] Building CXX object cmake\tests\CMakeFiles\test_spatial_correctness_integration.dir\index\test_spatial_correctness_integration.cpp.obj
+[893/9140] Building CXX object cmake\tests\CMakeFiles\test_task_scheduler_api_handler_focused.dir\task\test_task_scheduler_api_handler.cpp.obj
+[894/9140] Building CXX object cmake\tests\CMakeFiles\test_self_awareness_production.dir\__\src\utils\self_awareness.cpp.obj
+[895/9140] Building CXX object cmake\tests\CMakeFiles\test_task_scheduler_slo_retry_focused.dir\task\test_task_scheduler_slo_retry.cpp.obj
+[896/9140] Building CXX object cmake\tests\CMakeFiles\test_distributed_analytics_focused.dir\__\src\analytics\distributed_analytics.cpp.obj
+[897/9140] Building CXX object cmake\tests\CMakeFiles\test_spatial_correctness_integration.dir\__\src\index\spatial_index.cpp.obj
+[898/9140] Building CXX object cmake\tests\CMakeFiles\test_incremental_view_focused.dir\__\src\analytics\incremental_view.cpp.obj
+[899/9140] Building CXX object cmake\tests\CMakeFiles\test_cloud_storage_backup_comprehensive.dir\cloud\test_cloud_storage_backup_comprehensive.cpp.obj
+[900/9140] Building CXX object cmake\tests\CMakeFiles\test_analytics_memory_pool_focused.dir\__\src\analytics\columnar_execution.cpp.obj
+[901/9140] Building CXX object cmake\tests\CMakeFiles\test_distributed_analytics_focused.dir\analytics\test_distributed_analytics.cpp.obj
+[902/9140] Building CXX object cmake\tests\CMakeFiles\test_olap_lru_cache_focused.dir\analytics\test_olap_lru_cache.cpp.obj
+[903/9140] Building CXX object cmake\tests\CMakeFiles\test_analytics_memory_pool_focused.dir\analytics\test_analytics_memory_pool.cpp.obj
+[904/9140] Building CXX object cmake\tests\CMakeFiles\test_incremental_view_focused.dir\analytics\test_incremental_view.cpp.obj
+[905/9140] Building CXX object cmake\tests\CMakeFiles\test_distributed_analytics_focused.dir\__\src\analytics\olap.cpp.obj
+[906/9140] Building CXX object cmake\tests\CMakeFiles\test_incremental_view_focused.dir\__\src\analytics\olap.cpp.obj
+[907/9140] Building CXX object cmake\tests\CMakeFiles\test_analytics_memory_pool_focused.dir\__\src\analytics\olap.cpp.obj
+[908/9140] Building CXX object cmake\tests\CMakeFiles\test_olap_lru_cache_focused.dir\__\src\analytics\olap.cpp.obj
+[909/9140] Building CXX object cmake\tests\CMakeFiles\test_graph_query_explain_focused.dir\__\src\graph\path_constraints.cpp.obj
+[910/9140] Building CXX object cmake\tests\CMakeFiles\test_process_mining_pattern_focused.dir\analytics\test_process_mining_llm.cpp.obj
+[911/9140] Building CXX object cmake\tests\CMakeFiles\test_analytics_memory_pool_focused.dir\__\src\analytics\cep_engine.cpp.obj
+[912/9140] Building CXX object cmake\tests\CMakeFiles\test_graph_query_explain_focused.dir\__\src\graph\parallel_traversal.cpp.obj
+[913/9140] Building CXX object cmake\tests\CMakeFiles\test_graph_query_explain_focused.dir\graph\test_query_explain.cpp.obj
+[914/9140] Building CXX object cmake\tests\CMakeFiles\test_scheduled_edge_refresh_focused.dir\__\src\graph\parallel_traversal.cpp.obj
+[915/9140] Building CXX object cmake\tests\CMakeFiles\test_graph_query_explain_focused.dir\__\src\graph\distributed_graph.cpp.obj
+[916/9140] Building CXX object cmake\tests\CMakeFiles\test_scheduled_edge_refresh_focused.dir\__\src\graph\path_constraints.cpp.obj
+[917/9140] Building CXX object cmake\tests\CMakeFiles\test_process_discovery_conformance_focused.dir\analytics\test_process_discovery_conformance.cpp.obj
+[918/9140] Building CXX object cmake\tests\CMakeFiles\test_scheduled_edge_refresh_focused.dir\__\src\graph\scheduled_edge_refresh.cpp.obj
+[919/9140] Building CXX object cmake\tests\CMakeFiles\test_path_constraints_semantic_focused.dir\__\src\graph\ontology_manager.cpp.obj
+[920/9140] Building CXX object cmake\tests\CMakeFiles\test_scheduled_edge_refresh_focused.dir\graph\test_scheduled_edge_refresh.cpp.obj
+[921/9140] Building CXX object cmake\tests\CMakeFiles\test_scheduled_edge_refresh_focused.dir\__\src\graph\distributed_graph.cpp.obj
+[922/9140] Building CXX object cmake\tests\CMakeFiles\test_postgres_importer_focused.dir\postgres\test_postgres_importer_advanced.cpp.obj
+C:\Projects\ThemisDB\tests\postgres\test_postgres_importer_advanced.cpp(152): warning C4100: "raw": nicht referenzierter Parameter
+C:\Projects\ThemisDB\tests\postgres\test_postgres_importer_advanced.cpp(307): warning C4505: "writeFile": Eine nicht referenzierte Funktion mit interner Verknpfung wurde entfernt.
+[923/9140] Building CXX object cmake\tests\CMakeFiles\test_graph_query_explain_focused.dir\__\src\graph\graph_query_optimizer.cpp.obj
+[924/9140] Building CXX object cmake\tests\CMakeFiles\test_scheduled_edge_refresh_focused.dir\__\src\graph\graph_query_optimizer.cpp.obj
+[925/9140] Building CXX object cmake\tests\CMakeFiles\test_postgres_importer_focused.dir\postgres\test_postgres_importer_chaos.cpp.obj
+[926/9140] Building CXX object cmake\tests\CMakeFiles\test_postgres_importer_focused.dir\postgres\test_postgres_importer_complex_ddl.cpp.obj
+[927/9140] Building CXX object cmake\tests\CMakeFiles\test_postgres_importer_focused.dir\postgres\test_postgres_importer_datatypes.cpp.obj
+[928/9140] Building CXX object cmake\tests\CMakeFiles\test_postgres_importer_focused.dir\postgres\test_postgres_importer_fk.cpp.obj
+[929/9140] Building CXX object cmake\tests\CMakeFiles\test_path_constraints_semantic_focused.dir\graph\test_path_constraints_semantic.cpp.obj
+[930/9140] Building CXX object cmake\tests\CMakeFiles\test_postgres_importer_focused.dir\postgres\test_postgres_importer_integration.cpp.obj
+[931/9140] Building CXX object cmake\tests\CMakeFiles\test_ontology_aware_retriever_focused.dir\rag\test_ontology_aware_retriever.cpp.obj
+[932/9140] Building CXX object cmake\tests\CMakeFiles\test_path_constraints_semantic_focused.dir\__\src\graph\parallel_traversal.cpp.obj
+[933/9140] Building CXX object cmake\tests\CMakeFiles\test_postgres_importer_focused.dir\postgres\test_postgres_import_integration_v2.cpp.obj
+[934/9140] Building CXX object cmake\tests\CMakeFiles\test_ontology_aware_retriever_focused.dir\__\src\graph\ontology_manager.cpp.obj
+[935/9140] Building CXX object cmake\tests\CMakeFiles\test_path_constraints_semantic_focused.dir\__\src\graph\distributed_graph.cpp.obj
+[936/9140] Building CXX object cmake\tests\CMakeFiles\test_postgres_importer_focused.dir\postgres\test_postgres_importer_live.cpp.obj
+[937/9140] Building CXX object cmake\tests\CMakeFiles\test_knowledge_graph_reasoner_focused.dir\__\src\graph\knowledge_graph_reasoner.cpp.obj
+[938/9140] Building CXX object cmake\tests\CMakeFiles\test_postgres_importer_focused.dir\postgres\test_postgres_importer_robustness.cpp.obj
+[939/9140] Building CXX object cmake\tests\CMakeFiles\test_postgres_importer_focused.dir\postgres\test_postgres_importer_security_audit.cpp.obj
+C:\Projects\ThemisDB\tests\postgres\test_postgres_importer_security_audit.cpp(390): warning C4505: "postgres_importer_security_audit_test::writeTmpFile": Eine nicht referenzierte Funktion mit interner Verknpfung wurde entfernt.
+[940/9140] Building CXX object cmake\tests\CMakeFiles\test_postgres_importer_focused.dir\postgres\test_postgres_importer_streaming.cpp.obj
+[941/9140] Building CXX object cmake\tests\CMakeFiles\test_path_constraints_semantic_focused.dir\__\src\graph\path_constraints.cpp.obj
+[942/9140] Building CXX object cmake\tests\CMakeFiles\test_postgres_importer_focused.dir\__\src\importers\postgres_importer.cpp.obj
+[943/9140] Building CXX object cmake\tests\CMakeFiles\test_ontology_aware_retriever_focused.dir\__\src\rag\ontology_aware_retriever.cpp.obj
+[944/9140] Building CXX object cmake\tests\CMakeFiles\test_knowledge_graph_reasoner_focused.dir\graph\test_knowledge_graph_reasoner.cpp.obj
+[945/9140] Building CXX object cmake\tests\CMakeFiles\test_ontology_aware_retriever_focused.dir\__\src\rag\knowledge_graph_retriever.cpp.obj
+[946/9140] Building CXX object cmake\tests\CMakeFiles\test_postgres_importer_v2_focused.dir\__\src\importers\postgres_cdc.cpp.obj
+[947/9140] Building CXX object cmake\tests\CMakeFiles\test_path_constraints_semantic_focused.dir\__\src\graph\graph_query_optimizer.cpp.obj
+[948/9140] Building CXX object cmake\tests\CMakeFiles\test_postgres_importer_v2_focused.dir\__\src\importers\crdt_importer.cpp.obj
+[949/9140] Building CXX object cmake\tests\CMakeFiles\test_postgres_importer_v2_focused.dir\__\src\importers\data_quality.cpp.obj
+[950/9140] Building CXX object cmake\tests\CMakeFiles\test_import_wizard_focused.dir\__\src\server\import_wizard_builder.cpp.obj
+[951/9140] Building CXX object cmake\tests\CMakeFiles\test_postgres_importer_v2_focused.dir\__\src\importers\temporal_support.cpp.obj
+[952/9140] Building CXX object cmake\tests\CMakeFiles\test_postgres_importer_v2_focused.dir\__\src\importers\audit_trail.cpp.obj
+[953/9140] Building CXX object cmake\tests\CMakeFiles\test_postgres_importer_v2_focused.dir\__\src\importers\column_importance.cpp.obj
+[954/9140] Building CXX object cmake\tests\CMakeFiles\test_postgres_importer_v2_focused.dir\__\src\importers\adaptive_import.cpp.obj
+[955/9140] Building CXX object cmake\tests\CMakeFiles\test_postgres_importer_v2_focused.dir\__\src\importers\polyglot_mapper.cpp.obj
+[956/9140] Building CXX object cmake\tests\CMakeFiles\test_import_wizard_focused.dir\import\test_import_wizard.cpp.obj
+[957/9140] Building CXX object cmake\tests\CMakeFiles\test_postgres_importer_v2_focused.dir\__\src\importers\blockchain_integrity.cpp.obj
+[958/9140] Building CXX object cmake\tests\CMakeFiles\test_postgres_importer_v2_focused.dir\__\src\importers\graphql_federation.cpp.obj
+[959/9140] Building CXX object cmake\tests\CMakeFiles\test_postgres_importer_focused.dir\__\src\utils\error_registry.cpp.obj
+[960/9140] Building CXX object cmake\tests\CMakeFiles\test_postgres_importer_v2_focused.dir\__\src\importers\federated_learning.cpp.obj
+[961/9140] Building CXX object cmake\tests\CMakeFiles\test_postgres_importer_v2_focused.dir\__\src\importers\schema_inference.cpp.obj
+[962/9140] Building CXX object cmake\tests\CMakeFiles\test_plugin_lifecycle_focused.dir\plugin\test_plugin_lifecycle.cpp.obj
+[963/9140] Building CXX object cmake\tests\CMakeFiles\test_plugin_metrics_focused.dir\plugin\test_plugin_metrics.cpp.obj
+[964/9140] Building CXX object cmake\tests\CMakeFiles\test_generic_plugin_registry_focused.dir\generic\test_generic_plugin_registry.cpp.obj
+[965/9140] Building CXX object cmake\tests\CMakeFiles\test_plugin_health_monitor_focused.dir\plugin\test_plugin_health_monitor.cpp.obj
+C:\Projects\ThemisDB\tests\plugin\test_plugin_health_monitor.cpp(199): warning C4834: Rckgabewert der Funktion mit [[nodiscard]]-Attribut wird verworfen
+C:\Projects\ThemisDB\tests\plugin\test_plugin_health_monitor.cpp(200): warning C4834: Rckgabewert der Funktion mit [[nodiscard]]-Attribut wird verworfen
+C:\Projects\ThemisDB\tests\plugin\test_plugin_health_monitor.cpp(404): warning C4834: Rckgabewert der Funktion mit [[nodiscard]]-Attribut wird verworfen
+C:\Projects\ThemisDB\tests\plugin\test_plugin_health_monitor.cpp(408): warning C4834: Rckgabewert der Funktion mit [[nodiscard]]-Attribut wird verworfen
+[966/9140] Building CXX object cmake\tests\CMakeFiles\test_plugin_capability_escalation.dir\plugin\test_plugin_capability_escalation.cpp.obj
+[967/9140] Building CXX object cmake\tests\CMakeFiles\test_plugin_capability_negotiation.dir\plugin\test_plugin_capability_negotiation.cpp.obj
+[968/9140] Building CXX object cmake\tests\CMakeFiles\test_plugin_dependency_graph_focused.dir\plugin\test_plugin_dependency_graph.cpp.obj
+[969/9140] Building CXX object cmake\tests\CMakeFiles\test_plugin_security_audit_focused.dir\plugin\test_plugin_security_audit.cpp.obj
+C:\Projects\ThemisDB\tests\plugin\test_plugin_security_audit.cpp(35): warning C4505: "createTempFile": Eine nicht referenzierte Funktion mit interner Verknpfung wurde entfernt.
+[970/9140] Building CXX object cmake\tests\CMakeFiles\test_plugin_metrics_integration_focused.dir\plugin\test_plugin_metrics_integration.cpp.obj
+C:\Projects\ThemisDB\tests\plugin\test_plugin_metrics_integration.cpp(36): warning C4100: "config_json": nicht referenzierter Parameter
+[971/9140] Building CXX object cmake\tests\CMakeFiles\test_plugin_dependency_resolver_focused.dir\plugin\test_plugin_dependency_resolver.cpp.obj
+[972/9140] Building CXX object cmake\tests\CMakeFiles\test_postgres_importer_v2_focused.dir\postgres\test_postgres_importer_v2.cpp.obj
+C:\Projects\ThemisDB\tests\postgres\test_postgres_importer_v2.cpp(1453): warning C4100: "e": nicht referenzierter Parameter
+[973/9140] Building CXX object cmake\tests\CMakeFiles\test_plugin_security_impl_focused.dir\plugin\test_plugin_security_implementation.cpp.obj
+[974/9140] Building CXX object cmake\tests\CMakeFiles\test_plugin_manager_focused.dir\plugin\test_plugin_manager.cpp.obj
+C:\Projects\ThemisDB\tests\plugin\test_plugin_manager.cpp(60): warning C4834: Rckgabewert der Funktion mit [[nodiscard]]-Attribut wird verworfen
+C:\Projects\ThemisDB\tests\plugin\test_plugin_manager.cpp(66): warning C4834: Rckgabewert der Funktion mit [[nodiscard]]-Attribut wird verworfen
+C:\Projects\ThemisDB\tests\plugin\test_plugin_manager.cpp(186): warning C4834: Rckgabewert der Funktion mit [[nodiscard]]-Attribut wird verworfen
+C:\Projects\ThemisDB\tests\plugin\test_plugin_manager.cpp(213): warning C4834: Rckgabewert der Funktion mit [[nodiscard]]-Attribut wird verworfen
+C:\Projects\ThemisDB\tests\plugin\test_plugin_manager.cpp(239): warning C4834: Rckgabewert der Funktion mit [[nodiscard]]-Attribut wird verworfen
+C:\Projects\ThemisDB\tests\plugin\test_plugin_manager.cpp(262): warning C4834: Rckgabewert der Funktion mit [[nodiscard]]-Attribut wird verworfen
+C:\Projects\ThemisDB\tests\plugin\test_plugin_manager.cpp(277): warning C4834: Rckgabewert der Funktion mit [[nodiscard]]-Attribut wird verworfen
+C:\Projects\ThemisDB\tests\plugin\test_plugin_manager.cpp(335): warning C4834: Rckgabewert der Funktion mit [[nodiscard]]-Attribut wird verworfen
+[975/9140] Building CXX object cmake\tests\CMakeFiles\test_plugin_security_crl_ocsp_focused.dir\plugin\test_plugin_security_crl_ocsp.cpp.obj
+[976/9140] Building CXX object cmake\tests\CMakeFiles\test_plugin_security_pe_cert_extraction_focused.dir\plugin\test_plugin_security_pe_cert_extraction.cpp.obj
+[977/9140] Building CXX object cmake\tests\CMakeFiles\test_plugin_hot_plug_focused.dir\plugin\test_plugin_hot_plug.cpp.obj
+C:\Projects\ThemisDB\tests\plugin\test_plugin_hot_plug.cpp(45): warning C4834: Rckgabewert der Funktion mit [[nodiscard]]-Attribut wird verworfen
+C:\Projects\ThemisDB\tests\plugin\test_plugin_hot_plug.cpp(182): warning C4834: Rckgabewert der Funktion mit [[nodiscard]]-Attribut wird verworfen
+C:\Projects\ThemisDB\tests\plugin\test_plugin_hot_plug.cpp(193): warning C4834: Rckgabewert der Funktion mit [[nodiscard]]-Attribut wird verworfen
+C:\Projects\ThemisDB\tests\plugin\test_plugin_hot_plug.cpp(211): warning C4834: Rckgabewert der Funktion mit [[nodiscard]]-Attribut wird verworfen
+C:\Projects\ThemisDB\tests\plugin\test_plugin_hot_plug.cpp(224): warning C4834: Rckgabewert der Funktion mit [[nodiscard]]-Attribut wird verworfen
+C:\Projects\ThemisDB\tests\plugin\test_plugin_hot_plug.cpp(277): warning C4834: Rckgabewert der Funktion mit [[nodiscard]]-Attribut wird verworfen
+[978/9140] Building CXX object cmake\tests\CMakeFiles\test_plugin_hot_reload_enhanced_focused.dir\plugin\test_plugin_hot_reload_enhanced.cpp.obj
+C:\Projects\ThemisDB\tests\plugin\test_plugin_hot_reload_enhanced.cpp(133): warning C4100: "config_json": nicht referenzierter Parameter
+C:\Projects\ThemisDB\tests\plugin\test_plugin_hot_reload_enhanced.cpp(165): warning C4100: "config_json": nicht referenzierter Parameter
+C:\Projects\ThemisDB\tests\plugin\test_plugin_hot_reload_enhanced.cpp(219): warning C4189: "pm": Lokale Variable ist initialisiert aber nicht referenziert
+C:\Projects\ThemisDB\tests\plugin\test_plugin_hot_reload_enhanced.cpp(471): warning C4834: Rckgabewert der Funktion mit [[nodiscard]]-Attribut wird verworfen
+[979/9140] Building CXX object cmake\tests\CMakeFiles\test_global_transaction_manager.dir\global\test_global_transaction_manager.cpp.obj
+[980/9140] Building CXX object cmake\tests\CMakeFiles\test_parallel_executor.dir\parallel\test_parallel_executor.cpp.obj
+[981/9140] Building CXX object cmake\tests\CMakeFiles\test_parallel_scan.dir\parallel\test_parallel_scan.cpp.obj
+[982/9140] Building CXX object cmake\tests\CMakeFiles\test_ocr_default_data_dir_focused.dir\ocr\test_ocr_processor.cpp.obj
+[983/9140] Building CXX object cmake\tests\CMakeFiles\test_plugin_manager_comprehensive_focused.dir\plugin\test_plugin_manager_comprehensive.cpp.obj
+C:\Projects\ThemisDB\tests\plugin\test_plugin_manager_comprehensive.cpp(54): warning C4834: Rckgabewert der Funktion mit [[nodiscard]]-Attribut wird verworfen
+C:\Projects\ThemisDB\tests\plugin\test_plugin_manager_comprehensive.cpp(60): warning C4834: Rckgabewert der Funktion mit [[nodiscard]]-Attribut wird verworfen
+C:\Projects\ThemisDB\tests\plugin\test_plugin_manager_comprehensive.cpp(139): warning C4834: Rckgabewert der Funktion mit [[nodiscard]]-Attribut wird verworfen
+C:\Projects\ThemisDB\tests\plugin\test_plugin_manager_comprehensive.cpp(158): warning C4834: Rckgabewert der Funktion mit [[nodiscard]]-Attribut wird verworfen
+C:\Projects\ThemisDB\tests\plugin\test_plugin_manager_comprehensive.cpp(167): warning C4834: Rckgabewert der Funktion mit [[nodiscard]]-Attribut wird verworfen
+C:\Projects\ThemisDB\tests\plugin\test_plugin_manager_comprehensive.cpp(181): warning C4834: Rckgabewert der Funktion mit [[nodiscard]]-Attribut wird verworfen
+C:\Projects\ThemisDB\tests\plugin\test_plugin_manager_comprehensive.cpp(196): warning C4834: Rckgabewert der Funktion mit [[nodiscard]]-Attribut wird verworfen
+C:\Projects\ThemisDB\tests\plugin\test_plugin_manager_comprehensive.cpp(208): warning C4834: Rckgabewert der Funktion mit [[nodiscard]]-Attribut wird verworfen
+C:\Projects\ThemisDB\tests\plugin\test_plugin_manager_comprehensive.cpp(224): warning C4834: Rckgabewert der Funktion mit [[nodiscard]]-Attribut wird verworfen
+C:\Projects\ThemisDB\tests\plugin\test_plugin_manager_comprehensive.cpp(315): warning C4834: Rckgabewert der Funktion mit [[nodiscard]]-Attribut wird verworfen
+[984/9140] Building CXX object cmake\tests\CMakeFiles\test_ocr_dpi_preprocessing_focused.dir\ocr\test_ocr_processor.cpp.obj
+[985/9140] Building CXX object cmake\tests\CMakeFiles\test_legacy_office_extraction_focused.dir\__\src\content\office_processor.cpp.obj
+[986/9140] Building CXX object cmake\tests\CMakeFiles\test_plugin_marketplace_manifest_focused.dir\plugin\test_plugin_marketplace_manifest.cpp.obj
+[987/9140] Building CXX object cmake\tests\CMakeFiles\test_legacy_office_extraction_focused.dir\office\test_office_processor.cpp.obj
+[988/9140] Building CXX object cmake\tests\CMakeFiles\test_content_deduplication_focused.dir\content\test_content_deduplication.cpp.obj
+[989/9140] Building CXX object cmake\tests\CMakeFiles\test_async_ingestion_backpressure_focused.dir\async\test_async_ingestion_backpressure.cpp.obj
+[990/9140] Building CXX object cmake\tests\CMakeFiles\test_libreoffice_security_focused.dir\__\src\content\office_processor.cpp.obj
+[991/9140] Building CXX object cmake\tests\CMakeFiles\test_libreoffice_security_focused.dir\office\test_office_processor.cpp.obj
+[992/9140] Building CXX object cmake\tests\CMakeFiles\test_async_ingestion_yaml_config_focused.dir\async\test_async_ingestion_yaml_config.cpp.obj
+[993/9140] Building CXX object cmake\tests\CMakeFiles\test_cdc_admin.dir\cdc\test_cdc_admin.cpp.obj
+[994/9140] Building CXX object cmake\tests\CMakeFiles\test_tenant_buffer_manager.dir\tenant\test_tenant_buffer_manager.cpp.obj
+C:\Projects\ThemisDB\tests\tenant\test_tenant_buffer_manager.cpp(414): warning C4101: "e": Unreferenzierte lokale Variable
+[995/9140] Building CXX object cmake\tests\CMakeFiles\test_cdc_backpressure_signal.dir\cdc\test_cdc_backpressure_signal.cpp.obj
+[996/9140] Building CXX object cmake\tests\CMakeFiles\test_cdc_changefeed_sequence_counter.dir\cdc\test_cdc_changefeed_sequence_counter.cpp.obj
+[997/9140] Building CXX object cmake\tests\CMakeFiles\test_cdc_pause_control.dir\cdc\test_cdc_pause_control.cpp.obj
+C:\Projects\ThemisDB\tests\cdc\test_cdc_pause_control.cpp(233): warning C4834: Rckgabewert der Funktion mit [[nodiscard]]-Attribut wird verworfen
+C:\Projects\ThemisDB\tests\cdc\test_cdc_pause_control.cpp(236): warning C4834: Rckgabewert der Funktion mit [[nodiscard]]-Attribut wird verworfen
+[998/9140] Building CXX object cmake\tests\CMakeFiles\test_cdc_retention.dir\cdc\test_cdc_retention.cpp.obj
+[999/9140] Building CXX object cmake\tests\CMakeFiles\test_cdc_delivery_guarantee_config.dir\cdc\test_cdc_delivery_guarantee_config.cpp.obj
+[1000/9140] Building CXX object cmake\tests\CMakeFiles\test_cdc_event_schema.dir\cdc\test_cdc_event_schema.cpp.obj
+[1001/9140] Building CXX object cmake\tests\CMakeFiles\test_cdc_changefeed_core_focused.dir\cdc\test_cdc_changefeed_core.cpp.obj
+[1002/9140] Building CXX object cmake\tests\CMakeFiles\test_cdc_fan_in.dir\cdc\test_cdc_fan_in.cpp.obj
+[1003/9140] Building CXX object cmake\tests\CMakeFiles\test_http_auth_async.dir\test_http_auth_async.cpp.obj
+[1004/9140] Building CXX object cmake\tests\CMakeFiles\test_cdc_ws_handler.dir\cdc\test_cdc_ws_handler.cpp.obj
+[1005/9140] Building CXX object cmake\tests\CMakeFiles\test_diff_engine_focused.dir\diff\test_diff_engine.cpp.obj
+C:\Projects\ThemisDB\tests\diff\test_diff_engine.cpp(94): warning C4189: "seq2": Lokale Variable ist initialisiert aber nicht referenziert
+C:\Projects\ThemisDB\tests\diff\test_diff_engine.cpp(270): warning C4189: "seq1": Lokale Variable ist initialisiert aber nicht referenziert
+C:\Projects\ThemisDB\tests\diff\test_diff_engine.cpp(272): warning C4189: "seq2": Lokale Variable ist initialisiert aber nicht referenziert
+C:\Projects\ThemisDB\tests\diff\test_diff_engine.cpp(526): warning C4189: "seq1": Lokale Variable ist initialisiert aber nicht referenziert
+C:\Projects\ThemisDB\tests\diff\test_diff_engine.cpp(721): warning C4189: "seq2": Lokale Variable ist initialisiert aber nicht referenziert
+[1006/9140] Building CXX object cmake\tests\CMakeFiles\test_cdc_kafka_producer.dir\cdc\test_cdc_kafka_producer.cpp.obj
+[1007/9140] Building CXX object cmake\tests\CMakeFiles\test_api_key_authenticator.dir\api\test_api_key_authenticator.cpp.obj
+[1008/9140] Building CXX object cmake\tests\CMakeFiles\test_cdc_consumer_group.dir\cdc\test_cdc_consumer_group.cpp.obj
+[1009/9140] Building CXX object cmake\tests\CMakeFiles\test_distributed_token_blacklist.dir\__\src\auth\distributed_token_blacklist.cpp.obj
+[1010/9140] Building CXX object cmake\tests\CMakeFiles\test_distributed_token_blacklist.dir\test_distributed_token_blacklist.cpp.obj
+[1011/9140] Building CXX object cmake\tests\CMakeFiles\test_http_auth_async.dir\__\src\auth\http_auth_async.cpp.obj
+[1012/9140] Building CXX object cmake\tests\CMakeFiles\test_totp_secret_encryption.dir\totp\test_totp_secret_encryption.cpp.obj
+[1013/9140] Building CXX object cmake\tests\CMakeFiles\test_totp_replay_cache.dir\totp\test_totp_replay_cache.cpp.obj
+[1014/9140] Building CXX object cmake\tests\CMakeFiles\test_zero_trust_auth_verifier.dir\zero\test_zero_trust_auth_verifier.cpp.obj
+[1015/9140] Building CXX object cmake\tests\CMakeFiles\test_lockfree_metrics_focused.dir\lockfree\test_lockfree_metrics.cpp.obj
+[1016/9140] Building CXX object cmake\tests\CMakeFiles\test_zero_trust_policy_enforcer_focused.dir\zero\test_zero_trust_policy_enforcer.cpp.obj
+[1017/9140] Building CXX object cmake\tests\CMakeFiles\test_fuzz_core_focused.dir\fuzz\test_fuzz_core.cpp.obj
+[1018/9140] Building CXX object cmake\tests\CMakeFiles\test_fips_crypto_mode_focused.dir\security\test_fips_crypto_mode.cpp.obj
+[1019/9140] Building CXX object cmake\tests\CMakeFiles\test_zero_copy_logging_focused.dir\zero\test_zero_copy_logging.cpp.obj
+[1020/9140] Building CXX object cmake\tests\CMakeFiles\test_zero_copy_blob_transfers_focused.dir\__\src\storage\zero_copy_blob_transfer.cpp.obj
+[1021/9140] Building CXX object cmake\tests\CMakeFiles\test_zero_copy_blob_transfers_focused.dir\zero\test_zero_copy_blob_transfers.cpp.obj
+[1022/9140] Building CXX object cmake\tests\CMakeFiles\test_session_manager_focused.dir\session\test_session_manager.cpp.obj
+[1023/9140] Building CXX object cmake\tests\CMakeFiles\test_security_evidence_collector_focused.dir\security\test_security_evidence_collector.cpp.obj
+[1024/9140] Building CXX object cmake\tests\CMakeFiles\test_access_control_manager_focused.dir\security\test_access_control_manager.cpp.obj
+[1025/9140] Building CXX object cmake\tests\CMakeFiles\test_injection_attack_vectors.dir\security\attack-vectors\injection\test_injection_attack_vectors.cpp.obj
+[1026/9140] Building CXX object cmake\tests\CMakeFiles\test_crypto_attack_vectors.dir\security\attack-vectors\crypto\test_crypto_attack_vectors.cpp.obj
+[1027/9140] Building CXX object cmake\tests\CMakeFiles\test_authentication_attack_vectors.dir\security\attack-vectors\authentication\test_authentication_attack_vectors.cpp.obj
+[1028/9140] Building CXX object cmake\tests\CMakeFiles\test_arrow_user_registration_plugin_focused.dir\__\src\security\arrow_user_registration_plugin.cpp.obj
+[1029/9140] Building CXX object cmake\tests\CMakeFiles\test_input_validation_security_focused.dir\security\test_input_validation_security.cpp.obj
+[1030/9140] Building CXX object cmake\tests\CMakeFiles\test_usb_volume_hardening_focused.dir\__\src\security\usb_volume_hardening.cpp.obj
+[1031/9140] Building CXX object cmake\tests\CMakeFiles\test_arrow_user_registration_plugin_focused.dir\__\src\utils\error_registry.cpp.obj
+[1032/9140] Building CXX object cmake\tests\CMakeFiles\test_row_level_security_focused.dir\security\test_row_level_security.cpp.obj
+[1033/9140] Building CXX object cmake\tests\CMakeFiles\test_arrow_user_registration_plugin_focused.dir\security\test_arrow_user_registration_plugin.cpp.obj
+[1034/9140] Building CXX object cmake\tests\CMakeFiles\test_ai_plugin_generator_focused.dir\ai\test_ai_plugin_generator.cpp.obj
+[1035/9140] Building CXX object cmake\tests\CMakeFiles\test_ai_plugin_generator_focused.dir\__\src\ai\ai_plugin_generator.cpp.obj
+[1036/9140] Building CXX object cmake\tests\CMakeFiles\test_usb_volume_hardening_focused.dir\usb\test_usb_volume_hardening.cpp.obj
+C:\Projects\ThemisDB\tests\usb\test_usb_volume_hardening.cpp(291): warning C4189: "status": Lokale Variable ist initialisiert aber nicht referenziert
+[1037/9140] Building CXX object cmake\tests\CMakeFiles\test_security_negative_integration_focused.dir\security\test_security_negative_integration.cpp.obj
+[1038/9140] Building CXX object cmake\tests\CMakeFiles\test_concerns_context_focused.dir\concerns\test_concerns_context.cpp.obj
+C:\Projects\ThemisDB\tests\concerns\test_concerns_context.cpp(212): warning C4834: Rckgabewert der Funktion mit [[nodiscard]]-Attribut wird verworfen
+C:\Projects\ThemisDB\tests\concerns\test_concerns_context.cpp(390): warning C4834: Rckgabewert der Funktion mit [[nodiscard]]-Attribut wird verworfen
+C:\Projects\ThemisDB\tests\concerns\test_concerns_context.cpp(599): warning C4834: Rckgabewert der Funktion mit [[nodiscard]]-Attribut wird verworfen
+C:\Projects\ThemisDB\tests\concerns\test_concerns_context.cpp(614): warning C4834: Rckgabewert der Funktion mit [[nodiscard]]-Attribut wird verworfen
+C:\Projects\ThemisDB\tests\concerns\test_concerns_context.cpp(2013): warning C4834: Rckgabewert der Funktion mit [[nodiscard]]-Attribut wird verworfen
+[1039/9140] Building CXX object cmake\tests\CMakeFiles\test_usb_volume_hardening_focused.dir\__\src\security\pii_redaction_policy.cpp.obj
+[1040/9140] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\monitoring_api_handler.cpp.obj
+[1041/9140] Building CXX object cmake\tests\CMakeFiles\test_ts_future_interfaces_focused.dir\__\src\timeseries\gorilla.cpp.obj
+[1042/9140] Building CXX object cmake\tests\CMakeFiles\test_usb_volume_hardening_focused.dir\__\src\utils\pii_detection_engine.cpp.obj
+[1043/9140] Building CXX object cmake\tests\CMakeFiles\test_usb_volume_hardening_focused.dir\__\src\utils\pii_detector.cpp.obj
+[1044/9140] Building CXX object cmake\tests\CMakeFiles\test_usb_volume_hardening_focused.dir\__\src\security\usb_admin_authenticator.cpp.obj
+[1045/9140] Building CXX object cmake\tests\CMakeFiles\test_ts_future_interfaces_focused.dir\__\src\timeseries\compression_selector.cpp.obj
+[1046/9140] Building CXX object cmake\tests\CMakeFiles\test_ts_future_interfaces_focused.dir\__\src\timeseries\anomaly_detection.cpp.obj
+[1047/9140] Building CXX object cmake\tests\CMakeFiles\test_ts_future_interfaces_focused.dir\__\src\timeseries\gap_fill.cpp.obj
+[1048/9140] Building CXX object cmake\tests\CMakeFiles\test_downsampling_focused.dir\downsampling\test_downsampling.cpp.obj
+[1049/9140] Building CXX object cmake\tests\CMakeFiles\test_ts_adaptive_flush_focused.dir\ts\test_ts_adaptive_flush.cpp.obj
+C:\Projects\ThemisDB\tests\ts\test_ts_adaptive_flush.cpp(196): warning C4834: Rckgabewert der Funktion mit [[nodiscard]]-Attribut wird verworfen
+C:\Projects\ThemisDB\tests\ts\test_ts_adaptive_flush.cpp(212): warning C4834: Rckgabewert der Funktion mit [[nodiscard]]-Attribut wird verworfen
+C:\Projects\ThemisDB\tests\ts\test_ts_adaptive_flush.cpp(213): warning C4834: Rckgabewert der Funktion mit [[nodiscard]]-Attribut wird verworfen
+C:\Projects\ThemisDB\tests\ts\test_ts_adaptive_flush.cpp(337): warning C4834: Rckgabewert der Funktion mit [[nodiscard]]-Attribut wird verworfen
+C:\Projects\ThemisDB\tests\ts\test_ts_adaptive_flush.cpp(338): warning C4834: Rckgabewert der Funktion mit [[nodiscard]]-Attribut wird verworfen
+C:\Projects\ThemisDB\tests\ts\test_ts_adaptive_flush.cpp(350): warning C4834: Rckgabewert der Funktion mit [[nodiscard]]-Attribut wird verworfen
+C:\Projects\ThemisDB\tests\ts\test_ts_adaptive_flush.cpp(351): warning C4834: Rckgabewert der Funktion mit [[nodiscard]]-Attribut wird verworfen
+C:\Projects\ThemisDB\tests\ts\test_ts_adaptive_flush.cpp(372): warning C4834: Rckgabewert der Funktion mit [[nodiscard]]-Attribut wird verworfen
+C:\Projects\ThemisDB\tests\ts\test_ts_adaptive_flush.cpp(373): warning C4834: Rckgabewert der Funktion mit [[nodiscard]]-Attribut wird verworfen
+[1050/9140] Building CXX object cmake\tests\CMakeFiles\test_ts_future_interfaces_focused.dir\ts\test_ts_future_interfaces.cpp.obj
+[1051/9140] Building CXX object cmake\tests\CMakeFiles\test_tsstore_out_of_order_focused.dir\tsstore\test_tsstore_out_of_order.cpp.obj
+[1052/9140] Building CXX object cmake\tests\CMakeFiles\test_ts_future_interfaces_focused.dir\__\src\timeseries\timeseries_metrics.cpp.obj
+[1053/9140] Building CXX object cmake\tests\CMakeFiles\test_adaptive_flush_controller_focused.dir\adaptive\test_adaptive_flush_controller.cpp.obj
+[1054/9140] Building CXX object cmake\tests\CMakeFiles\test_io_uring_batcher_focused.dir\io\test_io_uring_batcher.cpp.obj
+C:\Projects\ThemisDB\tests\io\test_io_uring_batcher.cpp(44): warning C4505: "themis::network::`anonymous-namespace'::makeSockPair": Eine nicht referenzierte Funktion mit interner Verknpfung wurde entfernt.
+C:\Projects\ThemisDB\tests\io\test_io_uring_batcher.cpp(55): warning C4505: "themis::network::`anonymous-namespace'::readAll": Eine nicht referenzierte Funktion mit interner Verknpfung wurde entfernt.
+[1055/9140] Building CXX object cmake\tests\CMakeFiles\test_geo_rtree_focused.dir\geo\test_geo_rtree.cpp.obj
+[1056/9140] Building CXX object cmake\tests\CMakeFiles\test_lockfree_histogram_focused.dir\lockfree\test_lockfree_histogram.cpp.obj
+[1057/9140] Building CXX object cmake\tests\CMakeFiles\test_geo_raster_focused.dir\geo\test_geo_raster.cpp.obj
+[1058/9140] Building CXX object cmake\tests\CMakeFiles\test_geo_clustering_focused.dir\geo\test_geo_clustering.cpp.obj
+[1059/9140] Building CXX object cmake\tests\CMakeFiles\test_geo_tile_server_focused.dir\geo\test_geo_tile_server.cpp.obj
+[1060/9140] Building CXX object cmake\tests\CMakeFiles\test_tsstore_batch_focused.dir\tsstore\test_tsstore_batch.cpp.obj
+[1061/9140] Building CXX object cmake\tests\CMakeFiles\test_index_analyzer_focused.dir\index\test_index_analyzer.cpp.obj
+[1062/9140] Building CXX object cmake\tests\CMakeFiles\test_request_coalescer_focused.dir\request\test_request_coalescer.cpp.obj
+[1063/9140] Building CXX object cmake\tests\CMakeFiles\test_streaming_ingest_manager_focused.dir\streaming\test_streaming_ingest_manager.cpp.obj
+C:\Projects\ThemisDB\tests\streaming\test_streaming_ingest_manager.cpp(59): warning C4834: Rckgabewert der Funktion mit [[nodiscard]]-Attribut wird verworfen
+C:\Projects\ThemisDB\tests\streaming\test_streaming_ingest_manager.cpp(212): warning C4834: Rckgabewert der Funktion mit [[nodiscard]]-Attribut wird verworfen
+C:\Projects\ThemisDB\tests\streaming\test_streaming_ingest_manager.cpp(245): warning C4834: Rckgabewert der Funktion mit [[nodiscard]]-Attribut wird verworfen
+[1064/9140] Building CXX object cmake\tests\CMakeFiles\test_ts_stream_cursor_focused.dir\ts\test_ts_stream_cursor.cpp.obj
+[1065/9140] Building CXX object cmake\tests\CMakeFiles\test_geo_spatial_join_focused.dir\geo\test_geo_spatial_join.cpp.obj
+[1066/9140] Building CXX object cmake\tests\CMakeFiles\test_ts_future_interfaces_focused.dir\__\src\timeseries\tsstore.cpp.obj
+[1067/9140] Building CXX object cmake\tests\CMakeFiles\test_geo_device_detector_focused.dir\geo\test_geo_device_detector.cpp.obj
+[1068/9140] Building CXX object cmake\tests\CMakeFiles\test_prometheus_remote_write_focused.dir\prometheus\test_prometheus_remote_write.cpp.obj
+[1069/9140] Building CXX object cmake\tests\CMakeFiles\test_temporal_spatial_query_focused.dir\geo\test_temporal_spatial_query.cpp.obj
+[1070/9140] Building CXX object cmake\tests\CMakeFiles\test_geo_st_buffer_focused.dir\geo\test_geo_st_buffer.cpp.obj
+[1071/9140] Building CXX object cmake\tests\CMakeFiles\test_geo_precision_mode_focused.dir\geo\test_geo_precision_mode.cpp.obj
+[1072/9140] Building CXX object cmake\tests\CMakeFiles\test_geo_st_union_difference_focused.dir\geo\test_geo_st_union_difference.cpp.obj
+[1073/9140] Building CXX object cmake\tests\CMakeFiles\test_geo_ewkb_focused.dir\geo\test_geo_ewkb.cpp.obj
+[1074/9140] Building CXX object cmake\tests\CMakeFiles\test_geo_wgs84_spherical_focused.dir\geo\test_geo_wgs84_spherical.cpp.obj
+[1075/9140] Building CXX object cmake\tests\CMakeFiles\test_rtree_cursor_focused.dir\geo\test_rtree_cursor.cpp.obj
+[1076/9140] Building CXX object cmake\tests\CMakeFiles\test_spatial_join_filter_focused.dir\geo\test_spatial_join_filter.cpp.obj
+[1077/9140] Building CXX object cmake\tests\CMakeFiles\test_geo_json_geometry_focused.dir\geo\test_geo_json_geometry.cpp.obj
+[1078/9140] Building CXX object cmake\tests\CMakeFiles\test_raster_query_interface_focused.dir\geo\test_raster_query_interface.cpp.obj
+[1079/9140] Building CXX object cmake\tests\CMakeFiles\test_rtree_cpu_integration_focused.dir\geo\test_rtree_cpu_integration.cpp.obj
+[1080/9140] Building CXX object cmake\tests\CMakeFiles\test_gpu_kernel_dispatcher_focused.dir\geo\test_gpu_kernel_dispatcher.cpp.obj
+[1081/9140] Building CXX object cmake\tests\CMakeFiles\test_temporal_spatial_query_builder_focused.dir\geo\test_temporal_spatial_query_builder.cpp.obj
+[1082/9140] Building CXX object cmake\tests\CMakeFiles\test_spatial_index_focused.dir\geo\test_spatial_index.cpp.obj
+[1083/9140] Building CXX object cmake\tests\CMakeFiles\test_gpu_backend_production_focused.dir\geo\test_gpu_backend_production.cpp.obj
+C:\Projects\ThemisDB\tests\geo\test_gpu_backend_production.cpp(159): warning C4834: Rckgabewert der Funktion mit [[nodiscard]]-Attribut wird verworfen
+[1084/9140] Building CXX object cmake\tests\CMakeFiles\test_aql_st_queryengine_focused.dir\geo\test_aql_st_queryengine.cpp.obj
+[1085/9140] Building CXX object cmake\tests\CMakeFiles\test_geo_3d_functions_focused.dir\geo\test_geo_3d_functions.cpp.obj
+[1086/9140] Building CXX object cmake\tests\CMakeFiles\test_jsonl_llm_exporter_focused.dir\__\src\exporters\pii_detector.cpp.obj
+[1087/9140] Building CXX object cmake\tests\CMakeFiles\test_jsonl_llm_exporter_focused.dir\__\src\exporters\format_template.cpp.obj
+[1088/9140] Building CXX object cmake\tests\CMakeFiles\test_aql_st_functions_focused.dir\geo\test_aql_st_functions.cpp.obj
+[1089/9140] Building CXX object cmake\tests\CMakeFiles\test_jsonl_llm_exporter_focused.dir\__\src\exporters\stream_writer.cpp.obj
+[1090/9140] Building CXX object cmake\tests\CMakeFiles\test_jsonl_llm_exporter_focused.dir\__\src\exporters\exporter_metrics.cpp.obj
+[1091/9140] Building CXX object cmake\tests\CMakeFiles\test_jsonl_llm_exporter_focused.dir\__\src\exporters\export_encryption.cpp.obj
+[1092/9140] Linking CXX static library lib\themis_network.lib
+[1093/9140] Building CXX object cmake\tests\CMakeFiles\test_jsonl_llm_exporter_focused.dir\__\src\exporters\arrow_ipc_exporter.cpp.obj
+[1094/9140] Building CXX object cmake\tests\CMakeFiles\test_jsonl_llm_exporter_focused.dir\__\src\exporters\streaming_exporter.cpp.obj
+[1095/9140] Building CXX object cmake\tests\CMakeFiles\test_jsonl_llm_exporter_focused.dir\__\src\exporters\aql_predicate_filter.cpp.obj
+[1096/9140] Building CXX object cmake\tests\CMakeFiles\test_jsonl_llm_exporter_focused.dir\exporters\test_jsonl_llm_exporter.cpp.obj
+[1097/9140] Building CXX object cmake\tests\CMakeFiles\test_jsonl_llm_exporter_focused.dir\__\src\exporters\parquet_exporter.cpp.obj
+[1098/9140] Building CXX object cmake\tests\CMakeFiles\test_jsonl_llm_exporter_focused.dir\__\src\exporters\jsonl_llm_exporter.cpp.obj
+[1099/9140] Building CXX object cmake\tests\CMakeFiles\test_jsonl_llm_exporter_focused.dir\__\src\exporters\data_augmentation.cpp.obj
+[1100/9140] Building CXX object cmake\tests\CMakeFiles\test_jsonl_llm_exporter_focused.dir\__\src\exporters\huggingface_hub_client.cpp.obj
+[1101/9140] Building CXX object cmake\tests\CMakeFiles\test_jsonl_llm_exporter_focused.dir\__\src\exporters\incremental_exporter.cpp.obj
+[1102/9140] Building CXX object cmake\tests\CMakeFiles\test_jsonl_llm_exporter_focused.dir\__\src\exporters\join_exporter.cpp.obj
+[1103/9140] Building CXX object cmake\tests\CMakeFiles\test_jsonl_llm_exporter_focused.dir\__\src\exporters\export_format_registry.cpp.obj
+[1104/9140] Building CXX object cmake\tests\CMakeFiles\test_jsonl_llm_exporter_focused.dir\__\src\exporters\huggingface_exporter.cpp.obj
+[1105/9140] Building CXX object cmake\tests\CMakeFiles\test_huggingface_exporter_focused.dir\exporters\test_huggingface_exporter.cpp.obj
+[1106/9140] Building CXX object cmake\tests\CMakeFiles\test_huggingface_exporter_focused.dir\__\src\exporters\pii_detector.cpp.obj
+[1107/9140] Building CXX object cmake\tests\CMakeFiles\test_huggingface_exporter_focused.dir\__\src\exporters\jsonl_llm_exporter.cpp.obj
+[1108/9140] Building CXX object cmake\tests\CMakeFiles\test_huggingface_exporter_focused.dir\__\src\exporters\format_template.cpp.obj
+[1109/9140] Building CXX object cmake\tests\CMakeFiles\test_huggingface_exporter_focused.dir\__\src\exporters\stream_writer.cpp.obj
+[1110/9140] Building CXX object cmake\tests\CMakeFiles\test_huggingface_exporter_focused.dir\__\src\exporters\exporter_metrics.cpp.obj
+[1111/9140] Building CXX object cmake\tests\CMakeFiles\test_huggingface_exporter_focused.dir\__\src\exporters\export_encryption.cpp.obj
+[1112/9140] Building CXX object cmake\tests\CMakeFiles\test_huggingface_exporter_focused.dir\__\src\exporters\arrow_ipc_exporter.cpp.obj
+[1113/9140] Building CXX object cmake\tests\CMakeFiles\test_huggingface_exporter_focused.dir\__\src\exporters\data_augmentation.cpp.obj
+[1114/9140] Building CXX object cmake\tests\CMakeFiles\test_huggingface_exporter_focused.dir\__\src\exporters\parquet_exporter.cpp.obj
+[1115/9140] Building CXX object cmake\tests\CMakeFiles\test_huggingface_exporter_focused.dir\__\src\exporters\streaming_exporter.cpp.obj
+[1116/9140] Building CXX object cmake\tests\CMakeFiles\test_huggingface_exporter_focused.dir\__\src\exporters\aql_predicate_filter.cpp.obj
+[1117/9140] Building CXX object cmake\tests\CMakeFiles\test_huggingface_exporter_focused.dir\__\src\exporters\incremental_exporter.cpp.obj
+[1118/9140] Building CXX object cmake\tests\CMakeFiles\test_huggingface_exporter_focused.dir\__\src\exporters\huggingface_exporter.cpp.obj
+[1119/9140] Building CXX object cmake\tests\CMakeFiles\test_huggingface_exporter_focused.dir\__\src\exporters\export_format_registry.cpp.obj
+[1120/9140] Building CXX object cmake\tests\CMakeFiles\test_parquet_exporter_focused.dir\__\src\exporters\pii_detector.cpp.obj
+[1121/9140] Building CXX object cmake\tests\CMakeFiles\test_huggingface_exporter_focused.dir\__\src\exporters\join_exporter.cpp.obj
+[1122/9140] Building CXX object cmake\tests\CMakeFiles\test_huggingface_exporter_focused.dir\__\src\exporters\huggingface_hub_client.cpp.obj
+[1123/9140] Building CXX object cmake\tests\CMakeFiles\test_parquet_exporter_focused.dir\__\src\exporters\format_template.cpp.obj
+[1124/9140] Building CXX object cmake\tests\CMakeFiles\test_parquet_exporter_focused.dir\__\src\exporters\exporter_metrics.cpp.obj
+[1125/9140] Building CXX object cmake\tests\CMakeFiles\test_parquet_exporter_focused.dir\__\src\exporters\stream_writer.cpp.obj
+[1126/9140] Building CXX object cmake\tests\CMakeFiles\test_parquet_exporter_focused.dir\exporters\test_parquet_exporter.cpp.obj
+[1127/9140] Building CXX object cmake\tests\CMakeFiles\test_parquet_exporter_focused.dir\__\src\exporters\parquet_exporter.cpp.obj
+[1128/9140] Building CXX object cmake\tests\CMakeFiles\test_parquet_exporter_focused.dir\__\src\exporters\arrow_ipc_exporter.cpp.obj
+[1129/9140] Building CXX object cmake\tests\CMakeFiles\test_parquet_exporter_focused.dir\__\src\exporters\export_encryption.cpp.obj
+[1130/9140] Building CXX object cmake\tests\CMakeFiles\test_parquet_exporter_focused.dir\__\src\exporters\streaming_exporter.cpp.obj
+[1131/9140] Building CXX object cmake\tests\CMakeFiles\test_parquet_exporter_focused.dir\__\src\exporters\aql_predicate_filter.cpp.obj
+[1132/9140] Building CXX object cmake\tests\CMakeFiles\test_parquet_exporter_focused.dir\__\src\exporters\jsonl_llm_exporter.cpp.obj
+[1133/9140] Building CXX object cmake\tests\CMakeFiles\test_parquet_exporter_focused.dir\__\src\exporters\data_augmentation.cpp.obj
+[1134/9140] Building CXX object cmake\tests\CMakeFiles\test_parquet_exporter_focused.dir\__\src\exporters\incremental_exporter.cpp.obj
+[1135/9140] Building CXX object cmake\tests\CMakeFiles\test_parquet_exporter_focused.dir\__\src\exporters\huggingface_exporter.cpp.obj
+[1136/9140] Building CXX object cmake\tests\CMakeFiles\test_arrow_ipc_exporter_focused.dir\__\src\exporters\pii_detector.cpp.obj
+[1137/9140] Building CXX object cmake\tests\CMakeFiles\test_parquet_exporter_focused.dir\__\src\exporters\join_exporter.cpp.obj
+[1138/9140] Building CXX object cmake\tests\CMakeFiles\test_arrow_ipc_exporter_focused.dir\__\src\exporters\format_template.cpp.obj
+[1139/9140] Building CXX object cmake\tests\CMakeFiles\test_parquet_exporter_focused.dir\__\src\exporters\export_format_registry.cpp.obj
+[1140/9140] Building CXX object cmake\tests\CMakeFiles\test_parquet_exporter_focused.dir\__\src\exporters\huggingface_hub_client.cpp.obj
+[1141/9140] Building CXX object cmake\tests\CMakeFiles\test_arrow_ipc_exporter_focused.dir\__\src\exporters\stream_writer.cpp.obj
+[1142/9140] Building CXX object cmake\tests\CMakeFiles\test_arrow_ipc_exporter_focused.dir\exporters\test_arrow_ipc_exporter.cpp.obj
+[1143/9140] Building CXX object cmake\tests\CMakeFiles\test_arrow_ipc_exporter_focused.dir\__\src\exporters\exporter_metrics.cpp.obj
+[1144/9140] Building CXX object cmake\tests\CMakeFiles\test_arrow_ipc_exporter_focused.dir\__\src\exporters\streaming_exporter.cpp.obj
+[1145/9140] Building CXX object cmake\tests\CMakeFiles\test_arrow_ipc_exporter_focused.dir\__\src\exporters\parquet_exporter.cpp.obj
+[1146/9140] Building CXX object cmake\tests\CMakeFiles\test_arrow_ipc_exporter_focused.dir\__\src\exporters\jsonl_llm_exporter.cpp.obj
+[1147/9140] Building CXX object cmake\tests\CMakeFiles\test_arrow_ipc_exporter_focused.dir\__\src\exporters\arrow_ipc_exporter.cpp.obj
+[1148/9140] Building CXX object cmake\tests\CMakeFiles\test_arrow_ipc_exporter_focused.dir\__\src\exporters\export_encryption.cpp.obj
+[1149/9140] Building CXX object cmake\tests\CMakeFiles\test_arrow_ipc_exporter_focused.dir\__\src\exporters\aql_predicate_filter.cpp.obj
+[1150/9140] Building CXX object cmake\tests\CMakeFiles\test_arrow_ipc_exporter_focused.dir\__\src\exporters\incremental_exporter.cpp.obj
+[1151/9140] Building CXX object cmake\tests\CMakeFiles\test_arrow_ipc_exporter_focused.dir\__\src\exporters\data_augmentation.cpp.obj
+[1152/9140] Building CXX object cmake\tests\CMakeFiles\test_streaming_exporter_focused.dir\__\src\exporters\pii_detector.cpp.obj
+[1153/9140] Building CXX object cmake\tests\CMakeFiles\test_streaming_exporter_focused.dir\__\src\exporters\format_template.cpp.obj
+[1154/9140] Building CXX object cmake\tests\CMakeFiles\test_arrow_ipc_exporter_focused.dir\__\src\exporters\huggingface_exporter.cpp.obj
+[1155/9140] Building CXX object cmake\tests\CMakeFiles\test_arrow_ipc_exporter_focused.dir\__\src\exporters\join_exporter.cpp.obj
+[1156/9140] Building CXX object cmake\tests\CMakeFiles\test_arrow_ipc_exporter_focused.dir\__\src\exporters\export_format_registry.cpp.obj
+[1157/9140] Building CXX object cmake\tests\CMakeFiles\test_streaming_exporter_focused.dir\__\src\exporters\exporter_metrics.cpp.obj
+[1158/9140] Building CXX object cmake\tests\CMakeFiles\test_streaming_exporter_focused.dir\__\src\exporters\stream_writer.cpp.obj
