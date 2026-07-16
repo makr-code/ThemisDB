@@ -58,7 +58,10 @@ tests/integration/
   - Security: `SEC-01..SEC-06`
   - Analytics/Export: `AEP-01..AEP-03`
   - Application Profile E2E: `APP-01..APP-13`
+  - **Wave 5 — E2E Journeys**: `E2E-01..E2E-08` (file: `w5a_e2e_critical_journeys_test.cpp`, labels: `wave5;w5a;release_critical`)
+  - **Wave 5 — Failure/Recovery**: `FIR-01..FIR-08` (file: `w5b_failure_injection_recovery_test.cpp`, labels: `wave5;w5b;release_critical`)
 - **CTest Label**: `pipeline_integration`
+- **Release Gate Labels**: `release_critical`, `wave5`  — these are mandatory on every PR to `develop`, `community`, or `enterprise`.
 - **Expectation**: Pipeline tests must run offline with deterministic mocks (no GPU, no external LLM service, no Kafka dependency).
 
 ### Shared Pipeline Test Helpers
