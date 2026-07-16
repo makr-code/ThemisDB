@@ -7,6 +7,10 @@
 - [x] Root-Benchmark-Dokumentation auf aktuelle Presets und CMake-Gating normalisiert (README, INDEX, AUDIT, SECURITY, ROADMAP) (Target: 2026-Q2)
 - [x] CMake-Registrierungsaudit-Tool `audit_benchmark_registration.py` implementiert — 196/196 Quellen registriert (Target: 2026-Q2)
 - [x] Syntax-Fehler (C-Block-Header) in `scientific_evaluation_framework.py` behoben (Target: 2026-Q2)
+- [x] **Wave 4 (B4-A):** Release-kritische Governance-Benchmarks (W4A-01..W4A-06) + `release_gate_manifest.json` implementiert (Target: 2026-Q3)
+- [x] **Wave 4 (B4-B):** Resilience/Degradations-Szenarien (W4B-01..W4B-06): Latenz-Injektion, Backpressure, CPU-Contention, Partial-Failure, Recovery (Target: 2026-Q3)
+- [x] **Wave 4 (B4-C):** Determinismus- und Varianz-Benchmarks (W4C-01..W4C-06): CV-Akzeptanzgates, Seed-Stabilität, Warmup-Effektivität, Teardown-Isolation (Target: 2026-Q3)
+- [x] **Wave 4 (B4-D):** Diagnose- und Reporting-Benchmarks (W4D-01..W4D-05) + `report_variance.py` + `RUNBOOK.md` implementiert (Target: 2026-Q3)
 
 ## In Progress
 
@@ -14,6 +18,9 @@
 - [ ] Persistente Historisierung von Eval-Reports für Trendanalysen über Releases hinweg (Target: 2026-Q3)
 - [ ] Erweiterte Kostenmodelle (Cloud-Instance-Typen, Energie/KWh) in Gate-Entscheidungen integrieren (Target: 2026-Q3)
 - [ ] Schichtbezogene Benchmark-Matrix (ANN/Tensor/Graph/LLM) mit evidenzbasierten Referenzsuites dokumentieren (Target: 2026-Q3)
+- [ ] Baseline-Verzeichnis mit initialen Wave-4-Baseline-JSONs befüllen und in CI integrieren (Target: 2026-Q4)
+- [ ] GitHub Actions Workflow `.github/workflows/benchmark-gate.yml` aktivieren (Wave 4 gate contract) (Target: 2026-Q4)
+- [ ] `report_variance.py` als eigenständiges CI-Test-Target registrieren (Target: 2026-Q4)
 
 ## Implementation Phases
 ### Phase 1: Design / API-Vertrag
@@ -43,6 +50,7 @@
 - [x] Experiment-Playbook inkl. Ausführung/Statistik/Gates dokumentiert (Target: 2026-Q2)
 - [x] Benchmark-Katalog mit initialer Family/Metrik-Zuordnung dokumentiert (Target: 2026-Q2)
 - [x] CI-Report- und evidenzbasierter Backlog-Mechanismus dokumentiert (Target: 2026-Q2)
+- [x] Wave 4 Runbook (`benchmarks/wave4/RUNBOOK.md`) — Gates, Baselines, Varianz- und Diagnosekonzept, bekannte Restlücken (Target: 2026-Q3)
 
 ## Production Readiness Checklist
 - [x] Definierte Fehlersemantik und Recovery-Pfade (harte Validierungsfehler)
@@ -50,10 +58,15 @@
 - [x] Security-Review: keine externen Netzwerkabhängigkeiten, nur lokale JSON-I/O
 - [x] Monitoring/Observability via strukturierte JSON-Reports und Ticket-Outputs
 - [x] Dokumentation für Betrieb und Entwicklung vollständig für das Framework-CLI
+- [x] Wave 4 release-kritische Gates (W4A-01..W4A-06) mit versioniertem Manifest implementiert
+- [x] Wave 4 Resilience/Degradation-Szenarien (W4B) für verwertbare Performance-Aussagen implementiert
+- [x] Wave 4 Varianz-Akzeptanzkriterien (CV ≤ 15%) und Determinismus-Protokoll definiert und benchmarkabgedeckt
 
 ## Known Issues & Limitations
 - [I] Statistische Verfahren basieren auf CPU-seitiger Python-Auswertung; sehr große Stichproben erhöhen Laufzeit deutlich.
 - [I] Aktive GitHub-Workflow-Definitionen fehlen im Repository (`.github/no_workflows`), daher ist die CI-Aktivierung aktuell nur über externe/Downstream-Pipelines möglich. Gate-Spezifikation liegt in `benchmarks/docs/CI_GATE.md` bereit.
+- [I] Wave 4 Baseline-Verzeichnis (`benchmarks/wave4/baselines/`) ist initial leer — muss nach erstem validen Release-Lauf befüllt werden.
+- [I] `BackpressureSimulator` in `wave4_fixtures.h` ist nicht thread-safe für parallele Benchmark-Bodies; für Multi-Thread-Szenarien pro Thread instanziieren.
 
 ## Breaking Changes
-- Keine Breaking Changes: bestehende Benchmark-Skripte bleiben unverändert, neues Framework ist additiv.
+- Keine Breaking Changes: bestehende Benchmark-Skripte bleiben unverändert, Wave 4 ist additiv.
