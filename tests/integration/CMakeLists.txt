@@ -165,7 +165,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/pipeline/query_execution_pipeline_test.cp
         pipeline/query_execution_pipeline_test.cpp
     )
     set_tests_properties(query_execution_pipeline_test PROPERTIES
-        LABELS "integration;pipeline_integration;pipeline;query"
+        LABELS "integration;pipeline_integration;pipeline;query;release_critical;resilience;deterministic"
     )
 endif()
 
@@ -175,7 +175,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/pipeline/ingestion_pipeline_test.cpp")
         pipeline/ingestion_pipeline_test.cpp
     )
     set_tests_properties(ingestion_pipeline_test PROPERTIES
-        LABELS "integration;pipeline_integration;pipeline;ingestion"
+        LABELS "integration;pipeline_integration;pipeline;ingestion;release_critical;resilience;degradation"
     )
 endif()
 
@@ -185,7 +185,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/pipeline/rag_ai_pipeline_test.cpp")
         pipeline/rag_ai_pipeline_test.cpp
     )
     set_tests_properties(rag_ai_pipeline_test PROPERTIES
-        LABELS "integration;pipeline_integration;pipeline;rag"
+        LABELS "integration;pipeline_integration;pipeline;rag;release_critical;degradation;deterministic"
     )
 endif()
 
@@ -195,7 +195,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/pipeline/transaction_replication_pipeline
         pipeline/transaction_replication_pipeline_test.cpp
     )
     set_tests_properties(transaction_replication_pipeline_test PROPERTIES
-        LABELS "integration;pipeline_integration;pipeline;transaction;replication"
+        LABELS "integration;pipeline_integration;pipeline;transaction;replication;release_critical;resilience;degradation"
     )
 endif()
 
@@ -205,7 +205,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/pipeline/security_pipeline_test.cpp")
         pipeline/security_pipeline_test.cpp
     )
     set_tests_properties(security_pipeline_test PROPERTIES
-        LABELS "integration;pipeline_integration;pipeline;security"
+        LABELS "integration;pipeline_integration;pipeline;security;release_critical;resilience"
     )
 endif()
 
@@ -225,7 +225,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/pipeline/application_profile_pipeline_tes
         pipeline/application_profile_pipeline_test.cpp
     )
     set_tests_properties(application_profile_pipeline_test PROPERTIES
-        LABELS "integration;pipeline_integration;pipeline;e2e;application_profile"
+        LABELS "integration;pipeline_integration;pipeline;e2e;application_profile;release_critical;resilience;degradation;deterministic"
     )
 endif()
 
@@ -321,5 +321,6 @@ endif()
 message(STATUS "Integration tests configured in: ${CMAKE_CURRENT_SOURCE_DIR}")
 message(STATUS "  - Test infrastructure: test_fixture.h, test_data_generator.h")
 message(STATUS "  - Pipeline suite label: pipeline_integration")
+message(STATUS "  - Release-critical label: release_critical")
 message(STATUS "  - To enable tests: uncomment sections in CMakeLists.txt as implementations complete")
 message(STATUS "  - Run with: ctest -R integration")

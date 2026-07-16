@@ -46,7 +46,9 @@ static constexpr uint32_t kCanonicalSeed = 42U;
  */
 class TestDataGenerator {
 public:
-    TestDataGenerator() : gen_(std::random_device{}()) {}
+    static constexpr uint32_t kDefaultSeed = 42U;
+
+    explicit TestDataGenerator(uint32_t seed = kDefaultSeed) : gen_(seed) {}
 
     [[nodiscard]] std::string GenerateRandomString(size_t length) {
         static constexpr char kCharset[] =
