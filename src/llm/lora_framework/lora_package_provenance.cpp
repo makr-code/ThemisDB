@@ -488,7 +488,7 @@ LoRAPackage ProvenanceHashLedger::appendPackage(LoRAPackage pkg) {
     if (!chain.empty()) {
         pkg.parent_hash = chain.back().package_hash;
     } else {
-        // Genesis: parent_hash is the SHA-256 of the adapter_id seed.
+        // Genesis: parent_hash is empty for the first package in this adapter's chain.
         pkg.parent_hash = "";
     }
 
@@ -677,6 +677,14 @@ ReceiptManifest ProvenanceHashLedger::createManifest(
     const std::string&               artifact_id,
     std::vector<DistributionReceipt> receipts)
 {
+    if (event_type.empty()) {
+        throw std::invalid_argument(
+            "ProvenanceHashLedger::createManifest: event_type must be non-empty");
+    }
+    if (artifact_id.empty()) {
+        throw std::invalid_argument(
+            "ProvenanceHashLedger::createManifest: artifact_id must be non-empty");
+    }
     ReceiptManifest manifest;
     manifest.manifest_id = generateId();
     manifest.event_type  = event_type;
@@ -838,10 +846,39 @@ json ProvenanceHashLedger::exportAuditPath(
 {
     std::lock_guard<std::mutex> lock(impl_->mu);
 
-    // Collect package chain (if artifact_id is an adapter_id or package_id).
+    // Resolve the supplied artifact_id to its canonical adapter_id and, when
+    // the caller has given a package_id or product_id, to the specific
+    // package_id whose products we want.
+    //
+    // Keying overview:
+    //   package_chains : adapter_id  → [LoRAPackage …]
+    //   product_chains : package_id  → [AdapterProduct …]
+    //   packages_by_id : package_id  → LoRAPackage
+    //   products_by_id : product_id  → AdapterProduct
+    std::string resolved_adapter_id;
+    std::string resolved_package_id; // non-empty → filter products to one package
+
+    if (impl_->package_chains.count(artifact_id)) {
+        // artifact_id is an adapter_id.
+        resolved_adapter_id = artifact_id;
+    } else if (impl_->packages_by_id.count(artifact_id)) {
+        // artifact_id is a package_id — resolve back to adapter_id.
+        resolved_adapter_id = impl_->packages_by_id.at(artifact_id).adapter_id;
+        resolved_package_id = artifact_id;
+    } else if (impl_->products_by_id.count(artifact_id)) {
+        // artifact_id is a product_id — resolve via package → adapter.
+        const auto& product = impl_->products_by_id.at(artifact_id);
+        resolved_package_id = product.package_id;
+        auto pkg_it = impl_->packages_by_id.find(resolved_package_id);
+        if (pkg_it != impl_->packages_by_id.end()) {
+            resolved_adapter_id = pkg_it->second.adapter_id;
+        }
+    }
+
+    // Collect package chain for the resolved adapter.
     json packages_json = json::array();
-    {
-        auto pit = impl_->package_chains.find(artifact_id);
+    if (!resolved_adapter_id.empty()) {
+        auto pit = impl_->package_chains.find(resolved_adapter_id);
         if (pit != impl_->package_chains.end()) {
             for (const auto& pkg : pit->second) {
                 packages_json.push_back(pkg.toJSON());
@@ -849,18 +886,33 @@ json ProvenanceHashLedger::exportAuditPath(
         }
     }
 
-    // Collect product chain.
+    // Collect product chain(s).
+    // When given an adapter_id, include products for every package in the
+    // adapter's chain.  When given a package_id or product_id, scope to that
+    // specific package only.
     json products_json = json::array();
-    {
-        auto pit = impl_->product_chains.find(artifact_id);
+    if (!resolved_package_id.empty()) {
+        auto pit = impl_->product_chains.find(resolved_package_id);
         if (pit != impl_->product_chains.end()) {
             for (const auto& prod : pit->second) {
                 products_json.push_back(prod.toJSON());
             }
         }
+    } else if (!resolved_adapter_id.empty()) {
+        auto chain_it = impl_->package_chains.find(resolved_adapter_id);
+        if (chain_it != impl_->package_chains.end()) {
+            for (const auto& pkg : chain_it->second) {
+                auto pit = impl_->product_chains.find(pkg.package_id);
+                if (pit != impl_->product_chains.end()) {
+                    for (const auto& prod : pit->second) {
+                        products_json.push_back(prod.toJSON());
+                    }
+                }
+            }
+        }
     }
 
-    // Receipt chain.
+    // Receipt chain (looked up directly by the supplied artifact_id).
     json receipt_chain_json = json::object();
     {
         auto rit = impl_->receipt_chains.find(artifact_id);
@@ -877,7 +929,7 @@ json ProvenanceHashLedger::exportAuditPath(
         }
     }
 
-    // Shard ledger.
+    // Shard ledger (looked up directly by the supplied artifact_id).
     json shard_ledger_json = json::array();
     {
         auto sit = impl_->shard_ledgers.find(artifact_id);

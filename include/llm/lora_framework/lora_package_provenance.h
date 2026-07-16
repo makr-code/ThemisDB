@@ -26,6 +26,7 @@
 #include <nlohmann/json.hpp>
 
 #include <chrono>
+#include <cstdint>
 #include <memory>
 #include <optional>
 #include <string>
@@ -163,7 +164,7 @@ struct DistributionReceipt {
     std::string recipient_id;           ///< Target node, endpoint, or shard identifier
     std::string distribution_timestamp; ///< ISO 8601 UTC timestamp
     std::string operator_signature;     ///< Optional operator signature over the receipt fields
-    std::string parent_receipt_hash;    ///< SHA-256 of the previous receipt in chain; empty = genesis
+    std::string parent_receipt_hash;    ///< SHA-256 of previous receipt; for the first receipt in a chain this is sha256(artifact_id) (the chain's genesis seed)
     std::string receipt_hash;           ///< SHA-256 of this receipt's canonical form (set by ledger)
     json        extra_metadata;         ///< Application-specific extensions
 
@@ -272,7 +273,7 @@ struct ShardLedgerEntry {
     std::string shard_hash;         ///< SHA-256 of this shard's content bytes
     std::vector<std::string> merkle_proof; ///< Sibling hashes for Merkle inclusion proof
     std::string placement_timestamp;       ///< ISO 8601 UTC placement timestamp
-    std::string prev_entry_hash;    ///< SHA-256 of the previous entry; empty = genesis
+    std::string prev_entry_hash;    ///< SHA-256 of previous shard entry; for the first entry in a ledger this is sha256(artifact_id+"_shard_genesis") (deterministic genesis seed)
     std::string entry_hash;         ///< SHA-256 of this entry's canonical form (set by ledger)
 
     /**
@@ -482,10 +483,11 @@ public:
      * appendReceipt()), computes the Merkle root and manifest hash, and
      * stores the resulting manifest.
      *
-     * @param event_type   Distribution event type string.
-     * @param artifact_id  Artifact being distributed.
+     * @param event_type   Distribution event type string.  Must be non-empty.
+     * @param artifact_id  Artifact being distributed.  Must be non-empty.
      * @param receipts     Per-recipient receipts (artifact_id should match).
      * @return Populated ReceiptManifest with merkle_root and manifest_hash set.
+     * @throws std::invalid_argument when event_type or artifact_id is empty.
      */
     [[nodiscard]] ReceiptManifest createManifest(
         const std::string&              event_type,
@@ -556,12 +558,21 @@ public:
     /**
      * @brief Export the full audit path for an artifact as JSON.
      *
-     * Collects the package chain (if the artifact is a package_id), the
-     * product chain (if a product_id), the receipt chain, all manifests,
-     * and the shard ledger into a single JSON document.
+     * Accepts an @p artifact_id that may be an adapter_id, package_id, or
+     * product_id.  The method resolves the identity to its canonical adapter
+     * and package context:
+     *   - adapter_id  → all packages for that adapter; products for every
+     *                   package in the adapter's chain.
+     *   - package_id  → the full package chain for the owning adapter; products
+     *                   scoped to the given package.
+     *   - product_id  → the full package chain for the owning adapter; products
+     *                   scoped to the owning package.
      *
-     * @param artifact_id  Package or product identifier.
-     * @return JSON document with keys: "packages", "products",
+     * The receipt chain, manifests, and shard ledger sections are always
+     * looked up directly by the supplied @p artifact_id.
+     *
+     * @param artifact_id  Adapter, package, or product identifier.
+     * @return JSON document with keys: "artifact_id", "packages", "products",
      *         "receipt_chain", "manifests", "shard_ledger".
      */
     [[nodiscard]] json exportAuditPath(const std::string& artifact_id) const;
