@@ -51,6 +51,7 @@
 #include <atomic>
 
 #include "storage/rocksdb_wrapper.h"
+#include "storage/base_entity.h"
 #include "index/vector_index.h"
 #include "index/secondary_index.h"
 #include "index/graph_index.h"
@@ -179,10 +180,11 @@ class StorageBenchFixture : public benchmark::Fixture {
 public:
     void SetUp(::benchmark::State& /*state*/) override {
         tmpDir_ = std::make_unique<TempDir>();
-        themis::StorageConfig cfg;
+        themis::RocksDBWrapper::Config cfg;
         cfg.db_path = tmpDir_->str();
         cfg.create_if_missing = true;
         db_ = std::make_shared<themis::RocksDBWrapper>(cfg);
+        db_->open();
     }
 
     void TearDown(::benchmark::State& /*state*/) override {
@@ -242,6 +244,10 @@ protected:
 /**
  * @brief Fixture that pre-populates a GraphIndex with @p kDefaultNodes nodes
  *        and random edges for use in traversal/path-finding benchmarks.
+ *
+ * Uses the canonical API: RocksDBWrapper (opened) + GraphIndexManager(RocksDBWrapper&).
+ * Edges are represented as BaseEntity instances with _from/_to/_graph fields;
+ * there is no separate addNode() call — node presence is inferred from edges.
  */
 class GraphBenchFixture : public benchmark::Fixture {
 public:
@@ -250,34 +256,40 @@ public:
 
     void SetUp(::benchmark::State& state) override {
         tmpDir_ = std::make_unique<TempDir>();
-        themis::GraphIndexConfig cfg;
+        themis::RocksDBWrapper::Config cfg;
         cfg.db_path = tmpDir_->str();
-        graph_ = std::make_shared<themis::GraphIndexManager>(cfg);
+        cfg.create_if_missing = true;
+        dbStorage_ = std::make_unique<themis::RocksDBWrapper>(cfg);
+        dbStorage_->open();
+        graph_ = std::make_shared<themis::GraphIndexManager>(*dbStorage_);
 
         const std::size_t n = static_cast<std::size_t>(
             state.range(0) > 0 ? state.range(0) : static_cast<int64_t>(kDefaultNodes));
         for (std::size_t i = 0; i < n; ++i) {
-            graph_->addNode("node_" + std::to_string(i), {{"id", std::to_string(i)}});
-        }
-        for (std::size_t i = 0; i < n; ++i) {
             for (std::size_t e = 0; e < kEdgesPerNode; ++e) {
-                std::size_t j = rng_.genInt(0, static_cast<int64_t>(n) - 1);
-                if (j != i) {
-                    graph_->addEdge("node_" + std::to_string(i),
-                                    "node_" + std::to_string(j),
-                                    "link", {});
-                }
+                std::size_t j = static_cast<std::size_t>(
+                    rng_.genInt(0, static_cast<int64_t>(n) - 1));
+                if (j == i) continue;
+                std::string eid =
+                    "e_" + std::to_string(i) + "_" + std::to_string(j);
+                themis::BaseEntity edge(eid);
+                edge.setField("_from", "node_" + std::to_string(i));
+                edge.setField("_to",   "node_" + std::to_string(j));
+                edge.setField("_graph", "bench_graph");
+                graph_->addEdge(edge);
             }
         }
     }
 
     void TearDown(::benchmark::State& /*state*/) override {
         graph_.reset();
+        dbStorage_.reset();
         tmpDir_.reset();
     }
 
 protected:
     std::unique_ptr<TempDir>                    tmpDir_;
+    std::unique_ptr<themis::RocksDBWrapper>     dbStorage_;
     std::shared_ptr<themis::GraphIndexManager>  graph_;
     RandomGenerator                              rng_;
 };
