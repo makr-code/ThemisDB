@@ -1,8 +1,9 @@
 # Index Module Roadmap
 
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] issue  [P] PR  [?] blocked  [!] unclear -->
-<!-- Status: current | validated: 2026-06-30 -->
+<!-- Status: current | validated: 2026-07-06 -->
 <!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md -->
+<!-- Rollout Plan: ai_working/HYBRID_RETRIEVAL_ROLLOUT_PLAN.md §4 (Phase A–D), §7 (risk) -->
 
 ## Current Status
 
@@ -12,6 +13,12 @@ Production index runtime exists across vector/secondary/spatial/graph indexing, 
 ANN queries. All six artifact classes — Document, Chunk, Entity, Adapter, Package, ShardSummary — are
 registered as first-class `AnnScopeKind` values with hot/cold routing and observability.
 
+**Hybrid Retrieval Rollout Readiness**: 40% 🟡 (issue #5468).
+- Phase A (exact-first, CPU fallback): ✅ AnnFrontdoor ready with CPU fallback enforced.
+- Phase B (ANN + CPU validation): 🟡 Q3 2026 — buffer lifecycle RAII and concurrency gaps must be fixed.
+- Phase C (GPU ANN): ❌ Q4 2026 or later — blocked by gpu module gaps.
+- Rollout risk detail: `ai_working/HYBRID_RETRIEVAL_ROLLOUT_PLAN.md §7`
+
 ## In Progress
 
 - [~] hardening backend parity and deterministic fallback across mixed GPU/runtime capabilities (Target: Q3 2026)
@@ -19,8 +26,16 @@ registered as first-class `AnnScopeKind` values with hot/cold routing and observ
 - [~] diagnostics consistency for lifecycle, rebuild, and distributed index incidents (Target: Q3 2026)
 - [~] GPU vector index CUDA backend: L2, cosine, inner-product kernels (Target: Q4 2026)
 - [~] GPU vector index HIP backend: AMD ROCm support with feature-parity (Target: Q4 2026)
+- [~] hybrid retrieval rollout Phase B entry: buffer lifecycle RAII + concurrency hardening (Target: Q3 2026)
 
 ## Planned Features
+
+### Hybrid Retrieval Rollout Gates (issue #5468)
+- [ ] Phase B gate: fix 60% of buffer lifecycle RAII gaps (7,712 total → ~4,600 target) (Target: Q3 2026)
+- [ ] Phase B gate: ThreadSanitizer clean for Vec KNN insert pipeline (Target: Q3 2026)
+- [ ] Phase B gate: ANN result validation — output cardinality + range check before tensor layer (Target: Q3 2026)
+- [~] Phase B ctest gate: `test_ann_cpu_parity` for distance and TopK kernels (implemented; environment validation pending) (Target: Q3 2026)
+- [~] Phase B benchmark gate: `bench_ann_distance_cpu_vs_flat` (implemented; environment validation pending) (Target: Q3 2026)
 
 ### Short-term (3-6 months)
 - [ ] tighten deterministic behavior under high-volume mixed index operation workloads (Target: Q4 2026)
