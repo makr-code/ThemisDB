@@ -230,6 +230,32 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/pipeline/application_profile_pipeline_tes
 endif()
 
 # ============================================================================
+# Wave 3 Integration Tests
+# ============================================================================
+
+# W3-A: Full-Function Critical Flows (FFW-01..FFW-08)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/pipeline/w3a_full_function_critical_flows_test.cpp")
+    add_integration_test(
+        w3a_full_function_critical_flows_test
+        pipeline/w3a_full_function_critical_flows_test.cpp
+    )
+    set_tests_properties(w3a_full_function_critical_flows_test PROPERTIES
+        LABELS "integration;pipeline_integration;wave3;w3a;e2e"
+    )
+endif()
+
+# W3-B: Data/State Integrity & Recovery (DIR-01..DIR-08)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/pipeline/w3b_data_integrity_recovery_test.cpp")
+    add_integration_test(
+        w3b_data_integrity_recovery_test
+        pipeline/w3b_data_integrity_recovery_test.cpp
+    )
+    set_tests_properties(w3b_data_integrity_recovery_test PROPERTIES
+        LABELS "integration;pipeline_integration;wave3;w3b;recovery"
+    )
+endif()
+
+# ============================================================================
 # Existing Integration Test (keep original)
 # ============================================================================
 
