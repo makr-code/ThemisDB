@@ -175,6 +175,21 @@ class ArrowFlightServer {
 public:
     virtual ~ArrowFlightServer() = default;
 
+    /// @brief Move constructor for polymorphic ArrowFlightServer base.
+    /// @note Move semantics: abstract base carries no data members; derived classes must delegate here.
+    ArrowFlightServer(ArrowFlightServer&&) noexcept = default;
+
+    /// @brief Move assignment operator for polymorphic ArrowFlightServer base.
+    /// @note Move semantics: no-op on data-less abstract base; derived classes extend this.
+    ArrowFlightServer& operator=(ArrowFlightServer&&) noexcept = default;
+
+    ArrowFlightServer(const ArrowFlightServer&) = delete;
+    ArrowFlightServer& operator=(const ArrowFlightServer&) = delete;
+
+protected:
+    ArrowFlightServer() = default;
+
+public:
     /**
      * @brief Create a new server instance.
      * @param opts Server configuration.
@@ -259,6 +274,21 @@ class ArrowFlightClient {
 public:
     virtual ~ArrowFlightClient() = default;
 
+    /// @brief Move constructor for polymorphic ArrowFlightClient base.
+    /// @note Move semantics: abstract base carries no data members; derived classes must delegate here.
+    ArrowFlightClient(ArrowFlightClient&&) noexcept = default;
+
+    /// @brief Move assignment operator for polymorphic ArrowFlightClient base.
+    /// @note Move semantics: no-op on data-less abstract base; derived classes extend this.
+    ArrowFlightClient& operator=(ArrowFlightClient&&) noexcept = default;
+
+    ArrowFlightClient(const ArrowFlightClient&) = delete;
+    ArrowFlightClient& operator=(const ArrowFlightClient&) = delete;
+
+protected:
+    ArrowFlightClient() = default;
+
+public:
     /**
      * @brief Connect to an Arrow Flight server.
      * @param opts Connection configuration.

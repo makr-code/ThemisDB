@@ -87,6 +87,21 @@ class ShardGraphExecutor {
 public:
     virtual ~ShardGraphExecutor() = default;
 
+    /// @brief Move constructor for polymorphic shard executor base.
+    /// @note Move semantics: abstract base carries no data; derived classes must delegate here.
+    ShardGraphExecutor(ShardGraphExecutor&&) noexcept = default;
+
+    /// @brief Move assignment operator for polymorphic shard executor base.
+    /// @note Move semantics: abstract base carries no data; safe as no-op base move.
+    ShardGraphExecutor& operator=(ShardGraphExecutor&&) noexcept = default;
+
+    ShardGraphExecutor(const ShardGraphExecutor&) = delete;
+    ShardGraphExecutor& operator=(const ShardGraphExecutor&) = delete;
+
+protected:
+    ShardGraphExecutor() = default;
+
+public:
     /// Returns the unique identifier of this shard.
     [[nodiscard]] virtual std::string shardId() const = 0;
 
@@ -145,6 +160,17 @@ public:
      *                    Must outlive this executor.
      */
     LocalShardGraphExecutor(std::string shard_id, GraphIndexManager& graph_mgr);
+
+    /// @brief Move constructor — transfers shard_id and optimizer; source shard_id left empty.
+    /// @note Move semantics: std::string move clears source shard_id_; optimizer moved via its own move.
+    LocalShardGraphExecutor(LocalShardGraphExecutor&&) noexcept = default;
+
+    /// @brief Move assignment operator.
+    /// @note Move semantics: all members replaced; old shard_id and optimizer discarded.
+    LocalShardGraphExecutor& operator=(LocalShardGraphExecutor&&) noexcept = default;
+
+    LocalShardGraphExecutor(const LocalShardGraphExecutor&) = delete;
+    LocalShardGraphExecutor& operator=(const LocalShardGraphExecutor&) = delete;
 
     std::string shardId() const override { return shard_id_; }
 

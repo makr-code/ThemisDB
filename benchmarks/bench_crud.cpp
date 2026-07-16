@@ -12,11 +12,14 @@
 #include "index/secondary_index.h"
 #include <random>
 #include <filesystem>
+#include <chrono>
 
 namespace {
+    // Deterministic, fixed seed for reproducible benchmark measurements.
+    // Seeding from std::random_device is intentionally avoided.
     std::string makeRandomString(size_t len) {
         static const char charset[] = "abcdefghijklmnopqrstuvwxyz0123456789";
-        static std::mt19937 rng{std::random_device{}()};
+        static std::mt19937 rng{42};
         static std::uniform_int_distribution<size_t> dist(0, sizeof(charset) - 2);
         std::string s;
         s.reserve(len);
@@ -33,7 +36,11 @@ namespace {
 class CRUDFixture : public benchmark::Fixture {
 public:
     void SetUp(const ::benchmark::State&) override {
-        db_path_ = "bench_crud_db";
+        // Unique path under the OS temp directory prevents collisions between
+        // concurrent or repeated benchmark runs.
+        const auto ts = std::chrono::steady_clock::now().time_since_epoch().count();
+        db_path_ = (std::filesystem::temp_directory_path() /
+                    ("themis_bench_crud_" + std::to_string(ts))).string();
         cleanupTestDB(db_path_);
 
         themis::RocksDBWrapper::Config config;
@@ -93,7 +100,9 @@ BENCHMARK_DEFINE_F(CRUDFixture, InsertWithAllIndexes)(benchmark::State& state) {
     }
     state.SetItemsProcessed(state.iterations());
 }
-BENCHMARK_REGISTER_F(CRUDFixture, InsertWithAllIndexes)->Unit(benchmark::kMillisecond);
+BENCHMARK_REGISTER_F(CRUDFixture, InsertWithAllIndexes)
+    ->Unit(benchmark::kMillisecond)
+    ->UseRealTime();
 
 // --- Read Benchmarks ---
 
@@ -104,7 +113,9 @@ BENCHMARK_DEFINE_F(CRUDFixture, LookupBySecondaryIndex)(benchmark::State& state)
     }
     state.SetItemsProcessed(state.iterations());
 }
-BENCHMARK_REGISTER_F(CRUDFixture, LookupBySecondaryIndex)->Unit(benchmark::kMicrosecond);
+BENCHMARK_REGISTER_F(CRUDFixture, LookupBySecondaryIndex)
+    ->Unit(benchmark::kMicrosecond)
+    ->UseRealTime();
 
 // --- Range-Index Benchmark ---
 
@@ -115,7 +126,9 @@ BENCHMARK_DEFINE_F(CRUDFixture, RangeScanAge)(benchmark::State& state) {
     }
     state.SetItemsProcessed(state.iterations());
 }
-BENCHMARK_REGISTER_F(CRUDFixture, RangeScanAge)->Unit(benchmark::kMicrosecond);
+BENCHMARK_REGISTER_F(CRUDFixture, RangeScanAge)
+    ->Unit(benchmark::kMicrosecond)
+    ->UseRealTime();
 
 // --- Fulltext-Index Benchmark ---
 
@@ -126,6 +139,8 @@ BENCHMARK_DEFINE_F(CRUDFixture, FulltextSearch)(benchmark::State& state) {
     }
     state.SetItemsProcessed(state.iterations());
 }
-BENCHMARK_REGISTER_F(CRUDFixture, FulltextSearch)->Unit(benchmark::kMicrosecond);
+BENCHMARK_REGISTER_F(CRUDFixture, FulltextSearch)
+    ->Unit(benchmark::kMicrosecond)
+    ->UseRealTime();
 
 BENCHMARK_MAIN();
