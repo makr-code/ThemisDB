@@ -27,6 +27,7 @@
 #include <stdexcept>
 #include <string_view>
 #include <unordered_set>
+#include <nlohmann/json.hpp>
 #include <spdlog/spdlog.h>
 
 // Configuration constants
@@ -293,6 +294,23 @@ nlohmann::json QueryFederation::execute(const std::string& query) {    total_que
         
         // 2. Create execution plan
         auto plan = createExecutionPlan(query);
+
+        // Q2: Audit — federation request dispatch
+        spdlog::info("[audit] {{\"event\":\"federation_dispatch\","
+                     "\"request_type\":\"{}\",\"shard_count\":{},"
+                     "\"table_count\":{}}}",
+                     [&]() -> const char* {
+                         switch (plan.strategy) {
+                             case ExecutionPlan::Strategy::SCATTER_GATHER:   return "scatter_gather";
+                             case ExecutionPlan::Strategy::PARTITION_PRUNING:return "partition_pruning";
+                             case ExecutionPlan::Strategy::BROADCAST_JOIN:   return "broadcast_join";
+                             case ExecutionPlan::Strategy::SHUFFLE_JOIN:     return "shuffle_join";
+                             case ExecutionPlan::Strategy::MAP_REDUCE:       return "map_reduce";
+                             default:                                         return "unknown";
+                         }
+                     }(),
+                     plan.target_shards.size(),
+                     metadata.tables.size());
         
         // 3. Execute based on strategy
         std::vector<sharding::ShardResult> shard_results;
@@ -368,6 +386,16 @@ nlohmann::json QueryFederation::execute(const std::string& query) {    total_que
         auto end_time = std::chrono::steady_clock::now();
         auto duration_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
             end_time - start_time).count();
+
+        // Q2: Audit — federated result merge
+        const bool truncated = (final_result.is_array() && config_.max_result_size_bytes > 0 &&
+                                 final_result.dump().size() >= config_.max_result_size_bytes);
+        spdlog::info("[audit] {{\"event\":\"federation_result_merge\","
+                     "\"result_count\":{},\"truncated\":{},"
+                     "\"merge_time_ms\":{}}}",
+                     final_result.is_array() ? final_result.size() : 0u,
+                     truncated,
+                     duration_ms);
         
         spdlog::info("Federated query completed in {}ms, {} results", 
                     duration_ms, final_result.size());
@@ -375,6 +403,13 @@ nlohmann::json QueryFederation::execute(const std::string& query) {    total_que
         return final_result;
         
     } catch (const std::exception& e) {
+        // Q2: Audit — cross-cluster query failure
+        const nlohmann::json audit_event = {
+            {"event", "federation_failure"},
+            {"reason", e.what()},
+            {"affected_clusters", total_queries_.load()}
+        };
+        spdlog::error("[audit] {}", audit_event.dump());
         spdlog::error("Federated query execution failed: {}", e.what());
         throw;
     }
@@ -1172,4 +1207,3 @@ uint64_t QueryFederation::estimateCollectionSize([[maybe_unused]] const std::str
 }
 
 } // namespace themis::query
-

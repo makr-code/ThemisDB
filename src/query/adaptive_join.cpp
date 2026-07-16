@@ -499,8 +499,14 @@ JoinResult AdaptiveJoinExecutor::executeGraceHashJoin(const JoinSpec& spec,
     // the data size.
     constexpr size_t NUM_PARTITIONS = 16;
 
+    // Q3: Pre-allocate partition vectors to avoid incremental reallocation.
+    // Each partition receives approximately (total / NUM_PARTITIONS) rows.
+    const size_t left_per_partition  = (left.rowCount()  + NUM_PARTITIONS - 1) / NUM_PARTITIONS;
+    const size_t right_per_partition = (right.rowCount() + NUM_PARTITIONS - 1) / NUM_PARTITIONS;
+
     // Partition left side.
     std::vector<std::vector<const RowValue*>> left_parts(NUM_PARTITIONS);
+    for (auto& part : left_parts) part.reserve(left_per_partition);
     for (const auto& row : left.rows) {
         auto it = row.find(spec.left_key);
         if (it == row.end()) continue;
@@ -510,6 +516,7 @@ JoinResult AdaptiveJoinExecutor::executeGraceHashJoin(const JoinSpec& spec,
 
     // Partition right side.
     std::vector<std::vector<const RowValue*>> right_parts(NUM_PARTITIONS);
+    for (auto& part : right_parts) part.reserve(right_per_partition);
     for (const auto& row : right.rows) {
         auto it = row.find(spec.right_key);
         if (it == row.end()) continue;
