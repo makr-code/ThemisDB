@@ -1687,7 +1687,7 @@ if(THEMIS_ENABLE_LLM)
                 message(FATAL_ERROR
                     "llama.cpp source not found!\n"
                     "Clone locally (ignored by Git/Docker):\n"
-                    "  git clone https://github.com/ggerganov/llama.cpp.git llama.cpp\n"
+                    "  git clone https://github.com/ggml-org/llama.cpp.git llama.cpp\n"
                     "Or run: bash scripts/setup-llamacpp.sh")
             endif()
         endif()

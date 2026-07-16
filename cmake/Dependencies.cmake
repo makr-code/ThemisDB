@@ -811,18 +811,27 @@ if(THEMIS_ENABLE_LLM)
     
     # Prefer repository-vendored llama.cpp when present to avoid fragile
     # FetchContent git clone/update behavior in source archives/submodule snapshots.
+    # Support both canonical root path and legacy external path.
+    set(_themis_llama_local_src "")
     if(EXISTS "${PROJECT_SOURCE_DIR}/llama.cpp/CMakeLists.txt")
-        message(STATUS "llama.cpp: using local vendored source")
+        set(_themis_llama_local_src "${PROJECT_SOURCE_DIR}/llama.cpp")
+    elseif(EXISTS "${PROJECT_SOURCE_DIR}/external/llama.cpp/CMakeLists.txt")
+        set(_themis_llama_local_src "${PROJECT_SOURCE_DIR}/external/llama.cpp")
+        message(WARNING "llama.cpp: using legacy source path external/llama.cpp; prefer root llama.cpp/")
+    endif()
+
+    if(_themis_llama_local_src)
+        message(STATUS "llama.cpp: using local vendored source at ${_themis_llama_local_src}")
         FetchContent_Declare(
             llama_cpp
-            SOURCE_DIR "${PROJECT_SOURCE_DIR}/llama.cpp"
+            SOURCE_DIR "${_themis_llama_local_src}"
             DOWNLOAD_COMMAND ""
             UPDATE_COMMAND ""
         )
     else()
         FetchContent_Declare(
             llama_cpp
-            GIT_REPOSITORY https://github.com/ggerganov/llama.cpp.git
+            GIT_REPOSITORY https://github.com/ggml-org/llama.cpp.git
             GIT_TAG ${LLAMA_CPP_GIT_TAG}
             GIT_SHALLOW FALSE  # Need full history for commit verification
             SOURCE_DIR "${PROJECT_SOURCE_DIR}/llama.cpp"

@@ -573,6 +573,59 @@ struct RegisteredBackend {
     IMatrixBackend*  matrixPtr = nullptr;  ///< First IMatrixBackend of this type, or nullptr
 };
 
+// =============================================================================
+// KernelCoverage / ValidationReport / KernelRegistry
+// (declared before BackendRegistry which holds a KernelRegistry member)
+// =============================================================================
+
+/// Coverage record for a single BackendType.
+struct KernelCoverage {
+    BackendType              backend{};
+    bool                     hasANN        = false;
+    bool                     annComplete   = false;
+    bool                     hasGeo        = false;
+    bool                     geoComplete   = false;
+    bool                     hasMatrix     = false;
+    bool                     matrixComplete = false;
+    std::vector<std::string> missingSlots;
+};
+
+/// Aggregated kernel-coverage report returned by KernelRegistry::validate().
+struct ValidationReport {
+    std::vector<KernelCoverage> entries;
+    /// Returns a human-readable multi-line summary.
+    [[nodiscard]] std::string summary() const;
+};
+
+/// Concrete per-type dispatch tables for ANN, Geo and Matrix kernels.
+/// One shared instance lives inside BackendRegistry.
+class KernelRegistry {
+public:
+    void registerANN   (BackendType bt, ANNKernelDispatch    d) { annDispatch_[bt]    = std::move(d); }
+    void registerGeo   (BackendType bt, GeoKernelDispatch    d) { geoDispatch_[bt]    = std::move(d); }
+    void registerMatrix(BackendType bt, MatrixKernelDispatch d) { matrixDispatch_[bt] = std::move(d); }
+
+    [[nodiscard]] ANNKernelDispatch getANNDispatch(BackendType bt) const noexcept {
+        auto it = annDispatch_.find(bt); return it != annDispatch_.end() ? it->second : ANNKernelDispatch{};
+    }
+    [[nodiscard]] GeoKernelDispatch getGeoDispatch(BackendType bt) const noexcept {
+        auto it = geoDispatch_.find(bt); return it != geoDispatch_.end() ? it->second : GeoKernelDispatch{};
+    }
+    [[nodiscard]] MatrixKernelDispatch getMatrixDispatch(BackendType bt) const noexcept {
+        auto it = matrixDispatch_.find(bt); return it != matrixDispatch_.end() ? it->second : MatrixKernelDispatch{};
+    }
+
+    [[nodiscard]] ANNKernelDispatch        lookupANNWithFallback(BackendType primary) const noexcept;
+    [[nodiscard]] GeoKernelDispatch        lookupGeoWithFallback(BackendType primary) const noexcept;
+    [[nodiscard]] std::vector<BackendType> registeredBackends() const;
+    [[nodiscard]] ValidationReport         validate() const;
+
+private:
+    std::unordered_map<BackendType, ANNKernelDispatch>    annDispatch_;
+    std::unordered_map<BackendType, GeoKernelDispatch>    geoDispatch_;
+    std::unordered_map<BackendType, MatrixKernelDispatch> matrixDispatch_;
+};
+
 // Forward declaration
 class PluginLoader;
 
@@ -724,7 +777,14 @@ public:
 
     // Shutdown all backends
     void shutdownAll();
-    
+
+    /// Returns a ValidationReport summarising kernel-slot coverage for every
+    /// registered BackendType.  Thread-safe (acquires shared lock).
+    [[nodiscard]] ValidationReport validateKernels() const;
+
+    /// Direct read-only access to the shared KernelRegistry.
+    [[nodiscard]] const KernelRegistry& getKernelRegistry() const noexcept;
+
 private:
     BackendRegistry();
     ~BackendRegistry();
@@ -751,6 +811,10 @@ private:
 
     // Device info snapshot captured at the last initializeRuntime() call.
     std::vector<DeviceCapabilityInfo> cachedDeviceInfo_;
+
+    // Kernel dispatch tables indexed by BackendType.
+    // Populated lazily during registerBackend().
+    KernelRegistry kernelRegistry_;
 };
 
 // =============================================================================
