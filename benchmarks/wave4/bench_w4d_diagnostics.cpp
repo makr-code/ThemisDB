@@ -105,16 +105,9 @@ BENCHMARK_DEFINE_F(StorageBenchFixture, W4D_01_StorageThroughputSummary)(
     // Publish write diagnostics (renamed to avoid collision with VarianceTracker).
     write_vt.publishCounters(state);
 
-    // Augment with read-specific counters.
-    {
-        std::vector<double> rsorted;
-        rsorted.reserve(read_vt.size());
-        // Re-create read samples for p99 (VarianceTracker doesn't expose raw data).
-        // Instead, run a quick re-measurement pass using already-set read counters.
-        // Emit read_ops_per_sec as an independent counter.
-        state.counters["read_ops_per_sec"] = static_cast<double>(total_read) /
-            (static_cast<double>(state.iterations()) * 1e-9);
-    }
+    // Emit read ops/s using kIsRate so Google Benchmark divides by elapsed time.
+    state.counters["read_ops_per_sec"] = benchmark::Counter(
+        static_cast<double>(total_read), benchmark::Counter::kIsRate);
 
     state.counters["write_ops"]  = static_cast<double>(total_write);
     state.counters["read_ops"]   = static_cast<double>(total_read);
@@ -298,13 +291,14 @@ static void BM_W4D_04_FixtureOverhead(benchmark::State& state) {
     for (auto _ : state) {
         auto t0 = std::chrono::steady_clock::now();
 
-        // Emulate fixture setup inline.
+        // Emulate fixture setup inline (construction + open) and teardown (destroy).
         TempDir tmp;
-        themis::StorageConfig cfg;
+        themis::RocksDBWrapper::Config cfg;
         cfg.db_path = tmp.str();
         cfg.create_if_missing = true;
         {
             auto db = std::make_shared<themis::RocksDBWrapper>(cfg);
+            db->open();
             benchmark::DoNotOptimize(db);
         }  // DB is destroyed here (emulates TearDown).
 

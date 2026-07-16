@@ -210,8 +210,18 @@ def evaluate_gate(
     filt      = gate["benchmark_filter"]
     metric    = gate["metric"]
     direction = gate["direction"]
-    threshold = float(gate.get("regression_threshold_pct",
-                               gate.get("max_degradation_pct_vs_baseline", 10)))
+    # Derive regression threshold from whichever field is present:
+    #   - regression_threshold_pct        → direct threshold
+    #   - max_degradation_pct_vs_baseline → direct threshold
+    #   - min_recovery_throughput_pct_of_write → "at least N% of baseline", so
+    #     allowed degradation = 100 - N (e.g., 80% → 20% max degradation)
+    min_recovery = gate.get("min_recovery_throughput_pct_of_write")
+    threshold_candidates = [
+        gate.get("regression_threshold_pct"),
+        gate.get("max_degradation_pct_vs_baseline"),
+        (100.0 - float(min_recovery)) if min_recovery is not None else None,
+    ]
+    threshold = float(next((v for v in threshold_candidates if v is not None), 10))
     criticality = gate.get("criticality", "advisory")
 
     # Build the repro command.

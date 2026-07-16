@@ -28,6 +28,7 @@
 #include <cmath>
 #include <functional>
 #include <memory>
+#include <mutex>
 #include <numeric>
 #include <random>
 #include <string>
@@ -202,7 +203,7 @@ private:
  *        scenarios (B4-B).
  *
  * Limits throughput to @p ops_per_second by blocking when the bucket is
- * empty.  Thread-safe via an atomic token counter.
+ * empty.  Thread-safe: acquire() is protected by an internal mutex.
  *
  * @param ops_per_second  Maximum allowed operations per second.
  */
@@ -216,9 +217,11 @@ public:
     /**
      * @brief Block until the next token is available.
      *
+     * Thread-safe: may be called from multiple threads concurrently.
      * Must be called before each operation that should be rate-limited.
      */
     void acquire() {
+        std::lock_guard<std::mutex> lock(mutex_);
         const auto now = std::chrono::steady_clock::now();
         const auto elapsed =
             std::chrono::duration_cast<std::chrono::nanoseconds>(now - last_tick_);
@@ -232,6 +235,7 @@ public:
 private:
     int64_t interval_ns_;
     std::chrono::steady_clock::time_point last_tick_;
+    std::mutex mutex_;
 };
 
 // ---------------------------------------------------------------------------

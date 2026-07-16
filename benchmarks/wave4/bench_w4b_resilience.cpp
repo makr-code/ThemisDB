@@ -242,10 +242,11 @@ static void BM_W4B_04_WriteThroughputUnderBackpressure(benchmark::State& state) 
     const int64_t ops_per_sec_limit = state.range(0);
 
     TempDir tmp;
-    themis::StorageConfig cfg;
+    themis::RocksDBWrapper::Config cfg;
     cfg.db_path = tmp.str();
     cfg.create_if_missing = true;
     auto db = std::make_shared<themis::RocksDBWrapper>(cfg);
+    db->open();
 
     RandomGenerator rng(kW4CanonicalSeed);
 

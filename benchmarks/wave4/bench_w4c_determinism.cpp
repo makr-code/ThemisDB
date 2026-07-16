@@ -105,10 +105,11 @@ static void BM_W4C_02_WarmupEffectiveness(benchmark::State& state) {
     const int warmup_iters = static_cast<int>(state.range(0));
 
     TempDir tmp;
-    themis::StorageConfig cfg;
+    themis::RocksDBWrapper::Config cfg;
     cfg.db_path = tmp.str();
     cfg.create_if_missing = true;
     auto db = std::make_shared<themis::RocksDBWrapper>(cfg);
+    db->open();
 
     RandomGenerator rng(kW4CanonicalSeed);
 
@@ -140,7 +141,8 @@ static void BM_W4C_02_WarmupEffectiveness(benchmark::State& state) {
 
     warm_tracker.publishCounters(state);
     state.SetItemsProcessed(total_ops);
-    state.counters["cold_ns"]     = static_cast<double>(cold_elapsed.count());
+    state.counters["cold_ns"]     = static_cast<double>(
+        std::chrono::duration_cast<std::chrono::nanoseconds>(cold_elapsed).count());
     state.counters["warmup_iters"] = static_cast<double>(warmup_iters);
 }
 BENCHMARK(BM_W4C_02_WarmupEffectiveness)
@@ -164,10 +166,11 @@ BENCHMARK(BM_W4C_02_WarmupEffectiveness)
 BENCHMARK_DEFINE_F(DeterministicFixture, W4C_03_StorageWriteVariance)(
         benchmark::State& state) {
     TempDir tmp;
-    themis::StorageConfig cfg;
+    themis::RocksDBWrapper::Config cfg;
     cfg.db_path = tmp.str();
     cfg.create_if_missing = true;
     auto db = std::make_shared<themis::RocksDBWrapper>(cfg);
+    db->open();
 
     WarmupProtocol::run(kDefaultWarmupIterations, [&] {
         db->put(rng_.genKey(16), rng_.genKey(64));
@@ -249,40 +252,65 @@ BENCHMARK_REGISTER_F(DeterministicFixture, W4C_04_VectorSearchVariance)
 // ============================================================================
 
 /**
- * @brief Verifies that fixture teardown properly releases DB state and the
- *        next iteration's SetUp starts with a clean slate.
+ * @brief Verifies that fixture teardown properly releases DB state and a
+ *        subsequent fixture lifecycle starts with a clean slate.
  *
- * Each iteration opens a fresh DB, writes N keys, and verifies that a
- * re-opened DB on a new directory cannot read those keys (isolation check).
+ * Each iteration simulates two consecutive fixture lifecycles:
+ *  - Lifecycle A: create a fresh DB in a temp dir, write N keys, then destroy
+ *    both the DB handle and the temp directory (emulating TearDown).
+ *  - Lifecycle B: create a fresh DB in a different temp dir (emulating SetUp
+ *    of the next benchmark run) and verify that none of the keys written in
+ *    lifecycle A are visible — confirming there is no state leakage.
  *
  * Emits isolation_ok counter (1.0 = isolated, 0.0 = leaked state detected).
  */
-BENCHMARK_DEFINE_F(StorageBenchFixture, W4C_05_TeardownIsolation)(
-        benchmark::State& state) {
+static void BM_W4C_05_TeardownIsolation(benchmark::State& state) {
     constexpr int kWriteKeys = 50;
     bool all_isolated = true;
     int64_t iter_count = 0;
+    RandomGenerator rng(kW4CanonicalSeed);
 
     for (auto _ : state) {
-        // Write to current fixture DB.
+        // Lifecycle A: write keys, then destroy DB + temp dir.
         std::vector<std::string> written_keys;
         written_keys.reserve(kWriteKeys);
-        for (int i = 0; i < kWriteKeys; ++i) {
-            const std::string k = "iso_" + std::to_string(iter_count) + "_" + std::to_string(i);
-            db_->put(k, rng_.genKey(64));
-            written_keys.push_back(k);
-        }
-        benchmark::DoNotOptimize(written_keys);
-
-        // Verify reads back within same iteration (sanity check).
-        for (const auto& k : written_keys) {
-            auto val = db_->get(k);
-            if (!val) {
-                all_isolated = false;
+        {
+            state.PauseTiming();
+            TempDir dir_a;
+            themis::RocksDBWrapper::Config cfg_a;
+            cfg_a.db_path = dir_a.str();
+            cfg_a.create_if_missing = true;
+            auto db_a = std::make_shared<themis::RocksDBWrapper>(cfg_a);
+            db_a->open();
+            for (int i = 0; i < kWriteKeys; ++i) {
+                const std::string k =
+                    "iso_" + std::to_string(iter_count) + "_" + std::to_string(i);
+                db_a->put(k, rng.genKey(64));
+                written_keys.push_back(k);
             }
-            benchmark::DoNotOptimize(val);
+            // db_a and dir_a destroyed here — emulates TearDown + cleanup.
+            state.ResumeTiming();
         }
 
+        // Lifecycle B: fresh DB in a new directory — none of lifecycle A's keys
+        // should be visible (they were in a different, now-deleted directory).
+        {
+            TempDir dir_b;
+            themis::RocksDBWrapper::Config cfg_b;
+            cfg_b.db_path = dir_b.str();
+            cfg_b.create_if_missing = true;
+            auto db_b = std::make_shared<themis::RocksDBWrapper>(cfg_b);
+            db_b->open();
+            for (const auto& k : written_keys) {
+                auto val = db_b->get(k);
+                if (val) {
+                    all_isolated = false;
+                }
+                benchmark::DoNotOptimize(val);
+            }
+        }
+
+        benchmark::DoNotOptimize(all_isolated);
         ++iter_count;
     }
 
@@ -290,7 +318,7 @@ BENCHMARK_DEFINE_F(StorageBenchFixture, W4C_05_TeardownIsolation)(
     state.counters["isolation_ok"] = all_isolated ? 1.0 : 0.0;
     state.counters["iter_count"]   = static_cast<double>(iter_count);
 }
-BENCHMARK_REGISTER_F(StorageBenchFixture, W4C_05_TeardownIsolation)
+BENCHMARK(BM_W4C_05_TeardownIsolation)
     ->Iterations(10)
     ->Unit(benchmark::kMillisecond);
 

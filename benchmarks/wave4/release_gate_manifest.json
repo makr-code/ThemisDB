@@ -32,7 +32,7 @@
       "id": "W4A-01",
       "name": "Storage Write Throughput",
       "benchmark": "bench_w4a_release_gates",
-      "benchmark_filter": "StorageBenchFixture/W4A_01_WriteThoughput/500",
+      "benchmark_filter": "StorageBenchFixture/W4A_01_WriteThroughput/500",
       "metric": "items_per_second",
       "direction": "higher_is_better",
       "regression_threshold_pct": 10,

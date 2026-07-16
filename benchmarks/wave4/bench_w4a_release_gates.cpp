@@ -58,7 +58,7 @@ using namespace themis::bench::wave4;
  *
  * state.range(0) = number of kv pairs per iteration batch.
  */
-BENCHMARK_DEFINE_F(StorageBenchFixture, W4A_01_WriteThoughput)(benchmark::State& state) {
+BENCHMARK_DEFINE_F(StorageBenchFixture, W4A_01_WriteThroughput)(benchmark::State& state) {
     const int64_t batch = state.range(0);
 
     // Warmup: pre-condition page cache and memtable.
@@ -89,7 +89,7 @@ BENCHMARK_DEFINE_F(StorageBenchFixture, W4A_01_WriteThoughput)(benchmark::State&
     state.counters["gate_id"]  = 1.0;  // W4A-01
     state.counters["batch"]    = static_cast<double>(batch);
 }
-BENCHMARK_REGISTER_F(StorageBenchFixture, W4A_01_WriteThoughput)
+BENCHMARK_REGISTER_F(StorageBenchFixture, W4A_01_WriteThroughput)
     ->Arg(100)
     ->Arg(500)
     ->Arg(1000)
@@ -312,10 +312,11 @@ static void BM_W4A_06_MixedConcurrent(benchmark::State& state) {
 
     // Set up a shared DB.
     TempDir tmp;
-    themis::StorageConfig cfg;
+    themis::RocksDBWrapper::Config cfg;
     cfg.db_path = tmp.str();
     cfg.create_if_missing = true;
     auto db = std::make_shared<themis::RocksDBWrapper>(cfg);
+    db->open();
 
     // Pre-populate so reads have data.
     RandomGenerator seed_rng(kW4CanonicalSeed);
