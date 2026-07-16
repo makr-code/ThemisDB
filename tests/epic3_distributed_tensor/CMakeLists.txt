@@ -1,6 +1,6 @@
-<<<<<<< HEAD
-# EPIC 3 Distributed Tensor — Phase A ManifestStore tests
-# Registered as a module-focused test once themis_core and GTest are available.
+# EPIC 3 Distributed Tensor — tests and benchmarks
+
+# ── Phase A ManifestStore tests (Phase A advisory-only store, MS-01..12) ──────
 
 if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_manifest_store_phase_a.cpp")
     message(STATUS "Adding EPIC3: Phase A ManifestStore tests (MS-01..12)")
@@ -44,8 +44,8 @@ if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_manifest_store_phase_a.cpp")
 else()
     message(STATUS "EPIC3 ManifestStore tests not found at ${CMAKE_CURRENT_LIST_DIR}/test_manifest_store_phase_a.cpp")
 endif()
-=======
-# EPIC 3 Distributed Tensor contract tests
+
+# ── EPIC 3.4 Integrity verification tests and benchmarks ──────────────────────
 
 set(EPIC3_DISTRIBUTED_TENSOR_TESTS
     integrity_verification_test.cc
@@ -83,5 +83,3 @@ foreach(bench_src IN LISTS EPIC3_DISTRIBUTED_TENSOR_BENCHMARKS)
         message(STATUS "Skipping benchmark ${bench_name}: benchmark::benchmark target not available")
     endif()
 endforeach()
->>>>>>> origin/develop
-

@@ -83,51 +83,30 @@ manifest schema wiring and advisory-only artifact policy documentation.
 ## Implementation Phases
 
 ### Phase 1: Design / API Contract
-<<<<<<< HEAD
-- [x] EPIC 3 contract ownership mapped and documented
-- [x] tensor-update rollout track staged (Phases A–D) in `ai_working/HYBRID_RETRIEVAL_ROLLOUT_PLAN.md`
-- [ ] manifest schema (ArtifactManifest fields + ManifestStore API) frozen for active line (Target: Q3 2026)
-- [x] advisory-only artifact policy documented with invariant: tensor artifacts never replace graph-verified results (Target: Q3 2026)
-
-### Phase 2: Core Implementation
-- [ ] scaffold translation units to be added with the implementation PR
-- [ ] Phase A: tensor delta log + manifest store wired (Target: Q3 2026)
-- [ ] Phase A: snapshot-based rebuild worker implemented (Target: Q3 2026)
-- [ ] Phase B: patch path + partial refit + rebuild fallback implemented (Target: Q3 2026)
-- [ ] Phase C: shard summary refresh + summary-first routing + exact-on-demand fetch implemented (Target: Q4 2026)
-
-### Phase 3: Error Handling and Edge Cases
-- [ ] runtime distributed failure semantics implemented and verified
-- [ ] Phase B: rebuild fallback triggered on delta log overflow and instability (Target: Q3 2026)
-- [ ] Phase C: exact-on-demand fallback when summary freshness threshold exceeded (Target: Q4 2026)
-
-### Phase 4: Tests
-- [ ] contract and fault-path tests implemented in `tests/epic3_distributed_tensor/`
-- [ ] `test_tensor_delta_log` — Phase B ctest gate (Target: Q3 2026)
-- [ ] `test_tensor_rebuild_fallback` — Phase B ctest gate (Target: Q3 2026)
-- [ ] `test_tensor_shard_summary` — Phase C ctest gate (Target: Q4 2026)
-
-### Phase 5: Performance and Hardening
-- [ ] benchmark suite implemented in `benchmarks/epic3_distributed_tensor/`
-- [ ] `bench_tensor_partial_refit` — Phase B benchmark gate (Target: Q3 2026)
-- [ ] `bench_tensor_summary_first` — Phase C benchmark gate (Target: Q4 2026)
-=======
 - [x] EPIC 3.1 (Artifact Classes) contract ownership mapped and documented
 - [x] EPIC 3.2 (Manifest Schema) contract ownership mapped and documented
 - [x] EPIC 3.3 (Shard Placement) contract ownership mapped and documented
-- [x] **EPIC 3.4 (Integrity Model) contract ownership mapped and documented** ← Just completed
+- [x] EPIC 3.4 (Integrity Model) contract ownership mapped and documented
+- [x] tensor-update rollout track staged (Phases A–D) in `ai_working/HYBRID_RETRIEVAL_ROLLOUT_PLAN.md`
+- [x] advisory-only artifact policy documented with invariant: tensor artifacts never replace graph-verified results (Target: Q3 2026)
 
 ### Phase 2: Core Implementation
 - [x] integrity translation units created for EPIC 3.4
 - [x] deterministic JSON hashing and manifest-facing proof/receipt serialization implemented
 - [x] cached-receipt versus fresh-verification rules documented for query-path consumers
 - [x] 3.4 runtime distributed failure semantics completed across recovery/planner integration
+- [ ] Phase A: tensor delta log + manifest store wired (Target: Q3 2026)
+- [ ] Phase A: snapshot-based rebuild worker implemented (Target: Q3 2026)
+- [ ] Phase B: patch path + partial refit + rebuild fallback implemented (Target: Q3 2026)
+- [ ] Phase C: shard summary refresh + summary-first routing + exact-on-demand fetch implemented (Target: Q4 2026)
 
 ### Phase 3: Error Handling and Edge Cases
 - [x] runtime distributed failure semantics implemented and verified
 - [x] corruption and tampering detection implemented
 - [x] partial-receipt and stale-receipt edge case handling implemented
 - [x] recovery coordination hooks implemented (EPIC 3.5 integration ready)
+- [ ] Phase B: rebuild fallback triggered on delta log overflow and instability (Target: Q3 2026)
+- [ ] Phase C: exact-on-demand fallback when summary freshness threshold exceeded (Target: Q4 2026)
 
 ### Phase 4: Tests
 - [x] unit tests for SHA-256 computation and validation (40+ test cases)
@@ -135,12 +114,16 @@ manifest schema wiring and advisory-only artifact policy documentation.
 - [x] receipt chain verification tests (genesis, appends, tampering)
 - [x] integration tests for full verification workflow
 - [x] comprehensive benchmarks for performance baseline
+- [ ] `test_tensor_delta_log` — Phase B ctest gate (Target: Q3 2026)
+- [ ] `test_tensor_rebuild_fallback` — Phase B ctest gate (Target: Q3 2026)
+- [ ] `test_tensor_shard_summary` — Phase C ctest gate (Target: Q4 2026)
 
 ### Phase 5: Performance and Hardening
 - [x] benchmark suite implemented in `tests/epic3_distributed_tensor/integrity_verification_bench.cc`
 - [ ] performance optimization with hardware acceleration (SHA-NI, AVX-512)
 - [ ] alignment with graph provenance performance targets
->>>>>>> origin/develop
+- [ ] `bench_tensor_partial_refit` — Phase B benchmark gate (Target: Q3 2026)
+- [ ] `bench_tensor_summary_first` — Phase C benchmark gate (Target: Q4 2026)
 
 ### Phase 6: Documentation and Acceptance
 - [x] core distributed tensor docs aligned to source-verifiable scaffold state
