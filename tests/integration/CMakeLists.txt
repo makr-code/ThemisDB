@@ -282,6 +282,43 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/pipeline/w3b_data_integrity_recovery_test
 endif()
 
 # ============================================================================
+# Wave 6 — Release-Candidate Hardening, Stress/Soak, Failure Injection
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/pipeline/w6a_critical_journey_hardening_test.cpp")
+    add_integration_test(
+        w6a_critical_journey_hardening_test
+        pipeline/w6a_critical_journey_hardening_test.cpp
+    )
+    set_tests_properties(w6a_critical_journey_hardening_test PROPERTIES
+        LABELS "integration;pipeline_integration;wave6;w6a;release_candidate"
+        TIMEOUT 120
+    )
+endif()
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/pipeline/w6b_stress_soak_stability_test.cpp")
+    add_integration_test(
+        w6b_stress_soak_stability_test
+        pipeline/w6b_stress_soak_stability_test.cpp
+    )
+    set_tests_properties(w6b_stress_soak_stability_test PROPERTIES
+        LABELS "integration;pipeline_integration;wave6;w6b;stress_soak"
+        TIMEOUT 300
+    )
+endif()
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/pipeline/w6c_failure_injection_recovery_test.cpp")
+    add_integration_test(
+        w6c_failure_injection_recovery_test
+        pipeline/w6c_failure_injection_recovery_test.cpp
+    )
+    set_tests_properties(w6c_failure_injection_recovery_test PROPERTIES
+        LABELS "integration;pipeline_integration;wave6;w6c;failure_injection"
+        TIMEOUT 120
+    )
+endif()
+
+# ============================================================================
 # Existing Integration Test (keep original)
 # ============================================================================
 

@@ -19,6 +19,7 @@
 #include "test_data_generator.h"
 
 #include <gtest/gtest.h>
+#include <algorithm>
 #include <chrono>
 #include <filesystem>
 #include <functional>
@@ -137,6 +138,30 @@ public:
         for (const auto& term : terms) {
             term_to_docs_[term].push_back(document_id);
         }
+    }
+
+    /**
+     * @brief Removes a document ID from every indexed term.
+     * @param document_id Stable document identifier to erase from the inverted index.
+     * @return true if at least one posting-list entry was removed; false if the ID was absent.
+     */
+    [[nodiscard]] bool RemoveDocument(const std::string& document_id) {
+        std::lock_guard<std::mutex> lock(mutex_);
+        bool removed = false;
+        for (auto it = term_to_docs_.begin(); it != term_to_docs_.end();) {
+            auto& docs = it->second;
+            const auto new_end = std::remove(docs.begin(), docs.end(), document_id);
+            if (new_end != docs.end()) {
+                docs.erase(new_end, docs.end());
+                removed = true;
+            }
+            if (docs.empty()) {
+                it = term_to_docs_.erase(it);
+            } else {
+                ++it;
+            }
+        }
+        return removed;
     }
 
     [[nodiscard]] std::vector<std::string> Search(const std::string& term) const {
