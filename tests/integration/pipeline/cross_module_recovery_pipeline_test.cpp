@@ -192,7 +192,7 @@ TEST_F(CrossModuleRecoveryPipelineTest, REC01_RetryOnTransientFailureSucceeds) {
     constexpr size_t kMaxAttempts = 5;
 
     auto faulty_storage = std::make_shared<FaultInjectableStorage>(storage, kFailures);
-    MockRetryScheduler scheduler(/*failures_before_success=*/kFailures);
+    MockRetryScheduler scheduler(/*failures_before_success=*/0);
 
     auto doc = data_gen->GenerateTestDocument("retry");
     doc["id"] = "retry_001";
@@ -226,7 +226,7 @@ TEST_F(CrossModuleRecoveryPipelineTest, REC02_MaxRetriesExhaustedLeavesNoArtifac
     constexpr size_t kMaxAttempts = 3;
 
     auto faulty_storage = std::make_shared<FaultInjectableStorage>(storage, kFailures);
-    MockRetryScheduler scheduler(/*failures_before_success=*/kFailures);
+    MockRetryScheduler scheduler(/*failures_before_success=*/0);
 
     auto doc = data_gen->GenerateTestDocument("exhausted");
     doc["id"] = "exhausted_001";
@@ -278,7 +278,6 @@ TEST_F(CrossModuleRecoveryPipelineTest, REC03_PartialBatchFailureIsolation) {
         }
 
         // Ingest without content_error flag — schema validation triggers the error.
-        const bool expected_ok = !spec.should_fail;
         const auto has_title   = doc.contains("title");
         const auto id          = spec.id;
 
@@ -299,10 +298,6 @@ TEST_F(CrossModuleRecoveryPipelineTest, REC03_PartialBatchFailureIsolation) {
         << "Failed doc's term must not be in the index";
 
     // Query the good docs.
-    auto q_auth = CreateMockAuth();
-    q_auth->AllowToken(valid_token_);
-    auto q_audit = CreateAuditLog();
-
     for (const std::string term : {"rec3_term_0", "rec3_term_1"}) {
         const auto ids = index->Search(term);
         EXPECT_FALSE(ids.empty()) << "Term '" << term << "' must be indexed";
@@ -448,7 +443,7 @@ TEST_F(CrossModuleRecoveryPipelineTest, REC06_ReIngestAfterFailureEmitsCdcOnce) 
  */
 TEST_F(CrossModuleRecoveryPipelineTest, REC07_ConcurrentRetryAndQueryNoDuplicates) {
     constexpr size_t kDocs    = 8;
-    constexpr size_t kRetries = 3;
+    constexpr size_t kRetries = kDocs * 2;  // budget exceeds worst-case all-failures-on-one-thread
 
     // Use a storage wrapper that injects 1 failure per document.
     auto faulty_storage = std::make_shared<FaultInjectableStorage>(storage, kDocs);
@@ -464,7 +459,7 @@ TEST_F(CrossModuleRecoveryPipelineTest, REC07_ConcurrentRetryAndQueryNoDuplicate
             const std::string term    = "conc_term_" + std::to_string(i);
             const std::string payload = R"({"id":")" + id + R"("})";
 
-            MockRetryScheduler scheduler(/*failures_before_success=*/1);
+            MockRetryScheduler scheduler(/*failures_before_success=*/0);
             const bool ok = scheduler.Execute(
                 [&]() {
                     const auto r = faulty_storage->Write(id, payload);

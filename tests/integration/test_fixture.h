@@ -388,8 +388,8 @@ class DeterministicIntegrationFixture : public IntegrationTestFixture {
 protected:
     void SetUp() override {
         IntegrationTestFixture::SetUp();
-        // data_gen is a SeededTestDataGenerator; field type hides the polymorphism
-        // so test code uses the extended Wave 2 API directly.
+        // data_gen is a SeededTestDataGenerator that exposes the extended
+        // Wave 2 API (GenerateDocumentBatch, GenerateVectorBatch) directly.
         data_gen = std::make_unique<SeededTestDataGenerator>();
         storage  = CreateInMemoryStorage();
         index    = CreateMockIndex();

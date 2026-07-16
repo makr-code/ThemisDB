@@ -19,6 +19,7 @@
 #pragma once
 
 #include <chrono>
+#include <cmath>
 #include <cstdint>
 #include <nlohmann/json.hpp>
 #include <random>
@@ -30,8 +31,10 @@ namespace test {
 
 /// @brief Canonical RNG seed used by all Wave 2 cross-module fixture tests.
 ///
-/// Using a fixed seed guarantees byte-identical data across CI runs and local
-/// developer machines, which is required for regression-baseline comparisons.
+/// Using a fixed seed guarantees deterministic RNG-driven values across CI runs
+/// and local developer machines, which is required for regression-baseline
+/// comparisons.  Note: fields generated from wall-clock time (e.g. timestamps)
+/// are not controlled by this seed and may differ between runs.
 static constexpr uint32_t kCanonicalSeed = 42U;
 
 /**
@@ -170,16 +173,28 @@ public:
     /**
      * @brief Generates a batch of unit-normalized float embeddings.
      *
+     * Each vector is L2-normalized so its magnitude equals 1.0, which matches
+     * the expectation of cosine-similarity and ANN index tests.  Zero vectors
+     * (all components zero) are left unchanged.
+     *
      * @param count  Number of embedding vectors.
      * @param dims   Dimensionality of each vector.
-     * @return Vector of embedding vectors.
+     * @return Vector of unit-normalized embedding vectors.
      */
     [[nodiscard]] std::vector<std::vector<float>> GenerateVectorBatch(
             size_t count, size_t dims = 8) {
         std::vector<std::vector<float>> result;
         result.reserve(count);
         for (size_t i = 0; i < count; ++i) {
-            result.push_back(GenerateEmbedding(dims));
+            auto vec = GenerateEmbedding(dims);
+            // L2-normalize the vector.
+            float norm = 0.0F;
+            for (float v : vec) { norm += v * v; }
+            if (norm > 0.0F) {
+                norm = std::sqrt(norm);
+                for (float& v : vec) { v /= norm; }
+            }
+            result.push_back(std::move(vec));
         }
         return result;
     }
@@ -197,8 +212,9 @@ private:
  *        `kCanonicalSeed` (42).
  *
  * Use this class in Wave 2 cross-module tests wherever reproducibility across
- * CI runs is required.  All generated values are identical on every invocation
- * with the same call sequence, regardless of host platform.
+ * CI runs is required.  All RNG-driven values are identical on every invocation
+ * with the same call sequence, regardless of host platform.  Fields derived
+ * from wall-clock time (e.g. timestamps) are not deterministic.
  *
  * Example:
  * @code

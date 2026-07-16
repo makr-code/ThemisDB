@@ -30,6 +30,7 @@
 #include "../test_data_generator.h"
 #include "../test_fixture.h"
 
+#include <algorithm>
 #include <atomic>
 #include <mutex>
 #include <string>
