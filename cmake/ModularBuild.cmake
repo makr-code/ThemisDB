@@ -1204,6 +1204,8 @@ set(THEMIS_LLM_SOURCES
     ../src/llm/lora_framework/lora_training_config.cpp
     ../src/llm/lora_framework/feedback_plugin.cpp
     ../src/llm/lora_framework/lora_provenance.cpp
+    # Phase 4: HashChain & Provenance Layer (issue #5417)
+    ../src/llm/lora_framework/lora_package_provenance.cpp
     # Use the ThemisDB-integrated storage service (BaseEntity + RocksDB + BlobStorage + encryption).
     # lora_storage_service.cpp (filesystem-only) is intentionally excluded here to avoid duplicate
     # symbol errors.  Search for target "lora_storage_service_themisdb" in cmake/CMakeLists.txt
