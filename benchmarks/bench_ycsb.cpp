@@ -8,6 +8,7 @@
 
 #if 1
 #include <benchmark/benchmark.h>
+#include "bench_fixtures.h"
 #include "storage/base_entity.h"
 #include "storage/key_schema.h"
 #include "storage/rocksdb_wrapper.h"
@@ -57,7 +58,7 @@ namespace {
     
     // Deterministic, fixed seed for reproducible benchmark measurements.
     // Seeding from std::random_device is intentionally avoided here.
-    std::mt19937 rng{42};
+    std::mt19937 rng{themis::bench::kCanonicalRngSeed};
     
     std::string makeRandomString(size_t len) {
         static const char charset[] = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
@@ -478,4 +479,3 @@ BENCHMARK_REGISTER_F(YCSBLiteFixture, WorkloadF)
 
 BENCHMARK_MAIN();
 #endif
-

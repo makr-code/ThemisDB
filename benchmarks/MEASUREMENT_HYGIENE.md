@@ -45,7 +45,7 @@ the reason with a comment.
 All DB/artifact paths used by benchmark fixtures must:
 
 * Be placed under the **OS temporary directory** (`std::filesystem::temp_directory_path()`).
-* Include a **unique suffix** (steady-clock nanosecond timestamp) to prevent
+* Include a **unique suffix** (e.g., steady-clock tick count) to prevent
   collisions when benchmarks run concurrently or repeatedly.
 * Be **cleaned up** in `TearDown()` (and defensively at the start of `SetUp()`).
 

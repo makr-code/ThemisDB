@@ -56,7 +56,7 @@ Historische Ergebniszahlen in älteren Reports bleiben als Historie erhalten. F�
 
 ## Messhygiene (Welle 1 / PR-A)
 
-Priorisierte C++-Benchmarks wurden im Rahmen der Benchmark-Härtung (Welle 1) standardisiert.  Die verbindlichen Regeln für reproduzierbare Messungen sind in [`MEASUREMENT_HYGIENE.md`](MEASUREMENT_HYGIENE.md) dokumentiert.
+Priorisierte C++-Benchmarks wurden im Rahmen der Benchmark-Härtung (Welle 1) standardisiert. Die verbindlichen Regeln für reproduzierbare Messungen sind in [`MEASUREMENT_HYGIENE.md`](MEASUREMENT_HYGIENE.md) dokumentiert.
 
 Kurzfassung der Pflichtregeln:
 - **Fester RNG-Seed**: `kCanonicalRngSeed = 42` (aus `bench_fixtures.h`) — kein `std::random_device`.
