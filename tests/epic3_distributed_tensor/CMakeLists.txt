@@ -11,6 +11,7 @@ if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_manifest_store_phase_a.cpp")
     )
 
     target_include_directories(test_manifest_store_phase_a PRIVATE
+        ${THEMIS_ROOT_DIR}
         ${THEMIS_ROOT_DIR}/include
         ${THEMIS_ROOT_DIR}/src/distributed_tensor/include
         ${THEMIS_ROOT_DIR}/src
@@ -45,41 +46,54 @@ else()
     message(STATUS "EPIC3 ManifestStore tests not found at ${CMAKE_CURRENT_LIST_DIR}/test_manifest_store_phase_a.cpp")
 endif()
 
-# ── EPIC 3.4 Integrity verification tests and benchmarks ──────────────────────
-
-set(EPIC3_DISTRIBUTED_TENSOR_TESTS
-    integrity_verification_test.cc
+file(GLOB EPIC3_DISTRIBUTED_TENSOR_TEST_SOURCES
+    CONFIGURE_DEPENDS
+    "${CMAKE_CURRENT_SOURCE_DIR}/test_*.cpp"
 )
 
-set(EPIC3_DISTRIBUTED_TENSOR_BENCHMARKS
-    integrity_verification_bench.cc
-)
+list(FILTER EPIC3_DISTRIBUTED_TENSOR_TEST_SOURCES EXCLUDE REGEX ".*/test_manifest_store_phase_a\\.cpp$")
 
-# Wired when GTest and the distributed_tensor scaffold sources are available.
-# Each test executable is linked with epic3_distributed_tensor_lib and GTest::gtest_main
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/integrity_verification_test.cc")
+    list(APPEND EPIC3_DISTRIBUTED_TENSOR_TEST_SOURCES
+        "${CMAKE_CURRENT_SOURCE_DIR}/integrity_verification_test.cc"
+    )
+endif()
 
-foreach(test_src IN LISTS EPIC3_DISTRIBUTED_TENSOR_TESTS)
-    get_filename_component(test_name ${test_src} NAME_WE)
-    add_executable(${test_name} ${test_src})
-    if(TARGET epic3_distributed_tensor_lib)
-        target_link_libraries(${test_name} PRIVATE epic3_distributed_tensor_lib GTest::gtest_main)
-        add_test(NAME ${test_name} COMMAND ${test_name})
-    else()
-        message(STATUS "Skipping test ${test_name}: epic3_distributed_tensor_lib target not available")
+foreach(_src IN LISTS EPIC3_DISTRIBUTED_TENSOR_TEST_SOURCES)
+    get_filename_component(_stem "${_src}" NAME_WE)
+    set(_target "module_epic3_distributed_tensor_${_stem}_focused")
+    set(_ctest "${_stem}_epic3_distributed_tensor_FocusedTests")
+
+    if(TARGET ${_target})
+        continue()
     endif()
-endforeach()
 
-# Benchmark executables (require Google Benchmark)
-foreach(bench_src IN LISTS EPIC3_DISTRIBUTED_TENSOR_BENCHMARKS)
-    get_filename_component(bench_name ${bench_src} NAME_WE)
-    if(TARGET benchmark::benchmark)
-        add_executable(${bench_name} ${bench_src})
-        if(TARGET epic3_distributed_tensor_lib)
-            target_link_libraries(${bench_name} PRIVATE epic3_distributed_tensor_lib benchmark::benchmark benchmark::benchmark_main)
-        else()
-            message(STATUS "Skipping benchmark ${bench_name}: epic3_distributed_tensor_lib target not available")
-        endif()
+    add_executable(${_target} "${_src}")
+    target_include_directories(${_target} PRIVATE
+        ${THEMIS_ROOT_DIR}
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+    target_link_libraries(${_target} PRIVATE
+        ${TEST_LIBS}
+        themis_distributed_tensor
+        Threads::Threads
+    )
+    if(TARGET themis_base)
+        target_link_libraries(${_target} PRIVATE themis_base)
+    endif()
+    target_compile_definitions(${_target} PRIVATE THEMIS_TEST_BUILD=1)
+
+    if(COMMAND themis_register_module_focused_test)
+        themis_register_module_focused_test(
+            MODULE epic3_distributed_tensor
+            NAME ${_ctest}
+            TARGET ${_target}
+            TIER unit
+            TIMEOUT 120
+            LABELS epic3 distributed_tensor
+        )
     else()
-        message(STATUS "Skipping benchmark ${bench_name}: benchmark::benchmark target not available")
+        add_test(NAME ${_ctest} COMMAND ${_target})
     endif()
 endforeach()

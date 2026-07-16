@@ -173,6 +173,12 @@ endif()
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/epic1_retrieval/CMakeLists.txt")
     add_subdirectory(epic1_retrieval)
 endif()
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/epic2_evaluation/CMakeLists.txt")
+    add_subdirectory(epic2_evaluation)
+endif()
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/epic3_distributed_tensor/CMakeLists.txt")
+    add_subdirectory(epic3_distributed_tensor)
+endif()
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/performance_optimizations/CMakeLists.txt")
     add_subdirectory(performance_optimizations)
 endif()
@@ -194,6 +200,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/wave5/CMakeLists.txt")
     add_subdirectory(wave5)
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/wave4/CMakeLists.txt")
     add_subdirectory(wave4)
+endif()
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/wave2/CMakeLists.txt")
     add_subdirectory(wave2)
 endif()
@@ -1854,100 +1861,8 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_cuda_vs_cpu.cpp")
     endif()
 endif()
 
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_ann_cpu_gpu_dispatch.cpp")
-    message(STATUS "Adding ANN CPU/SIMD/GPU-dispatch benchmarks")
-
-    add_executable(bench_ann_cpu_gpu_dispatch
-        bench_ann_cpu_gpu_dispatch.cpp
-    )
-
-    target_link_libraries(bench_ann_cpu_gpu_dispatch PRIVATE
-        ${BENCHMARK_LIBS}
-        themis_core
-        Threads::Threads
-    )
-
-    target_compile_definitions(bench_ann_cpu_gpu_dispatch PRIVATE
-        THEMIS_BENCHMARK_BUILD=1
-    )
-
-    if(THEMIS_ENABLE_CUDA)
-        target_compile_definitions(bench_ann_cpu_gpu_dispatch PRIVATE
-            THEMIS_ENABLE_CUDA=1
-        )
-    endif()
-
-    themis_apply_benchmark_release_flags(bench_ann_cpu_gpu_dispatch)
-
-    install(TARGETS bench_ann_cpu_gpu_dispatch
-        RUNTIME DESTINATION bin/benchmarks
-        COMPONENT benchmarks
-    )
-
-    add_test(
-        NAME smoke_bench_ann_cpu_gpu_dispatch
-        COMMAND $<TARGET_FILE:bench_ann_cpu_gpu_dispatch>
-                --benchmark_filter=^BM_Smoke_ANN_.*
-                --benchmark_min_time=0.01
-                --benchmark_repetitions=1
-    )
-    set_tests_properties(smoke_bench_ann_cpu_gpu_dispatch PROPERTIES TIMEOUT 30)
-
-    message(STATUS "  ANN dispatch: scalar exact top-k, CPU SIMD batchKnnSearch, GPUQueryAccelerator mixed path, HNSW frontdoor")
-endif()
-
 # ============================================================================
-# Tensor CPU/SIMD vs GPU Dispatch Benchmarks (Issue #5466)
-# Measures tensor mid-layer paths: cosine similarity (CPU scalar vs SIMD),
-# Frobenius norm, dot-product contraction, batch similarity scoring, GEMM
-# contraction, shard relevance scoring, mean-pool summary generation,
-# residual accumulation, and mmap cold/warm page-cache access patterns.
-# CPU benchmarks always build; GPU path activates when THEMIS_ENABLE_CUDA
-# is set and falls back to CPU at runtime when no GPU is present.
-# ============================================================================
-
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_tensor_cpu_gpu_dispatch.cpp")
-    message(STATUS "Adding tensor CPU/SIMD vs GPU dispatch benchmarks")
-
-    add_executable(bench_tensor_cpu_gpu_dispatch
-        bench_tensor_cpu_gpu_dispatch.cpp
-    )
-
-    target_link_libraries(bench_tensor_cpu_gpu_dispatch PRIVATE
-        ${BENCHMARK_LIBS}
-        themis_core
-        Threads::Threads
-    )
-
-    target_compile_definitions(bench_tensor_cpu_gpu_dispatch PRIVATE
-        THEMIS_BENCHMARK_BUILD=1
-    )
-
-    if(THEMIS_ENABLE_CUDA)
-        target_compile_definitions(bench_tensor_cpu_gpu_dispatch PRIVATE
-            THEMIS_ENABLE_CUDA=1
-        )
-    endif()
-
-    themis_apply_benchmark_release_flags(bench_tensor_cpu_gpu_dispatch)
-
-    install(TARGETS bench_tensor_cpu_gpu_dispatch
-        RUNTIME DESTINATION bin/benchmarks
-        COMPONENT benchmarks
-    )
-
-    add_test(
-        NAME smoke_bench_tensor_cpu_gpu_dispatch
-        COMMAND $<TARGET_FILE:bench_tensor_cpu_gpu_dispatch>
-                --benchmark_filter=^BM_Smoke_
-                --benchmark_min_time=0.01
-                --benchmark_repetitions=1
-    )
-    set_tests_properties(smoke_bench_tensor_cpu_gpu_dispatch PROPERTIES TIMEOUT 30)
-
-    message(STATUS "  Tensor dispatch: TEN-S1..S4 cosine/norm/dot/batch, TEN-G1..G4 GEMM/shard/meanpool/residual, TEN-M1..M2 mmap cold/warm + CPU SIMD pipeline")
-endif()
-
+# DI Overhead and Logging Throughput Benchmarks (Issue #1420)
 # Measures ConcernsContext creation cost, NoOpLogger/SpdlogLoggerAdapter
 # throughput, structured log and trace-context injection overhead, and
 # convenience wrapper dispatch cost.

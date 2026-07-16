@@ -1,27 +1,19 @@
 # Distributed Tensor Module Roadmap
 
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] issue  [P] PR  [?] blocked  [!] unclear -->
-<!-- Status: current | validated: 2026-07-06 -->
+<!-- Status: current | validated: 2026-07-13 -->
 <!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md -->
 <!-- Rollout Plan: ai_working/HYBRID_RETRIEVAL_ROLLOUT_PLAN.md §4 (Phases A–D) -->
 
 ## Current Status
 
-EPIC 3 distributed tensor contract ownership is documented for sub-issues 3.1–3.7.
-
-**Phase 1 (Design/API Contract) Status:**
-- 3.1 (Artifact Classes): ✅ Complete
-- 3.2 (Manifest Schema): ✅ Complete  
-- 3.3 (Shard Placement): ✅ Complete
-- **3.4 (Integrity Model): ✅ COMPLETE** ← Just completed
-- 3.5 (Recovery Strategy): 🔄 In scope
-- 3.6 (Distributed Retrieval): 🔄 In scope
-- 3.7 (Tensor Infrastructure): 🔄 In scope
-
-Header and source files exist for 3.4 (`integrity_verification.h/.cc`) and now include
-phase-2 canonical hashing plus manifest-facing receipt/proof serialization helpers.
-Phase 3+ work (runtime recovery semantics, tests, benchmarks, and default integration)
-remains for dedicated PRs.
+EPIC 3 distributed tensor contract ownership and core implementation are complete
+for sub-issues 3.1–3.7. Phase 3 runtime failure/degraded-mode semantics are
+implemented and verified. Phase 4 broadened contract and fault-path coverage has
+been delivered: `test_phase4_contract_coverage.cpp` adds 58 tests spanning all 7
+sub-issues (lifecycle, subclasses, manifest, placement, integrity, recovery,
+planner, infrastructure). Benchmark evidence and final acceptance documentation
+remain pending.
 
 **Tensor-Update Rollout Track**: dynamic tensor-update infrastructure is staged across four
 phases (A–D) in `ai_working/HYBRID_RETRIEVAL_ROLLOUT_PLAN.md` (issue #5468). Phase A
@@ -29,14 +21,16 @@ phases (A–D) in `ai_working/HYBRID_RETRIEVAL_ROLLOUT_PLAN.md` (issue #5468). P
 targets Q3 2026. Phase C (shard summary coordination) targets Q4 2026. Phase D (optional
 acceleration) targets 2027+.
 
-**Module readiness**: 30% 🔴. Runtime not yet implemented; scaffold only. Phase A entry requires
-manifest schema wiring and advisory-only artifact policy documentation.
+**Module readiness**: implementation and Phase 3/4 validation are complete for the EPIC 3
+core artifact path; benchmark evidence, acceptance documentation, and the follow-on tensor-update
+track remain gated.
 
 ## In Progress
 
 - [~] EPIC 3 documentation-governance alignment across roadmap/future/audit files (Target: Q3 2026)
 - [~] phase-gate acceptance criteria definition for distributed test/benchmark readiness (Target: Q3 2026)
 - [~] tensor artifact manifest schema: ArtifactManifest + ManifestStore wiring (Target: Q3 2026)
+- [x] phase-4 distributed contract and fault-path coverage expansion beyond the focused regression suite (Target: Q4 2026)
 
 ## Planned Features
 
@@ -72,8 +66,8 @@ manifest schema wiring and advisory-only artifact policy documentation.
 - [ ] no unconditional GPU dependency on any tensor path (Target: 2027)
 
 ### Short-term (3-6 months)
-- [ ] implement phase-3 runtime failure and degraded-mode semantics (Target: Q4 2026)
-- [ ] deliver phase-4 distributed contract and fault-path tests (Target: Q4 2026)
+- [x] implement phase-3 runtime failure and degraded-mode semantics (Target: Q4 2026)
+- [x] deliver phase-4 distributed contract and fault-path tests (Target: Q4 2026)
 - [ ] establish phase-5 distributed benchmark and hardening baselines (Target: Q4 2026)
 
 ### Mid-term (6-12 months)
@@ -91,6 +85,8 @@ manifest schema wiring and advisory-only artifact policy documentation.
 - [x] advisory-only artifact policy documented with invariant: tensor artifacts never replace graph-verified results (Target: Q3 2026)
 
 ### Phase 2: Core Implementation
+- [x] production translation units and public headers implemented
+- [x] `themis_distributed_tensor` wired into the active community build graph
 - [x] integrity translation units created for EPIC 3.4
 - [x] deterministic JSON hashing and manifest-facing proof/receipt serialization implemented
 - [x] cached-receipt versus fresh-verification rules documented for query-path consumers
@@ -109,11 +105,13 @@ manifest schema wiring and advisory-only artifact policy documentation.
 - [ ] Phase C: exact-on-demand fallback when summary freshness threshold exceeded (Target: Q4 2026)
 
 ### Phase 4: Tests
+- [x] focused Phase 3 regression suite implemented in `tests/epic3_distributed_tensor/`
+- [x] broaden contract and fault-path coverage across all EPIC 3 components — `test_phase4_contract_coverage.cpp` (58 tests, sub-issues 3.1–3.7)
 - [x] unit tests for SHA-256 computation and validation (40+ test cases)
 - [x] Merkle proof verification tests (happy path, invalid, tampering)
 - [x] receipt chain verification tests (genesis, appends, tampering)
 - [x] integration tests for full verification workflow
-- [x] comprehensive benchmarks for performance baseline
+- [x] integrity verification unit and benchmark sources added for follow-on coverage expansion
 - [ ] `test_tensor_delta_log` — Phase B ctest gate (Target: Q3 2026)
 - [ ] `test_tensor_rebuild_fallback` — Phase B ctest gate (Target: Q3 2026)
 - [ ] `test_tensor_shard_summary` — Phase C ctest gate (Target: Q4 2026)
@@ -126,7 +124,7 @@ manifest schema wiring and advisory-only artifact policy documentation.
 - [ ] `bench_tensor_summary_first` — Phase C benchmark gate (Target: Q4 2026)
 
 ### Phase 6: Documentation and Acceptance
-- [x] core distributed tensor docs aligned to source-verifiable scaffold state
+- [x] core distributed tensor docs aligned to source-verifiable implementation state
 - [x] tensor-update rollout track documented in `ai_working/HYBRID_RETRIEVAL_ROLLOUT_PLAN.md` (issue #5468)
 - [ ] acceptance docs tied to measured runtime behavior
 
@@ -141,16 +139,18 @@ manifest schema wiring and advisory-only artifact policy documentation.
 - [x] contract ownership and scope boundaries documented
 - [x] security and performance expectations documented for scaffold phase
 - [x] tensor-update infrastructure rollout track defined (issue #5468)
-- [ ] runtime resilience hardening completed
-- [ ] test and benchmark gates implemented and passing
+- [x] runtime resilience hardening completed for Phase 3 safety gates
+- [x] test gates implemented and passing for Phase 3 and Phase 4 regression suites
+- [ ] benchmark gates implemented and passing
 - [ ] Phase A advisory-only invariant enforced and verified
 - [ ] Phase B ctest gates (`test_tensor_delta_log`, `test_tensor_rebuild_fallback`) passing
 - [ ] Phase C ctest gates (`test_tensor_shard_summary`) passing
 - [ ] Phase C benchmark gates (`bench_tensor_summary_first`) passing
 
-## Known Issues and Limitations
+## Known Issues & Limitations
 
-- Runtime not yet implemented; scaffold and contract ownership only at this stage.
+- Benchmark evidence and final acceptance documentation are still pending before default pipeline integration can be enabled.
+- Phase A/B/C tensor-update rollout items remain incomplete and must preserve the advisory-only artifact invariant until their gates pass.
 - Phase C depends on `sharding` reaching 70% gap reduction — currently 35% ready (🔴).
 - Phase D (optional GPU) requires `gpu` reaching 85% error-handling gap reduction — currently 35% ready (🔴).
 - Advisory artifact invariant: tensor summaries and shard summaries are never authoritative truth;

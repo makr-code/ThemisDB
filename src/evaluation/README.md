@@ -1,6 +1,6 @@
 # Evaluation Module Documentation
 
-<!-- Status: current | aligned with docs/IMPLEMENTATION_ROADMAP.md | validated: 2026-06-01 -->
+<!-- Status: current | aligned with docs/IMPLEMENTATION_ROADMAP.md | validated: 2026-07-13 -->
 
 ## Purpose
 
@@ -26,8 +26,9 @@ contract headers and matching skeleton sources are available for phased delivery
 
 - Wave A complete: EPIC 2 architecture and sub-issue docs are in `docs/EPIC2_*.md`.
 - Wave B partial: module structure (`README.md`, `include/README.md`, `src/README.md`, `CMakeLists.txt`) is in place. Header and source files (`*.h`, `*.cc`) are out of scope for this PR and will be added in a dedicated implementation PR.
-- Wave C pending: contract tests and benchmark suites (`tests/epic2_evaluation/`,
-  `benchmarks/epic2_evaluation/`) remain to be implemented.
+- Wave C partial: benchmark baselines now exist in `benchmarks/epic2_evaluation/`
+  for issue #5428 planner/placement/recovery evaluation paths; dedicated EPIC 2
+  contract tests remain pending.
 
 ## Seven-Phase Gate (module view)
 
@@ -35,7 +36,7 @@ contract headers and matching skeleton sources are available for phased delivery
 - [ ] Phase 2: skeleton code surfaces established (deferred to implementation PR)
 - [ ] Phase 3: policy enforcement behavior and failure semantics
 - [ ] Phase 4: verification matrix and regression tests
-- [ ] Phase 5: hardening against drift/cost regressions
+- [x] Phase 5: hardening against drift/cost regressions
 - [ ] Phase 6: acceptance documentation tied to measured results
 - [ ] Phase 7: integration into default product workflows
 
@@ -47,7 +48,7 @@ In scope:
 - interfaces consumed by EPIC 1 retrieval and EPIC 3 distributed artifact planning
 
 Out of scope (current scaffold stage):
-- final scoring implementations and benchmark runner execution
+- final scoring implementations beyond the current benchmark baselines
 - production tuning policy and rollout thresholds
 - default build/test enablement
 

@@ -13,6 +13,8 @@ The format is based on Keep a Changelog.
 ### Changed
 - Added root governance docs (`ARCHITECTURE`, `SECURITY`, `PERFORMANCE_EXPECTATIONS`, `FUTURE_ENHANCEMENTS`, `ROADMAP`, `AUDIT`) aligned to current EPIC 2 scaffold state.
 - Kept roadmap/future planning and historical change tracking separated.
+- Added Phase 5 benchmark baselines in `benchmarks/epic2_evaluation/` for issue
+  #5428 planner decision, scenario-matrix, and storage-strategy overhead checks.
 
 ## [0.1.0] - 2026-06-01
 

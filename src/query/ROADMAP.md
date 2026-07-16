@@ -92,8 +92,8 @@ Production-ready multi-model query stack with parser, optimizer, execution, fede
 - [ ] Tighten JIT fallback and equivalence checks for hot-query compilation paths (Target: Q1 2027)
 
 ### Phase 5: Documentation and Release Readiness
-- [ ] Keep query docs source-aligned with explicit sourcecode verification evidence per update cycle (Target: ongoing)
-- [ ] Keep completed roadmap items exclusively in changelog (Target: ongoing)
+- [x] Keep query docs source-aligned with explicit sourcecode verification evidence per update cycle (Target: ongoing)
+- [x] Keep completed roadmap items exclusively in changelog (Target: ongoing)
 
 ## Production Readiness Checklist
 - Status: Tracking in progress

@@ -52,6 +52,15 @@ The Query module provides ThemisDB's AQL (Advanced Query Language) query engine,
 | `workload_cache_strategy.cpp` | Adaptive workload-based cache eviction |
 | `functions/` | 100+ AQL built-in functions (math, string, geo, vector, graph, AI, …) |
 
+## Source Verification Evidence
+
+- Parser and optimizer surfaces verified against `aql_parser.cpp`,
+  `query_optimizer.cpp`, `adaptive_optimizer.cpp`, and `optimizer_cost_model.cpp`.
+- Distributed/federated execution surfaces verified against
+  `query_federation.cpp` and `cross_cluster_federation.cpp`.
+- Runtime safety and cancellation references verified against
+  `query_engine.cpp`, `query_canceller.cpp`, and `continuous_query_engine.cpp`.
+
 ## Scope
 
 **In Scope:**
