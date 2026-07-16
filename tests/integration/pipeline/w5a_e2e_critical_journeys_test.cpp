@@ -38,7 +38,7 @@ namespace themis::test {
 // Seeded generator for deterministic Wave-5 data
 // ─────────────────────────────────────────────────────────────────────────────
 
-static constexpr uint32_t kW5CanonicalSeed = 42u;
+[[maybe_unused]] static constexpr uint32_t kW5CanonicalSeed = 42u;
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Minimal inline pipeline helpers used only by W5-A tests
@@ -482,7 +482,7 @@ TEST_F(W5AE2ECriticalJourneysTest, E2E07_ConcurrentWritesConvergeConsistentState
 
     for (int t = 0; t < kThreads; ++t) {
         threads.emplace_back([&, t]() {
-            TestDataGenerator gen;
+            E2EPipeline thread_pipeline(auth_, storage_, index_, llm_, audit_);
             for (int d = 0; d < kDocsPerThread; ++d) {
                 const std::string prefix = "e2e07_t" + std::to_string(t) +
                                            "_d" + std::to_string(d);
@@ -490,7 +490,7 @@ TEST_F(W5AE2ECriticalJourneysTest, E2E07_ConcurrentWritesConvergeConsistentState
                     {"id",    prefix},
                     {"title", "doc_" + prefix},
                 };
-                const auto res = pipeline_->Ingest(doc, {"concurrent"});
+                const auto res = thread_pipeline.Ingest(doc, {"concurrent"});
                 if (res.ok) {
                     ++success_count;
                 }
@@ -506,6 +506,14 @@ TEST_F(W5AE2ECriticalJourneysTest, E2E07_ConcurrentWritesConvergeConsistentState
         << "Expected all concurrent ingests to succeed";
     EXPECT_EQ(storage_->Size(), static_cast<size_t>(kThreads * kDocsPerThread))
         << "Storage must contain exactly " << (kThreads * kDocsPerThread) << " unique documents";
+    size_t ingest_ok_count = 0;
+    for (const auto& event : audit_->Snapshot()) {
+        if (event.module == "ingest" && event.action == "ok") {
+            ++ingest_ok_count;
+        }
+    }
+    EXPECT_EQ(ingest_ok_count, static_cast<size_t>(kThreads * kDocsPerThread))
+        << "Audit log must contain one ingest::ok entry per successful concurrent ingest";
 }
 
 // ─────────────────────────────────────────────────────────────────────────────

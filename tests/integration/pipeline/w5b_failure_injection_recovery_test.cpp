@@ -399,8 +399,16 @@ TEST_F(W5BFailureInjectionRecoveryTest, FIR07_PartialBatchFailureValidDocsSuccee
     EXPECT_EQ(failures, 2) << "Exactly 2 invalid documents must be rejected";
     EXPECT_EQ(storage_->Size(), 3U)
         << "Only valid documents should be in storage";
-    EXPECT_TRUE(audit_->Contains("ingest", "schema_error"))
-        << "Audit must record schema_error for invalid documents";
+    size_t schema_error_count = 0;
+    for (const auto& event : audit_->Snapshot()) {
+        if (event.module == "ingest" && event.action == "schema_error") {
+            ++schema_error_count;
+        }
+    }
+    EXPECT_EQ(schema_error_count, 2U)
+        << "Audit must record schema_error twice for the two invalid documents";
+    EXPECT_EQ(audit_->Count(), batch.size())
+        << "Audit count must reflect one result event for each document in the mixed batch";
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
