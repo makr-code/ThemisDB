@@ -197,7 +197,7 @@ Data Owner / Developer → Operator → Auditor → Project Lead
 | # | Action | Who | Check |
 |---|--------|-----|-------|
 | 1 | Open maintenance window: `themisctl maintenance start --window 30m` | Operator | `[ ]` |
-| 2 | Snapshot current model reference: `themisdb-cli snapshot create --tag pre-switch-$(date +%Y%m%d)` | Operator | `[ ]` |
+| 2 | Snapshot current model reference: `themisdb-cli snapshot create --tag pre-switch-$(date +%Y%m%d-%H%M) --include-schema` | Operator | `[ ]` |
 | 3 | Initiate model switch: `themisdb-cli model switch --target <artifact-id> --strategy canary --canary-pct 10` | Operator | `[ ]` |
 | 4 | Monitor canary metrics for 5 minutes: error rate, latency p99, throughput | Operator | `[ ]` |
 | 5 | If canary healthy, promote to 100%: `themisdb-cli model switch --target <artifact-id> --strategy full` | Operator | `[ ]` |

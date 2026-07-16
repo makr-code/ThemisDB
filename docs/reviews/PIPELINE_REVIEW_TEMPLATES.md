@@ -152,7 +152,7 @@ Attach build report or link: <url or path>
 
 ---
 
-## 4. REVIEW-T04 — Deployment Approval Review
+## 4. REVIEW-T03 — Deployment Approval Review
 
 **Purpose:** Formal authorization before production deployment / model switch.
 
@@ -211,7 +211,7 @@ Attach build report or link: <url or path>
 
 ---
 
-## 5. REVIEW-T05 — Post-Incident Pipeline Review
+## 5. REVIEW-T04 — Post-Incident Pipeline Review
 
 **Purpose:** Structured retrospective after any P0 or P1 incident involving the pipeline.
 
@@ -288,7 +288,7 @@ Add findings to `docs/PIPELINE_LESSONS_LEARNED.md` — section matching the affe
 
 ---
 
-## 6. REVIEW-T06 — Audit Evidence Review
+## 6. REVIEW-T05 — Audit Evidence Review
 
 **Purpose:** Formal acceptance of audit evidence package for a pipeline run.
 
@@ -337,7 +337,7 @@ Add findings to `docs/PIPELINE_LESSONS_LEARNED.md` — section matching the affe
 
 ---
 
-## 7. REVIEW-T07 — Data Policy Gate Review
+## 7. REVIEW-T06 — Data Policy Gate Review
 
 **Purpose:** Data Owner review and approval / rejection of a dataset for pipeline use.
 
@@ -382,7 +382,7 @@ Add findings to `docs/PIPELINE_LESSONS_LEARNED.md` — section matching the affe
 
 ---
 
-## 8. REVIEW-T08 — Quarterly Governance Review
+## 8. REVIEW-T07 — Quarterly Governance Review
 
 **Purpose:** Assess overall pipeline health, SOP compliance, and identify improvement areas.
 
