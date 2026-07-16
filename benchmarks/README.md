@@ -33,6 +33,30 @@ python3 benchmarks/run_benchmark_orchestrator.py --help
 bash benchmarks/run_all_benchmarks.sh
 ```
 
+## Wave 3: Full-Function / Production-nahe Suite
+
+W3 deckt priorisierte End-to-End-nahe Critical-Workloads mit reproduzierbaren
+Profilen (`read-heavy`, `write-heavy`, `mixed`) sowie Scale-/Stress-Dimensionen
+(`small|medium|large`, Parallelität, Request-Mix) ab.
+
+Run (produktionsnah, mit vorhandenen Binaries):
+
+```bash
+python3 benchmarks/wave3_benchmark_suite.py run \
+  --benchmark-bin-dir <build>/bin \
+  --profiles-file benchmarks/wave3_workload_profiles.json \
+  --output benchmarks/benchmark_results/wave3_current.json
+```
+
+Vergleich + Guardrails (Regressionserkennung):
+
+```bash
+python3 benchmarks/wave3_benchmark_suite.py compare \
+  --baseline benchmarks/benchmark_results/wave3_baseline.json \
+  --current benchmarks/benchmark_results/wave3_current.json \
+  --output benchmarks/benchmark_results/wave3_compare.json
+```
+
 ## Installation
 
 Benchmark-Buildartefakte werden über den CMake-Preset `nightly-bench-sweep` erzeugt.

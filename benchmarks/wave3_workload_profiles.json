@@ -1,0 +1,97 @@
+{
+  "profiles": [
+    {
+      "workload_id": "critical_read_path",
+      "profile": "read-heavy",
+      "description": "YCSB + retrieval path coverage",
+      "benchmark_binary": "bench_ycsb",
+      "guardrails": {
+        "throughput_drop_percent": 8,
+        "p95_latency_increase_percent": 10,
+        "p99_latency_increase_percent": 15
+      },
+      "dimensions": [
+        {
+          "dataset_scale": "small",
+          "benchmark_filter": ".*(1000|10000).*",
+          "parallelism": 1,
+          "request_mix": "read=90,write=10"
+        },
+        {
+          "dataset_scale": "medium",
+          "benchmark_filter": ".*(100000|50000).*",
+          "parallelism": 4,
+          "request_mix": "read=70,write=30"
+        },
+        {
+          "dataset_scale": "large",
+          "benchmark_filter": ".*(1000000|500000).*",
+          "parallelism": 8,
+          "request_mix": "read=50,write=50"
+        }
+      ]
+    },
+    {
+      "workload_id": "critical_write_path",
+      "profile": "write-heavy",
+      "description": "Batch ingest + update path coverage",
+      "benchmark_binary": "bench_batch_insert",
+      "guardrails": {
+        "throughput_drop_percent": 10,
+        "p95_latency_increase_percent": 12,
+        "p99_latency_increase_percent": 18
+      },
+      "dimensions": [
+        {
+          "dataset_scale": "small",
+          "benchmark_filter": ".*(1000|10000).*",
+          "parallelism": 1,
+          "request_mix": "read=20,write=80"
+        },
+        {
+          "dataset_scale": "medium",
+          "benchmark_filter": ".*(100000|50000).*",
+          "parallelism": 4,
+          "request_mix": "read=30,write=70"
+        },
+        {
+          "dataset_scale": "large",
+          "benchmark_filter": ".*(1000000|500000).*",
+          "parallelism": 8,
+          "request_mix": "read=40,write=60"
+        }
+      ]
+    },
+    {
+      "workload_id": "critical_mixed_path",
+      "profile": "mixed",
+      "description": "Cross-component end-to-end mixed flow",
+      "benchmark_binary": "bench_cross_functional_end_to_end",
+      "guardrails": {
+        "throughput_drop_percent": 9,
+        "p95_latency_increase_percent": 10,
+        "p99_latency_increase_percent": 15
+      },
+      "dimensions": [
+        {
+          "dataset_scale": "small",
+          "benchmark_filter": ".*(10|100).*",
+          "parallelism": 1,
+          "request_mix": "read=60,write=40"
+        },
+        {
+          "dataset_scale": "medium",
+          "benchmark_filter": ".*(100|1000).*",
+          "parallelism": 4,
+          "request_mix": "read=55,write=45"
+        },
+        {
+          "dataset_scale": "large",
+          "benchmark_filter": ".*(1000|10000).*",
+          "parallelism": 8,
+          "request_mix": "read=50,write=50"
+        }
+      ]
+    }
+  ]
+}
