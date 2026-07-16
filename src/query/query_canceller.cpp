@@ -20,8 +20,17 @@
 
 #include "query/query_canceller.h"
 
+#include "utils/logger.h"
+
+#include <chrono>
+
 namespace themis {
 namespace query {
+
+// Timeout for acquiring the internal registry lock.  A 200 ms budget is
+// generous for a simple hash-map operation; if we cannot acquire the lock
+// within this window the registry is considered unavailable for that call.
+static constexpr std::chrono::milliseconds kLockTimeout{200};
 
 // ── QueryCanceller ──────────────────────────────────────────────────────────
 
@@ -33,15 +42,22 @@ QueryCanceller& QueryCanceller::instance() {
 std::shared_ptr<QueryCancellationToken>
 QueryCanceller::registerQuery(const std::string& request_id) {
     auto token = std::make_shared<QueryCancellationToken>();
-    {
-        std::lock_guard<std::mutex> lock(mutex_);
-        tokens_[request_id] = token;
+    std::unique_lock<std::timed_mutex> lock(mutex_, kLockTimeout);
+    if (!lock.owns_lock()) {
+        THEMIS_WARN("QueryCanceller::registerQuery: lock timeout for '{}'; token not registered",
+                    request_id);
+        return token; // token still usable by caller; just not cancelable via registry
     }
+    tokens_[request_id] = token;
     return token;
 }
 
 bool QueryCanceller::cancel(const std::string& request_id) {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::unique_lock<std::timed_mutex> lock(mutex_, kLockTimeout);
+    if (!lock.owns_lock()) {
+        THEMIS_WARN("QueryCanceller::cancel: lock timeout for '{}'", request_id);
+        return false;
+    }
     auto it = tokens_.find(request_id);
     if (it == tokens_.end()) {
         return false;
@@ -56,7 +72,11 @@ bool QueryCanceller::cancel(const std::string& request_id) {
 }
 
 void QueryCanceller::unregisterQuery(const std::string& request_id) {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::unique_lock<std::timed_mutex> lock(mutex_, kLockTimeout);
+    if (!lock.owns_lock()) {
+        THEMIS_WARN("QueryCanceller::unregisterQuery: lock timeout for '{}'", request_id);
+        return;
+    }
     tokens_.erase(request_id);
 }
 

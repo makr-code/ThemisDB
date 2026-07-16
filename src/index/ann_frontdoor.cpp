@@ -20,6 +20,7 @@
 
 #include "index/ann_frontdoor.h"
 #include "observability/layer_decision_log.h"
+#include "observability/metrics_collector.h"
 #include "observability/reason_codes.h"
 #include "observability/telemetry_keys.h"
 #include "utils/logger.h"
@@ -99,6 +100,14 @@ const char* strategyReasonCode(AnnStrategy strategy) {
 }
 
 constexpr const char* kDistributedMergePolicy = "DISTANCE_ASC_THEN_ID";
+
+void emitRouteMetric(const AnnFrontdoorResult& result) {
+    themis::observability::MetricsCollector::getInstance().addCounter(
+        "ann_frontdoor_route_type", 1,
+        {{"route_type", annStrategyName(result.strategy_used)},
+         {"fallback_mode", result.fallback_mode.empty() ? "none" : result.fallback_mode},
+         {"distributed", result.is_distributed ? "true" : "false"}});
+}
 
 }
 
@@ -484,6 +493,8 @@ AnnFrontdoorResult AnnFrontdoor::search(const float*          query_vector,
         result.fallback_reason_code,
         observability::telemetry::layers::kAnn,
         !result.candidates.empty());
+
+    emitRouteMetric(result);
 
     return result;
 }

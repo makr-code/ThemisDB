@@ -9,7 +9,8 @@ order for distributed tensor runtime behavior without enabling production logic 
 
 ## Source Ownership Map
 
-> These source files are deferred to the implementation PR. The table documents planned ownership.
+> Most source files remain deferred to future implementation PRs. `integrity_verification.cc`
+> is now the active Phase-2 baseline for EPIC 3.4.
 
 | Source file | EPIC sub-issue | Planned runtime responsibility |
 |---|---|---|
@@ -23,7 +24,7 @@ order for distributed tensor runtime behavior without enabling production logic 
 
 ## Delivery Expectations
 
-- next: Phase-2 scaffold baseline to be added in the implementation PR
+- next: extend the EPIC 3.4 Phase-2 baseline into runtime recovery/planner integration
 - after: Phase-3 behavior for placement conflicts, verification failures, and recovery escalation
 - later: fault-injection tests, performance hardening, acceptance docs, and integration
 

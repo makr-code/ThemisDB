@@ -74,11 +74,17 @@ public:
     TokenQuotaManager() = default;
     ~TokenQuotaManager() = default;
 
-    // Thread-safe, move-only.
+    // Thread-safe, non-moveable (due to std::mutex).
+    // Copy operations are deleted because of unique resource ownership.
+    // Move operations are deleted because std::mutex is non-moveable.
+    // To pass this object across thread/function boundaries, use std::shared_ptr or std::unique_ptr.
     TokenQuotaManager(const TokenQuotaManager&) = delete;
     TokenQuotaManager& operator=(const TokenQuotaManager&) = delete;
-    TokenQuotaManager(TokenQuotaManager&&) = default;
-    TokenQuotaManager& operator=(TokenQuotaManager&&) = default;
+    TokenQuotaManager(TokenQuotaManager&&) = delete;  // Deleted: mutex is non-moveable
+    TokenQuotaManager& operator=(TokenQuotaManager&&) = delete;  // Deleted: mutex is non-moveable
+    
+    /// @cwe CWE-457: Mutex is non-moveable, so move operations explicitly deleted to prevent UB
+
 
     /**
      * @brief Set (or replace) the token-per-minute limit for a (user, model) pair.

@@ -113,7 +113,6 @@ http::response<http::string_body> ChunkedResponseWriter::fromJsonVector(
 
         if (count % chunk_size == 0) {
             fragments.push_back(std::move(current_chunk));
-            current_chunk.clear();
         }
     }
 
