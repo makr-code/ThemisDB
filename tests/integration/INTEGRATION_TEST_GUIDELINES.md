@@ -58,7 +58,11 @@ tests/integration/
   - Security: `SEC-01..SEC-06`
   - Analytics/Export: `AEP-01..AEP-03`
   - Application Profile E2E: `APP-01..APP-13`
+  - Wave 6 — Critical Journey Hardening: `RCJ-01..RCJ-08` (`w6a`)
+  - Wave 6 — Stress/Soak/Stability: `SSS-01..SSS-08` (`w6b`)
+  - Wave 6 — Failure Injection/Recovery: `FIR-01..FIR-08` (`w6c`)
 - **CTest Label**: `pipeline_integration`
+- **Wave 6 CTest Labels**: `wave6;w6a;release_candidate` / `wave6;w6b;stress_soak` / `wave6;w6c;failure_injection`
 - **Expectation**: Pipeline tests must run offline with deterministic mocks (no GPU, no external LLM service, no Kafka dependency).
 
 ### Shared Pipeline Test Helpers
