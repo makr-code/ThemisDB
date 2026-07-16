@@ -117,6 +117,13 @@ TEST(SemVerTest, ParseEmpty) {
     EXPECT_EQ(v.patch, 0);
 }
 
+TEST(SemVerTest, ParseRejectsTrailingQualifier) {
+    const auto v = SemVer::parse("3.1-beta");
+    EXPECT_EQ(v.major, 0);
+    EXPECT_EQ(v.minor, 0);
+    EXPECT_EQ(v.patch, 0);
+}
+
 TEST(SemVerTest, ToStringRoundTrip) {
     const auto v = SemVer{2, 0, 3};
     EXPECT_EQ(v.toString(), "2.0.3");
@@ -440,14 +447,8 @@ TEST(ModelSwitchWorkflowTest, ExecuteSwitchBlockedByFailClosedPolicy) {
     auto req = makeRequest("pkg-test", "llama-7b", "3.0", "llama-13b", "3.1", "llama");
     const auto res = wf.executeSwitch(req);
 
-    // May be BLOCKED or REBUILD_REQUIRED depending on which checks fire
-    EXPECT_TRUE(res.outcome == ModelSwitchOutcome::BLOCKED ||
-                res.outcome == ModelSwitchOutcome::REBUILD_REQUIRED ||
-                res.outcome == ModelSwitchOutcome::COMPATIBLE);
-    // At minimum no INCOMPATIBLE from a hard failure path
-    if (res.outcome == ModelSwitchOutcome::BLOCKED) {
-        EXPECT_FALSE(res.active_rebuild_triggers.empty());
-    }
+    EXPECT_EQ(res.outcome, ModelSwitchOutcome::BLOCKED);
+    EXPECT_FALSE(res.active_rebuild_triggers.empty());
 }
 
 // ===========================================================================
@@ -472,8 +473,7 @@ TEST(ModelSwitchWorkflowTest, ExecuteSwitchRebuildRequiredNotBlocked) {
     auto req = makeRequest("pkg-test", "llama-7b", "3.0", "llama-13b", "3.1", "llama");
     const auto res = wf.executeSwitch(req);
 
-    // Must not be BLOCKED because fail_closed_on_rebuild = false
-    EXPECT_NE(res.outcome, ModelSwitchOutcome::BLOCKED);
+    EXPECT_EQ(res.outcome, ModelSwitchOutcome::REBUILD_REQUIRED);
 }
 
 // ===========================================================================
@@ -611,7 +611,7 @@ TEST(ModelSwitchResultTest, BlockedOutcomeNotServableNotRebuild) {
     ModelSwitchResult r;
     r.outcome = ModelSwitchOutcome::BLOCKED;
     EXPECT_FALSE(r.canServe());
-    EXPECT_FALSE(r.needsRebuild());
+    EXPECT_TRUE(r.needsRebuild());
 }
 
 TEST(ModelSwitchResultTest, IncompatibleOutcomeNotServable) {
@@ -665,4 +665,27 @@ TEST(RatchetMatrixTest, SchemaVersionPreservedInJson) {
     const auto j  = m.toJson();
     const auto m2 = RatchetCompatibilityMatrix::fromJson(j);
     EXPECT_EQ(m2.schemaVersion(), "3.2.1");
+}
+
+TEST(ModelSwitchWorkflowTest, ExecuteSwitchQuantizationMismatchRequiresRebuild) {
+    auto registry = std::make_shared<AdapterRegistry>(nullptr);
+    auto adapter = makeAdapter("legal-general", "llama-7b", "llama");
+    adapter.quantization = "Q4_K_M";
+    ASSERT_TRUE(registry->registerAdapter(adapter));
+
+    auto orchestrator = std::make_shared<FinalLayerOrchestrator>();
+    orchestrator->setAdapterRegistry(registry);
+    ASSERT_TRUE(orchestrator->registerPackage(makePackage()));
+
+    ModelSwitchWorkflow wf(registry, orchestrator);
+    auto req = makeRequest("pkg-test", "llama-7b-q4", "3.0", "llama-7b-q8", "3.1", "llama");
+
+    const auto res = wf.executeSwitch(req);
+    bool quantization_rebuild = false;
+    for (const auto& c : res.checks) {
+        if (c.kind == ModelSwitchCheckResult::CheckKind::QUANTIZATION) {
+            quantization_rebuild = c.rebuild_required;
+        }
+    }
+    EXPECT_TRUE(quantization_rebuild);
 }

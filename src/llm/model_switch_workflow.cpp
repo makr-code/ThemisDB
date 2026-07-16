@@ -2,12 +2,56 @@
 
 #include <algorithm>
 #include <charconv>
+#include <cctype>
 #include <sstream>
 #include <stdexcept>
 #include <string_view>
 
 namespace themis {
 namespace llm {
+
+namespace {
+
+std::string toLowerAscii(std::string value) {
+    std::transform(value.begin(), value.end(), value.begin(),
+                   [](unsigned char c) { return static_cast<char>(std::tolower(c)); });
+    return value;
+}
+
+std::string extractModelFamily(const std::string& model_name,
+                               const std::string& fallback_family) {
+    if (!fallback_family.empty()) {
+        return toLowerAscii(fallback_family);
+    }
+    const auto dash = model_name.find('-');
+    const auto prefix = (dash == std::string::npos) ? model_name : model_name.substr(0, dash);
+    return toLowerAscii(prefix);
+}
+
+std::string detectQuantizationToken(const std::string& text) {
+    const auto lower = toLowerAscii(text);
+    if (lower.find("nf4") != std::string::npos) {
+        return "nf4";
+    }
+    if (lower.find("q8") != std::string::npos || lower.find("int8") != std::string::npos) {
+        return "q8";
+    }
+    if (lower.find("q5") != std::string::npos) {
+        return "q5";
+    }
+    if (lower.find("q4") != std::string::npos || lower.find("int4") != std::string::npos) {
+        return "q4";
+    }
+    if (lower.find("fp16") != std::string::npos) {
+        return "fp16";
+    }
+    if (lower.find("fp32") != std::string::npos) {
+        return "fp32";
+    }
+    return "";
+}
+
+} // namespace
 
 // ---------------------------------------------------------------------------
 // SemVer
@@ -19,17 +63,30 @@ SemVer SemVer::parse(const std::string& s) {
         return v;
     }
 
-    auto parse_int = [](std::string_view sv) -> int {
+    auto parse_int = [](std::string_view sv, int& out) -> bool {
+        if (sv.empty()) {
+            return false;
+        }
+        if (!std::all_of(sv.begin(), sv.end(), [](unsigned char c) { return std::isdigit(c); })) {
+            return false;
+        }
         int result = 0;
         auto [ptr, ec] = std::from_chars(sv.data(), sv.data() + sv.size(), result);
-        return (ec == std::errc{}) ? result : 0;
+        if (ec != std::errc{} || ptr != sv.data() + sv.size()) {
+            return false;
+        }
+        out = result;
+        return true;
     };
 
     std::istringstream ss(s);
     std::string token;
     int part = 0;
     while (std::getline(ss, token, '.') && part < 3) {
-        const int val = parse_int(token);
+        int val = 0;
+        if (!parse_int(token, val)) {
+            return SemVer{};
+        }
         if (part == 0) {
             v.major = val;
         } else if (part == 1) {
@@ -38,6 +95,15 @@ SemVer SemVer::parse(const std::string& s) {
             v.patch = val;
         }
         ++part;
+    }
+    if (part == 0 || part > 3) {
+        return SemVer{};
+    }
+    if (ss.good()) {
+        return SemVer{};
+    }
+    if (!s.empty() && s.back() == '.') {
+        return SemVer{};
     }
     return v;
 }
@@ -328,31 +394,48 @@ ModelSwitchCheckResult ModelSwitchWorkflow::checkRatchetMatrix(
 ModelSwitchCheckResult ModelSwitchWorkflow::checkArchitectureCompatibility(
     const std::string& adapter_id,
     const std::string& target_model_name,
+    const std::string& target_model_family,
     const std::string& target_model_version) const {
     ModelSwitchCheckResult result;
     result.kind = ModelSwitchCheckResult::CheckKind::ARCHITECTURE;
 
-    const auto validation =
-        registry_->validateCompatibility(adapter_id, target_model_name, target_model_version);
-
-    if (!validation.compatible) {
+    const auto adapter_opt = registry_->getAdapter(adapter_id);
+    if (!adapter_opt.has_value()) {
         result.passed = false;
+        result.message = "Architecture: adapter '" + adapter_id + "' not found in registry";
+        return result;
+    }
+
+    const auto& meta = adapter_opt.value();
+    const auto target_family = extractModelFamily(target_model_name, target_model_family);
+    const auto adapter_arch = toLowerAscii(meta.architecture);
+    const auto has_arch = !adapter_arch.empty();
+    const bool same_family = has_arch && (adapter_arch == target_family);
+
+    if (!same_family) {
+        result.passed = true;
         result.rebuild_required = true;
-        result.message = "Architecture: adapter '" + adapter_id +
-                         "' is incompatible with '" + target_model_name + "'";
-        if (!validation.errors.empty()) {
-            result.message += " — " + validation.errors.front();
-        }
+        result.message = "Architecture: adapter architecture '" + meta.architecture +
+                         "' differs from target family '" + target_family +
+                         "' — rebuild required before serving";
     } else {
         result.passed = true;
         result.message = "Architecture: compatible";
     }
+
+    const auto validation =
+        registry_->validateCompatibility(adapter_id, target_model_name, target_model_version);
+    if (!validation.warnings.empty()) {
+        result.message += " (" + validation.warnings.front() + ")";
+    }
+
     return result;
 }
 
 ModelSwitchCheckResult ModelSwitchWorkflow::checkTokenizerCompatibility(
     const std::string& adapter_id,
-    const std::string& target_model_name) const {
+    const std::string& target_model_name,
+    const std::string& target_model_family) const {
     ModelSwitchCheckResult result;
     result.kind = ModelSwitchCheckResult::CheckKind::TOKENIZER;
 
@@ -363,20 +446,16 @@ ModelSwitchCheckResult ModelSwitchWorkflow::checkTokenizerCompatibility(
         return result;
     }
 
-    // Tokenizer compatibility: check that the adapter's base model name
-    // belongs to the same architectural family as the target model.
-    // A mismatch in architecture (e.g. "llama" -> "mistral") implies a
-    // tokenizer change because both models use different vocabularies.
     const auto& meta = adapter_opt.value();
-    const bool same_family = !meta.architecture.empty() &&
-                             (target_model_name.find(meta.architecture) != std::string::npos ||
-                              meta.base_model_name.find(meta.architecture) != std::string::npos);
+    const auto target_family = extractModelFamily(target_model_name, target_model_family);
+    const auto adapter_arch = toLowerAscii(meta.architecture);
+    const bool same_family = !adapter_arch.empty() && adapter_arch == target_family;
 
     if (!same_family) {
-        result.passed = false;
+        result.passed = true;
         result.rebuild_required = true;
         result.message = "Tokenizer: adapter architecture '" + meta.architecture +
-                         "' may differ from target model '" + target_model_name +
+                         "' differs from target family '" + target_family +
                          "' — rebuild recommended to verify tokenizer alignment";
     } else {
         result.passed = true;
@@ -422,33 +501,42 @@ ModelSwitchCheckResult ModelSwitchWorkflow::checkLayerDimensions(
 ModelSwitchCheckResult ModelSwitchWorkflow::checkQuantizationCompatibility(
     const std::string& adapter_id,
     const std::string& target_model_name,
+    const std::string& target_model_family,
     const std::string& target_model_version) const {
     ModelSwitchCheckResult result;
     result.kind = ModelSwitchCheckResult::CheckKind::QUANTIZATION;
 
-    // Delegate to AdapterRegistry validateCompatibility for the quantization
-    // dimension; the registry encodes known quantization constraints.
-    const auto validation =
-        registry_->validateCompatibility(adapter_id, target_model_name, target_model_version);
+    const auto adapter_opt = registry_->getAdapter(adapter_id);
+    if (!adapter_opt.has_value()) {
+        result.passed = false;
+        result.message = "Quantization: adapter '" + adapter_id + "' not found";
+        return result;
+    }
 
-    // Filter to quantization-relevant warnings/errors by keyword scan.
-    const bool quant_warning = std::any_of(
-        validation.warnings.begin(), validation.warnings.end(),
-        [](const std::string& w) {
-            return w.find("quantiz") != std::string::npos ||
-                   w.find("Q4") != std::string::npos ||
-                   w.find("Q8") != std::string::npos ||
-                   w.find("NF4") != std::string::npos;
-        });
+    const auto& meta = adapter_opt.value();
+    const auto adapter_quant = detectQuantizationToken(meta.quantization);
+    const auto target_quant = detectQuantizationToken(target_model_name);
 
     result.passed = true;
-    if (quant_warning) {
+    if (!target_quant.empty() && !adapter_quant.empty() && target_quant != adapter_quant) {
         result.rebuild_required = true;
-        result.message = "Quantization: potential quantization incompatibility detected — "
-                         "verify quantization format before serving";
+        result.message = "Quantization: adapter uses '" + meta.quantization +
+                         "' but target model hints '" + target_quant +
+                         "' quantization — rebuild/validation required";
+    } else if (target_quant.empty()) {
+        const auto target_family = extractModelFamily(target_model_name, target_model_family);
+        result.message = "Quantization: target model '" + target_model_name + "' (family '" +
+                         target_family + "') does not encode quantization; no known conflicts";
     } else {
         result.message = "Quantization: no known conflicts";
     }
+
+    const auto validation =
+        registry_->validateCompatibility(adapter_id, target_model_name, target_model_version);
+    if (!validation.warnings.empty()) {
+        result.message += " (" + validation.warnings.front() + ")";
+    }
+
     return result;
 }
 
@@ -608,11 +696,13 @@ ModelSwitchResult ModelSwitchWorkflow::executeSwitch(const ModelSwitchRequest& r
 
     // --- Step 2: Architecture compatibility
     result.checks.push_back(checkArchitectureCompatibility(
-        primary_id, request.target_model_name, request.target_model_version));
+        primary_id, request.target_model_name, request.target_model_family,
+        request.target_model_version));
 
     // --- Step 3: Tokenizer
     result.checks.push_back(
-        checkTokenizerCompatibility(primary_id, request.target_model_name));
+        checkTokenizerCompatibility(
+            primary_id, request.target_model_name, request.target_model_family));
 
     // --- Step 4: Layer dimensions
     result.checks.push_back(
@@ -620,7 +710,8 @@ ModelSwitchResult ModelSwitchWorkflow::executeSwitch(const ModelSwitchRequest& r
 
     // --- Step 5: Quantization
     result.checks.push_back(checkQuantizationCompatibility(
-        primary_id, request.target_model_name, request.target_model_version));
+        primary_id, request.target_model_name, request.target_model_family,
+        request.target_model_version));
 
     // --- Step 6: Prompt format
     result.checks.push_back(
@@ -629,7 +720,8 @@ ModelSwitchResult ModelSwitchWorkflow::executeSwitch(const ModelSwitchRequest& r
     // --- Step 7: Draft adapter checks (best-effort, warnings only)
     if (!pkg->draft_adapter_id.empty()) {
         auto draft_arch = checkArchitectureCompatibility(
-            pkg->draft_adapter_id, request.target_model_name, request.target_model_version);
+            pkg->draft_adapter_id, request.target_model_name,
+            request.target_model_family, request.target_model_version);
         if (!draft_arch.passed) {
             result.warnings.push_back(
                 "Draft adapter '" + pkg->draft_adapter_id +

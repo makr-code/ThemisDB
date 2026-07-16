@@ -345,7 +345,8 @@ struct ModelSwitchResult {
      * @brief Return true when the switch requires a rebuild before serving.
      */
     [[nodiscard]] bool needsRebuild() const noexcept {
-        return outcome == ModelSwitchOutcome::REBUILD_REQUIRED;
+        return outcome == ModelSwitchOutcome::REBUILD_REQUIRED ||
+               outcome == ModelSwitchOutcome::BLOCKED;
     }
 
     [[nodiscard]] nlohmann::json toJson() const;
@@ -466,11 +467,13 @@ private:
     [[nodiscard]] ModelSwitchCheckResult checkArchitectureCompatibility(
         const std::string& adapter_id,
         const std::string& target_model_name,
+        const std::string& target_model_family,
         const std::string& target_model_version) const;
 
     [[nodiscard]] ModelSwitchCheckResult checkTokenizerCompatibility(
         const std::string& adapter_id,
-        const std::string& target_model_name) const;
+        const std::string& target_model_name,
+        const std::string& target_model_family) const;
 
     [[nodiscard]] ModelSwitchCheckResult checkLayerDimensions(
         const std::string& adapter_id,
@@ -479,6 +482,7 @@ private:
     [[nodiscard]] ModelSwitchCheckResult checkQuantizationCompatibility(
         const std::string& adapter_id,
         const std::string& target_model_name,
+        const std::string& target_model_family,
         const std::string& target_model_version) const;
 
     [[nodiscard]] ModelSwitchCheckResult checkPromptFormat(
