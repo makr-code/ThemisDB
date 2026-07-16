@@ -87,12 +87,15 @@ public:
         return results;
     }
 
-    /// @brief Rollback (erase) a document and record in audit.
+    /// @brief Roll back a document from both storage and index, then record the outcome.
     bool Rollback(const std::string& token, const std::string& doc_id) {
         if (!auth_->Authorize(token).authorized) {
             return false;
         }
         const bool erased = storage_->Erase(doc_id);
+        if (erased) {
+            index_->RemoveDocument(doc_id);
+        }
         audit_->Record({"ingest", erased ? "rollback" : "rollback_noop", doc_id});
         return erased;
     }

@@ -68,10 +68,11 @@ public:
         if (fail_next_write_.exchange(false)) {
             return false;
         }
-        const int remaining = fail_count_.load();
-        if (remaining > 0) {
-            fail_count_.store(remaining - 1);
-            return false;
+        int remaining = fail_count_.load();
+        while (remaining > 0) {
+            if (fail_count_.compare_exchange_weak(remaining, remaining - 1)) {
+                return false;
+            }
         }
         return delegate_->Write(key, value);
     }

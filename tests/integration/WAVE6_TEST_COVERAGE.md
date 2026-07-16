@@ -104,8 +104,8 @@ designed to support the final release decision:
 
 ### Flake-Zero Strategy
 
-1. **Deterministic seeds** — `TestDataGenerator` uses unseeded `std::random_device` internally;
-   test IDs are stable string literals, not random values.
+1. **Deterministic inputs on assertion paths** — Wave 6 assertions use fixed IDs, fixed terms,
+   and explicit payloads; they do not depend on `TestDataGenerator` randomness.
 2. **No sleep-based synchronisation** — all concurrency tests use `std::atomic` + join/yield.
 3. **Isolated fixtures** — each test creates its own auth/storage/index/audit instances.
 4. **Conservative timing guard** — SSS-07 uses a 10× degradation factor to avoid CI noise.

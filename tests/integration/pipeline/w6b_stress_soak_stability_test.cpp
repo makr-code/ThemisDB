@@ -374,14 +374,12 @@ TEST_F(StressSoakStabilityTest, SSS07_PipelineThroughputNonDegradingAcrossSoakCy
         durations_us.push_back(elapsed);
     }
 
-    // Avoid division by zero in degenerate fast environments
-    if (durations_us.front() > 0) {
-        const double ratio =
-            static_cast<double>(durations_us.back()) / static_cast<double>(durations_us.front());
-        EXPECT_LE(ratio, kDegradationFactor)
-            << "Last cycle must not take >" << kDegradationFactor
-            << "x longer than the first cycle";
-    }
+    const double baseline_us = static_cast<double>(durations_us.front() > 0 ? durations_us.front()
+                                                                             : 1LL);
+    const double ratio = static_cast<double>(durations_us.back()) / baseline_us;
+    EXPECT_LE(ratio, kDegradationFactor)
+        << "Last cycle must not take >" << kDegradationFactor
+        << "x longer than the first cycle";
 }
 
 // ---------------------------------------------------------------------------
