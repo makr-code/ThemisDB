@@ -79,7 +79,7 @@ For runtime composition and implementation internals see:
 
 ---
 
-## 5. Bounded Graph Kernels Classification Framework (Issue #5469)
+## 3. Bounded Graph Kernels Classification Framework (Issue #5469)
 
 The Acceleration module implements a three-category classification framework for graph operations eligible for GPU acceleration:
 
@@ -155,7 +155,7 @@ All public types reside in the `themis::acceleration` namespace (or a sub-namesp
 
 ---
 
-## 6. Contract Notes
+## 5. Contract Notes
 
 - Headers in `include/acceleration/` expose the **stable public API**; internal types live in `src/acceleration/`.
 - Clients depend only on types declared here; implementation details in `src/` may change without notice.

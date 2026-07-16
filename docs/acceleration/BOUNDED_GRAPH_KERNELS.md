@@ -41,7 +41,7 @@ All graph operations fall into three categories:
 
 | Category | GPU Use | Fallback | Semantics |
 |----------|---------|----------|-----------|
-| **A: Acceleration-Eligible** | ✅ Yes (no constraints) | Optional | Advisory candidate generation |
+| **A: Acceleration-Eligible** | ✅ Yes (no constraints) | Mandatory | Advisory candidate generation |
 | **B: Conditional Acceleration** | ⚠️ Yes (with gates) | Required | Advisory with input/output validation |
 | **C: CPU-First Only** | ❌ Never | N/A (CPU primary) | Truth-bearing, exact results required |
 
@@ -551,10 +551,10 @@ auto final_result = cpu_apply_policy(candidates, policy);
 
 | Kernel | Category | GPU Safe? | Fallback | Blocker Gaps (Q3) | Timeline |
 |--------|----------|-----------|----------|------------------|----------|
-| **L2 Distance** | A | ✅ Yes | Optional | 340 (50% ✓) | Phase A |
-| **Cosine Distance** | A | ✅ Yes | Optional | 340 (50% ✓) | Phase A |
-| **Inner Product** | A | ✅ Yes | Optional | 340 (50% ✓) | Phase A |
-| **TopK Selection** | A | ✅ Yes | Optional | 15 (error handling) | Phase A |
+| **L2 Distance** | A | ✅ Yes | Mandatory | 340 (50% ✓) | Phase A |
+| **Cosine Distance** | A | ✅ Yes | Mandatory | 340 (50% ✓) | Phase A |
+| **Inner Product** | A | ✅ Yes | Mandatory | 340 (50% ✓) | Phase A |
+| **TopK Selection** | A | ✅ Yes | Mandatory | 15 (error handling) | Phase A |
 | **Vec KNN Insert** | A | ✅ Yes (CPU) | N/A | 95 (thread safety) | Phase A |
 | **Tensor Matmul** | A | ✅ Yes | CPU fallback | 2 CRITICAL CUDA | Phase A |
 | **Geo Distance** | B | ⚠️ Conditional | Required | 515 (validation) | Phase B (Q3+) |

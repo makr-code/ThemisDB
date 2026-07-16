@@ -20,8 +20,11 @@
 #include <benchmark/benchmark.h>
 #include <gtest/gtest.h>
 
+#include <algorithm>
 #include <cassert>
 #include <cmath>
+#include <numeric>
+#include <random>
 #include <vector>
 
 namespace themis::acceleration::benchmarks {
@@ -46,16 +49,21 @@ class BoundedKernelValidationTest : public ::testing::Test {
     std::vector<float> query_vectors_;
     std::vector<float> database_vectors_;
 
+    static constexpr uint32_t kCanonicalRngSeed = 42U;
+
     void SetUp() override {
-        // Initialize with random vectors
+        // Initialize with deterministic pseudo-random vectors for reproducible parity checks
+        std::mt19937 rng(kCanonicalRngSeed);
+        std::uniform_real_distribution<float> dist(0.0F, 1.0F);
+
         query_vectors_.resize(kQueryCount * kDimension);
         database_vectors_.resize(kVectorCount * kDimension);
 
-        for (size_t i = 0; i < query_vectors_.size(); ++i) {
-            query_vectors_[i] = static_cast<float>(rand()) / RAND_MAX;
+        for (float& v : query_vectors_) {
+            v = dist(rng);
         }
-        for (size_t i = 0; i < database_vectors_.size(); ++i) {
-            database_vectors_[i] = static_cast<float>(rand()) / RAND_MAX;
+        for (float& v : database_vectors_) {
+            v = dist(rng);
         }
     }
 };
@@ -77,7 +85,12 @@ TEST_F(BoundedKernelValidationTest, L2DistanceGPUvsCPUParity) {
     // ✅ GPU matches CPU BLAS implementation
     // ✅ No approximations in distance formula
 
-    // Compute CPU baseline (BLAS reference)
+    // Skip early before the expensive CPU baseline computation when CUDA is unavailable
+#ifndef THEMIS_ENABLE_CUDA
+    GTEST_SKIP() << "CUDA not enabled";
+#else
+    // Compute CPU baseline (squared L2 / BLAS reference)
+    // ThemisDB uses squared Euclidean distance (no sqrt) for stable monotonic ranking.
     std::vector<float> cpu_distances(kQueryCount * kVectorCount);
     for (size_t q = 0; q < kQueryCount; ++q) {
         for (size_t v = 0; v < kVectorCount; ++v) {
@@ -87,12 +100,10 @@ TEST_F(BoundedKernelValidationTest, L2DistanceGPUvsCPUParity) {
                              database_vectors_[v * kDimension + d];
                 sum += diff * diff;
             }
-            cpu_distances[q * kVectorCount + v] = std::sqrt(sum);
+            cpu_distances[q * kVectorCount + v] = sum;  // squared L2 distance
         }
     }
 
-    // GPU computation (if CUDA available)
-#ifdef THEMIS_ENABLE_CUDA
     // TODO: Launch GPU kernel when implementation ready
     // std::vector<float> gpu_distances =
     //     launchL2DistanceKernel(database_vectors_, query_vectors_);
@@ -103,8 +114,6 @@ TEST_F(BoundedKernelValidationTest, L2DistanceGPUvsCPUParity) {
     //     EXPECT_NEAR(gpu_distances[i], cpu_distances[i], epsilon)
     //         << "Mismatch at index " << i;
     // }
-#else
-    GTEST_SKIP() << "CUDA not enabled";
 #endif
 }
 

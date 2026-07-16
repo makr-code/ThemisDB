@@ -200,7 +200,7 @@ struct KernelClassificationTraits<KernelType::VEC_KNN_INSERT> {
     static constexpr bool gpu_execution_bounded = true;
     static constexpr std::uint32_t max_gpu_time_ms = 5000;
     static constexpr std::uint64_t max_output_size = 32;      // MAX_BATCH_SIZE
-    static constexpr bool is_advisory_only = false;  // Direct index update
+    static constexpr bool is_advisory_only = true;  // GPU result validated by CPU before index commit
     static constexpr bool gpu_may_parallelize = true;
 };
 

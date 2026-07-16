@@ -22,6 +22,7 @@
 
 #include <algorithm>
 #include <chrono>
+#include <cmath>
 #include <iostream>
 #include <limits>
 #include <memory>
@@ -104,7 +105,9 @@ static constexpr uint32_t kHnswSinglePassMaxK = 1024u;
 #ifdef THEMIS_ENABLE_CUDA
 namespace {
 constexpr auto kCategoryAKernelTimeout = std::chrono::seconds(5);
-constexpr float kCosineDistanceTolerance = 1.001f;
+// FP tolerance for cosine distance boundary checks.
+// Cosine distance = 1 - cosine_similarity, valid range [0, 2].
+constexpr float kCosineDistanceTolerance = 0.001f;
 
 struct StreamWaitResult {
     bool ok = false;
@@ -118,7 +121,7 @@ StreamWaitResult waitForStreamWithTimeout(cudaStream_t stream, std::chrono::mill
     while (true) {
         const cudaError_t queryErr = cudaStreamQuery(stream);
         if (queryErr == cudaSuccess) {
-            return {true, AccelerationErrorCode::SynchronizationFailed, ""};
+            return {true, AccelerationErrorCode::Success, ""};
         }
         if (queryErr != cudaErrorNotReady) {
             return {false, AccelerationErrorCode::SynchronizationFailed,
@@ -143,8 +146,8 @@ bool validateDistanceOutputs(const std::vector<float>& distances, bool useL2, st
             validationError = "L2 distance output is negative at index " + std::to_string(i);
             return false;
         }
-        if (!useL2 && (value < -kCosineDistanceTolerance || value > kCosineDistanceTolerance)) {
-            validationError = "Cosine distance output out of range at index " + std::to_string(i);
+        if (!useL2 && (value < -kCosineDistanceTolerance || value > 2.0F + kCosineDistanceTolerance)) {
+            validationError = "Cosine distance output out of [0, 2] range at index " + std::to_string(i);
             return false;
         }
     }
@@ -171,6 +174,10 @@ bool validateTopKOutputs(const std::vector<int>& topkIndices, const std::vector<
         }
         if (useL2 && distance < 0.0F) {
             validationError = "Top-K L2 distance is negative at position " + std::to_string(i);
+            return false;
+        }
+        if (!useL2 && (distance < -kCosineDistanceTolerance || distance > 2.0F + kCosineDistanceTolerance)) {
+            validationError = "Top-K cosine distance out of [0, 2] range at position " + std::to_string(i);
             return false;
         }
     }
